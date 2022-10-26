@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Logo from "../../assets/logo.svg";
 import Hero from "../../assets/landingPage/hero-cover-1.png";
+import Chart from "../../assets/landingPage/chart_line.svg";
+
 import Button from "../../components/sharedComponents/Button";
 function Header() {
   const headerList = ["Trang Chủ", "Về chúng tôi", "Khoá học", "Liên hệ"];
@@ -8,7 +10,7 @@ function Header() {
   function login() {}
   return (
     <>
-      <nav className="relative  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+      <nav className="relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
         <div className="container flex flex-wrap justify-between items-center mx-auto">
           <a
             href="http://localhost:5173/"
@@ -84,28 +86,40 @@ function Header() {
 function Home() {
   return (
     <>
-      <div className="flex  max-sm:flex-wrap  flex-row w-full h-screen justify-between items-center ">
-        <div className="flex flex-col  w-1/2 justify-between items-center">
-          <h4>Đào tạo trực tuyến cùng ĐH Văn Lang</h4>
-          <h1>Cơ hội đào tạo tốt nhất</h1>
-          <h3>Hãy đăng nhập để tham gia khoá học của chúng tôi</h3>
-          <div className="flex flex-row justify-between items-center">
-            <Button onClick={() => {}}>Tham gia đào tạo</Button>
-            <Button onClick={() => {}} className="btn-transparent">
-              Tìm hiểu thêm
-            </Button>
+      <div className="flex z-10  pl-28 max-sm:p-2  max-sm:flex-wrap  flex-row w-full h-screen justify-between items-center ">
+        <div className="flex   flex-col  w-1/2 max-sm:w-full  ">
+          <div className="flex flex-col  w-full  justify-center items-start">
+            <h4 className="mb-2 text-xl  font-bold tracking-tight text-white">
+              Đào tạo trực tuyến cùng ĐH Văn Lang
+            </h4>
+            <h1 className="mb-2 text-5xl  font-bold tracking-tight text-white">
+              Cơ hội đào tạo tốt nhất
+            </h1>
+            <h3 className="mb-2 text-xl  font-bold tracking-tight text-white">
+              Hãy đăng nhập để tham gia khoá học của chúng tôi
+            </h3>
+            <div className="flex flex-row justify-center items-center">
+              <Button onClick={() => {}}>Tham gia đào tạo</Button>
+              <Button onClick={() => {}} className="btn-transparent">
+                Tìm hiểu thêm
+              </Button>
+            </div>
           </div>
         </div>
-        <div className="flex max-w-full  w-full">
+        <div className="flex relative max-w-full w-full max-sm:bottom-2">
           <div className="absolute w-full min-w-full ">
             <WhiteBlob />
             <PinkBlob />
           </div>
-          <div className=" relative w-full left-36 bottom-14 ">
-            <img src={Hero} className="  max-w-full h-auto mb-10" />
+          <div className="relative w-full  min-w-full  bottom-14 max-sm:bottom-0 ">
+            <div className="flex justify-center items-center">
+              <img src={Hero} className=" max-w-full h-auto mb-10" />
+            </div>
           </div>
-          <div className=" absolute w-full left-[60%] bottom-14 ">
-            <Card />
+          <div className=" absolute w-full min-w-full  bottom-14 max-sm:bottom-0 ">
+            <div className="flex justify-center items-center">
+              <Card />
+            </div>
           </div>
         </div>
       </div>
@@ -115,16 +129,19 @@ function Home() {
 const Card = () => {
   return (
     <>
-      <div className="  flex items-center bg-white rounded-lg border shadow-md md:flex-row md:max-w-md  ">
-        <div className="flex  flex-col justify-between p-4 w-fit leading-normal">
-          <h5 className="mb-2 text-1/2 max-sm: font-bold tracking-tight text-gray-900 dark:text-white">
+      <div className=" relative flex w-1/2 items-center bg-white rounded-lg border shadow-md   ">
+        <div className="relative z-10 flex  flex-col justify-between p-4 w-fit leading-normal">
+          <h5 className="mb-2 text-[3rem]  max-md:text-[2rem] max-sm:text-[2rem]   font-bold tracking-tight text-gray-900 dark:text-white">
             199+
           </h5>
         </div>
-        <div className="flex  flex-col justify-between p-4 w-2/3 leading-normal">
-          <h5 className="mb-2 text-1/2 font-bold tracking-tight text-gray-900 dark:text-white">
+        <div className="  z-10 relative flex   flex-col justify-between p-4 w-full leading-normal">
+          <h5 className="mb-2 text-[1.5rem]  max-md:text-[0.75rem] max-sm:text-[1rem] font-bold tracking-tight text-gray-900 dark:text-white">
             HỌC VIÊN ĐÃ HOÀN THÀNH KHOÁ HỌC
           </h5>
+        </div>
+        <div className=" z-0 absolute w-5/6 left-5 ">
+          <img src={Chart} />
         </div>
       </div>
     </>
@@ -132,12 +149,12 @@ const Card = () => {
 };
 const PinkBlob = () => {
   return (
-    <div className="absolute w-full left-20 ">
+    <div className="absolute w-full left-2 top-16 ">
       <svg
         viewBox="0 0 800 500"
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
-        width="73%"
+        width="100%"
         id="blobSvg"
       >
         <g transform="translate(156.21375274658203, 0.6466789245605469)">
@@ -160,12 +177,12 @@ const PinkBlob = () => {
 };
 const WhiteBlob = () => {
   return (
-    <div className="absolute w-full left-16">
+    <div className="absolute w-full top-20 ">
       <svg
         viewBox="0 0 800 500"
         preserveAspectRatio="none"
         xmlns="http://www.w3.org/2000/svg"
-        width="75%"
+        width="100%"
         id="blobSvg"
       >
         <g transform="translate(116.44757843017578, -12.443168640136719)">
@@ -185,12 +202,64 @@ const WhiteBlob = () => {
     </div>
   );
 };
+
+const Product = () => {
+  return (
+    <div className="relative h-screen w-screen">
+      <div className="z-0 h-[20vh] separationBg w-full"></div>
+      <div className=" z-10 relative h-[60vh] bg-white text-black ">
+        <div></div>
+      </div>
+      <div className=" z-0  separationBg2 h-[20vh] w-full "></div>
+    </div>
+  );
+};
+const ProductCard = (props: any) => {
+  return (
+    <div className="max-w-sm bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+      <a href="#">
+        <img className="rounded-t-lg" src={props.image} alt="" />
+      </a>
+      <div className="p-5">
+        <a href="#">
+          <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Noteworthy technology acquisitions 2021
+          </h5>
+        </a>
+        <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
+          Here are the biggest enterprise technology acquisitions of 2021 so
+          far, in reverse chronological order.
+        </p>
+        <a
+          href="#"
+          className="inline-flex items-center py-2 px-3 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        >
+          Read more
+          <svg
+            aria-hidden="true"
+            className="ml-2 -mr-1 w-4 h-4"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            ></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  );
+};
 const LandingPage = () => {
   return (
     <>
       <div className="flex bg-dark-blue h-screen flex-col overflow-x-hidden	">
         <Header />
         <Home />
+        <Product />
       </div>
     </>
   );
