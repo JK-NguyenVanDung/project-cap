@@ -2,9 +2,16 @@
 module.exports = {
   darkMode: "class",
   mode: "jit",
-  purge: ["./src/**/*.{js,jsx,ts,tsx}", "./index.html"],
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ['./pages/**/*.{js,ts,jsx,tsx}', './components/**/*.{js,ts,jsx,tsx}'],
   theme: {
+    extend: {
+      textColor: theme => theme('colors'),
+      textColor: {
+        'success': '#',
+      }
+    },
+  },
+  variants: {
     extend: {},
   },
   plugins: [],
