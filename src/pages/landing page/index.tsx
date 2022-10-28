@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Logo from "../../assets/logo.svg";
 import Hero from "../../assets/landingPage/hero-cover-1.png";
 import Chart from "../../assets/landingPage/chart_line.svg";
@@ -16,7 +16,7 @@ function Header() {
   function login() {}
   return (
     <>
-      <nav className="relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+      <nav className="  hide hide-top relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
         <div className="container flex flex-wrap justify-between items-center mx-auto">
           <a
             href="http://localhost:5173/"
@@ -92,8 +92,8 @@ function Header() {
 function Home() {
   return (
     <>
-      <div className="flex z-10  pl-28 max-sm:p-2  max-sm:flex-wrap  flex-row w-full h-screen justify-between items-center bg-dark-blue ">
-        <div className="flex   flex-col  w-1/2 max-sm:w-full  ">
+      <div className=" flex z-10  pl-28 max-sm:p-2  max-sm:flex-wrap  flex-row w-full h-screen justify-between items-center bg-dark-blue ">
+        <div className="flex hide hide-left  flex-col  w-1/2 max-sm:w-full  ">
           <div className="flex flex-col  w-full  justify-center items-start">
             <h4 className="mb-2 text-xl  font-bold tracking-tight text-white">
               Đào tạo trực tuyến cùng ĐH Văn Lang
@@ -112,7 +112,7 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="flex relative max-w-full w-full max-sm:bottom-2">
+        <div className="flex hide hide-right relative max-w-full w-full max-sm:bottom-2">
           <div className="absolute w-full min-w-full ">
             <WhiteBlob />
             <PinkBlob />
@@ -203,23 +203,23 @@ const WhiteBlob = () => {
   );
 };
 
-const Product = () => {
+const Product = (props: any) => {
   return (
-    <div className=" z-0  h-screen w-screen bg-gradient">
+    <section className={`z-0  h-screen w-screen bg-gradient`}>
       <div className=" z-10 h-[20vh] separationBg w-full"></div>
-      <div className=" z-20 relative min-h-[60vh]  px-20 bg-white text-black border-opacity-0">
-        <div className="flex flex-row w-full h-20 items-center  md:px-[9rem] sd:px-0 justify-between mb-4 ">
-          <p className="font-semibold text-4xl w-1/2">
+      <div className="  hide hide-left  z-20 relative min-h-[60vh]  px-20 bg-white text-black border-opacity-0">
+        <div className="flex flex-row w-full h-20 items-center  md:px-[9rem] sd:px-0 justify-between mb-[0.75rem] ">
+          <p className="hide hide-left font-semibold text-4xl w-1/2">
             Một số khoá học mẫu của chúng tôi
           </p>
           <Button
             onClick={() => {}}
-            className="h-12 btn-transparent text-blue-700"
+            className="hide hide-right h-12 btn-transparent text-blue-700"
           >
             Xem các khoá học
           </Button>
         </div>
-        <div className="flex flex-row justify-evenly items-center w-full ">
+        <div className="products flex flex-row justify-evenly items-center w-full ">
           <ProductCard
             title="Khoá học Python"
             view="1000"
@@ -241,16 +241,16 @@ const Product = () => {
         </div>
       </div>
       <div className=" z-20  separationBg2 h-[20vh] w-full "></div>
-    </div>
+    </section>
   );
 };
 const ProductCard = (props: any) => {
   return (
-    <div className=" relative max-w-[15rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className=" hide hide-left relative max-w-[15rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <a href="#">
         <img className="rounded-t-lg h-40 w-full" src={props.image} alt="" />
       </a>
-      <div className="py-4 px-5">
+      <div className="py-3 px-5">
         <a href="#">
           <h5 className=" text-xl font-bold tracking-tight text-gray-900 dark:text-white">
             {props.title}
@@ -322,16 +322,16 @@ const Introduction = () => {
     ],
   ]);
   return (
-    <div className="h-[screen]  w-screen  ">
+    <div className=" h-[screen]  w-screen  ">
       <div className=" flex h-[102vh] flex-row justify-between mx-20 items-center ">
-        <div className="w-1/2 h-screen flex flex-col items-center justify-center">
-          <p className="font-bold text-4xl mb-6 ">
+        <div className="   w-1/2 h-screen flex flex-col items-center justify-center">
+          <p className="hide hide-left font-bold text-4xl mb-6 ">
             Các khoá học Online của chúng tôi hoạt động ra sao?
           </p>
-          <div className="grid grid-cols-2">
+          <div className="grid grid-cols-2 contentList">
             {[...content.values()].map((e, index) => {
               return (
-                <div key={index} className="m-3">
+                <div key={index} className="hide hide-left m-3">
                   <div className="bg-red-200 w-12 h-12 rounded-md flex justify-center items-center mb-4">
                     <e.logo className="text-white w-1/2 h-1/2"></e.logo>
                   </div>
@@ -345,49 +345,35 @@ const Introduction = () => {
           </div>
         </div>
 
-        <div className=" relative w-[38vw] h-[100vh] flex justify-center flex-col ">
-          <div className="absolute w-full h-2/3 bg-red-100 left-10 rounded-md" />
+        <div className="  relative w-[38vw] h-[100vh] flex justify-center flex-col ">
+          <div className="hide hide-right  absolute w-full h-2/3 bg-red-100 left-10 rounded-md" />
 
-          <img src={IntroMain} className="relative rounded-md" alt="" />
-          <div className=" relative flex flex-row h-[0vh] w-full justify-evenly ml-10">
-            <div className="mt-10 h-[14vh] w-[8vw] bg-white rounded-md">
+          <img
+            src={IntroMain}
+            className="hide hide-right hide-delay relative rounded-md"
+            alt=""
+          />
+          <div className=" pic-group relative flex flex-row h-[0vh] w-full justify-evenly ml-10">
+            <div className="hide hide-right mt-10 h-[14vh] w-[8vw] bg-white rounded-md">
               <img src={IntroMain} className=" p-2 rounded-md " alt="" />
             </div>
-            <div className="mt-10 h-[14vh] w-[8vw] bg-white rounded-md">
+            <div className="hide hide-right hide-delay-1 mt-10 h-[14vh] w-[8vw] bg-white rounded-md">
               <img src={IntroMain} className=" p-2 rounded-md " alt="" />
             </div>
-            <div className="mt-10 h-[14vh] w-[8vw] bg-white rounded-md">
+            <div className="hide hide-right hide-delay-2 mt-10 h-[14vh] w-[8vw] bg-white rounded-md">
               <img src={IntroMain} className=" p-2 rounded-md " alt="" />
             </div>
           </div>
         </div>
       </div>
-      {/* <div className="flex z-10  pl-28 max-sm:p-2  max-sm:flex-wrap  flex-row w-full h-screen justify-between items-center bg-dark-blue ">
-        <div className="flex relative  flex-col  w-1/2 max-sm:w-full  ">
-          <div className="absolute w-1/3 h-2/3 bg-red-100 rounded-md" />
-        </div>
-        <div className="flex   flex-col  w-1/2 max-sm:w-full  ">
-          <div className="absolute w-2/3 h-2/3 left-20  bg-red-100 rounded-md" />
-        </div>
-      </div> */}
     </div>
   );
 };
-const IntroCard = () => {
-  return (
-    <>
-      <div className="flex flex-col h-1/3 w-1/3">
-        <img />
-        <p></p>
-        <p></p>
-      </div>
-    </>
-  );
-};
+
 const Footer = () => {
   return (
     <footer className="footer bg-white relative pt-1 border-b-2 border-blue-700">
-      <div className="container mx-auto px-6">
+      <div className="hide hide-bottom container mx-auto px-6">
         <div className="sm:flex sm:mt-8">
           <div className="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
             <div className="flex flex-col">
@@ -480,10 +466,10 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="container mx-auto px-6">
+      <div className=" container mx-auto px-6">
         <div className="mt-16 border-t-2 border-gray-300 flex flex-col items-center">
           <div className="sm:w-2/3 text-center py-6">
-            <p className="text-sm text-blue-700 font-bold mb-2">
+            <p className=" hide hide-bottom text-sm text-blue-700 font-bold mb-2">
               © 2022 by Royal Lotus
             </p>
           </div>
@@ -494,6 +480,21 @@ const Footer = () => {
 };
 
 const LandingPage = () => {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("show");
+      } else {
+        entry.target.classList.remove("show");
+      }
+    });
+  });
+
+  useEffect(() => {
+    const hiddenElements = document.querySelectorAll(".hide");
+    hiddenElements.forEach((el) => observer.observe(el));
+    console.count();
+  }, [observer]);
   return (
     <>
       <div className="flex bg-dark-blue h-screen flex-col overflow-x-hidden	">
