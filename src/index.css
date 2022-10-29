@@ -77,6 +77,9 @@
     transition: 0;
   }
 }
+/* @media screen and (max-width: 800px) {
+} */
+
 :root {
   font-family: Helvetica, Arial, sans-serif;
   font-size: 16px;

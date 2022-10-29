@@ -10,9 +10,40 @@ import { HiPresentationChartBar } from "react-icons/hi";
 import { TbCertificate, TbGift } from "react-icons/tb";
 import Button from "../../components/sharedComponents/Button";
 import { IconType } from "react-icons";
-function Header() {
-  const headerList = ["Trang Chủ", "Về chúng tôi", "Khoá học", "Liên hệ"];
+const useMountEffect = (fun: any) => useEffect(fun, []);
+
+const Header = (props: any) => {
+  const headerList = [
+    {
+      title: "Trang Chủ",
+      index: 0,
+    },
+    {
+      title: "Khoá học",
+      index: 1,
+    },
+    { title: "Về chúng tôi", index: 2 },
+    { title: "Liên hệ", index: 3 },
+  ];
   const [open, setOpen] = useState(false);
+
+  const executeScroll = (i: number) => {
+    const e = props.references.filter((e: any, index: number) => index === i);
+    if (e.length > 0) {
+      e[0].current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "nearest",
+      });
+      console.log(e[0]);
+    }
+  };
+  useEffect(() => {
+    executeScroll(0);
+  }, []);
+
+  useMountEffect(executeScroll); // Scroll on mount
+
   function login() {}
   return (
     <>
@@ -70,13 +101,13 @@ function Header() {
             <ul className="flex flex-col p-4 mt-4 bg-dark-blue rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-dark-blue dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
               {headerList.map((item) => {
                 return (
-                  <li className="px-10" key="item">
+                  <li className="px-10" key={item.index}>
                     <a
-                      href="#"
-                      className="block py-2 pr-4 pl-3 text-white rounded hover:bg-blue-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                      onClick={() => executeScroll(item.index)}
+                      className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-blue-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                       aria-current="page"
                     >
-                      {item}
+                      {item.title}
                     </a>
                   </li>
                 );
@@ -87,65 +118,65 @@ function Header() {
       </nav>
     </>
   );
-}
-
-function Home() {
+};
+const Home = React.forwardRef((props, ref: any) => {
   return (
-    <>
-      <div className=" flex z-10  pl-28 max-sm:p-2  max-sm:flex-wrap  flex-row w-full h-screen justify-between items-center bg-dark-blue ">
-        <div className="flex hide hide-left  flex-col  w-1/2 max-sm:w-full  ">
-          <div className="flex flex-col  w-full  justify-center items-start">
-            <h4 className="mb-2 text-xl  font-bold tracking-tight text-white">
-              Đào tạo trực tuyến cùng ĐH Văn Lang
-            </h4>
-            <h1 className="mb-2 text-5xl  font-bold tracking-tight text-white">
-              Cơ hội đào tạo tốt nhất
-            </h1>
-            <h3 className="mb-2 text-xl  font-bold tracking-tight text-white">
-              Hãy đăng nhập để tham gia khoá học của chúng tôi
-            </h3>
-            <div className="flex flex-row justify-center items-center">
-              <Button onClick={() => {}}>Tham gia đào tạo</Button>
-              <Button onClick={() => {}} className="btn-transparent">
-                Tìm hiểu thêm
-              </Button>
-            </div>
+    <div
+      ref={ref}
+      className=" flex z-10  pl-28 max-sm:p-2  max-sm:flex-wrap  flex-row w-full h-screen justify-between items-center bg-dark-blue "
+    >
+      <div className="flex hide hide-left  flex-col  w-1/2 max-sm:w-full  ">
+        <div className="flex flex-col  w-full  justify-center items-start  max-sm:items-center ">
+          <h4 className="mb-2 text-xl  font-bold tracking-tight text-white">
+            Đào tạo trực tuyến cùng ĐH Văn Lang
+          </h4>
+          <h1 className="mb-2 text-5xl  font-bold tracking-tight text-white">
+            Cơ hội đào tạo tốt nhất
+          </h1>
+          <h3 className="mb-2 text-xl  font-bold tracking-tight text-white">
+            Hãy đăng nhập để tham gia khoá học của chúng tôi
+          </h3>
+          <div className="flex flex-row justify-center items-center">
+            <Button onClick={() => {}}>Tham gia đào tạo</Button>
+            <Button onClick={() => {}} className="btn-transparent">
+              Tìm hiểu thêm
+            </Button>
           </div>
         </div>
-        <div className="flex hide hide-right relative max-w-full w-full max-sm:bottom-2">
-          <div className="absolute w-full min-w-full ">
-            <WhiteBlob />
-            <PinkBlob />
+      </div>
+      <div className="flex hide hide-right relative max-w-full w-full max-sm:bottom-2">
+        <div className="absolute w-full min-w-full ">
+          <WhiteBlob />
+          <PinkBlob />
+        </div>
+        <div className="relative w-full  min-w-full  bottom-14 max-sm:bottom-0 ">
+          <div className="flex justify-center items-center">
+            <img src={Hero} className=" max-w-full h-auto mb-10" />
           </div>
-          <div className="relative w-full  min-w-full  bottom-14 max-sm:bottom-0 ">
-            <div className="flex justify-center items-center">
-              <img src={Hero} className=" max-w-full h-auto mb-10" />
-            </div>
-          </div>
-          <div className=" absolute w-full min-w-full  bottom-14 max-sm:bottom-0 ">
-            <div className="flex justify-center items-center">
-              <div className=" relative flex w-1/2 items-center bg-white rounded-lg border shadow-md   ">
-                <div className="relative z-10 flex  flex-col justify-between p-4 w-fit leading-normal">
-                  <h5 className="mb-2 text-[3rem]  max-md:text-[2rem] max-sm:text-[2rem]   font-bold tracking-tight text-gray-900 dark:text-white">
-                    199+
-                  </h5>
-                </div>
-                <div className="  z-10 relative flex   flex-col justify-between p-4 w-full leading-normal">
-                  <h5 className="mb-2 text-[1.5rem]  max-md:text-[0.75rem] max-sm:text-[1rem] font-bold tracking-tight text-gray-900 dark:text-white">
-                    HỌC VIÊN ĐÃ HOÀN THÀNH KHOÁ HỌC
-                  </h5>
-                </div>
-                <div className=" z-0 absolute w-5/6 left-5 ">
-                  <img src={Chart} />
-                </div>
+        </div>
+        <div className=" absolute w-full min-w-full  bottom-14 max-sm:bottom-0 ">
+          <div className="flex justify-center items-center">
+            <div className=" relative flex w-1/2 max-sm:w-4/5  items-center bg-white rounded-lg border shadow-md   ">
+              <div className="relative z-10 flex  flex-col justify-between p-4 w-fit leading-normal">
+                <h5 className="mb-2 text-[3rem]  max-md:text-[1rem] max-sm:text-[2rem]   font-bold tracking-tight text-gray-900 dark:text-white">
+                  199+
+                </h5>
+              </div>
+              <div className="  z-10 relative flex   flex-col justify-between p-4 w-full leading-normal">
+                <h5 className="mb-2 text-[1.5rem]   max-sm:text-[0.9rem] font-bold tracking-tight text-gray-900 dark:text-white">
+                  HỌC VIÊN ĐÃ HOÀN THÀNH KHOÁ HỌC
+                </h5>
+              </div>
+              <div className=" z-0 absolute w-5/6 left-5 ">
+                <img src={Chart} />
               </div>
             </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
-}
+});
 
 const PinkBlob = () => {
   return (
@@ -203,13 +234,13 @@ const WhiteBlob = () => {
   );
 };
 
-const Product = (props: any) => {
+const Product = React.forwardRef((props, ref: any) => {
   return (
-    <section className={`z-0  h-screen w-screen bg-gradient`}>
+    <section ref={ref} className={`z-0  h-screen w-screen bg-gradient`}>
       <div className=" z-10 h-[20vh] separationBg w-full"></div>
-      <div className="  hide hide-left  z-20 relative min-h-[60vh]  px-20 bg-white text-black border-opacity-0">
-        <div className="flex flex-row w-full h-20 items-center  md:px-[9rem] sd:px-0 justify-between mb-[0.75rem] ">
-          <p className="hide hide-left font-semibold text-4xl w-1/2">
+      <div className="  z-20 relative min-h-[60vh]  px-20 bg-white text-black border-opacity-0">
+        <div className="flex max-sm:flex-wrap  max-sm:mb-16 flex-row w-full h-20 items-center  md:px-[9rem] sd:px-0 justify-between mb-[0.75rem] ">
+          <p className="max-sm:text-2xl max-sm:w-full max-sm:mb-4  hide hide-left font-semibold text-4xl w-1/2">
             Một số khoá học mẫu của chúng tôi
           </p>
           <Button
@@ -219,7 +250,7 @@ const Product = (props: any) => {
             Xem các khoá học
           </Button>
         </div>
-        <div className="products flex flex-row justify-evenly items-center w-full ">
+        <div className="products max-sm:flex-wrap  flex flex-row justify-evenly items-center w-full ">
           <ProductCard
             title="Khoá học Python"
             view="1000"
@@ -243,10 +274,10 @@ const Product = (props: any) => {
       <div className=" z-20  separationBg2 h-[20vh] w-full "></div>
     </section>
   );
-};
+});
 const ProductCard = (props: any) => {
   return (
-    <div className=" hide hide-left relative max-w-[15rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="max-sm:m-4 hide hide-left relative max-w-[15rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <a href="#">
         <img className="rounded-t-lg h-40 w-full" src={props.image} alt="" />
       </a>
@@ -282,7 +313,7 @@ interface IntroContent {
   title: string;
   description: string;
 }
-const Introduction = () => {
+const Introduction = React.forwardRef((props, ref: any) => {
   const content = new Map<string, IntroContent>([
     [
       "1",
@@ -322,58 +353,64 @@ const Introduction = () => {
     ],
   ]);
   return (
-    <div className=" h-[screen]  w-screen  ">
-      <div className=" flex h-[102vh] flex-row justify-between mx-20 items-center ">
-        <div className="   w-1/2 h-screen flex flex-col items-center justify-center">
-          <p className="hide hide-left font-bold text-4xl mb-6 ">
-            Các khoá học Online của chúng tôi hoạt động ra sao?
-          </p>
-          <div className="grid grid-cols-2 contentList">
-            {[...content.values()].map((e, index) => {
-              return (
-                <div key={index} className="hide hide-left m-3">
-                  <div className="bg-red-200 w-12 h-12 rounded-md flex justify-center items-center mb-4">
-                    <e.logo className="text-white w-1/2 h-1/2"></e.logo>
-                  </div>
-                  <h2 className="text-2xl font-bold mb-4 text-white">
-                    {e.title}
-                  </h2>
-                  <h4 className="text-md w-4/5 text-white ">{e.description}</h4>
+    <div
+      ref={ref}
+      className="relative mb-4 max-sm:mt-[130vh] max-sm:mb-[80vh]  max-sm:flex-wrap  max-sm:h-screen flex h-screen flex-row justify-between md:mx-20 max-sm:mx-2 items-center "
+    >
+      <div className="  max-sm:w-full w-1/2 h-screen flex flex-col items-center justify-center">
+        <p className="hide hide-left font-bold text-4xl mb-6 ">
+          Các khoá học Online của chúng tôi hoạt động ra sao?
+        </p>
+        <div className="grid grid-cols-2 contentList">
+          {[...content.values()].map((e, index) => {
+            return (
+              <div key={index} className="hide hide-left  m-3">
+                <div className="bg-orange-300 w-14 h-14 rounded-md flex justify-center items-center mb-4">
+                  <e.logo className="text-white w-1/2 h-1/2"></e.logo>
                 </div>
-              );
-            })}
-          </div>
+                <h2 className="text-2xl font-bold mb-4 text-white">
+                  {e.title}
+                </h2>
+                <h4 className="text-md w-4/5 max-sm:w-full text-white ">
+                  {e.description}
+                </h4>
+              </div>
+            );
+          })}
         </div>
+      </div>
 
-        <div className="  relative w-[38vw] h-[100vh] flex justify-center flex-col ">
-          <div className="hide hide-right  absolute w-full h-2/3 bg-red-100 left-10 rounded-md" />
+      <div className="  relative max-sm:w-[80%]  max-sm:h-[70vh] w-[38vw] h-[100vh] flex justify-center flex-col ">
+        <div className="hide hide-right  absolute w-full h-2/3 bg-red-100 left-10 rounded-md" />
 
-          <img
-            src={IntroMain}
-            className="hide hide-right hide-delay relative rounded-md"
-            alt=""
-          />
-          <div className=" pic-group relative flex flex-row h-[0vh] w-full justify-evenly ml-10">
-            <div className="hide hide-right mt-10 h-[14vh] w-[8vw] bg-white rounded-md">
-              <img src={IntroMain} className=" p-2 rounded-md " alt="" />
-            </div>
-            <div className="hide hide-right hide-delay-1 mt-10 h-[14vh] w-[8vw] bg-white rounded-md">
-              <img src={IntroMain} className=" p-2 rounded-md " alt="" />
-            </div>
-            <div className="hide hide-right hide-delay-2 mt-10 h-[14vh] w-[8vw] bg-white rounded-md">
-              <img src={IntroMain} className=" p-2 rounded-md " alt="" />
-            </div>
+        <img
+          src={IntroMain}
+          className=" max-sm:h-[50vw] hide hide-right hide-delay relative rounded-md"
+          alt=""
+        />
+        <div className=" pic-group relative flex flex-row h-[0vh] w-full justify-evenly ml-10">
+          <div className="hide hide-right mt-10 h-[14vh] w-[8vw] max-sm:h-[12vh] max-sm:w-[20vw] bg-white rounded-md">
+            <img src={IntroMain} className=" p-2 rounded-md " alt="" />
+          </div>
+          <div className="hide hide-right hide-delay-1 mt-10 h-[14vh]  max-sm:h-[12vh] w-[8vw] max-sm:w-[20vw] bg-white rounded-md">
+            <img src={IntroMain} className=" p-2 rounded-md " alt="" />
+          </div>
+          <div className="hide hide-right hide-delay-2 mt-10 h-[14vh] max-sm:h-[12vh] w-[8vw] max-sm:w-[20vw] bg-white rounded-md">
+            <img src={IntroMain} className=" p-2 rounded-md " alt="" />
           </div>
         </div>
       </div>
     </div>
   );
-};
+});
 
-const Footer = () => {
+const Footer = React.forwardRef((props, ref: any) => {
   return (
-    <footer className="footer bg-white relative pt-1 border-b-2 border-blue-700">
-      <div className="hide hide-bottom container mx-auto px-6">
+    <footer
+      ref={ref}
+      className="footer bg-white relative pt-1 border-b-2 border-blue-700"
+    >
+      <div className="hide hide-bottom  container mx-auto px-6">
         <div className="sm:flex sm:mt-8">
           <div className="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
             <div className="flex flex-col">
@@ -477,9 +514,13 @@ const Footer = () => {
       </div>
     </footer>
   );
-};
+});
 
 const LandingPage = () => {
+  const homeRef = useRef();
+  const productRef = useRef();
+  const introRef = useRef();
+  const contactRef = useRef();
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -495,14 +536,15 @@ const LandingPage = () => {
     hiddenElements.forEach((el) => observer.observe(el));
     console.count();
   }, [observer]);
+
   return (
     <>
       <div className="flex bg-dark-blue h-screen flex-col overflow-x-hidden	">
-        <Header />
-        <Home />
-        <Product />
-        <Introduction />
-        <Footer />
+        <Header references={[homeRef, productRef, introRef, contactRef]} />
+        <Home ref={homeRef} />
+        <Product ref={productRef} />
+        <Introduction ref={introRef} />
+        <Footer ref={contactRef} />
       </div>
     </>
   );
