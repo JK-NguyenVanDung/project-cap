@@ -1,15 +1,10 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import LandingPage from "./pages/landing page";
+import React, { useState } from 'react'
+
+import LandingPage from './pages/landing page'
+import MakeRouterPage from './router/Router'
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  return (
-    <div className="App">
-      <LandingPage />
-    </div>
-  );
+  return <MakeRouterPage />
 }
 
-export default App;
+export default App
