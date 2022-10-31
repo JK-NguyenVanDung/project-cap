@@ -9,6 +9,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundColor: {
+        'dark-blue': '#252B42',
+      },
       textColor: (theme) => theme('colors'),
       textColor: {
         success: '#',
