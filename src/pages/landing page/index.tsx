@@ -58,14 +58,13 @@ const Header = (props: any) => {
           </span>
         </a>
         <div className="flex md:order-2 sm:order-2 ">
-          <div
-            className={`login px-2 menu w-full mt-1 md:block md:w-auto`}
-            id="navbar-default"
+          <Button
+            onClick={login}
+            className="btn btn-primary login px-2 menu w-full mt-1 md:block md:w-auto"
           >
-            <Button onClick={login} className="">
-              Đăng nhập
-            </Button>
-          </div>
+            Đăng nhập
+          </Button>
+
           <button
             data-collapse-toggle="navbar-cta"
             type="button"

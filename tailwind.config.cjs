@@ -1,4 +1,6 @@
-module.exports = {
+const withMT = require('@material-tailwind/react/utils/withMT')
+
+module.exports = withMT({
   darkMode: 'class',
   mode: 'jit',
   content: [
@@ -21,5 +23,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require('flowbite/plugin')],
-}
+  plugins: [],
+})
