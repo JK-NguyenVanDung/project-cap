@@ -8,12 +8,7 @@ module.exports = {
     './index.html',
   ],
   theme: {
-    extend: {
-      textColor: (theme) => theme('colors'),
-      textColor: {
-        success: '#',
-      },
-    },
+    extend: {},
   },
   variants: {
     extend: {},
