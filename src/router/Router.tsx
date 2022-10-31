@@ -1,23 +1,27 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
+import Login from '../pages/authentication/Login'
+import HomePage from '../pages/client/HomePage/HomePage'
 import LandingPage from '../pages/landing page'
 
 export const PageRouter = [
   {
-    path: '/',
-    elememt: <LandingPage />,
+    path: '/Home',
+    element: <HomePage />,
   },
 ]
 export default function MakeRouterPage() {
   return (
     <>
-      {PageRouter.map((route, index) => {
-        return (
-          <Routes key={index}>
-            <Route path={route.path} element={route.elememt} />
-          </Routes>
-        )
-      })}
+      <Routes>
+        {PageRouter.map((router, index) => {
+          return (
+            <Route key={index} path={router.path} element={router.element} />
+          )
+        })}
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<LandingPage />} />
+      </Routes>
     </>
   )
 }

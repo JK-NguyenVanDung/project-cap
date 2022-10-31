@@ -1,50 +1,54 @@
-import React, { useEffect, useState, useRef } from "react";
-import Logo from "../../assets/logo.svg";
-import Hero from "../../assets/landingPage/hero-cover-1.png";
-import Chart from "../../assets/landingPage/chart_line.svg";
-import People from "../../assets/landingPage/people.svg";
-import Video from "../../assets/landingPage/video.svg";
-import IntroMain from "../../assets/landingPage/introduction-cover.jpg";
-import { IoTimeSharp, IoBarChartOutline } from "react-icons/io5";
-import { HiPresentationChartBar } from "react-icons/hi";
-import { TbCertificate, TbGift } from "react-icons/tb";
-import Button from "../../components/sharedComponents/Button";
-import { IconType } from "react-icons";
-const useMountEffect = (fun: any) => useEffect(fun, []);
+import React, { useEffect, useState, useRef } from 'react'
+import Logo from '../../assets/logo.svg'
+import Hero from '../../assets/landingPage/hero-cover-1.png'
+import Chart from '../../assets/landingPage/chart_line.svg'
+import People from '../../assets/landingPage/people.svg'
+import Video from '../../assets/landingPage/video.svg'
+import IntroMain from '../../assets/landingPage/introduction-cover.jpg'
+import { IoTimeSharp, IoBarChartOutline } from 'react-icons/io5'
+import { HiPresentationChartBar } from 'react-icons/hi'
+import { TbCertificate, TbGift } from 'react-icons/tb'
+import Button from '../../components/sharedComponents/Button'
+import { IconType } from 'react-icons'
+import { useNavigate } from 'react-router-dom'
+const useMountEffect = (fun: any) => useEffect(fun, [])
 
 const Header = (props: any) => {
+  const navigate = useNavigate()
   const headerList = [
     {
-      title: "Trang Chủ",
+      title: 'Trang Chủ',
       index: 0,
     },
     {
-      title: "Khoá học",
+      title: 'Khoá học',
       index: 1,
     },
-    { title: "Về chúng tôi", index: 2 },
-    { title: "Liên hệ", index: 3 },
-  ];
-  const [open, setOpen] = useState(false);
+    { title: 'Về chúng tôi', index: 2 },
+    { title: 'Liên hệ', index: 3 },
+  ]
+  const [open, setOpen] = useState(false)
 
   const executeScroll = (i: number) => {
-    const e = props.references.filter((e: any, index: number) => index === i);
+    const e = props.references.filter((e: any, index: number) => index === i)
     if (e.length > 0) {
       e[0].current.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "nearest",
-      });
-      console.log(e[0]);
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'nearest',
+      })
+      console.log(e[0])
     }
-  };
+  }
   useEffect(() => {
-    executeScroll(0);
-  }, []);
+    executeScroll(0)
+  }, [])
 
-  useMountEffect(executeScroll); // Scroll on mount
+  useMountEffect(executeScroll) // Scroll on mount
 
-  function login() {}
+  function login() {
+    navigate('/login')
+  }
   return (
     <>
       <nav className="  hide hide-top relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
@@ -58,12 +62,12 @@ const Header = (props: any) => {
               TRAINING
             </span>
           </a>
-          <div className="flex md:order-2 sm:order-2 ">
+          <div onClick={() => login()} className="flex md:order-2 sm:order-2 ">
             <div
               className={`login px-2 menu w-full mt-1 md:block md:w-auto`}
               id="navbar-default"
             >
-              <Button onClick={login} className="">
+              <Button onClick={() => login()} className="">
                 Đăng nhập
               </Button>
             </div>
@@ -108,7 +112,7 @@ const Header = (props: any) => {
                       {item.title}
                     </a>
                   </li>
-                );
+                )
               })}
             </ul>
           </div>
@@ -138,8 +142,8 @@ const Header = (props: any) => {
         </div>
       </nav>
     </>
-  );
-};
+  )
+}
 const Home = React.forwardRef((props, ref: any) => {
   return (
     <div
@@ -196,8 +200,8 @@ const Home = React.forwardRef((props, ref: any) => {
         </div>
       </div>
     </div>
-  );
-});
+  )
+})
 
 const PinkBlob = () => {
   return (
@@ -294,8 +298,8 @@ const Product = React.forwardRef((props, ref: any) => {
       </div>
       <div className=" z-20  separationBg2 h-[20vh] w-full "></div>
     </section>
-  );
-});
+  )
+})
 const ProductCard = (props: any) => {
   return (
     <div className="max-sm:m-4 hide hide-left relative max-w-[15rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -327,52 +331,52 @@ const ProductCard = (props: any) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 interface IntroContent {
-  logo: IconType;
-  title: string;
-  description: string;
+  logo: IconType
+  title: string
+  description: string
 }
 const Introduction = React.forwardRef((props, ref: any) => {
   const content = new Map<string, IntroContent>([
     [
-      "1",
+      '1',
       {
         logo: HiPresentationChartBar,
-        title: "Học trực Tuyến",
+        title: 'Học trực Tuyến',
         description:
-          "Học mọi lúc, mọi nơi, tại bất kì thời điểm nào phù hợp với bạn. Đảm bảo được kiến thức dù bất cứ nơi đâu.",
+          'Học mọi lúc, mọi nơi, tại bất kì thời điểm nào phù hợp với bạn. Đảm bảo được kiến thức dù bất cứ nơi đâu.',
       },
     ],
     [
-      "2",
+      '2',
       {
         logo: IoBarChartOutline,
-        title: "Thống kê quan trọng",
+        title: 'Thống kê quan trọng',
         description:
-          "Dữ liệu của bạn sẽ được chọn lọc và thống kê ra những thông tin hữu ích nhất cho bạn.",
+          'Dữ liệu của bạn sẽ được chọn lọc và thống kê ra những thông tin hữu ích nhất cho bạn.',
       },
     ],
     [
-      "3",
+      '3',
       {
         logo: TbCertificate,
-        title: "Chứng chỉ Online",
+        title: 'Chứng chỉ Online',
         description:
-          "Cung cấp ngay chứng chỉ Online sau khi hoàn thành kháo học, chuẩn bị cho người học tiến xa hơn trong sự nghiệp.",
+          'Cung cấp ngay chứng chỉ Online sau khi hoàn thành kháo học, chuẩn bị cho người học tiến xa hơn trong sự nghiệp.',
       },
     ],
     [
-      "4",
+      '4',
       {
         logo: TbGift,
-        title: "Đạt phần thưởng quý",
+        title: 'Đạt phần thưởng quý',
         description:
-          "Khi hoàn thành các khoá học, bạn có thể đổi điểm của mình để nhận được các phần thưởng đáng giá.",
+          'Khi hoàn thành các khoá học, bạn có thể đổi điểm của mình để nhận được các phần thưởng đáng giá.',
       },
     ],
-  ]);
+  ])
   return (
     <div
       ref={ref}
@@ -396,7 +400,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
                   {e.description}
                 </h4>
               </div>
-            );
+            )
           })}
         </div>
       </div>
@@ -422,8 +426,8 @@ const Introduction = React.forwardRef((props, ref: any) => {
         </div>
       </div>
     </div>
-  );
-});
+  )
+})
 
 const Footer = React.forwardRef((props, ref: any) => {
   return (
@@ -534,29 +538,29 @@ const Footer = React.forwardRef((props, ref: any) => {
         </div>
       </div>
     </footer>
-  );
-});
+  )
+})
 
 const LandingPage = () => {
-  const homeRef = useRef();
-  const productRef = useRef();
-  const introRef = useRef();
-  const contactRef = useRef();
+  const homeRef = useRef()
+  const productRef = useRef()
+  const introRef = useRef()
+  const contactRef = useRef()
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add("show");
+        entry.target.classList.add('show')
       } else {
-        entry.target.classList.remove("show");
+        entry.target.classList.remove('show')
       }
-    });
-  });
+    })
+  })
 
   useEffect(() => {
-    const hiddenElements = document.querySelectorAll(".hide");
-    hiddenElements.forEach((el) => observer.observe(el));
-    console.count();
-  }, [observer]);
+    const hiddenElements = document.querySelectorAll('.hide')
+    hiddenElements.forEach((el) => observer.observe(el))
+    console.count()
+  }, [observer])
 
   return (
     <>
@@ -568,6 +572,6 @@ const LandingPage = () => {
         <Footer ref={contactRef} />
       </div>
     </>
-  );
-};
-export default LandingPage;
+  )
+}
+export default LandingPage

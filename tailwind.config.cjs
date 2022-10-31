@@ -8,7 +8,11 @@ module.exports = {
     './index.html',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        barlow: ['"Barlow Condensed"', 'sans-serif'],
+      },
+    },
   },
   variants: {
     extend: {},
