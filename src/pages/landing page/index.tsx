@@ -1,117 +1,70 @@
-import React, { useEffect, useState, useRef } from "react";
-import Logo from "../../assets/logo.svg";
-import Hero from "../../assets/landingPage/hero-cover-1.png";
-import Chart from "../../assets/landingPage/chart_line.svg";
-import People from "../../assets/landingPage/people.svg";
-import Video from "../../assets/landingPage/video.svg";
-import IntroMain from "../../assets/landingPage/introduction-cover.jpg";
-import { IoTimeSharp, IoBarChartOutline } from "react-icons/io5";
-import { HiPresentationChartBar } from "react-icons/hi";
-import { TbCertificate, TbGift } from "react-icons/tb";
-import Button from "../../components/sharedComponents/Button";
-import { IconType } from "react-icons";
-const useMountEffect = (fun: any) => useEffect(fun, []);
+import React, { useEffect, useState, useRef } from 'react'
+import Logo from '../../assets/logo.svg'
+import Hero from '../../assets/landingPage/hero-cover-1.png'
+import Chart from '../../assets/landingPage/chart_line.svg'
+import People from '../../assets/landingPage/people.svg'
+import Video from '../../assets/landingPage/video.svg'
+import IntroMain from '../../assets/landingPage/introduction-cover.jpg'
+import { IoTimeSharp, IoBarChartOutline } from 'react-icons/io5'
+import { HiPresentationChartBar } from 'react-icons/hi'
+import { TbCertificate, TbGift } from 'react-icons/tb'
+import Button from '../../components/sharedComponents/Button'
+import { IconType } from 'react-icons'
+const useMountEffect = (fun: any) => useEffect(fun, [])
 
 const Header = (props: any) => {
   const headerList = [
     {
-      title: "Trang Chủ",
+      title: 'Trang Chủ',
       index: 0,
     },
     {
-      title: "Khoá học",
+      title: 'Khoá học',
       index: 1,
     },
-    { title: "Về chúng tôi", index: 2 },
-    { title: "Liên hệ", index: 3 },
-  ];
-  const [open, setOpen] = useState(false);
+    { title: 'Về chúng tôi', index: 2 },
+    { title: 'Liên hệ', index: 3 },
+  ]
+  const [open, setOpen] = useState(false)
 
   const executeScroll = (i: number) => {
-    const e = props.references.filter((e: any, index: number) => index === i);
+    const e = props.references.filter((e: any, index: number) => index === i)
     if (e.length > 0) {
       e[0].current.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "nearest",
-      });
-      console.log(e[0]);
+        behavior: 'smooth',
+        block: 'nearest',
+        inline: 'nearest',
+      })
+      console.log(e[0])
     }
-  };
+  }
   useEffect(() => {
-    executeScroll(0);
-  }, []);
+    executeScroll(0)
+  }, [])
 
-  useMountEffect(executeScroll); // Scroll on mount
+  useMountEffect(executeScroll) // Scroll on mount
 
   function login() {}
   return (
-    <>
-      <nav className="  hide hide-top relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
-        <div className="container flex flex-wrap justify-between items-center mx-auto">
-          <a
-            href="http://localhost:5173/"
-            className="logo px-2 md:order-1 flex flex-row items-center"
+    <nav className="  hide hide-top relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+      <div className="container flex flex-wrap justify-between items-center mx-auto">
+        <a
+          href="http://localhost:5173/"
+          className="logo px-2 md:order-1 flex flex-row items-center"
+        >
+          <img src={Logo} className="mr-3 h-6 sm:h-9" alt="Training Logo" />
+          <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+            TRAINING
+          </span>
+        </a>
+        <div className="flex md:order-2 sm:order-2 ">
+          <Button
+            onClick={login}
+            className="btn btn-primary login px-2 menu w-full mt-1 md:block md:w-auto"
           >
-            <img src={Logo} className="mr-3 h-6 sm:h-9" alt="Training Logo" />
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-              TRAINING
-            </span>
-          </a>
-          <div className="flex md:order-2 sm:order-2 ">
-            <div
-              className={`login px-2 menu w-full mt-1 md:block md:w-auto`}
-              id="navbar-default"
-            >
-              <Button onClick={login} className="">
-                Đăng nhập
-              </Button>
-            </div>
-            <button
-              data-collapse-toggle="navbar-cta"
-              type="button"
-              className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-              aria-controls="navbar-cta"
-              aria-expanded="false"
-              onClick={() => setOpen(!open)}
-            >
-              <span className="sr-only">Open main menu</span>
-              <svg
-                className="w-6 h-6"
-                aria-hidden="true"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                  clip-rule="evenodd"
-                ></path>
-              </svg>
-            </button>
-          </div>
+            Đăng nhập
+          </Button>
 
-          <div
-            className="login px-2 menu w-full mt-1 md:block md:w-auto"
-            id="navbar-default"
-          >
-            <ul className="flex flex-col p-4 mt-4 bg-dark-blue rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-dark-blue dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-              {headerList.map((item) => {
-                return (
-                  <li className="px-10" key={item.index}>
-                    <a
-                      onClick={() => executeScroll(item.index)}
-                      className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-blue-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-                      aria-current="page"
-                    >
-                      {item.title}
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
           <button
             data-collapse-toggle="navbar-cta"
             type="button"
@@ -129,17 +82,40 @@ const Header = (props: any) => {
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fillRule="evenodd"
+                fill-rule="evenodd"
                 d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                clipRule="evenodd"
-              />
+                clip-rule="evenodd"
+              ></path>
             </svg>
           </button>
         </div>
-      </nav>
-    </>
-  );
-};
+
+        <div
+          className={`menu  md:order-1 w-full md:block md:w-auto ${
+            open === true ? '' : 'hidden'
+          }`}
+          id="navbar-default"
+        >
+          <ul className="flex flex-col p-4 mt-4 bg-dark-blue rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-dark-blue dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+            {headerList.map((item) => {
+              return (
+                <li className="px-10" key={item.index}>
+                  <a
+                    onClick={() => executeScroll(item.index)}
+                    className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-blue-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    aria-current="page"
+                  >
+                    {item.title}
+                  </a>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
+      </div>
+    </nav>
+  )
+}
 const Home = React.forwardRef((props, ref: any) => {
   return (
     <div
@@ -196,8 +172,8 @@ const Home = React.forwardRef((props, ref: any) => {
         </div>
       </div>
     </div>
-  );
-});
+  )
+})
 
 const PinkBlob = () => {
   return (
@@ -294,8 +270,8 @@ const Product = React.forwardRef((props, ref: any) => {
       </div>
       <div className=" z-20  separationBg2 h-[20vh] w-full "></div>
     </section>
-  );
-});
+  )
+})
 const ProductCard = (props: any) => {
   return (
     <div className="max-sm:m-4 hide hide-left relative max-w-[15rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
@@ -327,52 +303,52 @@ const ProductCard = (props: any) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 interface IntroContent {
-  logo: IconType;
-  title: string;
-  description: string;
+  logo: IconType
+  title: string
+  description: string
 }
 const Introduction = React.forwardRef((props, ref: any) => {
   const content = new Map<string, IntroContent>([
     [
-      "1",
+      '1',
       {
         logo: HiPresentationChartBar,
-        title: "Học trực Tuyến",
+        title: 'Học trực Tuyến',
         description:
-          "Học mọi lúc, mọi nơi, tại bất kì thời điểm nào phù hợp với bạn. Đảm bảo được kiến thức dù bất cứ nơi đâu.",
+          'Học mọi lúc, mọi nơi, tại bất kì thời điểm nào phù hợp với bạn. Đảm bảo được kiến thức dù bất cứ nơi đâu.',
       },
     ],
     [
-      "2",
+      '2',
       {
         logo: IoBarChartOutline,
-        title: "Thống kê quan trọng",
+        title: 'Thống kê quan trọng',
         description:
-          "Dữ liệu của bạn sẽ được chọn lọc và thống kê ra những thông tin hữu ích nhất cho bạn.",
+          'Dữ liệu của bạn sẽ được chọn lọc và thống kê ra những thông tin hữu ích nhất cho bạn.',
       },
     ],
     [
-      "3",
+      '3',
       {
         logo: TbCertificate,
-        title: "Chứng chỉ Online",
+        title: 'Chứng chỉ Online',
         description:
-          "Cung cấp ngay chứng chỉ Online sau khi hoàn thành kháo học, chuẩn bị cho người học tiến xa hơn trong sự nghiệp.",
+          'Cung cấp ngay chứng chỉ Online sau khi hoàn thành kháo học, chuẩn bị cho người học tiến xa hơn trong sự nghiệp.',
       },
     ],
     [
-      "4",
+      '4',
       {
         logo: TbGift,
-        title: "Đạt phần thưởng quý",
+        title: 'Đạt phần thưởng quý',
         description:
-          "Khi hoàn thành các khoá học, bạn có thể đổi điểm của mình để nhận được các phần thưởng đáng giá.",
+          'Khi hoàn thành các khoá học, bạn có thể đổi điểm của mình để nhận được các phần thưởng đáng giá.',
       },
     ],
-  ]);
+  ])
   return (
     <div
       ref={ref}
@@ -396,7 +372,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
                   {e.description}
                 </h4>
               </div>
-            );
+            )
           })}
         </div>
       </div>
@@ -422,8 +398,8 @@ const Introduction = React.forwardRef((props, ref: any) => {
         </div>
       </div>
     </div>
-  );
-});
+  )
+})
 
 const Footer = React.forwardRef((props, ref: any) => {
   return (
@@ -534,29 +510,29 @@ const Footer = React.forwardRef((props, ref: any) => {
         </div>
       </div>
     </footer>
-  );
-});
+  )
+})
 
 const LandingPage = () => {
-  const homeRef = useRef();
-  const productRef = useRef();
-  const introRef = useRef();
-  const contactRef = useRef();
+  const homeRef = useRef()
+  const productRef = useRef()
+  const introRef = useRef()
+  const contactRef = useRef()
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        entry.target.classList.add("show");
+        entry.target.classList.add('show')
       } else {
-        entry.target.classList.remove("show");
+        entry.target.classList.remove('show')
       }
-    });
-  });
+    })
+  })
 
   useEffect(() => {
-    const hiddenElements = document.querySelectorAll(".hide");
-    hiddenElements.forEach((el) => observer.observe(el));
-    console.count();
-  }, [observer]);
+    const hiddenElements = document.querySelectorAll('.hide')
+    hiddenElements.forEach((el) => observer.observe(el))
+    console.count()
+  }, [observer])
 
   return (
     <>
@@ -568,6 +544,6 @@ const LandingPage = () => {
         <Footer ref={contactRef} />
       </div>
     </>
-  );
-};
-export default LandingPage;
+  )
+}
+export default LandingPage

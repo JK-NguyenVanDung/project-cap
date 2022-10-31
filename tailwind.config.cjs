@@ -1,4 +1,6 @@
-module.exports = {
+const withMT = require('@material-tailwind/react/utils/withMT')
+
+module.exports = withMT({
   darkMode: 'class',
   mode: 'jit',
   content: [
@@ -9,6 +11,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      backgroundColor: {
+        'dark-blue': '#252B42',
+      },
       textColor: (theme) => theme('colors'),
       textColor: {
         success: '#',
@@ -18,5 +23,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require('flowbite/plugin')],
-}
+  plugins: [],
+})
