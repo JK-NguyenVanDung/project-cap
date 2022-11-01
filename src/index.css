@@ -121,9 +121,11 @@ body {
   background: linear-gradient(
     180deg,
     #282b42 0%,
-    #ffffff 6.25%,
+    #292c43 7.81%,
+    #ffffff 7.82%,
     #ffffff 50%,
-    #ffffff 90.62%,
+    #ffffff 92.7%,
+    #292c43 92.71%,
     #282b42 100%
   );
 }

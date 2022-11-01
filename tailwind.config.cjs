@@ -1,4 +1,6 @@
-module.exports = {
+const withMT = require('@material-tailwind/react/utils/withMT')
+
+module.exports = withMT({
   darkMode: 'class',
   mode: 'jit',
   content: [
@@ -11,11 +13,26 @@ module.exports = {
     extend: {
       fontFamily: {
         barlow: ['"Barlow Condensed"', 'sans-serif'],
+        backgroundColor: {
+          'dark-blue': '#252B42',
+        },
+      },
+      textColor: (theme) => theme('colors'),
+      textWhile: {
+        while: '#ffffff',
+      },
+      textHover: {
+        hover: '#252b42',
+      },
+      listStyleType: {
+        none: 'none',
+        square: 'square',
+        roman: 'upper-roman',
       },
     },
+    variants: {
+      extend: {},
+    },
+    plugins: [require('flowbite/plugin')],
   },
-  variants: {
-    extend: {},
-  },
-  plugins: [require('flowbite/plugin')],
-}
+})
