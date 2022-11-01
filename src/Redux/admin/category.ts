@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { reducers } from '.'
+import { reducers } from '../'
 import { CategoryItem } from '../../Type'
 
 const slice = createSlice({

@@ -10,9 +10,11 @@ import { HiPresentationChartBar } from 'react-icons/hi'
 import { TbCertificate, TbGift } from 'react-icons/tb'
 import Button from '../../components/sharedComponents/Button'
 import { IconType } from 'react-icons'
+import { useNavigate } from 'react-router-dom'
 const useMountEffect = (fun: any) => useEffect(fun, [])
 
 const Header = (props: any) => {
+  const navigate = useNavigate()
   const headerList = [
     {
       title: 'Trang Chủ',
@@ -44,7 +46,9 @@ const Header = (props: any) => {
 
   useMountEffect(executeScroll) // Scroll on mount
 
-  function login() {}
+  function login() {
+    navigate('/login')
+  }
   return (
     <nav className="  hide hide-top relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
       <div className="container flex flex-wrap justify-between items-center mx-auto">

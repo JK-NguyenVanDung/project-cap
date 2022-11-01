@@ -1,25 +1,23 @@
 // eslint-disable-next-line import/newline-after-import
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
-
-import Category from '../pages/admin/Category'
+import { Route, Routes } from 'react-router-dom'
+import Dashboard from '../pages/admin/Dashboard/Dashboard'
+import Login from '../pages/authentication/Login'
+import LandingPage from '../pages/landing page'
 export const AdminRouter = [
   {
-    path: '/Admin/Category',
-    element: <Category />,
+    path: '/admin',
+    element: <Dashboard />,
   },
 ]
-
 export default function MakeAdminRouter() {
   return (
-    <>
-      {AdminRouter.map((route, index) => {
-        return (
-          <Routes key={index}>
-            <Route path={route.path} element={route.element} />
-          </Routes>
-        )
+    <Routes>
+      {AdminRouter.map((router, index) => {
+        return <Route key={index} path={router.path} element={router.element} />
       })}
-    </>
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<LandingPage />} />
+    </Routes>
   )
 }

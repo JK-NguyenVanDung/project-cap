@@ -11,17 +11,28 @@ module.exports = withMT({
   ],
   theme: {
     extend: {
-      backgroundColor: {
-        'dark-blue': '#252B42',
+      fontFamily: {
+        barlow: ['"Barlow Condensed"', 'sans-serif'],
+        backgroundColor: {
+          'dark-blue': '#252B42',
+        },
       },
       textColor: (theme) => theme('colors'),
-      textColor: {
-        success: '#',
+      textWhile: {
+        while: '#ffffff',
+      },
+      textHover: {
+        hover: '#252b42',
+      },
+      listStyleType: {
+        none: 'none',
+        square: 'square',
+        roman: 'upper-roman',
       },
     },
+    variants: {
+      extend: {},
+    },
+    plugins: [require('flowbite/plugin')],
   },
-  variants: {
-    extend: {},
-  },
-  plugins: [],
 })
