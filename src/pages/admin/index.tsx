@@ -28,7 +28,7 @@ export default function SideBar({ content }: { content: any }) {
                     <value.icon />
                   </div>{' '}
                   <div id="title" className="flex uppercase">
-                    <h1>{value.title}</h1>
+                    <p className="font-semibold text-sm">{value.title}</p>
                   </div>
                 </li>
               )

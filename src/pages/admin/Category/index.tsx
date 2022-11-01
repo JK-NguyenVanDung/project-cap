@@ -8,7 +8,7 @@ import {
 } from 'react-icons/io5'
 import Modal from './Modal'
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux'
-import { actions } from '../../../Redux'
+import { actions } from '../../../redux'
 import { CategoryItem } from '../../../Type'
 import {
   Popover,
@@ -34,16 +34,11 @@ function Column() {
     </tr>
   )
 }
-const sample = {
-  categoryID: 1,
-  categoryName: 'SA1',
-  categoryCode: 'Sách 1',
-}
-let test = [sample, sample, sample]
 
 function Row(props: CategoryItem) {
   const [openAction, setOpenAction] = useState(false)
   const dispatch = useAppDispatch()
+  const dataList = useAppSelector((state) => state.category.listAll)
 
   const [deleteAction, setDeleteAction] = useState(false)
   function handleAction() {
@@ -52,8 +47,10 @@ function Row(props: CategoryItem) {
   }
   function handleDelete() {
     handleAction()
-    test = test.filter((item) => item.categoryID != props.categoryID)
-    dispatch(actions.categoryActions.setListAll)
+    let test: Array<CategoryItem> = dataList.filter(
+      (item: CategoryItem) => item.categoryID != props.categoryID
+    )
+    dispatch(actions.categoryActions.setListAll(test))
   }
 
   return (
@@ -176,7 +173,7 @@ function ToolBar() {
       <div className="">
         <Button
           size="md"
-          className="flex flex-row justify-center items-center"
+          className="mx-0 flex flex-row justify-start items-start"
           color="green"
         >
           <IoAddOutline className="mx-2 text-base  bg-white text-green-400 rounded  " />
@@ -188,10 +185,34 @@ function ToolBar() {
 }
 
 function Table() {
-  const [data, setData] = useState(test)
+  const dataList = useAppSelector((state) => state.category.listAll)
+
+  const loadData = useAppSelector((state) => state.category.loadData)
+
+  let test = [
+    {
+      categoryID: 1,
+      categoryName: 'SA1',
+      categoryCode: 'Sách 1',
+    },
+    {
+      categoryID: 2,
+      categoryName: 'SA2',
+      categoryCode: 'Sách 2',
+    },
+    {
+      categoryID: 3,
+      categoryName: 'SA3',
+      categoryCode: 'Sách 3',
+    },
+  ]
+  let dispatch = useAppDispatch()
   useEffect(() => {
-    setData(test)
-  }, [test])
+    dispatch(actions.categoryActions.setListAll(test))
+  }, [])
+  // useEffect(() => {
+  //   dispatch(actions.categoryActions.setListAll(test))
+  // }, [loadData])
   return (
     <div className="w-full h-auto overflow-x-auto relative shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -199,7 +220,7 @@ function Table() {
           <Column />
         </thead>
         <tbody>
-          {data.map((e) => {
+          {dataList.map((e: CategoryItem) => {
             return <Row key={e.categoryID} {...e} />
           })}
         </tbody>
