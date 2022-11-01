@@ -2,12 +2,16 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Dashboard from '../pages/admin/Dashboard/Dashboard'
-import Login from '../pages/authentication/Login'
-import LandingPage from '../pages/landing page'
+import Category from '../pages/admin/Category'
+
 export const AdminRouter = [
   {
     path: '/admin',
     element: <Dashboard />,
+  },
+  {
+    path: '/admin/Category',
+    element: <Category />,
   },
 ]
 export default function MakeAdminRouter() {
