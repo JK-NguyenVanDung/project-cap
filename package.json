@@ -10,9 +10,14 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
+  "compiler": {
+    "moduleResolution": "node"
+  },
   "dependencies": {
     "@formkit/auto-animate": "^1.0.0-beta.3",
     "@material-tailwind/react": "^1.2.4",
+    "@reduxjs/toolkit": "^1.8.6",
+    "@types/node": "^18.11.9",
     "eslint": "8.2.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
@@ -21,7 +26,10 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.6.0",
+    "react-redux": "^8.0.4",
     "react-router-dom": "6",
+    "redux": "^4.2.0",
+    "redux-persist": "^6.0.0",
     "tailwindcss": "^3.2.1",
     "zod": "^3.19.1"
   },
