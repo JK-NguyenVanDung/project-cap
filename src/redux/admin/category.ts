@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { reducers } from '.'
+import { CategoryItem } from '../../Type'
 
 const slice = createSlice({
   name: 'category',
@@ -7,7 +8,6 @@ const slice = createSlice({
     detail: null,
     listAll: [],
     listCate: [],
-
     loadData: false,
   },
   reducers: {
@@ -16,7 +16,9 @@ const slice = createSlice({
     },
     setDetail(state, actions) {
       let data = [...state.listAll]
-      let index = data.findIndex((item) => item.id === actions.payload)
+      let index = data.findIndex(
+        (item: CategoryItem) => item.categoryID === actions.payload
+      )
       state.detail = data[index]
     },
 

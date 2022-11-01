@@ -1,11 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-// @ts-ignore
+
 import { reducers } from './redux/admin/'
 import storage from 'redux-persist/lib/storage'
 import { persistStore, persistReducer } from 'redux-persist'
 
 const config = combineReducers({
-  category: reducers.categoriesReducer,
+  category: reducers.categoryReducer,
 })
 const persistConfig = {
   key: 'root',

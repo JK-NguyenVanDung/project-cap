@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { z } from 'zod'
 import {
   IoEllipsisVertical,
   IoTrashOutline,
@@ -9,7 +8,8 @@ import {
 } from 'react-icons/io5'
 import Modal from './Modal'
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux'
-
+import { actions } from '../../../redux/admin'
+import { CategoryItem } from '../../../Type'
 import {
   Popover,
   PopoverHandler,
@@ -39,14 +39,7 @@ const sample = {
   categoryName: 'SA1',
   categoryCode: 'Sách 1',
 }
-const test = [sample, sample, sample]
-const CategoryItem = z.object({
-  categoryID: z.number(),
-  categoryName: z.string(),
-  categoryCode: z.string(),
-})
-
-type CategoryItem = z.infer<typeof CategoryItem>
+let test = [sample, sample, sample]
 
 function Row(props: CategoryItem) {
   const [openAction, setOpenAction] = useState(false)
@@ -59,7 +52,8 @@ function Row(props: CategoryItem) {
   }
   function handleDelete() {
     handleAction()
-    test.filter((item) => item.categoryID != props.categoryID)
+    test = test.filter((item) => item.categoryID != props.categoryID)
+    dispatch(actions.categoryActions.setListAll)
   }
 
   return (
