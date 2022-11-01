@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import Login from '../pages/authentication/Login'
 import HomePage from '../pages/client/HomePage/HomePage'
 import LandingPage from '../pages/landing page'
+import MakeAdminRouter from './AdminRouter'
 
 export const PageRouter = [
   {
@@ -23,6 +24,7 @@ export default function MakeRouterPage() {
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<LandingPage />} />
       </Routes>
+      <MakeAdminRouter />
     </>
   )
 }

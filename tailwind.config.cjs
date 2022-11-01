@@ -12,10 +12,10 @@ module.exports = withMT({
   theme: {
     extend: {
       fontFamily: {
-        barlow: ['"Barlow Condensed"', 'sans-serif'],
-        backgroundColor: {
-          'dark-blue': '#252B42',
-        },
+        customFont: ['"Montserrat"', 'sans-serif'],
+      },
+      backgroundColor: {
+        'dark-blue': '#252B42',
       },
       textColor: (theme) => theme('colors'),
       textWhile: {
@@ -33,6 +33,6 @@ module.exports = withMT({
     variants: {
       extend: {},
     },
-    plugins: [require('flowbite/plugin')],
+    plugins: [],
   },
 })

@@ -16,8 +16,6 @@ export default function MakeAdminRouter() {
       {AdminRouter.map((router, index) => {
         return <Route key={index} path={router.path} element={router.element} />
       })}
-      <Route path="/login" element={<Login />} />
-      <Route path="/" element={<LandingPage />} />
     </Routes>
   )
 }
