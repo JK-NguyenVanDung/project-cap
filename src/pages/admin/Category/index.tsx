@@ -8,7 +8,7 @@ import {
 } from 'react-icons/io5'
 import Modal from './Modal'
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux'
-import { actions } from '../../../redux/admin'
+import { actions } from '../../../Redux'
 import { CategoryItem } from '../../../Type'
 import {
   Popover,
