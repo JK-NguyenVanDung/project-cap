@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit'
-
-import { reducers } from './redux/admin/'
+import { reducers } from './redux'
 import storage from 'redux-persist/lib/storage'
 import { persistStore, persistReducer } from 'redux-persist'
 
 const config = combineReducers({
+  form: reducers.formReducer,
   category: reducers.categoryReducer,
 })
 const persistConfig = {
