@@ -7,13 +7,13 @@ import { ISidebar, SideBarData } from './SidebarData'
 import logo from '../../assets/img/logo.png'
 import HeaderAdmin from '../../components/HeaderAdmin/HeaderAdmin'
 import { useAppSelector } from '../../hook/useRedux'
-export default function SideBar({
+export default function SideBar(/*{
   content,
   menu,
 }: {
   menu: ISidebar
   content: any
-}) {
+}*/) {
   const navigation = useNavigate()
   return (
     <>

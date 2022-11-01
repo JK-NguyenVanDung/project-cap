@@ -1,5 +1,6 @@
 import { IconType } from 'react-icons'
 import { BsFillHouseFill } from 'react-icons/bs'
+
 export interface ISidebar {
   title: string
   icon: IconType

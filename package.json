@@ -10,11 +10,15 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
+  "compiler": {
+    "moduleResolution": "node"
+  },
   "dependencies": {
     "@formkit/auto-animate": "^1.0.0-beta.3",
     "@material-tailwind/react": "^1.2.4",
     "@reduxjs/toolkit": "^1.8.6",
     "@types/axios": "^0.14.0",
+    "@types/node": "^18.11.9",
     "eslint": "8.2.0",
     "eslint-config-airbnb-typescript": "^17.0.0",
     "eslint-config-prettier": "^8.5.0",
