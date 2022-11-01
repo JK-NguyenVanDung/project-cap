@@ -1,7 +1,22 @@
 import React, { useEffect, useState } from 'react'
 import { z } from 'zod'
-import { IoEllipsisVertical } from 'react-icons/io5'
+import {
+  IoEllipsisVertical,
+  IoTrashOutline,
+  IoHammerOutline,
+  IoSearch,
+  IoAddOutline,
+} from 'react-icons/io5'
 import Modal from './Modal'
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux'
+
+import {
+  Popover,
+  PopoverHandler,
+  PopoverContent,
+  IconButton,
+  Button,
+} from '@material-tailwind/react'
 function Column() {
   const col = ['Mã Danh Mục', 'Tên Danh Mục']
   return (
@@ -19,7 +34,12 @@ function Column() {
     </tr>
   )
 }
-
+const sample = {
+  categoryID: 1,
+  categoryName: 'SA1',
+  categoryCode: 'Sách 1',
+}
+const test = [sample, sample, sample]
 const CategoryItem = z.object({
   categoryID: z.number(),
   categoryName: z.string(),
@@ -30,6 +50,17 @@ type CategoryItem = z.infer<typeof CategoryItem>
 
 function Row(props: CategoryItem) {
   const [openAction, setOpenAction] = useState(false)
+  const dispatch = useAppDispatch()
+
+  const [deleteAction, setDeleteAction] = useState(false)
+  function handleAction() {
+    setDeleteAction(false)
+    setOpenAction(!openAction)
+  }
+  function handleDelete() {
+    handleAction()
+    test.filter((item) => item.categoryID != props.categoryID)
+  }
 
   return (
     <>
@@ -43,12 +74,70 @@ function Row(props: CategoryItem) {
         <td className="py-4 px-6">{props.categoryName}</td>
 
         <td className="py-4 px-6 flex justify-center w-full pr-10">
-          <a
-            href="#"
-            className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+          <Popover
+            handler={handleAction}
+            open={openAction}
+            animate={{
+              mount: { scale: 1, y: 0 },
+              unmount: { scale: 0, y: 25 },
+            }}
+            placement="bottom-end"
           >
-            <IoEllipsisVertical className="text-black" />
-          </a>
+            <PopoverHandler>
+              <IconButton
+                onClick={() => setOpenAction(!openAction)}
+                className="font-medium "
+                variant="text"
+              >
+                <IoEllipsisVertical className="text-black" />
+              </IconButton>
+            </PopoverHandler>
+            <PopoverContent>
+              {!deleteAction ? (
+                <div className="flex w-max items-center flex-col gap-4">
+                  <Button
+                    size="md"
+                    color="blue"
+                    className="flex flex-row justify-center items-center "
+                  >
+                    <IoHammerOutline className="mx-2 text-base" /> Sửa
+                  </Button>
+                  <Button
+                    size="md"
+                    className="flex flex-row justify-center items-center"
+                    color="red"
+                    onClick={() => setDeleteAction(!deleteAction)}
+                  >
+                    <IoTrashOutline className="mx-2 text-base " />
+                    Xoá
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex w-max items-center flex-col gap-4">
+                  Xác nhận xoá {props.categoryName}?
+                  <div className="flex w-max items-center flex-row gap-4">
+                    <Button
+                      size="sm"
+                      variant="outlined"
+                      className="flex flex-row justify-center items-center w-24"
+                      color="gray"
+                      onClick={() => setDeleteAction(!deleteAction)}
+                    >
+                      Huỷ
+                    </Button>
+                    <Button
+                      size="sm"
+                      color="red"
+                      className="flex flex-row justify-center items-center w-24"
+                      onClick={() => handleDelete()}
+                    >
+                      Xác Nhận
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </PopoverContent>
+          </Popover>
         </td>
       </tr>
     </>
@@ -57,18 +146,58 @@ function Row(props: CategoryItem) {
 export default function Category() {
   return (
     <div className=" w-screen h-screen">
+      <ToolBar />
       <Table />
-      <Modal />
+      <Modal add={true} />
+    </div>
+  )
+}
+
+function SearchBar() {
+  return (
+    <form className="flex items-center">
+      <label className="sr-only">Search</label>
+      <div className="relative w-full">
+        <input
+          type="text"
+          id="simple-search"
+          className="min-w-[20rem] pr-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Tìm kiếm"
+          required
+        />
+        <div className="flex absolute inset-y-0 right-0 items-center pl-3 ">
+          <IconButton variant="text" color="gray">
+            <IoSearch className="text-xl" />
+          </IconButton>
+        </div>
+      </div>
+    </form>
+  )
+}
+
+function ToolBar() {
+  return (
+    <div className="div justify-between px-4  items-center flex w-full h-24">
+      <SearchBar />
+      <div className="">
+        <Button
+          size="md"
+          className="flex flex-row justify-center items-center"
+          color="green"
+        >
+          <IoAddOutline className="mx-2 text-base  bg-white text-green-400 rounded  " />
+          Thêm
+        </Button>
+      </div>
     </div>
   )
 }
 
 function Table() {
-  const sample = {
-    categoryID: 1,
-    categoryName: 'SA1',
-    categoryCode: 'Sách 1',
-  }
+  const [data, setData] = useState(test)
+  useEffect(() => {
+    setData(test)
+  }, [test])
   return (
     <div className="w-full h-auto overflow-x-auto relative shadow-md sm:rounded-lg">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
@@ -76,9 +205,9 @@ function Table() {
           <Column />
         </thead>
         <tbody>
-          <Row {...sample} />
-          <Row {...sample} />
-          <Row {...sample} />
+          {data.map((e) => {
+            return <Row key={e.categoryID} {...e} />
+          })}
         </tbody>
       </table>
       <nav
