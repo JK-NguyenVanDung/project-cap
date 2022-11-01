@@ -7,17 +7,11 @@ import { ISidebar, SideBarData } from './SidebarData'
 import logo from '../../assets/img/logo.png'
 import HeaderAdmin from '../../components/HeaderAdmin/HeaderAdmin'
 import { useAppSelector } from '../../hook/useRedux'
-export default function SideBar(/*{
-  content,
-  menu,
-}: {
-  menu: ISidebar
-  content: any
-}*/) {
+export default function SideBar({ content }: { content: any }) {
   const navigation = useNavigate()
   return (
     <>
-      <div className="header-sidebar">
+      <div className="flex">
         <div className="sidebar flex flex-col content-center items-center">
           <img src={logo} />
           <ul className="list-none w-full text-center">
@@ -34,13 +28,16 @@ export default function SideBar(/*{
                     <value.icon />
                   </div>{' '}
                   <div id="title" className="flex uppercase">
-                    <h1>{value.title}</h1>
+                    <p className="font-semibold text-sm">{value.title}</p>
                   </div>
                 </li>
               )
             })}
           </ul>
         </div>
+        <header>
+          <h1>hello</h1>
+        </header>
       </div>
     </>
   )
