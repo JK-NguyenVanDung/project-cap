@@ -6,7 +6,8 @@ const slice = createSlice({
     nameMenu: null,
   },
   reducers: {
-    setNameMenu({ state, actions }: any) {
+    setNameMenu(state, actions) {
+      console.log(state)
       state.nameMenu = actions.payload
     },
   },
