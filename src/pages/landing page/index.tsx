@@ -11,6 +11,7 @@ import { TbCertificate, TbGift } from 'react-icons/tb'
 import Button from '../../components/sharedComponents/Button'
 import { IconType } from 'react-icons'
 import { useNavigate } from 'react-router-dom'
+
 const useMountEffect = (fun: any) => useEffect(fun, [])
 
 const Header = (props: any) => {
@@ -37,7 +38,6 @@ const Header = (props: any) => {
         block: 'nearest',
         inline: 'nearest',
       })
-      console.log(e[0])
     }
   }
   useEffect(() => {
@@ -54,7 +54,7 @@ const Header = (props: any) => {
       <div className="container flex flex-wrap justify-between items-center mx-auto">
         <a href="/" className="logo px-2 md:order-1 flex flex-row items-center">
           <img src={Logo} className="mr-3 h-6 sm:h-9" alt="Training Logo" />
-          <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+          <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
             TRAINING
           </span>
         </a>
@@ -136,7 +136,7 @@ const Home = React.forwardRef((props, ref: any) => {
           </h3>
           <div className="flex flex-row justify-center items-center">
             <Button onClick={() => {}}>Tham gia đào tạo</Button>
-            <Button onClick={() => {}} className="btn-transparent">
+            <Button onClick={() => {}} className="btn-transparent text-white">
               Tìm hiểu thêm
             </Button>
           </div>
@@ -356,7 +356,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
       className="relative mb-4 max-sm:mt-[130vh] max-sm:mb-[80vh]  max-sm:flex-wrap  max-sm:h-screen flex h-screen flex-row justify-between md:mx-20 max-sm:mx-2 items-center "
     >
       <div className="  max-sm:w-full w-1/2 h-screen flex flex-col items-center justify-center">
-        <p className="hide hide-left font-bold text-4xl mb-6 ">
+        <p className="hide hide-left font-bold text-4xl mb-6 text-white">
           Các khoá học Online của chúng tôi hoạt động ra sao?
         </p>
         <div className="grid grid-cols-2 contentList">
