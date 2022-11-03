@@ -9,6 +9,7 @@ const slice = createSlice({
   },
   reducers: {
     setNameMenu(state, actions) {
+      console.log(state)
       state.nameMenu = actions.payload
     },
     changeLoad(state, actions) {

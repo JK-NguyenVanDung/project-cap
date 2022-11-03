@@ -10,7 +10,7 @@ export const SideBarData = [
   {
     title: 'Trang Chủ',
     icon: BsFillHouseFill,
-    path: '/Dashboard',
+    path: '/admin',
   },
   {
     title: 'Quản Lý Tài Khoản',

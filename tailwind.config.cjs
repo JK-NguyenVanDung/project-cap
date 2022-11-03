@@ -17,22 +17,10 @@ module.exports = withMT({
       backgroundColor: {
         'dark-blue': '#252B42',
       },
-      textColor: (theme) => theme('colors'),
-      textWhile: {
-        while: '#ffffff',
-      },
-      textHover: {
-        hover: '#252b42',
-      },
-      listStyleType: {
-        none: 'none',
-        square: 'square',
-        roman: 'upper-roman',
-      },
     },
     variants: {
       extend: {},
     },
-    plugins: [],
+    plugins: [require('flowbite/plugin')],
   },
 })
