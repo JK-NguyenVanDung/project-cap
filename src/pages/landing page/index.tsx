@@ -47,15 +47,13 @@ const Header = (props: any) => {
   useMountEffect(executeScroll) // Scroll on mount
 
   function login() {
+    console.count()
     navigate('/login')
   }
   return (
     <nav className="  hide hide-top relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
-        <a
-          href="http://localhost:5173/"
-          className="logo px-2 md:order-1 flex flex-row items-center"
-        >
+        <a href="/" className="logo px-2 md:order-1 flex flex-row items-center">
           <img src={Logo} className="mr-3 h-6 sm:h-9" alt="Training Logo" />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
             TRAINING
@@ -64,7 +62,7 @@ const Header = (props: any) => {
         <div className="flex md:order-2 sm:order-2 ">
           <Button
             onClick={login}
-            className="btn btn-primary login px-2 menu w-full mt-1 md:block md:w-auto"
+            className="btn btn-primary px-2  w-full mt-1 md:bl  ock md:w-auto"
           >
             Đăng nhập
           </Button>
@@ -409,9 +407,9 @@ const Footer = React.forwardRef((props, ref: any) => {
   return (
     <footer
       ref={ref}
-      className="footer bg-white relative pt-1 border-b-2 border-blue-700"
+      className="w-full footer bg-white relative pt-1 border-b-2 border-blue-700"
     >
-      <div className="hide hide-bottom  container mx-auto px-6">
+      <div className="w-full hide hide-bottom  container mx-auto px-6">
         <div className="sm:flex sm:mt-8">
           <div className="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
             <div className="flex flex-col">

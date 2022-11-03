@@ -283,7 +283,7 @@ function TableSection() {
 
 export default function Category() {
   return (
-    <div className=" w-screen h-screen">
+    <div className=" w-full h-full">
       <TableSection />
       <Modal />
     </div>

@@ -21,6 +21,6 @@ module.exports = withMT({
     variants: {
       extend: {},
     },
-    plugins: [require('flowbite/plugin')],
+    plugins: [],
   },
 })
