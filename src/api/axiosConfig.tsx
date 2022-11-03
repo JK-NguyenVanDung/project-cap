@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import queryString from 'query-string'
-
-import { API_URL } from '../Type'
+import { API_URL } from './api'
 
 const axiosConfig = axios.create({
   baseURL: API_URL,
@@ -12,15 +11,13 @@ const axiosConfig = axios.create({
     'Access-Control-Allow-Origin': '*',
   },
   paramsSerializer: {
-    encode: (params: any) => new URLSearchParams({ params }),
+    encode: (params) => queryString.stringify(params),
   },
 })
 
-axiosConfig.interceptors.request.use(async ({ config }: any) => {
+axiosConfig.interceptors.request.use(async (config) => {
   try {
-    const acceptToken = {
-      Authorization: '',
-    }
+    const acceptToken: any = {}
     const token = await localStorage.getItem('Bearer')
     if (token) acceptToken.Authorization = token
     return {
@@ -32,9 +29,10 @@ axiosConfig.interceptors.request.use(async ({ config }: any) => {
     }
   } catch (error) {}
 })
-
 axiosConfig.interceptors.response.use(
   (response) => {
+    console.log('respones', response)
+
     if (response && response.data) {
       return response.data
     }
@@ -42,7 +40,8 @@ axiosConfig.interceptors.response.use(
   },
   (error) => {
     // Handle errors
-    const { config, data } = error.response
+    console.log(error.response)
+
     if (error.message) {
       throw error.message
     }
