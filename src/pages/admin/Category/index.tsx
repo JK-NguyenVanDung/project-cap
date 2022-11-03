@@ -19,8 +19,11 @@ import {
 } from '@material-tailwind/react'
 import { GIRD12 } from '../../../helper/constant'
 import { MESSAGE } from '../../../helper/constant'
+import axios from 'axios'
+import { API_CONSTANTS } from '../../../api/api'
 
 import { Table, message } from 'antd'
+import * as collections from '../../../api/collections/category'
 
 function Column() {
   const col = ['Mã Danh Mục', 'Tên Danh Mục']
@@ -256,19 +259,27 @@ function TableSection() {
     },
   ]
   let dispatch = useAppDispatch()
-  useEffect(() => {
-    setLoading(true)
+  async function getData() {
+    try {
+      setLoading(true)
 
-    dispatch(actions.categoryActions.setListAll(test))
-    setData(test)
-    setLoading(false)
+      const res = await collections.getCategories()
+
+      dispatch(actions.categoryActions.setListAll(res.data))
+      setData(res.data)
+      setLoading(false)
+    } catch (err: any) {}
+  }
+  useEffect(() => {
+    getData()
   }, [])
   useEffect(() => {
     setLoading(true)
+    getData()
 
     setData(dataList)
     setLoading(false)
-  }, [dataList, loadData])
+  }, [loadData])
   // useEffect(() => {
   //   dispatch(actions.categoryActions.setListAll(test))
   // }, [loadData])

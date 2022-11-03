@@ -13,6 +13,7 @@ import { Input, Form, message } from 'antd'
 import { IoClose } from 'react-icons/io5'
 import { useAppSelector, useAppDispatch } from '../../../hook/useRedux'
 import { actions } from '../../../redux'
+import * as collections from '../../../api/collections/category'
 
 export default function Modal(props: any) {
   const [loading, setLoading] = useState(false)
@@ -61,10 +62,10 @@ export default function Modal(props: any) {
 
           setLoading(false)
         } else {
-          // await collections.addCategory({
-          //   name: values.name,
-          //   category_type_id: values.category_type_id,
-          // });
+          console.log(values.categoryName)
+          await collections.addCategory({
+            Name: values.categoryName,
+          })
           handleClose()
           dispatch(actions.formActions.changeLoad(!loadData))
           message.success('Thêm thành công')
@@ -136,7 +137,7 @@ export default function Modal(props: any) {
                 Huỷ
               </Button>
               <Button
-                onClick={() => handleOk()}
+                onClick={handleOk}
                 fullWidth
                 className="mx-2"
                 color={`${!dataItem ? 'green' : 'blue'}`}
