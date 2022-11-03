@@ -127,8 +127,13 @@ export default function Modal(props: any) {
           </DialogBody>
           <DialogFooter>
             <div className=" mb-6 flex flex-row justify-evenly w-full">
-              <Button fullWidth className="mx-2" color="red" variant="filled">
-                Xoá
+              <Button
+                fullWidth
+                className="mx-2"
+                color="gray"
+                variant="outlined"
+              >
+                Huỷ
               </Button>
               <Button
                 onClick={() => handleOk()}
