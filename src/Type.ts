@@ -1,4 +1,6 @@
 import { z } from 'zod'
+
+export const API_URL = ''
 export interface ILogin {}
 
 const CategoryItem = z.object({

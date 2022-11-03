@@ -19,14 +19,16 @@ export default function SideBar({ content }: { content: any }) {
   return (
     <>
       <div className="flex max-w-full">
-        <div className="sidebar flex flex-col content-center items-center">
-          <img src={logo} />
+        <div className="sidebar flex flex-col content-center items-center w-1/5">
+          <div className="my-6 px-7 w-full">
+            <img src={logo} />
+          </div>
           <ul className="list-none w-full text-center">
             {SideBarData.map((value, index) => {
               return (
                 <li
                   key={index}
-                  className=" cursor-pointer flex max-w-full justify-center text-white h-12 text-center items-center active:bg-white active:text-[#252b42]"
+                  className=" cursor-pointer flex max-w-full justify-center text-white h-12 text-center items-center active:bg-white active:text-[#252b42] "
                   onClick={() => {
                     navigation(value.path)
                     dispatch(actions.formActions.setNameMenu(`${value.title}`))
@@ -43,7 +45,7 @@ export default function SideBar({ content }: { content: any }) {
             })}
           </ul>
         </div>
-        <div className="Layout">
+        <div className="Layout w-full">
           <header className="header">
             <div className="container flex items-center justify-between">
               <AiOutlineAlignLeft />
