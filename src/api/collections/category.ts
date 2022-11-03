@@ -1,11 +1,11 @@
 import api from '../axiosConfig'
-import { API_CONSTANTS } from '../api'
+import { API_CONFIG } from '../api'
 import { CategoryItem } from '../../Type'
 import { ICategory } from '../apiInterface'
 
 export const getCategories = async () => {
   try {
-    const response = await api.get(API_CONSTANTS.COURSE_CATEGORY.GET)
+    const response = await api.get(API_CONFIG.COURSE_CATEGORY.GET)
     return response
   } catch (err: any) {
     throw err.message
@@ -13,7 +13,7 @@ export const getCategories = async () => {
 }
 // export const getCategory = async (id: number) => {
 //   try {
-//     const response = await api.get(API_CONSTANTS.COURSE_CATEGORY.GET)
+//     const response = await api.get(API_CONFIG.COURSE_CATEGORY.GET)
 //     return response
 //   } catch (err: any) {
 //     throw err.message
@@ -21,7 +21,7 @@ export const getCategories = async () => {
 // }
 export const addCategory = async (body: ICategory) => {
   try {
-    const response = await api.post(API_CONSTANTS.COURSE_CATEGORY.POST, body)
+    const response = await api.post(API_CONFIG.COURSE_CATEGORY.POST, body)
 
     return response
   } catch (err: any) {
@@ -31,7 +31,7 @@ export const addCategory = async (body: ICategory) => {
 export const editCategory = async (props: any) => {
   try {
     const response = await api.put(
-      API_CONSTANTS.COURSE_CATEGORY.PUT(props.id),
+      API_CONFIG.COURSE_CATEGORY.PUT(props.id),
       props.body
     )
     return response
@@ -41,7 +41,7 @@ export const editCategory = async (props: any) => {
 }
 export const removeCategory = async (id: number) => {
   try {
-    const response = await api.delete(API_CONSTANTS.COURSE_CATEGORY.DELETE(id))
+    const response = await api.delete(API_CONFIG.COURSE_CATEGORY.DELETE(id))
     return response
   } catch (err: any) {
     throw err.message
