@@ -1,18 +1,18 @@
 import React, { useEffect } from 'react'
+import apiService from '../../../api/apiService'
 import SideBar from '../index'
 
 export default function Dashboard() {
   useEffect(() => {
-    // const fectData = async () => {
-    //   console.log
-    //   try {
-    //     const data = await apiService.getTest()
-    //     console.log(data)
-    //   } catch (error) {
-    //     console.log(error)
-    //   }
-    // }
-    // fectData()
+    const fectData = async () => {
+      try {
+        const data = await apiService.getValues()
+        console.log('data', data)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    fectData()
   }, [])
 
   return (

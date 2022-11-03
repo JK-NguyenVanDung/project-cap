@@ -11,6 +11,7 @@ import { TbCertificate, TbGift } from 'react-icons/tb'
 import Button from '../../components/sharedComponents/Button'
 import { IconType } from 'react-icons'
 import { useNavigate } from 'react-router-dom'
+
 const useMountEffect = (fun: any) => useEffect(fun, [])
 
 const Header = (props: any) => {
@@ -37,7 +38,6 @@ const Header = (props: any) => {
         block: 'nearest',
         inline: 'nearest',
       })
-      console.log(e[0])
     }
   }
   useEffect(() => {
@@ -47,24 +47,22 @@ const Header = (props: any) => {
   useMountEffect(executeScroll) // Scroll on mount
 
   function login() {
+    console.count()
     navigate('/login')
   }
   return (
     <nav className="  hide hide-top relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
-        <a
-          href="http://localhost:5173/"
-          className="logo px-2 md:order-1 flex flex-row items-center"
-        >
+        <a href="/" className="logo px-2 md:order-1 flex flex-row items-center">
           <img src={Logo} className="mr-3 h-6 sm:h-9" alt="Training Logo" />
-          <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
+          <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
             TRAINING
           </span>
         </a>
         <div className="flex md:order-2 sm:order-2 ">
           <Button
             onClick={login}
-            className="btn btn-primary login px-2 menu w-full mt-1 md:block md:w-auto"
+            className="btn btn-primary px-2  w-full mt-1 md:bl  ock md:w-auto"
           >
             Đăng nhập
           </Button>
@@ -139,7 +137,7 @@ const Home = React.forwardRef((props, ref: any) => {
           </h3>
           <div className="flex flex-row justify-center items-center">
             <Button onClick={() => {}}>Tham gia đào tạo</Button>
-            <Button onClick={() => {}} className="btn-transparent">
+            <Button onClick={() => {}} className="btn-transparent text-white">
               Tìm hiểu thêm
             </Button>
           </div>
@@ -359,7 +357,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
       className="relative mb-4 max-sm:mt-[130vh] max-sm:mb-[80vh]  max-sm:flex-wrap  max-sm:h-screen flex h-screen flex-row justify-between md:mx-20 max-sm:mx-2 items-center "
     >
       <div className="  max-sm:w-full w-1/2 h-screen flex flex-col items-center justify-center">
-        <p className="hide hide-left font-bold text-4xl mb-6 ">
+        <p className="hide hide-left font-bold text-4xl mb-6 text-white">
           Các khoá học Online của chúng tôi hoạt động ra sao?
         </p>
         <div className="grid grid-cols-2 contentList">
@@ -409,9 +407,9 @@ const Footer = React.forwardRef((props, ref: any) => {
   return (
     <footer
       ref={ref}
-      className="footer bg-white relative pt-1 border-b-2 border-blue-700"
+      className="w-full footer bg-white relative pt-1 border-b-2 border-blue-700"
     >
-      <div className="hide hide-bottom  container mx-auto px-6">
+      <div className="w-full hide hide-bottom  container mx-auto px-6">
         <div className="sm:flex sm:mt-8">
           <div className="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
             <div className="flex flex-col">
