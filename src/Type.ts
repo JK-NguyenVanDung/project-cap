@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
-export const API_URL = ''
+export const API_URL =
+  'http://cntttest.vanlanguni.edu.vn:18080/CP25Team02/Help/'
 export interface ILogin {}
 
 const CategoryItem = z.object({
