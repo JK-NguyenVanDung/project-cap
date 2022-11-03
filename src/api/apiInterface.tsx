@@ -6,3 +6,7 @@ export interface ISignUp {
   phoneNumber: string
   roleId: string
 }
+
+export interface ICategory {
+  Name: string
+}

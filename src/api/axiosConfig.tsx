@@ -11,7 +11,9 @@ const axiosConfig = axios.create({
     'Cache-Control': 'no-cache',
     'Access-Control-Allow-Origin': '*',
   },
-  // paramsSerializer: (params: any) => queryString.stringify(params),
+  paramsSerializer: {
+    encode: (params: any) => new URLSearchParams({ params }),
+  },
 })
 
 axiosConfig.interceptors.request.use(async ({ config }: any) => {

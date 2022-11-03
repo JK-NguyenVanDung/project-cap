@@ -17,7 +17,8 @@
     "jsx": "react-jsx",
     "outDir": "dist",
     "noImplicitAny": true,
-    "alwaysStrict": true
+    "alwaysStrict": true,
+    "strictNullChecks": false
   },
   "include": [".eslintrc.cjs", "src"],
   "references": [{ "path": "./tsconfig.node.json" }]
