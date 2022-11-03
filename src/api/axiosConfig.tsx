@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import queryString from 'query-string'
-import { any } from 'zod'
 
 import { API_URL } from '../Type'
 
