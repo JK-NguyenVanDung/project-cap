@@ -28,6 +28,5 @@
   align-items: center;
 }
 .Layout {
-  width: 84%;
   @apply text-black;
 }
