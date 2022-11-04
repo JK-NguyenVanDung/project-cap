@@ -5,8 +5,8 @@ import { API_URL } from './api'
 const axiosConfig = axios.create({
   baseURL: API_URL,
   headers: {
-    Accept: 'application/xml',
-    'Content-Type': 'application/xml',
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
     'Cache-Control': 'no-cache',
     'Access-Control-Allow-Origin': '*',
   },

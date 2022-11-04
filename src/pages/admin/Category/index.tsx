@@ -23,7 +23,7 @@ import axios from 'axios'
 // import { API_CONSTANTS } from '../../../api/api'
 
 import { Table, message } from 'antd'
-import * as collections from '../../../api/apiService'
+import apiService from '../../../api/apiService'
 
 function Column() {
   const col = ['Mã Danh Mục', 'Tên Danh Mục']
@@ -46,23 +46,28 @@ function Column() {
 function PopOver(props: CategoryItem) {
   const [openAction, setOpenAction] = useState(false)
   const dispatch = useAppDispatch()
-  const dataList = useAppSelector((state) => state.category.listAll)
+  const load = useAppSelector((state) => state.category.loadData)
 
   const [deleteAction, setDeleteAction] = useState(false)
   function handleAction() {
     setDeleteAction(false)
     setOpenAction(!openAction)
   }
-  function handleDelete() {
+  async function handleDelete() {
     handleAction()
-    let test: Array<CategoryItem> = dataList.filter(
-      (item: CategoryItem) => item.categoryID != props.categoryID
-    )
-    dispatch(actions.categoryActions.setListAll(test))
-    message.success(MESSAGE.SUCCESS.DELETE)
+
+    try {
+      await apiService.removeCategory(props.ID)
+
+      dispatch(actions.categoryActions.changeLoad(load))
+
+      message.success(MESSAGE.SUCCESS.DELETE)
+    } catch (err: any) {
+      throw err.message()
+    }
   }
   function openEdit() {
-    dispatch(actions.categoryActions.setDetail(props.categoryID))
+    dispatch(actions.categoryActions.setDetail(props.ID))
     dispatch(actions.formActions.showForm())
   }
   return (
@@ -212,15 +217,15 @@ function TableSection() {
   }
   let test = [
     {
-      categoryID: 1,
+      ID: 1,
       categoryName: 'Sách 1',
     },
     {
-      categoryID: 2,
+      ID: 2,
       categoryName: 'Sách 2',
     },
     {
-      categoryID: 3,
+      ID: 3,
       categoryName: 'Sách 3',
     },
   ]
@@ -263,12 +268,14 @@ function TableSection() {
     try {
       setLoading(true)
 
-      const res = await collections.default.getCategory()
+      const res = await apiService.getCategories()
 
       dispatch(actions.categoryActions.setListAll(res.data))
       setData(res.data)
       setLoading(false)
-    } catch (err: any) {}
+    } catch (err: any) {
+      throw err.message()
+    }
   }
   useEffect(() => {
     getData()

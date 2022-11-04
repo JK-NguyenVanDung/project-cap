@@ -13,7 +13,7 @@ import { Input, Form, message } from 'antd'
 import { IoClose } from 'react-icons/io5'
 import { useAppSelector, useAppDispatch } from '../../../hook/useRedux'
 import { actions } from '../../../redux'
-import * as collections from '../../../api/collections/category'
+import apiService from '../../../api/apiService'
 
 export default function Modal(props: any) {
   const [loading, setLoading] = useState(false)
@@ -49,13 +49,11 @@ export default function Modal(props: any) {
         setLoading(true)
         const temp = []
         if (dataItem) {
-          // await collections.editCategory({
-          //   _id: dataItem._id,
-          //   body: {
-          //     name: values.name,
-          //     category_type_id: values.category_type_id,
-          //   },
-          // });
+          await apiService.editCategory({
+            ID: dataItem.ID,
+
+            Name: values.categoryName,
+          })
           handleClose()
           dispatch(actions.formActions.changeLoad(!loadData))
           message.success('Thay đổi thành công')
@@ -63,7 +61,7 @@ export default function Modal(props: any) {
           setLoading(false)
         } else {
           console.log(values.categoryName)
-          await collections.addCategory({
+          await apiService.addCategory({
             Name: values.categoryName,
           })
           handleClose()

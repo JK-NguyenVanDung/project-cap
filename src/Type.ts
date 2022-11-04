@@ -3,7 +3,7 @@ import { z } from 'zod'
 export interface ILogin {}
 
 const CategoryItem = z.object({
-  categoryID: z.number(),
+  ID: z.number(),
   categoryName: z.string(),
 })
 
