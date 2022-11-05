@@ -16,7 +16,7 @@ const slice = createSlice({
     setDetail(state, actions) {
       let data = [...state.listAll]
       let index = data.findIndex(
-        (item: CategoryItem) => item.ID === actions.payload
+        (item: CategoryItem) => item.CategoryId === actions.payload
       )
       state.detail = data[index]
     },

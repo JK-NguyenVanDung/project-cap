@@ -57,9 +57,9 @@ function PopOver(props: CategoryItem) {
     handleAction()
 
     try {
-      await apiService.removeCategory(props.ID)
+      await apiService.removeCategory(props.CategoryId)
 
-      dispatch(actions.categoryActions.changeLoad(load))
+      dispatch(actions.categoryActions.changeLoad(!load))
 
       message.success(MESSAGE.SUCCESS.DELETE)
     } catch (err: any) {
@@ -67,7 +67,7 @@ function PopOver(props: CategoryItem) {
     }
   }
   function openEdit() {
-    dispatch(actions.categoryActions.setDetail(props.ID))
+    dispatch(actions.categoryActions.setDetail(props.CategoryId))
     dispatch(actions.formActions.showForm())
   }
   return (
@@ -104,7 +104,7 @@ function PopOver(props: CategoryItem) {
           </PopoverHandler>
           <PopoverContent>
             <div className="flex w-max items-center flex-col gap-4">
-              Xác nhận xoá {props.categoryName}?
+              Xác nhận xoá {props.CategoryName}?
               <div className="flex w-max items-center flex-row gap-4">
                 <Button
                   size="sm"
@@ -192,7 +192,7 @@ function TableSection() {
     const reg = new RegExp(value, 'gi')
     const filteredData = dataList
       .map((record: CategoryItem) => {
-        const nameMatch = record.categoryName.match(reg)
+        const nameMatch = record.CategoryName.match(reg)
         console.log(nameMatch)
 
         if (!nameMatch) {
@@ -206,25 +206,11 @@ function TableSection() {
     console.log(filteredData)
     setData(value != null ? filteredData : dataList)
   }
-  let test = [
-    {
-      ID: 1,
-      categoryName: 'Sách 1',
-    },
-    {
-      ID: 2,
-      categoryName: 'Sách 2',
-    },
-    {
-      ID: 3,
-      categoryName: 'Sách 3',
-    },
-  ]
 
   const columns = [
     {
       title: 'Tên danh mục',
-      dataIndex: 'categoryName',
+      dataIndex: 'CategoryName',
       width: GIRD12.COL10,
     },
 
@@ -258,9 +244,10 @@ function TableSection() {
   async function getData() {
     try {
       setLoading(true)
+      let res = await apiService.getCategories()
 
-      dispatch(actions.categoryActions.setListAll(test))
-      setData(test)
+      dispatch(actions.categoryActions.setListAll(res))
+      dispatch(actions.categoryActions.changeLoad(!loadData))
       setLoading(false)
     } catch (err: any) {
       throw err.message()
@@ -271,7 +258,6 @@ function TableSection() {
   }, [])
   useEffect(() => {
     setLoading(true)
-    getData()
 
     setData(dataList)
     setLoading(false)

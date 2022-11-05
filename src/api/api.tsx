@@ -6,10 +6,10 @@ export const API_CONFIG = {
     SIGN_UP: '/api/Users',
   },
   COURSE_CATEGORY: {
-    GET: '/api/categoris/getall',
-    POST: '/api/categoris/create',
-    DELETE: (id: number) => `/api/categoris/delete/${id}`,
-    PUT: (id: number) => `/api/categoris/edit/${id}`,
+    GET: '/api/categories/getall',
+    POST: '/api/categories/create',
+    DELETE: (ID: number) => `/api/categories/delete/${ID}`,
+    PUT: (ID: number) => `/api/categories/edit/${ID}`,
   },
   VALUES: {
     GET: 'api/Values',
