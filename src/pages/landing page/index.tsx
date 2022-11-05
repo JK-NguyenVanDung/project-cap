@@ -47,7 +47,6 @@ const Header = (props: any) => {
   useMountEffect(executeScroll) // Scroll on mount
 
   function login() {
-    console.count()
     navigate('/login')
   }
   return (
@@ -246,7 +245,7 @@ const Product = React.forwardRef((props, ref: any) => {
             onClick={() => {}}
             className="hide hide-right h-12 btn-transparent text-blue-700"
           >
-            Xem các khoá học
+            Xem thêm
           </Button>
         </div>
         <div className="products max-sm:flex-wrap  flex flex-row justify-evenly items-center w-full ">
@@ -318,7 +317,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
       '1',
       {
         logo: HiPresentationChartBar,
-        title: 'Học trực Tuyến',
+        title: 'Dễ dàng tìm kiếm',
         description:
           'Học mọi lúc, mọi nơi, tại bất kì thời điểm nào phù hợp với bạn. Đảm bảo được kiến thức dù bất cứ nơi đâu.',
       },
@@ -345,7 +344,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
       '4',
       {
         logo: TbGift,
-        title: 'Đạt phần thưởng quý',
+        title: 'Phần quà hấp dẫn',
         description:
           'Khi hoàn thành các khoá học, bạn có thể đổi điểm của mình để nhận được các phần thưởng đáng giá.',
       },
@@ -358,7 +357,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
     >
       <div className="  max-sm:w-full w-1/2 h-screen flex flex-col items-center justify-center">
         <p className="hide hide-left font-bold text-4xl mb-6 text-white">
-          Các khoá học Online của chúng tôi hoạt động ra sao?
+          Các khoá học nội bộ của chúng tôi hoạt động ra sao?
         </p>
         <div className="grid grid-cols-2 contentList">
           {[...content.values()].map((e, index) => {

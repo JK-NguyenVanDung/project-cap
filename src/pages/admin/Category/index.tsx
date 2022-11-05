@@ -72,46 +72,37 @@ function PopOver(props: CategoryItem) {
   }
   return (
     <>
-      <Popover
-        handler={handleAction}
-        open={openAction}
-        animate={{
-          mount: { scale: 1, y: 0 },
-          unmount: { scale: 0, y: 25 },
-        }}
-        placement="bottom-end"
-      >
-        <PopoverHandler>
-          <IconButton
-            onClick={() => setOpenAction(!openAction)}
-            className="font-medium "
-            variant="text"
-          >
-            <IoEllipsisVertical className="text-black" />
-          </IconButton>
-        </PopoverHandler>
-        <PopoverContent>
-          {!deleteAction ? (
-            <div className="flex w-max items-center flex-col gap-4">
-              <Button
-                size="md"
-                color="blue"
-                className="flex flex-row justify-center items-center "
-                onClick={() => openEdit()}
-              >
-                <IoHammerOutline className="mx-2 text-base" /> Sửa
-              </Button>
-              <Button
-                size="md"
-                className="flex flex-row justify-center items-center"
-                color="red"
-                onClick={() => setDeleteAction(!deleteAction)}
-              >
-                <IoTrashOutline className="mx-2 text-base " />
-                Xoá
-              </Button>
-            </div>
-          ) : (
+      <div className="flex w-max items-center gap-4">
+        <Button
+          size="md"
+          color="blue"
+          className="flex flex-row justify-center items-center "
+          onClick={() => openEdit()}
+        >
+          <IoHammerOutline className="mx-2 text-base" /> Sửa
+        </Button>
+
+        <Popover
+          handler={handleAction}
+          open={openAction}
+          animate={{
+            mount: { scale: 1, y: 0 },
+            unmount: { scale: 0, y: 25 },
+          }}
+          placement="bottom-end"
+        >
+          <PopoverHandler>
+            <Button
+              size="md"
+              className="flex flex-row justify-center items-center"
+              color="red"
+              onClick={() => setDeleteAction(!deleteAction)}
+            >
+              <IoTrashOutline className="mx-2 text-base " />
+              Xoá
+            </Button>
+          </PopoverHandler>
+          <PopoverContent>
             <div className="flex w-max items-center flex-col gap-4">
               Xác nhận xoá {props.categoryName}?
               <div className="flex w-max items-center flex-row gap-4">
@@ -128,15 +119,15 @@ function PopOver(props: CategoryItem) {
                   variant="outlined"
                   className="flex flex-row justify-center items-center w-24"
                   color="gray"
-                  onClick={() => setDeleteAction(!deleteAction)}
+                  onClick={() => handleAction()}
                 >
                   Huỷ
                 </Button>
               </div>
             </div>
-          )}
-        </PopoverContent>
-      </Popover>
+          </PopoverContent>
+        </Popover>
+      </div>
     </>
   )
 }
@@ -268,10 +259,8 @@ function TableSection() {
     try {
       setLoading(true)
 
-      const res = await apiService.getCategories()
-
-      dispatch(actions.categoryActions.setListAll(res.data))
-      setData(res.data)
+      dispatch(actions.categoryActions.setListAll(test))
+      setData(test)
       setLoading(false)
     } catch (err: any) {
       throw err.message()

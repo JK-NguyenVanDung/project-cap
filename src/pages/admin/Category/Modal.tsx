@@ -40,7 +40,7 @@ export default function Modal(props: any) {
   // const [input, setInput] = useState('')
   // const [error, setError] = useState(false)
   const handleClose = () => dispatch(actions.formActions.closeForm())
-  const handleOpen = () => dispatch(actions.formActions.setForm(!show))
+  const handleShow = () => dispatch(actions.formActions.setForm(!show))
 
   const handleOk = async () => {
     form
@@ -54,7 +54,7 @@ export default function Modal(props: any) {
 
             Name: values.categoryName,
           })
-          handleClose()
+          handleShow()
           dispatch(actions.formActions.changeLoad(!loadData))
           message.success('Thay đổi thành công')
 
@@ -64,7 +64,7 @@ export default function Modal(props: any) {
           await apiService.addCategory({
             Name: values.categoryName,
           })
-          handleClose()
+          handleShow()
           dispatch(actions.formActions.changeLoad(!loadData))
           message.success('Thêm thành công')
 
@@ -84,16 +84,16 @@ export default function Modal(props: any) {
 
   return (
     <>
-      <Dialog open={show} handler={handleOpen}>
+      <Dialog open={show} handler={handleShow}>
         <DialogHeader>
           <div className="flex flex-row w-full justify-between items-center mb-6">
             <p className="text-xl text-black">
-              {!dataItem ? 'Thêm Danh Mục' : 'Sửa Danh Mục'}
+              {dataItem ? 'Sửa Danh Mục' : 'Thêm Danh Mục'}
             </p>
             <IconButton
               variant="text"
               className="text-black"
-              onClick={handleOpen}
+              onClick={handleShow}
             >
               <IoClose className="text-xl" />
             </IconButton>
