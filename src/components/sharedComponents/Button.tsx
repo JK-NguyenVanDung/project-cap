@@ -7,14 +7,12 @@ interface ButtonType {
 }
 export default function Button(props: ButtonType) {
   return (
-    <>
-      <button
-        type="button"
-        className={`btn ${props.className ? props.className : 'btn-primary'}`}
-        onClick={() => props.onClick}
-      >
-        {props.children}
-      </button>
-    </>
+    <button
+      type="button"
+      className={`btn ${props.className ? props.className : 'btn-primary'}`}
+      onClick={() => props.onClick}
+    >
+      {props.children}
+    </button>
   )
 }
