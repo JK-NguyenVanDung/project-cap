@@ -11,7 +11,10 @@ const axiosConfig = axios.create({
     'Access-Control-Allow-Origin': '*',
   },
   paramsSerializer: {
-    encode: (params) => queryString.stringify(params),
+    encode: (params) => {
+      console.log(params)
+      queryString.stringify(params)
+    },
   },
 })
 
@@ -31,8 +34,6 @@ axiosConfig.interceptors.request.use(async (config) => {
 })
 axiosConfig.interceptors.response.use(
   (response) => {
-    console.log('respones', response)
-
     if (response && response.data) {
       return response.data
     }
@@ -40,8 +41,6 @@ axiosConfig.interceptors.response.use(
   },
   (error) => {
     // Handle errors
-    console.log(error.response)
-
     if (error.message) {
       throw error.message
     }

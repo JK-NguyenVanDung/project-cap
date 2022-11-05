@@ -5,7 +5,4 @@ export default {
   getCategory: () => {
     return axiosConfig.get(API_CONFIG.COURSE_CATEGORY.GET)
   },
-  getValues: () => {
-    return axiosConfig.get(API_CONFIG.VALUES.GET)
-  },
 }
