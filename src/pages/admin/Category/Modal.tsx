@@ -59,26 +59,25 @@ export default function Modal(props: any) {
 
           setLoading(false)
         } else {
-          ;(async () => {
-            const rawResponse = await fetch(
-              'https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/api/categories/create',
-              {
-                method: 'POST',
-                headers: {
-                  Accept: 'application/json',
-                  'Content-Type': 'application/json',
-                  'Access-Control-Allow-Origin': '*',
-                  'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
-                  'Access-Control-Allow-Headers':
-                    'Content-Type, Authorization, X-Requested-With',
-                },
-                body: JSON.stringify({ Name: 'xyz' }),
-              }
-            )
-            const content = await rawResponse.json()
+          // const rawResponse = await fetch(
+          //   'https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/api/categories/create',
+          //   {
+          //     method: 'POST',
+          //     headers: {
+          //       Accept: 'application/json',
+          //       'Content-Type': 'application/json',
+          //       'Access-Control-Allow-Origin': '*',
+          //       'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
+          //       'Access-Control-Allow-Headers':
+          //         'Content-Type, Authorization, X-Requested-With',
+          //     },
+          //     body: JSON.stringify({ Name: 'xyz' }),
+          //   }
+          // )
 
-            console.log(content)
-          })()
+          await apiService.addCategory({
+            Name: values.CategoryName,
+          })
           handleShow()
           dispatch(actions.formActions.changeLoad(!loadData))
           message.success('Thêm thành công')
