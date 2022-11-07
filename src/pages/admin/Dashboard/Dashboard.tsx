@@ -1,5 +1,7 @@
 import React, { useEffect } from 'react'
 import apiService from '../../../api/apiService'
+import { useForm, SubmitHandler } from 'react-hook-form'
+import Input from '../../../components/sharedComponents/Input'
 
 export default function Dashboard() {
   useEffect(() => {
@@ -16,7 +18,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1>Hello world !!!</h1>
+      <Input />
     </div>
   )
 }

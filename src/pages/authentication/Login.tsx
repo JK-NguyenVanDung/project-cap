@@ -1,15 +1,12 @@
-import { Button, Input } from '@material-tailwind/react'
 import React, { useCallback } from 'react'
-import { loadFull } from 'tsparticles'
 
 import { CiLock } from 'react-icons/ci'
-import { FiMail } from 'react-icons/fi'
 import loginwith365 from '../../assets/img/loginwith365.png'
 import logintecher from '../../assets/img/logintecher.png'
 import imgLogin from '../../assets/img/imglogin.png'
 import logonotext from '../../assets/img/logoNotext.png'
 import './index.css'
-import Particle from '../../components/Particles/Particle'
+import Input from '../../components/sharedComponents/Input'
 export default function Login() {
   const submit = () => {
     console.log('login')
@@ -25,19 +22,15 @@ export default function Login() {
           <h1 className="text-2xl font-semibold">Đăng Nhập</h1>
           <div className="w-5/6 my-4 mt-7">
             <div className="w-full flex flex-col items-start  mb-6">
-              <Input type={'email'} icon={<FiMail />} label="email" />
+              <Input label="Tên Người Dùng" />
             </div>
             <div className="w-full flex flex-col items-start  mb-6">
-              <Input type={'password'} icon={<CiLock />} label="password" />
+              <Input label="Email" />
             </div>
           </div>
 
           <div className="flex flex-col items-center w-3/4 ">
-            <div className="md:w w-full">
-              <Button className="w-full bg-[#252b42]" onClick={submit}>
-                Login
-              </Button>
-            </div>
+            <div className="md:w w-full"></div>
             <div className="md:w flex flex-col items-center">
               <div className="my-6 cursor-pointer">
                 <img src={loginwith365} />
