@@ -130,6 +130,69 @@ body {
     #282b42 100%
   );
 }
+::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: black;
+  opacity: 1; /* Firefox */
+}
+
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: black;
+}
+
+::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: black;
+}
+.table {
+  width: 100%;
+  font-size: 1.4rem;
+  border-radius: 2px;
+  box-shadow: 0 5px 10px #e1e5ee !important;
+}
+
+.ant-table-thead {
+  border: 1px solid #dfdfdf;
+  background-color: #ffffff;
+  z-index: 1000;
+}
+
+.ant-table-thead > tr > th {
+  background-color: #ffffff;
+  box-shadow: 0 8px 6px -9px #e1e5ee !important;
+  font-weight: 700;
+}
+.ant-table-thead
+  > tr
+  > th:not(:last-child):not(.ant-table-selection-column):not(.ant-table-row-expand-icon-cell):not([colspan])::before {
+  background-color: #ffffff;
+}
+.table-row {
+  background-color: #ffffff;
+  padding: 0.4rem;
+  z-index: 1;
+  border: none;
+}
+.ant-table-tbody > tr > td {
+  border-bottom: none;
+}
+
+.ant-pagination {
+  padding-right: 10px;
+}
+
+tr:nth-child(even) {
+  background-color: #f4f6fb;
+}
+.ant-pagination-item-active {
+  font-weight: 500;
+  background: #fff;
+  border-color: #3661f9;
+}
+.ant-pagination-item-active a {
+  color: #3661f9;
+}
 /* 
 h1 {
   font-size: 3.2em;
