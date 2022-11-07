@@ -9,6 +9,7 @@ import {
 } from '@material-tailwind/react'
 
 import { Input, Form, message } from 'antd'
+import CustomButton from '../../../components/admin/Button'
 
 import { IoClose } from 'react-icons/io5'
 import { useAppSelector, useAppDispatch } from '../../../hook/useRedux'
@@ -25,10 +26,10 @@ export default function Modal(props: any) {
   const [form] = Form.useForm()
   useEffect(() => {
     form.resetFields()
-
+    console.log(dataItem)
     const setForm = () => {
       form.setFieldsValue({
-        categoryName: dataItem.categoryName,
+        CategoryName: dataItem.CategoryName,
       })
     }
 
@@ -40,7 +41,7 @@ export default function Modal(props: any) {
   // const [input, setInput] = useState('')
   // const [error, setError] = useState(false)
   const handleClose = () => dispatch(actions.formActions.closeForm())
-  const handleOpen = () => dispatch(actions.formActions.setForm(!show))
+  const handleShow = () => dispatch(actions.formActions.setForm(!show))
 
   const handleOk = async () => {
     form
@@ -50,21 +51,35 @@ export default function Modal(props: any) {
         const temp = []
         if (dataItem) {
           await apiService.editCategory({
-            ID: dataItem.ID,
-
-            Name: values.categoryName,
+            ID: dataItem.CategoryId,
+            Name: values.CategoryName,
           })
-          handleClose()
+          handleShow()
           dispatch(actions.formActions.changeLoad(!loadData))
           message.success('Thay đổi thành công')
 
           setLoading(false)
         } else {
-          console.log(values.categoryName)
+          // const rawResponse = await fetch(
+          //   'https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/api/categories/create',
+          //   {
+          //     method: 'POST',
+          //     headers: {
+          //       Accept: 'application/json',
+          //       'Content-Type': 'application/json',
+          //       'Access-Control-Allow-Origin': '*',
+          //       'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
+          //       'Access-Control-Allow-Headers':
+          //         'Content-Type, Authorization, X-Requested-With',
+          //     },
+          //     body: JSON.stringify({ Name: 'xyz' }),
+          //   }
+          // )
+
           await apiService.addCategory({
-            Name: values.categoryName,
+            Name: values.CategoryName,
           })
-          handleClose()
+          handleShow()
           dispatch(actions.formActions.changeLoad(!loadData))
           message.success('Thêm thành công')
 
@@ -84,16 +99,16 @@ export default function Modal(props: any) {
 
   return (
     <>
-      <Dialog open={show} handler={handleOpen}>
+      <Dialog className="text-black font-bold" open={show} handler={handleShow}>
         <DialogHeader>
           <div className="flex flex-row w-full justify-between items-center mb-6">
-            <p className="text-xl text-black">
-              {!dataItem ? 'Thêm Danh Mục' : 'Sửa Danh Mục'}
+            <p className="font-bold font-mono text-2xl text-black">
+              {dataItem ? 'Sửa Danh Mục' : 'Thêm Danh Mục'}
             </p>
             <IconButton
               variant="text"
               className="text-black"
-              onClick={handleOpen}
+              onClick={handleShow}
             >
               <IoClose className="text-xl" />
             </IconButton>
@@ -103,9 +118,9 @@ export default function Modal(props: any) {
           <DialogBody>
             <div className=" w-full px-20   flex flex-col  justify-evenly">
               <div className="w-full mb-6">
-                <label>{labels.title}</label>
+                <label className="text-black font-bold">{labels.title}</label>
                 <Form.Item
-                  name="categoryName"
+                  name="CategoryName"
                   rules={[
                     {
                       required: true,
@@ -116,7 +131,7 @@ export default function Modal(props: any) {
                   <Input
                     type="text"
                     id="simple-search"
-                    className="min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="text-black font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder={`Nhập ${labels.title}`}
                     required
                   />
@@ -126,23 +141,23 @@ export default function Modal(props: any) {
           </DialogBody>
           <DialogFooter>
             <div className=" mb-6 flex flex-row justify-evenly w-full">
-              <Button
-                fullWidth
-                className="mx-2"
-                color="gray"
-                variant="outlined"
-              >
-                Huỷ
-              </Button>
-              <Button
+              <CustomButton
+                size="md"
                 onClick={handleOk}
-                fullWidth
+                fullWidth={true}
                 className="mx-2"
-                color={`${!dataItem ? 'green' : 'blue'}`}
-                variant="filled"
-              >
-                {!dataItem ? 'Thêm' : 'Sửa'}
-              </Button>
+                noIcon={true}
+                text={!dataItem ? 'Thêm' : 'Sửa'}
+              />
+
+              <CustomButton
+                size="md"
+                fullWidth={true}
+                noIcon={true}
+                type="cancel"
+                color="blue"
+                onClick={handleShow}
+              />
             </div>
           </DialogFooter>
         </Form>

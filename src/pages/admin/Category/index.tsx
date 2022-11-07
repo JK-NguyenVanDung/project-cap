@@ -24,6 +24,7 @@ import axios from 'axios'
 
 import { Table, message } from 'antd'
 import apiService from '../../../api/apiService'
+import CustomButton from '../../../components/admin/Button'
 
 function Column() {
   const col = ['Mã Danh Mục', 'Tên Danh Mục']
@@ -50,106 +51,82 @@ function PopOver(props: CategoryItem) {
 
   const [deleteAction, setDeleteAction] = useState(false)
   function handleAction() {
-    setDeleteAction(false)
+    // setDeleteAction(!deleteAction)
     setOpenAction(!openAction)
   }
   async function handleDelete() {
     handleAction()
 
     try {
-      await apiService.removeCategory(props.ID)
+      await apiService.removeCategory(props.CategoryId)
 
-      dispatch(actions.categoryActions.changeLoad(load))
+      dispatch(actions.categoryActions.changeLoad(!load))
 
       message.success(MESSAGE.SUCCESS.DELETE)
     } catch (err: any) {
       throw err.message()
     }
   }
-  function openEdit() {
-    dispatch(actions.categoryActions.setDetail(props.ID))
+  const openEdit = () => {
+    dispatch(actions.categoryActions.setDetail(props.CategoryId))
     dispatch(actions.formActions.showForm())
   }
   return (
     <>
-      <Popover
-        handler={handleAction}
-        open={openAction}
-        animate={{
-          mount: { scale: 1, y: 0 },
-          unmount: { scale: 0, y: 25 },
-        }}
-        placement="bottom-end"
-      >
-        <PopoverHandler>
-          <IconButton
-            onClick={() => setOpenAction(!openAction)}
-            className="font-medium "
-            variant="text"
-          >
-            <IoEllipsisVertical className="text-black" />
-          </IconButton>
-        </PopoverHandler>
-        <PopoverContent>
-          {!deleteAction ? (
+      <div className="flex w-max items-center gap-4">
+        <CustomButton type="edit" onClick={openEdit} />
+        <Popover
+          handler={handleAction}
+          open={openAction}
+          animate={{
+            mount: { scale: 1, y: 0 },
+            unmount: { scale: 0, y: 25 },
+          }}
+          placement="bottom-end"
+        >
+          <PopoverHandler>
+            <Button
+              size="sm"
+              className="flex flex-row justify-center items-center"
+              color="red"
+            >
+              <IoTrashOutline className="mx-2 text-base " />
+              <p className="font-serif">{'Xoá'}</p>
+            </Button>
+          </PopoverHandler>
+          <PopoverContent>
             <div className="flex w-max items-center flex-col gap-4">
-              <Button
-                size="md"
-                color="blue"
-                className="flex flex-row justify-center items-center "
-                onClick={() => openEdit()}
-              >
-                <IoHammerOutline className="mx-2 text-base" /> Sửa
-              </Button>
-              <Button
-                size="md"
-                className="flex flex-row justify-center items-center"
-                color="red"
-                onClick={() => setDeleteAction(!deleteAction)}
-              >
-                <IoTrashOutline className="mx-2 text-base " />
-                Xoá
-              </Button>
-            </div>
-          ) : (
-            <div className="flex w-max items-center flex-col gap-4">
-              Xác nhận xoá {props.categoryName}?
+              Xác nhận xoá {props.CategoryName}?
               <div className="flex w-max items-center flex-row gap-4">
-                <Button
-                  size="sm"
-                  color="red"
-                  className="flex flex-row justify-center items-center w-24"
-                  onClick={() => handleDelete()}
-                >
-                  Xác Nhận
-                </Button>
-                <Button
-                  size="sm"
-                  variant="outlined"
-                  className="flex flex-row justify-center items-center w-24"
-                  color="gray"
-                  onClick={() => setDeleteAction(!deleteAction)}
-                >
-                  Huỷ
-                </Button>
+                <CustomButton
+                  type="delete"
+                  onClick={handleDelete}
+                  text="Xác nhận"
+                  noIcon={true}
+                />
+                <CustomButton
+                  type="cancel"
+                  noIcon={true}
+                  onClick={handleAction}
+                />
               </div>
             </div>
-          )}
-        </PopoverContent>
-      </Popover>
+          </PopoverContent>
+        </Popover>
+      </div>
     </>
   )
 }
 
 function SearchBar(props: any) {
   return (
-    <form className="flex items-center">
+    <form className="flex items-center ">
       <label className="sr-only">Search</label>
-      <div className="relative w-full">
+      <div className="relative w-full ">
         <input
           type="text"
           id="simple-search"
-          className="min-w-[20rem] pr-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="shadow-xl min-w-[20rem] pr-10 bg-white border border-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
           placeholder="Tìm kiếm"
           onChange={(e) => props.onChangeSearch(e.target.value)}
         />
@@ -174,15 +151,7 @@ function ToolBar(props: any) {
     <div className="div justify-between items-center flex w-full h-24">
       <SearchBar onChangeSearch={props.onChangeSearch} />
       <div className="">
-        <Button
-          size="md"
-          className="mx-0 flex flex-row justify-start items-start"
-          color="green"
-          onClick={() => openModal()}
-        >
-          <IoAddOutline className="mx-2 text-base  bg-white text-green-400 rounded  " />
-          Thêm
-        </Button>
+        <CustomButton size="md" onClick={openModal} />
       </div>
     </div>
   )
@@ -201,7 +170,7 @@ function TableSection() {
     const reg = new RegExp(value, 'gi')
     const filteredData = dataList
       .map((record: CategoryItem) => {
-        const nameMatch = record.categoryName.match(reg)
+        const nameMatch = record.CategoryName.match(reg)
         console.log(nameMatch)
 
         if (!nameMatch) {
@@ -215,25 +184,11 @@ function TableSection() {
     console.log(filteredData)
     setData(value != null ? filteredData : dataList)
   }
-  let test = [
-    {
-      ID: 1,
-      categoryName: 'Sách 1',
-    },
-    {
-      ID: 2,
-      categoryName: 'Sách 2',
-    },
-    {
-      ID: 3,
-      categoryName: 'Sách 3',
-    },
-  ]
 
   const columns = [
     {
       title: 'Tên danh mục',
-      dataIndex: 'categoryName',
+      dataIndex: 'CategoryName',
       width: GIRD12.COL10,
     },
 
@@ -267,11 +222,10 @@ function TableSection() {
   async function getData() {
     try {
       setLoading(true)
+      let res = await apiService.getCategories()
 
-      const res = await apiService.getCategories()
-
-      dispatch(actions.categoryActions.setListAll(res.data))
-      setData(res.data)
+      dispatch(actions.categoryActions.setListAll(res))
+      dispatch(actions.categoryActions.changeLoad(!loadData))
       setLoading(false)
     } catch (err: any) {
       throw err.message()
@@ -282,7 +236,6 @@ function TableSection() {
   }, [])
   useEffect(() => {
     setLoading(true)
-    getData()
 
     setData(dataList)
     setLoading(false)
@@ -294,14 +247,22 @@ function TableSection() {
     <div className="px-4    w-full h-auto overflow-x-auto   sm:rounded-lg">
       <ToolBar onChangeSearch={onChangeSearch} />
 
-      <Table loading={loading} dataSource={data} columns={columns} />
+      <Table
+        className="table shadow-lg"
+        rowClassName={(record, index) =>
+          index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
+        }
+        loading={loading}
+        dataSource={data}
+        columns={columns}
+      />
     </div>
   )
 }
 
 export default function Category() {
   return (
-    <div className=" w-full h-full">
+    <div className=" w-full h-full font-bold">
       <TableSection />
       <Modal />
     </div>
