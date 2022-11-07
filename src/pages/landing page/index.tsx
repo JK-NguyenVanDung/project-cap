@@ -60,13 +60,13 @@ const Header = (props: any) => {
           </span>
         </a>
         <div className="flex md:order-2 sm:order-2 ">
-          <Button
-            onClick={login}
-            className="btn btn-primary px-2  w-full mt-1 md:bl  ock md:w-auto"
+          <button
+            type="button"
+            className={`btn btn-primary`}
+            onClick={() => login()}
           >
             Đăng nhập
-          </Button>
-
+          </button>
           <button
             data-collapse-toggle="navbar-cta"
             type="button"
@@ -364,7 +364,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
           {[...content.values()].map((e, index) => {
             return (
               <div key={index} className="hide hide-left  m-3">
-                <div className="bg-orange-300 w-14 h-14 rounded-md flex justify-center items-center mb-4">
+                <div className="bg-red-300 w-14 h-14 rounded-md flex justify-center items-center mb-4">
                   <e.logo className="text-white w-1/2 h-1/2"></e.logo>
                 </div>
                 <h2 className="text-2xl font-bold mb-4 text-white">

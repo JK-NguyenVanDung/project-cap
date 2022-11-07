@@ -7,7 +7,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fectData = async () => {
       try {
-        const data = await apiService.getCategory()
+        const data = await apiService.getCategories()
         console.log(data)
       } catch (error) {
         console.log(error)
@@ -16,9 +16,5 @@ export default function Dashboard() {
     fectData()
   }, [])
 
-  return (
-    <div>
-      <Input />
-    </div>
-  )
+  return <div>{/* <Input /> */}</div>
 }
