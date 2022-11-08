@@ -16,6 +16,26 @@ module.exports = withMT({
       },
       backgroundColor: {
         'dark-blue': '#252B42',
+        'light-gray': '#FAFAFA',
+        'light-pink': '#FFE5DD',
+        'blue-500': '#3661F9',
+        'red-500': '#FF4F63',
+
+        'dark-pink': '#FCC0AD',
+      },
+      colors: {
+        'dark-blue': '#252B42',
+        primary: '#3649F9',
+        dark: '#000000',
+        light: '#ffffff',
+        'light-blue': '#BCC8D8',
+        'light-gray': '#FAFAFA',
+        'light-pink': '#FFE5DD',
+        'blue-500': '#3661F9',
+
+        'dark-pink': '#FCC0AD',
+        'dark-gray': '#BFC0C1',
+        error: '#E10011',
       },
     },
     variants: {

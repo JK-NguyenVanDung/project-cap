@@ -15,21 +15,26 @@ export const SideBarData = [
   {
     title: 'Quản Lý Tài Khoản',
     icon: BsFillHouseFill,
-    path: '/account',
+    path: '/admin/account',
   },
   {
     title: 'Quản Lý Khóa Học',
     icon: BsFillHouseFill,
-    path: '/couse',
+    path: '/admin/course',
+  },
+  {
+    title: 'Danh Mục',
+    icon: BsFillHouseFill,
+    path: '/admin/category',
   },
   {
     title: 'Quản Lý Học Viên',
     icon: BsFillHouseFill,
-    path: '/learner',
+    path: '/admin/learner',
   },
   {
     title: 'Bài Kiểm Tra',
     icon: BsFillHouseFill,
-    path: '/test',
+    path: '/admin/test',
   },
 ]

@@ -7,8 +7,6 @@ const axiosConfig = axios.create({
   headers: {
     Accept: 'application/json',
     'Content-Type': 'application/json',
-    'Cache-Control': 'no-cache',
-    'Access-Control-Allow-Origin': '*',
   },
   paramsSerializer: {
     encode: (params) => {
@@ -41,6 +39,8 @@ axiosConfig.interceptors.response.use(
   },
   (error) => {
     // Handle errors
+    console.log(error.response)
+
     if (error.message) {
       throw error.message
     }

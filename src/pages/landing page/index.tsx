@@ -5,7 +5,11 @@ import Chart from '../../assets/landingPage/chart_line.svg'
 import People from '../../assets/landingPage/people.svg'
 import Video from '../../assets/landingPage/video.svg'
 import IntroMain from '../../assets/landingPage/introduction-cover.jpg'
-import { IoTimeSharp, IoBarChartOutline } from 'react-icons/io5'
+import {
+  IoTimeSharp,
+  IoBarChartOutline,
+  IoArrowRedoOutline,
+} from 'react-icons/io5'
 import { HiPresentationChartBar } from 'react-icons/hi'
 import { TbCertificate, TbGift } from 'react-icons/tb'
 import Button from '../../components/sharedComponents/Button'
@@ -47,14 +51,13 @@ const Header = (props: any) => {
   useMountEffect(executeScroll) // Scroll on mount
 
   function login() {
-    console.count()
     navigate('/login')
   }
   return (
     <nav className="  hide hide-top relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
         <a href="/" className="logo px-2 md:order-1 flex flex-row items-center">
-          <img src={Logo} className="mr-3 h-6 sm:h-9" alt="Training Logo" />
+          <img src={Logo} className="mr-3 h-6 sm:h-9 " alt="Training Logo" />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
             TRAINING
           </span>
@@ -239,14 +242,14 @@ const Product = React.forwardRef((props, ref: any) => {
       <div className=" z-10 h-[20vh] separationBg w-full"></div>
       <div className="  z-20 relative min-h-[60vh]  px-20 bg-white text-black border-opacity-0">
         <div className="flex max-sm:flex-wrap  max-sm:mb-16 flex-row w-full h-20 items-center  md:px-[9rem] sd:px-0 justify-between mb-[0.75rem] ">
-          <p className="max-sm:text-2xl max-sm:w-full max-sm:mb-4  hide hide-left font-semibold text-4xl w-1/2">
+          <p className="max-sm:text-xl max-sm:w-full max-sm:mb-4  hide hide-left font-semibold md:text-3xl w-2/3">
             Một số khoá học mẫu của chúng tôi
           </p>
           <Button
             onClick={() => {}}
             className="hide hide-right h-12 btn-transparent text-blue-700"
           >
-            Xem các khoá học
+            Xem thêm
           </Button>
         </div>
         <div className="products max-sm:flex-wrap  flex flex-row justify-evenly items-center w-full ">
@@ -318,7 +321,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
       '1',
       {
         logo: HiPresentationChartBar,
-        title: 'Học trực Tuyến',
+        title: 'Dễ dàng tìm kiếm',
         description:
           'Học mọi lúc, mọi nơi, tại bất kì thời điểm nào phù hợp với bạn. Đảm bảo được kiến thức dù bất cứ nơi đâu.',
       },
@@ -345,7 +348,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
       '4',
       {
         logo: TbGift,
-        title: 'Đạt phần thưởng quý',
+        title: 'Phần quà hấp dẫn',
         description:
           'Khi hoàn thành các khoá học, bạn có thể đổi điểm của mình để nhận được các phần thưởng đáng giá.',
       },
@@ -358,13 +361,13 @@ const Introduction = React.forwardRef((props, ref: any) => {
     >
       <div className="  max-sm:w-full w-1/2 h-screen flex flex-col items-center justify-center">
         <p className="hide hide-left font-bold text-4xl mb-6 text-white">
-          Các khoá học Online của chúng tôi hoạt động ra sao?
+          Các khoá học nội bộ của chúng tôi hoạt động ra sao?
         </p>
         <div className="grid grid-cols-2 contentList">
           {[...content.values()].map((e, index) => {
             return (
               <div key={index} className="hide hide-left  m-3">
-                <div className="bg-red-300 w-14 h-14 rounded-md flex justify-center items-center mb-4">
+                <div className="bg-dark-pink w-14 h-14 rounded-md flex justify-center items-center mb-4">
                   <e.logo className="text-white w-1/2 h-1/2"></e.logo>
                 </div>
                 <h2 className="text-2xl font-bold mb-4 text-white">
@@ -380,7 +383,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
       </div>
 
       <div className="  relative max-sm:w-[80%]  max-sm:h-[70vh] w-[38vw] h-[100vh] flex justify-center flex-col ">
-        <div className="hide hide-right  absolute w-full h-2/3 bg-red-100 left-10 rounded-md" />
+        <div className="hide hide-right  absolute w-full h-2/3 bg-dark-pink left-10 rounded-md" />
 
         <img
           src={IntroMain}
@@ -412,34 +415,8 @@ const Footer = React.forwardRef((props, ref: any) => {
       <div className="w-full hide hide-bottom  container mx-auto px-6">
         <div className="sm:flex sm:mt-8">
           <div className="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
-            <div className="flex flex-col">
-              <span className="font-bold text-gray-700 uppercase mb-2">
-                Footer header 1
-              </span>
-              <span className="my-2">
-                <a
-                  href="#"
-                  className="text-blue-700  text-md hover:text-blue-500"
-                >
-                  link 1
-                </a>
-              </span>
-              <span className="my-2">
-                <a
-                  href="#"
-                  className="text-blue-700  text-md hover:text-blue-500"
-                >
-                  link 1
-                </a>
-              </span>
-              <span className="my-2">
-                <a
-                  href="#"
-                  className="text-blue-700  text-md hover:text-blue-500"
-                >
-                  link 1
-                </a>
-              </span>
+            <div className="w-1/6">
+              <img src={Logo} className=" bg-black " alt="Training Logo" />
             </div>
             <div className="flex flex-col">
               <span className="font-bold text-gray-700 uppercase mt-4 md:mt-0 mb-2">

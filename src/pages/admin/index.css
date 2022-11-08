@@ -3,7 +3,9 @@
   width: 250px;
   background-color: #252b42;
 }
-
+.ant-input {
+  color: #111 !important;
+}
 #icon {
   flex: 30%;
   display: grid;

@@ -10,10 +10,9 @@ export default {
     return axiosConfig.post(API_CONFIG.COURSE_CATEGORY.POST, body)
   },
   editCategory: (props: ICategory) => {
-    return axiosConfig.post(
-      API_CONFIG.COURSE_CATEGORY.PUT(props.ID),
-      props.Name
-    )
+    return axiosConfig.put(API_CONFIG.COURSE_CATEGORY.PUT(props.ID), {
+      Name: props.Name,
+    })
   },
   removeCategory: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.COURSE_CATEGORY.DELETE(ID))
