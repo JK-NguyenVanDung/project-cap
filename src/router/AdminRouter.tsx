@@ -14,11 +14,23 @@ export const AdminRouter = [
     element: <Dashboard />,
   },
   {
+    path: '/admin/Account',
+    element: <Account />,
+  },
+  {
     path: '/admin/Category',
     element: <Category />,
   },
   {
-    path: '/admin/Account',
+    path: '/admin/Course',
+    element: <Account />,
+  },
+  {
+    path: '/admin/Learner',
+    element: <Account />,
+  },
+  {
+    path: '/admin/Test',
     element: <Account />,
   },
 ]

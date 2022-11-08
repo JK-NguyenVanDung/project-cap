@@ -280,6 +280,10 @@ button:focus-visible {
   width: 100%;
   position: absolute;
 }
+.bg-img-bar {
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 .bg-img {
   height: 100%;
