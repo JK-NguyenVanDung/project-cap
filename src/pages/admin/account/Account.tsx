@@ -4,9 +4,13 @@ import { Space } from 'antd'
 import { BiEditAlt } from 'react-icons/bi'
 import { RiDeleteBinLine } from 'react-icons/ri'
 import Button from '../../../components/sharedComponents/Button'
-import ActionAccount from './ActionAccount'
 import uniqueId from '../../../utils/uinqueId'
 import CustomButton from '../../../components/admin/Button'
+import Modal from '../../../components/admin/Modal/Modal'
+const IAccount = {
+  id: '',
+  name: '',
+}
 export default function Account() {
   const [addAccount, setAddAccount] = useState(false)
   const data = [
@@ -78,6 +82,9 @@ export default function Account() {
       ),
     },
   ]
+  const handelOk = () => {
+    setAddAccount(false)
+  }
   return (
     <>
       <TableConfig
@@ -96,7 +103,14 @@ export default function Account() {
           </div>,
         ]}
       />
-      <ActionAccount addAccount={addAccount} setAddAccount={setAddAccount} />
+      <Modal
+        show={addAccount}
+        setShow={setAddAccount}
+        dataItem={IAccount}
+        label={'Thêm Mới Tài Khoản'}
+        name={IAccount}
+        handelOk={() => handelOk}
+      />
     </>
   )
 }
