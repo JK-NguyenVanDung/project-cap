@@ -7,6 +7,7 @@ import Button from '../../../components/sharedComponents/Button'
 import uniqueId from '../../../utils/uinqueId'
 import CustomButton from '../../../components/admin/Button'
 import Modal from '../../../components/admin/Modal/Modal'
+import FormInput from '../../../components/admin/Modal/FormInput'
 const IAccount = {
   id: '',
   name: '',
@@ -85,6 +86,28 @@ export default function Account() {
   const handelOk = () => {
     setAddAccount(false)
   }
+  const FormItem = () => {
+    return (
+      <>
+        <FormInput
+          name="email"
+          label="email"
+          rule={{
+            requied: true,
+            message: 'Vui Lòng Nhập Vào Email',
+          }}
+        />
+        <FormInput
+          name="role"
+          label="Phân Quyền"
+          rule={{
+            requied: true,
+            message: 'Vui Lòng Nhập Vào Phân Quyền',
+          }}
+        />
+      </>
+    )
+  }
   return (
     <>
       <TableConfig
@@ -107,9 +130,10 @@ export default function Account() {
         show={addAccount}
         setShow={setAddAccount}
         dataItem={IAccount}
-        label={'Thêm Mới Tài Khoản'}
+        label={'Tài Khoản'}
         name={IAccount}
         handelOk={() => handelOk}
+        FormItem={<FormItem />}
       />
     </>
   )

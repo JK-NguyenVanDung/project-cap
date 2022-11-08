@@ -12,16 +12,13 @@ import { Input, Form, message } from 'antd'
 import CustomButton from '../../../components/admin/Button'
 
 import { IoClose } from 'react-icons/io5'
-import { useAppSelector, useAppDispatch } from '../../../hook/useRedux'
-import { actions } from '../../../Redux'
-import apiService from '../../../api/apiService'
 export default function Modal({
   show,
   setShow,
   dataItem,
   label,
-  name,
   handelOk,
+  FormItem,
 }: {
   handelOk?: () => void
   name?: any
@@ -29,6 +26,7 @@ export default function Modal({
   dataItem?: any
   show?: boolean
   setShow?: (show: boolean) => void
+  FormItem?: React.ComponentProps<any>
 }) {
   const handleShow = () => {
     setShow(!show)
@@ -53,28 +51,7 @@ export default function Modal({
       <Form form={form} className="formCategory w-full">
         <DialogBody>
           <div className=" w-full px-8 flex flex-col  justify-evenly">
-            <div className="w-full mb-6">
-              <label className="text-black font-bold font-customFont ">
-                {label}
-              </label>
-              <Form.Item
-                name={name}
-                rules={[
-                  {
-                    required: true,
-                    message: `Không được để trống tên ${label}`,
-                  },
-                ]}
-              >
-                <Input
-                  type="text"
-                  id="simple-search"
-                  className="text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  placeholder={`Nhập ${label}`}
-                  required
-                />
-              </Form.Item>
-            </div>
+            {FormItem}
           </div>
         </DialogBody>
         <DialogFooter>
