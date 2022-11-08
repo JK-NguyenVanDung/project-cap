@@ -1,4 +1,4 @@
-import { formActions, formReducer } from '../redux/form'
+import { formActions, formReducer } from './form'
 import { categoryActions, categoryReducer } from './admin/category'
 const actions = {
   formActions,
