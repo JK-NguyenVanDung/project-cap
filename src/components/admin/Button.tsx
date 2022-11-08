@@ -42,6 +42,11 @@ export default function CustomButton(props: CustomButton) {
       text = ''
       Icon = IoHammerOutline
       break
+    case 'add':
+      text = ''
+      Icon = IoAddOutline
+      iconClass = 'mx-2 text-base  bg-white text-blue-500 rounded'
+      break
     default:
       text = ''
       Icon = IoAddOutline
