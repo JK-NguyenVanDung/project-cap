@@ -1,6 +1,9 @@
 import { z } from 'zod'
 
-export interface ILogin {}
+export interface ILogin {
+  userName: string
+  password: string
+}
 
 const CategoryItem = z.object({
   CategoryId: z.number(),

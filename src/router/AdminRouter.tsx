@@ -6,6 +6,7 @@ import Dashboard from '../pages/admin/Dashboard/Dashboard'
 import Login from '../pages/authentication/Login'
 import LandingPage from '../pages/landing page'
 import Category from '../pages/admin/Category'
+import Account from '../pages/admin/account/Account'
 
 export const AdminRouter = [
   {
@@ -15,6 +16,10 @@ export const AdminRouter = [
   {
     path: '/admin/Category',
     element: <Category />,
+  },
+  {
+    path: '/admin/Account',
+    element: <Account />,
   },
 ]
 export default function MakeAdminRouter() {
@@ -29,6 +34,8 @@ export default function MakeAdminRouter() {
           />
         )
       })}
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<LandingPage />} />
     </Routes>
   )
 }

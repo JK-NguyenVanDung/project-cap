@@ -9,7 +9,7 @@ import { ISidebar, SideBarData } from './SidebarData'
 import logo from '../../assets/img/logo.png'
 import HeaderAdmin from '../../components/HeaderAdmin/HeaderAdmin'
 import { useAppDispatch, useAppSelector } from '../../hook/useRedux'
-import { actions } from '../../redux'
+import { actions } from '../../Redux'
 export default function SideBar({ content }: { content: any }) {
   const navigation = useNavigate()
   const nameMenu = useAppSelector((state: any) =>
@@ -20,8 +20,8 @@ export default function SideBar({ content }: { content: any }) {
     <>
       <div className="flex max-w-full">
         <div className="sidebar flex flex-col content-center items-center w-1/5">
-          <div className="my-6 px-7 w-full">
-            <img src={logo} />
+          <div className="my-4 px-3 w-full flex flex-col items-center">
+            <img className="w-2/3" src={logo} />
           </div>
           <ul className="list-none w-full text-center">
             {SideBarData.map((value, index) => {

@@ -13,7 +13,7 @@ import CustomButton from '../../../components/admin/Button'
 
 import { IoClose } from 'react-icons/io5'
 import { useAppSelector, useAppDispatch } from '../../../hook/useRedux'
-import { actions } from '../../../redux'
+import { actions } from '../../../Redux'
 import apiService from '../../../api/apiService'
 
 export default function Modal(props: any) {

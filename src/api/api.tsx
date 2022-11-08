@@ -11,7 +11,4 @@ export const API_CONFIG = {
     DELETE: (ID: number) => `/api/categories/delete/${ID}`,
     PUT: (ID: number) => `/api/categories/edit/${ID}`,
   },
-  VALUES: {
-    GET: 'api/Values',
-  },
 }

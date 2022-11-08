@@ -17,7 +17,4 @@ export default {
   removeCategory: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.COURSE_CATEGORY.DELETE(ID))
   },
-  getValues: () => {
-    return axiosConfig.get(API_CONFIG.VALUES.GET)
-  },
 }
