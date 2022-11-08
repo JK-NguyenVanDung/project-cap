@@ -9,6 +9,7 @@ import {
 } from '@material-tailwind/react'
 
 import { Input, Form, message } from 'antd'
+import CustomButton from '../../../components/admin/Button'
 
 import { IoClose } from 'react-icons/io5'
 import { useAppSelector, useAppDispatch } from '../../../hook/useRedux'
@@ -98,10 +99,10 @@ export default function Modal(props: any) {
 
   return (
     <>
-      <Dialog open={show} handler={handleShow}>
+      <Dialog className="text-black font-bold" open={show} handler={handleShow}>
         <DialogHeader>
           <div className="flex flex-row w-full justify-between items-center mb-6">
-            <p className="text-xl text-black">
+            <p className="font-bold font-customFont text-2xl text-black">
               {dataItem ? 'Sửa Danh Mục' : 'Thêm Danh Mục'}
             </p>
             <IconButton
@@ -113,11 +114,13 @@ export default function Modal(props: any) {
             </IconButton>
           </div>
         </DialogHeader>
-        <Form form={form} className="formCategory">
+        <Form form={form} className="formCategory w-full">
           <DialogBody>
-            <div className=" w-full px-20   flex flex-col  justify-evenly">
+            <div className=" w-full px-8 flex flex-col  justify-evenly">
               <div className="w-full mb-6">
-                <label>{labels.title}</label>
+                <label className="text-black font-bold font-customFont ">
+                  {labels.title}
+                </label>
                 <Form.Item
                   name="CategoryName"
                   rules={[
@@ -130,7 +133,7 @@ export default function Modal(props: any) {
                   <Input
                     type="text"
                     id="simple-search"
-                    className="min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder={`Nhập ${labels.title}`}
                     required
                   />
@@ -140,23 +143,23 @@ export default function Modal(props: any) {
           </DialogBody>
           <DialogFooter>
             <div className=" mb-6 flex flex-row justify-evenly w-full">
-              <Button
-                fullWidth
-                className="mx-2"
-                color="gray"
-                variant="outlined"
-              >
-                Huỷ
-              </Button>
-              <Button
+              <CustomButton
+                size="md"
                 onClick={handleOk}
-                fullWidth
+                fullWidth={true}
                 className="mx-2"
-                color={`${!dataItem ? 'green' : 'blue'}`}
-                variant="filled"
-              >
-                {!dataItem ? 'Thêm' : 'Sửa'}
-              </Button>
+                noIcon={true}
+                text={!dataItem ? 'Thêm' : 'Sửa'}
+              />
+
+              <CustomButton
+                size="md"
+                fullWidth={true}
+                noIcon={true}
+                type="cancel"
+                color="blue"
+                onClick={handleShow}
+              />
             </div>
           </DialogFooter>
         </Form>
