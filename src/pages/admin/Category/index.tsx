@@ -91,7 +91,7 @@ function PopOver(props: CategoryItem) {
               color="red"
             >
               <IoTrashOutline className="mx-2 text-base " />
-              <p className="font-serif">{'Xoá'}</p>
+              {/* <p className="font-serif">{'Xoá'}</p> */}
             </Button>
           </PopoverHandler>
           <PopoverContent>
