@@ -39,11 +39,11 @@ export default function CustomButton(props: CustomButton) {
       variant = 'outlined'
       break
     case 'edit':
-      text = 'Sửa'
+      text = ''
       Icon = IoHammerOutline
       break
     default:
-      text = 'Thêm'
+      text = ''
       Icon = IoAddOutline
       iconClass = 'mx-2 text-base  bg-white text-blue-500 rounded'
       break
@@ -59,7 +59,7 @@ export default function CustomButton(props: CustomButton) {
       variant={variant}
     >
       {!props.noIcon && <Icon className={`mx-2 text-base ${iconClass}`} />}
-      <p className="font-serif  font-semibold">
+      <p className="font-customFont  font-semibold">
         {props.text ? props.text : text}
       </p>
     </Button>
