@@ -45,10 +45,9 @@ export default function SideBar({ content }: { content: any }) {
             })}
           </ul>
         </div>
-        <div className="Layout w-full">
+        <div className="Layout w-full mx-4">
           <header className="header">
             <div className="container flex items-center justify-between">
-              <AiOutlineAlignLeft />
               <h1 className="font-semibold text-xl">{nameMenu}</h1>
               <HeaderAdmin />
             </div>

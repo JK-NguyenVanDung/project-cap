@@ -15,22 +15,20 @@ import avatar from '../../assets/img/test.jpg'
 import Color from '../constant/Color'
 export default function () {
   return (
-    <div className="flex items-center">
-      <BsBellFill />
-      <div className="mx-3">
-        <Avatar
-          className="mx-2"
-          size="sm"
-          src={avatar}
-          alt="avatar"
-          variant="circular"
-        />
-        <span>Admin</span>
-      </div>
+    <div className="flex items-center justify-center ">
       <Menu>
+        <BsBellFill />
+
         <MenuHandler>
-          <Button className="bg-white shadow-none hover:shadow-none p-0">
-            <BiDotsVerticalRounded size={24} color={Color.black} />
+          <Button className="bg-white shadow-none hover:shadow-none p-0 ">
+            <Avatar
+              className="mx-2"
+              size="sm"
+              src={avatar}
+              alt="avatar"
+              variant="circular"
+            />
+            <span className="text-black">Admin</span>
           </Button>
         </MenuHandler>
         <MenuList>

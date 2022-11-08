@@ -244,7 +244,7 @@ function TableSection() {
   //   dispatch(actions.categoryActions.setListAll(test))
   // }, [loadData])
   return (
-    <div className="px-4    w-full h-auto overflow-x-auto   sm:rounded-lg">
+    <div className=" w-full h-auto overflow-x-auto   sm:rounded-lg">
       <ToolBar onChangeSearch={onChangeSearch} />
 
       <Table

@@ -280,11 +280,11 @@ const Product = React.forwardRef((props, ref: any) => {
 const ProductCard = (props: any) => {
   return (
     <div className="max-sm:m-4 hide hide-left relative max-w-[15rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
-      <a href="#">
+      <a>
         <img className="rounded-t-lg h-40 w-full" src={props.image} alt="" />
       </a>
       <div className="py-3 px-5">
-        <a href="#">
+        <a>
           <h5 className=" text-xl font-bold tracking-tight text-gray-900 dark:text-white">
             {props.title}
           </h5>
@@ -408,87 +408,97 @@ const Introduction = React.forwardRef((props, ref: any) => {
 
 const Footer = React.forwardRef((props, ref: any) => {
   return (
-    <footer
-      ref={ref}
-      className="w-full footer bg-white relative pt-1 border-b-2 border-blue-700"
-    >
-      <div className="w-full hide hide-bottom  container mx-auto px-6">
-        <div className="sm:flex sm:mt-8">
-          <div className="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
-            <div className="w-1/6">
-              <img src={Logo} className=" bg-black " alt="Training Logo" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-gray-700 uppercase mt-4 md:mt-0 mb-2">
-                Footer header 2
-              </span>
-              <span className="my-2">
-                <a
-                  href="#"
-                  className="text-blue-700 text-md hover:text-blue-500"
-                >
-                  link 1
-                </a>
-              </span>
-              <span className="my-2">
-                <a
-                  href="#"
-                  className="text-blue-700  text-md hover:text-blue-500"
-                >
-                  link 1
-                </a>
-              </span>
-              <span className="my-2">
-                <a
-                  href="#"
-                  className="text-blue-700 text-md hover:text-blue-500"
-                >
-                  link 1
-                </a>
-              </span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-bold text-gray-700 uppercase mt-4 md:mt-0 mb-2">
-                Footer header 3
-              </span>
-              <span className="my-2">
-                <a
-                  href="#"
-                  className="text-blue-700  text-md hover:text-blue-500"
-                >
-                  link 1
-                </a>
-              </span>
-              <span className="my-2">
-                <a
-                  href="#"
-                  className="text-blue-700  text-md hover:text-blue-500"
-                >
-                  link 1
-                </a>
-              </span>
-              <span className="my-2">
-                <a
-                  href="#"
-                  className="text-blue-700  text-md hover:text-blue-500"
-                >
-                  link 1
-                </a>
-              </span>
+    <>
+      <footer
+        ref={ref}
+        className="w-full bg-img footer bg-white relative border-b-2"
+        style={{
+          backgroundImage: `url(https://aitcv.ac.vn/wp-content/uploads/2021/09/e63eb8a14d09bb57e218.jpg)`,
+        }}
+      >
+        <div className=" absolute w-full h-full opacity-75 bg-dark-blue	" />
+
+        <div className=" relative w-full hide hide-bottom  container mx-auto px-6">
+          <div className="sm:flex sm:mt-8">
+            <div className="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
+              <div className="w-[10%] flex flex-col items-center">
+                <img src={Logo} className=" " alt="Training Logo" />
+                <span className="mt-2 self-center text-xl font-semibold whitespace-nowrap text-white-500">
+                  VL TRAINING
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-white uppercase mt-4 md:mt-0 mb-2">
+                  Trường Đại học Văn Lang
+                </span>
+                <span className="my-2">
+                  <a className="text-white text-md hover:text-blue-500">
+                    <a className="text-white font-bold text-md hover:text-blue-500 ">
+                      Cơ sở chính:{' '}
+                    </a>
+                    69/68 Đặng Thùy Trâm, P. 13, Q. Bình Thạnh, TP. HCM
+                  </a>
+                </span>
+                <span className="my-2">
+                  <a className="text-white  text-md hover:text-blue-500">
+                    <a className="text-white font-bold text-md hover:text-blue-500 ">
+                      Cơ sở 1:{' '}
+                    </a>{' '}
+                    45 Nguyễn Khắc Nhu, P. Cô Giang, Q.1, TP. HCM
+                  </a>
+                </span>
+                <span className="my-2">
+                  <a className="text-white text-md hover:text-blue-500">
+                    <a className="text-white font-bold text-md hover:text-blue-500 ">
+                      Cơ sở 2:{' '}
+                    </a>{' '}
+                    233A Phan Văn Trị, P.11, Q. Bình Thạnh, TP. HCM
+                  </a>
+                </span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-white uppercase mt-4 md:mt-0 mb-2">
+                  Liên hệ
+                </span>
+                <span className="my-2">
+                  <a className="text-white  text-md hover:text-blue-500">
+                    <a className="text-white font-bold text-md hover:text-blue-500">
+                      Điện thoại bàn:{' '}
+                    </a>
+                    028.71099221- EXT: 3320
+                  </a>
+                </span>
+                <span className="my-2">
+                  <a className="text-white  text-md hover:text-blue-500">
+                    <a className="text-white font-bold text-md hover:text-blue-500">
+                      Điện thoại Mobile:{' '}
+                    </a>{' '}
+                    028.71239221- EXT: 3320
+                  </a>
+                </span>
+                <span className="my-2">
+                  <a className="text-white  text-md hover:text-blue-500">
+                    <a className="text-white font-bold text-md hover:text-blue-500">
+                      Email:{' '}
+                    </a>{' '}
+                    lotusVLU@vlu.edu.vn
+                  </a>
+                </span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className=" container mx-auto px-6">
-        <div className="mt-16 border-t-2 border-gray-300 flex flex-col items-center">
-          <div className="sm:w-2/3 text-center py-6">
-            <p className=" hide hide-bottom text-sm text-blue-700 font-bold mb-2">
-              © 2022 by Royal Lotus
-            </p>
+        <div className=" container mx-auto px-6">
+          <div className="mt-16 border-t-2 border-gray-300 flex flex-col items-center">
+            <div className="sm:w-2/3 text-center py-6">
+              <p className=" hide hide-bottom text-sm text-white font-bold mb-2">
+                © 2022 by Royal Lotus
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    </>
   )
 })
 
