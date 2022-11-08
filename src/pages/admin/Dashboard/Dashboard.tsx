@@ -3,17 +3,17 @@ import apiService from '../../../api/apiService'
 import Input from '../../../components/sharedComponents/Input'
 
 export default function Dashboard() {
-  useEffect(() => {
-    const fectData = async () => {
-      try {
-        const data = await apiService.getCategories()
-        console.log(data)
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    fectData()
-  }, [])
+  // useEffect(() => {
+  //   const fectData = async () => {
+  //     try {
+  //       const data = await apiService.getCategories()
+  //       console.log(data)
+  //     } catch (error) {
+  //       console.log(error)
+  //     }
+  //   }
+  //   fectData()
+  // }, [])
 
   return <div>{/* <Input /> */}</div>
 }

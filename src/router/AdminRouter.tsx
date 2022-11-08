@@ -34,6 +34,8 @@ export default function MakeAdminRouter() {
           />
         )
       })}
+      <Route path="/login" element={<Login />} />
+      <Route path="/" element={<LandingPage />} />
     </Routes>
   )
 }
