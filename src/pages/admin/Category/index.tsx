@@ -120,7 +120,7 @@ function PopOver(props: CategoryItem) {
 
 function SearchBar(props: any) {
   return (
-    <form className="flex items-center ">
+    <form className="px-2 flex items-center ">
       <label className="sr-only">Search</label>
       <div className="relative w-full ">
         <input
@@ -244,11 +244,11 @@ function TableSection() {
   //   dispatch(actions.categoryActions.setListAll(test))
   // }, [loadData])
   return (
-    <div className="px-4    w-full h-auto overflow-x-auto   sm:rounded-lg">
+    <div className=" w-full h-auto overflow-x-auto   sm:rounded-lg">
       <ToolBar onChangeSearch={onChangeSearch} />
 
       <Table
-        className="table shadow-lg"
+        className="table shadow-lg mx-2"
         rowClassName={(record, index) =>
           index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
         }
