@@ -20,35 +20,39 @@ export default function SideBar({ content }: { content: any }) {
     <>
       <div className="flex max-w-full">
         <div className="sidebar flex flex-col content-center items-center w-1/5">
-          <div className="my-4 px-3 w-full flex flex-col items-center">
-            <img className="w-2/3" src={logo} />
+          <div className="fixed h-full w-1/6">
+            <div className="my-4 px-3 w-full flex flex-col items-center">
+              <img className="w-2/3" src={logo} />
+            </div>
+            <ul className="list-none w-full text-center">
+              {SideBarData.map((value, index) => {
+                return (
+                  <li
+                    key={index}
+                    className=" cursor-pointer flex max-w-full justify-center text-white h-12 text-center items-center active:bg-white active:text-[#252b42] "
+                    onClick={() => {
+                      navigation(value.path)
+                      dispatch(
+                        actions.formActions.setNameMenu(`${value.title}`)
+                      )
+                    }}
+                  >
+                    <div id="icon">
+                      <value.icon />
+                    </div>{' '}
+                    <div id="title" className="flex uppercase">
+                      <p className="font-semibold text-sm">{value.title}</p>
+                    </div>
+                  </li>
+                )
+              })}
+            </ul>
           </div>
-          <ul className="list-none w-full text-center">
-            {SideBarData.map((value, index) => {
-              return (
-                <li
-                  key={index}
-                  className=" cursor-pointer flex max-w-full justify-center text-white h-12 text-center items-center active:bg-white active:text-[#252b42] "
-                  onClick={() => {
-                    navigation(value.path)
-                    dispatch(actions.formActions.setNameMenu(`${value.title}`))
-                  }}
-                >
-                  <div id="icon">
-                    <value.icon />
-                  </div>{' '}
-                  <div id="title" className="flex uppercase">
-                    <p className="font-semibold text-sm">{value.title}</p>
-                  </div>
-                </li>
-              )
-            })}
-          </ul>
         </div>
+
         <div className="Layout w-full">
           <header className="header">
             <div className="container flex items-center justify-between">
-              <AiOutlineAlignLeft />
               <h1 className="font-semibold text-xl">{nameMenu}</h1>
               <HeaderAdmin />
             </div>
