@@ -40,11 +40,11 @@ export default function SideBar({ content }: { content: any }) {
               navigation('/admin')
               dispatch(actions.formActions.setNameMenu(`${'Trang Chủ'}`))
             }}
-            className=" hover:text-white relative my-4  px-3 w-full flex flex-col items-center"
+            className=" hover:text-white relative my-4  px-3 w-full flex flex-col items-center justify-center"
           >
             <img className="w-1/3" src={logo} />
-            <p className="text-xl ">TRANG QUẢN LÝ</p>
-            <p className="text-xl"> VĂN LANG TRAINING</p>
+            <p className="text-xl text-center">TRANG QUẢN LÝ</p>
+            <p className="text-xl text-center"> VĂN LANG TRAINING</p>
           </a>
           <ul className="relative list-none w-full text-center">
             {SideBarData.map((value, index) => {

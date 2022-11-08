@@ -132,7 +132,7 @@ const Home = React.forwardRef((props, ref: any) => {
           <h4 className="mb-2 text-xl  font-bold tracking-tight text-white">
             Đào tạo trực tuyến cùng ĐH Văn Lang
           </h4>
-          <h1 className="mb-2 text-5xl  font-bold tracking-tight text-white">
+          <h1 className="mb-2 text-5xl  font-bold tracking-tight text-white ">
             Cơ hội đào tạo tốt nhất
           </h1>
           <h3 className="mb-2 text-xl  font-bold tracking-tight text-white">
@@ -421,7 +421,7 @@ const Footer = React.forwardRef((props, ref: any) => {
         <div className=" relative w-full hide hide-bottom  container mx-auto px-6">
           <div className="sm:flex sm:mt-8">
             <div className="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
-              <div className="w-[10%] flex flex-col items-center">
+              <div className="w-[10%] flex flex-col items-center justify-center">
                 <img src={Logo} className=" " alt="Training Logo" />
                 <span className="mt-2 self-center text-xl font-semibold whitespace-nowrap text-white-500">
                   VL TRAINING
@@ -432,28 +432,28 @@ const Footer = React.forwardRef((props, ref: any) => {
                   Trường Đại học Văn Lang
                 </span>
                 <span className="my-2">
-                  <a className="text-white text-md hover:text-blue-500">
-                    <a className="text-white font-bold text-md hover:text-blue-500 ">
+                  <p className="text-white text-md hover:text-blue-500">
+                    <p className="text-white font-bold text-md hover:text-blue-500 ">
                       Cơ sở chính:{' '}
-                    </a>
+                    </p>
                     69/68 Đặng Thùy Trâm, P. 13, Q. Bình Thạnh, TP. HCM
-                  </a>
+                  </p>
                 </span>
                 <span className="my-2">
-                  <a className="text-white  text-md hover:text-blue-500">
-                    <a className="text-white font-bold text-md hover:text-blue-500 ">
+                  <p className="text-white  text-md hover:text-blue-500">
+                    <p className="text-white font-bold text-md hover:text-blue-500 ">
                       Cơ sở 1:{' '}
-                    </a>{' '}
+                    </p>{' '}
                     45 Nguyễn Khắc Nhu, P. Cô Giang, Q.1, TP. HCM
-                  </a>
+                  </p>
                 </span>
                 <span className="my-2">
-                  <a className="text-white text-md hover:text-blue-500">
-                    <a className="text-white font-bold text-md hover:text-blue-500 ">
+                  <p className="text-white text-md hover:text-blue-500">
+                    <p className="text-white font-bold text-md hover:text-blue-500 ">
                       Cơ sở 2:{' '}
-                    </a>{' '}
+                    </p>{' '}
                     233A Phan Văn Trị, P.11, Q. Bình Thạnh, TP. HCM
-                  </a>
+                  </p>
                 </span>
               </div>
               <div className="flex flex-col">
@@ -461,28 +461,28 @@ const Footer = React.forwardRef((props, ref: any) => {
                   Liên hệ
                 </span>
                 <span className="my-2">
-                  <a className="text-white  text-md hover:text-blue-500">
-                    <a className="text-white font-bold text-md hover:text-blue-500">
+                  <p className="text-white  text-md hover:text-blue-500">
+                    <p className="text-white font-bold text-md hover:text-blue-500">
                       Điện thoại bàn:{' '}
-                    </a>
+                    </p>
                     028.71099221- EXT: 3320
-                  </a>
+                  </p>
                 </span>
                 <span className="my-2">
-                  <a className="text-white  text-md hover:text-blue-500">
-                    <a className="text-white font-bold text-md hover:text-blue-500">
+                  <p className="text-white  text-md hover:text-blue-500">
+                    <p className="text-white font-bold text-md hover:text-blue-500">
                       Điện thoại Mobile:{' '}
-                    </a>{' '}
+                    </p>{' '}
                     028.71239221- EXT: 3320
-                  </a>
+                  </p>
                 </span>
                 <span className="my-2">
-                  <a className="text-white  text-md hover:text-blue-500">
-                    <a className="text-white font-bold text-md hover:text-blue-500">
+                  <p className="text-white  text-md hover:text-blue-500">
+                    <p className="text-white font-bold text-md hover:text-blue-500">
                       Email:{' '}
-                    </a>{' '}
+                    </p>{' '}
                     lotusVLU@vlu.edu.vn
-                  </a>
+                  </p>
                 </span>
               </div>
             </div>

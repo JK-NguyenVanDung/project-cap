@@ -32,6 +32,7 @@ export default function CustomButton(props: CustomButton) {
       text = 'Xoá'
       color = 'red'
       Icon = IoTrashOutline
+
       break
     case 'cancel':
       text = 'Huỷ'
@@ -41,6 +42,7 @@ export default function CustomButton(props: CustomButton) {
     case 'edit':
       text = ''
       Icon = IoHammerOutline
+      // variant = 'text'
       break
     case 'add':
       text = ''
@@ -48,9 +50,10 @@ export default function CustomButton(props: CustomButton) {
       iconClass = 'mx-2 text-base  bg-white text-blue-500 rounded'
       break
     default:
-      text = ''
+      text = 'Thêm'
       Icon = IoAddOutline
       iconClass = 'mx-2 text-base  bg-white text-blue-500 rounded'
+
       break
   }
 
