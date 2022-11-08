@@ -9,8 +9,7 @@ import MakeRouterPage from './router/Router'
 function App() {
   return (
     <>
-      <MakeRouterPage />
-      <MakeAdminRouter />
+      <LandingPage />
     </>
   )
 }

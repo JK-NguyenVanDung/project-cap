@@ -248,7 +248,7 @@ function TableSection() {
       <ToolBar onChangeSearch={onChangeSearch} />
 
       <Table
-        className="table shadow-lg  "
+        className="table shadow-lg"
         rowClassName={(record, index) =>
           index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
         }
