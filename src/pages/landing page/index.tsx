@@ -107,7 +107,7 @@ const Header = (props: any) => {
                 <li className="px-10" key={item.index}>
                   <a
                     onClick={() => executeScroll(item.index)}
-                    className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-blue-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    className=" cursor-pointer font-customFont font-semibold block py-2 pr-4 pl-3 text-white rounded hover:text-primary md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                     aria-current="page"
                   >
                     {item.title}
