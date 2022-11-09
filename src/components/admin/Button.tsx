@@ -50,7 +50,7 @@ export default function CustomButton(props: CustomButton) {
       iconClass = 'mx-2 text-base  bg-white text-blue-500 rounded'
       break
     default:
-      text = 'Thêm'
+      text = 'Thêm mới'
       Icon = IoAddOutline
       iconClass = 'mx-2 text-base  bg-white text-blue-500 rounded'
 
