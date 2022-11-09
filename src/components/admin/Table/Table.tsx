@@ -18,9 +18,9 @@ export default function TableConfig({
 }) {
   return (
     <div>
-      <div className="flex content-center items-center justify-between px-5">
+      <div className="flex content-center items-center justify-between px-5 my-10">
         {search && <SearchBar />}
-        <PageHeader title={title} ghost={false} extra={extra} />
+        {extra}
       </div>
       <Table
         className="tableContainer shadow-lg rounded-lg border-1"

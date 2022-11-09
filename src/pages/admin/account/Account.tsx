@@ -1,17 +1,102 @@
 import React, { useState } from 'react'
 import TableConfig from '../../../components/admin/Table/Table'
-import { Space } from 'antd'
+import { message, Space } from 'antd'
 import { BiEditAlt } from 'react-icons/bi'
 import { RiDeleteBinLine } from 'react-icons/ri'
-import Button from '../../../components/sharedComponents/Button'
+// import Button from '../../../components/sharedComponents/Button'
 import uniqueId from '../../../utils/uinqueId'
 import CustomButton from '../../../components/admin/Button'
 import Modal from '../../../components/admin/Modal/Modal'
 import FormInput from '../../../components/admin/Modal/FormInput'
+import apiService from '../../../api/apiService'
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux'
+import { GIRD12, MESSAGE } from '../../../helper/constant'
+import { actions } from '../../../Redux'
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverHandler,
+} from '@material-tailwind/react'
+import { IoTrashOutline } from 'react-icons/io5'
 const IAccount = {
   id: '',
   name: '',
 }
+function PopOver(props: any) {
+  const [openAction, setOpenAction] = useState(false)
+  const dispatch = useAppDispatch()
+  const load = useAppSelector((state) => state.category.loadData)
+
+  const [deleteAction, setDeleteAction] = useState(false)
+  function handleAction() {
+    // setDeleteAction(!deleteAction)
+    setOpenAction(!openAction)
+  }
+  async function handleDelete() {
+    handleAction()
+
+    try {
+      await apiService.removeCategory(props.CategoryId)
+
+      dispatch(actions.categoryActions.changeLoad(!load))
+
+      message.success(MESSAGE.SUCCESS.DELETE)
+    } catch (err: any) {
+      throw err.message()
+    }
+  }
+  const openEdit = () => {
+    dispatch(actions.categoryActions.setDetail(props.CategoryId))
+    dispatch(actions.formActions.showForm())
+  }
+  return (
+    <>
+      <div className="flex w-max items-center gap-4">
+        <CustomButton type="edit" onClick={openEdit} />
+        <Popover
+          handler={handleAction}
+          open={openAction}
+          animate={{
+            mount: { scale: 1, y: 0 },
+            unmount: { scale: 0, y: 25 },
+          }}
+          placement="bottom-end"
+        >
+          <PopoverHandler>
+            <Button
+              size="sm"
+              className="flex flex-row justify-center items-center"
+              color="red"
+            >
+              <IoTrashOutline className="mx-2 text-base " />
+              {/* <p className="font-serif">{'Xoá'}</p> */}
+            </Button>
+          </PopoverHandler>
+          <PopoverContent>
+            <div className="flex w-max items-center flex-col gap-4">
+              Xác nhận xoá {props.CategoryName}?
+              <div className="flex w-max items-center flex-row gap-4">
+                <CustomButton
+                  type="delete"
+                  onClick={handleDelete}
+                  text="Xác nhận"
+                  noIcon={true}
+                />
+                <CustomButton
+                  type="cancel"
+                  noIcon={true}
+                  onClick={handleAction}
+                />
+              </div>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
+    </>
+  )
+}
+
 export default function Account() {
   const [addAccount, setAddAccount] = useState(false)
   const data = [
@@ -65,26 +150,16 @@ export default function Account() {
     {
       title: 'Hành Động',
       key: 'action',
-      render: () => (
-        <Space size="middle">
-          <BiEditAlt
-            className="cursor-pointer"
-            size={20}
-            onClick={() => console.log('edit')}
-          />
-          <RiDeleteBinLine
-            className="cursor-pointer"
-            size={20}
-            color="#FF3333"
-            style={{ marginLeft: 12 }}
-            onClick={() => console.log('edit')}
-          />
-        </Space>
-      ),
+      width: GIRD12.COL2,
+
+      render: (data: any) => <PopOver {...data} />,
     },
   ]
   const handelOk = () => {
     setAddAccount(false)
+  }
+  function configAccount() {
+    setAddAccount(true)
   }
   const FormItem = () => {
     return (
@@ -108,6 +183,7 @@ export default function Account() {
       </>
     )
   }
+
   return (
     <>
       <TableConfig
@@ -115,15 +191,11 @@ export default function Account() {
         data={data}
         columns={columns}
         extra={[
-          <div
-            className="cursor-pointer"
-            onClick={() => {
-              setAddAccount(true), console.log('hello')
-            }}
+          <CustomButton
+            size="md"
             key={`${uniqueId()}`}
-          >
-            Thêm Mới
-          </div>,
+            onClick={configAccount}
+          />,
         ]}
       />
       <Modal
