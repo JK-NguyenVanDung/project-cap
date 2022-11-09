@@ -104,7 +104,7 @@ const Header = (props: any) => {
           <ul className="flex flex-col p-4 mt-4 bg-dark-blue rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-dark-blue dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             {headerList.map((item) => {
               return (
-                <li className="px-10" key={item.index}>
+                <li className="px-10 hover:text-primary" key={item.index}>
                   <a
                     onClick={() => executeScroll(item.index)}
                     className=" cursor-pointer font-customFont font-semibold block py-2 pr-4 pl-3 text-white rounded hover:text-primary md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
@@ -132,7 +132,7 @@ const Home = React.forwardRef((props, ref: any) => {
           <h4 className="mb-2 text-xl  font-bold tracking-tight text-white">
             Đào tạo trực tuyến cùng ĐH Văn Lang
           </h4>
-          <h1 className="mb-2 text-5xl  font-bold tracking-tight text-white">
+          <h1 className="mb-2 text-5xl  font-bold tracking-tight text-white ">
             Cơ hội đào tạo tốt nhất
           </h1>
           <h3 className="mb-2 text-xl  font-bold tracking-tight text-white">
@@ -296,7 +296,7 @@ const ProductCard = (props: any) => {
               <span>{props.view}</span>
             </div>
             <div className="inline-flex flex-row justify-between items-center pl-12 ">
-              <IoTimeSharp className=" text-blue-700" />
+              <IoTimeSharp className="text-lg text-primary" />
               <span className="pl-2">{props.hour}</span>
             </div>
           </div>
@@ -519,7 +519,7 @@ const LandingPage = () => {
 
   return (
     <>
-      <div className="flex bg-dark-blue h-screen flex-col overflow-x-hidden	">
+      <div className=" font-customFont flex bg-dark-blue h-screen flex-col overflow-x-hidden	">
         <Header references={[homeRef, productRef, introRef, contactRef]} />
         <Home ref={homeRef} />
         <Product ref={productRef} />

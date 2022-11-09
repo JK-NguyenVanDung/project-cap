@@ -18,7 +18,7 @@ export default function () {
       <Menu>
         <IconButton
           variant="text"
-          className="text-black"
+          className="text-dark-blue"
           color="gray"
           size="md"
         >
