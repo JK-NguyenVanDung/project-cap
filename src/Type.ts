@@ -17,6 +17,11 @@ export interface IAccount {
 //   fullName: string
 // }
 
+const RoleItem = z.object({
+  roleId: z.number(),
+  roleName: z.string(),
+})
+
 const AccountItem = z.object({
   accountId: z.number(),
   roleId: z.number(),
@@ -37,6 +42,7 @@ const CategoryItem = z.object({
   categoryId: z.number(),
   categoryName: z.string(),
 })
+export type IRoleItem = z.infer<typeof RoleItem>
 
 export type CategoryItem = z.infer<typeof CategoryItem>
 export type IAccountItem = z.infer<typeof AccountItem>

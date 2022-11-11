@@ -18,9 +18,7 @@ export default function SearchBar(props: any) {
           onChange={(e) => props.onSearch(e.target.value)}
         />
         <div className="flex absolute inset-y-0 right-0 items-center pl-3 ">
-          <IconButton variant="text" color="gray">
-            <IoSearch className="text-xl" />
-          </IconButton>
+          <IoSearch className="text-xl" />
         </div>
       </div>
     </form>

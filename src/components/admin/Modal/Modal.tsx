@@ -24,7 +24,7 @@ export default function Modal({
   dataFields,
   form,
 }: {
-  handleOk?: () => void
+  handleOk?: any
   name?: any
   label?: string
   dataItem?: any
@@ -83,7 +83,7 @@ export default function Modal({
           <div className=" mb-6 flex flex-row justify-evenly w-full">
             <CustomButton
               size="md"
-              onClick={() => handleOk}
+              onClick={() => handleOk()}
               fullWidth={true}
               className="mx-2"
               noIcon={true}
