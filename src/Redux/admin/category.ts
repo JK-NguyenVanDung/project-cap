@@ -16,13 +16,13 @@ const slice = createSlice({
     setDetail(state, actions) {
       let data = [...state.listAll]
       let index = data.findIndex(
-        (item: CategoryItem) => item.CategoryId === actions.payload
+        (item: CategoryItem) => item.categoryId === actions.payload
       )
       state.detail = data[index]
     },
 
     setListAll(state, actions) {
-      state.listAll = actions.payload
+      state.listAll = actions.payload.reverse()
     },
     changeLoad(state, actions) {
       state.loadData = actions.payload

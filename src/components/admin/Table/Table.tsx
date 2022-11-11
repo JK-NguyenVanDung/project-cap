@@ -4,25 +4,30 @@ import './index.css'
 import { Button } from '@material-tailwind/react'
 import SearchBar from '../ToolBar/ToolBar'
 export default function TableConfig({
+  loading,
   data,
   columns,
   title,
   extra,
-  search,
+  search = true,
+  onSearch,
 }: {
+  loading?: boolean
   data?: any
   columns?: any
   title?: string
   extra?: React.ReactNode
   search?: boolean
+  onSearch?: React.FC | Function
 }) {
   return (
     <div>
       <div className="flex content-center items-center justify-between px-5 my-10">
-        {search && <SearchBar />}
+        {search && <SearchBar onSearch={onSearch} />}
         {extra}
       </div>
       <Table
+        loading={loading}
         className="tableContainer shadow-lg rounded-lg border-1"
         style={{
           margin: 20,

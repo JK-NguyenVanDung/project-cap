@@ -9,31 +9,56 @@ import {
 } from '@material-tailwind/react'
 
 import { Input, Form, message } from 'antd'
+
 import CustomButton from '../../../components/admin/Button'
 
 import { IoClose } from 'react-icons/io5'
+import { dismissType } from '@material-tailwind/react/types/generic'
 export default function Modal({
   show,
   setShow,
-  dataItem,
+  dataItem = null,
   label,
-  handelOk,
+  handleOk,
   FormItem,
+  dataFields,
+  form,
 }: {
-  handelOk?: () => void
+  handleOk?: () => void
   name?: any
   label?: string
   dataItem?: any
   show?: boolean
   setShow?: (show: boolean) => void
   FormItem?: React.ComponentProps<any>
+  dataFields?: any
+  form?: any
 }) {
+  const dismiss: dismissType = {
+    outsidePointerDown: false,
+  }
   const handleShow = () => {
     setShow(!show)
   }
-  const [form] = Form.useForm()
+  useEffect(() => {
+    form.resetFields()
+
+    const setForm = () => {
+      console.log(dataFields)
+      form.setFieldsValue(dataFields ? dataFields : dataItem)
+    }
+
+    if (dataItem) {
+      setForm()
+    }
+  }, [dataItem])
   return (
-    <Dialog className="text-black font-bold" open={show} handler={handleShow}>
+    <Dialog
+      dismiss={dismiss}
+      className="text-black font-bold"
+      open={show}
+      handler={handleShow}
+    >
       <DialogHeader>
         <div className="flex flex-row w-full justify-between items-center mb-6">
           <p className="font-bold font-customFont text-2xl text-black">
@@ -58,7 +83,7 @@ export default function Modal({
           <div className=" mb-6 flex flex-row justify-evenly w-full">
             <CustomButton
               size="md"
-              onClick={() => handelOk}
+              onClick={() => handleOk}
               fullWidth={true}
               className="mx-2"
               noIcon={true}

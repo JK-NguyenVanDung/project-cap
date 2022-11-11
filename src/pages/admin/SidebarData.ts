@@ -14,22 +14,22 @@ export const SideBarData = [
     path: '/admin',
   },
   {
-    title: 'Quản Lý Tài Khoản',
+    title: 'Tài Khoản',
     icon: IoPeopleCircle,
     path: '/admin/Account',
   },
   {
-    title: 'Quản Lý Khóa Học',
+    title: 'Khóa Học',
     icon: IoBook,
     path: '/admin/Course',
   },
   {
-    title: 'Quản lý Danh Mục',
+    title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
   },
   {
-    title: 'Quản Lý Học Viên',
+    title: 'Học Viên',
     icon: BsFillPersonBadgeFill,
     path: '/admin/Learner',
   },

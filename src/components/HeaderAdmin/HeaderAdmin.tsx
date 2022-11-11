@@ -14,7 +14,7 @@ import { IoNotifications } from 'react-icons/io5'
 import { IconButton } from '@material-tailwind/react'
 export default function () {
   return (
-    <div className="flex items-center justify-center ">
+    <div className="flex items-center justify-center mr-2 ">
       <Menu>
         <IconButton
           variant="text"
@@ -26,7 +26,7 @@ export default function () {
         </IconButton>
 
         <MenuHandler>
-          <Button className="bg-white shadow-none hover:shadow-none p-0 ml-4">
+          <Button className="bg-white shadow-none hover:shadow-none p-0 ">
             <Avatar
               className="mx-2"
               size="sm"

@@ -8,6 +8,6 @@ export interface ISignUp {
 }
 
 export interface ICategory {
-  Name: string
+  name: string
   ID?: number
 }

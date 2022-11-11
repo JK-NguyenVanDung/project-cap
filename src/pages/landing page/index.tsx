@@ -22,15 +22,15 @@ const Header = (props: any) => {
   const navigate = useNavigate()
   const headerList = [
     {
-      title: 'Trang Chủ',
+      title: 'TRANG CHỦ',
       index: 0,
     },
     {
-      title: 'Khoá học',
+      title: 'KHOÁ HỌC',
       index: 1,
     },
-    { title: 'Về chúng tôi', index: 2 },
-    { title: 'Liên hệ', index: 3 },
+    { title: 'VỀ CHÚNG TÔI', index: 2 },
+    { title: 'LIÊN HỆ', index: 3 },
   ]
   const [open, setOpen] = useState(false)
 
@@ -59,7 +59,7 @@ const Header = (props: any) => {
         <a href="/" className="logo px-2 md:order-1 flex flex-row items-center">
           <img src={Logo} className="mr-3 h-6 sm:h-9 " alt="Training Logo" />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
-            TRAINING
+            VLU TRAINING
           </span>
         </a>
         <div className="flex md:order-2 sm:order-2 ">
@@ -125,24 +125,21 @@ const Home = React.forwardRef((props, ref: any) => {
   return (
     <div
       ref={ref}
-      className=" flex z-10  pl-28 max-sm:p-2  max-sm:flex-wrap  flex-row w-full h-screen justify-between items-center bg-dark-blue "
+      className=" mb-20 flex z-10  pl-20 max-sm:p-2  max-sm:flex-wrap  flex-row w-full h-screen justify-between items-center bg-dark-blue "
     >
-      <div className="flex hide hide-left  flex-col  w-1/2 max-sm:w-full  ">
+      <div className="flex hide hide-left  flex-col  w-[60%] max-sm:w-full  ">
         <div className="flex flex-col  w-full  justify-center items-start  max-sm:items-center ">
-          <h4 className="mb-2 text-xl  font-bold tracking-tight text-white">
+          <h4 className="mb-6 text-xl  font-bold tracking-tight text-white">
             Đào tạo trực tuyến cùng ĐH Văn Lang
           </h4>
-          <h1 className="mb-2 text-5xl  font-bold tracking-tight text-white ">
+          <h1 className="mb-6 text-5xl  font-bold tracking-tight text-white ">
             Cơ hội đào tạo tốt nhất
           </h1>
-          <h3 className="mb-2 text-xl  font-bold tracking-tight text-white">
+          <h3 className="mb-6 text-xl  font-bold tracking-tight text-white">
             Hãy đăng nhập để tham gia khoá học của chúng tôi
           </h3>
           <div className="flex flex-row justify-center items-center">
             <Button onClick={() => {}}>Tham gia đào tạo</Button>
-            <Button onClick={() => {}} className="btn-transparent text-white">
-              Tìm hiểu thêm
-            </Button>
           </div>
         </div>
       </div>
@@ -180,7 +177,7 @@ const Home = React.forwardRef((props, ref: any) => {
   )
 })
 
-const PinkBlob = () => {
+function PinkBlob() {
   return (
     <div className="absolute w-full left-2 top-16 ">
       <svg
@@ -424,7 +421,7 @@ const Footer = React.forwardRef((props, ref: any) => {
               <div className="w-[10%] flex flex-col items-center justify-center">
                 <img src={Logo} className=" " alt="Training Logo" />
                 <span className="mt-2 self-center text-xl font-semibold whitespace-nowrap text-white-500">
-                  VL TRAINING
+                  VLU TRAINING
                 </span>
               </div>
               <div className="flex flex-col">
@@ -486,7 +483,7 @@ const Footer = React.forwardRef((props, ref: any) => {
           <div className="mt-16 border-t-2 border-gray-300 flex flex-col items-center">
             <div className="sm:w-2/3 text-center py-6">
               <p className=" hide hide-bottom text-sm text-white font-bold mb-2">
-                © 2022 by Royal Lotus
+                © 2022 - Bản Quyền Thuộc Trường Đại học Văn Lang
               </p>
             </div>
           </div>
@@ -517,6 +514,20 @@ const LandingPage = () => {
     console.count()
   }, [observer])
 
+  useEffect(() => {
+    const rawResponse = fetch(
+      'https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/WeatherForecast      ',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({ name: 'xyz' }),
+      }
+    )
+  }, [])
   return (
     <>
       <div className=" font-customFont flex bg-dark-blue h-screen flex-col overflow-x-hidden	">
