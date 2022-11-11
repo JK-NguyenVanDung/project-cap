@@ -15,5 +15,9 @@ export default function Dashboard() {
   //   fectData()
   // }, [])
 
-  return <div>{/* <Input /> */}</div>
+  return (
+    <div>
+      <p>hellop</p>
+    </div>
+  )
 }

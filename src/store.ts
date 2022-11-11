@@ -6,6 +6,7 @@ import { persistStore, persistReducer } from 'redux-persist'
 const config = combineReducers({
   form: reducers.formReducer,
   category: reducers.categoryReducer,
+  auth: reducers.authReducers,
 })
 const persistConfig = {
   key: 'root',

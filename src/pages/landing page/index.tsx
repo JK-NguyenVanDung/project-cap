@@ -15,10 +15,13 @@ import { TbCertificate, TbGift } from 'react-icons/tb'
 import Button from '../../components/sharedComponents/Button'
 import { IconType } from 'react-icons'
 import { useNavigate } from 'react-router-dom'
+import { useIsAuthenticated } from '@azure/msal-react'
+import { useMsal } from '@azure/msal-react'
 
 const useMountEffect = (fun: any) => useEffect(fun, [])
 
 const Header = (props: any) => {
+  const isAuthenticated = useIsAuthenticated()
   const navigate = useNavigate()
   const headerList = [
     {
@@ -33,6 +36,7 @@ const Header = (props: any) => {
     { title: 'Liên hệ', index: 3 },
   ]
   const [open, setOpen] = useState(false)
+  const { instance } = useMsal()
 
   const executeScroll = (i: number) => {
     const e = props.references.filter((e: any, index: number) => index === i)
@@ -53,6 +57,11 @@ const Header = (props: any) => {
   function login() {
     navigate('/login')
   }
+  function Logout() {
+    instance.logout({
+      postLogoutRedirectUri: '/',
+    })
+  }
   return (
     <nav className="  hide hide-top relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
@@ -63,13 +72,23 @@ const Header = (props: any) => {
           </span>
         </a>
         <div className="flex md:order-2 sm:order-2 ">
-          <button
-            type="button"
-            className={`btn btn-primary`}
-            onClick={() => login()}
-          >
-            Đăng nhập
-          </button>
+          {isAuthenticated ? (
+            <button
+              type="button"
+              className={`btn btn-primary`}
+              onClick={() => Logout()}
+            >
+              Đăng Xuất
+            </button>
+          ) : (
+            <button
+              type="button"
+              className={`btn btn-primary`}
+              onClick={() => login()}
+            >
+              Đăng nhập
+            </button>
+          )}
           <button
             data-collapse-toggle="navbar-cta"
             type="button"
