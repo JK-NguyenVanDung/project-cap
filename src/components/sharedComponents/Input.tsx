@@ -5,7 +5,7 @@ export default function Input({
   error,
   type,
   name,
-  ...orther
+  ...other
 }: {
   type?: any
   label?: string
@@ -17,7 +17,7 @@ export default function Input({
     <div className="px-3">
       <p className="text-gray-700">{label}</p>
       <input
-        {...orther}
+        {...other}
         ref={ref}
         type={type}
         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"

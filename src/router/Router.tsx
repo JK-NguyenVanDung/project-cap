@@ -15,11 +15,11 @@ export default function MakeRouterPage() {
   return (
     <>
       <Routes>
-        {PageRouter.map((router, index) => {
+        {/* {PageRouter.map((router, index) => {
           return (
             <Route key={index} path={router.path} element={router.element} />
           )
-        })}
+        })} */}
         <Route path="/login" element={<Login />} />
         <Route path="/" element={<LandingPage />} />
       </Routes>

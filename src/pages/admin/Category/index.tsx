@@ -25,24 +25,7 @@ import axios from 'axios'
 import { Table, message } from 'antd'
 import apiService from '../../../api/apiService'
 import CustomButton from '../../../components/admin/Button'
-
-function Column() {
-  const col = ['Mã Danh Mục', 'Tên Danh Mục']
-  return (
-    <tr className="w-full">
-      <th scope="col" className="w-[45%] py-3 px-6">
-        Mã Danh Mục
-      </th>
-      <th scope="col" className="w-[45%] py-3 px-6">
-        Tên Danh Mục
-      </th>
-
-      <th scope="col" className="w-[10%] py-3 px-6">
-        Hành Động
-      </th>
-    </tr>
-  )
-}
+import TableConfig from '../../../components/admin/Table/Table'
 
 function PopOver(props: CategoryItem) {
   const [openAction, setOpenAction] = useState(false)
@@ -58,7 +41,7 @@ function PopOver(props: CategoryItem) {
     handleAction()
 
     try {
-      await apiService.removeCategory(props.CategoryId)
+      await apiService.removeCategory(props.categoryId)
 
       dispatch(actions.categoryActions.changeLoad(!load))
 
@@ -68,7 +51,7 @@ function PopOver(props: CategoryItem) {
     }
   }
   const openEdit = () => {
-    dispatch(actions.categoryActions.setDetail(props.CategoryId))
+    dispatch(actions.categoryActions.setDetail(props.categoryId))
     dispatch(actions.formActions.showForm())
   }
   return (
@@ -96,7 +79,7 @@ function PopOver(props: CategoryItem) {
           </PopoverHandler>
           <PopoverContent>
             <div className="flex w-max items-center flex-col gap-4">
-              Xác nhận xoá {props.CategoryName}?
+              Xác nhận xoá {props.categoryName}?
               <div className="flex w-max items-center flex-row gap-4">
                 <CustomButton
                   type="delete"
@@ -162,6 +145,7 @@ function TableSection() {
 
   const loadData = useAppSelector((state) => state.category.loadData)
   const [data, setData] = useState<Array<CategoryItem>>([])
+  const [showList, setShowList] = useState(false)
 
   const [search, setSearch] = useState('')
   const [loading, setLoading] = useState(false)
@@ -170,8 +154,7 @@ function TableSection() {
     const reg = new RegExp(value, 'gi')
     const filteredData = dataList
       .map((record: CategoryItem) => {
-        const nameMatch = record.CategoryName.match(reg)
-        console.log(nameMatch)
+        const nameMatch = record.categoryName.match(reg)
 
         if (!nameMatch) {
           return null
@@ -180,15 +163,13 @@ function TableSection() {
       })
       .filter((record) => !!record)
 
-    setSearch(value)
-    console.log(filteredData)
     setData(value != null ? filteredData : dataList)
   }
 
   const columns = [
     {
       title: 'Tên danh mục',
-      dataIndex: 'CategoryName',
+      dataIndex: 'categoryName',
       width: GIRD12.COL10,
     },
 
@@ -208,7 +189,7 @@ function TableSection() {
     {
       width: GIRD12.COL2,
 
-      title: 'Hoạt động',
+      title: 'Thao tác',
       render: (item: CategoryItem) => {
         return (
           <>
@@ -222,15 +203,10 @@ function TableSection() {
   async function getData() {
     try {
       setLoading(true)
-      let res = [
-        {
-          CategoryName: '1',
-          CategoryId: '1',
-        },
-      ]
-
+      let res = await apiService.getCategories()
       dispatch(actions.categoryActions.setListAll(res))
-      dispatch(actions.categoryActions.changeLoad(!loadData))
+      setShowList(true)
+
       setLoading(false)
     } catch (err: any) {
       throw err.message()
@@ -241,6 +217,7 @@ function TableSection() {
   }, [])
   useEffect(() => {
     setLoading(true)
+    getData()
 
     setData(dataList)
     setLoading(false)
@@ -248,18 +225,36 @@ function TableSection() {
   // useEffect(() => {
   //   dispatch(actions.categoryActions.setListAll(test))
   // }, [loadData])
+  useEffect(() => {
+    setData(
+      showList
+        ? dataList.map((item, index) => {
+            return {
+              ...item,
+            }
+          })
+        : []
+    )
+  }, [showList, dataList])
+  function openDetail() {
+    dispatch(actions.formActions.showForm())
+    dispatch(actions.categoryActions.setDetail(null))
+  }
   return (
     <div className=" w-full h-auto overflow-x-auto   sm:rounded-lg">
-      <ToolBar onChangeSearch={onChangeSearch} />
-
-      <Table
-        className="tableContainer shadow-lg rounded-lg border-1 mx-2"
-        rowClassName={(record, index) =>
-          index % 2 === 0 ? 'table-row-light' : 'table-row-dark'
-        }
+      <TableConfig
+        onSearch={onChangeSearch}
         loading={loading}
-        dataSource={data}
+        data={data}
         columns={columns}
+        extra={[
+          <CustomButton
+            size="md"
+            type="add"
+            key={`${Math.random()}`}
+            onClick={() => openDetail()}
+          />,
+        ]}
       />
     </div>
   )

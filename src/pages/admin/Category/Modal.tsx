@@ -29,7 +29,7 @@ export default function Modal(props: any) {
     console.log(dataItem)
     const setForm = () => {
       form.setFieldsValue({
-        CategoryName: dataItem.CategoryName,
+        categoryName: dataItem.categoryName,
       })
     }
 
@@ -51,39 +51,25 @@ export default function Modal(props: any) {
         const temp = []
         if (dataItem) {
           await apiService.editCategory({
-            ID: dataItem.CategoryId,
-            Name: values.CategoryName,
+            ID: dataItem.categoryId,
+            name: values.categoryName,
           })
           handleShow()
-          dispatch(actions.formActions.changeLoad(!loadData))
+          dispatch(actions.categoryActions.changeLoad(!loadData))
           message.success('Thay đổi thành công')
 
           setLoading(false)
+          form.resetFields()
         } else {
-          // const rawResponse = await fetch(
-          //   'https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/api/categories/create',
-          //   {
-          //     method: 'POST',
-          //     headers: {
-          //       Accept: 'application/json',
-          //       'Content-Type': 'application/json',
-          //       'Access-Control-Allow-Origin': '*',
-          //       'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
-          //       'Access-Control-Allow-Headers':
-          //         'Content-Type, Authorization, X-Requested-With',
-          //     },
-          //     body: JSON.stringify({ Name: 'xyz' }),
-          //   }
-          // )
-
           await apiService.addCategory({
-            Name: values.CategoryName,
+            name: values.categoryName,
           })
           handleShow()
-          dispatch(actions.formActions.changeLoad(!loadData))
+          dispatch(actions.categoryActions.changeLoad(!loadData))
           message.success('Thêm thành công')
 
           setLoading(false)
+          form.resetFields()
         }
       })
 
@@ -122,7 +108,7 @@ export default function Modal(props: any) {
                   {labels.title}
                 </label>
                 <Form.Item
-                  name="CategoryName"
+                  name="categoryName"
                   rules={[
                     {
                       required: true,

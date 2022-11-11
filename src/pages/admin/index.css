@@ -7,9 +7,10 @@
   color: #111 !important;
 }
 #icon {
-  flex: 30%;
+  flex: 10%;
   display: grid;
   place-items: center;
+  -color: #111;
 }
 #title {
   flex: 70%;

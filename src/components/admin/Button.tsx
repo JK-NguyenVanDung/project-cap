@@ -1,12 +1,6 @@
 import React, { useEffect, useState, FC } from 'react'
 import { Button } from '@material-tailwind/react'
-import {
-  IoEllipsisVertical,
-  IoTrashOutline,
-  IoHammerOutline,
-  IoSearch,
-  IoAddOutline,
-} from 'react-icons/io5'
+import { FaPencilAlt, FaTrash, FaPlus } from 'react-icons/fa'
 import { IconType } from 'react-icons/lib'
 import { color, size } from '@material-tailwind/react/types/components/button'
 interface CustomButton {
@@ -20,55 +14,74 @@ interface CustomButton {
   type?: string
   fullWidth?: boolean
 }
-export default function CustomButton(props: CustomButton) {
-  let text = ''
-  let color = props.color
-  let Icon = props.Icon
+
+export default function CustomButton({
+  size,
+  color,
+  className,
+  onClick,
+  Icon,
+  noIcon,
+  text,
+  type,
+  fullWidth,
+}: {
+  size?: size
+  color?: color
+  className?: string
+  onClick?: React.MouseEventHandler
+  Icon?: IconType
+  noIcon?: boolean
+  text?: string
+  type?: string
+  fullWidth?: boolean
+}) {
   let variant: any
   let iconClass
-
-  switch (props.type) {
+  let defaultText = ''
+  switch (type) {
     case 'delete':
-      text = 'Xoá'
+      defaultText = 'Xoá'
       color = 'red'
-      Icon = IoTrashOutline
+      Icon = FaTrash
 
       break
     case 'cancel':
-      text = 'Huỷ'
+      defaultText = 'Huỷ'
       color = 'red'
       variant = 'outlined'
       break
     case 'edit':
-      text = ''
-      Icon = IoHammerOutline
+      defaultText = ''
+      Icon = FaPencilAlt
       // variant = 'text'
       break
     case 'add':
-      text = ''
-      Icon = IoAddOutline
-      iconClass = 'mx-2 text-base  bg-white text-blue-500 rounded'
+      defaultText = 'Thêm mới'
+      Icon = FaPlus
+      iconClass = 'mx-2 text-base '
+      className += ' mx-0 px-2 pr-6'
       break
     default:
-      text = 'Thêm mới'
-      Icon = IoAddOutline
-      iconClass = 'mx-2 text-base  bg-white text-blue-500 rounded'
+      defaultText = 'Thêm'
+      Icon = FaPlus
+      iconClass = 'mx-2 text-base'
 
       break
   }
 
   return (
     <Button
-      fullWidth={props.fullWidth}
-      size={props.size ? props.size : `sm`}
-      color={props.color ? props.color : color}
-      className={` flex flex-row justify-center items-center ${props.className}`}
-      onClick={(e) => props.onClick(e)}
+      fullWidth={fullWidth}
+      size={size ? size : `sm`}
+      color={color ? color : color}
+      className={` flex flex-row justify-center  items-center ${className}`}
+      onClick={(e) => onClick(e)}
       variant={variant}
     >
-      {!props.noIcon && <Icon className={`mx-2 text-base ${iconClass}`} />}
+      {!noIcon && <Icon className={`mx-2 text-base ${iconClass}`} />}
       <p className="font-customFont  font-semibold">
-        {props.text ? props.text : text}
+        {text ? text : defaultText}
       </p>
     </Button>
   )
