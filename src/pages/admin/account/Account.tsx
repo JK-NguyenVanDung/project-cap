@@ -283,10 +283,10 @@ export default function Account() {
           name="roleId"
           options={getOptions()}
           type="select"
-          label="Phân Quyền"
+          label="Vai trò"
           rule={{
             required: true,
-            message: 'Vui Lòng Chọn Quyền',
+            message: 'Vui Lòng Chọn Vai trò',
           }}
         />
       </>
