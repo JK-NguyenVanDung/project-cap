@@ -210,7 +210,6 @@ export default function Account() {
   }, [reload])
 
   const handleOk = async () => {
-    console.log(1)
     form
       .validateFields()
       .then(async (values) => {
@@ -272,6 +271,7 @@ export default function Account() {
     return (
       <>
         <FormInput
+          disabled={detail ? true : false}
           name="email"
           label="Email"
           rule={{
