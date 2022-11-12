@@ -1,22 +1,15 @@
 import { ISignUp } from './apiInterface'
-export const API_URL = 'https://localhost:7206'
+export const API_URL = 'https://localhost:7206/'
+//https://cntttest.vanlanguni.edu.vn:18081/CP25Team02
 export const API_CONFIG = {
   AUTH: {
     LOGIN: '/api/Users/Login',
     SIGN_UP: '/api/Users',
   },
   COURSE_CATEGORY: {
-    GET: '/api/Categories/getall',
-    POST: '/api/Categories/Create',
-    DELETE: (ID: number) => `/api/Categories/delete/${ID}`,
-    PUT: (ID: number) => `/api/Categories/update/${ID}`,
-  },
-  ACCOUNT: {
-    GET: '/api/Accounts',
-    POST: '/api/Accounts',
-    PUT: (ID: number) => `/api/Accounts/${ID}`,
-  },
-  ROLES: {
-    GET: '/api/Roles/getall',
+    GET: '/api/categories/getall',
+    POST: '/api/categories/create',
+    DELETE: (ID: number) => `/api/categories/delete/${ID}`,
+    PUT: (ID: number) => `/api/categories/edit/${ID}`,
   },
 }

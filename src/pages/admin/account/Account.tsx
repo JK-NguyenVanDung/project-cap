@@ -110,7 +110,9 @@ export default function Account() {
     setShowModal(true)
   }
   function getRoleTitle(roleId: any) {
-    return role.find((e) => e.roleId === roleId).roleName
+    if (role) {
+      return role.find((e) => e.roleId === roleId)?.roleName
+    }
   }
   const columns = [
     // {
@@ -282,6 +284,10 @@ export default function Account() {
           options={getOptions()}
           type="select"
           label="Phân Quyền"
+          rule={{
+            required: true,
+            message: 'Vui Lòng Chọn Quyền',
+          }}
         />
       </>
     )
