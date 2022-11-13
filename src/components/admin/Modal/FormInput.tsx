@@ -1,27 +1,28 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Input, Form, message, Select } from 'antd';
 const { Option } = Select;
 
 export default function FormInput({
   label,
   name,
-  rule,
+  rules,
   type,
   options,
   disabled = false,
+  focusHandle,
 }: {
   label?: string;
   name?: any;
-  rule?: {};
+  rules?: any;
   type?: string;
   options?: any;
   disabled?: boolean;
+  focusHandle?: React.FC | Function;
 }) {
-  console.log(rule);
   return (
     <div className="w-full mb-6 z-1">
       <label className="text-black font-bold font-customFont ">{label}</label>
-      <Form.Item name={name} rules={[rule]}>
+      <Form.Item name={name} rules={rules}>
         {type === 'select' ? (
           <Select
             disabled={disabled}
@@ -29,6 +30,8 @@ export default function FormInput({
             defaultValue={options[0]?.value}
             className="text-black font-customFont h-10 font-bold min-w-[20rem] mt-4"
             options={options}
+            onFocus={() => focusHandle(true)}
+            onBlur={() => focusHandle(false)}
           ></Select>
         ) : (
           <Input

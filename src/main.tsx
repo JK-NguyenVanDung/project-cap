@@ -8,21 +8,29 @@ import store from './store';
 import { MsalProvider } from '@azure/msal-react';
 import { PublicClientApplication } from '@azure/msal-browser';
 import { msalConfig } from './pages/authentication/loginconfig';
-// const baseUrl = window.location.href
-//   .toString()
-//   .includes('http://127.0.0.1:5173')
-//   ? '/'
-//   : '/SEP25Team17/'
 
 const msalInstance = new PublicClientApplication(msalConfig);
+let base =
+  (document.querySelector('base')?.getAttribute('href') as string) ?? '/';
+const baseUrl = window.location.href.toString().includes('5173')
+  ? '/'
+  : '/SEP25Team17/';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
+      {baseUrl === '/' ? (
         <MsalProvider instance={msalInstance}>
-          <App />
+          <BrowserRouter basename={baseUrl}>
+            <App />
+          </BrowserRouter>
         </MsalProvider>
-      </BrowserRouter>
+      ) : (
+        <MsalProvider instance={msalInstance}>
+          <HashRouter>
+            <App />
+          </HashRouter>
+        </MsalProvider>
+      )}
     </Provider>
   </React.StrictMode>,
 );

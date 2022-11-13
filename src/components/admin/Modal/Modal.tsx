@@ -23,6 +23,7 @@ export default function Modal({
   FormItem,
   dataFields,
   form,
+  isFocused = true,
 }: {
   handleOk?: any
   name?: any
@@ -33,9 +34,10 @@ export default function Modal({
   FormItem?: React.ComponentProps<any>
   dataFields?: any
   form?: any
+  isFocused?: boolean
 }) {
   const dismiss: dismissType = {
-    outsidePointerDown: false,
+    outsidePointerDown: !isFocused,
   }
   const handleShow = () => {
     setShow(!show)
