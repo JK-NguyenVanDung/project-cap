@@ -44,5 +44,5 @@ const CategoryItem = z.object({
 })
 export type IRoleItem = z.infer<typeof RoleItem>
 
-export type CategoryItem = z.infer<typeof CategoryItem>
+export type ICategoryItem = z.infer<typeof CategoryItem>
 export type IAccountItem = z.infer<typeof AccountItem>
