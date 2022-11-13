@@ -31,4 +31,9 @@ export default {
       ...props,
     })
   },
+
+  //ROLES
+  getRoles: () => {
+    return axiosConfig.get(API_CONFIG.ROLES.GET)
+  },
 }

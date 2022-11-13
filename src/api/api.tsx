@@ -16,4 +16,7 @@ export const API_CONFIG = {
     POST: '/api/Accounts',
     PUT: (ID: number) => `/api/Accounts/${ID}`,
   },
+  ROLES: {
+    GET: '/api/Roles/getall',
+  },
 }

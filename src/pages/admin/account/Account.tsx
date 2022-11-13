@@ -19,7 +19,7 @@ import {
   PopoverHandler,
 } from '@material-tailwind/react'
 import { IoTrashOutline } from 'react-icons/io5'
-import { IAccountItem } from '../../../Type'
+import { IAccountItem, IRoleItem } from '../../../Type'
 
 function PopOverAction({
   data,
@@ -96,6 +96,9 @@ export default function Account() {
   const [showModal, setShowModal] = useState(false)
   const [detail, setDetail] = useState<IAccountItem>()
   const [loading, setLoading] = useState(false)
+  const [role, setRole] = useState<Array<IRoleItem>>()
+  const [reload, setReload] = useState(false)
+
   const [form] = Form.useForm()
 
   const [data, setData] = useState<Array<IAccountItem>>([])
@@ -105,6 +108,11 @@ export default function Account() {
     // dispatch(actions.formActions.showForm())
     setDetail(item)
     setShowModal(true)
+  }
+  function getRoleTitle(roleId: any) {
+    if (role) {
+      return role.find((e) => e.roleId === roleId)?.roleName
+    }
   }
   const columns = [
     // {
@@ -126,10 +134,10 @@ export default function Account() {
 
     {
       title: 'Vai trò',
-      dataIndex: 'role',
-      key: 'role',
-      render: (data: IAccountItem) => (
-        <p>{data && data.role ? data.role : 'Chưa có vai trò'}</p>
+      dataIndex: 'roleId',
+      key: 'roleId',
+      render: (roleId: any) => (
+        <p>{roleId ? getRoleTitle(roleId) : 'Chưa có vai trò'}</p>
       ),
     },
     // {
@@ -184,8 +192,22 @@ export default function Account() {
     setDetail(null)
   }
   useEffect(() => {
+    async function getRoles() {
+      let res: any = await apiService.getRoles()
+      setRole(res)
+    }
+    getRoles()
     getData()
   }, [])
+
+  useEffect(() => {
+    async function getRoles() {
+      let res: any = await apiService.getRoles()
+      setRole(res)
+    }
+    getRoles()
+    getData()
+  }, [reload])
 
   const handleOk = async () => {
     form
@@ -195,20 +217,23 @@ export default function Account() {
         const temp = []
         if (detail) {
           await apiService.editAccount({
-            email: detail.email,
-            roleId: detail.roleId,
+            accountId: detail.accountId,
+            roleId: values.roleId,
           })
           setShowModal(false)
           // dispatch(actions.categoryActions.changeLoad(!loadData))
           message.success('Thay đổi thành công')
+          setReload(!reload)
 
           setLoading(false)
           form.resetFields()
         } else {
-          await apiService.addCategory({
-            name: values.categoryName,
+          await apiService.addAccount({
+            email: values.email,
+            roleId: values.roleId,
           })
           setShowModal(false)
+          setReload(!reload)
           // dispatch(actions.categoryActions.changeLoad(!loadData))
           message.success('Thêm thành công')
 
@@ -223,7 +248,22 @@ export default function Account() {
         setLoading(false)
       })
   }
-
+  function getOptions() {
+    let arr = []
+    arr.push({
+      value: 0,
+      label: 'Chưa có vai trò',
+    })
+    if (role) {
+      for (let i = 0; i < role.length; i++) {
+        arr.push({
+          value: role[i].roleId,
+          label: role[i].roleName,
+        })
+      }
+    }
+    return arr
+  }
   function configAccount() {
     setShowModal(true)
   }
@@ -231,6 +271,7 @@ export default function Account() {
     return (
       <>
         <FormInput
+          disabled={detail ? true : false}
           name="email"
           label="Email"
           rule={{
@@ -239,31 +280,14 @@ export default function Account() {
           }}
         />
         <FormInput
-          name="role"
-          options={[
-            {
-              value: 0,
-              label: 'Chưa có vai trò',
-            },
-            {
-              value: 1,
-              label: 'Admin',
-            },
-            {
-              value: 2,
-              label: 'Training Center',
-            },
-            {
-              value: 3,
-              label: 'Faculty',
-            },
-            {
-              value: 4,
-              label: 'Learner',
-            },
-          ]}
+          name="roleId"
+          options={getOptions()}
           type="select"
-          label="Phân Quyền"
+          label="Vai trò"
+          rule={{
+            required: true,
+            message: 'Vui Lòng Chọn Vai trò',
+          }}
         />
       </>
     )
@@ -272,7 +296,7 @@ export default function Account() {
     if (detail) {
       return {
         email: detail.email,
-        role: detail.role ? detail.role : 0,
+        roleId: detail.roleId ? detail.roleId : 0,
       }
     }
   }
@@ -299,7 +323,7 @@ export default function Account() {
         dataItem={detail}
         label={'Tài Khoản'}
         name={detail}
-        handleOk={() => handleOk}
+        handleOk={handleOk}
         FormItem={<FormItem />}
         dataFields={getDataFields()}
         form={form}
