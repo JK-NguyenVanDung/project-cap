@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "vite",
+    "start": "vite --host --open",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
