@@ -1,190 +1,62 @@
 import React, { useEffect, useState } from 'react'
-import {
-  IoEllipsisVertical,
-  IoTrashOutline,
-  IoHammerOutline,
-  IoSearch,
-  IoAddOutline,
-} from 'react-icons/io5'
-import Modal from './Modal'
-import { useAppDispatch, useAppSelector } from '../../../hook/useRedux'
-import { actions } from '../../../Redux'
-import { CategoryItem } from '../../../Type'
-import {
-  Popover,
-  PopoverHandler,
-  PopoverContent,
-  IconButton,
-  Button,
-} from '@material-tailwind/react'
-import { GIRD12 } from '../../../helper/constant'
-import { MESSAGE } from '../../../helper/constant'
-import axios from 'axios'
-// import { API_CONSTANTS } from '../../../api/api'
-
-import { Table, message } from 'antd'
-import apiService from '../../../api/apiService'
-import CustomButton from '../../../components/admin/Button'
 import TableConfig from '../../../components/admin/Table/Table'
+import { Form, message, Space } from 'antd'
+import { BiEditAlt } from 'react-icons/bi'
+import { RiDeleteBinLine } from 'react-icons/ri'
+// import Button from '../../../components/sharedComponents/Button'
+import uniqueId from '../../../utils/uinqueId'
+import CustomButton from '../../../components/admin/Button'
+import Modal from '../../../components/admin/Modal/Modal'
+import FormInput from '../../../components/admin/Modal/FormInput'
+import apiService from '../../../api/apiService'
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux'
+import { errorText, GIRD12, MESSAGE } from '../../../helper/constant'
+import { actions } from '../../../Redux'
+import {
+  Button,
+  Popover,
+  PopoverContent,
+  PopoverHandler,
+} from '@material-tailwind/react'
+import { IoTrashOutline } from 'react-icons/io5'
+import { ICategoryItem, IRoleItem } from '../../../Type'
+import PopOverAction from '../../../components/admin/PopOver'
+import { AxiosResponse } from 'axios'
 
-function PopOver(props: CategoryItem) {
-  const [openAction, setOpenAction] = useState(false)
-  const dispatch = useAppDispatch()
-  const load = useAppSelector((state) => state.category.loadData)
+export default function Category() {
+  const [showModal, setShowModal] = useState(false)
+  const [detail, setDetail] = useState<ICategoryItem>()
+  const [loading, setLoading] = useState(false)
+  const [role, setRole] = useState<Array<IRoleItem>>()
+  const [reload, setReload] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
 
-  const [deleteAction, setDeleteAction] = useState(false)
-  function handleAction() {
-    // setDeleteAction(!deleteAction)
-    setOpenAction(!openAction)
+  const [form] = Form.useForm()
+
+  const [data, setData] = useState<Array<ICategoryItem>>([])
+  const [filterData, setFilterData] = useState([])
+  const handleEdit = (item: ICategoryItem) => {
+    // dispatch(actions.categoryActions.setDetail(data.ID))
+    // dispatch(actions.formActions.showForm())
+    setDetail(item)
+    setShowModal(true)
   }
-  async function handleDelete() {
-    handleAction()
-
+  async function handleDelete(item: ICategoryItem) {
     try {
-      await apiService.removeCategory(props.categoryId)
+      await apiService.removeCategory(item.categoryId)
 
-      dispatch(actions.categoryActions.changeLoad(!load))
-
+      setReload(!reload)
       message.success(MESSAGE.SUCCESS.DELETE)
     } catch (err: any) {
       throw err.message()
     }
   }
-  const openEdit = () => {
-    dispatch(actions.categoryActions.setDetail(props.categoryId))
-    dispatch(actions.formActions.showForm())
+
+  function getRoleTitle(roleId: any) {
+    if (role) {
+      return role.find((e) => e.roleId === roleId)?.roleName
+    }
   }
-  return (
-    <>
-      <div className="flex w-max items-center gap-4">
-        <CustomButton type="edit" onClick={openEdit} />
-        <Popover
-          handler={handleAction}
-          open={openAction}
-          animate={{
-            mount: { scale: 1, y: 0 },
-            unmount: { scale: 0, y: 25 },
-          }}
-          placement="bottom-end"
-        >
-          <PopoverHandler>
-            <Button
-              size="sm"
-              className="flex flex-row justify-center items-center"
-              color="red"
-            >
-              <IoTrashOutline className="mx-2 text-base " />
-              {/* <p className="font-serif">{'Xoá'}</p> */}
-            </Button>
-          </PopoverHandler>
-          <PopoverContent>
-            <div className="flex w-max items-center flex-col gap-4">
-              Xác nhận xoá {props.categoryName}?
-              <div className="flex w-max items-center flex-row gap-4">
-                <CustomButton
-                  type="delete"
-                  onClick={handleDelete}
-                  text="Xác nhận"
-                  noIcon={true}
-                />
-                <CustomButton
-                  type="cancel"
-                  noIcon={true}
-                  onClick={handleAction}
-                />
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
-      </div>
-    </>
-  )
-}
-
-{
-  /* <Form.Item
-name="categoryName"
-rules={[
-  {
-    required: true,
-    message: `Không được để trống tên danh mục`,
-  },
-]}
->
-<Input
-  type="text"
-  id="simple-search"
-  className="text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-  placeholder={`Nhập ${labels.title}`}
-  required
-/>
-</Form.Item> */
-}
-function SearchBar(props: any) {
-  return (
-    <form className="px-2 flex items-center ">
-      <label className="sr-only">Search</label>
-      <div className="relative w-full ">
-        <input
-          type="text"
-          id="simple-search"
-          className="hover:shadow-lg shadow-md min-w-[20rem] pr-10 bg-white border border-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Tìm kiếm"
-          onChange={(e) => props.onChangeSearch(e.target.value)}
-        />
-        <div className="flex absolute inset-y-0 right-0 items-center pl-3 ">
-          <IconButton variant="text" color="gray">
-            <IoSearch className="text-xl" />
-          </IconButton>
-        </div>
-      </div>
-    </form>
-  )
-}
-
-function ToolBar(props: any) {
-  const dispatch = useAppDispatch()
-
-  function openModal() {
-    dispatch(actions.categoryActions.setDetail(null))
-    dispatch(actions.formActions.showForm())
-  }
-  return (
-    <div className="div justify-between items-center flex w-full h-24">
-      <SearchBar onChangeSearch={props.onChangeSearch} />
-      <div className="">
-        <CustomButton size="md" onClick={openModal} />
-      </div>
-    </div>
-  )
-}
-
-function TableSection() {
-  const dataList = useAppSelector((state) => state.category.listAll)
-
-  const loadData = useAppSelector((state) => state.category.loadData)
-  const [data, setData] = useState<Array<CategoryItem>>([])
-  const [showList, setShowList] = useState(false)
-
-  const [search, setSearch] = useState('')
-  const [loading, setLoading] = useState(false)
-
-  const onChangeSearch = async (value: string) => {
-    const reg = new RegExp(value, 'gi')
-    const filteredData = dataList
-      .map((record: CategoryItem) => {
-        const nameMatch = record.categoryName.match(reg)
-
-        if (!nameMatch) {
-          return null
-        }
-        return record
-      })
-      .filter((record) => !!record)
-
-    setData(value != null ? filteredData : dataList)
-  }
-
   const columns = [
     {
       title: 'Tên danh mục',
@@ -209,81 +81,164 @@ function TableSection() {
       width: GIRD12.COL2,
 
       title: 'Thao tác',
-      render: (item: CategoryItem) => {
+      render: (item: ICategoryItem) => {
         return (
           <>
-            <PopOver {...item} />
+            <PopOverAction
+              data={item}
+              handleEdit={() => handleEdit(item)}
+              handleDelete={() => handleDelete(item)}
+              deleteItem={item.categoryName}
+            />
           </>
         )
       },
     },
   ]
-  let dispatch = useAppDispatch()
+
+  const onChangeSearch = async (value: string) => {
+    const reg = new RegExp(value, 'gi')
+    let temp = data
+    const filteredData = temp
+      .map((record: ICategoryItem) => {
+        const emailMatch = record.categoryName.match(reg)
+
+        if (!emailMatch) {
+          return null
+        }
+        return record
+      })
+      .filter((record) => !!record)
+    setData(value.trim() !== '' ? filteredData : filterData)
+  }
+
   async function getData() {
     try {
       setLoading(true)
-      let res = await apiService.getCategories()
-      dispatch(actions.categoryActions.setListAll(res))
-      setShowList(true)
+      let res: any = await apiService.getCategories()
+      res = res.reverse()
+      // dispatch(actions.categoryActions.setListAll(res))
+      // dispatch(actions.categoryActions.changeLoad(!loadData))
+      setData(res)
+      setFilterData(res)
 
       setLoading(false)
     } catch (err: any) {
       throw err.message()
     }
   }
+  function openAdd() {
+    setShowModal(true)
+    setDetail(null)
+  }
   useEffect(() => {
     getData()
   }, [])
-  useEffect(() => {
-    setLoading(true)
-    getData()
 
-    setData(dataList)
-    setLoading(false)
-  }, [loadData])
-  // useEffect(() => {
-  //   dispatch(actions.categoryActions.setListAll(test))
-  // }, [loadData])
   useEffect(() => {
-    setData(
-      showList
-        ? dataList.map((item, index) => {
-            return {
-              ...item,
-            }
+    async function getRoles() {
+      let res: any = await apiService.getRoles()
+      setRole(res)
+    }
+    getData()
+  }, [reload])
+
+  const handleOk = async () => {
+    form
+      .validateFields()
+      .then(async (values) => {
+        setLoading(true)
+        const temp = []
+        if (detail) {
+          await apiService.editCategory({
+            name: values.name,
+            ID: detail.categoryId,
           })
-        : []
-    )
-  }, [showList, dataList])
-  function openDetail() {
-    dispatch(actions.formActions.showForm())
-    dispatch(actions.categoryActions.setDetail(null))
+          setShowModal(false)
+          // dispatch(actions.categoryActions.changeLoad(!loadData))
+          message.success('Thay đổi thành công')
+          setReload(!reload)
+
+          setLoading(false)
+          form.resetFields()
+        } else {
+          await apiService.addCategory({
+            name: values.name,
+          })
+          setShowModal(false)
+          setReload(!reload)
+          // dispatch(actions.categoryActions.changeLoad(!loadData))
+          message.success('Thêm thành công')
+
+          setLoading(false)
+          form.resetFields()
+        }
+      })
+
+      .catch((info) => {
+        // dispatch(actions.formActions.showError())
+
+        setLoading(false)
+      })
   }
+
+  const FormItem = () => {
+    return (
+      <>
+        <FormInput
+          disabled={false}
+          name="name"
+          label="Tên Danh Mục"
+          rules={[
+            {
+              required: true,
+              message: `Không được để trống tên danh mục`,
+            },
+            {
+              pattern: new RegExp(/^\w/),
+              message: errorText.space,
+            },
+          ]}
+        />
+      </>
+    )
+  }
+  function getDataFields() {
+    if (detail) {
+      return {
+        name: detail.categoryName,
+      }
+    }
+  }
+
   return (
-    <div className=" w-full h-auto overflow-x-auto   sm:rounded-lg">
+    <>
       <TableConfig
         onSearch={onChangeSearch}
-        loading={loading}
+        search={true}
         data={data}
         columns={columns}
         extra={[
           <CustomButton
-            size="md"
             type="add"
-            key={`${Math.random()}`}
-            onClick={() => openDetail()}
+            size="md"
+            key={`${uniqueId()}`}
+            onClick={() => openAdd()}
           />,
         ]}
       />
-    </div>
-  )
-}
-
-export default function Category() {
-  return (
-    <div className=" w-full h-full font-bold">
-      <TableSection />
-      <Modal />
-    </div>
+      <Modal
+        isFocused={isFocused}
+        show={showModal}
+        setShow={setShowModal}
+        dataItem={detail}
+        label={'Danh Mục'}
+        name={detail}
+        handleOk={handleOk}
+        FormItem={<FormItem />}
+        dataFields={getDataFields()}
+        form={form}
+      />
+    </>
   )
 }

@@ -10,7 +10,7 @@ import Modal from '../../../components/admin/Modal/Modal'
 import FormInput from '../../../components/admin/Modal/FormInput'
 import apiService from '../../../api/apiService'
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux'
-import { GIRD12, MESSAGE } from '../../../helper/constant'
+import { errorText, GIRD12, MESSAGE } from '../../../helper/constant'
 import { actions } from '../../../Redux'
 import {
   Button,
@@ -20,77 +20,7 @@ import {
 } from '@material-tailwind/react'
 import { IoTrashOutline } from 'react-icons/io5'
 import { IAccountItem, IRoleItem } from '../../../Type'
-
-function PopOverAction({
-  data,
-  handleDelete,
-  handleEdit,
-  setLoading,
-}: {
-  data: any
-  handleDelete?: Function
-  handleEdit?: Function
-  setLoading?: React.MouseEventHandler
-}) {
-  const [openAction, setOpenAction] = useState(false)
-
-  function handleAction() {
-    // setDeleteAction(!deleteAction)
-  }
-  async function handleDel() {
-    handleAction()
-    handleDelete
-  }
-  return (
-    <>
-      <div className="flex w-max items-center gap-4">
-        {handleEdit ? (
-          <CustomButton type="edit" onClick={() => handleEdit()} />
-        ) : null}
-        {handleDelete && (
-          <Popover
-            handler={handleAction}
-            open={openAction}
-            animate={{
-              mount: { scale: 1, y: 0 },
-              unmount: { scale: 0, y: 25 },
-            }}
-            placement="bottom-end"
-          >
-            <PopoverHandler>
-              <Button
-                size="sm"
-                className="flex flex-row justify-center items-center"
-                color="red"
-              >
-                <IoTrashOutline className="mx-2 text-base " />
-                {/* <p className="font-serif">{'Xoá'}</p> */}
-              </Button>
-            </PopoverHandler>
-            <PopoverContent>
-              <div className="flex w-max items-center flex-col gap-4">
-                Xác nhận xoá {data.Email}?
-                <div className="flex w-max items-center flex-row gap-4">
-                  <CustomButton
-                    type="delete"
-                    onClick={() => handleDel}
-                    text="Xác nhận"
-                    noIcon={true}
-                  />
-                  <CustomButton
-                    type="cancel"
-                    noIcon={true}
-                    onClick={() => handleAction}
-                  />
-                </div>
-              </div>
-            </PopoverContent>
-          </Popover>
-        )}
-      </div>
-    </>
-  )
-}
+import PopOverAction from '../../../components/admin/PopOver'
 
 export default function Account() {
   const [showModal, setShowModal] = useState(false)
@@ -98,6 +28,7 @@ export default function Account() {
   const [loading, setLoading] = useState(false)
   const [role, setRole] = useState<Array<IRoleItem>>()
   const [reload, setReload] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
 
   const [form] = Form.useForm()
 
@@ -248,12 +179,15 @@ export default function Account() {
         setLoading(false)
       })
   }
+
   function getOptions() {
     let arr = []
-    arr.push({
-      value: 0,
-      label: 'Chưa có vai trò',
-    })
+    if (!detail) {
+      arr.push({
+        value: 0,
+        label: 'Chưa có vai trò',
+      })
+    }
     if (role) {
       for (let i = 0; i < role.length; i++) {
         arr.push({
@@ -274,20 +208,33 @@ export default function Account() {
           disabled={detail ? true : false}
           name="email"
           label="Email"
-          rule={{
-            required: true,
-            message: 'Vui Lòng Nhập Vào Email',
-          }}
+          rules={[
+            {
+              required: true,
+              message: 'Vui Lòng Nhập Vào Email',
+            },
+            {
+              pattern: new RegExp(/.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$/),
+              message: 'Vui Lòng Nhập Đúng Định dạng Email Giảng Viên VLU',
+            },
+            {
+              pattern: new RegExp(/^\w/),
+              message: errorText.space,
+            },
+          ]}
         />
         <FormInput
           name="roleId"
           options={getOptions()}
           type="select"
           label="Vai trò"
-          rule={{
-            required: true,
-            message: 'Vui Lòng Chọn Vai trò',
-          }}
+          rules={[
+            {
+              required: true,
+              message: 'Vui Lòng Chọn Vai trò',
+            },
+          ]}
+          focusHandle={(e: boolean) => setIsFocused(e)}
         />
       </>
     )
@@ -318,6 +265,7 @@ export default function Account() {
         ]}
       />
       <Modal
+        isFocused={isFocused}
         show={showModal}
         setShow={setShowModal}
         dataItem={detail}

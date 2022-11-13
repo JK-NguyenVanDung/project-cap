@@ -7,9 +7,7 @@ import './index.css'
 import store from './store'
 let base =
   (document.querySelector('base')?.getAttribute('href') as string) ?? '/'
-const baseUrl = window.location.href
-  .toString()
-  .includes('http://127.0.0.1:5173')
+const baseUrl = window.location.href.toString().includes('5173')
   ? '/'
   : '/SEP25Team17/'
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
