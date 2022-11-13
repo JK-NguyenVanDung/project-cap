@@ -9,11 +9,9 @@ import { graphConfig } from './loginconfig'
  * @param accessToken
  */
 export async function callMsGraph(accessToken: any) {
-  const navigate = useNavigate()
   const headers = new Headers()
   const bearer = `Bearer ${accessToken}`
   headers.append('Authorization', bearer)
-  console.log(accessToken)
   const options = {
     method: 'GET',
     headers: headers,

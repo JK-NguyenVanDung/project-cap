@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from 'react'
-import { useMsal } from '@azure/msal-react'
+import React, { useCallback, useState } from 'react';
+import { useMsal } from '@azure/msal-react';
 
-import Logo from '../../assets/img/logoVLU.png'
-import trongdong from '../../assets/img/trongdong.png'
-import './index.css'
-import { loginRequest } from './loginconfig'
-import { useNavigate } from 'react-router-dom'
+import Logo from '../../assets/img/logoVLU.png';
+import trongdong from '../../assets/img/trongdong.png';
+import './index.css';
+import { loginRequest } from './loginconfig';
+import { useNavigate } from 'react-router-dom';
 
 const DataLogin = [
   {
@@ -20,14 +20,15 @@ const DataLogin = [
     Logo: Logo,
     description: 'Đăng Nhập Với Tại Khoản VLU',
   },
-]
+];
 export default function Login() {
-  const navigate = useNavigate()
-  const { instance } = useMsal()
+  const navigate = useNavigate();
+  navigate('/admin');
+  const { instance } = useMsal();
   function LoginPopUp() {
     instance.loginPopup(loginRequest).catch((e) => {
-      navigate('/admin')
-    })
+      console.log('e', e);
+    });
   }
   return (
     <div className="bg-slate-500 ">
@@ -49,7 +50,7 @@ export default function Login() {
                 </h2>
                 <p className="text-blue-gray-900">{item.description}</p>
               </div>
-            )
+            );
           })}
         </div>
         <div className="layer layer-0">
@@ -57,5 +58,5 @@ export default function Login() {
         </div>
       </main>
     </div>
-  )
+  );
 }

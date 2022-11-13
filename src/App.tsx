@@ -1,17 +1,15 @@
-import React, { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-import LandingPage from './pages/landing page'
-import MakeAdminRouter from './router/AdminRouter'
-import 'antd/dist/antd.css'
+import LandingPage from './pages/landing page';
+import MakeAdminRouter from './router/AdminRouter';
+import 'antd/dist/antd.css';
 import {
   AuthenticatedTemplate,
   UnauthenticatedTemplate,
-  useMsal,
-} from '@azure/msal-react'
+} from '@azure/msal-react';
 
-import Login from './pages/authentication/Login'
-import { Button } from 'antd'
+import Login from './pages/authentication/Login';
 
 function App() {
   return (
@@ -26,7 +24,7 @@ function App() {
         </Routes>
       </UnauthenticatedTemplate>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

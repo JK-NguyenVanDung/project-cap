@@ -1,6 +1,6 @@
-import React from 'react'
-import { Input, Form, message, Select } from 'antd'
-const { Option } = Select
+import React from 'react';
+import { Input, Form, message, Select } from 'antd';
+const { Option } = Select;
 
 export default function FormInput({
   label,
@@ -9,13 +9,13 @@ export default function FormInput({
   type,
   options,
 }: {
-  label?: string
-  name?: any
-  rule?: {}
-  type?: string
-  options?: any
+  label?: string;
+  name?: any;
+  rule?: {};
+  type?: string;
+  options?: any;
 }) {
-  console.log(rule)
+  console.log(rule);
   return (
     <div className="w-full mb-6 z-1">
       <label className="text-black font-bold font-customFont ">{label}</label>
@@ -38,5 +38,5 @@ export default function FormInput({
         )}
       </Form.Item>
     </div>
-  )
+  );
 }
