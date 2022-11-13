@@ -1,9 +1,11 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useState } from 'react';
+import { useMsal } from '@azure/msal-react';
 
-import Logo from '../../assets/img/logoVLU.png'
-import trongdong from '../../assets/img/trongdong.png'
-import './index.css'
-import ModalLogin from './ModalLogin'
+import Logo from '../../assets/img/logoVLU.png';
+import trongdong from '../../assets/img/trongdong.png';
+import './index.css';
+import { loginRequest } from './loginconfig';
+import { useNavigate } from 'react-router-dom';
 
 const DataLogin = [
   {
@@ -18,17 +20,16 @@ const DataLogin = [
     Logo: Logo,
     description: 'Đăng Nhập Với Tại Khoản VLU',
   },
-]
+];
 export default function Login() {
-  const submit = () => {
-    console.log('login')
+  const navigate = useNavigate();
+  navigate('/admin');
+  const { instance } = useMsal();
+  function LoginPopUp() {
+    instance.loginPopup(loginRequest).catch((e) => {
+      console.log('e', e);
+    });
   }
-  const loginOrder = (item: any) => {
-    if (item.id == 3) {
-      setOpenLoginOrder(true)
-    }
-  }
-  const [openLoginOrther, setOpenLoginOrder] = useState(false)
   return (
     <div className="bg-slate-500 ">
       <main className="fixed w-full h-full top-0 place-content-center items-center flex flex-col bg-[#252b42]">
@@ -39,7 +40,7 @@ export default function Login() {
               <div
                 key={index}
                 className="w-2/5 bg-white flex flex-col items-center m-4 p-3 py-12 rounded-lg cursor-pointer"
-                onClick={() => loginOrder(item)}
+                onClick={() => LoginPopUp()}
               >
                 <div className="w-1/5 mb-4">
                   <img src={item.Logo} />
@@ -49,14 +50,13 @@ export default function Login() {
                 </h2>
                 <p className="text-blue-gray-900">{item.description}</p>
               </div>
-            )
+            );
           })}
         </div>
         <div className="layer layer-0">
           <img src={trongdong} className="animation-0" alt="" />
         </div>
       </main>
-      <ModalLogin open={openLoginOrther} setOpen={setOpenLoginOrder} />
     </div>
-  )
+  );
 }

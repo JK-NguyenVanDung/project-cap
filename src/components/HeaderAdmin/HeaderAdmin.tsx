@@ -11,8 +11,17 @@ import {
 import avatar from '../../assets/img/test.jpg'
 import Color from '../constant/Color'
 import { IoNotifications } from 'react-icons/io5'
+import { useMsal } from '@azure/msal-react'
 import { IconButton } from '@material-tailwind/react'
 export default function () {
+  const { instance, accounts } = useMsal()
+  const logoutAdmin = () => {
+    instance.logoutPopup({
+      postLogoutRedirectUri: '/',
+      mainWindowRedirectUri: '/',
+    })
+  }
+  console.log(accounts)
   return (
     <div className="flex items-center justify-center mr-2 ">
       <Menu>
@@ -37,9 +46,15 @@ export default function () {
           </Button>
         </MenuHandler>
         <MenuList>
+          <MenuItem disabled className="font-customFont">
+            Xin Chào {accounts[0].name.slice(12, 29)}
+          </MenuItem>
+
           <MenuItem className="font-customFont">Trang Cá Nhân</MenuItem>
 
-          <MenuItem className="font-customFont">Đăng Xuất</MenuItem>
+          <MenuItem className="font-customFont" onClick={() => logoutAdmin()}>
+            Đăng Xuất
+          </MenuItem>
         </MenuList>
       </Menu>
     </div>

@@ -1,6 +1,6 @@
-import React, { useRef } from 'react'
-import { Input, Form, message, Select } from 'antd'
-const { Option } = Select
+import React, { useRef } from 'react';
+import { Input, Form, message, Select } from 'antd';
+const { Option } = Select;
 
 export default function FormInput({
   label,
@@ -11,13 +11,13 @@ export default function FormInput({
   disabled = false,
   focusHandle,
 }: {
-  label?: string
-  name?: any
-  rules?: any
-  type?: string
-  options?: any
-  disabled?: boolean
-  focusHandle?: React.FC | Function
+  label?: string;
+  name?: any;
+  rules?: any;
+  type?: string;
+  options?: any;
+  disabled?: boolean;
+  focusHandle?: React.FC | Function;
 }) {
   return (
     <div className="w-full mb-6 z-1">
@@ -45,5 +45,5 @@ export default function FormInput({
         )}
       </Form.Item>
     </div>
-  )
+  );
 }
