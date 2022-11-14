@@ -46,7 +46,7 @@ export default function Modal({
     outsidePointerDown: !isFocused,
   };
   const handleShow = () => {
-    setShowDetail(false);
+    setShowDetail && setShowDetail(false);
     setShow(!show);
   };
   useEffect(() => {

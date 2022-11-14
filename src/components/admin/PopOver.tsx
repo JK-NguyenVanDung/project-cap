@@ -28,6 +28,9 @@ export default function PopOverAction({
   function handleAction() {
     setOpenAction(!openAction);
   }
+  function close() {
+    setOpenAction(false);
+  }
   async function handleDel() {
     handleAction();
     handleDelete();
@@ -80,7 +83,7 @@ export default function PopOverAction({
                   <CustomButton
                     type="cancel"
                     noIcon={true}
-                    onClick={() => handleAction}
+                    onClick={() => close()}
                   />
                 </div>
               </div>
