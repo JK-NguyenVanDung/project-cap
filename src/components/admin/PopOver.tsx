@@ -42,11 +42,7 @@ export default function PopOverAction({
           <CustomButton type="edit" onClick={() => handleEdit()} />
         )}
         {handleShowDetail && (
-          <CustomButton
-            text="Chi tiết"
-            noIcon
-            onClick={() => handleShowDetail()}
-          />
+          <CustomButton type="detail" onClick={() => handleShowDetail()} />
         )}
         {handleDelete && (
           <Popover
