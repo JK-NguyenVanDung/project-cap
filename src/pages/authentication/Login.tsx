@@ -12,13 +12,13 @@ const DataLogin = [
     id: '1',
     title: 'Người Học',
     Logo: Logo,
-    description: 'Đăng Nhập Với Tại Khoản VLU',
+    description: 'Đăng Nhập Với Tài Khoản VLU',
   },
   {
     id: '2',
     title: 'Trung Tâm',
     Logo: Logo,
-    description: 'Đăng Nhập Với Tại Khoản VLU',
+    description: 'Đăng Nhập Với Tài Khoản VLU',
   },
 ];
 export default function Login() {
