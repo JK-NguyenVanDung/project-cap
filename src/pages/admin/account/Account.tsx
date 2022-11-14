@@ -254,7 +254,7 @@ export default function Account() {
             },
             {
               pattern: new RegExp(/^\w/),
-              message: errorText.space,
+              message: errorText.email,
             },
           ]}
         />
