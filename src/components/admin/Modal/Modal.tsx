@@ -25,6 +25,7 @@ export default function Modal({
   form,
   isFocused = true,
   header,
+  showDetail,
 }: {
   handleOk?: any;
   name?: any;
@@ -37,6 +38,7 @@ export default function Modal({
   form?: any;
   isFocused?: boolean;
   header?: string;
+  showDetail?: boolean;
 }) {
   const dismiss: dismissType = {
     outsidePointerDown: !isFocused,
@@ -84,25 +86,27 @@ export default function Modal({
           </div>
         </DialogBody>
         <DialogFooter>
-          <div className=" mb-6 flex flex-row justify-evenly w-full">
-            <CustomButton
-              size="md"
-              onClick={() => handleOk()}
-              fullWidth={true}
-              className="mx-2"
-              noIcon={true}
-              text={header ? header : !dataItem ? 'Thêm' : 'Sửa'}
-            />
+          {!showDetail && (
+            <div className=" mb-6 flex flex-row justify-evenly w-full">
+              <CustomButton
+                size="md"
+                onClick={() => handleOk()}
+                fullWidth={true}
+                className="mx-2"
+                noIcon={true}
+                text={header ? header : !dataItem ? 'Thêm' : 'Sửa'}
+              />
 
-            <CustomButton
-              size="md"
-              fullWidth={true}
-              noIcon={true}
-              type="cancel"
-              color="blue"
-              onClick={handleShow}
-            />
-          </div>
+              <CustomButton
+                size="md"
+                fullWidth={true}
+                noIcon={true}
+                type="cancel"
+                color="blue"
+                onClick={handleShow}
+              />
+            </div>
+          )}
         </DialogFooter>
       </Form>
     </Dialog>

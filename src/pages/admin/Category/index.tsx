@@ -1,63 +1,65 @@
-import React, { useEffect, useState } from 'react'
-import TableConfig from '../../../components/admin/Table/Table'
-import { Form, message, Space } from 'antd'
-import { BiEditAlt } from 'react-icons/bi'
-import { RiDeleteBinLine } from 'react-icons/ri'
+import React, { useEffect, useState } from 'react';
+import TableConfig from '../../../components/admin/Table/Table';
+import { Form, message, Space } from 'antd';
+import { BiEditAlt } from 'react-icons/bi';
+import { RiDeleteBinLine } from 'react-icons/ri';
 // import Button from '../../../components/sharedComponents/Button'
-import uniqueId from '../../../utils/uinqueId'
-import CustomButton from '../../../components/admin/Button'
-import Modal from '../../../components/admin/Modal/Modal'
-import FormInput from '../../../components/admin/Modal/FormInput'
-import apiService from '../../../api/apiService'
-import { useAppDispatch, useAppSelector } from '../../../hook/useRedux'
-import { errorText, GIRD12, MESSAGE } from '../../../helper/constant'
-import { actions } from '../../../Redux'
+import uniqueId from '../../../utils/uinqueId';
+import CustomButton from '../../../components/admin/Button';
+import Modal from '../../../components/admin/Modal/Modal';
+import FormInput from '../../../components/admin/Modal/FormInput';
+import apiService from '../../../api/apiService';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
+import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
+import { actions } from '../../../Redux';
 import {
   Button,
   Popover,
   PopoverContent,
   PopoverHandler,
-} from '@material-tailwind/react'
-import { IoTrashOutline } from 'react-icons/io5'
-import { ICategoryItem, IRoleItem } from '../../../Type'
-import PopOverAction from '../../../components/admin/PopOver'
-import { AxiosResponse } from 'axios'
+} from '@material-tailwind/react';
+import { IoTrashOutline } from 'react-icons/io5';
+import { ICategoryItem, IRoleItem } from '../../../Type';
+import PopOverAction from '../../../components/admin/PopOver';
+import { AxiosResponse } from 'axios';
 
 export default function Category() {
-  const [showModal, setShowModal] = useState(false)
-  const [detail, setDetail] = useState<ICategoryItem>()
-  const [loading, setLoading] = useState(false)
-  const [role, setRole] = useState<Array<IRoleItem>>()
-  const [reload, setReload] = useState(false)
-  const [isFocused, setIsFocused] = useState(false)
+  const [showModal, setShowModal] = useState(false);
+  const [detail, setDetail] = useState<ICategoryItem>();
+  const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState<Array<IRoleItem>>();
+  const [reload, setReload] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
 
-  const [data, setData] = useState<Array<ICategoryItem>>([])
-  const [filterData, setFilterData] = useState([])
+  const [data, setData] = useState<Array<ICategoryItem>>([]);
+  const [filterData, setFilterData] = useState([]);
   const handleEdit = (item: ICategoryItem) => {
     // dispatch(actions.categoryActions.setDetail(data.ID))
     // dispatch(actions.formActions.showForm())
-    setDetail(item)
-    setShowModal(true)
-  }
+    setDetail(item);
+    setShowModal(true);
+  };
   async function handleDelete(item: ICategoryItem) {
     try {
-      await apiService.removeCategory(item.categoryId)
+      await apiService.removeCategory(item.categoryId);
 
-      setReload(!reload)
-      message.success(MESSAGE.SUCCESS.DELETE)
+      setReload(!reload);
+      message.success(MESSAGE.SUCCESS.DELETE);
     } catch (err: any) {
-      throw err.message()
+      throw err.message();
     }
   }
 
-  function getRoleTitle(roleId: any) {
-    if (role) {
-      return role.find((e) => e.roleId === roleId)?.roleName
-    }
-  }
+  let count = 0;
   const columns = [
+    {
+      title: 'STT',
+      dataIndex: 'categoryName',
+      render: (value: any, item: any, index: number) => <p>{index + 1}</p>,
+      width: GIRD12.COL1,
+    },
     {
       title: 'Tên danh mục',
       dataIndex: 'categoryName',
@@ -91,96 +93,100 @@ export default function Category() {
               deleteItem={item.categoryName}
             />
           </>
-        )
+        );
       },
     },
-  ]
+  ];
 
   const onChangeSearch = async (value: string) => {
-    const reg = new RegExp(value, 'gi')
-    let temp = data
+    const reg = new RegExp(value, 'gi');
+    let temp = data;
     const filteredData = temp
       .map((record: ICategoryItem) => {
-        const emailMatch = record.categoryName.match(reg)
+        const emailMatch = record.categoryName.match(reg);
 
         if (!emailMatch) {
-          return null
+          return null;
         }
-        return record
+        return record;
       })
-      .filter((record) => !!record)
-    setData(value.trim() !== '' ? filteredData : filterData)
-  }
+      .filter((record) => !!record);
+    setData(value.trim() !== '' ? filteredData : filterData);
+  };
 
   async function getData() {
     try {
-      setLoading(true)
-      let res: any = await apiService.getCategories()
-      res = res.reverse()
+      setLoading(true);
+      let res: any = await apiService.getCategories();
+      res = res.reverse();
+      const temp = res.map((v: any, index: number) => ({
+        ...v,
+        index: index + 1,
+      }));
       // dispatch(actions.categoryActions.setListAll(res))
       // dispatch(actions.categoryActions.changeLoad(!loadData))
-      setData(res)
-      setFilterData(res)
+      setData(temp);
+      setFilterData(temp);
 
-      setLoading(false)
+      setLoading(false);
     } catch (err: any) {
-      throw err.message()
+      throw err.message();
     }
   }
   function openAdd() {
-    setShowModal(true)
-    setDetail(null)
+    setShowModal(true);
+    setDetail(null);
   }
   useEffect(() => {
-    getData()
-  }, [])
+    getData();
+  }, []);
 
   useEffect(() => {
     async function getRoles() {
-      let res: any = await apiService.getRoles()
-      setRole(res)
+      let res: any = await apiService.getRoles();
+      setRole(res);
     }
-    getData()
-  }, [reload])
+    getData();
+  }, [reload]);
 
   const handleOk = async () => {
     form
       .validateFields()
       .then(async (values) => {
-        setLoading(true)
-        const temp = []
+        setLoading(true);
+        const temp = [];
         if (detail) {
           await apiService.editCategory({
             name: values.name,
             ID: detail.categoryId,
-          })
-          setShowModal(false)
+          });
+          setShowModal(false);
           // dispatch(actions.categoryActions.changeLoad(!loadData))
-          message.success('Thay đổi thành công')
-          setReload(!reload)
+          message.success('Thay đổi thành công');
+          setReload(!reload);
 
-          setLoading(false)
-          form.resetFields()
+          setLoading(false);
+          form.resetFields();
         } else {
           await apiService.addCategory({
             name: values.name,
-          })
-          setShowModal(false)
-          setReload(!reload)
+          });
+          setShowModal(false);
+          setReload(!reload);
           // dispatch(actions.categoryActions.changeLoad(!loadData))
-          message.success('Thêm thành công')
+          message.success('Thêm thành công');
 
-          setLoading(false)
-          form.resetFields()
+          setLoading(false);
+          form.resetFields();
         }
       })
 
       .catch((info) => {
         // dispatch(actions.formActions.showError())
 
-        setLoading(false)
-      })
-  }
+        setLoading(false);
+      });
+  };
 
   const FormItem = () => {
     return (
@@ -201,13 +207,13 @@ export default function Category() {
           ]}
         />
       </>
-    )
-  }
+    );
+  };
   function getDataFields() {
     if (detail) {
       return {
         name: detail.categoryName,
-      }
+      };
     }
   }
 
@@ -240,5 +246,5 @@ export default function Category() {
         form={form}
       />
     </>
-  )
+  );
 }
