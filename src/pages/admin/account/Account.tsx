@@ -313,6 +313,7 @@ export default function Account() {
         form={form}
         header={showDetail ? 'Xem Chi Tiết' : 'Phân Quyền'}
         showDetail={showDetail}
+        setShowDetail={setShowDetail}
       />
     </>
   );

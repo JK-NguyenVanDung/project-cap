@@ -1,5 +1,5 @@
-import React from 'react'
-import { Avatar } from '@material-tailwind/react'
+import React from 'react';
+import { Avatar } from '@material-tailwind/react';
 
 import {
   Menu,
@@ -7,21 +7,21 @@ import {
   MenuList,
   MenuItem,
   Button,
-} from '@material-tailwind/react'
-import avatar from '../../assets/img/test.jpg'
-import Color from '../constant/Color'
-import { IoNotifications } from 'react-icons/io5'
-import { useMsal } from '@azure/msal-react'
-import { IconButton } from '@material-tailwind/react'
+} from '@material-tailwind/react';
+import avatar from '../../assets/img/test.jpg';
+import Color from '../constant/Color';
+import { IoNotifications } from 'react-icons/io5';
+import { useMsal } from '@azure/msal-react';
+import { IconButton } from '@material-tailwind/react';
 export default function () {
-  const { instance, accounts } = useMsal()
+  const { instance, accounts } = useMsal();
   const logoutAdmin = () => {
     instance.logoutPopup({
       postLogoutRedirectUri: '/',
       mainWindowRedirectUri: '/',
-    })
-  }
-  console.log(accounts)
+    });
+  };
+  console.log(accounts);
   return (
     <div className="flex items-center justify-center mr-2 ">
       <Menu>
@@ -58,5 +58,5 @@ export default function () {
         </MenuList>
       </Menu>
     </div>
-  )
+  );
 }
