@@ -139,7 +139,12 @@ export default function Account() {
     getRoles();
     getData();
   }, [reload]);
-
+  async function checkAccountExist(email: string) {
+    let res: any = await apiService.getAccounts();
+    let obj = res.find((e: IAccountItem) => e.email === email);
+    console.log(obj);
+    return obj !== undefined ? true : false;
+  }
   const handleOk = async () => {
     form
       .validateFields()
@@ -159,17 +164,21 @@ export default function Account() {
           setLoading(false);
           form.resetFields();
         } else {
-          await apiService.addAccount({
-            email: values.email,
-            roleId: values.roleId,
-          });
-          setShowModal(false);
-          setReload(!reload);
-          // dispatch(actions.categoryActions.changeLoad(!loadData))
-          message.success('Thêm thành công');
+          let exist = checkAccountExist(values.email);
+          if ((await exist) === false) {
+            await apiService.addAccount({
+              email: values.email,
+              roleId: values.roleId,
+            });
+            setShowModal(false);
+            setReload(!reload);
+            message.success('Thêm thành công');
 
-          setLoading(false);
-          form.resetFields();
+            setLoading(false);
+            form.resetFields();
+          } else {
+            message.error('Email trên đã tồn tại trên hệ thống');
+          }
         }
       })
 
@@ -215,7 +224,13 @@ export default function Account() {
             },
             {
               pattern: new RegExp(/.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$/),
-              message: 'Vui Lòng Nhập Đúng Định dạng Email Giảng Viên VLU',
+              message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU',
+            },
+            {
+              pattern: new RegExp(
+                /^\w*[A-Za-z]+(?:([._]?\w+)*)\@[A-Za-z]\w*[-]?\w+\.[A-Za-z]{1,}?(\.?[A-Za-z]+)$/,
+              ),
+              message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU ',
             },
             {
               pattern: new RegExp(/^\w/),

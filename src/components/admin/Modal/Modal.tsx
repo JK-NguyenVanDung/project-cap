@@ -66,7 +66,7 @@ export default function Modal({
       <DialogHeader>
         <div className="flex flex-row w-full justify-between items-center mb-6">
           <p className="font-bold font-customFont text-2xl text-black">
-            {dataItem ? `Sửa ${label}` : `Thêm ${label}`}
+            {header ? header : dataItem ? `Sửa ${label}` : `Thêm ${label}`}
           </p>
           <IconButton
             variant="text"
@@ -91,7 +91,7 @@ export default function Modal({
               fullWidth={true}
               className="mx-2"
               noIcon={true}
-              text={!dataItem ? 'Thêm' : 'Sửa'}
+              text={header ? header : !dataItem ? 'Thêm' : 'Sửa'}
             />
 
             <CustomButton
