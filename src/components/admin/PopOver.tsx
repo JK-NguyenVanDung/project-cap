@@ -28,6 +28,9 @@ export default function PopOverAction({
   function handleAction() {
     setOpenAction(!openAction);
   }
+  function close() {
+    setOpenAction(false);
+  }
   async function handleDel() {
     handleAction();
     handleDelete();
@@ -67,7 +70,9 @@ export default function PopOverAction({
             </PopoverHandler>
             <PopoverContent>
               <div className="flex w-max items-center flex-col gap-4">
-                Xác nhận xoá {deleteItem}?
+                <p className="font-customFont font-bold text-black">
+                  Xác nhận xoá {deleteItem}?
+                </p>
                 <div className="flex w-max items-center flex-row gap-4">
                   <CustomButton
                     type="delete"
@@ -78,7 +83,7 @@ export default function PopOverAction({
                   <CustomButton
                     type="cancel"
                     noIcon={true}
-                    onClick={() => handleAction}
+                    onClick={() => close()}
                   />
                 </div>
               </div>

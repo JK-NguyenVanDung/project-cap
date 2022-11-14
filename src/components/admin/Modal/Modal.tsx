@@ -26,6 +26,7 @@ export default function Modal({
   isFocused = true,
   header,
   showDetail,
+  setShowDetail,
 }: {
   handleOk?: any;
   name?: any;
@@ -39,18 +40,19 @@ export default function Modal({
   isFocused?: boolean;
   header?: string;
   showDetail?: boolean;
+  setShowDetail?: Function;
 }) {
   const dismiss: dismissType = {
     outsidePointerDown: !isFocused,
   };
   const handleShow = () => {
+    setShowDetail && setShowDetail(false);
     setShow(!show);
   };
   useEffect(() => {
     form.resetFields();
 
     const setForm = () => {
-      console.log(dataFields);
       form.setFieldsValue(dataFields ? dataFields : dataItem);
     };
 
