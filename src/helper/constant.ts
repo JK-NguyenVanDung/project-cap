@@ -1,10 +1,10 @@
-export const TEXTSEARCH = 'Nhập thông tin tìm kiếm'
+export const TEXTSEARCH = 'Nhập thông tin tìm kiếm';
 export const MESSAGE = {
   SUCCESS: {
     ADD: 'Thêm thành công',
     DELETE: 'Xoá thành công',
   },
-}
+};
 export const GIRD = {
   COL25: '100%',
   COL24: '96%',
@@ -31,7 +31,7 @@ export const GIRD = {
   COL3: '24%%',
   COL2: '8%',
   COL1: ' 4%',
-}
+};
 
 export const GIRD12 = {
   COL1: '8.33333333%',
@@ -47,7 +47,7 @@ export const GIRD12 = {
   COL11: '91.66666667%',
   COL12: '100%',
   COL13: '9%',
-}
+};
 
 export const errorText = {
   phone1: 'Yêu cầu điền đủ 10 số',
@@ -56,9 +56,9 @@ export const errorText = {
     'Mật khẩu phải từ 6 - 20 ký tự, và bao gồm các ký tự chữ hoa, thường, số và ký tự đặc biệt',
   id_card: 'Phải bao gồm đủ 9 hoặc 12 ký tự số',
   email: 'Sai cấu trúc email',
-  space: 'Ký tự đầu tiên không được để dấu cách!',
+  space: 'Email Không Hợp Lệ',
   formValidation: 'Thông tin điền chưa chính xác!',
   unit: 'Không được nhập số',
   unit2: 'Không được để trống',
   max50: 'Giá trị phải nhỏ hơn 50 ký tự',
-}
+};

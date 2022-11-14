@@ -23,12 +23,14 @@ const DataLogin = [
 ];
 export default function Login() {
   const navigate = useNavigate();
-  navigate('/admin');
   const { instance } = useMsal();
   function LoginPopUp() {
-    instance.loginPopup(loginRequest).catch((e) => {
-      console.log('e', e);
-    });
+    instance
+      .loginPopup(loginRequest)
+      .then(() => navigate('/admin'))
+      .catch((e) => {
+        console.log('e', e);
+      });
   }
   return (
     <div className="bg-slate-500 ">

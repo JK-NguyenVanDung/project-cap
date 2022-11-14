@@ -145,7 +145,12 @@ body {
   /* Microsoft Edge */
   color: black;
 }
-
+.ant-message {
+  z-index: 10000 !important;
+}
+form div.ant-form-item-explain .ant-form-item-explain-error:not(:first-child) {
+  display: none !important;
+}
 .ant-select-selector {
   border-radius: 0.5rem !important;
   min-height: 2.6rem !important;

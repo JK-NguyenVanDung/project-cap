@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   IconButton,
@@ -6,14 +6,14 @@ import {
   DialogHeader,
   DialogBody,
   DialogFooter,
-} from '@material-tailwind/react'
+} from '@material-tailwind/react';
 
-import { Input, Form, message } from 'antd'
+import { Input, Form, message } from 'antd';
 
-import CustomButton from '../../../components/admin/Button'
+import CustomButton from '../../../components/admin/Button';
 
-import { IoClose } from 'react-icons/io5'
-import { dismissType } from '@material-tailwind/react/types/generic'
+import { IoClose } from 'react-icons/io5';
+import { dismissType } from '@material-tailwind/react/types/generic';
 export default function Modal({
   show,
   setShow,
@@ -24,36 +24,38 @@ export default function Modal({
   dataFields,
   form,
   isFocused = true,
+  header,
 }: {
-  handleOk?: any
-  name?: any
-  label?: string
-  dataItem?: any
-  show?: boolean
-  setShow?: (show: boolean) => void
-  FormItem?: React.ComponentProps<any>
-  dataFields?: any
-  form?: any
-  isFocused?: boolean
+  handleOk?: any;
+  name?: any;
+  label?: string;
+  dataItem?: any;
+  show?: boolean;
+  setShow?: (show: boolean) => void;
+  FormItem?: React.ComponentProps<any>;
+  dataFields?: any;
+  form?: any;
+  isFocused?: boolean;
+  header?: string;
 }) {
   const dismiss: dismissType = {
     outsidePointerDown: !isFocused,
-  }
+  };
   const handleShow = () => {
-    setShow(!show)
-  }
+    setShow(!show);
+  };
   useEffect(() => {
-    form.resetFields()
+    form.resetFields();
 
     const setForm = () => {
-      console.log(dataFields)
-      form.setFieldsValue(dataFields ? dataFields : dataItem)
-    }
+      console.log(dataFields);
+      form.setFieldsValue(dataFields ? dataFields : dataItem);
+    };
 
     if (dataItem) {
-      setForm()
+      setForm();
     }
-  }, [dataItem])
+  }, [dataItem]);
   return (
     <Dialog
       dismiss={dismiss}
@@ -64,7 +66,7 @@ export default function Modal({
       <DialogHeader>
         <div className="flex flex-row w-full justify-between items-center mb-6">
           <p className="font-bold font-customFont text-2xl text-black">
-            {dataItem ? `Sửa ${label}` : `Thêm ${label}`}
+            {header ? header : dataItem ? `Sửa ${label}` : `Thêm ${label}`}
           </p>
           <IconButton
             variant="text"
@@ -89,7 +91,7 @@ export default function Modal({
               fullWidth={true}
               className="mx-2"
               noIcon={true}
-              text={!dataItem ? 'Thêm' : 'Sửa'}
+              text={header ? header : !dataItem ? 'Thêm' : 'Sửa'}
             />
 
             <CustomButton
@@ -104,5 +106,5 @@ export default function Modal({
         </DialogFooter>
       </Form>
     </Dialog>
-  )
+  );
 }
