@@ -1,48 +1,48 @@
-import React, { useEffect, useState } from 'react'
-import TableConfig from '../../../components/admin/Table/Table'
-import { Form, message, Space } from 'antd'
-import { BiEditAlt } from 'react-icons/bi'
-import { RiDeleteBinLine } from 'react-icons/ri'
+import React, { useEffect, useState } from 'react';
+import TableConfig from '../../../components/admin/Table/Table';
+import { Form, message, Space } from 'antd';
+import { BiEditAlt } from 'react-icons/bi';
+import { RiDeleteBinLine } from 'react-icons/ri';
 // import Button from '../../../components/sharedComponents/Button'
-import uniqueId from '../../../utils/uinqueId'
-import CustomButton from '../../../components/admin/Button'
-import Modal from '../../../components/admin/Modal/Modal'
-import FormInput from '../../../components/admin/Modal/FormInput'
-import apiService from '../../../api/apiService'
-import { useAppDispatch, useAppSelector } from '../../../hook/useRedux'
-import { errorText, GIRD12, MESSAGE } from '../../../helper/constant'
-import { actions } from '../../../Redux'
+import uniqueId from '../../../utils/uinqueId';
+import CustomButton from '../../../components/admin/Button';
+import Modal from '../../../components/admin/Modal/Modal';
+import FormInput from '../../../components/admin/Modal/FormInput';
+import apiService from '../../../api/apiService';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
+import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
+import { actions } from '../../../Redux';
 import {
   Button,
   Popover,
   PopoverContent,
   PopoverHandler,
-} from '@material-tailwind/react'
-import { IoTrashOutline } from 'react-icons/io5'
-import { IAccountItem, IRoleItem } from '../../../Type'
-import PopOverAction from '../../../components/admin/PopOver'
+} from '@material-tailwind/react';
+import { IoTrashOutline } from 'react-icons/io5';
+import { IAccountItem, IRoleItem } from '../../../Type';
+import PopOverAction from '../../../components/admin/PopOver';
 
 export default function Account() {
-  const [showModal, setShowModal] = useState(false)
-  const [detail, setDetail] = useState<IAccountItem>()
-  const [loading, setLoading] = useState(false)
-  const [role, setRole] = useState<Array<IRoleItem>>()
-  const [reload, setReload] = useState(false)
-  const [isFocused, setIsFocused] = useState(false)
+  const [showModal, setShowModal] = useState(false);
+  const [detail, setDetail] = useState<IAccountItem>();
+  const [loading, setLoading] = useState(false);
+  const [role, setRole] = useState<Array<IRoleItem>>();
+  const [reload, setReload] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
 
-  const [form] = Form.useForm()
+  const [form] = Form.useForm();
 
-  const [data, setData] = useState<Array<IAccountItem>>([])
-  const [filterData, setFilterData] = useState([])
+  const [data, setData] = useState<Array<IAccountItem>>([]);
+  const [filterData, setFilterData] = useState([]);
   const handleEdit = (item: any) => {
     // dispatch(actions.categoryActions.setDetail(data.ID))
     // dispatch(actions.formActions.showForm())
-    setDetail(item)
-    setShowModal(true)
-  }
+    setDetail(item);
+    setShowModal(true);
+  };
   function getRoleTitle(roleId: any) {
     if (role) {
-      return role.find((e) => e.roleId === roleId)?.roleName
+      return role.find((e) => e.roleId === roleId)?.roleName;
     }
   }
   const columns = [
@@ -85,121 +85,121 @@ export default function Account() {
         <PopOverAction data={data} handleEdit={() => handleEdit(data)} />
       ),
     },
-  ]
+  ];
 
   const onChangeSearch = async (value: string) => {
-    const reg = new RegExp(value, 'gi')
-    let temp = data
+    const reg = new RegExp(value, 'gi');
+    let temp = data;
     const filteredData = temp
       .map((record: IAccountItem) => {
-        const emailMatch = record.email.match(reg)
+        const emailMatch = record.email.match(reg);
 
         if (!emailMatch) {
-          return null
+          return null;
         }
-        return record
+        return record;
       })
-      .filter((record) => !!record)
-    setData(value.trim() !== '' ? filteredData : filterData)
-  }
+      .filter((record) => !!record);
+    setData(value.trim() !== '' ? filteredData : filterData);
+  };
 
   async function getData() {
     try {
-      setLoading(true)
-      let res: any = await apiService.getAccounts()
-      console.log(res)
+      setLoading(true);
+      let res: any = await apiService.getAccounts();
+      console.log(res);
       // dispatch(actions.categoryActions.setListAll(res))
       // dispatch(actions.categoryActions.changeLoad(!loadData))
-      setData(res)
-      setFilterData(res)
+      setData(res);
+      setFilterData(res);
 
-      setLoading(false)
+      setLoading(false);
     } catch (err: any) {
-      throw err.message()
+      throw err.message();
     }
   }
   function openAdd() {
-    setShowModal(true)
-    setDetail(null)
+    setShowModal(true);
+    setDetail(null);
   }
   useEffect(() => {
     async function getRoles() {
-      let res: any = await apiService.getRoles()
-      setRole(res)
+      let res: any = await apiService.getRoles();
+      setRole(res);
     }
-    getRoles()
-    getData()
-  }, [])
+    getRoles();
+    getData();
+  }, []);
 
   useEffect(() => {
     async function getRoles() {
-      let res: any = await apiService.getRoles()
-      setRole(res)
+      let res: any = await apiService.getRoles();
+      setRole(res);
     }
-    getRoles()
-    getData()
-  }, [reload])
+    getRoles();
+    getData();
+  }, [reload]);
 
   const handleOk = async () => {
     form
       .validateFields()
       .then(async (values) => {
-        setLoading(true)
-        const temp = []
+        setLoading(true);
+        const temp = [];
         if (detail) {
           await apiService.editAccount({
             accountId: detail.accountId,
             roleId: values.roleId,
-          })
-          setShowModal(false)
+          });
+          setShowModal(false);
           // dispatch(actions.categoryActions.changeLoad(!loadData))
-          message.success('Thay đổi thành công')
-          setReload(!reload)
+          message.success('Thay đổi thành công');
+          setReload(!reload);
 
-          setLoading(false)
-          form.resetFields()
+          setLoading(false);
+          form.resetFields();
         } else {
           await apiService.addAccount({
             email: values.email,
             roleId: values.roleId,
-          })
-          setShowModal(false)
-          setReload(!reload)
+          });
+          setShowModal(false);
+          setReload(!reload);
           // dispatch(actions.categoryActions.changeLoad(!loadData))
-          message.success('Thêm thành công')
+          message.success('Thêm thành công');
 
-          setLoading(false)
-          form.resetFields()
+          setLoading(false);
+          form.resetFields();
         }
       })
 
       .catch((info) => {
         // dispatch(actions.formActions.showError())
 
-        setLoading(false)
-      })
-  }
+        setLoading(false);
+      });
+  };
 
   function getOptions() {
-    let arr = []
+    let arr = [];
     if (!detail) {
       arr.push({
         value: 0,
         label: 'Chưa có vai trò',
-      })
+      });
     }
     if (role) {
       for (let i = 0; i < role.length; i++) {
         arr.push({
           value: role[i].roleId,
           label: role[i].roleName,
-        })
+        });
       }
     }
-    return arr
+    return arr;
   }
   function configAccount() {
-    setShowModal(true)
+    setShowModal(true);
   }
   const FormItem = () => {
     return (
@@ -237,14 +237,14 @@ export default function Account() {
           focusHandle={(e: boolean) => setIsFocused(e)}
         />
       </>
-    )
-  }
+    );
+  };
   function getDataFields() {
     if (detail) {
       return {
         email: detail.email,
         roleId: detail.roleId ? detail.roleId : 0,
-      }
+      };
     }
   }
 
@@ -275,7 +275,8 @@ export default function Account() {
         FormItem={<FormItem />}
         dataFields={getDataFields()}
         form={form}
+        header="Phân quyền"
       />
     </>
-  )
+  );
 }
