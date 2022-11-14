@@ -3,10 +3,10 @@ import {
   Popover,
   PopoverContent,
   PopoverHandler,
-} from '@material-tailwind/react'
-import react, { useState } from 'react'
-import { IoTrashOutline } from 'react-icons/io5'
-import CustomButton from './Button'
+} from '@material-tailwind/react';
+import react, { useState } from 'react';
+import { IoTrashOutline } from 'react-icons/io5';
+import CustomButton from './Button';
 
 export default function PopOverAction({
   data,
@@ -14,28 +14,37 @@ export default function PopOverAction({
   handleEdit,
   setLoading,
   deleteItem,
+  handleShowDetail,
 }: {
-  data: any
-  handleDelete?: Function
-  handleEdit?: Function
-  setLoading?: React.MouseEventHandler
-  deleteItem?: string
+  data: any;
+  handleDelete?: Function;
+  handleEdit?: Function;
+  setLoading?: React.MouseEventHandler;
+  deleteItem?: string;
+  handleShowDetail?: Function;
 }) {
-  const [openAction, setOpenAction] = useState(false)
+  const [openAction, setOpenAction] = useState(false);
 
   function handleAction() {
-    setOpenAction(!openAction)
+    setOpenAction(!openAction);
   }
   async function handleDel() {
-    handleAction()
-    handleDelete()
+    handleAction();
+    handleDelete();
   }
   return (
     <>
       <div className="flex w-max items-center gap-4">
-        {handleEdit ? (
+        {handleEdit && (
           <CustomButton type="edit" onClick={() => handleEdit()} />
-        ) : null}
+        )}
+        {handleShowDetail && (
+          <CustomButton
+            text="Chi tiết"
+            noIcon
+            onClick={() => handleShowDetail()}
+          />
+        )}
         {handleDelete && (
           <Popover
             handler={handleAction}
@@ -78,5 +87,5 @@ export default function PopOverAction({
         )}
       </div>
     </>
-  )
+  );
 }

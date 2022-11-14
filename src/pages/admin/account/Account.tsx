@@ -29,6 +29,7 @@ export default function Account() {
   const [role, setRole] = useState<Array<IRoleItem>>();
   const [reload, setReload] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [showDetail, setShowDetail] = useState(false);
 
   const [form] = Form.useForm();
 
@@ -45,12 +46,21 @@ export default function Account() {
       return role.find((e) => e.roleId === roleId)?.roleName;
     }
   }
+
+  const handleShowDetail = (item: any) => {
+    // dispatch(actions.categoryActions.setDetail(data.ID))
+    // dispatch(actions.formActions.showForm())
+    setDetail(item);
+    setShowDetail(true);
+    setShowModal(true);
+  };
+
   const columns = [
-    // {
-    //   title: 'Tên Tài Khoản',
-    //   dataIndex: 'userName',
-    //   key: 'userName',
-    // },
+    {
+      title: 'STT',
+      render: (data: any) => <p>{data && data.index ? data.index : 0}</p>,
+      width: GIRD12.COL1,
+    },
     {
       title: 'Email',
       dataIndex: 'email',
@@ -82,7 +92,11 @@ export default function Account() {
       width: GIRD12.COL1,
 
       render: (data: IAccountItem) => (
-        <PopOverAction data={data} handleEdit={() => handleEdit(data)} />
+        <PopOverAction
+          data={data}
+          handleEdit={() => handleEdit(data)}
+          handleShowDetail={() => handleShowDetail(data)}
+        />
       ),
     },
   ];
@@ -107,11 +121,17 @@ export default function Account() {
     try {
       setLoading(true);
       let res: any = await apiService.getAccounts();
-      console.log(res);
+      res = res.reverse();
+
+      const temp = res.map((v: any, index: number) => ({
+        ...v,
+        index: index + 1,
+      }));
+
       // dispatch(actions.categoryActions.setListAll(res))
       // dispatch(actions.categoryActions.changeLoad(!loadData))
-      setData(res);
-      setFilterData(res);
+      setData(temp);
+      setFilterData(temp);
 
       setLoading(false);
     } catch (err: any) {
@@ -214,7 +234,7 @@ export default function Account() {
     return (
       <>
         <FormInput
-          disabled={detail ? true : false}
+          disabled={detail || showDetail ? true : false}
           name="email"
           label="Email"
           rules={[
@@ -239,6 +259,7 @@ export default function Account() {
           ]}
         />
         <FormInput
+          disabled={showDetail ? true : false}
           name="roleId"
           options={getOptions()}
           type="select"
@@ -290,7 +311,8 @@ export default function Account() {
         FormItem={<FormItem />}
         dataFields={getDataFields()}
         form={form}
-        header="Phân quyền"
+        header={showDetail ? 'Xem Chi Tiết' : 'Phân Quyền'}
+        showDetail={showDetail}
       />
     </>
   );

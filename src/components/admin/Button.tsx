@@ -1,18 +1,19 @@
-import React, { useEffect, useState, FC } from 'react'
-import { Button } from '@material-tailwind/react'
-import { FaPencilAlt, FaTrash, FaPlus } from 'react-icons/fa'
-import { IconType } from 'react-icons/lib'
-import { color, size } from '@material-tailwind/react/types/components/button'
+import React, { useEffect, useState, FC } from 'react';
+import { Button } from '@material-tailwind/react';
+import { FaPencilAlt, FaTrash, FaPlus } from 'react-icons/fa';
+import { AiOutlineExpandAlt } from 'react-icons/ai';
+import { IconType } from 'react-icons/lib';
+import { color, size } from '@material-tailwind/react/types/components/button';
 interface CustomButton {
-  size?: size
-  color?: color
-  className?: string
-  onClick?: FC | Function
-  Icon?: IconType
-  noIcon?: boolean
-  text?: string
-  type?: string
-  fullWidth?: boolean
+  size?: size;
+  color?: color;
+  className?: string;
+  onClick?: FC | Function;
+  Icon?: IconType;
+  noIcon?: boolean;
+  text?: string;
+  type?: string;
+  fullWidth?: boolean;
 }
 
 export default function CustomButton({
@@ -26,48 +27,54 @@ export default function CustomButton({
   type,
   fullWidth,
 }: {
-  size?: size
-  color?: color
-  className?: string
-  onClick?: React.MouseEventHandler
-  Icon?: IconType
-  noIcon?: boolean
-  text?: string
-  type?: string
-  fullWidth?: boolean
+  size?: size;
+  color?: color;
+  className?: string;
+  onClick?: React.MouseEventHandler;
+  Icon?: IconType;
+  noIcon?: boolean;
+  text?: string;
+  type?: string;
+  fullWidth?: boolean;
 }) {
-  let variant: any
-  let iconClass
-  let defaultText = ''
+  let variant: any;
+  let iconClass;
+  let defaultText = '';
   switch (type) {
     case 'delete':
-      defaultText = 'Xoá'
-      color = 'red'
-      Icon = FaTrash
+      defaultText = 'Xoá';
+      color = 'red';
+      Icon = FaTrash;
 
-      break
+      break;
     case 'cancel':
-      defaultText = 'Huỷ'
-      color = 'red'
-      variant = 'outlined'
-      break
+      defaultText = 'Huỷ';
+      color = 'red';
+      variant = 'outlined';
+      break;
     case 'edit':
-      defaultText = ''
-      Icon = FaPencilAlt
+      defaultText = '';
+      Icon = FaPencilAlt;
       // variant = 'text'
-      break
+      break;
     case 'add':
-      defaultText = 'Thêm mới'
-      Icon = FaPlus
-      iconClass = 'mx-2 text-base '
-      className += ' mx-0 px-2 pr-6'
-      break
-    default:
-      defaultText = 'Thêm'
-      Icon = FaPlus
-      iconClass = 'mx-2 text-base'
+      defaultText = 'Thêm mới';
+      Icon = FaPlus;
+      iconClass = 'mx-2 text-base ';
+      className += ' mx-0 px-2 pr-6';
+      break;
+    case 'detail':
+      defaultText = '';
+      Icon = AiOutlineExpandAlt;
+      iconClass = 'mx-2 text-base ';
 
-      break
+      break;
+    default:
+      defaultText = 'Thêm';
+      Icon = FaPlus;
+      iconClass = 'mx-2 text-base';
+
+      break;
   }
 
   return (
@@ -84,7 +91,7 @@ export default function CustomButton({
         {text ? text : defaultText}
       </p>
     </Button>
-  )
+  );
 
   //className="mx-2 text-base
 }
