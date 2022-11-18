@@ -1,15 +1,15 @@
-import { ISignUp } from './apiInterface'
-export const API_URL = 'https://localhost:7206'
+import { ISignUp } from './apiInterface';
+export const API_URL = 'https://localhost:7206';
 export const API_CONFIG = {
   AUTH: {
     LOGIN: '/api/Users/Login',
     SIGN_UP: '/api/Users',
   },
   COURSE_CATEGORY: {
-    GET: '/api/Categories/getall',
+    GET: '/api/Categories/',
     POST: '/api/Categories/Create',
-    DELETE: (ID: number) => `/api/Categories/delete/${ID}`,
-    PUT: (ID: number) => `/api/Categories/update/${ID}`,
+    DELETE: (ID: number) => `/api/Categories/${ID}`,
+    PUT: (ID: number) => `/api/Categories/${ID}`,
   },
   ACCOUNT: {
     GET: '/api/Accounts',
@@ -19,4 +19,8 @@ export const API_CONFIG = {
   ROLES: {
     GET: '/api/Roles/getall',
   },
-}
+  PROGRAM: {
+    GET: '/api/Programs',
+    POST: '/api/Programs',
+  },
+};

@@ -1,12 +1,12 @@
-import { z } from 'zod'
+import { z } from 'zod';
 
 export interface ILogin {
-  userName: string
-  password: string
+  userName: string;
+  password: string;
 }
 export interface IAccount {
-  id: string
-  name: string
+  id: string;
+  name: string;
 }
 // export interface IAccountItem {
 //   id: string
@@ -20,7 +20,7 @@ export interface IAccount {
 const RoleItem = z.object({
   roleId: z.number(),
   roleName: z.string(),
-})
+});
 
 const AccountItem = z.object({
   accountId: z.number(),
@@ -36,13 +36,26 @@ const AccountItem = z.object({
   multipleChoiceAnswers: z.unknown(),
   programs: z.unknown(),
   role: z.string(),
-})
+});
 
 const CategoryItem = z.object({
   categoryId: z.number(),
   categoryName: z.string(),
-})
-export type IRoleItem = z.infer<typeof RoleItem>
+});
 
-export type ICategoryItem = z.infer<typeof CategoryItem>
-export type IAccountItem = z.infer<typeof AccountItem>
+const ProgramItem = z.object({
+  FacultyId: z.number(),
+  AccountIdCreator: z.number(),
+  CategoryId: z.number(),
+  ProgramName: z.string(),
+  Image: z.string(),
+  StartDate: z.date(),
+  EndDate: z.date(),
+  IsPublish: z.boolean(),
+  Coin: z.number(),
+});
+export type IRoleItem = z.infer<typeof RoleItem>;
+
+export type ICategoryItem = z.infer<typeof CategoryItem>;
+export type IAccountItem = z.infer<typeof AccountItem>;
+export type IProgramItem = z.infer<typeof ProgramItem>;

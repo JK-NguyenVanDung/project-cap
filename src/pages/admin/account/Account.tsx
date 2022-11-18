@@ -6,7 +6,7 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 // import Button from '../../../components/sharedComponents/Button'
 import uniqueId from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
-import Modal from '../../../components/admin/Modal/Modal';
+import CustomModal from '../../../components/admin/Modal/Modal';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import apiService from '../../../api/apiService';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
@@ -300,7 +300,7 @@ export default function Account() {
           />,
         ]}
       />
-      <Modal
+      <CustomModal
         isFocused={isFocused}
         show={showModal}
         setShow={setShowModal}

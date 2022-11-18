@@ -34,6 +34,7 @@ export const GIRD = {
 };
 
 export const GIRD12 = {
+  COL0: '5%',
   COL1: '8.33333333%',
   COL2: '16.66666667%',
   COL3: '25%',

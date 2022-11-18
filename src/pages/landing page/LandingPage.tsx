@@ -15,28 +15,24 @@ import { TbCertificate, TbGift } from 'react-icons/tb';
 import Button from '../../components/sharedComponents/Button';
 import { IconType } from 'react-icons';
 import { useNavigate } from 'react-router-dom';
-import { useIsAuthenticated } from '@azure/msal-react';
-import { useMsal } from '@azure/msal-react';
 
 const useMountEffect = (fun: any) => useEffect(fun, []);
 
 const Header = (props: any) => {
-  const isAuthenticated = useIsAuthenticated();
   const navigate = useNavigate();
   const headerList = [
     {
-      title: 'Trang Chủ',
+      title: 'TRANG CHỦ',
       index: 0,
     },
     {
-      title: 'Khoá học',
+      title: 'KHOÁ HỌC',
       index: 1,
     },
-    { title: 'Về chúng tôi', index: 2 },
-    { title: 'Liên hệ', index: 3 },
+    { title: 'VỀ CHÚNG TÔI', index: 2 },
+    { title: 'LIÊN HỆ', index: 3 },
   ];
   const [open, setOpen] = useState(false);
-  const { instance } = useMsal();
 
   const executeScroll = (i: number) => {
     const e = props.references.filter((e: any, index: number) => index === i);
@@ -57,39 +53,23 @@ const Header = (props: any) => {
   function login() {
     navigate('/login');
   }
-  function Logout() {
-    instance.logoutPopup({
-      postLogoutRedirectUri: '/',
-      mainWindowRedirectUri: '/',
-    });
-  }
   return (
     <nav className="  hide hide-top relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
         <a href="/" className="logo px-2 md:order-1 flex flex-row items-center">
           <img src={Logo} className="mr-3 h-6 sm:h-9 " alt="Training Logo" />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
-            TRAINING
+            VLU TRAINING
           </span>
         </a>
         <div className="flex md:order-2 sm:order-2 ">
-          {isAuthenticated ? (
-            <button
-              type="button"
-              className={`btn btn-primary`}
-              onClick={() => Logout()}
-            >
-              Đăng Xuất
-            </button>
-          ) : (
-            <button
-              type="button"
-              className={`btn btn-primary`}
-              onClick={() => login()}
-            >
-              Đăng nhập
-            </button>
-          )}
+          <button
+            type="button"
+            className={`btn btn-primary`}
+            onClick={() => login()}
+          >
+            Đăng nhập
+          </button>
           <button
             data-collapse-toggle="navbar-cta"
             type="button"
@@ -124,10 +104,10 @@ const Header = (props: any) => {
           <ul className="flex flex-col p-4 mt-4 bg-dark-blue rounded-lg border border-gray-100 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-dark-blue dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             {headerList.map((item) => {
               return (
-                <li className="px-10" key={item.index}>
+                <li className="px-10 hover:text-primary" key={item.index}>
                   <a
                     onClick={() => executeScroll(item.index)}
-                    className=" cursor-pointer block py-2 pr-4 pl-3 text-white rounded hover:bg-blue-600 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                    className=" cursor-pointer font-customFont font-semibold block py-2 pr-4 pl-3 text-white rounded hover:text-primary md:hover:bg-transparent md:border-0 md:hover:text-primary md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                     aria-current="page"
                   >
                     {item.title}
@@ -145,24 +125,21 @@ const Home = React.forwardRef((props, ref: any) => {
   return (
     <div
       ref={ref}
-      className=" flex z-10  pl-28 max-sm:p-2  max-sm:flex-wrap  flex-row w-full h-screen justify-between items-center bg-dark-blue "
+      className=" mb-20 flex z-10  pl-20 max-sm:p-2  max-sm:flex-wrap  flex-row w-full h-screen justify-between items-center bg-dark-blue "
     >
-      <div className="flex hide hide-left  flex-col  w-1/2 max-sm:w-full  ">
+      <div className="flex hide hide-left  flex-col  w-[60%] max-sm:w-full  ">
         <div className="flex flex-col  w-full  justify-center items-start  max-sm:items-center ">
-          <h4 className="mb-2 text-xl  font-bold tracking-tight text-white">
+          <h4 className="mb-6 text-xl  font-bold tracking-tight text-white">
             Đào tạo trực tuyến cùng ĐH Văn Lang
           </h4>
-          <h1 className="mb-2 text-5xl  font-bold tracking-tight text-white">
+          <h1 className="mb-6 text-5xl  font-bold tracking-tight text-white ">
             Cơ hội đào tạo tốt nhất
           </h1>
-          <h3 className="mb-2 text-xl  font-bold tracking-tight text-white">
+          <h3 className="mb-6 text-xl  font-bold tracking-tight text-white">
             Hãy đăng nhập để tham gia khoá học của chúng tôi
           </h3>
           <div className="flex flex-row justify-center items-center">
             <Button onClick={() => {}}>Tham gia đào tạo</Button>
-            <Button onClick={() => {}} className="btn-transparent text-white">
-              Tìm hiểu thêm
-            </Button>
           </div>
         </div>
       </div>
@@ -200,7 +177,7 @@ const Home = React.forwardRef((props, ref: any) => {
   );
 });
 
-const PinkBlob = () => {
+function PinkBlob() {
   return (
     <div className="absolute w-full left-2 top-16 ">
       <svg
@@ -227,7 +204,7 @@ const PinkBlob = () => {
       </svg>
     </div>
   );
-};
+}
 function WhiteBlob() {
   return (
     <div className="absolute w-full top-20 ">
@@ -316,7 +293,7 @@ const ProductCard = (props: any) => {
               <span>{props.view}</span>
             </div>
             <div className="inline-flex flex-row justify-between items-center pl-12 ">
-              <IoTimeSharp className=" text-blue-700" />
+              <IoTimeSharp className="text-lg text-primary" />
               <span className="pl-2">{props.hour}</span>
             </div>
           </div>
@@ -380,13 +357,13 @@ const Introduction = React.forwardRef((props, ref: any) => {
       className="relative mb-4 max-sm:mt-[130vh] max-sm:mb-[80vh]  max-sm:flex-wrap  max-sm:h-screen flex h-screen flex-row justify-between md:mx-20 max-sm:mx-2 items-center "
     >
       <div className="  max-sm:w-full w-1/2 h-screen flex flex-col items-center justify-center">
-        <p className="hide hide-left font-bold text-4xl mb-6 text-white">
+        <p className=" font-bold text-4xl mb-6 text-white">
           Các khoá học nội bộ của chúng tôi hoạt động ra sao?
         </p>
         <div className="grid grid-cols-2 contentList">
           {[...content.values()].map((e, index) => {
             return (
-              <div key={index} className="hide hide-left  m-3">
+              <div key={index} className="  m-3">
                 <div className="bg-dark-pink w-14 h-14 rounded-md flex justify-center items-center mb-4">
                   <e.logo className="text-white w-1/2 h-1/2"></e.logo>
                 </div>
@@ -441,10 +418,10 @@ const Footer = React.forwardRef((props, ref: any) => {
         <div className=" relative w-full hide hide-bottom  container mx-auto px-6">
           <div className="sm:flex sm:mt-8">
             <div className="mt-8 sm:mt-0 sm:w-full sm:px-8 flex flex-col md:flex-row justify-between">
-              <div className="w-[10%] flex flex-col items-center">
+              <div className="w-[10%] flex flex-col items-center justify-center">
                 <img src={Logo} className=" " alt="Training Logo" />
                 <span className="mt-2 self-center text-xl font-semibold whitespace-nowrap text-white-500">
-                  VL TRAINING
+                  VLU TRAINING
                 </span>
               </div>
               <div className="flex flex-col">
@@ -452,28 +429,24 @@ const Footer = React.forwardRef((props, ref: any) => {
                   Trường Đại học Văn Lang
                 </span>
                 <span className="my-2">
-                  <a className="text-white text-md hover:text-blue-500">
-                    <a className="text-white font-bold text-md hover:text-blue-500 ">
+                  <p className="text-white text-md ">
+                    <p className="text-white font-bold text-md  ">
                       Cơ sở chính:{' '}
-                    </a>
+                    </p>
                     69/68 Đặng Thùy Trâm, P. 13, Q. Bình Thạnh, TP. HCM
-                  </a>
+                  </p>
                 </span>
                 <span className="my-2">
-                  <a className="text-white  text-md hover:text-blue-500">
-                    <a className="text-white font-bold text-md hover:text-blue-500 ">
-                      Cơ sở 1:{' '}
-                    </a>{' '}
+                  <p className="text-white  text-md ">
+                    <p className="text-white font-bold text-md  ">Cơ sở 1: </p>{' '}
                     45 Nguyễn Khắc Nhu, P. Cô Giang, Q.1, TP. HCM
-                  </a>
+                  </p>
                 </span>
                 <span className="my-2">
-                  <a className="text-white text-md hover:text-blue-500">
-                    <a className="text-white font-bold text-md hover:text-blue-500 ">
-                      Cơ sở 2:{' '}
-                    </a>{' '}
+                  <p className="text-white text-md ">
+                    <p className="text-white font-bold text-md  ">Cơ sở 2: </p>{' '}
                     233A Phan Văn Trị, P.11, Q. Bình Thạnh, TP. HCM
-                  </a>
+                  </p>
                 </span>
               </div>
               <div className="flex flex-col">
@@ -481,28 +454,26 @@ const Footer = React.forwardRef((props, ref: any) => {
                   Liên hệ
                 </span>
                 <span className="my-2">
-                  <a className="text-white  text-md hover:text-blue-500">
-                    <a className="text-white font-bold text-md hover:text-blue-500">
+                  <p className="text-white  text-md ">
+                    <p className="text-white font-bold text-md ">
                       Điện thoại bàn:{' '}
-                    </a>
+                    </p>
                     028.71099221- EXT: 3320
-                  </a>
+                  </p>
                 </span>
                 <span className="my-2">
-                  <a className="text-white  text-md hover:text-blue-500">
-                    <a className="text-white font-bold text-md hover:text-blue-500">
+                  <p className="text-white  text-md ">
+                    <p className="text-white font-bold text-md ">
                       Điện thoại Mobile:{' '}
-                    </a>{' '}
+                    </p>{' '}
                     028.71239221- EXT: 3320
-                  </a>
+                  </p>
                 </span>
                 <span className="my-2">
-                  <a className="text-white  text-md hover:text-blue-500">
-                    <a className="text-white font-bold text-md hover:text-blue-500">
-                      Email:{' '}
-                    </a>{' '}
+                  <p className="text-white  text-md ">
+                    <p className="text-white font-bold text-md ">Email: </p>{' '}
                     lotusVLU@vlu.edu.vn
-                  </a>
+                  </p>
                 </span>
               </div>
             </div>
@@ -512,7 +483,7 @@ const Footer = React.forwardRef((props, ref: any) => {
           <div className="mt-16 border-t-2 border-gray-300 flex flex-col items-center">
             <div className="sm:w-2/3 text-center py-6">
               <p className=" hide hide-bottom text-sm text-white font-bold mb-2">
-                © 2022 by Royal Lotus -- Lý Thị Huyền Châu -- Cao Kỳ Viên
+                © 2022 - Bản Quyền Thuộc Trường Đại học Văn Lang
               </p>
             </div>
           </div>
@@ -543,9 +514,23 @@ const LandingPage = () => {
     console.count();
   }, [observer]);
 
+  useEffect(() => {
+    const rawResponse = fetch(
+      'https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/WeatherForecast      ',
+      {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({ name: 'xyz' }),
+      },
+    );
+  }, []);
   return (
     <>
-      <div className="flex bg-dark-blue h-screen flex-col overflow-x-hidden	">
+      <div className=" font-customFont flex bg-dark-blue h-screen flex-col overflow-x-hidden	">
         <Header references={[homeRef, productRef, introRef, contactRef]} />
         <Home ref={homeRef} />
         <Product ref={productRef} />
