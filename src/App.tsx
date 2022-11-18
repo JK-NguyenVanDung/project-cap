@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 
-import LandingPage from './pages/landing page';
+import LandingPage from './pages/landing page/LandingPage';
 import MakeAdminRouter from './router/AdminRouter';
 import 'antd/dist/antd.css';
 import {

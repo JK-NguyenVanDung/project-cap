@@ -4,9 +4,11 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import SideBar from '../pages/admin';
 import Dashboard from '../pages/admin/Dashboard/Dashboard';
 import Login from '../pages/authentication/Login';
-import LandingPage from '../pages/landing page';
-import Category from '../pages/admin/Category';
+import LandingPage from '../pages/landing page/LandingPage';
+import Category from '../pages/admin/Category/Category';
 import Account from '../pages/admin/account/Account';
+import Program from '../pages/admin/Program/Program';
+
 import {
   AuthenticatedTemplate,
   UnauthenticatedTemplate,
@@ -29,8 +31,8 @@ export const AdminRouter = [
     element: <Category />,
   },
   {
-    path: '/admin/Course',
-    element: <Account />,
+    path: '/admin/Program',
+    element: <Program />,
   },
   {
     path: '/admin/Learner',

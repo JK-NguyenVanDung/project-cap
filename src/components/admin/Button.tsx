@@ -1,7 +1,6 @@
 import React, { useEffect, useState, FC } from 'react';
 import { Button } from '@material-tailwind/react';
-import { FaPencilAlt, FaTrash, FaPlus } from 'react-icons/fa';
-import { HiOutlineArrowsExpand } from 'react-icons/hi';
+import { FaPencilAlt, FaTrash, FaPlus, FaEye } from 'react-icons/fa';
 import { IconType } from 'react-icons/lib';
 import { color, size } from '@material-tailwind/react/types/components/button';
 interface CustomButton {
@@ -65,7 +64,7 @@ export default function CustomButton({
       break;
     case 'detail':
       defaultText = '';
-      Icon = HiOutlineArrowsExpand;
+      Icon = FaEye;
       iconClass = 'mx-2 text-base ';
       variant = 'outlined';
 

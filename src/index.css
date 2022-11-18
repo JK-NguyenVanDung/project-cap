@@ -305,3 +305,12 @@ button:focus-visible {
   background-repeat: no-repeat;
   background-size: cover;
 }
+.ant-image-preview-img-wrapper {
+  display: grid;
+}
+.ant-image-preview-img {
+  height: 80vh;
+
+  align-self: center;
+  justify-self: center;
+}

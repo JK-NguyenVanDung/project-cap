@@ -1,6 +1,8 @@
 import React, { useRef } from 'react';
-import { Input, Form, message, Select } from 'antd';
+import { Input, Form, message, Select, DatePicker, Space } from 'antd';
 const { Option } = Select;
+import type { DatePickerProps, RangePickerProps } from 'antd/es/date-picker';
+const { RangePicker } = DatePicker;
 
 export default function FormInput({
   label,
@@ -19,6 +21,37 @@ export default function FormInput({
   disabled?: boolean;
   focusHandle?: React.FC | Function;
 }) {
+  function onChange() {}
+  function onOk() {}
+  let FormComponent = () => {
+    switch (type) {
+      case 'select':
+        return (
+          <Select
+            disabled={disabled}
+            dropdownStyle={{ zIndex: 20000 }}
+            defaultValue={options[0]?.value}
+            className="text-black font-customFont h-10 font-bold min-w-[20rem] mt-4"
+            options={options}
+            onFocus={() => focusHandle(true)}
+            onBlur={() => focusHandle(false)}
+          ></Select>
+        );
+      case 'date':
+        return (
+          <Space direction="vertical" size={12}>
+            <DatePicker showTime onChange={onChange} onOk={onOk} />
+            <RangePicker
+              showTime={{ format: 'HH:mm' }}
+              format="YYYY-MM-DD HH:mm"
+              onChange={onChange}
+              onOk={onOk}
+            />
+          </Space>
+        );
+      case 'upload':
+    }
+  };
   return (
     <div className="w-full mb-6 z-1">
       <label className="text-black font-bold font-customFont ">{label}</label>

@@ -6,7 +6,7 @@ import { RiDeleteBinLine } from 'react-icons/ri';
 // import Button from '../../../components/sharedComponents/Button'
 import uniqueId from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
-import Modal from '../../../components/admin/Modal/Modal';
+import CustomModal from '../../../components/admin/Modal/Modal';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import apiService from '../../../api/apiService';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
@@ -56,8 +56,7 @@ export default function Category() {
   const columns = [
     {
       title: 'STT',
-      dataIndex: 'categoryName',
-      render: (value: any, item: any, index: number) => <p>{index + 1}</p>,
+      render: (data: any) => <p>{data && data.index ? data.index : 0}</p>,
       width: GIRD12.COL1,
     },
     {
@@ -204,6 +203,10 @@ export default function Category() {
               pattern: new RegExp(/^\w/),
               message: errorText.space,
             },
+            {
+              pattern: new RegExp(/^.{1,50}$/),
+              message: errorText.max50,
+            },
           ]}
         />
       </>
@@ -233,7 +236,7 @@ export default function Category() {
           />,
         ]}
       />
-      <Modal
+      <CustomModal
         isFocused={isFocused}
         show={showModal}
         setShow={setShowModal}

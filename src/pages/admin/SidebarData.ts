@@ -1,11 +1,11 @@
-import { IconType } from 'react-icons'
-import { BsFillHouseFill, BsFillPersonBadgeFill } from 'react-icons/bs'
-import { IoApps, IoBook, IoAlbums, IoPeopleCircle } from 'react-icons/io5'
+import { IconType } from 'react-icons';
+import { BsFillHouseFill, BsFillPersonBadgeFill } from 'react-icons/bs';
+import { IoApps, IoBook, IoAlbums, IoPeopleCircle } from 'react-icons/io5';
 
 export interface ISidebar {
-  title: string
-  icon: IconType
-  path: string
+  title: string;
+  icon: IconType;
+  path: string;
 }
 export const SideBarData = [
   {
@@ -21,7 +21,7 @@ export const SideBarData = [
   {
     title: 'Khóa Học',
     icon: IoBook,
-    path: '/admin/Course',
+    path: '/admin/Program',
   },
   {
     title: 'Danh Mục',
@@ -33,4 +33,4 @@ export const SideBarData = [
     icon: BsFillPersonBadgeFill,
     path: '/admin/Learner',
   },
-]
+];
