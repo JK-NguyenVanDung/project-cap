@@ -7,8 +7,10 @@ import {
 import react, { useState } from 'react';
 import { IoTrashOutline } from 'react-icons/io5';
 import CustomButton from './Button';
+import { size } from '@material-tailwind/react/types/components/button';
 
 export default function PopOverAction({
+  size,
   data,
   handleDelete,
   handleEdit,
@@ -16,6 +18,7 @@ export default function PopOverAction({
   deleteItem,
   handleShowDetail,
 }: {
+  size?: size;
   data: any;
   handleDelete?: Function;
   handleEdit?: Function;
@@ -39,10 +42,14 @@ export default function PopOverAction({
     <>
       <div className="flex w-max items-center gap-4">
         {handleEdit && (
-          <CustomButton type="edit" onClick={() => handleEdit()} />
+          <CustomButton size={size} type="edit" onClick={() => handleEdit()} />
         )}
         {handleShowDetail && (
-          <CustomButton type="detail" onClick={() => handleShowDetail()} />
+          <CustomButton
+            size={size}
+            type="detail"
+            onClick={() => handleShowDetail()}
+          />
         )}
         {handleDelete && (
           <Popover
@@ -57,7 +64,9 @@ export default function PopOverAction({
             <PopoverHandler>
               <Button
                 size="sm"
-                className="flex flex-row justify-center items-center"
+                className={`flex flex-row justify-center items-center ${
+                  size === 'sm' && 'px-1/2'
+                }`}
                 color="red"
               >
                 <IoTrashOutline className="mx-2 text-base " />

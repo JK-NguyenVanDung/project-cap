@@ -44,6 +44,7 @@ const CategoryItem = z.object({
 });
 
 const ProgramItem = z.object({
+  ProgramId: z.number(),
   FacultyId: z.number(),
   AccountIdCreator: z.number(),
   CategoryId: z.number(),

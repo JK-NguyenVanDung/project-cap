@@ -10,10 +10,9 @@ import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
 import { IProgramItem, IRoleItem } from '../../../Type';
 import PopOverAction from '../../../components/admin/PopOver';
 import ImagePlaceHolder from '../../../assets/img/menu-bg.jpeg';
-import { useNavigate } from 'react-router-dom';
-import { actions } from '../../../Redux';
 import { useAppDispatch } from '../../../hook/useRedux';
-export default function Program() {
+import { actions } from '../../../Redux';
+export default function ProgramDetail() {
   const [showModal, setShowModal] = useState(false);
   const [detail, setDetail] = useState<IProgramItem>();
   const [loading, setLoading] = useState(false);
@@ -29,7 +28,7 @@ export default function Program() {
     setDetail(item);
     setShowModal(true);
   };
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
 
   async function handleDelete(item: IProgramItem) {
     try {
@@ -40,16 +39,6 @@ export default function Program() {
     } catch (err: any) {
       throw err.message();
     }
-  }
-  const dispatch = useAppDispatch();
-
-  function handleShowDetail(item: IProgramItem) {
-    navigate(`/admin/Program/${item.ProgramId}`);
-    dispatch(
-      actions.formActions.setNameMenu(
-        `Chương trình ${item.ProgramName && item.ProgramName}`,
-      ),
-    );
   }
 
   const columns = [
@@ -115,11 +104,9 @@ export default function Program() {
         return (
           <>
             <PopOverAction
-              size="sm"
               data={item}
               handleEdit={() => handleEdit(item)}
               handleDelete={() => handleDelete(item)}
-              handleShowDetail={() => handleShowDetail(item)}
               deleteItem={item.ProgramName}
             />
           </>
@@ -150,7 +137,6 @@ export default function Program() {
       let res: any = await apiService.getPrograms();
       let test = [
         {
-          ProgramId: 1,
           FacultyId: 1,
           AccountIdCreator: 1,
           CategoryId: 1,
@@ -162,8 +148,6 @@ export default function Program() {
           Coin: 1,
         },
         {
-          ProgramId: 2,
-
           FacultyId: 2,
           AccountIdCreator: 1,
           CategoryId: 1,
@@ -180,6 +164,11 @@ export default function Program() {
         ...v,
         index: index + 1,
       }));
+      dispatch(
+        actions.formActions.setNameMenu(
+          `Chương trình ${res[0].ProgramName && res[0].ProgramName}`,
+        ),
+      );
       // dispatch(actions.ProgramActions.setListAll(res))
       // dispatch(actions.ProgramActions.changeLoad(!loadData))
       setData(temp);
@@ -245,72 +234,6 @@ export default function Program() {
       <>
         <FormInput
           disabled={false}
-          name="name"
-          label="Tên chương trình"
-          rules={[
-            {
-              required: true,
-              message: `Không được để trống tên chương trình`,
-            },
-            {
-              pattern: new RegExp(/^\w/),
-              message: errorText.space,
-            },
-          ]}
-        />
-        <FormInput
-          disabled={false}
-          name="ProgramName"
-          label="Mô tả chương trình"
-          rules={[
-            {
-              required: true,
-              message: `Không được để trống mô tả`,
-            },
-            {
-              pattern: new RegExp(/^\w/),
-              message: errorText.space,
-            },
-          ]}
-        />
-        <FormInput
-          disabled={false}
-          name="StartDate"
-          label="Ngày bắt đầu"
-          rules={[
-            {
-              required: true,
-              message: `Không được để trống mô tả`,
-            },
-            {
-              pattern: new RegExp(/^\w/),
-              message: errorText.space,
-            },
-          ]}
-        />
-        <FormInput
-          disabled={false}
-          name="EndDate"
-          label="Ngày kết thúc"
-          rules={[
-            {
-              required: true,
-              message: `Không được để trống mô tả`,
-            },
-            {
-              pattern: new RegExp(/^\w/),
-              message: errorText.space,
-            },
-          ]}
-        />
-        <FormInput
-          disabled={false}
-          name="Image"
-          label="Ảnh banner"
-          rules={[]}
-        />
-        <FormInput
-          disabled={false}
           name="AccountIdCreator"
           label="Người tạo"
           rules={[]}
@@ -337,21 +260,7 @@ export default function Program() {
             },
           ]}
         />
-        <FormInput
-          disabled={false}
-          name="Coin"
-          label="Nhập số Coin"
-          rules={[
-            {
-              required: true,
-              message: `Không được để trống mô tả`,
-            },
-            {
-              pattern: new RegExp(/^\w/),
-              message: errorText.space,
-            },
-          ]}
-        />
+
         <FormInput
           disabled={false}
           name="IsPublish"
@@ -380,32 +289,112 @@ export default function Program() {
 
   return (
     <>
-      <TableConfig
-        onSearch={onChangeSearch}
-        search={true}
-        data={data}
-        columns={columns}
-        extra={[
-          <CustomButton
-            type="add"
-            size="md"
-            key={`${uniqueId()}`}
-            onClick={() => openAdd()}
-          />,
-        ]}
-      />
-      <CustomModal
-        isFocused={isFocused}
-        show={showModal}
-        setShow={setShowModal}
-        dataItem={detail}
-        label={'Chương Trình'}
-        name={detail}
-        handleOk={handleOk}
-        FormItem={<FormItem />}
-        dataFields={getDataFields()}
-        form={form}
-      />
+      <Form form={form} className="formCategory w-full">
+        <div className="grid grid-cols-3 gap-4">
+          <div className="...">
+            <FormInput
+              disabled={false}
+              name="name"
+              label="Tên chương trình"
+              rules={[
+                {
+                  required: true,
+                  message: `Không được để trống tên chương trình`,
+                },
+                {
+                  pattern: new RegExp(/^\w/),
+                  message: errorText.space,
+                },
+              ]}
+            />
+          </div>
+
+          <div className="row-span-1">
+            <FormInput
+              disabled={false}
+              name="Coin"
+              label="Nhập số Coin"
+              rules={[
+                {
+                  required: true,
+                  message: `Không được để trống mô tả`,
+                },
+                {
+                  pattern: new RegExp(/^\w/),
+                  message: errorText.space,
+                },
+              ]}
+            />
+          </div>
+
+          <div className="row-span-2">
+            <FormInput
+              type="upload"
+              disabled={false}
+              name="Image"
+              label="Ảnh banner"
+              rules={[]}
+            />
+          </div>
+          <div className="row-span-4 bg-red-100 ...">
+            <FormInput
+              disabled={false}
+              type="textArea"
+              name="ProgramName"
+              label="Mô tả chương trình"
+              rules={[
+                {
+                  required: true,
+                  message: `Không được để trống mô tả`,
+                },
+                {
+                  pattern: new RegExp(/^\w/),
+                  message: errorText.space,
+                },
+              ]}
+            />
+          </div>
+
+          <div className="...">
+            <FormInput
+              disabled={false}
+              type="date"
+              name="StartDate"
+              label="Ngày bắt đầu"
+              rules={[
+                {
+                  required: true,
+                  message: `Không được để trống mô tả`,
+                },
+                {
+                  pattern: new RegExp(/^\w/),
+                  message: errorText.space,
+                },
+              ]}
+            />
+          </div>
+
+          <div className="...">
+            <FormInput
+              disabled={false}
+              type="date"
+              name="EndDate"
+              label="Ngày kết thúc"
+              rules={[
+                {
+                  required: true,
+                  message: `Không được để trống mô tả`,
+                },
+                {
+                  pattern: new RegExp(/^\w/),
+                  message: errorText.space,
+                },
+              ]}
+            />
+          </div>
+          <div className=" ..."></div>
+        </div>
+      </Form>
     </>
   );
 }

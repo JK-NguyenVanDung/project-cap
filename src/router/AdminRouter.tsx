@@ -8,6 +8,7 @@ import LandingPage from '../pages/landing page/LandingPage';
 import Category from '../pages/admin/Category/Category';
 import Account from '../pages/admin/account/Account';
 import Program from '../pages/admin/Program/Program';
+import ProgramDetail from '../pages/admin/Program/ProgramDetail';
 
 import {
   AuthenticatedTemplate,
@@ -34,6 +35,11 @@ export const AdminRouter = [
     path: '/admin/Program',
     element: <Program />,
   },
+  {
+    path: `/admin/Program/:ProgramId`,
+    element: <ProgramDetail />,
+  },
+
   {
     path: '/admin/Learner',
     element: <Account />,
