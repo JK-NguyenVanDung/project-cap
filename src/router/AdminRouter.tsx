@@ -17,6 +17,7 @@ import {
 } from '@azure/msal-react';
 import { loginRequest } from '../pages/authentication/loginconfig';
 import { callMsGraph } from '../pages/authentication/graph';
+import Fucuties from '../pages/admin/fucuties/Fucuties';
 
 export const AdminRouter = [
   {
@@ -47,6 +48,10 @@ export const AdminRouter = [
   {
     path: '/admin/Test',
     element: <Account />,
+  },
+  {
+    path: '/admin/Fucuties',
+    element: <Fucuties />,
   },
 ];
 export default function MakeAdminRouter() {

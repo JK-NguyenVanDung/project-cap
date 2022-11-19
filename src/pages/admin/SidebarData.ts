@@ -1,5 +1,9 @@
 import { IconType } from 'react-icons';
-import { BsFillHouseFill, BsFillPersonBadgeFill } from 'react-icons/bs';
+import {
+  BsFillHouseFill,
+  BsFillPersonBadgeFill,
+  BsHouse,
+} from 'react-icons/bs';
 import { IoApps, IoBook, IoAlbums, IoPeopleCircle } from 'react-icons/io5';
 
 export interface ISidebar {
@@ -32,5 +36,10 @@ export const SideBarData = [
     title: 'Học Viên',
     icon: BsFillPersonBadgeFill,
     path: '/admin/Learner',
+  },
+  {
+    title: 'Phòng/ Khoa',
+    icon: BsHouse,
+    path: '/admin/Fucuties',
   },
 ];
