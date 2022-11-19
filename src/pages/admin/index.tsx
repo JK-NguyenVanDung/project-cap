@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from 'react'
-import { IconBase, IconType } from 'react-icons'
-import { useNavigate, useNavigation, useLocation } from 'react-router-dom'
-import { AiOutlineAlignLeft } from 'react-icons/ai'
-import { Navbar, PopoverContent } from '@material-tailwind/react'
-import { Breadcrumbs } from '@material-tailwind/react'
-import './index.css'
-import { ISidebar, SideBarData } from './SidebarData'
-import logo from '../../assets/logo.svg'
-import MenuBackground from '../../assets/img/menu-bg.jpeg'
-import HeaderAdmin from '../../components/HeaderAdmin/HeaderAdmin'
-import { useAppDispatch, useAppSelector } from '../../hook/useRedux'
-import { actions } from '../../Redux'
+import React, { useEffect, useState } from 'react';
+import { IconBase, IconType } from 'react-icons';
+import { useNavigate, useNavigation, useLocation } from 'react-router-dom';
+import { AiOutlineAlignLeft } from 'react-icons/ai';
+import { Navbar, PopoverContent } from '@material-tailwind/react';
+import { Breadcrumbs } from '@material-tailwind/react';
+import './index.css';
+import { ISidebar, SideBarData } from './SidebarData';
+import logo from '../../assets/logo.svg';
+import MenuBackground from '../../assets/img/menu-bg.jpeg';
+import HeaderAdmin from '../../components/HeaderAdmin/HeaderAdmin';
+import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
+import { actions } from '../../Redux';
 export default function SideBar({ content }: { content: any }) {
-  let location = useLocation()
-  const navigation = useNavigate()
+  let location = useLocation();
+  const navigation = useNavigate();
   const nameMenu = useAppSelector((state: any) =>
-    state.form.nameMenu ? state.form.nameMenu : 'Trang Chủ'
-  )
+    state.form.nameMenu ? state.form.nameMenu : 'Trang Chủ',
+  );
   useEffect(() => {
     let temp = SideBarData.filter(
-      (item: ISidebar) => item.path === location.pathname
-    )[0].title
-    dispatch(actions.formActions.setNameMenu(`${temp}`))
-  }, [])
-  const dispatch = useAppDispatch()
+      (item: ISidebar) => item.path === location.pathname,
+    )[0]?.title;
+    temp && dispatch(actions.formActions.setNameMenu(`${temp}`));
+  }, []);
+  const dispatch = useAppDispatch();
   return (
     <>
       <div className="flex relative max-w-full  h-screen">
@@ -38,8 +38,8 @@ export default function SideBar({ content }: { content: any }) {
 
             <a
               onClick={() => {
-                navigation('/admin')
-                dispatch(actions.formActions.setNameMenu(`${'Trang Chủ'}`))
+                navigation('/admin');
+                dispatch(actions.formActions.setNameMenu(`${'Trang Chủ'}`));
               }}
               className=" hover:text-white relative my-4  px-3 w-full flex flex-col items-center justify-center"
             >
@@ -62,10 +62,10 @@ export default function SideBar({ content }: { content: any }) {
                         : 'text-primary'
                     }hover:bg-white hover:text-white py-4 my-2 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
                     onClick={() => {
-                      navigation(value.path)
+                      navigation(value.path);
                       dispatch(
-                        actions.formActions.setNameMenu(`${value.title}`)
-                      )
+                        actions.formActions.setNameMenu(`${value.title}`),
+                      );
                     }}
                   >
                     <div id="icon">
@@ -75,7 +75,7 @@ export default function SideBar({ content }: { content: any }) {
                       <p className="font-semibold text-sm">{value.title}</p>
                     </div>
                   </li>
-                )
+                );
               })}
             </ul>
           </div>
@@ -91,5 +91,5 @@ export default function SideBar({ content }: { content: any }) {
         </div>
       </div>
     </>
-  )
+  );
 }

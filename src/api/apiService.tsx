@@ -1,6 +1,6 @@
 import { API_CONFIG } from './api';
 import axiosConfig from './axiosConfig';
-import { ICategory, IFuculties } from './apiInterface';
+import { ICategory, IFaculties } from './apiInterface';
 import { IAccountItem, IProgramItem } from '../Type';
 export default {
   //CATEGORY
@@ -45,20 +45,20 @@ export default {
     return axiosConfig.post(API_CONFIG.PROGRAM.POST, body);
   },
 
-  //Fucuties
-  getFuculties: () => {
-    return axiosConfig.get(API_CONFIG.FUCULTIES.GET);
+  //Faculties
+  getFaculties: () => {
+    return axiosConfig.get(API_CONFIG.Faculties.GET);
   },
 
-  addFuculties: (params: any) => {
-    return axiosConfig.post(API_CONFIG.FUCULTIES.POST, params);
+  addFaculties: (params: any) => {
+    return axiosConfig.post(API_CONFIG.Faculties.POST, params);
   },
 
-  editFuculties: (id: number) => {
-    return axiosConfig.put(API_CONFIG.FUCULTIES.PUT(id));
+  editFaculties: (id: number, params: any) => {
+    return axiosConfig.put(API_CONFIG.Faculties.PUT(id), params);
   },
 
-  delFuculties: (id: number) => {
-    return axiosConfig.delete(API_CONFIG.FUCULTIES.DEL(id));
+  delFaculties: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.Faculties.DEL(id));
   },
 };

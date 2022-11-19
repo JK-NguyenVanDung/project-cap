@@ -82,7 +82,9 @@ export default function CustomButton({
       fullWidth={fullWidth}
       size={size ? size : `sm`}
       color={color ? color : color}
-      className={` flex flex-row justify-center  items-center ${className}`}
+      className={` flex flex-row justify-center  items-center ${className} ${
+        size === 'sm' && 'px-1/2'
+      }`}
       onClick={(e) => onClick(e)}
       variant={variant}
     >

@@ -136,15 +136,8 @@ export default function Category() {
     setShowModal(true);
     setDetail(null);
   }
-  useEffect(() => {
-    getData();
-  }, []);
 
   useEffect(() => {
-    async function getRoles() {
-      let res: any = await apiService.getRoles();
-      setRole(res);
-    }
     getData();
   }, [reload]);
 

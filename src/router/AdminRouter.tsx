@@ -8,6 +8,7 @@ import LandingPage from '../pages/landing page/LandingPage';
 import Category from '../pages/admin/Category/Category';
 import Account from '../pages/admin/account/Account';
 import Program from '../pages/admin/Program/Program';
+import ProgramDetail from '../pages/admin/Program/ProgramDetail';
 
 import {
   AuthenticatedTemplate,
@@ -16,7 +17,7 @@ import {
 } from '@azure/msal-react';
 import { loginRequest } from '../pages/authentication/loginconfig';
 import { callMsGraph } from '../pages/authentication/graph';
-import Fucuties from '../pages/admin/fucuties/Fucuties';
+import Faculties from '../pages/admin/Faculties/Faculties';
 
 export const AdminRouter = [
   {
@@ -36,6 +37,11 @@ export const AdminRouter = [
     element: <Program />,
   },
   {
+    path: `/admin/Program/:ProgramId`,
+    element: <ProgramDetail />,
+  },
+
+  {
     path: '/admin/Learner',
     element: <Account />,
   },
@@ -44,8 +50,8 @@ export const AdminRouter = [
     element: <Account />,
   },
   {
-    path: '/admin/Fucuties',
-    element: <Fucuties />,
+    path: '/admin/Faculties',
+    element: <Faculties />,
   },
 ];
 export default function MakeAdminRouter() {

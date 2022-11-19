@@ -40,6 +40,6 @@ export const SideBarData = [
   {
     title: 'Phòng/ Khoa',
     icon: BsHouse,
-    path: '/admin/Fucuties',
+    path: '/admin/Faculties',
   },
 ];
