@@ -12,7 +12,7 @@ export interface ICategory {
   ID?: number;
 }
 
-export type IFuculties = {
+export type IFaculties = {
   facultyId: number;
   facultyName: string;
   programs: [];

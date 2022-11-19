@@ -142,20 +142,12 @@ export default function Account() {
     setShowModal(true);
     setDetail(null);
   }
-  useEffect(() => {
-    async function getRoles() {
-      let res: any = await apiService.getRoles();
-      setRole(res);
-    }
-    getRoles();
-    getData();
-  }, []);
+  async function getRoles() {
+    let res: any = await apiService.getRoles();
+    setRole(res);
+  }
 
   useEffect(() => {
-    async function getRoles() {
-      let res: any = await apiService.getRoles();
-      setRole(res);
-    }
     getRoles();
     getData();
   }, [reload]);
@@ -227,9 +219,7 @@ export default function Account() {
     }
     return arr;
   }
-  function configAccount() {
-    setShowModal(true);
-  }
+
   const FormItem = () => {
     return (
       <>

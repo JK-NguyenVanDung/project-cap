@@ -23,7 +23,7 @@ export const API_CONFIG = {
     GET: '/api/Programs',
     POST: '/api/Programs',
   },
-  FUCULTIES: {
+  Faculties: {
     GET: '/api/Faculties',
     POST: '/api/Faculties',
     PUT: (id: number) => `/api/Faculties/${id}`,

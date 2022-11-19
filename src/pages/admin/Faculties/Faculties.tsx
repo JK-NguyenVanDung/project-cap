@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IFuculties } from '../../../api/apiInterface';
+import { IFaculties } from '../../../api/apiInterface';
 import apiService from '../../../api/apiService';
 import CustomButton from '../../../components/admin/Button';
 import CustomModal from '../../../components/admin/Modal/Modal';
@@ -8,47 +8,46 @@ import uniqueId from '../../../utils/uinqueId';
 import { Button, message, notification, Popconfirm } from 'antd';
 import { GIRD12, MESSAGE } from '../../../helper/constant';
 import PopOverAction from '../../../components/admin/PopOver';
-import AddFucuties from './AddFucuties';
-export default function Fucuties() {
-  const [data, setData] = useState<Array<IFuculties>>([]);
+import AddFaculties from './AddFaculties';
+export default function Faculties() {
+  const [data, setData] = useState<Array<IFaculties>>([]);
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
-  const [toDoList, setToDoList] = useState([]);
-  const [addFuculties, setAddFucuties] = useState(false);
-  const [detail, setDetail] = useState<IFuculties>();
+  const [addFaculties, setAddFaculties] = useState(false);
+  const [detail, setDetail] = useState<IFaculties>();
   const [confirmLoading, setConfirmLoading] = useState(false);
   useEffect(() => {
-    async function getFuculties() {
+    async function getFaculties() {
       try {
-        const reponse: any = await apiService.getFuculties();
-        setToDoList(
-          reponse.map((item: any, index: number) => {
-            return {
-              facultyId: item.facultyId,
-              stt: index + 1,
-              facultyName: item.facultyName,
-            };
-          }),
-        );
+        let response: any = await apiService.getFaculties();
+        response = response.reverse();
+        let res = response.map((item: IFaculties, index: number) => {
+          return {
+            ...item,
+            index: index + 1,
+          };
+        });
+        setData(res);
+
         setTimeout(() => {
           setLoading(false);
-          setFilterData(reponse);
+          setFilterData(res);
           setConfirmLoading(false);
         }, 1000);
       } catch (error) {
         console.log(error);
       }
     }
-    getFuculties();
+    getFaculties();
   }, [loading, confirmLoading]);
   const handelEdit = (item: any) => {
     setDetail(item);
-    setAddFucuties(true);
+    setAddFaculties(true);
   };
-  async function handleDelete(item: IFuculties) {
+  async function handleDelete(item: IFaculties) {
     console.log(item.facultyId);
     try {
-      await apiService.delFuculties(item.facultyId);
+      await apiService.delFaculties(item.facultyId);
       setLoading(!loading);
       notification.success({
         message: MESSAGE.SUCCESS.DELETE,
@@ -60,8 +59,8 @@ export default function Fucuties() {
   const Columns = [
     {
       title: 'STT',
-      dataIndex: 'stt',
-      key: 'stt',
+      dataIndex: 'index',
+      key: 'index',
       width: '7%',
     },
     {
@@ -74,7 +73,7 @@ export default function Fucuties() {
       key: 'action',
       width: GIRD12.COL1,
 
-      render: (data: IFuculties) => (
+      render: (data: IFaculties) => (
         <PopOverAction
           data={data}
           handleEdit={() => handelEdit(data)}
@@ -87,7 +86,7 @@ export default function Fucuties() {
     const reg = new RegExp(value, 'gi');
     let temp = data;
     const filteredData = temp
-      .map((record: IFuculties) => {
+      .map((record: IFaculties) => {
         const emailMatch = record.facultyName.match(reg);
 
         if (!emailMatch) {
@@ -99,7 +98,7 @@ export default function Fucuties() {
     setData(value.trim() !== '' ? filteredData : filterData);
   };
   function handelAdd() {
-    setAddFucuties(true);
+    setAddFaculties(true);
     setDetail(null);
   }
   return (
@@ -107,7 +106,7 @@ export default function Fucuties() {
       <TableConfig
         onSearch={onChangeSearch}
         search={true}
-        data={toDoList}
+        data={data}
         columns={Columns}
         loading={loading || confirmLoading}
         extra={[
@@ -119,13 +118,13 @@ export default function Fucuties() {
           />,
         ]}
       />
-      <AddFucuties
+      <AddFaculties
         confirmLoading={confirmLoading}
         setConfirmLoading={setConfirmLoading}
         detail={detail}
         setDetail={setDetail}
-        showModal={addFuculties}
-        setShowModal={setAddFucuties}
+        showModal={addFaculties}
+        setShowModal={setAddFaculties}
       />
     </>
   );

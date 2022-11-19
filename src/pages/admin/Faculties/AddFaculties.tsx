@@ -1,11 +1,11 @@
 import { Form, notification } from 'antd';
 import React, { useState } from 'react';
-import { IFuculties } from '../../../api/apiInterface';
+import { IFaculties } from '../../../api/apiInterface';
 import apiService from '../../../api/apiService';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomModal from '../../../components/admin/Modal/Modal';
 
-export default function AddFucuties({
+export default function AddFaculties({
   showModal,
   setShowModal,
   detail,
@@ -15,16 +15,16 @@ export default function AddFucuties({
 }: {
   confirmLoading: boolean;
   setConfirmLoading: (conformLoading: boolean) => void;
-  detail: IFuculties;
-  setDetail: React.Dispatch<React.SetStateAction<IFuculties>>;
+  detail: IFaculties;
+  setDetail: React.Dispatch<React.SetStateAction<IFaculties>>;
   showModal: boolean;
   setShowModal: (showModal: boolean) => void;
 }) {
   const [showDetail, setShowDetail] = useState(false);
   const [form] = Form.useForm();
   async function checkAccountExist(facultyName: string) {
-    let res: any = await apiService.getFuculties();
-    let obj = res.find((e: IFuculties) => e.facultyName === facultyName);
+    let res: any = await apiService.getFaculties();
+    let obj = res.find((e: IFaculties) => e.facultyName === facultyName);
     console.log(obj);
     return obj !== undefined ? true : false;
   }
@@ -32,20 +32,18 @@ export default function AddFucuties({
     form
       .validateFields()
       .then(async (values) => {
-        console.log(values.facultyName);
-
         if (detail) {
-          await apiService.editFuculties(detail.facultyId);
+          await apiService.editFaculties(detail.facultyId, {
+            name: values.facultyName,
+          });
           setShowModal(false);
-          // dispatch(actions.categoryActions.changeLoad(!loadData))
           notification.success({ message: 'Thay đổi thành công' });
           setConfirmLoading(!confirmLoading);
           form.resetFields();
         } else {
           let exist = checkAccountExist(values);
-
           if ((await exist) === false) {
-            await apiService.addFuculties(values);
+            await apiService.addFaculties({ name: values.facultyName });
             setShowModal(false);
             notification.success({ message: 'Thêm thành công' });
             setConfirmLoading(!confirmLoading);
@@ -64,7 +62,7 @@ export default function AddFucuties({
   const FormItem = () => {
     return (
       <FormInput
-        name="name"
+        name="facultyName"
         label="Tên Phòng/Khoa"
         rules={[
           {

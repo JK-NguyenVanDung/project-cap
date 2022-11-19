@@ -26,10 +26,11 @@ export default function FormInput({
 }) {
   function onChange() {}
   function onOk() {}
-  let FormComponent = () => {
+  const FormComponent = () => {
+    let cp;
     switch (type) {
       case 'select':
-        return (
+        cp = (
           <Select
             disabled={disabled}
             dropdownStyle={{ zIndex: 20000 }}
@@ -40,12 +41,14 @@ export default function FormInput({
             onBlur={() => focusHandle(false)}
           ></Select>
         );
+        break;
       case 'date':
-        return <DateTimePicker />;
+        cp = <DateTimePicker />;
+        break;
       case 'upload':
-        return <Uploader></Uploader>;
+        cp = <Uploader></Uploader>;
       case 'textArea':
-        return (
+        cp = (
           <TextArea
             className="text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             rows={4}
@@ -53,8 +56,9 @@ export default function FormInput({
             maxLength={6}
           />
         );
+
       default:
-        return (
+        cp = (
           <Input
             disabled={disabled}
             type="text"
@@ -62,16 +66,20 @@ export default function FormInput({
             className="text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder={`Nhập ${label}`}
             required
-          />
+          ></Input>
         );
+        break;
     }
+    return (
+      <Form.Item name={name} rules={rules}>
+        {cp}
+      </Form.Item>
+    );
   };
   return (
     <div className="w-full mb-6 z-1">
       <label className="text-black font-bold font-customFont ">{label}</label>
-      <Form.Item name={name} rules={rules}>
-        <FormComponent />
-      </Form.Item>
+      <FormComponent />
     </div>
   );
 }

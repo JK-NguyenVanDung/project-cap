@@ -194,15 +194,8 @@ export default function Program() {
     setShowModal(true);
     setDetail(null);
   }
-  useEffect(() => {
-    getData();
-  }, []);
 
   useEffect(() => {
-    async function getRoles() {
-      let res: any = await apiService.getRoles();
-      setRole(res);
-    }
     getData();
   }, [reload]);
 
