@@ -23,4 +23,10 @@ export const API_CONFIG = {
     GET: '/api/Programs',
     POST: '/api/Programs',
   },
+  FUCULTIES: {
+    GET: '/api/Faculties',
+    POST: '/api/Faculties',
+    PUT: (id: number) => `/api/Faculties/${id}`,
+    DEL: (id: number) => `/api/Faculties/${id}`,
+  },
 };

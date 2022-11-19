@@ -1,6 +1,6 @@
 import { API_CONFIG } from './api';
 import axiosConfig from './axiosConfig';
-import { ICategory } from './apiInterface';
+import { ICategory, IFuculties } from './apiInterface';
 import { IAccountItem, IProgramItem } from '../Type';
 export default {
   //CATEGORY
@@ -43,5 +43,22 @@ export default {
   },
   addProgram: (body: IProgramItem) => {
     return axiosConfig.post(API_CONFIG.PROGRAM.POST, body);
+  },
+
+  //Fucuties
+  getFuculties: () => {
+    return axiosConfig.get(API_CONFIG.FUCULTIES.GET);
+  },
+
+  addFuculties: (params: any) => {
+    return axiosConfig.post(API_CONFIG.FUCULTIES.POST, params);
+  },
+
+  editFuculties: (id: number) => {
+    return axiosConfig.put(API_CONFIG.FUCULTIES.PUT(id));
+  },
+
+  delFuculties: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.FUCULTIES.DEL(id));
   },
 };
