@@ -18,6 +18,7 @@ import {
 import { loginRequest } from '../pages/authentication/loginconfig';
 import { callMsGraph } from '../pages/authentication/graph';
 import Faculties from '../pages/admin/Faculties/Faculties';
+import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
 
 export const AdminRouter = [
   {
@@ -40,7 +41,10 @@ export const AdminRouter = [
     path: `/admin/Program/:id`,
     element: <ProgramDetail />,
   },
-
+  {
+    path: `/admin/Program/Chapter/:number`,
+    element: <ChapterInfo />,
+  },
   {
     path: '/admin/Learner',
     element: <Account />,

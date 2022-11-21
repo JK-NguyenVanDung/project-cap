@@ -1,20 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import TableConfig from '../../../components/admin/Table/Table';
+import TableConfig from '../../../../components/admin/Table/Table';
 import { Form, message, Image } from 'antd';
-import uniqueId from '../../../utils/uinqueId';
-import CustomButton from '../../../components/admin/Button';
-import CustomModal from '../../../components/admin/Modal/Modal';
-import FormInput from '../../../components/admin/Modal/FormInput';
-import apiService from '../../../api/apiService';
-import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
-import { IProgramItem, IRoleItem } from '../../../Type';
-import PopOverAction from '../../../components/admin/PopOver';
-import ImagePlaceHolder from '../../../assets/img/menu-bg.jpeg';
-import { useAppDispatch } from '../../../hook/useRedux';
-import { actions } from '../../../Redux';
-import { useNavigate } from 'react-router-dom';
+import uniqueId from '../../../../utils/uinqueId';
+import CustomButton from '../../../../components/admin/Button';
+import CustomModal from '../../../../components/admin/Modal/Modal';
+import FormInput from '../../../../components/admin/Modal/FormInput';
+import apiService from '../../../../api/apiService';
+import { errorText, GIRD12, MESSAGE } from '../../../../helper/constant';
+import { IProgramItem, IRoleItem } from '../../../../Type';
+import PopOverAction from '../../../../components/admin/PopOver';
+import { useAppDispatch } from '../../../../hook/useRedux';
+import { actions } from '../../../../Redux';
 
-export default function ProgramDetail() {
+export default function ChapterInfo() {
   const [showModal, setShowModal] = useState(false);
   const [detail, setDetail] = useState<IProgramItem>();
   const [loading, setLoading] = useState(false);
@@ -47,35 +45,7 @@ export default function ProgramDetail() {
     try {
       setLoading(true);
       let res: any = await apiService.getPrograms();
-      let test = [
-        {
-          FacultyId: 1,
-          AccountIdCreator: 1,
-          CategoryId: 1,
-          ProgramName: 'test',
-          Image: ImagePlaceHolder,
-          StartDate: '11/12/2021',
-          EndDate: '11/12/2021',
-          IsPublish: false,
-          Coin: 1,
-        },
-        {
-          FacultyId: 2,
-          AccountIdCreator: 1,
-          CategoryId: 1,
-          ProgramName: 'test',
-          Image: ImagePlaceHolder,
-          StartDate: '11/12/2021',
-          EndDate: '11/12/2021',
-          IsPublish: false,
-          Coin: 1,
-        },
-      ];
-      res = test.reverse();
-      const temp = res.map((v: any, index: number) => ({
-        ...v,
-        index: index + 1,
-      }));
+
       dispatch(
         actions.formActions.setNameMenu(
           `Chương trình ${res[0].ProgramName && res[0].ProgramName}`,
@@ -84,8 +54,6 @@ export default function ProgramDetail() {
 
       // dispatch(actions.ProgramActions.setListAll(res))
       // dispatch(actions.ProgramActions.changeLoad(!loadData))
-      setData(temp);
-      setFilterData(temp);
 
       setLoading(false);
     } catch (err: any) {
@@ -134,10 +102,9 @@ export default function ProgramDetail() {
         setLoading(false);
       });
   };
-  const navigate = useNavigate();
 
   return (
-    <div className="w-full h-screen">
+    <>
       <Form form={form} className="formCategory w-full px-5">
         <div className="grid grid-cols-2 gap-4">
           <div className="...">
@@ -206,6 +173,6 @@ export default function ProgramDetail() {
           </div>
         </div>
       </Form>
-    </div>
+    </>
   );
 }
