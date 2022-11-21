@@ -37,7 +37,7 @@ export const AdminRouter = [
     element: <Program />,
   },
   {
-    path: `/admin/Program/:ProgramId`,
+    path: `/admin/Program/:id`,
     element: <ProgramDetail />,
   },
 

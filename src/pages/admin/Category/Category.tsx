@@ -1,27 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import TableConfig from '../../../components/admin/Table/Table';
-import { Form, message, Space } from 'antd';
-import { BiEditAlt } from 'react-icons/bi';
-import { RiDeleteBinLine } from 'react-icons/ri';
-// import Button from '../../../components/sharedComponents/Button'
+import { Form, message } from 'antd';
 import uniqueId from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import apiService from '../../../api/apiService';
-import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
-import { actions } from '../../../Redux';
-import {
-  Button,
-  Popover,
-  PopoverContent,
-  PopoverHandler,
-} from '@material-tailwind/react';
-import { IoTrashOutline } from 'react-icons/io5';
 import { ICategoryItem, IRoleItem } from '../../../Type';
 import PopOverAction from '../../../components/admin/PopOver';
-import { AxiosResponse } from 'axios';
 
 export default function Category() {
   const [showModal, setShowModal] = useState(false);
@@ -36,8 +23,6 @@ export default function Category() {
   const [data, setData] = useState<Array<ICategoryItem>>([]);
   const [filterData, setFilterData] = useState([]);
   const handleEdit = (item: ICategoryItem) => {
-    // dispatch(actions.categoryActions.setDetail(data.ID))
-    // dispatch(actions.formActions.showForm())
     setDetail(item);
     setShowModal(true);
   };
@@ -52,7 +37,6 @@ export default function Category() {
     }
   }
 
-  let count = 0;
   const columns = [
     {
       title: 'STT',
@@ -64,20 +48,6 @@ export default function Category() {
       dataIndex: 'categoryName',
       width: GIRD12.COL10,
     },
-
-    // {
-    //   title: 'Tạo vào',
-    //   dataIndex: 'createdAt',
-    //   // render: (text) => <a>{text}</a>,
-    //   width: GIRD12.COL1,
-    // },
-
-    // {
-    //   title: 'Cập nhật vào',
-    //   dataIndex: 'updatedAt',
-    //   // render: (text) => <a>{text}</a>,
-    //   width: GIRD12.COL1,
-    // },
     {
       width: GIRD12.COL2,
 
@@ -122,8 +92,7 @@ export default function Category() {
         ...v,
         index: index + 1,
       }));
-      // dispatch(actions.categoryActions.setListAll(res))
-      // dispatch(actions.categoryActions.changeLoad(!loadData))
+
       setData(temp);
       setFilterData(temp);
 
@@ -153,7 +122,7 @@ export default function Category() {
             ID: detail.categoryId,
           });
           setShowModal(false);
-          // dispatch(actions.categoryActions.changeLoad(!loadData))
+
           message.success('Thay đổi thành công');
           setReload(!reload);
 
@@ -165,7 +134,7 @@ export default function Category() {
           });
           setShowModal(false);
           setReload(!reload);
-          // dispatch(actions.categoryActions.changeLoad(!loadData))
+
           message.success('Thêm thành công');
 
           setLoading(false);
@@ -174,8 +143,6 @@ export default function Category() {
       })
 
       .catch((info) => {
-        // dispatch(actions.formActions.showError())
-
         setLoading(false);
       });
   };
