@@ -217,6 +217,7 @@ export default function ChapterInfo() {
       </div>
       <Form form={form} onFinish={handleOk} className=" w-full ">
         <FormInput
+          className="max-w-screen-md"
           disabled={false}
           name="ContentTitle"
           label="Tên chương"
