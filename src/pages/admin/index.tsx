@@ -27,9 +27,9 @@ export default function SideBar({ content }: { content: any }) {
   return (
     <>
       <div className="flex relative max-w-full  h-screen">
-        <div className="fixed w-[82%] ">
+        <div className="fixed w-[80%] z-10  ">
           <div
-            className="bg-img-bar relative sidebar flex flex-col content-center items-center w-1/5"
+            className="z-0  overflow-hidden bg-img-bar relative sidebar flex flex-col content-center items-center w-1/5"
             style={{
               backgroundImage: `url(${MenuBackground})`,
             }}
@@ -80,7 +80,7 @@ export default function SideBar({ content }: { content: any }) {
             </ul>
           </div>
         </div>
-        <div className=" Layout ml-[18%] w-full mx-4 ">
+        <div className="z-[100] Layout ml-[18%] w-full mx-4 ">
           <header className="header  mx-2">
             <div className="container flex items-center justify-between">
               <h1 className="font-semibold text-xl">{nameMenu}</h1>

@@ -25,6 +25,8 @@ export default function CustomButton({
   text,
   type,
   fullWidth,
+  variant,
+  htmlType,
 }: {
   size?: size;
   color?: color;
@@ -35,8 +37,9 @@ export default function CustomButton({
   text?: string;
   type?: string;
   fullWidth?: boolean;
+  variant?: any;
+  htmlType?: string;
 }) {
-  let variant: any;
   let iconClass;
   let defaultText = '';
   switch (type) {

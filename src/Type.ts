@@ -55,8 +55,19 @@ const ProgramItem = z.object({
   IsPublish: z.boolean(),
   Coin: z.number(),
 });
+
+const ChapterItem = z.object({
+  ContentId: z.number(),
+  ProgramId: z.number(),
+  ContentTitle: z.string(),
+  ContentDescription: z.string(),
+  Chapter: z.number(),
+  ContentType: z.string(),
+  Content: z.string(),
+});
 export type IRoleItem = z.infer<typeof RoleItem>;
 
 export type ICategoryItem = z.infer<typeof CategoryItem>;
 export type IAccountItem = z.infer<typeof AccountItem>;
 export type IProgramItem = z.infer<typeof ProgramItem>;
+export type IChapterItem = z.infer<typeof ChapterItem>;

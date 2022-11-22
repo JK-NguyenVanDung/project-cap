@@ -15,6 +15,7 @@ export default function FormInput({
   options,
   disabled = false,
   focusHandle,
+  placeholder,
 }: {
   label?: string;
   name?: any;
@@ -23,6 +24,7 @@ export default function FormInput({
   options?: any;
   disabled?: boolean;
   focusHandle?: React.FC | Function;
+  placeholder?: string;
 }) {
   function onChange() {}
   function onOk() {}
@@ -53,7 +55,7 @@ export default function FormInput({
         cp = (
           <TextArea
             className="text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            rows={4}
+            rows={6}
             placeholder={`Nhập ${label}`}
             maxLength={6}
           />
@@ -67,7 +69,7 @@ export default function FormInput({
             type="text"
             id="simple-search"
             className="text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            placeholder={`Nhập ${label}`}
+            placeholder={`${placeholder ? placeholder : 'Nhập ' + label}`}
             required
           ></Input>
         );

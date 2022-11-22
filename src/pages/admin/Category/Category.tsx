@@ -160,7 +160,7 @@ export default function Category() {
               message: `Không được để trống tên danh mục`,
             },
             {
-              pattern: new RegExp(/^\w/),
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
               message: errorText.space,
             },
             {

@@ -44,7 +44,9 @@ export default function Program() {
   const dispatch = useAppDispatch();
 
   function handleShowDetail(item: IProgramItem) {
-    navigate(`/admin/Program/${item.ProgramId}`);
+    // navigate(`/admin/Program/${item.ProgramId}`);
+    navigate(`/admin/Program/Chapter/${item.ProgramId}`);
+
     dispatch(
       actions.formActions.setNameMenu(
         `Chương trình ${item.ProgramName && item.ProgramName}`,
@@ -246,7 +248,7 @@ export default function Program() {
               message: `Không được để trống tên chương trình`,
             },
             {
-              pattern: new RegExp(/^\w/),
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
               message: errorText.space,
             },
           ]}
@@ -261,7 +263,7 @@ export default function Program() {
               message: `Không được để trống mô tả`,
             },
             {
-              pattern: new RegExp(/^\w/),
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
               message: errorText.space,
             },
           ]}
@@ -276,7 +278,7 @@ export default function Program() {
               message: `Không được để trống mô tả`,
             },
             {
-              pattern: new RegExp(/^\w/),
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
               message: errorText.space,
             },
           ]}
@@ -291,7 +293,7 @@ export default function Program() {
               message: `Không được để trống mô tả`,
             },
             {
-              pattern: new RegExp(/^\w/),
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
               message: errorText.space,
             },
           ]}
@@ -325,7 +327,7 @@ export default function Program() {
               message: `Không được để trống mô tả`,
             },
             {
-              pattern: new RegExp(/^\w/),
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
               message: errorText.space,
             },
           ]}
@@ -340,7 +342,7 @@ export default function Program() {
               message: `Không được để trống mô tả`,
             },
             {
-              pattern: new RegExp(/^\w/),
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
               message: errorText.space,
             },
           ]}
@@ -355,7 +357,7 @@ export default function Program() {
               message: `Không được để trống mô tả`,
             },
             {
-              pattern: new RegExp(/^\w/),
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
               message: errorText.space,
             },
           ]}
