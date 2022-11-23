@@ -45,7 +45,7 @@ export default function Program() {
 
   function handleShowDetail(item: IProgramItem) {
     // navigate(`/admin/Program/${item.ProgramId}`);
-    navigate(`/admin/Program/Chapter/${item.ProgramId}`);
+    navigate(`/admin/Program/Chapter/${item.ProgramId}/Test`);
 
     dispatch(
       actions.formActions.setNameMenu(

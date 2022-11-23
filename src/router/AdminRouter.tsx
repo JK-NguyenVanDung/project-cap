@@ -9,7 +9,7 @@ import Category from '../pages/admin/Category/Category';
 import Account from '../pages/admin/account/Account';
 import Program from '../pages/admin/Program/Program';
 import ProgramDetail from '../pages/admin/Program/ProgramDetail';
-
+import Test from '../pages/admin/Program/Test/Test';
 import {
   AuthenticatedTemplate,
   UnauthenticatedTemplate,
@@ -44,6 +44,10 @@ export const AdminRouter = [
   {
     path: `/admin/Program/Chapter/:number`,
     element: <ChapterInfo />,
+  },
+  {
+    path: '/admin/Program/Chapter/:number/Test',
+    element: <Test />,
   },
   {
     path: '/admin/Learner',

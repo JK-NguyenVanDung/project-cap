@@ -99,7 +99,7 @@ const Frame = React.forwardRef((props: any, ref: any) => {
   );
 });
 
-export default function ChapterInfo() {
+export default function Test() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [chapter, setChapter] = useState(1);
@@ -217,6 +217,7 @@ export default function ChapterInfo() {
       </div>
       <Form form={form} onFinish={handleOk} className=" w-full ">
         <FormInput
+          className="max-w-screen-md"
           disabled={false}
           name="ContentTitle"
           label="Tên chương"
