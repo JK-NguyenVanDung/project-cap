@@ -84,6 +84,7 @@ export default function SideBar({ content }: { content: any }) {
           <header className="header  mx-2">
             <div className="container flex items-center justify-between">
               <h1 className="font-semibold text-xl">{nameMenu}</h1>
+
               <HeaderAdmin />
             </div>
           </header>

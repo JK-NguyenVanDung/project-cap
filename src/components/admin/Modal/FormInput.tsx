@@ -46,7 +46,7 @@ export default function FormInput({
         cp = <DateTimePicker />;
         break;
       case 'upload':
-        cp = <Uploader></Uploader>;
+        cp = <Uploader />;
         break;
 
       case 'textArea':

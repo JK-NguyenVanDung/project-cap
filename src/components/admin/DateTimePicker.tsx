@@ -17,7 +17,7 @@ const onOk = (value: DatePickerProps['value'] | RangePickerProps['value']) => {
 };
 
 const DateTimePicker = () => (
-  <Space direction="vertical" size={12}>
+  <Space className="mt-3" direction="vertical" size={12}>
     <DatePicker showTime onChange={onChange} onOk={onOk} />
   </Space>
 );

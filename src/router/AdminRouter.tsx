@@ -18,6 +18,7 @@ import {
 import { loginRequest } from '../pages/authentication/loginconfig';
 import { callMsGraph } from '../pages/authentication/graph';
 import Faculties from '../pages/admin/Faculties/Faculties';
+import EditProgram from '../pages/admin/Program/EditProgram';
 
 export const AdminRouter = [
   {
@@ -52,6 +53,10 @@ export const AdminRouter = [
   {
     path: '/admin/Faculties',
     element: <Faculties />,
+  },
+  {
+    path: '/admin/EditProgram',
+    element: <EditProgram type="Thêm" />,
   },
 ];
 export default function MakeAdminRouter() {
