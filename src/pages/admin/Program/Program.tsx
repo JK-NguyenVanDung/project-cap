@@ -97,7 +97,7 @@ export default function Program() {
       dataIndex: 'IsPublish',
       width: GIRD12.COL2,
       render: (data: boolean) => (
-        <p className={`${data ? 'text-primary' : 'text-yellow-700'}`}>
+        <p className={`${data ? 'text-primary' : 'text-yellow-800'} font-bold`}>
           {data ? 'Công khai' : 'Chưa công khai'}
         </p>
       ),
@@ -118,7 +118,6 @@ export default function Program() {
           <>
             <PopOverAction
               size="sm"
-              data={item}
               handleEdit={() => handleEdit(item)}
               handleDelete={() => handleDelete(item)}
               handleShowDetail={() => handleShowDetail(item)}
@@ -149,7 +148,8 @@ export default function Program() {
   async function getData() {
     try {
       setLoading(true);
-      let res: any = await apiService.getPrograms();
+      // let res: any = await apiService.getPrograms();
+      let res;
       let test = [
         {
           ProgramId: 1,
@@ -212,7 +212,6 @@ export default function Program() {
 
           // });
           setShowModal(false);
-          // dispatch(actions.ProgramActions.changeLoad(!loadData))
           message.success('Thay đổi thành công');
           setReload(!reload);
 
@@ -222,7 +221,6 @@ export default function Program() {
           await apiService.addProgram({});
           setShowModal(false);
           setReload(!reload);
-          // dispatch(actions.ProgramActions.changeLoad(!loadData))
           message.success('Thêm thành công');
 
           setLoading(false);

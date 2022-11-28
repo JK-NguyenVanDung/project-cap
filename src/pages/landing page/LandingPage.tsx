@@ -5,13 +5,10 @@ import Chart from '../../assets/landingPage/chart_line.svg';
 import People from '../../assets/landingPage/people.svg';
 import Video from '../../assets/landingPage/video.svg';
 import IntroMain from '../../assets/landingPage/introduction-cover.jpg';
-import {
-  IoTimeSharp,
-  IoBarChartOutline,
-  IoArrowRedoOutline,
-} from 'react-icons/io5';
+import { IoTimeSharp, IoCalendar, IoArrowRedoOutline } from 'react-icons/io5';
 import { HiPresentationChartBar } from 'react-icons/hi';
 import { TbCertificate, TbGift } from 'react-icons/tb';
+import { BiTimer } from 'react-icons/bi';
 import Button from '../../components/sharedComponents/Button';
 import { IconType } from 'react-icons';
 import { useNavigate } from 'react-router-dom';
@@ -59,7 +56,7 @@ const Header = (props: any) => {
         <a href="/" className="logo px-2 md:order-1 flex flex-row items-center">
           <img src={Logo} className="mr-3 h-6 sm:h-9 " alt="Training Logo" />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
-            VLU TRAINING
+            VLG TRAINING
           </span>
         </a>
         <div className="flex md:order-2 sm:order-2 ">
@@ -130,7 +127,7 @@ const Home = React.forwardRef((props, ref: any) => {
       <div className="flex hide hide-left  flex-col  w-[60%] max-sm:w-full  ">
         <div className="flex flex-col  w-full  justify-center items-start  max-sm:items-center ">
           <h4 className="mb-6 text-xl  font-bold tracking-tight text-white">
-            Đào tạo trực tuyến cùng ĐH Văn Lang
+            Đào tạo nội bộ cùng ĐH Văn Lang
           </h4>
           <h1 className="mb-6 text-5xl  font-bold tracking-tight text-white ">
             Cơ hội đào tạo tốt nhất
@@ -320,16 +317,16 @@ const Introduction = React.forwardRef((props, ref: any) => {
         logo: HiPresentationChartBar,
         title: 'Dễ dàng tìm kiếm',
         description:
-          'Học mọi lúc, mọi nơi, tại bất kì thời điểm nào phù hợp với bạn. Đảm bảo được kiến thức dù bất cứ nơi đâu.',
+          'Tìm kiếm các khoá học mọi lúc, mọi nơi nào phù hợp với bạn. Đảm bảo được kiến thức dù bất cứ nơi đâu.',
       },
     ],
     [
       '2',
       {
-        logo: IoBarChartOutline,
-        title: 'Thống kê quan trọng',
+        logo: IoCalendar,
+        title: 'QL giờ đào tạo dễ dàng',
         description:
-          'Dữ liệu của bạn sẽ được chọn lọc và thống kê ra những thông tin hữu ích nhất cho bạn.',
+          'Quản lý được thời gian bạn tham gia đào tạo, xem các thống kê hữu ích nhất cho bạn.',
       },
     ],
     [
@@ -338,16 +335,16 @@ const Introduction = React.forwardRef((props, ref: any) => {
         logo: TbCertificate,
         title: 'Chứng chỉ Online',
         description:
-          'Cung cấp ngay chứng chỉ Online sau khi hoàn thành kháo học, chuẩn bị cho người học tiến xa hơn trong sự nghiệp.',
+          'Cung cấp ngay chứng chỉ Online sau khi hoàn thành khoá học, chuẩn bị cho người học tiến xa hơn trong sự nghiệp.',
       },
     ],
     [
       '4',
       {
-        logo: TbGift,
-        title: 'Phần quà hấp dẫn',
+        logo: BiTimer,
+        title: 'Đăng ký tức thời',
         description:
-          'Khi hoàn thành các khoá học, bạn có thể đổi điểm của mình để nhận được các phần thưởng đáng giá.',
+          'Khi tham gia khoá học, việc đăng ký khoá học sẽ được thực hiện 1 cách dễ dàng, tiện lợi và nhanh chóng.',
       },
     ],
   ]);
@@ -421,7 +418,7 @@ const Footer = React.forwardRef((props, ref: any) => {
               <div className="w-[10%] flex flex-col items-center justify-center">
                 <img src={Logo} className=" " alt="Training Logo" />
                 <span className="mt-2 self-center text-xl font-semibold whitespace-nowrap text-white-500">
-                  VLU TRAINING
+                  VLG TRAINING
                 </span>
               </div>
               <div className="flex flex-col">

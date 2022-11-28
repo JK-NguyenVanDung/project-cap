@@ -38,7 +38,7 @@ export const SideBarData = [
     path: '/admin/Learner',
   },
   {
-    title: 'Phòng/ Khoa',
+    title: 'Phòng Ban',
     icon: BsHouse,
     path: '/admin/Faculties',
   },

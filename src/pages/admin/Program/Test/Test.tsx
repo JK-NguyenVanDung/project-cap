@@ -1,19 +1,16 @@
-import React, { useEffect, useState, useRef, MouseEventHandler } from 'react';
-import TableConfig from '../../../../components/admin/Table/Table';
-import { Form, message, Switch, Input } from 'antd';
-import uniqueId from '../../../../utils/uinqueId';
+import React, { useEffect, useState } from 'react';
+import { Form, message, Input } from 'antd';
 import CustomButton from '../../../../components/admin/Button';
-import CustomModal from '../../../../components/admin/Modal/Modal';
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import apiService from '../../../../api/apiService';
-import { errorText, GIRD12, MESSAGE } from '../../../../helper/constant';
+import { errorText } from '../../../../helper/constant';
 import { IChapterItem } from '../../../../Type';
-import PopOverAction from '../../../../components/admin/PopOver';
 import { useAppDispatch } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { IoTimeOutline } from 'react-icons/io5';
+import RadioGroup from '../../../../components/sharedComponents/RadioGroup';
 
 const ConfirmModal = ({
   show,
@@ -78,26 +75,13 @@ const ConfirmModal = ({
   );
 };
 
-const Frame = React.forwardRef((props: any, ref: any) => {
-  return (
-    <>
-      {props.iframe && (
-        <div className="w-full   ">
-          <label className="text-black font-bold font-customFont">
-            Xem duyệt video/slide
-          </label>
-          <div className=" font-bold  grid place-items-center	 rounded-lg w-full  mt-4 border">
-            <div
-              ref={ref}
-              className="py-8 "
-              dangerouslySetInnerHTML={{ __html: props.iframe }}
-            />
-          </div>
-        </div>
-      )}
-    </>
-  );
-});
+const radioOptions = [
+  {
+    label: 'Có',
+    value: true,
+  },
+  { label: 'Không', value: false },
+];
 
 export default function Test() {
   const [loading, setLoading] = useState(false);
@@ -105,17 +89,20 @@ export default function Test() {
   const [chapter, setChapter] = useState(1);
 
   const [showConfirm, setShowConfirm] = useState(false);
-  const [iframe, setIframe] = useState(null);
   const [data, setData] = useState<IChapterItem>(null);
   const [form] = Form.useForm();
-  const [switchType, setSwitchType] = useState(true);
+  const [radioValue, setRadioValue] = useState(false);
 
-  const frameRef = useRef(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const onRadioChange = (value: any) => {
+    setRadioValue(value);
+  };
   function goBack() {
-    navigate(`/admin/Program/${chapter}`);
+    navigate(`/admin/Program/Chapter/${chapter}`);
+  }
+  function goQuestion() {
+    navigate(`/admin/Program/Chapter/${chapter}/Test/Question`);
   }
   function handleDelete() {
     goBack();
@@ -155,24 +142,21 @@ export default function Test() {
   }
 
   useEffect(() => {
+    dispatch(actions.formActions.setNameMenu(`Chương trình`));
     getData();
     setChapter(2);
   }, [reload]);
-  function updateRef(e: string) {
-    setIframe(e);
-  }
+
   const handleOk = async () => {
     form
       .validateFields()
       .then(async (values) => {
         setLoading(true);
         const temp = [];
-        //frameRef.current.children[0].src
         let output = {
           ContentTitle: values.ContentTitle,
           ContentDescription: values.ContentDescription,
           Content: values.Content,
-          ContentType: switchType ? 'Video' : 'Slide',
         };
         if (data) {
           // await apiService.editProgram({
@@ -182,14 +166,12 @@ export default function Test() {
 
           setLoading(false);
           form.resetFields();
-          setIframe(null);
         } else {
           // await apiService.addProgram({});
           // setReload(!reload);
           message.success('Thêm thành công');
           setLoading(false);
           form.resetFields();
-          setIframe(null);
         }
       })
 
@@ -211,20 +193,18 @@ export default function Test() {
       </ConfirmModal>
       <div className="w-full h-14 flex items-center justify-between border-b mb-8">
         <p className="text-black text-lg font-bold font-customFont">
-          Nội dung chương {chapter}
+          Bài kiểm tra chương {chapter}
         </p>
-        <CustomButton text="Bài kiểm tra" noIcon onClick={() => {}} />
       </div>
       <Form form={form} onFinish={handleOk} className=" w-full ">
         <FormInput
-          className="max-w-screen-md"
           disabled={false}
           name="ContentTitle"
-          label="Tên chương"
+          label="Tên bài kiểm tra"
           rules={[
             {
               required: true,
-              message: `Không được để trống tên chương trình`,
+              message: `Không được để trống tên bài kiểm tra`,
             },
             {
               pattern: new RegExp(/^(?!\s*$|\s).*$/),
@@ -237,7 +217,7 @@ export default function Test() {
           disabled={false}
           type="textArea"
           name="ContentDescription"
-          label="Mô tả chương trình"
+          label="Mô tả bài kiểm tra"
           rules={[
             {
               required: true,
@@ -250,44 +230,58 @@ export default function Test() {
           ]}
         />
 
+        <FormInput
+          disabled={false}
+          name="ContentTitle"
+          label="Thời gian làm bài (tính bằng phút)"
+          placeholder="Nhập thời gian làm bài"
+          rules={[
+            {
+              required: true,
+              message: `Không được để trống thời gian làm bài`,
+            },
+            {
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
+              message: errorText.space,
+            },
+          ]}
+          IconRight={IoTimeOutline}
+        />
+
         <div className="w-full mb-6 z-100">
           <label className="text-black font-bold font-customFont ">
-            Nhúng video/slide
-            <Switch
-              checked={switchType}
-              onChange={setSwitchType}
-              className="ml-4 bg-primary"
-              checkedChildren="Video"
-              unCheckedChildren="Slide"
-            />
+            Ngẫu nhiên hoá câu hỏi
           </label>
-          <Form.Item
-            name="Content"
-            rules={[
-              {
-                required: true,
-                message: `Không được để trống nội dung`,
-              },
-              {
-                pattern: new RegExp(/^<iframe .*\iframe>$/),
-                message: `Đường dẫn nhúng không Hợp Lệ`,
-              },
-            ]}
-          >
-            <Input
-              onChange={(e) => updateRef(e.target.value)}
-              disabled={false}
-              type="text"
-              id="simple-search"
-              className="text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              placeholder="Nhập đường dẫn nhúng"
-              required
-            ></Input>
-          </Form.Item>
-        </div>
 
-        <Frame iframe={iframe} ref={frameRef} />
-        <Form.Item label=" " colon={false}>
+          <RadioGroup
+            options={radioOptions}
+            onChange={onRadioChange}
+            value={radioValue}
+          />
+        </div>
+        <div className="w-full mb-6 z-100">
+          <p className="text-black font-bold font-customFont ">
+            Tổng số câu hỏi
+          </p>
+          <div className="flex justify-start items-end">
+            <Input
+              disabled
+              type="text"
+              className={`mr-4 text-black font-customFont  font-bold min-w-[12rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-1/5 pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+              placeholder={`${
+                data ? 'Hiện tại có 10 câu hỏi' : 'Hiện tại chưa có câu hỏi nào'
+              }`}
+            ></Input>
+            <CustomButton
+              text="Thêm câu hỏi"
+              size="md"
+              className="pl-2"
+              color="green"
+              onClick={() => goQuestion()}
+            />
+          </div>
+        </div>
+        <Form.Item label="" colon={false}>
           <div className="w-full h-14 flex items-center justify-end mt-8">
             <CustomButton
               text="Quay lại"
@@ -295,19 +289,13 @@ export default function Test() {
               variant="outlined"
               className="w-32 mr-4"
               noIcon
+              color="blue-gray"
               onClick={() => goBack()}
-            />
-            <CustomButton
-              text="Xoá"
-              size="md"
-              color="red"
-              className="w-32 mr-4"
-              noIcon
-              onClick={() => setShowConfirm(!showConfirm)}
             />
 
             <button
-              className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-500 hover:bg-blue-500 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-32 false"
+              type="submit"
+              className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-gray-500 hover:bg-blue-gray-500 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-32 false"
               formNoValidate
             >
               <p className="font-customFont  font-semibold">Lưu</p>

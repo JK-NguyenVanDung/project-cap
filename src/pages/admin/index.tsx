@@ -21,21 +21,25 @@ export default function SideBar({ content }: { content: any }) {
     let temp = SideBarData.filter(
       (item: ISidebar) => item.path === location.pathname,
     )[0]?.title;
-    temp && dispatch(actions.formActions.setNameMenu(`${temp}`));
+    temp &&
+      dispatch(
+        actions.formActions.setNameMenu(
+          `${temp == 'Trang Chủ' ? temp : 'Quản Lý ' + temp}`,
+        ),
+      );
   }, []);
   const dispatch = useAppDispatch();
   return (
     <>
       <div className="flex relative max-w-full  h-screen">
-        <div className="fixed w-[80%] z-10  ">
+        <div className="fixed w-[80%] z-1 ">
           <div
             className="z-0  overflow-hidden bg-img-bar relative sidebar flex flex-col content-center items-center w-1/5"
             style={{
               backgroundImage: `url(${MenuBackground})`,
             }}
           >
-            <div className=" absolute w-full h-full opacity-60 bg-dark-blue	" />
-
+            <div className=" absolute w-full h-full opacity-70 bg-dark-red	" />
             <a
               onClick={() => {
                 navigation('/admin');
@@ -43,9 +47,8 @@ export default function SideBar({ content }: { content: any }) {
               }}
               className=" hover:text-white relative my-4  px-3 w-full flex flex-col items-center justify-center"
             >
-              <img className="w-1/3" src={logo} />
-              <p className="text-xl text-center">TRANG QUẢN LÝ</p>
-              <p className="text-xl text-center"> VLU TRAINING</p>
+              <img className="w-1/4 mb-2" src={logo} />
+              <p className="text-xl text-center"> VLG TRAINING</p>
             </a>
             <ul className="relative list-none w-full text-center">
               {SideBarData.map((value, index) => {
@@ -64,12 +67,18 @@ export default function SideBar({ content }: { content: any }) {
                     onClick={() => {
                       navigation(value.path);
                       dispatch(
-                        actions.formActions.setNameMenu(`${value.title}`),
+                        actions.formActions.setNameMenu(
+                          `${
+                            value.title == 'Trang Chủ'
+                              ? value.title
+                              : 'Quản Lý ' + value.title
+                          }`,
+                        ),
                       );
                     }}
                   >
                     <div id="icon">
-                      <value.icon className="ml-2 text-md " />
+                      <value.icon className="ml-2 text-lg " />
                     </div>{' '}
                     <div id="title" className="flex uppercase ">
                       <p className="font-semibold text-sm">{value.title}</p>
@@ -80,14 +89,14 @@ export default function SideBar({ content }: { content: any }) {
             </ul>
           </div>
         </div>
-        <div className="z-[100] Layout ml-[18%] w-full mx-4 ">
-          <header className="header  mx-2">
-            <div className="container flex items-center justify-between">
+        <div className="z-[2] Layout ml-[16%] w-full  ">
+          <header className="header bg-gray-50 px-4 shadow-md-2">
+            <div className="container flex items-center justify-between ">
               <h1 className="font-semibold text-xl">{nameMenu}</h1>
               <HeaderAdmin />
             </div>
           </header>
-          <main>{content}</main>
+          <main className="mx-4">{content}</main>
         </div>
       </div>
     </>

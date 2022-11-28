@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react'
-import apiService from '../../../api/apiService'
-import Input from '../../../components/sharedComponents/Input'
+import React, { useEffect } from 'react';
+import apiService from '../../../api/apiService';
+import Input from '../../../components/sharedComponents/Input';
 
 export default function Dashboard() {
   // useEffect(() => {
@@ -17,7 +17,7 @@ export default function Dashboard() {
 
   return (
     <div>
-      <p>hellop</p>
+      <p>Thêm video trong asset</p>
     </div>
-  )
+  );
 }

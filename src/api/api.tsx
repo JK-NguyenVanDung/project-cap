@@ -29,4 +29,7 @@ export const API_CONFIG = {
     PUT: (id: number) => `/api/Faculties/${id}`,
     DEL: (id: number) => `/api/Faculties/${id}`,
   },
+  QUESTION_TYPE: {
+    GET: '/api/Types',
+  },
 };

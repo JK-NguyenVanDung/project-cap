@@ -61,4 +61,9 @@ export default {
   delFaculties: (id: number) => {
     return axiosConfig.delete(API_CONFIG.Faculties.DEL(id));
   },
+
+  //QUESTION_TYPE
+  getQuestionTypes: () => {
+    return axiosConfig.get(API_CONFIG.QUESTION_TYPE.GET);
+  },
 };

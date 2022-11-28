@@ -11,20 +11,22 @@ import { size } from '@material-tailwind/react/types/components/button';
 
 export default function PopOverAction({
   size,
-  data,
   handleDelete,
   handleEdit,
   setLoading,
   deleteItem,
   handleShowDetail,
+  handleAuth,
+  variant,
 }: {
   size?: size;
-  data: any;
   handleDelete?: Function;
   handleEdit?: Function;
   setLoading?: React.MouseEventHandler;
   deleteItem?: string;
   handleShowDetail?: Function;
+  handleAuth?: Function;
+  variant?: any;
 }) {
   const [openAction, setOpenAction] = useState(false);
 
@@ -40,10 +42,14 @@ export default function PopOverAction({
   }
   return (
     <>
-      <div className="flex w-max items-center gap-4">
+      <div className="flex w-max items-center gap-4 z-[100] ">
         {handleEdit && (
           <CustomButton size={size} type="edit" onClick={() => handleEdit()} />
         )}
+        {handleAuth && (
+          <CustomButton size={size} type="auth" onClick={() => handleAuth()} />
+        )}
+
         {handleShowDetail && (
           <CustomButton
             size={size}
@@ -68,6 +74,7 @@ export default function PopOverAction({
                   size === 'sm' && 'px-1/2'
                 }`}
                 color="red"
+                variant={variant ? variant : 'outlined'}
               >
                 <IoTrashOutline className="mx-2 text-base " />
                 {/* <p className="font-serif">{'Xoá'}</p> */}
@@ -80,15 +87,16 @@ export default function PopOverAction({
                 </p>
                 <div className="flex w-max items-center flex-row gap-4">
                   <CustomButton
+                    type="cancel"
+                    noIcon={true}
+                    color="red"
+                    onClick={() => close()}
+                  />
+                  <CustomButton
                     type="delete"
                     onClick={() => handleDel()}
                     text="Xác nhận"
                     noIcon={true}
-                  />
-                  <CustomButton
-                    type="cancel"
-                    noIcon={true}
-                    onClick={() => close()}
                   />
                 </div>
               </div>

@@ -65,9 +65,30 @@ const ChapterItem = z.object({
   ContentType: z.string(),
   Content: z.string(),
 });
+const QuestionType = z.object({
+  typeId: z.number(),
+  typeName: z.string(),
+});
+
+const Question = z.object({
+  QuestionId: z.number(),
+  TestsId: z.number(),
+  TypeId: z.number(),
+  QuestionTitle: z.string(),
+  Score: z.number(),
+});
+const QuestionContent = z.object({
+  QuestionContentId: z.number(),
+  QuestionId: z.number(),
+  Content: z.string(),
+  IsAnswer: z.boolean(),
+});
 export type IRoleItem = z.infer<typeof RoleItem>;
 
 export type ICategoryItem = z.infer<typeof CategoryItem>;
 export type IAccountItem = z.infer<typeof AccountItem>;
 export type IProgramItem = z.infer<typeof ProgramItem>;
 export type IChapterItem = z.infer<typeof ChapterItem>;
+export type IQuestionType = z.infer<typeof QuestionType>;
+export type IQuestion = z.infer<typeof Question>;
+export type IQuestionContent = z.infer<typeof QuestionContent>;

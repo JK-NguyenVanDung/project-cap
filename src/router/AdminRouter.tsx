@@ -19,6 +19,7 @@ import { loginRequest } from '../pages/authentication/loginconfig';
 import { callMsGraph } from '../pages/authentication/graph';
 import Faculties from '../pages/admin/Faculties/Faculties';
 import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
+import Question from '../pages/admin/Program/Test/Question';
 
 export const AdminRouter = [
   {
@@ -49,6 +50,7 @@ export const AdminRouter = [
     path: '/admin/Program/Chapter/:number/Test',
     element: <Test />,
   },
+
   {
     path: '/admin/Learner',
     element: <Account />,
@@ -74,6 +76,12 @@ export default function MakeAdminRouter() {
           />
         );
       })}
+
+      <Route
+        path="/admin/Program/Chapter/:number/Test/Question"
+        element={<Question />}
+      />
+
       <Route path="/" element={<LandingPage />} />
     </Routes>
   );
