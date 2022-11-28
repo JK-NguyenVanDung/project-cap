@@ -10,14 +10,10 @@ import Account from '../pages/admin/account/Account';
 import Program from '../pages/admin/Program/Program';
 import ProgramDetail from '../pages/admin/Program/ProgramDetail';
 
-import {
-  AuthenticatedTemplate,
-  UnauthenticatedTemplate,
-  useMsal,
-} from '@azure/msal-react';
-import { loginRequest } from '../pages/authentication/loginconfig';
-import { callMsGraph } from '../pages/authentication/graph';
 import Faculties from '../pages/admin/Faculties/Faculties';
+import EditProgram from '../pages/admin/Program/EditProgram';
+import Logined from './Logined';
+import { useAppSelector } from '../hook/useRedux';
 
 export const AdminRouter = [
   {
@@ -53,6 +49,10 @@ export const AdminRouter = [
     path: '/admin/Faculties',
     element: <Faculties />,
   },
+  {
+    path: '/admin/EditProgram',
+    element: <EditProgram type="Thêm" />,
+  },
 ];
 export default function MakeAdminRouter() {
   return (
@@ -66,6 +66,7 @@ export default function MakeAdminRouter() {
           />
         );
       })}
+      <Route path="/login" element={<Logined />} />
       <Route path="/" element={<LandingPage />} />
     </Routes>
   );

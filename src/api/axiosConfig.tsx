@@ -1,5 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import queryString from 'query-string'
+import queryString, { stringify } from 'query-string'
 import { API_URL } from './api'
 
 const axiosConfig = axios.create({
@@ -10,7 +10,6 @@ const axiosConfig = axios.create({
   },
   paramsSerializer: {
     encode: (params) => {
-      console.log(params)
       queryString.stringify(params)
     },
   },
@@ -21,6 +20,7 @@ axiosConfig.interceptors.request.use(async (config) => {
     const acceptToken: any = {}
     const token = await localStorage.getItem('Bearer')
     if (token) acceptToken.Authorization = token
+    
     return {
       ...config,
       headers: {
