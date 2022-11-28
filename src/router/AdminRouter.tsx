@@ -13,7 +13,7 @@ import ProgramDetail from '../pages/admin/Program/ProgramDetail';
 import Faculties from '../pages/admin/Faculties/Faculties';
 import EditProgram from '../pages/admin/Program/EditProgram';
 import Logined from './Logined';
-import { useAppSelector } from '../hook/useRedux';
+import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
 
 export const AdminRouter = [
   {
@@ -33,10 +33,13 @@ export const AdminRouter = [
     element: <Program />,
   },
   {
-    path: `/admin/Program/:ProgramId`,
+    path: `/admin/Program/:id`,
     element: <ProgramDetail />,
   },
-
+  {
+    path: `/admin/Program/Chapter/:number`,
+    element: <ChapterInfo />,
+  },
   {
     path: '/admin/Learner',
     element: <Account />,
