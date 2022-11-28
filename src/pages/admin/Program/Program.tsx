@@ -27,6 +27,7 @@ export default function Program() {
   const navigate = useNavigateParams();
 
   useEffect(() => {
+    getData();
     setTimeout(() => {
       setLoading(false);
     }, 1000);
@@ -147,34 +148,7 @@ export default function Program() {
     try {
       setLoading(true);
       let res: any = await apiService.getPrograms();
-      let test = [
-        {
-          ProgramId: 1,
-          FacultyId: 1,
-          AccountIdCreator: 1,
-          CategoryId: 1,
-          ProgramName: 'test',
-          Image: ImagePlaceHolder,
-          StartDate: '11/12/2021',
-          EndDate: '11/12/2021',
-          IsPublish: false,
-          Coin: 1,
-        },
-        {
-          ProgramId: 2,
-
-          FacultyId: 2,
-          AccountIdCreator: 1,
-          CategoryId: 1,
-          ProgramName: 'test',
-          Image: ImagePlaceHolder,
-          StartDate: '11/12/2021',
-          EndDate: '11/12/2021',
-          IsPublish: false,
-          Coin: 1,
-        },
-      ];
-      res = test.reverse();
+      res = res.reverse();
       const temp = res.map((v: any, index: number) => ({
         ...v,
         index: index + 1,

@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 import LandingPage from './pages/landing page/LandingPage';
-import MakeAdminRouter from './router/AdminRouter';
 import 'antd/dist/antd.css';
 import {
   AuthenticatedTemplate,
@@ -10,12 +9,13 @@ import {
 } from '@azure/msal-react';
 
 import Login from './pages/authentication/Login';
+import PageRouter from './router';
 
 function App() {
   return (
     <>
       <AuthenticatedTemplate>
-        <MakeAdminRouter />
+        <PageRouter />
       </AuthenticatedTemplate>
       <UnauthenticatedTemplate>
         <Routes>

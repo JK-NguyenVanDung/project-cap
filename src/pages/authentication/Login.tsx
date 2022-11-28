@@ -23,34 +23,40 @@ const DataLogin = [
   },
 ];
 export default function Login() {
-  const navigate = useNavigate();
-  const { instance } = useMsal();
-  function LoginPopUp() {
-    instance
-      .loginPopup(loginRequest)
-      .then(() => navigate('/admin'))
-      .catch((e) => {
-        console.log('e', e);
-      });
+  const { instance} = useMsal();
+  function LoginPopUp(item: any) {
+    instance.loginPopup(loginRequest).catch(e => {
+      console.log(e);
+  });
   }
+
   return (
     <div className="bg-slate-500 ">
       <main className="fixed w-full h-full top-0 place-content-center items-center flex flex-col bg-[#252b42]">
-        <h1 className="text-white font-bold text-5xl mb-20">
-          Đăng Nhập Training
+        <h1 className="text-yellow-200 font-bold text-center text-5xl mb-20">
+          <p className="my-4"> Đăng Nhập </p>{' '}
+          <p className="my-4">VLU Training</p>
         </h1>
         <div className="flex justify-center ">
           {DataLogin.map((item, index) => {
             return (
               <div
                 key={index}
-                className="w-1/4 bg-white flex flex-col items-center m-4 p-3 py-12 rounded-lg cursor-pointer "
-                onClick={() => LoginPopUp()}
+                style={{
+                  width: 300,
+                }}
+                className=" bg-white flex flex-col items-center m-4 p-3 py-12 rounded-lg cursor-pointer hover:-translate-y-4 "
+                onClick={() => LoginPopUp(item)}
               >
-                <div className="w-1/5 mb-4">
-                  <img src={item.Logo} />
+                <div className="w-full mb-4 flex flex-col items-center">
+                  <img
+                    style={{
+                      height: 100,
+                    }}
+                    src={item.Logo}
+                  />
                 </div>
-                <h2 className="text-blue-gray-900 font-normal text-2xl uppercase my-2">
+                <h2 className="text-blue-gray-900 font-normal text-2xl uppercase my-2 font-bold">
                   {item.title}
                 </h2>
                 <p className="text-blue-gray-900">{item.description}</p>
