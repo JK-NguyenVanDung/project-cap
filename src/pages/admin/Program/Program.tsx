@@ -44,7 +44,6 @@ export default function Program() {
   }
 
   function handleShowDetail(item: IProgramItem) {
-    // navigate(`/admin/Program/${item.ProgramId}`);
     dispatch(
       actions.formActions.setNameMenu(
         `Chương trình ${item.ProgramName && item.ProgramName}`,

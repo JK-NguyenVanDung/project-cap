@@ -246,6 +246,10 @@ export default function Account() {
               pattern: new RegExp(/^\w/),
               message: errorText.email,
             },
+            {
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
+              message: errorText.space,
+            },
           ]}
         />
         <FormInput

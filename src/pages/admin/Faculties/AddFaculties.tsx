@@ -4,6 +4,7 @@ import { IFaculties } from '../../../api/apiInterface';
 import apiService from '../../../api/apiService';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomModal from '../../../components/admin/Modal/Modal';
+import { errorText } from '../../../helper/constant';
 
 export default function AddFaculties({
   showModal,
@@ -68,6 +69,10 @@ export default function AddFaculties({
           {
             required: true,
             message: 'Vui Lòng Nhập Vào Tên Phòng/Khoa',
+          },
+          {
+            pattern: new RegExp(/^(?!\s*$|\s).*$/),
+            message: errorText.space,
           },
         ]}
       />
