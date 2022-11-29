@@ -58,6 +58,7 @@ export default function Question() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
 
   const [currentQuestion, setCurrentQuestion] = useState<IQuestion>(null);
+
   const [questionPosition, setQuestionPosition] = useState(1);
 
   const [radioOptions, setRadioOptions] =
@@ -154,6 +155,9 @@ export default function Question() {
     }
   }
 
+  function restoreDefault() {
+    form.resetFields();
+  }
   async function getData() {
     try {
       setLoading(true);
@@ -268,7 +272,9 @@ export default function Question() {
     }
     return false;
   }
-  function handleFinish() {}
+  function handleFinish() {
+    goBack();
+  }
 
   function handleNextQuestion(values: any) {
     let result = Object.keys(values).map((key) => [values[key]]);
@@ -519,7 +525,7 @@ export default function Question() {
                 color="blue-gray"
                 className=" mr-4"
                 noIcon
-                onClick={() => goBack()}
+                onClick={() => restoreDefault()}
               />
 
               <button
