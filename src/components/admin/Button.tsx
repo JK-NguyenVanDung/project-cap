@@ -33,6 +33,7 @@ export default function CustomButton({
   variant,
   htmlType,
   textClassName,
+  disabled,
 }: {
   size?: size;
   color?: color;
@@ -47,6 +48,7 @@ export default function CustomButton({
   variant?: any;
   htmlType?: string;
   textClassName?: string;
+  disabled?: boolean;
 }) {
   let defaultText = '';
   let typeClassName = '';
@@ -103,6 +105,7 @@ export default function CustomButton({
 
   return (
     <Button
+      disabled={disabled}
       fullWidth={fullWidth}
       size={size ? size : `sm`}
       color={color ? color : color}

@@ -83,6 +83,14 @@ const Question = z.object({
   score: z.number(),
   questionContents: z.array(QuestionContent),
 });
+const Test = z.object({
+  testsId: z.number(),
+  contentId: z.number(),
+  testTitle: z.string(),
+  time: z.number(),
+  chapter: z.number(),
+  isRandom: z.boolean(),
+});
 
 export type IRoleItem = z.infer<typeof RoleItem>;
 
@@ -90,6 +98,8 @@ export type ICategoryItem = z.infer<typeof CategoryItem>;
 export type IAccountItem = z.infer<typeof AccountItem>;
 export type IProgramItem = z.infer<typeof ProgramItem>;
 export type IChapterItem = z.infer<typeof ChapterItem>;
+export type ITest = z.infer<typeof Test>;
+
 export type IQuestionType = z.infer<typeof QuestionType>;
 export type IQuestion = z.infer<typeof Question>;
 export type IQuestionContent = z.infer<typeof QuestionContent>;

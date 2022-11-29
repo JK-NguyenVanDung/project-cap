@@ -4,7 +4,7 @@ import CustomButton from '../../../../components/admin/Button';
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import apiService from '../../../../api/apiService';
 import { errorText } from '../../../../helper/constant';
-import { IChapterItem } from '../../../../Type';
+import { IChapterItem, ITest } from '../../../../Type';
 import { useAppDispatch } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
 import { Modal } from 'antd';
@@ -87,9 +87,11 @@ export default function Test() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [chapter, setChapter] = useState(1);
+  const [contentId, setContentId] = useState(1);
 
+  contentId;
   const [showConfirm, setShowConfirm] = useState(false);
-  const [data, setData] = useState<IChapterItem>(null);
+  const [data, setData] = useState<ITest>(null);
   const [form] = Form.useForm();
   const [radioValue, setRadioValue] = useState(false);
 
@@ -154,9 +156,12 @@ export default function Test() {
         setLoading(true);
         const temp = [];
         let output = {
-          ContentTitle: values.ContentTitle,
-          ContentDescription: values.ContentDescription,
-          Content: values.Content,
+          contentId: contentId,
+          contentTitle: values.contentTitle,
+          contentDescription: values.contentDescription,
+          time: values.time,
+          chapter: chapter,
+          isRandom: radioValue,
         };
         if (data) {
           // await apiService.editProgram({
@@ -199,7 +204,7 @@ export default function Test() {
       <Form form={form} onFinish={handleOk} className=" w-full ">
         <FormInput
           disabled={false}
-          name="ContentTitle"
+          name="contentTitle"
           label="Tên bài kiểm tra"
           rules={[
             {
@@ -216,7 +221,7 @@ export default function Test() {
         <FormInput
           disabled={false}
           type="textArea"
-          name="ContentDescription"
+          name="contentDescription"
           label="Mô tả bài kiểm tra"
           rules={[
             {
@@ -232,7 +237,7 @@ export default function Test() {
 
         <FormInput
           disabled={false}
-          name="ContentTitle"
+          name="time"
           label="Thời gian làm bài (tính bằng phút)"
           placeholder="Nhập thời gian làm bài"
           rules={[
@@ -243,6 +248,10 @@ export default function Test() {
             {
               pattern: new RegExp(/^(?!\s*$|\s).*$/),
               message: errorText.space,
+            },
+            {
+              pattern: new RegExp(/^\d+$/),
+              message: 'Thời gian phải thuộc kiểu số nguyên dương',
             },
           ]}
           IconRight={IoTimeOutline}
@@ -273,6 +282,7 @@ export default function Test() {
               }`}
             ></Input>
             <CustomButton
+              // disabled={data ? false : true}
               text="Thêm câu hỏi"
               size="md"
               className="pl-2"

@@ -55,7 +55,7 @@ export default function Question() {
   const [height, setHeight] = useState<string>('100');
 
   const [data, setData] = useState<Array<IQuestion>>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
 
   const [currentQuestion, setCurrentQuestion] = useState<IQuestion>(null);
   const [questionPosition, setQuestionPosition] = useState(1);
@@ -132,18 +132,20 @@ export default function Question() {
     // goBack();
     try {
       // await apiService.removeProgram(item.ProgramId);
+
       setShowConfirm(!showConfirm);
-      // if (data.length <= 0) {
-      //   navigate(`/admin/Program/${chapter}/Test`);
-      // } else {
-      let index = currentQuestionIndex;
-      let nextQuestion = data[index - 1] ? data[index - 1] : data[index + 1];
-      if (nextQuestion) {
-        setCurrentQuestionIndex(data.indexOf(nextQuestion));
-        setCurrentQuestion(nextQuestion);
+      if (data.length <= 0) {
+        navigate(`/admin/Program/${chapter}/Test`);
       } else {
-        setCurrentQuestionIndex(-1);
-        setCurrentQuestion(null);
+        let index = currentQuestionIndex;
+        let nextQuestion = data[index - 1] ? data[index - 1] : data[index + 1];
+        if (nextQuestion) {
+          setCurrentQuestionIndex(data.indexOf(nextQuestion));
+          setCurrentQuestion(nextQuestion);
+        } else {
+          setCurrentQuestionIndex(0);
+          setCurrentQuestion(null);
+        }
       }
       // }
       // return message.success(MESSAGE.SUCCESS.DELETE);
@@ -244,7 +246,7 @@ export default function Question() {
 
       content = {
         ...base,
-        ...contents?.map((item) => {
+        ...contents.map((item) => {
           return item.content;
         }),
       };
@@ -306,12 +308,7 @@ export default function Question() {
       .validateFields()
       .then(async (values) => {
         setLoading(true);
-        const temp = [];
-        let output = {
-          ContentTitle: values.ContentTitle,
-          ContentDescription: values.ContentDescription,
-          Content: values.Content,
-        };
+
         if (data) {
           // await apiService.editProgram({
           // });
@@ -424,7 +421,7 @@ export default function Question() {
                     },
                     {
                       pattern: new RegExp(/^\d+$/),
-                      message: 'Điểm phải thuộc kiểu số nguyên không âm',
+                      message: 'Điểm phải thuộc kiểu số nguyên dương',
                     },
                   ]}
                 />
