@@ -66,4 +66,35 @@ export default {
   getQuestionTypes: () => {
     return axiosConfig.get(API_CONFIG.QUESTION_TYPE.GET);
   },
+
+  //TEST
+  getTests: () => {
+    return axiosConfig.get(API_CONFIG.TEST.GET);
+  },
+  addTest: (body: any) => {
+    return axiosConfig.post(API_CONFIG.TEST.POST, body);
+  },
+  editTest: (props: any) => {
+    return axiosConfig.put(API_CONFIG.TEST.PUT(props.ID), {
+      name: props.name,
+    });
+  },
+  removeTest: (ID: number) => {
+    return axiosConfig.delete(API_CONFIG.TEST.DELETE(ID));
+  },
+  //QUESTIONS
+  getQuestions: () => {
+    return axiosConfig.get(API_CONFIG.QUESTION.GET);
+  },
+  addQuestion: (body: any) => {
+    return axiosConfig.post(API_CONFIG.QUESTION.POST, body);
+  },
+  editQuestion: (props: any) => {
+    return axiosConfig.put(API_CONFIG.QUESTION.PUT(props.ID), {
+      name: props.name,
+    });
+  },
+  removeQuestion: (ID: number) => {
+    return axiosConfig.delete(API_CONFIG.QUESTION.DELETE(ID));
+  },
 };

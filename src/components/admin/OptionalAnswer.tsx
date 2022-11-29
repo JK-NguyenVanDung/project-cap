@@ -115,7 +115,7 @@ const OptionalAnswer = ({
             </button>
             <div className="w-full mb-6 z-1 ">
               <Form.Item
-                name={item.value}
+                name={item.value - 1}
                 rules={[
                   {
                     required: true,

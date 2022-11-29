@@ -69,20 +69,21 @@ const QuestionType = z.object({
   typeId: z.number(),
   typeName: z.string(),
 });
-
-const Question = z.object({
-  QuestionId: z.number(),
-  TestsId: z.number(),
-  TypeId: z.number(),
-  QuestionTitle: z.string(),
-  Score: z.number(),
-});
 const QuestionContent = z.object({
-  QuestionContentId: z.number(),
-  QuestionId: z.number(),
-  Content: z.string(),
-  IsAnswer: z.boolean(),
+  questionContentId: z.number(),
+  questionId: z.number(),
+  content: z.string(),
+  isAnswer: z.boolean(),
 });
+const Question = z.object({
+  questionId: z.number(),
+  testsId: z.number(),
+  typeId: z.number(),
+  questionTitle: z.string(),
+  score: z.number(),
+  questionContents: z.array(QuestionContent),
+});
+
 export type IRoleItem = z.infer<typeof RoleItem>;
 
 export type ICategoryItem = z.infer<typeof CategoryItem>;

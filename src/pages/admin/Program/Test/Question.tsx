@@ -55,7 +55,7 @@ export default function Question() {
   const [height, setHeight] = useState<string>('100');
 
   const [data, setData] = useState<Array<IQuestion>>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(1);
 
   const [currentQuestion, setCurrentQuestion] = useState<IQuestion>(null);
   const [questionPosition, setQuestionPosition] = useState(1);
@@ -92,8 +92,6 @@ export default function Question() {
           message.error(`Chỉ được chọn ${radioOptions.length - 1} đáp án đúng`);
         }
       }
-
-      console.log(selectedOptions);
     } else {
       setRadioValue(value);
     }
@@ -158,114 +156,7 @@ export default function Question() {
     try {
       setLoading(true);
       // let res: any = await apiService.getPrograms();
-      // let temp = [
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      //   {
-      //     QuestionId: 1,
-      //     TestsId: 1,
-      //     TypeId: 1,
-      //     QuestionTitle: 1,
-      //     Score: 1,
-      //   },
-      // ];
-      // console.log(temp);
+
       // setData(temp);
       // dispatch(
       //   actions.formActions.setNameMenu(
@@ -275,10 +166,10 @@ export default function Question() {
       if (data.length < 1) {
         setData([
           {
-            TestsId: 0,
-            TypeId: 0,
-            QuestionTitle: '',
-            Score: 1,
+            testsId: 0,
+            typeId: 1,
+            questionTitle: '',
+            score: 1,
           },
         ]);
       }
@@ -286,9 +177,9 @@ export default function Question() {
 
       const setForm = () => {
         let base = {
-          TypeId: currentQuestion.TestsId,
-          Score: currentQuestion.Score,
-          QuestionTitle: currentQuestion.QuestionTitle,
+          typeId: currentQuestion.testsId,
+          score: currentQuestion.score,
+          questionTitle: currentQuestion.questionTitle,
         };
         radioOptions.map((item) => {
           let temp = {
@@ -314,6 +205,7 @@ export default function Question() {
       try {
         let types: any = await apiService.getQuestionTypes();
         setQuestionTypeList(types);
+        setSelectedType(1);
       } catch (err: any) {
         throw err.message;
       }
@@ -339,46 +231,74 @@ export default function Question() {
   function handleMoveQuestion(index: number) {
     setCurrentQuestionIndex(index);
     setCurrentQuestion(data[index]);
+    form.resetFields();
 
     const setForm = () => {
-      // form.setFieldsValue( );
       let base = {
-        TypeId: currentQuestion.TestsId,
-        Score: currentQuestion.Score,
-        QuestionTitle: currentQuestion.QuestionTitle,
+        typeId: currentQuestion.typeId,
+        score: currentQuestion.score,
+        questionTitle: currentQuestion.questionTitle,
       };
-      radioOptions.map((item) => {
-        let temp = {
-          item: item,
-        };
-        base = { ...base, ...temp };
-      });
-      form.setFieldsValue(base);
+      let content = {};
+      let contents = currentQuestion.questionContents;
+
+      content = {
+        ...base,
+        ...contents?.map((item) => {
+          return item.content;
+        }),
+      };
+      console.log(content);
+      form.setFieldsValue(content);
     };
     if (data[index]) {
       setForm();
     }
+    console.log(data);
   }
-
+  function isAnswer(item: IQuestionOption) {
+    let answer = selectedOptions.find((e: number) => e == item.value);
+    console.log('type' + selectedType);
+    if (selectedType === 2 && answer) {
+      return true;
+    } else if (selectedType === 1 && radioValue == item.value) {
+      return true;
+    }
+    return false;
+  }
   function handleFinish() {}
 
-  function handleNextQuestion() {
-    let index = currentQuestionIndex;
-    let nextQuestion = data[index + 1] ? data[index + 1] : false;
-    if (nextQuestion) {
-      setCurrentQuestionIndex(data.indexOf(nextQuestion));
-      setCurrentQuestion(nextQuestion);
-    } else {
-      let next = {
-        TestsId: 0,
-        TypeId: 0,
-        QuestionTitle: '',
-        Score: 1,
-      };
-      setData((data) => [...data, next]);
-      setCurrentQuestionIndex(data.length);
-      setCurrentQuestion(next);
+  function handleNextQuestion(values: any) {
+    let result = Object.keys(values).map((key) => [values[key]]);
+    for (let i = 0; i < 2; i++) {
+      result.pop();
     }
+
+    let out = {
+      testsId: 1,
+      typeId: values.typeId,
+      questionTitle: values.questionTitle,
+      score: values.score,
+      questionContents: radioOptions.map(
+        (item: IQuestionOption, index: number) => {
+          return {
+            content: result[index][0],
+            isAnswer: isAnswer(item),
+          };
+        },
+      ),
+    };
+    let next = {
+      testsId: 0,
+      typeId: 1,
+      questionTitle: '',
+      score: 1,
+    };
+    data.pop();
+    setData((data) => [...data, next, out]);
+
+    setCurrentQuestionIndex(data.length + 1);
+    setCurrentQuestion(next);
   }
 
   const handleOk = async () => {
@@ -403,7 +323,7 @@ export default function Question() {
 
             handleFinish();
           } else {
-            handleNextQuestion();
+            handleNextQuestion(values);
           }
         } else {
           // await apiService.addProgram({});
@@ -421,7 +341,7 @@ export default function Question() {
   return (
     <div
       ref={containerRef}
-      className=" w-full  overflow-scroll flex flex-col mb-20 pb-1  "
+      className=" w-full flex flex-col mb-20 pb-1  "
       style={{
         height: height + 'vh',
       }}
@@ -436,7 +356,7 @@ export default function Question() {
               <QuestionButton
                 className="mb-5"
                 text={`Câu ${index + 1}`}
-                onClick={() => setCurrentQuestionIndex(index)}
+                onClick={() => handleMoveQuestion(index)}
                 active={index === currentQuestionIndex ? true : false}
               />
             );
@@ -482,7 +402,7 @@ export default function Question() {
                 <FormInput
                   disabled={false}
                   type="select"
-                  name="TypeId"
+                  name="typeId"
                   label="Loại bài kiểm tra"
                   rules={[]}
                   defaultValue={selectedType}
@@ -491,7 +411,7 @@ export default function Question() {
                 />
                 <FormInput
                   disabled={false}
-                  name="Score"
+                  name="score"
                   label="Số điểm"
                   rules={[
                     {
@@ -501,6 +421,10 @@ export default function Question() {
                     {
                       pattern: new RegExp(/^(?!\s*$|\s).*$/),
                       message: errorText.space,
+                    },
+                    {
+                      pattern: new RegExp(/^\d+$/),
+                      message: 'Điểm phải thuộc kiểu số nguyên không âm',
                     },
                   ]}
                 />
@@ -523,7 +447,7 @@ export default function Question() {
               <FormInput
                 disabled={false}
                 type="textArea"
-                name="QuestiXonTitle"
+                name="questionTitle"
                 label="Nhập câu hỏi "
                 placeholder="Nhập câu hỏi"
                 areaHeight={3}
@@ -642,7 +566,7 @@ const QuestionButton = ({
       <CustomButton
         text={text}
         size="sm"
-        variant={!active && 'outlined'}
+        variant={!active ? 'outlined' : 'filled'}
         color={!active ? `blue` : `purple`}
         noIcon
         className="w-24"

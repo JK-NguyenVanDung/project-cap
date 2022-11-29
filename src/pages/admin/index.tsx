@@ -89,7 +89,7 @@ export default function SideBar({ content }: { content: any }) {
             </ul>
           </div>
         </div>
-        <div className="z-[2] Layout ml-[16%] w-full  ">
+        <div className="z-[2] Layout ml-[16.1%] w-full  ">
           <header className="header bg-gray-50 px-4 shadow-md-2">
             <div className="container flex items-center justify-between ">
               <h1 className="font-semibold text-xl">{nameMenu}</h1>
