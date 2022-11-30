@@ -9,17 +9,12 @@ import Category from '../pages/admin/Category/Category';
 import Account from '../pages/admin/account/Account';
 import Program from '../pages/admin/Program/Program';
 import ProgramDetail from '../pages/admin/Program/ProgramDetail';
-import Test from '../pages/admin/Program/Test/Test';
-import {
-  AuthenticatedTemplate,
-  UnauthenticatedTemplate,
-  useMsal,
-} from '@azure/msal-react';
-import { loginRequest } from '../pages/authentication/loginconfig';
-import { callMsGraph } from '../pages/authentication/graph';
 import Faculties from '../pages/admin/Faculties/Faculties';
+import EditProgram from '../pages/admin/Program/EditProgram';
+import Logined from './Logined';
 import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
 import Question from '../pages/admin/Program/Test/Question';
+import Test from '../pages/admin/Program/Test/Test';
 
 export const AdminRouter = [
   {
@@ -63,6 +58,10 @@ export const AdminRouter = [
     path: '/admin/Faculties',
     element: <Faculties />,
   },
+  {
+    path: '/admin/EditProgram',
+    element: <EditProgram type="Thêm" />,
+  },
 ];
 export default function MakeAdminRouter() {
   return (
@@ -76,12 +75,7 @@ export default function MakeAdminRouter() {
           />
         );
       })}
-
-      <Route
-        path="/admin/Program/Chapter/:number/Test/Question"
-        element={<Question />}
-      />
-
+      <Route path="/login" element={<Logined />} />
       <Route path="/" element={<LandingPage />} />
     </Routes>
   );

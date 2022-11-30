@@ -245,10 +245,10 @@ export default function Account() {
               required: true,
               message: 'Vui Lòng Nhập Vào Email',
             },
-            {
-              pattern: new RegExp(/.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$/),
-              message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU',
-            },
+            // {
+            //   pattern: new RegExp(/.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$/),
+            //   message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU',
+            // },
             {
               pattern: new RegExp(
                 /^\w*[A-Za-z]+(?:([._]?\w+)*)\@[A-Za-z]\w*[-]?\w+\.[A-Za-z]{1,}?(\.?[A-Za-z]+)$/,

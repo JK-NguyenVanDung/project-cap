@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
-// import { API_CONFIG } from '../api';
-import axiosConfig from '../api/axiosConfig'
-// import authService from '../service/auth/authService';
 const slice = createSlice({
   name: 'auth',
   initialState: {
+    tokenMicrosoft: null,
     token: null,
     info: null,
   },
+ 
   reducers: {
     Login(state, actions) {
       state.token = actions.payload
+    },
+    setTokenMicrosoft(state, actions){
+      state.tokenMicrosoft = actions.payload
     },
     logout(state) {
       state.token = null

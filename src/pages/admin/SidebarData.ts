@@ -43,3 +43,11 @@ export const SideBarData = [
     path: '/admin/Faculties',
   },
 ];
+
+export const SideBarDataFacul = [
+  {
+    title: 'Trang Chủ',
+    icon: IoApps,
+    path: '/admin',
+  },
+];

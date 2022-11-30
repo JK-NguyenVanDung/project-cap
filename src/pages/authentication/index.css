@@ -37,7 +37,7 @@
   height: 1400px;
   opacity: 0.5;
   animation-name: rotateDots;
-  animation-duration: 30s;
+  animation-duration: 250s;
   animation-iteration-count: infinite;
   animation-direction: reverse;
   animation-timing-function: linear;

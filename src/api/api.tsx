@@ -2,8 +2,8 @@ import { ISignUp } from './apiInterface';
 export const API_URL = 'https://localhost:7206';
 export const API_CONFIG = {
   AUTH: {
-    LOGIN: '/api/Users/Login',
-    SIGN_UP: '/api/Users',
+    LOGIN: '/api/Accounts/Login',
+    GETPROFILE: '/api/Accounts/me',
   },
   COURSE_CATEGORY: {
     GET: '/api/Categories/',
@@ -22,8 +22,10 @@ export const API_CONFIG = {
   PROGRAM: {
     GET: '/api/Programs',
     POST: '/api/Programs',
+    DEL: (ID: number) => `/api/Programs/${ID}`,
+    PUT: (ID: number) => `/api/Programs/${ID}`,
   },
-  Faculties: {
+  FACULTIES: {
     GET: '/api/Faculties',
     POST: '/api/Faculties',
     PUT: (id: number) => `/api/Faculties/${id}`,
