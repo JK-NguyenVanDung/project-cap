@@ -24,7 +24,7 @@ export default function Program() {
   const [data, setData] = useState<Array<IProgramItem>>([]);
   const [filterData, setFilterData] = useState([]);
 
-  const navigate = useNavigate();
+  const navigate = useNavigateParams();
 
   useEffect(() => {
     getData();
@@ -46,7 +46,7 @@ export default function Program() {
 
   function handleShowDetail(item: any) {
     // navigate(`/admin/Program/${item.ProgramId}`);
-    navigate(`/admin/Program/Chapter/${item.programId}`);
+    // navigate(`/admin/Program/Chapter/${item.programId}`);
     dispatch(
       actions.formActions.setNameMenu(
         `Chương trình ${item.ProgramName && item.ProgramName}`,
@@ -68,7 +68,7 @@ export default function Program() {
         <div className="flex flex-row w-full items-center">
           <Image
             width={50}
-            src={`${API_URL}/${data.image}`}
+            src={`${API_URL}/images/${data.image}`}
             placeholder={
               <Image preview={false} src={ImagePlaceHolder} width={50} />
             }
@@ -125,7 +125,7 @@ export default function Program() {
           <PopOverAction
             size="sm"
             data={item}
-            handleEdit={() => console.log('edit')}
+            handleEdit={() => handelDataProgram(item)}
             handleDelete={() => handleDelete(item)}
             handleShowDetail={() => handleShowDetail(item)}
           />
@@ -166,12 +166,10 @@ export default function Program() {
       throw err.message();
     }
   }
-  function handelDataProgram() {
-    navigate('/admin/EditProgram', {
-      state: {
-        data,
-      },
-    });
+  function handelDataProgram(item: any) {
+    item.id
+      ? navigate('/admin/EditProgram', item.id)
+      : navigate('/admin/EditProgram', 'add');
   }
 
   return (
@@ -187,7 +185,7 @@ export default function Program() {
             type="add"
             size="md"
             key={`${uniqueId()}`}
-            onClick={() => handelDataProgram()}
+            onClick={() => handelDataProgram(data)}
           />,
         ]}
       />
