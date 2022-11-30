@@ -24,6 +24,7 @@ export default function Logined() {
         });
         if (reponseToken) {
           setLoading(false);
+
           dispatch(actions.authActions.Login(reponseToken.token));
           localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
         }

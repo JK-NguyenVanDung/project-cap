@@ -42,9 +42,7 @@ export default function EditProgram({ type }: { type: string }) {
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
-  const onSearch = () => {
-    console.log('abc');
-  };
+  const onSearch = () => {};
   const handelOk = async () => {
     form
       .validateFields()
@@ -125,51 +123,58 @@ export default function EditProgram({ type }: { type: string }) {
           </div>
           <div className="w-full mx-5">
             <FormInput label="Số Coin Đạt Được Khi Hoàn Thành" name="Coin" />
+            <div className="mt-12">
+              <label className=" text-black font-bold font-customFont">
+                Ngày Bắt Đầu
+              </label>
+              <Form.Item name="StartDate">
+                <DatePicker picker="date" />
+              </Form.Item>
+              <label className=" text-black font-bold font-customFont ">
+                Ngày Kết Thúc
+              </label>
+              <Form.Item name="EndDate">
+                <DatePicker picker="date" />
+              </Form.Item>
+              <label className="text-black font-bold font-customFont ">
+                Năm Học
+              </label>
+              <Form.Item className="mb-4">
+                <DatePicker picker="year" />
+              </Form.Item>
 
-            <Form.Item label="Ngày Bắt Đầu" name="StartDate">
-              <DatePicker picker="date" />
-            </Form.Item>
-            <Form.Item label="Ngày Kết Thúc" name="EndDate">
-              <DatePicker picker="date" />
-            </Form.Item>
-            <label className="text-black font-bold font-customFont ">
-              Năm Học
-            </label>
-            <Form.Item className="mb-4">
-              <DatePicker picker="year" />
-            </Form.Item>
-
-            <label className="text-black font-bold font-customFont">
-              Danh Mục
-            </label>
-            <Form.Item name="CategoryId">
-              <Select
-                showSearch
-                placeholder="Chọn Danh Mục"
-                optionFilterProp="children"
-                onChange={onChange}
-                onSearch={onSearch}
-                filterOption={(input: any, option: any) =>
-                  (option?.label ?? '')
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={dataCategory.map((item: any) => ({
-                  value: item.categoryId,
-                  label: item.categoryName,
-                }))}
-              />
-            </Form.Item>
-            <label className="text-black font-bold font-customFont ">
-              Học Kì
-            </label>
-            <Form.Item>
-              <Select placeholder="Chọn Học Kì">
-                <Option>Năm I</Option>
-                <Option>Năm II</Option>
-                <Option>Năm III</Option>
-              </Select>
-            </Form.Item>
+              <label className="text-black font-bold font-customFont">
+                Danh Mục
+              </label>
+              <Form.Item name="CategoryId">
+                <Select
+                  showSearch
+                  placeholder="Chọn Danh Mục"
+                  optionFilterProp="children"
+                  onChange={onChange}
+                  onSearch={onSearch}
+                  filterOption={(input: any, option: any) =>
+                    (option?.label ?? '')
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={dataCategory.map((item: any) => ({
+                    value: item.categoryId,
+                    label: item.categoryName,
+                  }))}
+                />
+              </Form.Item>
+              <label className="text-black font-bold font-customFont ">
+                Học Kì
+              </label>
+              <Form.Item>
+                <Select placeholder="Chọn Học Kì">
+                  <Option>Năm I</Option>
+                  <Option>Năm II</Option>
+                  <Option>Năm III</Option>
+                </Select>
+              </Form.Item>
+            </div>
           </div>
           <div className="w-2/3">
             <label className="text-black font-bold font-customFont">

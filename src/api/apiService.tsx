@@ -5,8 +5,6 @@ import { IAccountItem, IProgramItem } from '../Type';
 export default {
   //auth
   postAdminUser: (token: any) => {
-    console.log('ádjhfkasjdh', token);
-
     return axiosConfig.post(API_CONFIG.AUTH.LOGIN, token);
   },
   getProfile: () => {

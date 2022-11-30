@@ -23,11 +23,11 @@ const DataLogin = [
   },
 ];
 export default function Login() {
-  const { instance} = useMsal();
+  const { instance } = useMsal();
   function LoginPopUp(item: any) {
-    instance.loginPopup(loginRequest).catch(e => {
+    instance.loginPopup(loginRequest).catch((e) => {
       console.log(e);
-  });
+    });
   }
 
   return (
