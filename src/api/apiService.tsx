@@ -1,16 +1,16 @@
 import { API_CONFIG } from './api';
-import axiosConfig from './axiosConfig';
+import axiosConfig, { configFormData } from './axiosConfig';
 import { ICategory, IFaculties } from './apiInterface';
 import { IAccountItem, IProgramItem } from '../Type';
 export default {
   //auth
   postAdminUser: (token: any) => {
-    console.log('ádjhfkasjdh',token);
-    
-    return axiosConfig.post(API_CONFIG.AUTH.LOGIN, token)
+    console.log('ádjhfkasjdh', token);
+
+    return axiosConfig.post(API_CONFIG.AUTH.LOGIN, token);
   },
   getProfile: () => {
-    return axiosConfig.get(API_CONFIG.AUTH.GETPROFILE)
+    return axiosConfig.get(API_CONFIG.AUTH.GETPROFILE);
   },
   //CATEGORY
   getCategories: () => {
@@ -51,9 +51,14 @@ export default {
     return axiosConfig.get(API_CONFIG.PROGRAM.GET);
   },
   addProgram: (body: IProgramItem) => {
-    return axiosConfig.post(API_CONFIG.PROGRAM.POST, body);
+    return configFormData.post(API_CONFIG.PROGRAM.POST, body);
   },
-
+  delProgram: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.PROGRAM.DEL(id));
+  },
+  putProgram: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.PROGRAM.PUT(id));
+  },
   //Faculties
   getFaculties: () => {
     return axiosConfig.get(API_CONFIG.FACULTIES.GET);
