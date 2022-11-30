@@ -12,6 +12,7 @@ import apiService from '../../../api/apiService';
 import { Option } from 'antd/lib/mentions';
 import axios, { AxiosResponse } from 'axios';
 import Input from '../../../components/sharedComponents/Input';
+import { IProgramItem } from '../../../Type';
 export default function EditProgram({ type }: { type: string }) {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [dataFct, setDataFct]: any = useState([]);
@@ -49,17 +50,17 @@ export default function EditProgram({ type }: { type: string }) {
     form
       .validateFields()
       .then(async (values) => {
-        frmData.append('ProgramName', values.ProgramName);
-        frmData.append('FacultyId', values.FacultyId);
-        frmData.append('Image', values.Image.file);
-        frmData.append('CategoryId', values.CategoryId);
+        frmData.append('programName', values.programName);
+        frmData.append('facultyId', values.facultyId);
+        frmData.append('image', values.image.file);
+        frmData.append('categoryId', values.categoryId);
         frmData.append(
-          'StartDate',
-          moment(values.StartDate).format('YYYY-MM-DD'),
+          'startDate',
+          moment(values.startDate).format('YYYY-MM-DD'),
         );
-        frmData.append('EndDate', moment(values.EndDate).format('YYYY-MM-DD'));
-        frmData.append('IsPublish', values.IsPublish);
-        frmData.append('Coin', values.Coin);
+        frmData.append('endDate', moment(values.endDate).format('YYYY-MM-DD'));
+        frmData.append('isPublish', values.isPublish);
+        frmData.append('coin', values.coin);
         const data = await apiService.addProgram(frmData);
         if (data) {
           notification.success({ message: 'thêm thành công' });
@@ -88,7 +89,7 @@ export default function EditProgram({ type }: { type: string }) {
         <div className="flex justify-around center my-5">
           <div className="w-full mx-5">
             <FormInput
-              name="ProgramName"
+              name="programName"
               label="Chủ Đề Đào Tạo"
               rules={[
                 {
@@ -98,12 +99,16 @@ export default function EditProgram({ type }: { type: string }) {
               ]}
             />
             <div className="my-10">
-              <FormInput type="textArea" label="Mô Tả Chủ Đề" />
+              <FormInput
+                name="programDescription"
+                type="textArea"
+                label="Mô Tả Chủ Đề"
+              />
             </div>
             <label className=" text-black font-bold font-customFont ">
               Phòng/Khoa
             </label>
-            <Form.Item name="FacultyId">
+            <Form.Item name="facultyId">
               <Select
                 showSearch
                 placeholder="Chọn Phòng/Khoa"
@@ -126,12 +131,12 @@ export default function EditProgram({ type }: { type: string }) {
             <FormInput
               className="W-1/2"
               label="Số Coin Đạt Được Khi Hoàn Thành"
-              name="Coin"
+              name="coin"
             />
-            <Form.Item label="Ngày Bắt Đầu" name="StartDate">
+            <Form.Item label="Ngày Bắt Đầu" name="startDate">
               <DatePicker picker="date" />
             </Form.Item>
-            <Form.Item label="Ngày Kết Thúc" name="EndDate">
+            <Form.Item label="Ngày Kết Thúc" name="endDate">
               <DatePicker picker="date" />
             </Form.Item>
 
@@ -141,7 +146,7 @@ export default function EditProgram({ type }: { type: string }) {
             <label className="text-black font-bold font-customFont">
               Danh Mục
             </label>
-            <Form.Item name="CategoryId">
+            <Form.Item name="categoryId">
               <Select
                 showSearch
                 placeholder="Chọn Danh Mục"
@@ -165,7 +170,7 @@ export default function EditProgram({ type }: { type: string }) {
             <label className="text-black font-bold font-customFont">
               Ảnh Giới Thiệu
             </label>
-            <Form.Item className="mt-4  mb-[18px]" name="Image">
+            <Form.Item className="mt-4  mb-[18px]" name="image">
               <Upload
                 listType="picture-card"
                 beforeUpload={() => false}
@@ -193,7 +198,7 @@ export default function EditProgram({ type }: { type: string }) {
             </label>
             <Form.Item
               className="mb-0 "
-              name="IsPublish"
+              name="isPublish"
               valuePropName="checked"
             >
               <Checkbox>Có</Checkbox>
