@@ -40,14 +40,16 @@ export default function Logined() {
         .acquireTokenSilent(request)
         .then((response) => {
           setAccessToken(response.accessToken);
-          if (acceptToken) postLogin();
+          setTimeout(() => {
+            postLogin();
+          }, 3000);
         })
         .catch((e) => {
           console.log(e);
         });
     }
     RequestAccessToken();
-  }, []);
+  }, [loading]);
 
   const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
   return (
