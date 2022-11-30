@@ -78,20 +78,20 @@ export default function CustomModal({
           <div className=" my-5 flex flex-row justify-evenly w-full">
             <CustomButton
               size="md"
+              fullWidth={true}
+              noIcon={true}
+              type="cancel"
+              color="blue-gray"
+              onClick={handleShow}
+            />
+            <CustomButton
+              size="md"
               onClick={() => handleOk()}
               fullWidth={true}
               className="mx-2"
               noIcon={true}
-              text={!dataItem ? `Thêm` : header ? header : 'Sửa'}
-            />
-
-            <CustomButton
-              size="md"
-              fullWidth={true}
-              noIcon={true}
-              type="cancel"
-              color="blue"
-              onClick={handleShow}
+              color="blue-gray"
+              text={!dataItem ? `Lưu` : header ? header : 'Lưu'}
             />
           </div>
         )

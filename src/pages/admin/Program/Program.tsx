@@ -19,6 +19,7 @@ import { API_URL } from '../../../api/api';
 export default function Program() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const dispatch = useAppDispatch();
   const [data, setData] = useState<Array<IProgramItem>>([]);
@@ -30,11 +31,12 @@ export default function Program() {
     getData();
     setTimeout(() => {
       setLoading(false);
+      setConfirmLoading(false);
     }, 1000);
-  }, []);
-  async function handleDelete(item: any) {
+  }, [reload]);
+  async function handleDelete(item: IProgramItem) {
     try {
-      await apiService.delProgram(item.ProgramId);
+      await apiService.delProgram(item.programId);
 
       setReload(!reload);
       message.success(MESSAGE.SUCCESS.DELETE);
@@ -45,6 +47,9 @@ export default function Program() {
 
   function handleShowDetail(item: any) {
     // navigate(`/admin/Program/${item.ProgramId}`);
+
+    //    navigate(`/admin/Program/Chapter/${item.ProgramId}/Test`);
+
     // navigate(`/admin/Program/Chapter/${item.programId}`);
     dispatch(
       actions.formActions.setNameMenu(
@@ -103,7 +108,7 @@ export default function Program() {
       dataIndex: 'isPublish',
       width: GIRD12.COL2,
       render: (data: boolean) => (
-        <p className={`${data ? 'text-primary' : 'text-yellow-700'}`}>
+        <p className={`${data ? 'text-primary' : 'text-yellow-800'} font-bold`}>
           {data ? 'Công khai' : 'Chưa công khai'}
         </p>
       ),
@@ -123,7 +128,6 @@ export default function Program() {
         return (
           <PopOverAction
             size="sm"
-            data={item}
             handleEdit={() => handelDataProgram(item)}
             handleDelete={() => handleDelete(item)}
             handleShowDetail={() => handleShowDetail(item)}
@@ -138,7 +142,7 @@ export default function Program() {
     let temp = data;
     const filteredData = temp
       .map((record: IProgramItem) => {
-        const emailMatch = record.ProgramName.match(reg);
+        const emailMatch = record.programName.match(reg);
         if (!emailMatch) {
           return null;
         }
@@ -178,7 +182,7 @@ export default function Program() {
         search={true}
         data={data}
         columns={columns}
-        loading={loading}
+        loading={loading || confirmLoading}
         extra={[
           <CustomButton
             type="add"

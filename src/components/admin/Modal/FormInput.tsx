@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { ReactElement, useRef } from 'react';
 import { Input, Form, message, Select, DatePicker, Space } from 'antd';
 import Uploader from '../Upload';
 import DateTimePicker from '../DateTimePicker';
@@ -14,9 +14,12 @@ export default function FormInput({
   type,
   options,
   disabled = false,
-  focusHandle,
   placeholder,
   className,
+  IconRight,
+  areaHeight,
+  getSelectedValue,
+  defaultValue,
 }: {
   label?: string;
   name?: any;
@@ -24,12 +27,13 @@ export default function FormInput({
   type?: string;
   options?: any;
   disabled?: boolean;
-  focusHandle?: React.FC | Function;
   placeholder?: string;
   className?: string;
+  IconRight?: any;
+  areaHeight?: number;
+  getSelectedValue?: Function;
+  defaultValue?: any;
 }) {
-  function onChange() {}
-  function onOk() {}
   const FormComponent = () => {
     let cp;
     switch (type) {
@@ -41,8 +45,7 @@ export default function FormInput({
             defaultValue={options[0]?.value}
             className="text-black font-customFont h-10 font-bold min-w-[20rem] mt-4"
             options={options}
-            onFocus={() => focusHandle(true)}
-            onBlur={() => focusHandle(false)}
+            onSelect={(e: any) => (getSelectedValue ? getSelectedValue(e) : {})}
           ></Select>
         );
         break;
@@ -57,9 +60,8 @@ export default function FormInput({
         cp = (
           <TextArea
             className="text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-            rows={6}
-            placeholder={`Nhập ${label}`}
-            maxLength={6}
+            rows={areaHeight ? areaHeight : 6}
+            placeholder={`${placeholder ? placeholder : 'Nhập ' + label}`}
           />
         );
         break;
@@ -69,10 +71,10 @@ export default function FormInput({
           <Input
             disabled={disabled}
             type="text"
-            id="simple-search"
-            className={`text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${className}`}
+            className={`text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${className}`}
             placeholder={`${placeholder ? placeholder : 'Nhập ' + label}`}
             required
+            suffix={IconRight && <IconRight className="w-fit" />}
           ></Input>
         );
         break;

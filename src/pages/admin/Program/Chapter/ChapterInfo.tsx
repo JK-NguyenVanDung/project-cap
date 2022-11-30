@@ -14,79 +14,17 @@ import { actions } from '../../../../Redux';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
-
-const ConfirmModal = ({
-  show,
-  setShow,
-  handler,
-  children,
-  chapterNumber,
-}: {
-  show: boolean;
-  setShow: Function;
-  handler: () => void;
-
-  children: any;
-  chapterNumber?: number;
-}) => {
-  const handleOk = () => {
-    setShow(false);
-    handler();
-  };
-  const handleCancel = () => {
-    setShow(false);
-  };
-
-  return (
-    <>
-      <Modal
-        title={
-          <p className="font-customFont text-lg font-semibold mt-1">
-            {`Xác nhận xoá chương ${chapterNumber}?`}
-          </p>
-        }
-        open={show}
-        centered
-        onCancel={handleCancel}
-        footer={[
-          <div className="flex justify-end my-2">
-            <CustomButton
-              text="Quay lại"
-              size="md"
-              color="red"
-              variant="outlined"
-              className="w-32 mr-4"
-              noIcon
-              key="back"
-              onClick={handleCancel}
-            />
-            <CustomButton
-              text="Xác nhận"
-              size="md"
-              color="red"
-              className="w-32 mr-4"
-              key="submit"
-              noIcon
-              onClick={handleOk}
-            />
-          </div>,
-        ]}
-      >
-        {children}
-      </Modal>
-    </>
-  );
-};
+import ConfirmModal from '../../../../components/admin/Modal/ConfirmModal';
 
 const Frame = React.forwardRef((props: any, ref: any) => {
   return (
     <>
       {props.iframe && (
-        <div className="w-full   ">
+        <div className="w-full">
           <label className="text-black font-bold font-customFont">
             Xem duyệt video/slide
           </label>
-          <div className=" font-bold  grid place-items-center	 rounded-lg w-full  mt-4 border">
+          <div className=" h-[27rem] overflow-scroll font-bold  grid place-items-center	 rounded-lg w-full  mt-4 border">
             <div
               ref={ref}
               className="py-8 "
@@ -167,7 +105,6 @@ export default function ChapterInfo() {
       .then(async (values) => {
         setLoading(true);
         const temp = [];
-        //frameRef.current.children[0].src
         let output = {
           ContentTitle: values.ContentTitle,
           ContentDescription: values.ContentDescription,
@@ -175,8 +112,6 @@ export default function ChapterInfo() {
           ContentType: switchType ? 'Video' : 'Slide',
         };
         if (data) {
-          // await apiService.editProgram({
-          // });
           message.success('Thay đổi thành công');
           setReload(!reload);
 
@@ -184,8 +119,6 @@ export default function ChapterInfo() {
           form.resetFields();
           setIframe(null);
         } else {
-          // await apiService.addProgram({});
-          // setReload(!reload);
           message.success('Thêm thành công');
           setLoading(false);
           form.resetFields();
@@ -203,7 +136,7 @@ export default function ChapterInfo() {
         show={showConfirm}
         setShow={setShowConfirm}
         handler={() => handleDelete()}
-        chapterNumber={chapter}
+        title={`chương ${chapter}`}
       >
         <p className="font-customFont text-xl font-[500]">
           Xoá nội dung và bài kiểm tra của chương này{' '}
@@ -223,7 +156,7 @@ export default function ChapterInfo() {
           rules={[
             {
               required: true,
-              message: `Không được để trống tên chương trình`,
+              message: `Không được để trống tên chương`,
             },
             {
               pattern: new RegExp(/^(?!\s*$|\s).*$/),
@@ -236,7 +169,7 @@ export default function ChapterInfo() {
           disabled={false}
           type="textArea"
           name="ContentDescription"
-          label="Mô tả chương trình"
+          label="Mô tả chương "
           rules={[
             {
               required: true,
@@ -294,6 +227,7 @@ export default function ChapterInfo() {
               variant="outlined"
               className="w-32 mr-4"
               noIcon
+              color="blue-gray"
               onClick={() => goBack()}
             />
             <CustomButton
@@ -306,7 +240,7 @@ export default function ChapterInfo() {
             />
 
             <button
-              className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-500 hover:bg-blue-500 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-32 false"
+              className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-gray-500 hover:bg-blue-gray-500 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-32 false"
               formNoValidate
             >
               <p className="font-customFont  font-semibold">Lưu</p>

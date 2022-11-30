@@ -39,15 +39,9 @@ export default function () {
         </IconButton>
 
         <MenuHandler>
-          <Button className="bg-white shadow-none hover:shadow-none p-0 ">
-            <Avatar
-              className="mx-2"
-              size="sm"
-              src={avatar}
-              alt="avatar"
-              variant="circular"
-            />
-          </Button>
+          <button className="rounded-[12rem] mx-2 bg-white shadow-none hover:shadow-none p-0 ">
+            <Avatar size="sm" src={avatar} alt="avatar" variant="circular" />
+          </button>
         </MenuHandler>
         <MenuList>
           <MenuItem disabled className="font-customFont">
