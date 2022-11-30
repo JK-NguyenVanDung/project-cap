@@ -44,21 +44,21 @@ const CategoryItem = z.object({
 });
 
 const ProgramItem = z.object({
-  ProgramId: z.number(),
-  FacultyId: z.number(),
-  AccountIdCreator: z.number(),
-  CategoryId: z.number(),
-  ProgramName: z.string(),
-  Image: z.string(),
-  StartDate: z.date(),
-  EndDate: z.date(),
-  IsPublish: z.boolean(),
-  Coin: z.number(),
+  programId: z.number(),
+  facultyId: z.number(),
+  accountIdCreator: z.number(),
+  categoryId: z.number(),
+  programName: z.string(),
+  image: z.string(),
+  startDate: z.date(),
+  endDate: z.date(),
+  isPublish: z.boolean(),
+  coin: z.number(),
 });
 
 const ChapterItem = z.object({
   ContentId: z.number(),
-  ProgramId: z.number(),
+  programId: z.number(),
   ContentTitle: z.string(),
   ContentDescription: z.string(),
   Chapter: z.number(),

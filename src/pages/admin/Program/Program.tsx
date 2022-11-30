@@ -19,6 +19,7 @@ import { API_URL } from '../../../api/api';
 export default function Program() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const dispatch = useAppDispatch();
   const [data, setData] = useState<Array<IProgramItem>>([]);
@@ -30,11 +31,12 @@ export default function Program() {
     getData();
     setTimeout(() => {
       setLoading(false);
+      setConfirmLoading(false);
     }, 1000);
-  }, []);
-  async function handleDelete(item: any) {
+  }, [reload]);
+  async function handleDelete(item: IProgramItem) {
     try {
-      await apiService.delProgram(item.ProgramId);
+      await apiService.delProgram(item.programId);
 
       setReload(!reload);
       message.success(MESSAGE.SUCCESS.DELETE);
@@ -140,7 +142,7 @@ export default function Program() {
     let temp = data;
     const filteredData = temp
       .map((record: IProgramItem) => {
-        const emailMatch = record.ProgramName.match(reg);
+        const emailMatch = record.programName.match(reg);
         if (!emailMatch) {
           return null;
         }
@@ -180,7 +182,7 @@ export default function Program() {
         search={true}
         data={data}
         columns={columns}
-        loading={loading}
+        loading={loading || confirmLoading}
         extra={[
           <CustomButton
             type="add"

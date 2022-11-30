@@ -45,7 +45,7 @@ export default function FormInput({
             defaultValue={options[0]?.value}
             className="text-black font-customFont h-10 font-bold min-w-[20rem] mt-4"
             options={options}
-            onSelect={(e: any) => getSelectedValue(e)}
+            onSelect={(e: any) => (getSelectedValue ? getSelectedValue(e) : {})}
           ></Select>
         );
         break;

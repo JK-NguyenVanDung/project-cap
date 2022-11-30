@@ -121,24 +121,23 @@ export default function EditProgram({ type }: { type: string }) {
                 }))}
               />
             </Form.Item>
-            <FormInput label="Vị Trí" className="mt-0" />
           </div>
           <div className="w-full mx-5">
-            <FormInput label="Số Coin Đạt Được Khi Hoàn Thành" name="Coin" />
-
+            <FormInput
+              className="W-1/2"
+              label="Số Coin Đạt Được Khi Hoàn Thành"
+              name="Coin"
+            />
             <Form.Item label="Ngày Bắt Đầu" name="StartDate">
               <DatePicker picker="date" />
             </Form.Item>
             <Form.Item label="Ngày Kết Thúc" name="EndDate">
               <DatePicker picker="date" />
             </Form.Item>
-            <label className="text-black font-bold font-customFont ">
-              Năm Học
-            </label>
-            <Form.Item className="mb-4">
+
+            <Form.Item label="Năm Học" name="year" className="mb-4">
               <DatePicker picker="year" />
             </Form.Item>
-
             <label className="text-black font-bold font-customFont">
               Danh Mục
             </label>
@@ -160,37 +159,43 @@ export default function EditProgram({ type }: { type: string }) {
                 }))}
               />
             </Form.Item>
+            <FormInput label="Vị Trí" className="mt-0" />
+          </div>
+          <div className="w-2/3">
+            <label className="text-black font-bold font-customFont">
+              Ảnh Giới Thiệu
+            </label>
+            <Form.Item className="mt-4  mb-[18px]" name="Image">
+              <Upload
+                listType="picture-card"
+                beforeUpload={() => false}
+                maxCount={1}
+                iconRender={GrAdd}
+                className="containerUpLoad "
+              >
+                <GrAdd />
+                <p>banner</p>
+              </Upload>
+            </Form.Item>
+
             <label className="text-black font-bold font-customFont ">
               Học Kì
             </label>
-            <Form.Item>
+            <Form.Item className="w-4/5">
               <Select placeholder="Chọn Học Kì">
                 <Option>Năm I</Option>
                 <Option>Năm II</Option>
                 <Option>Năm III</Option>
               </Select>
             </Form.Item>
-          </div>
-          <div className="w-2/3">
-            <label className="text-black font-bold font-customFont">
-              Ảnh Giới Thiệu
-            </label>
-            <Form.Item className="mt-4" name="Image">
-              <Upload
-                listType="picture-card"
-                beforeUpload={() => false}
-                maxCount={1}
-                iconRender={GrAdd}
-                className="containerUpLoad"
-              >
-                <GrAdd />
-                <p>banner</p>
-              </Upload>
-            </Form.Item>
-            <label className=" text-black font-bold font-customFont mr-2 ">
+            <label className=" text-black font-bold font-customFont mr-2 h-full">
               Công Khai:
             </label>
-            <Form.Item name="IsPublish" valuePropName="checked">
+            <Form.Item
+              className="mb-0 "
+              name="IsPublish"
+              valuePropName="checked"
+            >
               <Checkbox>Có</Checkbox>
             </Form.Item>
             <div>
