@@ -11,7 +11,7 @@ import { actions } from '../Redux';
 export default function Logined() {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
-  const navigate =  useNavigate()
+  const navigate = useNavigate();
   const [acceptToken, setAccessToken] = useState('');
   const { instance, accounts } = useMsal();
 

@@ -3,7 +3,7 @@ export const API_URL = 'https://localhost:7206';
 export const API_CONFIG = {
   AUTH: {
     LOGIN: '/api/Accounts/Login',
-    GETPROFILE: '/api/Accounts/me'
+    GETPROFILE: '/api/Accounts/me',
   },
   COURSE_CATEGORY: {
     GET: '/api/Categories/',
@@ -22,6 +22,8 @@ export const API_CONFIG = {
   PROGRAM: {
     GET: '/api/Programs',
     POST: '/api/Programs',
+    DEL: (ID: number) => `/api/Programs/${ID}`,
+    PUT: (ID: number) => `/api/Programs/${ID}`,
   },
   FACULTIES: {
     GET: '/api/Faculties',

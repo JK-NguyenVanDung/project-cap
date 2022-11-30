@@ -15,16 +15,16 @@ import EditProgram from './EditProgram';
 import SideBar from '..';
 import { BsReverseLayoutSidebarInsetReverse } from 'react-icons/bs';
 import { useNavigateParams } from '../../../hook/useNavigationParams';
+import { API_URL } from '../../../api/api';
 export default function Program() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
 
   const dispatch = useAppDispatch();
-
   const [data, setData] = useState<Array<IProgramItem>>([]);
   const [filterData, setFilterData] = useState([]);
 
-  const navigate = useNavigateParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getData();
@@ -32,9 +32,10 @@ export default function Program() {
       setLoading(false);
     }, 1000);
   }, []);
-  async function handleDelete(item: IProgramItem) {
+  async function handleDelete(item: any) {
+    console.log('hahhas');
     try {
-      // await apiService.removeProgram(item.ProgramId);
+      await apiService.delProgram(item.ProgramId);
 
       setReload(!reload);
       message.success(MESSAGE.SUCCESS.DELETE);
@@ -43,13 +44,16 @@ export default function Program() {
     }
   }
 
-  function handleShowDetail(item: IProgramItem) {
+  function handleShowDetail(item: any) {
+    // navigate(`/admin/Program/${item.ProgramId}`);
+    navigate(`/admin/Program/Chapter/${item.programId}`);
     dispatch(
       actions.formActions.setNameMenu(
         `Chương trình ${item.ProgramName && item.ProgramName}`,
       ),
     );
   }
+  console.log(data);
 
   const columns = [
     {
@@ -58,13 +62,13 @@ export default function Program() {
       width: GIRD12.COL0,
     },
     {
-      title: 'Tên danh mục',
+      title: 'Banner',
       width: GIRD12.COL4,
-      render: (data: IProgramItem) => (
+      render: (data: any) => (
         <div className="flex flex-row w-full items-center">
           <Image
             width={50}
-            src={data.Image}
+            src={`${API_URL}/${data.image}`}
             placeholder={
               <Image preview={false} src={ImagePlaceHolder} width={50} />
             }
@@ -75,23 +79,29 @@ export default function Program() {
     },
 
     {
+      title: 'Tên Danh Mục',
+      dataIndex: 'programName',
+      width: GIRD12.COL2,
+    },
+    {
       title: 'Ngày bắt đầu',
-      dataIndex: 'StartDate',
+      dataIndex: 'startDate',
       width: GIRD12.COL2,
     },
     {
       title: 'Ngày kết thúc',
-      dataIndex: 'EndDate',
+      dataIndex: 'endDate',
       width: GIRD12.COL2,
     },
     {
       title: 'Tổng coin',
-      dataIndex: 'Coin',
+      dataIndex: 'coin',
       width: '10%',
+      render: (data: any) => <p>{data ? data : 0}</p>,
     },
     {
       title: 'Trạng thái',
-      dataIndex: 'IsPublish',
+      dataIndex: 'isPublish',
       width: GIRD12.COL2,
       render: (data: boolean) => (
         <p className={`${data ? 'text-primary' : 'text-yellow-700'}`}>
@@ -112,16 +122,13 @@ export default function Program() {
       title: 'Thao tác',
       render: (item: IProgramItem) => {
         return (
-          <>
-            <PopOverAction
-              size="sm"
-              data={item}
-              handleEdit={() => console.log('edit')}
-              handleDelete={() => handleDelete(item)}
-              handleShowDetail={() => handleShowDetail(item)}
-              deleteItem={item.ProgramName}
-            />
-          </>
+          <PopOverAction
+            size="sm"
+            data={item}
+            handleEdit={() => console.log('edit')}
+            handleDelete={() => handleDelete(item)}
+            handleShowDetail={() => handleShowDetail(item)}
+          />
         );
       },
     },
@@ -133,7 +140,6 @@ export default function Program() {
     const filteredData = temp
       .map((record: IProgramItem) => {
         const emailMatch = record.ProgramName.match(reg);
-
         if (!emailMatch) {
           return null;
         }

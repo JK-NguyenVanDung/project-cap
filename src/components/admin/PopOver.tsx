@@ -40,7 +40,7 @@ export default function PopOverAction({
   }
   return (
     <>
-      <div className="flex w-max items-center gap-4">
+      <div className="flex w-max items-center gap-4 ">
         {handleEdit && (
           <CustomButton size={size} type="edit" onClick={() => handleEdit()} />
         )}
