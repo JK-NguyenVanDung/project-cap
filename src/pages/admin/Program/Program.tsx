@@ -33,7 +33,6 @@ export default function Program() {
     }, 1000);
   }, []);
   async function handleDelete(item: any) {
-    console.log('hahhas');
     try {
       await apiService.delProgram(item.ProgramId);
 
