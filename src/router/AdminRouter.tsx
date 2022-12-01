@@ -75,6 +75,10 @@ export default function MakeAdminRouter() {
           />
         );
       })}
+      <Route
+        path="/admin/Program/Chapter/:number/Test/Question"
+        element={<Question />}
+      />
       <Route path="/login" element={<Logined />} />
       <Route path="/" element={<LandingPage />} />
     </Routes>

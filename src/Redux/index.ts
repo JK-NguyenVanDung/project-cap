@@ -1,16 +1,18 @@
-import { formActions, formReducer } from './form'
-import { authActions, authReducers } from './auth'
-import { categoryActions, categoryReducer } from './admin/category'
+import { formActions, formReducer } from './form';
+import { authActions, authReducers } from './auth';
+import { categoryActions, categoryReducer } from './admin/category';
+import { questionActions, questionReducer } from './admin/question';
+
 const actions = {
   formActions,
-  categoryActions,
+  questionActions,
   authActions,
-}
+};
 
 const reducers = {
   formReducer,
-  categoryReducer,
+  questionReducer,
   authReducers,
-}
+};
 
-export { actions, reducers }
+export { actions, reducers };

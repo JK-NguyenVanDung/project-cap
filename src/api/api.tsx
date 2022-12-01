@@ -46,4 +46,7 @@ export const API_CONFIG = {
     PUT: (id: number) => `/api/Questions/${id}`,
     DELETE: (id: number) => `/api/Questions/${id}`,
   },
+  // PROGRAMCONTENT: {
+  //   POST: '/api/Contents',
+  // },
 };

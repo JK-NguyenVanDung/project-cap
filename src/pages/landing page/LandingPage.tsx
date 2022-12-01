@@ -511,20 +511,6 @@ const LandingPage = () => {
     console.count();
   }, [observer]);
 
-  useEffect(() => {
-    const rawResponse = fetch(
-      'https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/WeatherForecast      ',
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-        },
-        body: JSON.stringify({ name: 'xyz' }),
-      },
-    );
-  }, []);
   return (
     <>
       <div className=" font-customFont flex bg-dark-blue h-screen flex-col overflow-x-hidden	">
