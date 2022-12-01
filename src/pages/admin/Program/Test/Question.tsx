@@ -4,8 +4,8 @@ import CustomButton from '../../../../components/admin/Button';
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import apiService from '../../../../api/apiService';
 import { errorText, MESSAGE } from '../../../../helper/constant';
-import { IQuestion, IQuestionType } from '../../../../Type';
-import { useAppDispatch } from '../../../../hook/useRedux';
+import { IQuestion, IQuestionContent, IQuestionType } from '../../../../Type';
+import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
 import { useNavigate } from 'react-router-dom';
 import { IoTimeOutline } from 'react-icons/io5';
@@ -19,21 +19,17 @@ import ConfirmModal from '../../../../components/admin/Modal/ConfirmModal';
 
 interface IQuestionOption {
   value: number;
-  text: string;
 }
 const defaultOptions = [
   {
     value: 1,
-    text: '',
   },
-  { value: 2, text: '' },
+  { value: 2 },
   {
     value: 3,
-    text: '',
   },
   {
     value: 4,
-    text: '',
   },
 ];
 function getChar(c: number) {
@@ -43,6 +39,12 @@ function getChar(c: number) {
 
 export default function Question() {
   const containerRef = useRef(null);
+
+  const testId = useAppSelector((state: any) => state.question.testId);
+
+  const hasQuestion = useAppSelector(
+    (state: any) => state.question.hasQuestion,
+  );
 
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
@@ -63,7 +65,7 @@ export default function Question() {
 
   const [radioOptions, setRadioOptions] =
     useState<Array<IQuestionOption>>(defaultOptions);
-  const [selectedType, setSelectedType] = useState<number>(0);
+  const [selectedType, setSelectedType] = useState<number>(1);
   const [questionTypeList, setQuestionTypeList] =
     useState<Array<IQuestionType>>(null);
 
@@ -122,32 +124,34 @@ export default function Question() {
       options.map((item: IQuestionOption, index: number) => {
         return {
           value: index + 1,
-          text: item.text,
         };
       }),
     );
     setHeight((item) => String(Number.parseInt(item) - 12));
   }
 
-  function handleDelete() {
+  async function handleDelete() {
     // goBack();
     try {
-      // await apiService.removeProgram(item.ProgramId);
+      await apiService.removeQuestion(currentQuestion.questionId);
 
+      let res: any = await apiService.getQuestions(testId);
       setShowConfirm(!showConfirm);
-      if (data.length <= 0) {
-        navigate(`/admin/Program/${chapter}/Test`);
+      if (res.length < 1) {
+        navigate(-1);
       } else {
         let index = currentQuestionIndex;
-        let nextQuestion = data[index - 1] ? data[index - 1] : data[index + 1];
+        let nextQuestion = res[index - 1] ? res[index - 1] : res[index + 1];
         if (nextQuestion) {
-          setCurrentQuestionIndex(data.indexOf(nextQuestion));
+          setCurrentQuestionIndex(res.indexOf(nextQuestion));
           setCurrentQuestion(nextQuestion);
         } else {
           setCurrentQuestionIndex(0);
+
           setCurrentQuestion(null);
         }
       }
+      setData(res);
       // }
       // return message.success(MESSAGE.SUCCESS.DELETE);
     } catch (err: any) {
@@ -161,15 +165,44 @@ export default function Question() {
   async function getData() {
     try {
       setLoading(true);
-      // let res: any = await apiService.getPrograms();
+      let res: any = await apiService.getQuestions(testId);
 
-      // setData(temp);
+      setData(res);
       // dispatch(
       //   actions.formActions.setNameMenu(
       //     `Chương trình ${res[0].ProgramName && res[0].ProgramName}`,
       //   ),
       // );
-      if (data.length < 1) {
+      form.resetFields();
+      const setForm = () => {
+        let base = {
+          typeId: res[0]?.typeId,
+          score: res[0]?.score,
+          questionTitle: res[0]?.questionTitle,
+        };
+
+        let content = {};
+        let contents = res[0]?.questionContents;
+
+        content = {
+          ...base,
+          ...contents?.map((item: IQuestionContent) => {
+            return item.content;
+          }),
+        };
+        if (base.typeId === 1) {
+          contents?.map((item: IQuestionContent, index: number) => {
+            if (item.isAnswer) {
+              setRadioValue(index);
+              setSelectedOptions((e: any) => [...e, item]);
+            }
+          });
+        }
+
+        form.setFieldsValue(content);
+      };
+
+      if (res.length < 1) {
         setData([
           {
             testsId: 0,
@@ -178,27 +211,11 @@ export default function Question() {
             score: 1,
           },
         ]);
-      }
-      form.resetFields();
-
-      const setForm = () => {
-        let base = {
-          typeId: currentQuestion.testsId,
-          score: currentQuestion.score,
-          questionTitle: currentQuestion.questionTitle,
-        };
-        radioOptions.map((item) => {
-          let temp = {
-            item: item,
-          };
-          base = { ...base, ...temp };
-        });
-        form.setFieldsValue(base);
-      };
-
-      if (currentQuestion) {
+      } else if (hasQuestion) {
+        setCurrentQuestion(res[0]);
         setForm();
       }
+
       setLoading(false);
     } catch (err: any) {
       throw err.message;
@@ -241,19 +258,30 @@ export default function Question() {
 
     const setForm = () => {
       let base = {
-        typeId: currentQuestion.typeId,
-        score: currentQuestion.score,
-        questionTitle: currentQuestion.questionTitle,
+        typeId: data[index].typeId,
+        score: data[index].score,
+        questionTitle: data[index].questionTitle,
       };
       let content = {};
-      let contents = currentQuestion.questionContents;
-
+      let contents = data[index].questionContents;
+      let radioOptions: any = [];
+      let defaultChecked: any = [];
       content = {
         ...base,
-        ...contents.map((item) => {
+        ...contents.map((item: IQuestionContent, index: number) => {
+          radioOptions.push({
+            value: index + 1,
+          });
+          item.isAnswer && defaultChecked.push(index + 1);
+
           return item.content;
         }),
       };
+
+      setRadioOptions(radioOptions);
+      defaultChecked.length > 1
+        ? setSelectedOptions(defaultChecked)
+        : setRadioValue(defaultChecked[0]);
       console.log(content);
       form.setFieldsValue(content);
     };
@@ -264,7 +292,6 @@ export default function Question() {
   }
   function isAnswer(item: IQuestionOption) {
     let answer = selectedOptions.find((e: number) => e == item.value);
-    console.log('type' + selectedType);
     if (selectedType === 2 && answer) {
       return true;
     } else if (selectedType === 1 && radioValue == item.value) {
@@ -276,37 +303,58 @@ export default function Question() {
     goBack();
   }
 
-  function handleNextQuestion(values: any) {
+  async function handleNextQuestion(values: any) {
     let result = Object.keys(values).map((key) => [values[key]]);
     for (let i = 0; i < 2; i++) {
       result.pop();
     }
 
     let out = {
-      testsId: 1,
-      typeId: values.typeId,
+      testsId: testId,
+      typeId: selectedType,
       questionTitle: values.questionTitle,
       score: values.score,
       questionContents: radioOptions.map(
         (item: IQuestionOption, index: number) => {
-          return {
-            content: result[index][0],
-            isAnswer: isAnswer(item),
-          };
+          let output =
+            currentQuestion && currentQuestion.questionId
+              ? {
+                  questionContentId:
+                    currentQuestion.questionContents[index].questionContentId,
+                  content: result[index][0],
+                  isAnswer: isAnswer(item),
+                }
+              : {
+                  content: result[index][0],
+                  isAnswer: isAnswer(item),
+                };
+
+          return output;
         },
       ),
     };
+    if (currentQuestion && currentQuestion.questionId) {
+      await apiService.editQuestion({
+        output: out,
+        id: currentQuestion.questionId,
+      });
+    } else {
+      await apiService.addQuestion(out);
+    }
+
     let next = {
-      testsId: 0,
+      testsId: testId,
       typeId: 1,
       questionTitle: '',
       score: 1,
     };
-    data.pop();
-    setData((data) => [...data, next, out]);
+    // data.pop();
 
-    setCurrentQuestionIndex(data.length + 1);
-    setCurrentQuestion(next);
+    let res: any = await apiService.getQuestions(testId);
+    res.push(next);
+    setData(res);
+    setCurrentQuestionIndex(res.length - 1);
+    setCurrentQuestion(res[res.length - 1]);
   }
 
   const handleOk = async () => {
@@ -471,12 +519,14 @@ export default function Question() {
                   <label className="text-black font-bold font-customFont mr-3 ">
                     Nhập các câu trả lời
                   </label>
-                  <CustomButton
-                    text="Thêm đáp án"
-                    size="sm"
-                    textClassName="pr-4"
-                    onClick={() => addMoreAnswer()}
-                  />
+                  {!hasQuestion && (
+                    <CustomButton
+                      text="Thêm đáp án"
+                      size="sm"
+                      textClassName="pr-4"
+                      onClick={() => addMoreAnswer()}
+                    />
+                  )}
                 </div>
                 <OptionalAnswer
                   handleDelete={(e: string) => handleDeleteAnswer(e)}
@@ -538,14 +588,28 @@ export default function Question() {
                   Thêm tiếp câu hỏi
                 </p>
               </button>
-              <button
-                type="submit"
-                onClick={() => setFinish(true)}
-                className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
-                formNoValidate
-              >
-                <p className="font-customFont  font-semibold">Hoàn thành</p>
-              </button>
+
+              {hasQuestion ? (
+                <button
+                  type="submit"
+                  onClick={() => setFinish(true)}
+                  className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-blue-500 hover:bg-blue-500 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                  formNoValidate
+                >
+                  <p className="font-customFont  font-semibold">
+                    Lưu Các Câu Hỏi
+                  </p>
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  onClick={() => setFinish(true)}
+                  className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                  formNoValidate
+                >
+                  <p className="font-customFont  font-semibold">Hoàn thành</p>
+                </button>
+              )}
             </div>
           </Form.Item>
         </div>

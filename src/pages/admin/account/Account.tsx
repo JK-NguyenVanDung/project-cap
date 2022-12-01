@@ -72,7 +72,7 @@ export default function Account() {
       key: 'phone',
     },
     {
-      title: 'Vị trí',
+      title: 'Ngành',
       dataIndex: 'position',
       key: 'position',
       width: GIRD12.COL2,
@@ -175,7 +175,6 @@ export default function Account() {
       .validateFields()
       .then(async (values) => {
         setLoading(true);
-        const temp = [];
         if (detail) {
           await apiService.editAccount({
             accountId: detail.accountId,
@@ -191,10 +190,10 @@ export default function Account() {
         } else {
           let exist = checkAccountExist(values.email);
           if ((await exist) === false) {
-            await apiService.addAccount({
-              email: values.email,
-              roleId: values.roleId,
-            });
+            // await apiService.addAccount({
+            //   email: values.email,
+            //   roleId: values.roleId,
+            // });
             setShowModal(false);
             setReload(!reload);
             message.success('Thêm thành công');

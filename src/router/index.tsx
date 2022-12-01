@@ -17,15 +17,16 @@ export default function PageRouter() {
     const response: any = await apiService.getProfile();
     setRoleId(response.roleId);
     dispatch(actions.authActions.setInfo(response));
-    if (response?.roleId == 1) {
-      navigate('/home');
-    } else {
-      navigate('/admin');
-    }
+    // if (response?.roleId == 1) {
+    //   navigate('/home');
+    // } else {
+    //   navigate('/admin');
+    // }
   };
-  if (rolesId == 1 || undefined) {
-    return <MakeUserRouter />;
-  } else {
-    return <MakeAdminRouter />;
-  }
+  // if (rolesId == 1 || undefined) {
+  //   return <MakeUserRouter />;
+  // } else {
+  //   return <MakeAdminRouter />;
+  // }
+  return <MakeAdminRouter />;
 }

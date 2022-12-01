@@ -1,7 +1,7 @@
 import { API_CONFIG } from './api';
 import axiosConfig, { configFormData } from './axiosConfig';
 import { ICategory, IFaculties } from './apiInterface';
-import { IAccountItem, IProgramItem } from '../Type';
+import { IAccountItem, IProgramItem, IQuestion, ITest } from '../Type';
 export default {
   //auth
   postAdminUser: (token: any) => {
@@ -82,33 +82,45 @@ export default {
   },
 
   //TEST
-  getTests: () => {
-    return axiosConfig.get(API_CONFIG.TEST.GET);
+  getTest: (id: number) => {
+    return axiosConfig.get(API_CONFIG.TEST.GET + '?id=' + id);
   },
-  addTest: (body: any) => {
+  addTest: (body: ITest) => {
     return axiosConfig.post(API_CONFIG.TEST.POST, body);
   },
-  editTest: (props: any) => {
-    return axiosConfig.put(API_CONFIG.TEST.PUT(props.ID), {
-      name: props.name,
+  editTest: (props: { output: ITest; id: number }) => {
+    console.log(props.id);
+    return axiosConfig.put(API_CONFIG.TEST.PUT(props.id), {
+      ...props.output,
     });
   },
   removeTest: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.TEST.DELETE(ID));
   },
   //QUESTIONS
-  getQuestions: () => {
-    return axiosConfig.get(API_CONFIG.QUESTION.GET);
+  getQuestions: (id: number) => {
+    return axiosConfig.get(API_CONFIG.QUESTION.GET + '?id=' + id);
   },
   addQuestion: (body: any) => {
     return axiosConfig.post(API_CONFIG.QUESTION.POST, body);
   },
-  editQuestion: (props: any) => {
-    return axiosConfig.put(API_CONFIG.QUESTION.PUT(props.ID), {
-      name: props.name,
+  editQuestion: (props: { output: IQuestion; id: number }) => {
+    return axiosConfig.put(API_CONFIG.QUESTION.PUT(props.id), {
+      ...props.output,
     });
   },
   removeQuestion: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.QUESTION.DELETE(ID));
   },
+
+  // uploadSample:(ID:number)=>{
+  //   let body={
+  //     programId: ID,
+  //     chapter: 1,
+  //     contentType: "Slide",
+  //     content: "something"
+  //   }
+  //   return axiosConfig.post(API_CONFIG.PROGRAMCONTENT.POST, body);
+
+  // }
 };

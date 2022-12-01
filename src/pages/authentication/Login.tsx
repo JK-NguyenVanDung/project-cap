@@ -23,18 +23,18 @@ const DataLogin = [
   },
 ];
 export default function Login() {
-  const { instance} = useMsal();
+  const { instance } = useMsal();
   function LoginPopUp(item: any) {
-    instance.loginPopup(loginRequest).catch(e => {
+    instance.loginPopup(loginRequest).catch((e) => {
       console.log(e);
-  });
+    });
   }
 
   return (
     <div className="bg-slate-500 ">
       <main className="fixed w-full h-full top-0 place-content-center items-center flex flex-col bg-[#252b42]">
         <h1 className="text-yellow-200 font-bold text-center text-5xl mb-20">
-          <p className="my-4"> Đăng Nhập </p>{' '}
+          <p className="my-4"> Đăng Nhập </p>
           <p className="my-4">VLU Training</p>
         </h1>
         <div className="flex justify-center ">

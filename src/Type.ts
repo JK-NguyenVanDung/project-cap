@@ -84,12 +84,13 @@ const Question = z.object({
   questionContents: z.array(QuestionContent),
 });
 const Test = z.object({
-  testsId: z.number(),
+  testId: z.number(),
   contentId: z.number(),
   testTitle: z.string(),
   time: z.number(),
   chapter: z.number(),
   isRandom: z.boolean(),
+  questions: z.array(z.any()),
 });
 
 export type IRoleItem = z.infer<typeof RoleItem>;
