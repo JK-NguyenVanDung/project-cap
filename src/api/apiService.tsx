@@ -89,7 +89,6 @@ export default {
     return axiosConfig.post(API_CONFIG.TEST.POST, body);
   },
   editTest: (props: { output: ITest; id: number }) => {
-    console.log(props.id);
     return axiosConfig.put(API_CONFIG.TEST.PUT(props.id), {
       ...props.output,
     });

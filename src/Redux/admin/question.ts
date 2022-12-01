@@ -6,23 +6,18 @@ const slice = createSlice({
   initialState: {
     detail: null,
     listAll: [],
-    listCate: [],
+    listAnswer: [],
     loadData: false,
     testId: null,
     hasQuestion: false,
   },
   reducers: {
-    setListCate(state, actions) {
-      state.listCate = actions.payload;
+    setListAnswer(state, actions) {
+      state.listAnswer = actions.payload;
     },
     setDetail(state, actions) {
-      let data = [...state.listAll];
-      let index = data.findIndex(
-        (item: any) => item.categoryId === actions.payload,
-      );
-      state.detail = data[index];
+      state.detail = actions.payload;
     },
-
     setListAll(state, actions) {
       state.listAll = actions.payload.reverse();
     },

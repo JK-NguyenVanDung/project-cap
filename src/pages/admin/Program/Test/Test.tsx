@@ -25,7 +25,7 @@ const radioOptions = [
 export default function Test() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
-  const [chapter, setChapter] = useState<number>(1);
+  const [chapter, setChapter] = useState<number>();
   const [contentId, setContentId] = useState<number>();
   const location = useLocation();
 
@@ -74,7 +74,8 @@ export default function Test() {
       setData(res);
 
       form.resetFields();
-
+      res.chapter && setChapter(res.chapter);
+      setRadioValue(res.isRandom);
       const setForm = () => {
         form.setFieldsValue(res ? res : []);
       };
@@ -92,6 +93,7 @@ export default function Test() {
   useEffect(() => {
     let id = location.search.split('=')[1];
     setContentId(1);
+    setChapter(Number(id));
     dispatch(actions.formActions.setNameMenu(`Chương trình`));
     getData('1');
   }, [reload]);
