@@ -1,6 +1,8 @@
 import React from 'react';
 import { Breadcrumb } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hook/useRedux';
+import { actions } from '../../Redux';
 
 export default function ({
   router1,
@@ -18,6 +20,7 @@ export default function ({
   name3?: any;
 }) {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const ItemBradcrumb = [
     {
       router1: router1,
@@ -42,8 +45,11 @@ export default function ({
           <>
             <Breadcrumb.Item
               key={index + 1}
-              onClick={() => navigate(`${router1}`)}
-              className="text-lg font-bold"
+              onClick={() => {
+                navigate(`${router1}`);
+                dispatch(actions.formActions.setNameMenu(`${name}`));
+              }}
+              className="text-[16px] font-bold"
             >
               {item.name}
             </Breadcrumb.Item>
@@ -52,14 +58,14 @@ export default function ({
                 <Breadcrumb.Item
                   key={index}
                   onClick={() => navigate(`${router2 ? router2 : ''}`)}
-                  className="text-lg font-bold"
+                  className="text-[16px] font-bold"
                 >
                   {item.name2}
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   key={index}
                   onClick={() => navigate(`${router3 ? router3 : ''}`)}
-                  className="text-lg font-bold"
+                  className="text-[16px] font-bold text-[#252B42]"
                 >
                   {item.name3}
                 </Breadcrumb.Item>

@@ -52,4 +52,7 @@ export const API_CONFIG = {
   POSITION: {
     GET: '/api/Positions',
   },
+  CONTENTPROGRAM: {
+    GET: (id: number) => `/api/Programs/${id}/Contents`,
+  },
 };

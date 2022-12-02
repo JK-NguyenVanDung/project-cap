@@ -54,6 +54,7 @@ export default function EditProgram() {
             Positions: item ? item.positions : '',
             FacultyId: item ? item.facultyId : '',
             CategoryId: item ? item.categoryId : '',
+            Descriptions: item ? item.descriptions : '',
           },
           setImage(item.image),
         )
@@ -96,7 +97,6 @@ export default function EditProgram() {
     form
       .validateFields()
       .then(async (values) => {
-        console.log(values.Image);
         frmData.append(
           'ProgramName',
           values.ProgramName ? values.ProgramName : item.programName,
@@ -127,6 +127,10 @@ export default function EditProgram() {
           values.IsPublish ? values.IsPublish : item.isPublish,
         );
         frmData.append('Coin', values.Coin ? values.Coin : item.coin);
+        frmData.append(
+          'Descriptions',
+          values.Descriptions ? values.Descriptions : item.descriptions,
+        );
         frmData.append(
           'Positions',
           values.Positions ? values.Positions : item.positions,
@@ -169,7 +173,7 @@ export default function EditProgram() {
     <div className="h-full">
       <Breadcrumb
         router1={'/admin/Program'}
-        name={'Trang Chủ'}
+        name={'Chương Trình'}
         name2={item ? 'Sửa chương trình' : 'Thêm chương trình'}
       />
       <Form
@@ -182,7 +186,7 @@ export default function EditProgram() {
         <div className="flex justify-around center my-5">
           <div className="w-full mx-5">
             <FormInput
-              name="programName"
+              name="ProgramName"
               label="Chủ Đề Đào Tạo"
               rules={[
                 {
@@ -193,7 +197,7 @@ export default function EditProgram() {
             />
             <div className="my-10">
               <FormInput
-                name="programDescription"
+                name="Descriptions"
                 type="textArea"
                 label="Mô Tả Chủ Đề"
               />
@@ -201,7 +205,7 @@ export default function EditProgram() {
             <label className=" text-black font-bold font-customFont ">
               Phòng/Khoa
             </label>
-            <Form.Item name="facultyId">
+            <Form.Item name="FacultyId">
               <Select
                 showSearch
                 placeholder="Chọn Phòng/Khoa"
@@ -290,7 +294,7 @@ export default function EditProgram() {
                 />
               </Form.Item>
               <label className="text-black font-bold font-customFont">
-                Danh Mục
+                Vị Trí
               </label>
               <Form.Item name="Positions">
                 <Select

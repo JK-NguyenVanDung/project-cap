@@ -46,13 +46,8 @@ export default function Program() {
   }
 
   function handleShowDetail(item: any) {
-    // navigate(`/admin/Program/${item.ProgramId}`);
-
-    navigateParmas(`/admin/Program/Chapter/${item.programId}/Test`, {
-      id: item.programId,
-    });
-
-    // navigate(`/admin/Program/Chapter/${item.programId}`);
+    navigate(`/admin/Program/showDetail`);
+    dispatch(actions.formActions.setProgramForm(item));
     dispatch(
       actions.formActions.setNameMenu(
         `Khóa Học ${item.programName && item.programName}`,
