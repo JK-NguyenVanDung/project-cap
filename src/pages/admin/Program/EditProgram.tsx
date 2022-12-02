@@ -411,24 +411,25 @@ export default function EditProgram() {
             >
               <DatePicker picker="date" />
             </Form.Item>
+            <div>
+              <CustomButton
+                type="default"
+                onClick={() => handelOk()}
+                text="Lưu"
+                noIcon={true}
+                className="w-4/5 my-3  h-10"
+              />
+              <CustomButton
+                type="cancel"
+                noIcon={true}
+                onClick={() => handelCancel()}
+                className="w-4/5 my-3 h-10"
+              />
+            </div>
           </div>
         </div>
       </Form>
-      <div>
-        <CustomButton
-          type="default"
-          onClick={() => handelOk()}
-          text="Lưu"
-          noIcon={true}
-          className="w-4/5 my-3  h-10"
-        />
-        <CustomButton
-          type="cancel"
-          noIcon={true}
-          onClick={() => handelCancel()}
-          className="w-4/5 my-3 h-10"
-        />
-      </div>
+      {/* <FooterButton /> */}
     </div>
   );
 }

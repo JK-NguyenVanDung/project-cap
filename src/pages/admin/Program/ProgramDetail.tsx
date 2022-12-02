@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import apiService from '../../../api/apiService';
 import { SlArrowRight } from 'react-icons/sl';
+import { actions } from '../../../Redux';
 export default function ProgramDetail() {
   const [form] = Form.useForm();
   const [image, setImage] = useState();
@@ -20,7 +21,7 @@ export default function ProgramDetail() {
   const [category, setCategory]: any = useState();
   const [listContent, setListContent]: any = useState([]);
   const item = useAppSelector((state) => state.form.setProgram);
-
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     Object.keys(item).forEach((key: any) => {
@@ -127,10 +128,16 @@ export default function ProgramDetail() {
           return (
             <div
               key={index}
-              className=" my-5 p-4 rounded-2xl flex items-center justify-between bg-gray-400 cursor-pointer active:bg-transparent"
-              onClick={() =>
-                navigate(`/admin/Program/Chapter/${item.contentId}`)
-              }
+              className=" my-5 p-4 rounded-2xl flex items-center justify-between bg-gray-300 cursor-pointer active:bg-transparent"
+              onClick={() => {
+                navigate(`/admin/Program/Chapter/${item.contentId}`);
+                dispatch(actions.formActions.setChappter(item));
+                dispatch(
+                  actions.formActions.setNameMenu(
+                    `Chương Trình ${item.content}`,
+                  ),
+                );
+              }}
             >
               <div>
                 <label className="text-black font-bold font-customFont ">
