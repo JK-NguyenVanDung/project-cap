@@ -5,7 +5,12 @@ import { AiOutlineAlignLeft } from 'react-icons/ai';
 import { Navbar, PopoverContent } from '@material-tailwind/react';
 import { Breadcrumbs } from '@material-tailwind/react';
 import './index.css';
-import { ISidebar, SideBarData, SideBarDataFacul } from './SidebarData';
+import {
+  ISidebar,
+  SideBarData,
+  SideBarDataCT,
+  SideBarDataFacul,
+} from './SidebarData';
 import logo from '../../assets/logo.svg';
 import MenuBackground from '../../assets/img/menu-bg.jpeg';
 import HeaderAdmin from '../../components/HeaderAdmin/HeaderAdmin';
@@ -13,6 +18,7 @@ import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { actions } from '../../Redux';
 import { useMsal } from '@azure/msal-react';
 import { loginRequest } from '../authentication/loginconfig';
+import ItemMenu from './ItemMenu';
 export default function SideBar({ content }: { content: any }) {
   let location = useLocation();
   const navigation = useNavigate();
@@ -34,7 +40,7 @@ export default function SideBar({ content }: { content: any }) {
   const dispatch = useAppDispatch();
   return (
     <>
-      <div className="flex relative max-w-full  h-screen">
+      <div className="flex relative max-w-full h-screen">
         <div className="fixed w-[80%] z-1 ">
           <div
             className="z-0  overflow-hidden bg-img-bar relative sidebar flex flex-col content-center items-center w-1/5"
@@ -54,75 +60,27 @@ export default function SideBar({ content }: { content: any }) {
               <p className="text-xl text-center"> VLG TRAINING</p>
             </a>
             <ul className="relative list-none w-full text-center">
-              {info.roleId == 2 || info.roleId == 3
+              {info.roleId == 2
                 ? SideBarData.map((value, index) => {
                     return (
-                      <li
-                        key={index}
-                        className={`${
-                          location.pathname === value.path
-                            ? 'bg-white bg-opacity-25 rounded-lg mx-1 '
-                            : ''
-                        }${
-                          location.pathname === value.path
-                            ? ' text-primary'
-                            : 'text-primary'
-                        }hover:bg-white hover:text-white py-4 my-2 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
-                        onClick={() => {
-                          navigation(value.path);
-                          dispatch(
-                            actions.formActions.setNameMenu(
-                              `${
-                                value.title == 'Trang Chủ'
-                                  ? value.title
-                                  : 'Quản Lý ' + value.title
-                              }`,
-                            ),
-                          );
-                        }}
-                      >
-                        <div id="icon">
-                          <value.icon className="ml-2 text-md " />
-                        </div>{' '}
-                        <div id="title" className="flex uppercase ">
-                          <p className="font-semibold text-sm">{value.title}</p>
-                        </div>
-                      </li>
+                      <div key={index}>
+                        <ItemMenu params={value} />
+                      </div>
+                    );
+                  })
+                : info.roleId == 3
+                ? SideBarDataCT.map((value, index) => {
+                    return (
+                      <div key={index}>
+                        <ItemMenu params={value} />
+                      </div>
                     );
                   })
                 : SideBarDataFacul.map((value, index) => {
                     return (
-                      <li
-                        key={index}
-                        className={`${
-                          location.pathname === value.path
-                            ? 'bg-white bg-opacity-25 rounded-lg mx-1 '
-                            : ''
-                        }${
-                          location.pathname === value.path
-                            ? ' text-primary'
-                            : 'text-primary'
-                        }hover:bg-white hover:text-white py-4 my-2 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
-                        onClick={() => {
-                          navigation(value.path);
-                          dispatch(
-                            actions.formActions.setNameMenu(
-                              `${
-                                value.title == 'Trang Chủ'
-                                  ? value.title
-                                  : 'Quản Lý ' + value.title
-                              }`,
-                            ),
-                          );
-                        }}
-                      >
-                        <div id="icon">
-                          <value.icon className="ml-2 text-md " />
-                        </div>{' '}
-                        <div id="title" className="flex uppercase ">
-                          <p className="font-semibold text-sm">{value.title}</p>
-                        </div>
-                      </li>
+                      <div key={index}>
+                        <ItemMenu params={value} />
+                      </div>
                     );
                   })}
             </ul>

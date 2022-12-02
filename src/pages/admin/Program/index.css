@@ -1,8 +1,9 @@
 .containerUpLoad .ant-upload-list .ant-upload {
-  width: 80%;
+  width: 40%;
   background-color: #eeeeee;
   border-radius: 10px;
 }
+
 .containerUpLoad .ant-upload-list .ant-upload .ant-upload {
   width: 100%;
   display: flex;

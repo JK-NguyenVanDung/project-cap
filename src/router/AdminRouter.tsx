@@ -15,6 +15,7 @@ import Logined from './Logined';
 import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
 import Question from '../pages/admin/Program/Test/Question';
 import Test from '../pages/admin/Program/Test/Test';
+import Home from '../pages/client';
 
 export const AdminRouter = [
   {
@@ -60,7 +61,12 @@ export const AdminRouter = [
   },
   {
     path: '/admin/EditProgram',
-    element: <EditProgram type="Thêm" />,
+    element: <EditProgram />,
+  },
+  //leaner
+  {
+    path: '/home',
+    element: <Home />,
   },
 ];
 export default function MakeAdminRouter() {

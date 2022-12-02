@@ -17,7 +17,21 @@ export default function Logined() {
 
   useEffect(() => {
     setLoading(true);
+    const postLogin = async () => {
+      try {
+        const reponseToken: any = await apiService.postAdminUser({
+          token: acceptToken,
+        });
+        if (reponseToken) {
+          setLoading(false);
 
+          dispatch(actions.authActions.Login(reponseToken.token));
+          localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
     function RequestAccessToken() {
       const request = {
         ...loginRequest,

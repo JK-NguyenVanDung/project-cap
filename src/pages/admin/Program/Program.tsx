@@ -11,11 +11,10 @@ import ImagePlaceHolder from '../../../assets/img/menu-bg.jpeg';
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { actions } from '../../../Redux';
 import { useAppDispatch } from '../../../hook/useRedux';
-import EditProgram from './EditProgram';
-import SideBar from '..';
-import { BsReverseLayoutSidebarInsetReverse } from 'react-icons/bs';
-import { useNavigateParams } from '../../../hook/useNavigationParams';
 import { API_URL } from '../../../api/api';
+import moment from 'moment';
+import noImg from '../../../assets/img/no-image.png';
+import EditProgram from './EditProgram';
 export default function Program() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
@@ -24,8 +23,7 @@ export default function Program() {
   const dispatch = useAppDispatch();
   const [data, setData] = useState<Array<IProgramItem>>([]);
   const [filterData, setFilterData] = useState([]);
-
-  const navigate = useNavigateParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     getData();
@@ -34,7 +32,7 @@ export default function Program() {
       setConfirmLoading(false);
     }, 1000);
   }, [reload]);
-  async function handleDelete(item: IProgramItem) {
+  async function handleDelete(item: any) {
     try {
       await apiService.delProgram(item.programId);
 
@@ -59,7 +57,6 @@ export default function Program() {
       ),
     );
   }
-  console.log(data);
 
   const columns = [
     {
@@ -74,7 +71,7 @@ export default function Program() {
         <div className="flex flex-row w-full items-center">
           <Image
             width={50}
-            src={`${API_URL}/images/${data.image}`}
+            src={data.image ? `${API_URL}/images/${data.image}` : noImg}
             placeholder={
               <Image preview={false} src={ImagePlaceHolder} width={50} />
             }
@@ -93,11 +90,17 @@ export default function Program() {
       title: 'Ngày bắt đầu',
       dataIndex: 'startDate',
       width: GIRD12.COL2,
+      render: (item: any) => {
+        return <p>{moment(item).format('DD-MM-YYYY')}</p>;
+      },
     },
     {
       title: 'Ngày kết thúc',
       dataIndex: 'endDate',
       width: GIRD12.COL2,
+      render: (item: any) => {
+        return <p>{moment(item).format('DD-MM-YYYY')}</p>;
+      },
     },
     {
       title: 'Tổng coin',
@@ -144,7 +147,7 @@ export default function Program() {
     let temp = data;
     const filteredData = temp
       .map((record: IProgramItem) => {
-        const emailMatch = record.programName.match(reg);
+        const emailMatch = record.ProgramName.match(reg);
         if (!emailMatch) {
           return null;
         }
@@ -159,10 +162,12 @@ export default function Program() {
       setLoading(true);
       let res: any = await apiService.getPrograms();
       res = res.reverse();
-      const temp = res.map((v: any, index: number) => ({
-        ...v,
-        index: index + 1,
-      }));
+      const temp = res.map((v: any, index: number) => {
+        return {
+          ...v,
+          index: index + 1,
+        };
+      });
       // dispatch(actions.ProgramActions.setListAll(res))
       // dispatch(actions.ProgramActions.changeLoad(!loadData))
       setData(temp);
@@ -171,10 +176,9 @@ export default function Program() {
       throw err.message();
     }
   }
-  function handelDataProgram(item: any) {
-    item.id
-      ? navigate('/admin/EditProgram', item.id)
-      : navigate('/admin/EditProgram', 'add');
+  function handelDataProgram(item?: any) {
+    dispatch(actions.formActions.setProgramForm(item));
+    navigate('/admin/EditProgram');
   }
 
   return (
@@ -190,7 +194,10 @@ export default function Program() {
             type="add"
             size="md"
             key={`${uniqueId()}`}
-            onClick={() => handelDataProgram(data)}
+            onClick={() => {
+              navigate('/admin/EditProgram');
+              dispatch(actions.formActions.setProgramForm(null));
+            }}
           />,
         ]}
       />
