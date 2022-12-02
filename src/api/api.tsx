@@ -7,7 +7,7 @@ export const API_CONFIG = {
   },
   COURSE_CATEGORY: {
     GET: '/api/Categories/',
-    POST: '/api/Categories/Create',
+    POST: '/api/Categories/',
     DELETE: (ID: number) => `/api/Categories/${ID}`,
     PUT: (ID: number) => `/api/Categories/${ID}`,
   },
