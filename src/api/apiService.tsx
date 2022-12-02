@@ -1,6 +1,6 @@
 import { API_CONFIG } from './api';
 import axiosConfig, { configFormData } from './axiosConfig';
-import { ICategory, IFaculties } from './apiInterface';
+import { ICategory, IChapter } from './apiInterface';
 import {
   IAccountItem,
   IProgramItem /* IQuestion, ITest  */,
@@ -122,5 +122,17 @@ export default {
   },
   getContentProgram: (id: number) => {
     return axiosConfig.get(API_CONFIG.CONTENTPROGRAM.GET(id));
+  },
+  getChapter: (id: number) => {
+    return axiosConfig.get(API_CONFIG.CHAPPTER.GET(id));
+  },
+  delChapter: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.CHAPPTER.DEL(id));
+  },
+  putChapter: (id: number, params: IChapter) => {
+    return axiosConfig.put(API_CONFIG.CHAPPTER.PUT(id), params);
+  },
+  postChapter: (params: IChapter) => {
+    return axiosConfig.post(API_CONFIG.CHAPPTER.POST, params);
   },
 };

@@ -1,5 +1,13 @@
 import React, { ReactElement, useRef } from 'react';
-import { Input, Form, message, Select, DatePicker, Space } from 'antd';
+import {
+  Input,
+  Form,
+  message,
+  Select,
+  DatePicker,
+  Space,
+  InputNumber,
+} from 'antd';
 import Uploader from '../Upload';
 import DateTimePicker from '../DateTimePicker';
 const { Option } = Select;
@@ -57,7 +65,18 @@ export default function FormInput({
       case 'upload':
         cp = <Uploader />;
         break;
-
+      case 'inputNumber':
+        cp = (
+          <InputNumber
+            className="mt-4 h-11 rounded-lg font-bold text-black font-customFont"
+            defaultValue="1"
+            min="1"
+            style={{
+              width: '100%',
+            }}
+          />
+        );
+        break;
       case 'textArea':
         cp = (
           <TextArea
@@ -67,6 +86,7 @@ export default function FormInput({
             placeholder={`${placeholder ? placeholder : 'Nhập ' + label}`}
           />
         );
+
         break;
 
       default:

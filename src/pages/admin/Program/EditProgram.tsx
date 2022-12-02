@@ -16,10 +16,9 @@ import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomButton from '../../../components/admin/Button';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../../../api/apiService';
-import { Option } from 'antd/lib/mentions';
 import axios, { AxiosResponse } from 'axios';
 import { useAppSelector } from '../../../hook/useRedux';
-
+const { Option } = Select;
 import './index.css';
 import { API_URL } from '../../../api/api';
 export default function EditProgram() {
@@ -86,7 +85,15 @@ export default function EditProgram() {
       setCheckOption(true);
     }
   };
-
+  const optionPosition = checkOption
+    ? positons.map((item: any) => {
+        return (
+          <Option value={item.positionId} key={item.positionId}>
+            {item.positionName}
+          </Option>
+        );
+      })
+    : '';
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
@@ -95,6 +102,7 @@ export default function EditProgram() {
     form
       .validateFields()
       .then(async (values) => {
+        console.log(values);
         frmData.append(
           'ProgramName',
           values.ProgramName ? values.ProgramName : item.programName,
@@ -120,10 +128,6 @@ export default function EditProgram() {
             ? moment(values.EndDate).format('YYYY-MM-DD')
             : moment(item.endDate).format('YYYY-MM-DD'),
         );
-        frmData.append(
-          'IsPublish',
-          values.IsPublish ? values.IsPublish : item.isPublish,
-        );
         frmData.append('Coin', values.Coin ? values.Coin : item.coin);
         frmData.append(
           'Descriptions',
@@ -142,7 +146,6 @@ export default function EditProgram() {
           values.AcademicYearId ? values.AcademicYearId : item.academicYearId,
         );
         if (item) {
-          console.log('abncyxz');
           const data = await apiService.putProgram(item.programId, frmData);
           if (data) {
             notification.success({ message: 'sửa thành công' });
@@ -198,12 +201,26 @@ export default function EditProgram() {
                 name="Descriptions"
                 type="textArea"
                 label="Mô Tả Chủ Đề"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Vui Lòng Nhập Vào Mô Tả Chủ Đề',
+                  },
+                ]}
               />
             </div>
             <label className=" text-black font-bold font-customFont ">
               Phòng/Khoa
             </label>
-            <Form.Item name="FacultyId">
+            <Form.Item
+              name="FacultyId"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Phòng/Khoa',
+                },
+              ]}
+            >
               <Select
                 showSearch
                 placeholder="Chọn Phòng/Khoa"
@@ -221,40 +238,36 @@ export default function EditProgram() {
                 }))}
               />
             </Form.Item>
-
-            <label className="text-black font-bold font-customFont ">
-              Học Kì
-            </label>
-            <Form.Item name="Semester" className="w-4/5">
-              <Select placeholder="Chọn Học Kì" defaultValue={'1'}>
-                <Option value="1">Năm I</Option>
-                <Option value="2">Năm II</Option>
-                <Option value="3">Năm III</Option>
-              </Select>
-            </Form.Item>
           </div>
           <div className="w-full mx-5">
-            <FormInput label="Số Coin Đạt Được Khi Hoàn Thành" name="Coin" />
+            <FormInput
+              type="inputNumber"
+              label="Số Coin Đạt Được Khi Hoàn Thành"
+              name="Coin"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Coin',
+                },
+              ]}
+            />
             <div className="mt-12">
-              <label className=" text-black font-bold font-customFont">
-                Ngày Bắt Đầu
-              </label>
-              <Form.Item name="StartDate">
-                <DatePicker picker="date" />
-              </Form.Item>
-              <label className=" text-black font-bold font-customFont ">
-                Ngày Kết Thúc
-              </label>
-              <Form.Item name="EndDate">
-                <DatePicker picker="date" />
-              </Form.Item>
               <label className="text-black font-bold font-customFont ">
                 Năm Học
               </label>
-              <Form.Item className="mb-4" name="AcademicYearId">
+              <Form.Item
+                className="mb-4"
+                name="AcademicYearId"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Vui Lòng Nhập Vào Năm Học',
+                  },
+                ]}
+              >
                 <Select
                   showSearch
-                  placeholder="Chọn Chức Vụ"
+                  placeholder="Chọn Năm Học"
                   optionFilterProp="children"
                   onChange={onChange}
                   onSearch={onSearch}
@@ -270,10 +283,37 @@ export default function EditProgram() {
                 />
               </Form.Item>
 
+              <label className="text-black font-bold font-customFont ">
+                Học Kì
+              </label>
+              <Form.Item
+                name="Semester"
+                className="w-4/5"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Vui Lòng Nhập Vào Học Kì',
+                  },
+                ]}
+              >
+                <Select placeholder="Chọn Học Kì" defaultValue={'1'}>
+                  <Option value="1">Năm I</Option>
+                  <Option value="2">Năm II</Option>
+                  <Option value="3">Năm III</Option>
+                </Select>
+              </Form.Item>
               <label className="text-black font-bold font-customFont">
                 Danh Mục
               </label>
-              <Form.Item name="CategoryId">
+              <Form.Item
+                name="CategoryId"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Vui Lòng Nhập Vào Danh Mục',
+                  },
+                ]}
+              >
                 <Select
                   showSearch
                   placeholder="Chọn Danh Mục"
@@ -294,23 +334,23 @@ export default function EditProgram() {
               <label className="text-black font-bold font-customFont">
                 Vị Trí
               </label>
-              <Form.Item name="Positions">
+              <Form.Item
+                name="Positions"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Vui Lòng Nhập Vào Chức Vụ',
+                  },
+                ]}
+              >
                 <Select
-                  showSearch
                   placeholder="Chọn Chức Vụ"
                   optionFilterProp="children"
                   onChange={onChange}
-                  onSearch={onSearch}
-                  filterOption={(input: any, option: any) =>
-                    (option?.label ?? '')
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  options={positons.map((item: any) => ({
-                    value: item.positionId,
-                    label: item.positionName,
-                  }))}
-                />
+                  mode="multiple"
+                >
+                  {optionPosition}
+                </Select>
               </Form.Item>
             </div>
           </div>
@@ -318,10 +358,13 @@ export default function EditProgram() {
             <label className="text-black font-bold font-customFont">
               Ảnh Giới Thiệu
             </label>
+
             {image && (
               <Image
                 style={{
                   marginRight: 10,
+                  width: '50%',
+                  height: '50%',
                 }}
                 src={`${API_URL}/images/${image}`}
               />
@@ -338,16 +381,33 @@ export default function EditProgram() {
                 <p>banner</p>
               </Upload>
             </Form.Item>
-
-            <label className=" text-black font-bold font-customFont mr-2 h-full">
-              Công Khai:
+            <label className=" text-black font-bold font-customFont">
+              Ngày Bắt Đầu
             </label>
             <Form.Item
-              className="mb-0 "
-              name="isPublish"
-              valuePropName="checked"
+              name="StartDate"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Ngày Bắt Đầu',
+                },
+              ]}
             >
-              <Checkbox>Có</Checkbox>
+              <DatePicker picker="date" />
+            </Form.Item>
+            <label className=" text-black font-bold font-customFont ">
+              Ngày Kết Thúc
+            </label>
+            <Form.Item
+              name="EndDate"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Ngày Kết Thúc',
+                },
+              ]}
+            >
+              <DatePicker picker="date" />
             </Form.Item>
             <div>
               <CustomButton

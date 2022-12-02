@@ -105,16 +105,6 @@ export default function Program() {
       width: '10%',
       render: (data: any) => <p>{data ? data : 0}</p>,
     },
-    {
-      title: 'Trạng thái',
-      dataIndex: 'isPublish',
-      width: GIRD12.COL2,
-      render: (data: boolean) => (
-        <p className={`${data ? 'text-primary' : 'text-yellow-800'} font-bold`}>
-          {data ? 'Công khai' : 'Chưa công khai'}
-        </p>
-      ),
-    },
 
     // {
     //   title: 'Cập nhật vào',

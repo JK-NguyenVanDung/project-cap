@@ -34,6 +34,7 @@ export default function CustomButton({
   htmlType,
   textClassName,
   disabled,
+  style,
 }: {
   size?: size;
   color?: color;
@@ -49,6 +50,7 @@ export default function CustomButton({
   htmlType?: string;
   textClassName?: string;
   disabled?: boolean;
+  style?: React.CSSProperties;
 }) {
   let defaultText = '';
   let typeClassName = '';
@@ -114,6 +116,7 @@ export default function CustomButton({
       }`}
       onClick={(e) => onClick(e)}
       variant={variant}
+      {...style}
     >
       {!noIcon && <Icon className={`mx-2 text-base ${iconClass}`} />}
       <p className={`font-customFont  font-semibold ${textClassName}`}>
