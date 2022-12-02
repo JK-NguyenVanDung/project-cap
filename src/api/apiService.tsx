@@ -115,4 +115,7 @@ export default {
   getPositions: () => {
     return axiosConfig.get(API_CONFIG.POSITION.GET);
   },
+  getContentProgram: (id: number) => {
+    return axiosConfig.get(API_CONFIG.CONTENTPROGRAM.GET(id));
+  },
 };

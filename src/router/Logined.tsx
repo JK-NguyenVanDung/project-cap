@@ -29,7 +29,8 @@ export default function Logined() {
           localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
         }
       } catch (error) {
-        console.log(error);
+        localStorage.clear();
+        navigate('/');
       }
     };
     function RequestAccessToken() {
@@ -51,7 +52,8 @@ export default function Logined() {
               localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
             }
           } catch (error) {
-            console.log(error);
+            localStorage.clear();
+            navigate('/');
           }
         })
         .catch((e) => {
