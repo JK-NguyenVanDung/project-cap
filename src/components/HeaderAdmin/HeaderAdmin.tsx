@@ -17,7 +17,6 @@ import { useAppSelector } from '../../hook/useRedux';
 export default function () {
   const { instance, accounts } = useMsal();
   const info = useAppSelector((state) => state.auth.info);
-  console.log(info);
 
   const logoutAdmin = () => {
     instance.logoutPopup({
@@ -25,7 +24,6 @@ export default function () {
       mainWindowRedirectUri: '/',
     });
   };
-  console.log(accounts);
   return (
     <div className="flex items-center justify-center mr-2 ">
       <Menu>

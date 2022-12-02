@@ -42,10 +42,31 @@ export default function Question() {
 
   const testId = useAppSelector((state: any) => state.question.testId);
 
+  const currentQuestionIndex = useAppSelector(
+    (state: any) => state.question.currentQuestionIndex,
+  );
   const hasQuestion = useAppSelector(
     (state: any) => state.question.hasQuestion,
   );
 
+  const currentQuestion: IQuestion = useAppSelector(
+    (state: any) => state.question.currentQuestion,
+  );
+  const radioValue = useAppSelector((state: any) => state.question.radioValue);
+  const selectedOptions = useAppSelector(
+    (state: any) => state.question.selectedOptions,
+  );
+  const selectedType = useAppSelector(
+    (state: any) => state.question.selectedType,
+  );
+  const questionTypeList = useAppSelector(
+    (state: any) => state.question.questionTypeList,
+  );
+  const radioOptions = useAppSelector(
+    (state: any) => state.question.radioOptions,
+  );
+  const listAll = useAppSelector((state: any) => state.question.hasQuestion);
+  const listAnswer = useAppSelector((state: any) => state.question.hasQuestion);
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [finish, setFinish] = useState(false);
@@ -57,46 +78,49 @@ export default function Question() {
   const [height, setHeight] = useState<string>('100');
 
   const [data, setData] = useState<Array<IQuestion>>([]);
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState<number>(0);
-
-  const [currentQuestion, setCurrentQuestion] = useState<IQuestion>(null);
-
-  const [questionPosition, setQuestionPosition] = useState(1);
-
-  const [radioOptions, setRadioOptions] =
-    useState<Array<IQuestionOption>>(defaultOptions);
-  const [selectedType, setSelectedType] = useState<number>(1);
-  const [questionTypeList, setQuestionTypeList] =
-    useState<Array<IQuestionType>>(null);
 
   const [form] = Form.useForm();
-  const [radioValue, setRadioValue] = useState(1);
-  const [selectedOptions, setSelectedOptions] = useState<Array<number>>([1]);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const handleChangeSelectedType = (e: any) => {
+    dispatch(actions.questionActions.setSelectedType(e));
+
+    console.log(currentQuestion);
+    if (currentQuestion.typeId !== e && e === 2) {
+      dispatch(actions.questionActions.setSelectedOptions([1]));
+    }
+  };
   const onRadioChange = (value: any) => {
     if (selectedType === 2) {
       let a =
         selectedOptions.length > 0
-          ? selectedOptions.find((e) => e === value)
+          ? selectedOptions.find((e: any) => e === value)
           : false;
       if (a) {
         if (selectedOptions.length > 1) {
-          setSelectedOptions((selectedOptions) =>
-            selectedOptions.filter((item) => item !== value),
+          dispatch(
+            actions.questionActions.setSelectedOptions(
+              selectedOptions.filter((item: any) => item !== value),
+            ),
           );
         } else {
           message.error(`Phải có ít nhất 1 đáp án đúng`);
         }
       } else {
         if (selectedOptions.length < radioOptions.length - 1) {
-          setSelectedOptions((selectedOptions) => [...selectedOptions, value]);
+          dispatch(
+            actions.questionActions.setSelectedOptions([
+              ...selectedOptions,
+              value,
+            ]),
+          );
         } else {
           message.error(`Chỉ được chọn ${radioOptions.length - 1} đáp án đúng`);
         }
       }
     } else {
-      setRadioValue(value);
+      dispatch(actions.questionActions.setRadioValue(value));
     }
   };
   function goBack() {
@@ -105,11 +129,13 @@ export default function Question() {
   function addMoreAnswer() {
     let last = radioOptions[radioOptions.length - 1];
     let next = getChar(last.value);
-    if (next !== 'H') {
-      setRadioOptions((items: any) => [
-        ...items,
-        { value: radioOptions.length + 1, text: '' },
-      ]);
+    if (next !== 'G') {
+      dispatch(
+        actions.questionActions.setRadioOptions([
+          ...radioOptions,
+          { value: radioOptions.length + 1, text: '' },
+        ]),
+      );
       setHeight((item) => String(Number.parseInt(item) + 12));
     } else {
       message.error('Đã đạt đến giới hạn số câu trả lời');
@@ -117,48 +143,119 @@ export default function Question() {
   }
 
   function handleDeleteAnswer(e: any) {
-    setRadioOptions((options: any) =>
-      options.filter((item: IQuestionOption) => item.value !== e),
+    dispatch(
+      actions.questionActions.setRadioOptions((options: any) =>
+        options.filter((item: IQuestionOption) => item.value !== e),
+      ),
     );
-    setRadioOptions((options: any) =>
-      options.map((item: IQuestionOption, index: number) => {
-        return {
-          value: index + 1,
-        };
-      }),
+    dispatch(
+      actions.questionActions.setRadioOptions((options: any) =>
+        options.map((item: IQuestionOption, index: number) => {
+          return {
+            value: index + 1,
+          };
+        }),
+      ),
     );
+
     setHeight((item) => String(Number.parseInt(item) - 12));
   }
 
   async function handleDelete() {
     // goBack();
-    try {
-      await apiService.removeQuestion(currentQuestion.questionId);
+    if (currentQuestion.questionId) {
+      try {
+        await apiService.removeQuestion(currentQuestion.questionId);
 
-      let res: any = await apiService.getQuestions(testId);
-      setShowConfirm(!showConfirm);
-      if (res.length < 1) {
-        navigate(-1);
-      } else {
-        let index = currentQuestionIndex;
-        let nextQuestion = res[index - 1] ? res[index - 1] : res[index + 1];
-        if (nextQuestion) {
-          setCurrentQuestionIndex(res.indexOf(nextQuestion));
-          setCurrentQuestion(nextQuestion);
+        let res: any = await apiService.getQuestions(testId);
+        setShowConfirm(!showConfirm);
+        if (res.length < 1) {
+          navigate(-1);
         } else {
-          setCurrentQuestionIndex(0);
+          let index = currentQuestionIndex;
+          let nextQuestion = res[index + 1];
 
-          setCurrentQuestion(null);
+          if (nextQuestion) {
+            dispatch(
+              actions.questionActions.setCurrentQuestionIndex(
+                res.indexOf(nextQuestion),
+              ),
+            );
+            dispatch(actions.questionActions.setCurrentQuestion(nextQuestion));
+            setForm(res.indexOf(nextQuestion));
+          } else {
+            dispatch(actions.questionActions.setCurrentQuestionIndex(0));
+            dispatch(actions.questionActions.setCurrentQuestion(null));
+            setForm(0);
+          }
         }
+        setData(res);
+        // }
+        // return message.success(MESSAGE.SUCCESS.DELETE);
+      } catch (err: any) {
+        throw err.message;
       }
-      setData(res);
-      // }
-      // return message.success(MESSAGE.SUCCESS.DELETE);
-    } catch (err: any) {
-      throw err.message;
+    } else {
+      let newData: any = data.pop();
+      setData((data) => data.filter((e) => e != newData));
+      dispatch(
+        actions.questionActions.setCurrentQuestionIndex(data.length - 1),
+      );
+      dispatch(
+        actions.questionActions.setCurrentQuestion(data[data.length - 1]),
+      );
+      setForm(data.length - 1);
     }
   }
+  const setForm = (index: number) => {
+    let base = {
+      typeId: data[index].typeId,
+      score: data[index].score,
+      questionTitle: data[index].questionTitle,
+    };
+    let content = {};
+    let contents = data[index].questionContents;
+    let radioOptions: any = [];
+    let defaultChecked: any = [];
 
+    content = contents
+      ? {
+          ...base,
+          ...contents.map((item: IQuestionContent, index: number) => {
+            radioOptions.push({
+              value: index + 1,
+            });
+            item.isAnswer && defaultChecked.push(index + 1);
+            if (index > 3) {
+              setHeight((item) => String(Number.parseInt(item) + 12));
+            }
+            return item.content;
+          }),
+        }
+      : {
+          ...base,
+          ...defaultOptions.map((item, index: number) => {
+            radioOptions.push({
+              value: index + 1,
+            });
+            return '';
+          }),
+        };
+    !contents && defaultChecked.push(1);
+    if (!contents) {
+      dispatch(actions.questionActions.setSelectedType(1));
+    } else {
+      dispatch(actions.questionActions.setSelectedType(data[index].typeId));
+    }
+
+    dispatch(actions.questionActions.setRadioOptions(radioOptions));
+
+    defaultChecked.length > 1
+      ? dispatch(actions.questionActions.setSelectedOptions(defaultChecked))
+      : dispatch(actions.questionActions.setRadioValue(defaultChecked[0]));
+
+    form.setFieldsValue(content);
+  };
   function restoreDefault() {
     form.resetFields();
   }
@@ -173,8 +270,10 @@ export default function Question() {
       //     `Chương trình ${res[0].ProgramName && res[0].ProgramName}`,
       //   ),
       // );
+      dispatch(actions.questionActions.setCurrentQuestionIndex(0));
+
       form.resetFields();
-      const setForm = () => {
+      const setDefault = () => {
         let base = {
           typeId: res[0]?.typeId,
           score: res[0]?.score,
@@ -190,15 +289,25 @@ export default function Question() {
             return item.content;
           }),
         };
-        if (base.typeId === 1) {
-          contents?.map((item: IQuestionContent, index: number) => {
-            if (item.isAnswer) {
-              setRadioValue(index);
-              setSelectedOptions((e: any) => [...e, item]);
+        let selected: any = [];
+        contents?.map((item: IQuestionContent, index: number) => {
+          if (index > 4) {
+            dispatch(
+              actions.questionActions.setRadioOptions([...radioOptions]),
+            );
+            setHeight((item) => String(Number.parseInt(item) + 9));
+          }
+          if (item.isAnswer) {
+            if (res[0]?.typeId === 1) {
+              dispatch(actions.questionActions.setRadioValue(index + 1));
+            } else if (res[0]?.typeId === 2) {
+              selected.push(index + 1);
             }
-          });
-        }
+          }
+        });
 
+        selected.length > 0 &&
+          dispatch(actions.questionActions.setSelectedOptions(selected));
         form.setFieldsValue(content);
       };
 
@@ -212,8 +321,9 @@ export default function Question() {
           },
         ]);
       } else if (hasQuestion) {
-        setCurrentQuestion(res[0]);
-        setForm();
+        dispatch(actions.questionActions.setCurrentQuestion(res[0]));
+        setDefault();
+        setForm(0);
       }
 
       setLoading(false);
@@ -224,20 +334,26 @@ export default function Question() {
   useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`Chương trình`));
     setChapter(2);
+    if (!hasQuestion) {
+      dispatch(actions.questionActions.setRadioOptions(defaultOptions));
+      dispatch(actions.questionActions.setSelectedOptions([1]));
+      dispatch(actions.questionActions.setRadioValue(1));
+    }
     async function getTypes() {
       try {
         let types: any = await apiService.getQuestionTypes();
-        setQuestionTypeList(types);
-        setSelectedType(1);
+        dispatch(actions.questionActions.setQuestionTypeList(types));
       } catch (err: any) {
         throw err.message;
       }
     }
+
     getTypes();
-  }, []);
-  useEffect(() => {
     getData();
-  }, [reload]);
+  }, []);
+  // useEffect(() => {
+
+  // }, [reload]);
 
   function getOptions() {
     let arr = [];
@@ -251,59 +367,9 @@ export default function Question() {
     }
     return arr;
   }
-  function handleMoveQuestion(index: number) {
-    setCurrentQuestionIndex(index);
-    setCurrentQuestion(data[index]);
-    form.resetFields();
+  async function handleSubmit(values: any) {
+    let res: any = await apiService.getQuestions(testId);
 
-    const setForm = () => {
-      let base = {
-        typeId: data[index].typeId,
-        score: data[index].score,
-        questionTitle: data[index].questionTitle,
-      };
-      let content = {};
-      let contents = data[index].questionContents;
-      let radioOptions: any = [];
-      let defaultChecked: any = [];
-      content = {
-        ...base,
-        ...contents.map((item: IQuestionContent, index: number) => {
-          radioOptions.push({
-            value: index + 1,
-          });
-          item.isAnswer && defaultChecked.push(index + 1);
-
-          return item.content;
-        }),
-      };
-
-      setRadioOptions(radioOptions);
-      defaultChecked.length > 1
-        ? setSelectedOptions(defaultChecked)
-        : setRadioValue(defaultChecked[0]);
-      console.log(content);
-      form.setFieldsValue(content);
-    };
-    if (data[index]) {
-      setForm();
-    }
-    console.log(data);
-  }
-  function isAnswer(item: IQuestionOption) {
-    let answer = selectedOptions.find((e: number) => e == item.value);
-    if (selectedType === 2 && answer) {
-      return true;
-    } else if (selectedType === 1 && radioValue == item.value) {
-      return true;
-    }
-    return false;
-  }
-  function handleFinish() {
-    goBack();
-  }
-
-  async function handleNextQuestion(values: any) {
     let result = Object.keys(values).map((key) => [values[key]]);
     for (let i = 0; i < 2; i++) {
       result.pop();
@@ -333,14 +399,50 @@ export default function Question() {
         },
       ),
     };
-    if (currentQuestion && currentQuestion.questionId) {
+    if (
+      currentQuestion &&
+      currentQuestion.questionId &&
+      res[currentQuestionIndex]
+    ) {
+      message.success('Thêm thành công');
       await apiService.editQuestion({
         output: out,
         id: currentQuestion.questionId,
       });
     } else {
+      message.success('Tạo thành công');
+
       await apiService.addQuestion(out);
     }
+  }
+  function handleMoveQuestion(index: number) {
+    dispatch(actions.questionActions.setCurrentQuestionIndex(index));
+    dispatch(actions.questionActions.setCurrentQuestion(data[index]));
+    form.resetFields();
+    setHeight('100');
+
+    if (data[index]) {
+      setForm(index);
+    }
+  }
+
+  function isAnswer(item: IQuestionOption) {
+    let answer = selectedOptions.find((e: number) => e == item.value);
+    if (selectedType === 2 && answer) {
+      return true;
+    } else if (selectedType === 1 && radioValue == item.value) {
+      return true;
+    }
+    return false;
+  }
+  async function handleFinish(values: any) {
+    await handleSubmit(values);
+
+    goBack();
+  }
+
+  async function handleNextQuestion(values: any) {
+    await handleSubmit(values);
 
     let next = {
       testsId: testId,
@@ -349,12 +451,17 @@ export default function Question() {
       score: 1,
     };
     // data.pop();
-
+    setHeight('100');
     let res: any = await apiService.getQuestions(testId);
     res.push(next);
     setData(res);
-    setCurrentQuestionIndex(res.length - 1);
-    setCurrentQuestion(res[res.length - 1]);
+
+    dispatch(actions.questionActions.setRadioOptions(defaultOptions));
+
+    dispatch(actions.questionActions.setSelectedOptions([1]));
+    dispatch(actions.questionActions.setRadioValue(1));
+    dispatch(actions.questionActions.setCurrentQuestionIndex(res.length - 1));
+    dispatch(actions.questionActions.setCurrentQuestion(res[res.length - 1]));
   }
 
   const handleOk = async () => {
@@ -372,7 +479,7 @@ export default function Question() {
           if (finish) {
             setReload(!reload);
 
-            handleFinish();
+            handleFinish(values);
           } else {
             handleNextQuestion(values);
           }
@@ -419,10 +526,10 @@ export default function Question() {
           show={showConfirm}
           setShow={setShowConfirm}
           handler={() => handleDelete()}
-          title={`câu hỏi số ${questionPosition}`}
+          title={`câu hỏi số ${currentQuestionIndex + 1}`}
         >
           <p className="font-customFont text-xl font-[500]">
-            Xoá câu hỏi số {questionPosition}
+            Xoá câu hỏi số {currentQuestionIndex + 1}
           </p>
         </ConfirmModal>
         <div className="px-5 h-screen">
@@ -433,7 +540,7 @@ export default function Question() {
             <HeaderAdmin />
           </div>
           <div className=" mr-0   font-customFont text-lg text-primary border flex flex-row items-center justify-between px-4 rounded-[10px] w-full border-border-gray h-12 my-4">
-            <p>CÂU HỎI SỐ {questionPosition}</p>
+            <p>CÂU HỎI SỐ {currentQuestionIndex + 1}</p>
             {/* {currentQuestionIndex !== -1 && ( */}
             <CustomButton
               color="red"
@@ -457,7 +564,7 @@ export default function Question() {
                   label="Loại bài kiểm tra"
                   rules={[]}
                   defaultValue={selectedType}
-                  getSelectedValue={(e: number) => setSelectedType(e)}
+                  getSelectedValue={(e: number) => handleChangeSelectedType(e)}
                   options={getOptions()}
                 />
                 <FormInput
@@ -483,7 +590,13 @@ export default function Question() {
                   disabled={true}
                   label="Đáp án đúng"
                   rules={[]}
-                  placeholder={getChar(radioValue)}
+                  placeholder={
+                    selectedType === 1
+                      ? getChar(radioValue)
+                      : selectedOptions.map((e: any) => {
+                          return getChar(e);
+                        })
+                  }
                 />
                 <FormInput
                   disabled={true}
@@ -530,11 +643,7 @@ export default function Question() {
                 </div>
                 <OptionalAnswer
                   handleDelete={(e: string) => handleDeleteAnswer(e)}
-                  options={radioOptions}
                   onChange={onRadioChange}
-                  value={radioValue}
-                  values={selectedOptions}
-                  type={selectedType === 2 && 'multiple'}
                 />
               </div>
             </div>
@@ -548,6 +657,7 @@ export default function Question() {
                   {data.map((item: IQuestion, index: number) => {
                     return (
                       <QuestionButton
+                        key={item.questionId + index}
                         text={`Câu ${index + 1}`}
                         onClick={() => handleMoveQuestion(index)}
                         active={index === currentQuestionIndex ? true : false}

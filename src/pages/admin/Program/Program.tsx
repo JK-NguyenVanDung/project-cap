@@ -12,8 +12,6 @@ import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { actions } from '../../../Redux';
 import { useAppDispatch } from '../../../hook/useRedux';
 import EditProgram from './EditProgram';
-import SideBar from '..';
-import { BsReverseLayoutSidebarInsetReverse } from 'react-icons/bs';
 import { useNavigateParams } from '../../../hook/useNavigationParams';
 import { API_URL } from '../../../api/api';
 export default function Program() {

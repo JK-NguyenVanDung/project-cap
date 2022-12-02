@@ -1,6 +1,7 @@
 import { Form, Input } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
 import { errorText } from '../../helper/constant';
+import { useAppSelector } from '../../hook/useRedux';
 import CustomButton from './Button';
 import PopOverAction from './PopOver';
 
@@ -62,25 +63,25 @@ function getChar(c: number) {
 }
 
 const OptionalAnswer = ({
-  options,
   onChange,
-  value,
-  values,
-  type,
+
   handleDelete,
 }: {
-  options: any;
   onChange: Function;
-  value?: number;
-  values?: any;
-  type?: string;
+
   handleDelete: Function;
 }) => {
-  function getStyle(type: string, value: number, values: [], item: any) {
-    return type != 'multiple'
+  const options = useAppSelector((state: any) => state.question.radioOptions);
+  const value = useAppSelector((state: any) => state.question.radioValue);
+  const values = useAppSelector((state: any) => state.question.selectedOptions);
+  const type: number = useAppSelector(
+    (state: any) => state.question.selectedType,
+  );
+  function getStyle(item: any) {
+    return type != 2
       ? value === item.value
       : values.length > 0
-      ? values.find((e) => e === item.value) !== undefined
+      ? values.find((e: any) => e === item.value) !== undefined
       : false;
   }
   return (
@@ -92,22 +93,18 @@ const OptionalAnswer = ({
               type="button"
               formNoValidate
               className={`w-[8rem]  mr-8 my-4 px-6 flex border rounded-[10px] ${
-                getStyle(type, value, values, item)
-                  ? 'border-primary'
-                  : 'border-border-gray'
+                getStyle(item) ? 'border-primary' : 'border-border-gray'
               } h-full justify-between items-center`}
               onClick={() => onChange(item.value)}
             >
               <p
                 className={`text-3xl font-bold ${
-                  getStyle(type, value, values, item)
-                    ? 'text-primary'
-                    : 'text-border-gray'
+                  getStyle(item) ? 'text-primary' : 'text-border-gray'
                 }`}
               >
                 {getChar(item.value)}
               </p>
-              {getStyle(type, value, values, item) ? (
+              {getStyle(item) ? (
                 <FullCircle className="ml-4" />
               ) : (
                 <UnselectedCircle className="ml-4" />
@@ -130,11 +127,7 @@ const OptionalAnswer = ({
                 <Input
                   type="text"
                   className={`z-[0] h-14 text-black h-full font-customFont  font-bold min-w-[20rem] mt-4 bg-white border  text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500
-              ${
-                getStyle(type, value, values, item)
-                  ? 'border-primary'
-                  : 'border-border-gray'
-              } `}
+              ${getStyle(item) ? 'border-primary' : 'border-border-gray'} `}
                   placeholder={`Nhập đáp án ${getChar(item.value)}`}
                   suffix={
                     index > 3 && (

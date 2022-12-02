@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
 
 const slice = createSlice({
   name: 'form',
@@ -9,22 +9,22 @@ const slice = createSlice({
   },
   reducers: {
     setNameMenu(state, actions) {
-      console.log(state)
-      state.nameMenu = actions.payload
+      // console.log(state)
+      state.nameMenu = actions.payload;
     },
     changeLoad(state, actions) {
-      state.loadData = actions.payload
+      state.loadData = actions.payload;
     },
     showForm(state) {
-      state.show = true
+      state.show = true;
     },
     closeForm(state) {
-      state.show = false
+      state.show = false;
     },
     setForm(state, actions) {
-      state.show = actions.payload
+      state.show = actions.payload;
     },
   },
-})
-export const formReducer = slice.reducer
-export const formActions = slice.actions
+});
+export const formReducer = slice.reducer;
+export const formActions = slice.actions;
