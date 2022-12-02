@@ -5,6 +5,7 @@ import {
   IAccountItem,
   IProgramItem /* IQuestion, ITest  */,
   IQuestion,
+  ITest,
 } from '../Type';
 export default {
   //auth
@@ -87,14 +88,14 @@ export default {
   getTest: (id: number) => {
     return axiosConfig.get(API_CONFIG.TEST.GET + '?id=' + id);
   },
-  // addTest: (body: ITest) => {
-  //   return axiosConfig.post(API_CONFIG.TEST.POST, body);
-  // },
-  // editTest: (props: { output: ITest; id: number }) => {
-  //   return axiosConfig.put(API_CONFIG.TEST.PUT(props.id), {
-  //     ...props.output,
-  //   });
-  // },
+  addTest: (body: ITest) => {
+    return axiosConfig.post(API_CONFIG.TEST.POST, body);
+  },
+  editTest: (props: { output: ITest; id: number }) => {
+    return axiosConfig.put(API_CONFIG.TEST.PUT(props.id), {
+      ...props.output,
+    });
+  },
   removeTest: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.TEST.DELETE(ID));
   },
