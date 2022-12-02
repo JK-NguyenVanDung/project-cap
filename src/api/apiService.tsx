@@ -1,7 +1,11 @@
 import { API_CONFIG } from './api';
 import axiosConfig, { configFormData } from './axiosConfig';
 import { ICategory, IFaculties } from './apiInterface';
-import { IAccountItem, IProgramItem /* IQuestion, ITest  */ } from '../Type';
+import {
+  IAccountItem,
+  IProgramItem /* IQuestion, ITest  */,
+  IQuestion,
+} from '../Type';
 export default {
   //auth
   postAdminUser: (token: any) => {
@@ -101,11 +105,11 @@ export default {
   addQuestion: (body: any) => {
     return axiosConfig.post(API_CONFIG.QUESTION.POST, body);
   },
-  // editQuestion: (props: { output: IQuestion; id: number }) => {
-  //   return axiosConfig.put(API_CONFIG.QUESTION.PUT(props.id), {
-  //     ...props.output,
-  //   });
-  // },
+  editQuestion: (props: { output: IQuestion; id: number }) => {
+    return axiosConfig.put(API_CONFIG.QUESTION.PUT(props.id), {
+      ...props.output,
+    });
+  },
   removeQuestion: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.QUESTION.DELETE(ID));
   },

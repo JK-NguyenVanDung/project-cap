@@ -43,21 +43,19 @@ export default function EditProgram() {
     getAcedemicYear();
     getPositions();
     item
-      ? form.setFieldsValue(
-          {
-            ProgramName: item ? item.programName : '',
-            Coin: item ? item.coin : '',
-            StartDate: item ? moment(item.startDate) : '',
-            EndDate: item ? moment(item.endDate) : '',
-            AcademicYearId: item ? item.academicYearId : '',
-            Semester: item ? item.semester?.toString() : '',
-            Positions: item ? item.positions : '',
-            FacultyId: item ? item.facultyId : '',
-            CategoryId: item ? item.categoryId : '',
-            Descriptions: item ? item.descriptions : '',
-          },
-          setImage(item.image),
-        )
+      ? (form.setFieldsValue({
+          ProgramName: item ? item.programName : '',
+          Coin: item ? item.coin : '',
+          StartDate: item ? moment(item.startDate) : '',
+          EndDate: item ? moment(item.endDate) : '',
+          AcademicYearId: item ? item.academicYearId : '',
+          Semester: item ? item.semester?.toString() : '',
+          Positions: item ? item.positions : '',
+          FacultyId: item ? item.facultyId : '',
+          CategoryId: item ? item.categoryId : '',
+          Descriptions: item ? item.descriptions : '',
+        }),
+        setImage(item.image))
       : form.setFieldsValue(setLoading(false));
   }, [loading]);
   const getFacuties = async () => {
