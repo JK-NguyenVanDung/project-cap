@@ -104,8 +104,12 @@ export type IRoleItem = z.infer<typeof RoleItem>;
 export type ICategoryItem = z.infer<typeof CategoryItem>;
 export type IAccountItem = z.infer<typeof AccountItem>;
 export type IProgramItem = z.infer<typeof ProgramItem>;
-export type IChapterItem = z.infer<typeof ChapterItem>;
+export type IQuestionType = z.infer<typeof QuestionType>;
+export type IQuestion = z.infer<typeof Question>;
+export type ITest = z.infer<typeof Test>;
 
+export type IQuestionContent = z.infer<typeof QuestionContent>;
+export type IChapterItem = z.infer<typeof ChapterItem>;
 export interface IRouterObj {
   path?: string;
   index?: boolean;

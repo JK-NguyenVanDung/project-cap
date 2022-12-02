@@ -1,7 +1,12 @@
 import { API_CONFIG } from './api';
 import axiosConfig, { configFormData } from './axiosConfig';
-import { ICategory, IChapter, IFaculties } from './apiInterface';
-import { IAccountItem, IProgramItem /* IQuestion, ITest  */ } from '../Type';
+import { ICategory, IChapter } from './apiInterface';
+import {
+  IAccountItem,
+  IProgramItem /* IQuestion, ITest  */,
+  IQuestion,
+  ITest,
+} from '../Type';
 export default {
   //auth
   postAdminUser: (token: any) => {
@@ -83,14 +88,14 @@ export default {
   getTest: (id: number) => {
     return axiosConfig.get(API_CONFIG.TEST.GET + '?id=' + id);
   },
-  // addTest: (body: ITest) => {
-  //   return axiosConfig.post(API_CONFIG.TEST.POST, body);
-  // },
-  // editTest: (props: { output: ITest; id: number }) => {
-  //   return axiosConfig.put(API_CONFIG.TEST.PUT(props.id), {
-  //     ...props.output,
-  //   });
-  // },
+  addTest: (body: ITest) => {
+    return axiosConfig.post(API_CONFIG.TEST.POST, body);
+  },
+  editTest: (props: { output: ITest; id: number }) => {
+    return axiosConfig.put(API_CONFIG.TEST.PUT(props.id), {
+      ...props.output,
+    });
+  },
   removeTest: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.TEST.DELETE(ID));
   },
@@ -101,11 +106,11 @@ export default {
   addQuestion: (body: any) => {
     return axiosConfig.post(API_CONFIG.QUESTION.POST, body);
   },
-  // editQuestion: (props: { output: IQuestion; id: number }) => {
-  //   return axiosConfig.put(API_CONFIG.QUESTION.PUT(props.id), {
-  //     ...props.output,
-  //   });
-  // },
+  editQuestion: (props: { output: IQuestion; id: number }) => {
+    return axiosConfig.put(API_CONFIG.QUESTION.PUT(props.id), {
+      ...props.output,
+    });
+  },
   removeQuestion: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.QUESTION.DELETE(ID));
   },
