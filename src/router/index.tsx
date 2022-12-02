@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../api/apiService';
 import { useAppDispatch } from '../hook/useRedux';
@@ -14,13 +14,18 @@ export default function PageRouter() {
     CheckUser();
   }, []);
   const CheckUser = async () => {
-    const response: any = await apiService.getProfile();
-    setRoleId(response.roleId);
-    dispatch(actions.authActions.setInfo(response));
-    if (response?.roleId == 1) {
-      navigate('/home');
-    } else {
-      navigate('/admin');
+    try {
+      const response: any = await apiService.getProfile();
+      setRoleId(response.roleId);
+      dispatch(actions.authActions.setInfo(response));
+      if (response?.roleId == 1) {
+        navigate('/home');
+      } else {
+        navigate('/admin');
+      }
+    } catch (error) {
+      localStorage.clear();
+      navigate('/');
     }
   };
   if (rolesId == 1 || undefined) {

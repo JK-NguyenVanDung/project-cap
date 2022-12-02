@@ -26,7 +26,6 @@ export default function AddFaculties({
   async function checkAccountExist(facultyName: string) {
     let res: any = await apiService.getFaculties();
     let obj = res.find((e: IFaculties) => e.facultyName === facultyName);
-    console.log(obj);
     return obj !== undefined ? true : false;
   }
   const handleOk = async () => {

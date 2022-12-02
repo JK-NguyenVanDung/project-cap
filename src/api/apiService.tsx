@@ -1,12 +1,10 @@
 import { API_CONFIG } from './api';
 import axiosConfig, { configFormData } from './axiosConfig';
 import { ICategory, IFaculties } from './apiInterface';
-import { IAccountItem, IProgramItem, IQuestion, ITest } from '../Type';
+import { IAccountItem, IProgramItem /* IQuestion, ITest  */ } from '../Type';
 export default {
   //auth
   postAdminUser: (token: any) => {
-    console.log('ádjhfkasjdh', token);
-
     return axiosConfig.post(API_CONFIG.AUTH.LOGIN, token);
   },
   getProfile: () => {
@@ -54,10 +52,10 @@ export default {
     return configFormData.post(API_CONFIG.PROGRAM.POST, body);
   },
   delProgram: (id: number) => {
-    return axiosConfig.delete(API_CONFIG.PROGRAM.DEL(id));
+    return axiosConfig.delete(API_CONFIG.PROGRAM.DELETE(id));
   },
-  putProgram: (id: number) => {
-    return axiosConfig.delete(API_CONFIG.PROGRAM.PUT(id));
+  putProgram: (id: number, params: any) => {
+    return configFormData.put(API_CONFIG.PROGRAM.PUT(id), params);
   },
   //Faculties
   getFaculties: () => {
@@ -73,7 +71,7 @@ export default {
   },
 
   delFaculties: (id: number) => {
-    return axiosConfig.delete(API_CONFIG.FACULTIES.DEL(id));
+    return axiosConfig.delete(API_CONFIG.FACULTIES.DELETE(id));
   },
 
   //QUESTION_TYPE
@@ -85,14 +83,14 @@ export default {
   getTest: (id: number) => {
     return axiosConfig.get(API_CONFIG.TEST.GET + '?id=' + id);
   },
-  addTest: (body: ITest) => {
-    return axiosConfig.post(API_CONFIG.TEST.POST, body);
-  },
-  editTest: (props: { output: ITest; id: number }) => {
-    return axiosConfig.put(API_CONFIG.TEST.PUT(props.id), {
-      ...props.output,
-    });
-  },
+  // addTest: (body: ITest) => {
+  //   return axiosConfig.post(API_CONFIG.TEST.POST, body);
+  // },
+  // editTest: (props: { output: ITest; id: number }) => {
+  //   return axiosConfig.put(API_CONFIG.TEST.PUT(props.id), {
+  //     ...props.output,
+  //   });
+  // },
   removeTest: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.TEST.DELETE(ID));
   },
@@ -103,23 +101,21 @@ export default {
   addQuestion: (body: any) => {
     return axiosConfig.post(API_CONFIG.QUESTION.POST, body);
   },
-  editQuestion: (props: { output: IQuestion; id: number }) => {
-    return axiosConfig.put(API_CONFIG.QUESTION.PUT(props.id), {
-      ...props.output,
-    });
-  },
+  // editQuestion: (props: { output: IQuestion; id: number }) => {
+  //   return axiosConfig.put(API_CONFIG.QUESTION.PUT(props.id), {
+  //     ...props.output,
+  //   });
+  // },
   removeQuestion: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.QUESTION.DELETE(ID));
   },
-
-  // uploadSample:(ID:number)=>{
-  //   let body={
-  //     programId: ID,
-  //     chapter: 1,
-  //     contentType: "Slide",
-  //     content: "something"
-  //   }
-  //   return axiosConfig.post(API_CONFIG.PROGRAMCONTENT.POST, body);
-
-  // }
+  getAcedemicYear: () => {
+    return axiosConfig.get(API_CONFIG.ACEDEMICYEAR.GET);
+  },
+  getPositions: () => {
+    return axiosConfig.get(API_CONFIG.POSITION.GET);
+  },
+  getContentProgram: (id: number) => {
+    return axiosConfig.get(API_CONFIG.CONTENTPROGRAM.GET(id));
+  },
 };

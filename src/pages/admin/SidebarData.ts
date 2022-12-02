@@ -23,7 +23,7 @@ export const SideBarData = [
     path: '/admin/Account',
   },
   {
-    title: 'Khóa Học',
+    title: 'Chương Trình',
     icon: IoBook,
     path: '/admin/Program',
   },
@@ -43,7 +43,28 @@ export const SideBarData = [
     path: '/admin/Faculties',
   },
 ];
-
+export const SideBarDataCT = [
+  {
+    title: 'Trang Chủ',
+    icon: IoApps,
+    path: '/admin',
+  },
+  {
+    title: 'Khóa Học',
+    icon: IoBook,
+    path: '/admin/Program',
+  },
+  {
+    title: 'Danh Mục',
+    icon: IoAlbums,
+    path: '/admin/Category',
+  },
+  {
+    title: 'Học Viên',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/Learner',
+  },
+];
 export const SideBarDataFacul = [
   {
     title: 'Trang Chủ',

@@ -1,3 +1,9 @@
+import {
+  ActionFunction,
+  LoaderFunction,
+  RouteObject,
+  ShouldRevalidateFunction,
+} from 'react-router-dom';
 import { z } from 'zod';
 
 export interface ILogin {
@@ -44,21 +50,21 @@ const CategoryItem = z.object({
 });
 
 const ProgramItem = z.object({
-  programId: z.number(),
-  facultyId: z.number(),
-  accountIdCreator: z.number(),
-  categoryId: z.number(),
-  programName: z.string(),
-  image: z.string(),
-  startDate: z.date(),
-  endDate: z.date(),
-  isPublish: z.boolean(),
-  coin: z.number(),
+  ProgramId: z.number(),
+  FacultyId: z.number(),
+  AccountIdCreator: z.number(),
+  CategoryId: z.number(),
+  ProgramName: z.string(),
+  Image: z.string(),
+  StartDate: z.date(),
+  EndDate: z.date(),
+  IsPublish: z.boolean(),
+  Coin: z.number(),
 });
 
 const ChapterItem = z.object({
   ContentId: z.number(),
-  programId: z.number(),
+  ProgramId: z.number(),
   ContentTitle: z.string(),
   ContentDescription: z.string(),
   Chapter: z.number(),
@@ -99,8 +105,17 @@ export type ICategoryItem = z.infer<typeof CategoryItem>;
 export type IAccountItem = z.infer<typeof AccountItem>;
 export type IProgramItem = z.infer<typeof ProgramItem>;
 export type IChapterItem = z.infer<typeof ChapterItem>;
-export type ITest = z.infer<typeof Test>;
 
-export type IQuestionType = z.infer<typeof QuestionType>;
-export type IQuestion = z.infer<typeof Question>;
-export type IQuestionContent = z.infer<typeof QuestionContent>;
+export interface IRouterObj {
+  path?: string;
+  index?: boolean;
+  children?: React.ReactNode;
+  caseSensitive?: boolean;
+  id?: string;
+  loader?: LoaderFunction;
+  action?: ActionFunction;
+  element?: React.ReactNode | null;
+  errorElement?: React.ReactNode | null;
+  handle?: RouteObject['handle'];
+  shouldRevalidate?: ShouldRevalidateFunction;
+}

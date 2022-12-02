@@ -6,10 +6,10 @@ const slice = createSlice({
     nameMenu: null,
     show: false,
     loadData: false,
+    setProgram: null,
   },
   reducers: {
     setNameMenu(state, actions) {
-      // console.log(state)
       state.nameMenu = actions.payload;
     },
     changeLoad(state, actions) {
@@ -23,6 +23,9 @@ const slice = createSlice({
     },
     setForm(state, actions) {
       state.show = actions.payload;
+    },
+    setProgramForm(state, actions) {
+      state.setProgram = actions.payload;
     },
   },
 });

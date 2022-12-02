@@ -17,7 +17,22 @@ export default function Logined() {
 
   useEffect(() => {
     setLoading(true);
+    const postLogin = async () => {
+      try {
+        const reponseToken: any = await apiService.postAdminUser({
+          token: acceptToken,
+        });
+        if (reponseToken) {
+          setLoading(false);
 
+          dispatch(actions.authActions.Login(reponseToken.token));
+          localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
+        }
+      } catch (error) {
+        localStorage.clear();
+        navigate('/');
+      }
+    };
     function RequestAccessToken() {
       const request = {
         ...loginRequest,
@@ -37,7 +52,8 @@ export default function Logined() {
               localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
             }
           } catch (error) {
-            console.log(error);
+            localStorage.clear();
+            navigate('/');
           }
         })
         .catch((e) => {

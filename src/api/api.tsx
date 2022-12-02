@@ -22,14 +22,14 @@ export const API_CONFIG = {
   PROGRAM: {
     GET: '/api/Programs',
     POST: '/api/Programs',
-    DEL: (ID: number) => `/api/Programs/${ID}`,
+    DELETE: (ID: number) => `/api/Programs/${ID}`,
     PUT: (ID: number) => `/api/Programs/${ID}`,
   },
   FACULTIES: {
     GET: '/api/Faculties',
     POST: '/api/Faculties',
     PUT: (id: number) => `/api/Faculties/${id}`,
-    DEL: (id: number) => `/api/Faculties/${id}`,
+    DELETE: (id: number) => `/api/Faculties/${id}`,
   },
   QUESTION_TYPE: {
     GET: '/api/Types',
@@ -46,7 +46,13 @@ export const API_CONFIG = {
     PUT: (id: number) => `/api/Questions/${id}`,
     DELETE: (id: number) => `/api/Questions/${id}`,
   },
-  // PROGRAMCONTENT: {
-  //   POST: '/api/Contents',
-  // },
+  ACEDEMICYEAR: {
+    GET: '/api/AcademicYear',
+  },
+  POSITION: {
+    GET: '/api/Positions',
+  },
+  CONTENTPROGRAM: {
+    GET: (id: number) => `/api/Programs/${id}/Contents`,
+  },
 };
