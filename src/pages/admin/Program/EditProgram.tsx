@@ -182,7 +182,7 @@ export default function EditProgram() {
         <div className="flex justify-around center my-5">
           <div className="w-full mx-5">
             <FormInput
-              name="ProgramName"
+              name="programName"
               label="Chủ Đề Đào Tạo"
               rules={[
                 {
@@ -192,12 +192,16 @@ export default function EditProgram() {
               ]}
             />
             <div className="my-10">
-              <FormInput type="textArea" label="Mô Tả Chủ Đề" />
+              <FormInput
+                name="programDescription"
+                type="textArea"
+                label="Mô Tả Chủ Đề"
+              />
             </div>
             <label className=" text-black font-bold font-customFont ">
               Phòng/Khoa
             </label>
-            <Form.Item name="FacultyId">
+            <Form.Item name="facultyId">
               <Select
                 showSearch
                 placeholder="Chọn Phòng/Khoa"
@@ -338,7 +342,7 @@ export default function EditProgram() {
             </label>
             <Form.Item
               className="mb-0 "
-              name="IsPublish"
+              name="isPublish"
               valuePropName="checked"
             >
               <Checkbox>Có</Checkbox>

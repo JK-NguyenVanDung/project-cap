@@ -71,6 +71,34 @@ const ChapterItem = z.object({
   ContentType: z.string(),
   Content: z.string(),
 });
+const QuestionType = z.object({
+  typeId: z.number(),
+  typeName: z.string(),
+});
+const QuestionContent = z.object({
+  questionContentId: z.number(),
+  questionId: z.number(),
+  content: z.string(),
+  isAnswer: z.boolean(),
+});
+const Question = z.object({
+  questionId: z.number(),
+  testsId: z.number(),
+  typeId: z.number(),
+  questionTitle: z.string(),
+  score: z.number(),
+  questionContents: z.array(QuestionContent),
+});
+const Test = z.object({
+  testId: z.number(),
+  contentId: z.number(),
+  testTitle: z.string(),
+  time: z.number(),
+  chapter: z.number(),
+  isRandom: z.boolean(),
+  questions: z.array(z.any()),
+});
+
 export type IRoleItem = z.infer<typeof RoleItem>;
 
 export type ICategoryItem = z.infer<typeof CategoryItem>;

@@ -3,7 +3,7 @@ import { Form, message, Input } from 'antd';
 import CustomButton from '../../../../components/admin/Button';
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import apiService from '../../../../api/apiService';
-import { errorText } from '../../../../helper/constant';
+import { errorText, MESSAGE } from '../../../../helper/constant';
 import { IChapterItem, ITest } from '../../../../Type';
 import { useAppDispatch } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
@@ -11,69 +11,8 @@ import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { IoTimeOutline } from 'react-icons/io5';
 import RadioGroup from '../../../../components/sharedComponents/RadioGroup';
-
-const ConfirmModal = ({
-  show,
-  setShow,
-  handler,
-  children,
-  chapterNumber,
-}: {
-  show: boolean;
-  setShow: Function;
-  handler: () => void;
-
-  children: any;
-  chapterNumber?: number;
-}) => {
-  const handleOk = () => {
-    setShow(false);
-    handler();
-  };
-  const handleCancel = () => {
-    setShow(false);
-  };
-
-  return (
-    <>
-      <Modal
-        title={
-          <p className="font-customFont text-lg font-semibold mt-1">
-            {`Xác nhận xoá chương ${chapterNumber}?`}
-          </p>
-        }
-        open={show}
-        centered
-        onCancel={handleCancel}
-        footer={[
-          <div className="flex justify-end my-2">
-            <CustomButton
-              text="Quay lại"
-              size="md"
-              color="red"
-              variant="outlined"
-              className="w-32 mr-4"
-              noIcon
-              key="back"
-              onClick={handleCancel}
-            />
-            <CustomButton
-              text="Xác nhận"
-              size="md"
-              color="red"
-              className="w-32 mr-4"
-              key="submit"
-              noIcon
-              onClick={handleOk}
-            />
-          </div>,
-        ]}
-      >
-        {children}
-      </Modal>
-    </>
-  );
-};
+import { useLocation } from 'react-router-dom';
+import ConfirmModal from '../../../../components/admin/Modal/ConfirmModal';
 
 const radioOptions = [
   {
@@ -86,11 +25,14 @@ const radioOptions = [
 export default function Test() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
-  const [chapter, setChapter] = useState(1);
-  const [contentId, setContentId] = useState(1);
+  const [chapter, setChapter] = useState<number>();
+  const [contentId, setContentId] = useState<number>();
+  const location = useLocation();
 
   contentId;
   const [showConfirm, setShowConfirm] = useState(false);
+  const [questionAmount, setQuestionAmount] = useState(0);
+
   const [data, setData] = useState<ITest>(null);
   const [form] = Form.useForm();
   const [radioValue, setRadioValue] = useState(false);
@@ -104,36 +46,41 @@ export default function Test() {
     navigate(`/admin/Program/Chapter/${chapter}`);
   }
   function goQuestion() {
+    dispatch(
+      actions.questionActions.setHasQuestion(questionAmount > 0 ? true : false),
+    );
+
+    data && dispatch(actions.questionActions.setTestId(data.testId));
     navigate(`/admin/Program/Chapter/${chapter}/Test/Question`);
   }
-  function handleDelete() {
-    goBack();
-    // try {
-    //   // await apiService.removeProgram(item.ProgramId);
-    //   message.success(MESSAGE.SUCCESS.DELETE);
-    //   navigate(`/admin/Program/${chapter}`);
-    // } catch (err: any) {
-    //   throw err.message;
-    // }
+  async function handleDelete() {
+    try {
+      await apiService.removeTest(data.testId);
+      message.success(MESSAGE.SUCCESS.DELETE);
+      navigate(`/admin/Program/${chapter}`);
+    } catch (err: any) {
+      throw err.message;
+    }
   }
 
-  async function getData() {
+  async function getData(id: string) {
     try {
       setLoading(true);
-      let res: any = await apiService.getPrograms();
+      // let res: any = await apiService.getPrograms();
+      let res: any = await apiService.getTest(Number(id));
 
-      dispatch(
-        actions.formActions.setNameMenu(
-          `Chương trình ${res[0].ProgramName && res[0].ProgramName}`,
-        ),
-      );
+      let ques: any = await apiService.getQuestions(res.testId);
+      setQuestionAmount(ques.length);
+      setData(res);
+
       form.resetFields();
-
+      res.chapter && setChapter(res.chapter);
+      setRadioValue(res.isRandom);
       const setForm = () => {
-        form.setFieldsValue(data ? data : []);
+        form.setFieldsValue(res ? res : []);
       };
 
-      if (data) {
+      if (res) {
         setForm();
       }
 
@@ -144,36 +91,39 @@ export default function Test() {
   }
 
   useEffect(() => {
+    let id = location.search.split('=')[1];
+    setContentId(1);
+    setChapter(Number(id));
     dispatch(actions.formActions.setNameMenu(`Chương trình`));
-    getData();
-    setChapter(2);
+    getData('1');
   }, [reload]);
 
   const handleOk = async () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async (values: ITest) => {
         setLoading(true);
         const temp = [];
         let output = {
           contentId: contentId,
-          contentTitle: values.contentTitle,
-          contentDescription: values.contentDescription,
+          testTitle: values.testTitle,
+          // testDescription: values.,
           time: values.time,
           chapter: chapter,
           isRandom: radioValue,
         };
         if (data) {
-          // await apiService.editProgram({
-          // });
+          let id = data.testId;
+          await apiService.editTest({ output: output, id: id });
           message.success('Thay đổi thành công');
           setReload(!reload);
 
           setLoading(false);
           form.resetFields();
         } else {
-          // await apiService.addProgram({});
-          // setReload(!reload);
+          // console.log(output);
+          await apiService.addTest(output);
+          setReload(!reload);
           message.success('Thêm thành công');
           setLoading(false);
           form.resetFields();
@@ -185,12 +135,12 @@ export default function Test() {
       });
   };
   return (
-    <div className="w-full h-screen px-5">
+    <div className="w-full h-fit px-5 ">
       <ConfirmModal
         show={showConfirm}
         setShow={setShowConfirm}
         handler={() => handleDelete()}
-        chapterNumber={chapter}
+        title={chapter?.toString()}
       >
         <p className="font-customFont text-xl font-[500]">
           Xoá nội dung và bài kiểm tra của chương này{' '}
@@ -204,7 +154,7 @@ export default function Test() {
       <Form form={form} onFinish={handleOk} className=" w-full ">
         <FormInput
           disabled={false}
-          name="contentTitle"
+          name="testTitle"
           label="Tên bài kiểm tra"
           rules={[
             {
@@ -218,7 +168,7 @@ export default function Test() {
           ]}
         />
 
-        <FormInput
+        {/* <FormInput
           disabled={false}
           type="textArea"
           name="contentDescription"
@@ -233,7 +183,7 @@ export default function Test() {
               message: errorText.space,
             },
           ]}
-        />
+        /> */}
 
         <FormInput
           disabled={false}
@@ -278,12 +228,14 @@ export default function Test() {
               type="text"
               className={`mr-4 text-black font-customFont  font-bold min-w-[12rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-1/5 pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
               placeholder={`${
-                data ? 'Hiện tại có 10 câu hỏi' : 'Hiện tại chưa có câu hỏi nào'
+                questionAmount > 0
+                  ? `Hiện tại có ${questionAmount} câu hỏi`
+                  : 'Hiện tại chưa có câu hỏi nào'
               }`}
             ></Input>
             <CustomButton
-              // disabled={data ? false : true}
-              text="Thêm câu hỏi"
+              disabled={data ? false : true}
+              text={questionAmount > 0 ? 'Sửa câu hỏi' : 'Thêm câu hỏi'}
               size="md"
               className="pl-2"
               color="green"
@@ -291,8 +243,8 @@ export default function Test() {
             />
           </div>
         </div>
-        <Form.Item label="" colon={false}>
-          <div className="w-full h-14 flex items-center justify-end mt-8">
+        <Form.Item noStyle label="" colon={false}>
+          <div className="w-full h-14 flex items-center justify-end mt-20">
             <CustomButton
               text="Quay lại"
               size="md"
@@ -302,7 +254,16 @@ export default function Test() {
               color="blue-gray"
               onClick={() => goBack()}
             />
-
+            {data && (
+              <CustomButton
+                text="Xoá"
+                size="md"
+                className="w-32 mr-4"
+                noIcon
+                color="red"
+                onClick={() => handleDelete()}
+              />
+            )}
             <button
               type="submit"
               className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-gray-500 hover:bg-blue-gray-500 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-32 false"

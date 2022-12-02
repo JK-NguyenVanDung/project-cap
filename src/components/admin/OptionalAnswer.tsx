@@ -128,7 +128,6 @@ const OptionalAnswer = ({
                 ]}
               >
                 <Input
-                  defaultValue={item.text}
                   type="text"
                   className={`z-[0] h-14 text-black h-full font-customFont  font-bold min-w-[20rem] mt-4 bg-white border  text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500
               ${

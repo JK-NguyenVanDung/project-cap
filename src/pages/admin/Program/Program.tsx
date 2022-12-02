@@ -43,15 +43,17 @@ export default function Program() {
     }
   }
 
-  function handleShowDetail(item: any) {
+  function handleShowDetail(item: IProgramItem) {
     // navigate(`/admin/Program/${item.ProgramId}`);
 
-    //    navigate(`/admin/Program/Chapter/${item.ProgramId}/Test`);
+    navigate(`/admin/Program/Chapter/${item.programId}/Test`, {
+      id: item.programId,
+    });
 
     // navigate(`/admin/Program/Chapter/${item.programId}`);
     dispatch(
       actions.formActions.setNameMenu(
-        `Chương trình ${item.ProgramName && item.ProgramName}`,
+        `Khóa Học ${item.programName && item.programName}`,
       ),
     );
   }
