@@ -228,7 +228,7 @@ export default function ChapterInfo() {
               className="w-32 mr-4"
               noIcon
               color="blue-gray"
-              onClick={() => goBack()}
+              onClick={() => navigate(-1)}
             />
             <CustomButton
               text="Xoá"
