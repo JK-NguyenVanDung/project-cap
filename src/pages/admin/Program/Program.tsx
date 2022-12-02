@@ -15,6 +15,7 @@ import { API_URL } from '../../../api/api';
 import moment from 'moment';
 import noImg from '../../../assets/img/no-image.png';
 import EditProgram from './EditProgram';
+import { useNavigateParams } from '../../../hook/useNavigationParams';
 export default function Program() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
@@ -24,6 +25,7 @@ export default function Program() {
   const [data, setData] = useState<Array<IProgramItem>>([]);
   const [filterData, setFilterData] = useState([]);
   const navigate = useNavigate();
+  const navigateParmas = useNavigateParams();
 
   useEffect(() => {
     getData();
@@ -43,10 +45,10 @@ export default function Program() {
     }
   }
 
-  function handleShowDetail(item: IProgramItem) {
+  function handleShowDetail(item: any) {
     // navigate(`/admin/Program/${item.ProgramId}`);
 
-    navigate(`/admin/Program/Chapter/${item.programId}/Test`, {
+    navigateParmas(`/admin/Program/Chapter/${item.programId}/Test`, {
       id: item.programId,
     });
 
