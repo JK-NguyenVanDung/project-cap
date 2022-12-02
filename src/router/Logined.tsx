@@ -39,11 +39,20 @@ export default function Logined() {
       };
       instance
         .acquireTokenSilent(request)
-        .then((response) => {
+        .then(async (response) => {
           setAccessToken(response.accessToken);
-          setTimeout(() => {
-            postLogin();
-          }, 3000);
+          try {
+            const reponseToken: any = await apiService.postAdminUser({
+              token: response.accessToken,
+            });
+            if (reponseToken) {
+              setLoading(false);
+              dispatch(actions.authActions.Login(reponseToken.token));
+              localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
+            }
+          } catch (error) {
+            console.log(error);
+          }
         })
         .catch((e) => {
           console.log(e);

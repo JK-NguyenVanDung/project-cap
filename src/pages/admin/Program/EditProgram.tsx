@@ -1,30 +1,64 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Upload, Select, DatePicker, Checkbox, notification } from 'antd';
+import {
+  Image,
+  Form,
+  Upload,
+  Select,
+  DatePicker,
+  Checkbox,
+  notification,
+} from 'antd';
 import { GrAdd } from 'react-icons/gr';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import moment from 'moment';
 import { Breadcrumb } from '../../../components/sharedComponents';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomButton from '../../../components/admin/Button';
-import './index.css';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../../../api/apiService';
 import { Option } from 'antd/lib/mentions';
 import axios, { AxiosResponse } from 'axios';
-import Input from '../../../components/sharedComponents/Input';
-export default function EditProgram({ type }: { type: string }) {
+import { useAppSelector } from '../../../hook/useRedux';
+
+import './index.css';
+import { API_URL } from '../../../api/api';
+export default function EditProgram() {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [dataFct, setDataFct]: any = useState([]);
+  const [acedemic, setAcedemic]: any = useState([]);
+  const [positons, setpositons]: any = useState([]);
   const [dataCategory, setDataCategory]: any = useState([]);
   const [checkOption, setCheckOption] = useState(false);
   const [form] = Form.useForm();
+  const [loading, setLoading] = useState(false);
+  const [image, setImage]: any = useState(null);
   const frmData: any = new FormData();
   const navigate = useNavigate();
+  const item: any = useAppSelector((state) => state.form.setProgram);
+  console.log(item);
 
   useEffect(() => {
     getFacuties();
     getCategories();
-  }, []);
+    getAcedemicYear();
+    getPositions();
+    item
+      ? form.setFieldsValue(
+          {
+            ProgramName: item ? item.programName : '',
+            Coin: item ? item.coin : '',
+            StartDate: item ? moment(item.startDate) : '',
+            EndDate: item ? moment(item.endDate) : '',
+            AcademicYearId: item ? item.academicYearId : '',
+            Semester: item ? item.semester?.toString() : '',
+            Positions: item ? item.positions : '',
+            FacultyId: item ? item.facultyId : '',
+            CategoryId: item ? item.categoryId : '',
+          },
+          setImage(item.image),
+        )
+      : form.setFieldsValue(setLoading(false));
+  }, [loading]);
   const getFacuties = async () => {
     const reponse: AxiosResponse<any, any> = await apiService.getFaculties();
     if (reponse) {
@@ -39,6 +73,21 @@ export default function EditProgram({ type }: { type: string }) {
       setCheckOption(true);
     }
   };
+  const getAcedemicYear = async () => {
+    const reponse: AxiosResponse<any, any> = await apiService.getAcedemicYear();
+    if (reponse) {
+      setAcedemic(reponse);
+      setCheckOption(true);
+    }
+  };
+  const getPositions = async () => {
+    const reponse: AxiosResponse<any, any> = await apiService.getPositions();
+    if (reponse) {
+      setpositons(reponse);
+      setCheckOption(true);
+    }
+  };
+
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
   };
@@ -47,34 +96,81 @@ export default function EditProgram({ type }: { type: string }) {
     form
       .validateFields()
       .then(async (values) => {
-        frmData.append('ProgramName', values.ProgramName);
-        frmData.append('FacultyId', values.FacultyId);
-        frmData.append('Image', values.Image.file);
-        frmData.append('CategoryId', values.CategoryId);
+        console.log(values.Image);
+        frmData.append(
+          'ProgramName',
+          values.ProgramName ? values.ProgramName : item.programName,
+        );
+        frmData.append(
+          'FacultyId',
+          values.FacultyId ? values.FacultyId : item.facultyId,
+        );
+        frmData.append('Image', values.Image ? values.Image.file : item.image);
+        frmData.append(
+          'CategoryId',
+          values.CategoryId ? values.CategoryId : item.categoryId,
+        );
         frmData.append(
           'StartDate',
-          moment(values.StartDate).format('YYYY-MM-DD'),
+          values.StartDate
+            ? moment(values.StartDate).format('YYYY-MM-DD')
+            : moment(item.startDate).format('YYYY-MM-DD'),
         );
-        frmData.append('EndDate', moment(values.EndDate).format('YYYY-MM-DD'));
-        frmData.append('IsPublish', values.IsPublish);
-        frmData.append('Coin', values.Coin);
-        const data = await apiService.addProgram(frmData);
-        if (data) {
-          notification.success({ message: 'thêm thành công' });
-          navigate(-1);
+        frmData.append(
+          'EndDate',
+          values.EndDate
+            ? moment(values.EndDate).format('YYYY-MM-DD')
+            : moment(item.endDate).format('YYYY-MM-DD'),
+        );
+        frmData.append(
+          'IsPublish',
+          values.IsPublish ? values.IsPublish : item.isPublish,
+        );
+        frmData.append('Coin', values.Coin ? values.Coin : item.coin);
+        frmData.append(
+          'Positions',
+          values.Positions ? values.Positions : item.positions,
+        );
+        frmData.append(
+          'Semester',
+          values.Semester ? values.Semester : item.semester,
+        );
+        frmData.append(
+          'AcademicYearId',
+          values.AcademicYearId ? values.AcademicYearId : item.academicYearId,
+        );
+        if (item) {
+          console.log('abncyxz');
+          const data = await apiService.putProgram(item.programId, frmData);
+          if (data) {
+            notification.success({ message: 'sửa thành công' });
+            navigate(-1);
+          }
+          form.resetFields();
+        } else {
+          const data = await apiService.addProgram(frmData);
+          if (data) {
+            notification.success({ message: 'thêm thành công' });
+            navigate(-1);
+          }
+          form.resetFields();
         }
       })
 
       .catch((info) => {
-        // dispatch(actions.formActions.showError())
+        console.log(info);
       });
+  };
+  const handelCancel = () => {
+    navigate(-1);
+    form.resetFields();
   };
   return (
     <div className="h-full">
       <Breadcrumb
         router1={'/admin/Program'}
         name={'Trang Chủ'}
-        name2={`${type} Chương Trình`}
+        name2={item ? 'Sửa chương trình' : 'Thêm chương trình'}
       />
       <Form
         form={form}
@@ -119,7 +215,17 @@ export default function EditProgram({ type }: { type: string }) {
                 }))}
               />
             </Form.Item>
-            <FormInput label="Vị Trí" className="mt-0" />
+
+            <label className="text-black font-bold font-customFont ">
+              Học Kì
+            </label>
+            <Form.Item name="Semester" className="w-4/5">
+              <Select placeholder="Chọn Học Kì" defaultValue={'1'}>
+                <Option value="1">Năm I</Option>
+                <Option value="2">Năm II</Option>
+                <Option value="3">Năm III</Option>
+              </Select>
+            </Form.Item>
           </div>
           <div className="w-full mx-5">
             <FormInput label="Số Coin Đạt Được Khi Hoàn Thành" name="Coin" />
@@ -139,8 +245,23 @@ export default function EditProgram({ type }: { type: string }) {
               <label className="text-black font-bold font-customFont ">
                 Năm Học
               </label>
-              <Form.Item className="mb-4">
-                <DatePicker picker="year" />
+              <Form.Item className="mb-4" name="AcademicYearId">
+                <Select
+                  showSearch
+                  placeholder="Chọn Chức Vụ"
+                  optionFilterProp="children"
+                  onChange={onChange}
+                  onSearch={onSearch}
+                  filterOption={(input: any, option: any) =>
+                    (option?.label ?? '')
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={acedemic.map((item: any) => ({
+                    value: item.id,
+                    label: item.year,
+                  }))}
+                />
               </Form.Item>
 
               <label className="text-black font-bold font-customFont">
@@ -164,15 +285,26 @@ export default function EditProgram({ type }: { type: string }) {
                   }))}
                 />
               </Form.Item>
-              <label className="text-black font-bold font-customFont ">
-                Học Kì
+              <label className="text-black font-bold font-customFont">
+                Danh Mục
               </label>
-              <Form.Item>
-                <Select placeholder="Chọn Học Kì">
-                  <Option>Năm I</Option>
-                  <Option>Năm II</Option>
-                  <Option>Năm III</Option>
-                </Select>
+              <Form.Item name="Positions">
+                <Select
+                  showSearch
+                  placeholder="Chọn Chức Vụ"
+                  optionFilterProp="children"
+                  onChange={onChange}
+                  onSearch={onSearch}
+                  filterOption={(input: any, option: any) =>
+                    (option?.label ?? '')
+                      .toLowerCase()
+                      .includes(input.toLowerCase())
+                  }
+                  options={positons.map((item: any) => ({
+                    value: item.positionId,
+                    label: item.positionName,
+                  }))}
+                />
               </Form.Item>
             </div>
           </div>
@@ -180,6 +312,14 @@ export default function EditProgram({ type }: { type: string }) {
             <label className="text-black font-bold font-customFont">
               Ảnh Giới Thiệu
             </label>
+            {image && (
+              <Image
+                style={{
+                  marginRight: 10,
+                }}
+                src={`${API_URL}/images/${image}`}
+              />
+            )}
             <Form.Item className="mt-4" name="Image">
               <Upload
                 listType="picture-card"
@@ -192,10 +332,15 @@ export default function EditProgram({ type }: { type: string }) {
                 <p>banner</p>
               </Upload>
             </Form.Item>
-            <label className=" text-black font-bold font-customFont mr-2 ">
+
+            <label className=" text-black font-bold font-customFont mr-2 h-full">
               Công Khai:
             </label>
-            <Form.Item name="IsPublish" valuePropName="checked">
+            <Form.Item
+              className="mb-0 "
+              name="IsPublish"
+              valuePropName="checked"
+            >
               <Checkbox>Có</Checkbox>
             </Form.Item>
             <div>
@@ -209,7 +354,7 @@ export default function EditProgram({ type }: { type: string }) {
               <CustomButton
                 type="cancel"
                 noIcon={true}
-                onClick={() => navigate(-1)}
+                onClick={() => handelCancel()}
                 className="w-4/5 my-3 h-10"
               />
             </div>

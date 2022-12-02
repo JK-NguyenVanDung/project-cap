@@ -28,7 +28,6 @@ export default function Account() {
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState<Array<IRoleItem>>();
   const [reload, setReload] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
 
   const [form] = Form.useForm();
@@ -65,7 +64,18 @@ export default function Account() {
       title: 'Email',
       dataIndex: 'email',
       key: 'email',
-      width: GIRD12.COL6,
+      width: GIRD12.COL2,
+    },
+    {
+      title: 'SĐT',
+      dataIndex: 'phone',
+      key: 'phone',
+    },
+    {
+      title: 'Vị trí',
+      dataIndex: 'position',
+      key: 'position',
+      width: GIRD12.COL2,
     },
     // {
     //   title: 'Địa Chỉ',
@@ -81,11 +91,14 @@ export default function Account() {
         <p>{roleId ? getRoleTitle(roleId) : 'Chưa có vai trò'}</p>
       ),
     },
-    // {
-    //   title: 'Họ Và Tên',
-    //   dataIndex: 'fullName',
-    //   key: 'fullName',
-    // },
+    {
+      title: 'Lần truy cập gần nhất',
+      dataIndex: 'lastAccess',
+      key: 'lastAccess',
+      render: (item: any) => (
+        <p>{item ? item : 'Chưa đăng nhập vào hệ thống'}</p>
+      ),
+    },
     {
       title: 'Thao tác',
       key: 'action',
@@ -93,8 +106,8 @@ export default function Account() {
 
       render: (data: IAccountItem) => (
         <PopOverAction
-          data={data}
-          handleEdit={() => handleEdit(data)}
+          size="sm"
+          handleAuth={() => handleEdit(data)}
           handleShowDetail={() => handleShowDetail(data)}
         />
       ),
@@ -203,12 +216,12 @@ export default function Account() {
 
   function getOptions() {
     let arr = [];
-    if (!detail) {
-      arr.push({
-        value: 0,
-        label: 'Chưa có vai trò',
-      });
-    }
+    // if (!detail) {
+    // arr.push({
+    //   value: 0,
+    //   label: 'Không có vai trò',
+    // });
+    // }
     if (role) {
       for (let i = 0; i < role.length; i++) {
         arr.push({
@@ -232,10 +245,10 @@ export default function Account() {
               required: true,
               message: 'Vui Lòng Nhập Vào Email',
             },
-            {
-              pattern: new RegExp(/.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$/),
-              message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU',
-            },
+            // {
+            //   pattern: new RegExp(/.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$/),
+            //   message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU',
+            // },
             {
               pattern: new RegExp(
                 /^\w*[A-Za-z]+(?:([._]?\w+)*)\@[A-Za-z]\w*[-]?\w+\.[A-Za-z]{1,}?(\.?[A-Za-z]+)$/,
@@ -264,7 +277,6 @@ export default function Account() {
               message: 'Vui Lòng Chọn Vai trò',
             },
           ]}
-          focusHandle={(e: boolean) => setIsFocused(e)}
         />
       </>
     );
@@ -295,7 +307,6 @@ export default function Account() {
         ]}
       />
       <CustomModal
-        isFocused={isFocused}
         show={showModal}
         setShow={setShowModal}
         dataItem={detail}

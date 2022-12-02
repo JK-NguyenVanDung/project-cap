@@ -1,3 +1,9 @@
+import {
+  ActionFunction,
+  LoaderFunction,
+  RouteObject,
+  ShouldRevalidateFunction,
+} from 'react-router-dom';
 import { z } from 'zod';
 
 export interface ILogin {
@@ -71,3 +77,17 @@ export type ICategoryItem = z.infer<typeof CategoryItem>;
 export type IAccountItem = z.infer<typeof AccountItem>;
 export type IProgramItem = z.infer<typeof ProgramItem>;
 export type IChapterItem = z.infer<typeof ChapterItem>;
+
+export interface IRouterObj {
+  path?: string;
+  index?: boolean;
+  children?: React.ReactNode;
+  caseSensitive?: boolean;
+  id?: string;
+  loader?: LoaderFunction;
+  action?: ActionFunction;
+  element?: React.ReactNode | null;
+  errorElement?: React.ReactNode | null;
+  handle?: RouteObject['handle'];
+  shouldRevalidate?: ShouldRevalidateFunction;
+}

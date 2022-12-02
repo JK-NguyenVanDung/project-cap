@@ -33,3 +33,7 @@
 .Layout {
   @apply text-black;
 }
+
+#floating-ui-root div {
+  z-index: 100;
+}

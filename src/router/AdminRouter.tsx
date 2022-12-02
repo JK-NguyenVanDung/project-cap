@@ -9,11 +9,13 @@ import Category from '../pages/admin/Category/Category';
 import Account from '../pages/admin/account/Account';
 import Program from '../pages/admin/Program/Program';
 import ProgramDetail from '../pages/admin/Program/ProgramDetail';
-
 import Faculties from '../pages/admin/Faculties/Faculties';
 import EditProgram from '../pages/admin/Program/EditProgram';
 import Logined from './Logined';
 import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
+import Question from '../pages/admin/Program/Test/Question';
+import Test from '../pages/admin/Program/Test/Test';
+import Home from '../pages/client';
 
 export const AdminRouter = [
   {
@@ -41,6 +43,11 @@ export const AdminRouter = [
     element: <ChapterInfo />,
   },
   {
+    path: '/admin/Program/Chapter/:number/Test',
+    element: <Test />,
+  },
+
+  {
     path: '/admin/Learner',
     element: <Account />,
   },
@@ -54,7 +61,12 @@ export const AdminRouter = [
   },
   {
     path: '/admin/EditProgram',
-    element: <EditProgram type="Thêm" />,
+    element: <EditProgram />,
+  },
+  //leaner
+  {
+    path: '/home',
+    element: <Home />,
   },
 ];
 export default function MakeAdminRouter() {

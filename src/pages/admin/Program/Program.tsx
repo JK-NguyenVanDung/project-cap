@@ -14,25 +14,27 @@ import { useAppDispatch } from '../../../hook/useRedux';
 import { API_URL } from '../../../api/api';
 import moment from 'moment';
 import noImg from '../../../assets/img/no-image.png';
+import EditProgram from './EditProgram';
 export default function Program() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false);
 
   const dispatch = useAppDispatch();
   const [data, setData] = useState<Array<IProgramItem>>([]);
   const [filterData, setFilterData] = useState([]);
-
   const navigate = useNavigate();
 
   useEffect(() => {
     getData();
     setTimeout(() => {
       setLoading(false);
+      setConfirmLoading(false);
     }, 1000);
-  }, []);
+  }, [reload]);
   async function handleDelete(item: any) {
     try {
-      await apiService.delProgram(item.ProgramId);
+      await apiService.delProgram(item.programId);
 
       setReload(!reload);
       message.success(MESSAGE.SUCCESS.DELETE);
@@ -43,6 +45,9 @@ export default function Program() {
 
   function handleShowDetail(item: any) {
     // navigate(`/admin/Program/${item.ProgramId}`);
+
+    //    navigate(`/admin/Program/Chapter/${item.ProgramId}/Test`);
+
     // navigate(`/admin/Program/Chapter/${item.programId}`);
     dispatch(
       actions.formActions.setNameMenu(
@@ -106,7 +111,7 @@ export default function Program() {
       dataIndex: 'isPublish',
       width: GIRD12.COL2,
       render: (data: boolean) => (
-        <p className={`${data ? 'text-primary' : 'text-yellow-700'}`}>
+        <p className={`${data ? 'text-primary' : 'text-yellow-800'} font-bold`}>
           {data ? 'Công khai' : 'Chưa công khai'}
         </p>
       ),
@@ -126,7 +131,6 @@ export default function Program() {
         return (
           <PopOverAction
             size="sm"
-            data={item}
             handleEdit={() => handelDataProgram(item)}
             handleDelete={() => handleDelete(item)}
             handleShowDetail={() => handleShowDetail(item)}
@@ -170,8 +174,9 @@ export default function Program() {
       throw err.message();
     }
   }
-  function handelDataProgram(item: any) {
-    navigate('/admin/EditProgram', item);
+  function handelDataProgram(item?: any) {
+    dispatch(actions.formActions.setProgramForm(item));
+    navigate('/admin/EditProgram');
   }
 
   return (
@@ -181,13 +186,16 @@ export default function Program() {
         search={true}
         data={data}
         columns={columns}
-        loading={loading}
+        loading={loading || confirmLoading}
         extra={[
           <CustomButton
             type="add"
             size="md"
             key={`${uniqueId()}`}
-            onClick={() => handelDataProgram(data)}
+            onClick={() => {
+              navigate('/admin/EditProgram');
+              dispatch(actions.formActions.setProgramForm(null));
+            }}
           />,
         ]}
       />

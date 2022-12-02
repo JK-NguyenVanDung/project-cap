@@ -78,7 +78,7 @@ export default function ProgramDetail() {
       }));
       dispatch(
         actions.formActions.setNameMenu(
-          `Chương trình ${res[0].ProgramName && res[0].ProgramName}`,
+          `Khoá học ${res[0].ProgramName && res[0].ProgramName}`,
         ),
       );
 

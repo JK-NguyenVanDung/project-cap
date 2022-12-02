@@ -52,10 +52,10 @@ export default {
     return configFormData.post(API_CONFIG.PROGRAM.POST, body);
   },
   delProgram: (id: number) => {
-    return axiosConfig.delete(API_CONFIG.PROGRAM.DEL(id));
+    return axiosConfig.delete(API_CONFIG.PROGRAM.DELETE(id));
   },
-  putProgram: (id: number) => {
-    return axiosConfig.delete(API_CONFIG.PROGRAM.PUT(id));
+  putProgram: (id: number, params: any) => {
+    return configFormData.put(API_CONFIG.PROGRAM.PUT(id), params);
   },
   //Faculties
   getFaculties: () => {
@@ -71,8 +71,48 @@ export default {
   },
 
   delFaculties: (id: number) => {
-    return axiosConfig.delete(API_CONFIG.FACULTIES.DEL(id));
+    return axiosConfig.delete(API_CONFIG.FACULTIES.DELETE(id));
   },
 
-  //program
+  //QUESTION_TYPE
+  getQuestionTypes: () => {
+    return axiosConfig.get(API_CONFIG.QUESTION_TYPE.GET);
+  },
+
+  //TEST
+  getTests: () => {
+    return axiosConfig.get(API_CONFIG.TEST.GET);
+  },
+  addTest: (body: any) => {
+    return axiosConfig.post(API_CONFIG.TEST.POST, body);
+  },
+  editTest: (props: any) => {
+    return axiosConfig.put(API_CONFIG.TEST.PUT(props.ID), {
+      name: props.name,
+    });
+  },
+  removeTest: (ID: number) => {
+    return axiosConfig.delete(API_CONFIG.TEST.DELETE(ID));
+  },
+  //QUESTIONS
+  getQuestions: () => {
+    return axiosConfig.get(API_CONFIG.QUESTION.GET);
+  },
+  addQuestion: (body: any) => {
+    return axiosConfig.post(API_CONFIG.QUESTION.POST, body);
+  },
+  editQuestion: (props: any) => {
+    return axiosConfig.put(API_CONFIG.QUESTION.PUT(props.ID), {
+      name: props.name,
+    });
+  },
+  removeQuestion: (ID: number) => {
+    return axiosConfig.delete(API_CONFIG.QUESTION.DELETE(ID));
+  },
+  getAcedemicYear: () => {
+    return axiosConfig.get(API_CONFIG.ACEDEMICYEAR.GET);
+  },
+  getPositions: () => {
+    return axiosConfig.get(API_CONFIG.POSITION.GET);
+  },
 };

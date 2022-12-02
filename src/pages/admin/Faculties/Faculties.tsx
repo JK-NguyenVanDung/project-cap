@@ -75,7 +75,7 @@ export default function Faculties() {
 
       render: (data: IFaculties) => (
         <PopOverAction
-          data={data}
+          size="sm"
           handleEdit={() => handelEdit(data)}
           handleDelete={() => handleDelete(data)}
         />

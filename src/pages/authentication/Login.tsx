@@ -11,15 +11,15 @@ import { useNavigate } from 'react-router-dom';
 const DataLogin = [
   {
     id: '1',
-    title: 'CBDVNV',
+    title: 'CBGV & NV',
     Logo: Logo,
-    description: 'Đăng Nhập Với Tài Khoản VLU',
+    description: 'Đăng Nhập Dành Cho Người Học',
   },
   {
     id: '2',
     title: 'Trung Tâm',
     Logo: LogoTrungTam,
-    description: 'Đăng Nhập Với Tài Khoản VLU',
+    description: 'Đăng Nhập Dành Cho Quản Lý',
   },
 ];
 export default function Login() {
@@ -45,7 +45,7 @@ export default function Login() {
                 style={{
                   width: 300,
                 }}
-                className=" bg-white flex flex-col items-center m-4 p-3 py-12 rounded-lg cursor-pointer hover:-translate-y-4 "
+                className=" bg-white flex flex-col items-center m-4 p-3 py-12 rounded-lg cursor-pointer hover:-translate-y-4  "
                 onClick={() => LoginPopUp(item)}
               >
                 <div className="w-full mb-4 flex flex-col items-center">
@@ -59,7 +59,7 @@ export default function Login() {
                 <h2 className="text-blue-gray-900 font-normal text-2xl uppercase my-2 font-bold">
                   {item.title}
                 </h2>
-                <p className="text-blue-gray-900">{item.description}</p>
+                <p className="text-blue-gray-900 text-lg">{item.description}</p>
               </div>
             );
           })}

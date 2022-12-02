@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../api/apiService';
 import { useAppDispatch } from '../hook/useRedux';

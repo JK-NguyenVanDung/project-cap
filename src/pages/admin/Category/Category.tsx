@@ -49,14 +49,14 @@ export default function Category() {
       width: GIRD12.COL10,
     },
     {
-      width: GIRD12.COL2,
+      width: GIRD12.COL1,
 
       title: 'Thao tác',
       render: (item: ICategoryItem) => {
         return (
           <>
             <PopOverAction
-              data={item}
+              size="sm"
               handleEdit={() => handleEdit(item)}
               handleDelete={() => handleDelete(item)}
               deleteItem={item.categoryName}
