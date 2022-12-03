@@ -145,11 +145,13 @@ export default function ChapterInfo() {
   };
   return (
     <div className="w-full h-screen px-5">
-      <Breadcrumb
-        name="Chương Trình"
-        router1="/admin/Program"
-        name2="Chuyên Đề"
-      />
+      <div className="ml-[-0.7rem]">
+        <Breadcrumb
+          name="Chương Trình"
+          router1="/admin/Program"
+          name2="Chuyên Đề"
+        />
+      </div>
       <ConfirmModal
         show={showConfirm}
         setShow={setShowConfirm}
