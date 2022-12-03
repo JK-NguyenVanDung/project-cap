@@ -51,12 +51,10 @@ export default function ProgramDetail() {
       setListContent(response);
     }
   };
-  function goBack() {
-    navigate(-1);
-  }
   const handelCancel = () => {
     navigate(-1);
     form.resetFields();
+    dispatch(actions.formActions.setNameMenu('Quản Lý Chương Trình'));
   };
   const handelOk = () => {
     navigate(-1);
@@ -173,10 +171,10 @@ export default function ProgramDetail() {
         <CustomButton
           type="cancel"
           text="Quay Lại"
+          onClick={() => handelCancel()}
           noIcon={true}
           color="blue-gray"
           className="w-2/5 my-3 mx-2 h-10"
-          onClick={() => goBack()}
         />
         <CustomButton
           disabled

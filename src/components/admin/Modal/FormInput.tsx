@@ -69,8 +69,8 @@ export default function FormInput({
         cp = (
           <InputNumber
             className="mt-4 h-11 rounded-lg font-bold text-black font-customFont"
-            defaultValue="1"
             min="1"
+            placeholder={`${placeholder ? placeholder : 'Nhập ' + label}`}
             style={{
               width: '100%',
             }}
