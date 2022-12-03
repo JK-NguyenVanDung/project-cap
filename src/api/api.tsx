@@ -45,6 +45,7 @@ export const API_CONFIG = {
     POST: '/api/Questions',
     PUT: (id: number) => `/api/Questions/${id}`,
     DELETE: (id: number) => `/api/Questions/${id}`,
+    DELETE_ANSWER: (id: number) => `/api/Questions/content/${id}`,
   },
   ACEDEMICYEAR: {
     GET: '/api/AcademicYear',

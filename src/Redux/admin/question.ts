@@ -41,6 +41,7 @@ const slice = createSlice({
     },
     setCurrentQuestion(state, actions) {
       state.currentQuestion = actions.payload;
+      state.detail = actions.payload;
     },
     setRadioValue(state, actions) {
       state.radioValue = actions.payload;

@@ -27,6 +27,8 @@ export default function Account() {
   const [detail, setDetail] = useState<IAccountItem>();
   const [loading, setLoading] = useState(false);
   const [role, setRole] = useState<Array<IRoleItem>>();
+  const [positions, setPositions] = useState<Array<any>>();
+
   const [reload, setReload] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
 
@@ -45,7 +47,11 @@ export default function Account() {
       return role.find((e) => e.roleId === roleId)?.roleName;
     }
   }
-
+  function getPositionName(posId: any) {
+    if (positions) {
+      return positions.find((e) => e.positionId === posId)?.roleName;
+    }
+  }
   const handleShowDetail = (item: any) => {
     // dispatch(actions.categoryActions.setDetail(data.ID))
     // dispatch(actions.formActions.showForm())
@@ -53,7 +59,13 @@ export default function Account() {
     setShowDetail(true);
     setShowModal(true);
   };
-
+  function getDate(date: string) {
+    return (
+      new Date(date).toLocaleTimeString() +
+      ' - ' +
+      new Date(date).toLocaleDateString()
+    );
+  }
   const columns = [
     {
       title: 'STT',
@@ -68,13 +80,18 @@ export default function Account() {
     },
     {
       title: 'SĐT',
-      dataIndex: 'phone',
-      key: 'phone',
+      dataIndex: 'phoneNumber',
+
+      render: (phoneNumber: any) => (
+        <p>{phoneNumber ? phoneNumber : 'Không có số điện thoại'}</p>
+      ),
     },
     {
       title: 'Ngành',
-      dataIndex: 'position',
-      key: 'position',
+      dataIndex: 'positionId',
+      render: (id: any) => (
+        <p>{id ? getPositionName(id) : 'Không có thông tin'}</p>
+      ),
       width: GIRD12.COL2,
     },
     // {
@@ -93,10 +110,10 @@ export default function Account() {
     },
     {
       title: 'Lần truy cập gần nhất',
-      dataIndex: 'lastAccess',
-      key: 'lastAccess',
+      dataIndex: 'lastLogin',
+      key: 'lastLogin',
       render: (item: any) => (
-        <p>{item ? item : 'Chưa đăng nhập vào hệ thống'}</p>
+        <p>{item ? getDate(item) : 'Chưa đăng nhập vào hệ thống'}</p>
       ),
     },
     {
@@ -158,6 +175,10 @@ export default function Account() {
   async function getRoles() {
     let res: any = await apiService.getRoles();
     setRole(res);
+  }
+  async function getPosition() {
+    let res: any = await apiService.getPositions();
+    setPositions(res);
   }
 
   useEffect(() => {

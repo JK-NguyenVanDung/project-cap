@@ -121,7 +121,6 @@ export default function Test() {
           setLoading(false);
           form.resetFields();
         } else {
-          // console.log(output);
           await apiService.addTest(output);
           setReload(!reload);
           message.success('Thêm thành công');

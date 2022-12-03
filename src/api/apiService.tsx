@@ -114,6 +114,9 @@ export default {
   removeQuestion: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.QUESTION.DELETE(ID));
   },
+  removeAnswer: (ID: number) => {
+    return axiosConfig.delete(API_CONFIG.QUESTION.DELETE_ANSWER(ID));
+  },
   getAcedemicYear: () => {
     return axiosConfig.get(API_CONFIG.ACEDEMICYEAR.GET);
   },

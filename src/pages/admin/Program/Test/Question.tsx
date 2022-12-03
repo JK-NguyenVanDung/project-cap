@@ -65,7 +65,11 @@ export default function Question() {
   const radioOptions = useAppSelector(
     (state: any) => state.question.radioOptions,
   );
-  const listAll = useAppSelector((state: any) => state.question.hasQuestion);
+  const [resetOption, setResetOption] = useState(false);
+
+  const defaultValueQuestion = useAppSelector(
+    (state: any) => state.question.detail,
+  );
   const listAnswer = useAppSelector((state: any) => state.question.hasQuestion);
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
@@ -124,7 +128,11 @@ export default function Question() {
     }
   };
   function goBack() {
-    navigate(`/admin/Program/Chapter/${chapter}`);
+    if (window.history.state && window.history.state.idx > 0) {
+      navigate(-1);
+    } else {
+      navigate('/admin/Program', { replace: true });
+    }
   }
   function addMoreAnswer() {
     let last = radioOptions[radioOptions.length - 1];
@@ -142,21 +150,38 @@ export default function Question() {
     }
   }
 
-  function handleDeleteAnswer(e: any) {
-    dispatch(
-      actions.questionActions.setRadioOptions((options: any) =>
-        options.filter((item: IQuestionOption) => item.value !== e),
-      ),
-    );
-    dispatch(
-      actions.questionActions.setRadioOptions((options: any) =>
-        options.map((item: IQuestionOption, index: number) => {
-          return {
-            value: index + 1,
-          };
-        }),
-      ),
-    );
+  async function handleDeleteAnswer(e: any) {
+    let numb = Number(e);
+    if (currentQuestion.questionContents[numb - 1].isAnswer) {
+      message.error(
+        'Không thể xoá đáp án đúng này, xin chọn lại đáp án đúng và lưu lại để xoá!',
+      );
+    } else {
+      let op = radioOptions.filter(
+        (item: IQuestionOption) => item.value !== Number(e),
+      );
+      dispatch(actions.questionActions.setRadioOptions(op));
+      if (currentQuestion.questionContents[numb - 1]) {
+        try {
+          await apiService.removeAnswer(
+            currentQuestion.questionContents[numb - 1].questionContentId,
+          );
+
+          let res: any = await apiService.getQuestions(testId);
+          let cur = res.find(
+            (e: IQuestion) => e.questionId === currentQuestion.questionId,
+          );
+          dispatch(actions.questionActions.setCurrentQuestion(cur[0]));
+          dispatch(
+            actions.questionActions.setCurrentQuestionIndex(
+              res.indexOf(cur[0]),
+            ),
+          );
+        } catch (err: any) {
+          throw err.message;
+        }
+      }
+    }
 
     setHeight((item) => String(Number.parseInt(item) - 12));
   }
@@ -258,6 +283,49 @@ export default function Question() {
   };
   function restoreDefault() {
     form.resetFields();
+
+    if (currentQuestion.questionId) {
+      let base = {
+        typeId: currentQuestion?.typeId,
+        score: currentQuestion?.score,
+        questionTitle: currentQuestion?.questionTitle,
+      };
+
+      let content = {};
+      let contents = currentQuestion?.questionContents;
+
+      content = {
+        ...base,
+        ...contents?.map((item: IQuestionContent) => {
+          return item.content;
+        }),
+      };
+      let selected: any = [];
+      contents?.map((item: IQuestionContent, index: number) => {
+        if (index > 3) {
+          dispatch(
+            actions.questionActions.setRadioOptions([
+              ...radioOptions,
+              {
+                value: index + 1,
+              },
+            ]),
+          );
+          setHeight((item) => String(Number.parseInt(item) + 9));
+        }
+        if (item.isAnswer) {
+          if (currentQuestion?.typeId === 1) {
+            dispatch(actions.questionActions.setRadioValue(index + 1));
+          } else if (currentQuestion?.typeId === 2) {
+            selected.push(index + 1);
+          }
+        }
+      });
+
+      selected.length > 0 &&
+        dispatch(actions.questionActions.setSelectedOptions(selected));
+      form.setFieldsValue(content);
+    }
   }
   async function getData() {
     try {
@@ -291,9 +359,14 @@ export default function Question() {
         };
         let selected: any = [];
         contents?.map((item: IQuestionContent, index: number) => {
-          if (index > 4) {
+          if (index > 3) {
             dispatch(
-              actions.questionActions.setRadioOptions([...radioOptions]),
+              actions.questionActions.setRadioOptions([
+                ...radioOptions,
+                {
+                  value: index + 1,
+                },
+              ]),
             );
             setHeight((item) => String(Number.parseInt(item) + 9));
           }
@@ -320,7 +393,7 @@ export default function Question() {
             score: 1,
           },
         ]);
-      } else if (hasQuestion) {
+      } else {
         dispatch(actions.questionActions.setCurrentQuestion(res[0]));
         setDefault();
         setForm(0);
@@ -334,11 +407,11 @@ export default function Question() {
   useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`Chương trình`));
     setChapter(2);
-    if (!hasQuestion) {
-      dispatch(actions.questionActions.setRadioOptions(defaultOptions));
-      dispatch(actions.questionActions.setSelectedOptions([1]));
-      dispatch(actions.questionActions.setRadioValue(1));
-    }
+    // if (!hasQuestion) {
+    //   dispatch(actions.questionActions.setRadioOptions(defaultOptions));
+    //   dispatch(actions.questionActions.setSelectedOptions([1]));
+    //   dispatch(actions.questionActions.setRadioValue(1));
+    // }
     async function getTypes() {
       try {
         let types: any = await apiService.getQuestionTypes();
@@ -352,8 +425,21 @@ export default function Question() {
     getData();
   }, []);
   // useEffect(() => {
-
-  // }, [reload]);
+  //   let timer = setTimeout(async (e: any) => {
+  //     dispatch(
+  //       actions.questionActions.setRadioOptions(
+  //         radioOptions.map((item: IQuestionOption, index: number) => {
+  //           return {
+  //             value: index + 1,
+  //           };
+  //         }),
+  //       ),
+  //     );
+  //   }, 2000);
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, [resetOption]);
 
   function getOptions() {
     let arr = [];
@@ -385,8 +471,10 @@ export default function Question() {
           let output =
             currentQuestion && currentQuestion.questionId
               ? {
-                  questionContentId:
-                    currentQuestion.questionContents[index].questionContentId,
+                  questionContentId: currentQuestion.questionContents[index]
+                    ?.questionContentId
+                    ? currentQuestion.questionContents[index]?.questionContentId
+                    : null,
                   content: result[index][0],
                   isAnswer: isAnswer(item),
                 }
@@ -404,13 +492,17 @@ export default function Question() {
       currentQuestion.questionId &&
       res[currentQuestionIndex]
     ) {
-      message.success('Thêm thành công');
+      if (!finish) {
+        message.success('Thêm thành công');
+      }
       await apiService.editQuestion({
         output: out,
         id: currentQuestion.questionId,
       });
     } else {
-      message.success('Tạo thành công');
+      if (!finish) {
+        message.success('Tạo thành công');
+      }
 
       await apiService.addQuestion(out);
     }
@@ -499,10 +591,10 @@ export default function Question() {
   return (
     <div
       ref={containerRef}
-      className=" w-full flex flex-col mb-20 pb-1  "
-      style={{
-        height: height + 'vh',
-      }}
+      className="block overflow-auto  w-full mb-[10rem]  h-fit min-h-fit"
+      // style={{
+      //   height: height + 'vh',
+      // }}
     >
       <QuestionModal
         open={showQuestionModal}
@@ -632,14 +724,13 @@ export default function Question() {
                   <label className="text-black font-bold font-customFont mr-3 ">
                     Nhập các câu trả lời
                   </label>
-                  {!hasQuestion && (
-                    <CustomButton
-                      text="Thêm đáp án"
-                      size="sm"
-                      textClassName="pr-4"
-                      onClick={() => addMoreAnswer()}
-                    />
-                  )}
+
+                  <CustomButton
+                    text="Thêm đáp án"
+                    size="sm"
+                    textClassName="pr-4"
+                    onClick={() => addMoreAnswer()}
+                  />
                 </div>
                 <OptionalAnswer
                   handleDelete={(e: string) => handleDeleteAnswer(e)}
