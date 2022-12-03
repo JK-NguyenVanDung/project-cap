@@ -101,7 +101,7 @@ export default function ChapterInfo() {
     }
   }
   function goBack() {
-    navigate(-1);
+    navigate('/admin/Program/showDetail');
   }
 
   useEffect(() => {
