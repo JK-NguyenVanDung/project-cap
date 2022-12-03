@@ -46,6 +46,7 @@ export default function ProgramDetail() {
   const handelCancel = () => {
     navigate(-1);
     form.resetFields();
+    dispatch(actions.formActions.setNameMenu('Quản Lý Chương Trình'));
   };
   const handelOk = () => {
     navigate(-1);
@@ -154,6 +155,7 @@ export default function ProgramDetail() {
         <CustomButton
           type="cancel"
           text="Quay Lại"
+          onClick={() => handelCancel()}
           noIcon={true}
           className="w-2/5 my-3 mx-2 h-10"
         />
