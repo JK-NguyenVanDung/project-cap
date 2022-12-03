@@ -16,6 +16,7 @@ import { TiDelete } from 'react-icons/ti';
 import OptionalAnswer from '../../../../components/admin/OptionalAnswer';
 import HeaderAdmin from '../../../../components/HeaderAdmin/HeaderAdmin';
 import ConfirmModal from '../../../../components/admin/Modal/ConfirmModal';
+import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb';
 
 interface IQuestionOption {
   value: number;
@@ -41,6 +42,8 @@ export default function Question() {
   const containerRef = useRef(null);
 
   const testId = useAppSelector((state: any) => state.question.testId);
+
+  const chapter = useAppSelector((state: any) => state.question.chapter);
 
   const currentQuestionIndex = useAppSelector(
     (state: any) => state.question.currentQuestionIndex,
@@ -74,8 +77,6 @@ export default function Question() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [finish, setFinish] = useState(false);
-
-  const [chapter, setChapter] = useState(1);
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [showQuestionModal, setShowQuestionModal] = useState(false);
@@ -129,9 +130,20 @@ export default function Question() {
   };
   function goBack() {
     if (window.history.state && window.history.state.idx > 0) {
-      navigate(-1);
+      // navigate(-1);
+      navigate(
+        `/admin/Program/Chapter/${chapter ? chapter : 1}/Test?id=${
+          chapter ? chapter : 1
+        }`,
+        { replace: true },
+      );
     } else {
-      navigate('/admin/Program', { replace: true });
+      navigate(
+        `/admin/Program/Chapter/${chapter ? chapter : 1}/Test?id=${
+          chapter ? chapter : 1
+        }`,
+        { replace: true },
+      );
     }
   }
   function addMoreAnswer() {
@@ -406,7 +418,6 @@ export default function Question() {
   }
   useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`Chương trình`));
-    setChapter(2);
     // if (!hasQuestion) {
     //   dispatch(actions.questionActions.setRadioOptions(defaultOptions));
     //   dispatch(actions.questionActions.setSelectedOptions([1]));
@@ -653,6 +664,7 @@ export default function Question() {
           })}
         </div>
       </QuestionModal>
+
       <Form form={form} onFinish={handleOk}>
         <ConfirmModal
           show={showConfirm}
@@ -670,6 +682,17 @@ export default function Question() {
               Bài kiểm tra chương {chapter}
             </p>
             <HeaderAdmin />
+          </div>
+          <div className="pl-[-2rem] pt-[-2rem]">
+            <Breadcrumb
+              router1={'/admin/Program/'}
+              router2={`/admin/Program/Chapter/${
+                chapter ? chapter : 1
+              }/Test?id=${chapter ? chapter : 1}`}
+              name={'Chương Trình'}
+              name2={'Bài kiểm tra'}
+              name3={data ? 'Sửa câu hỏi' : 'Thêm câu hỏi'}
+            />
           </div>
           <div className=" mr-0   font-customFont text-lg text-primary border flex flex-row items-center justify-between px-4 rounded-[10px] w-full border-border-gray h-12 my-4">
             <p>CÂU HỎI SỐ {currentQuestionIndex + 1}</p>
