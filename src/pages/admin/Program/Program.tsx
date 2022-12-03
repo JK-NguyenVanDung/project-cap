@@ -46,13 +46,13 @@ export default function Program() {
   }
 
   function handleShowDetail(item: any) {
-    navigate(`/admin/Program/showDetail`);
     dispatch(actions.formActions.setProgramForm(item));
     dispatch(
       actions.formActions.setNameMenu(
         `Khóa Học ${item.programName && item.programName}`,
       ),
     );
+    navigate(`/admin/Program/showDetail`);
   }
 
   const columns = [
@@ -79,7 +79,7 @@ export default function Program() {
     },
 
     {
-      title: 'Tên Danh Mục',
+      title: 'Tên chương trình',
       dataIndex: 'programName',
       width: GIRD12.COL2,
     },
@@ -170,14 +170,6 @@ export default function Program() {
 
   return (
     <>
-      <CustomButton
-        onClick={() =>
-          navigateParams(`/admin/Program/Chapter/${8}/Test`, { id: 8 })
-        }
-        text="qua test nhanh"
-        noIcon
-      />
-
       <TableConfig
         onSearch={onChangeSearch}
         search={true}

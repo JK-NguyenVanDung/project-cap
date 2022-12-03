@@ -30,7 +30,6 @@ export default function Test() {
   const [contentId, setContentId] = useState<number>();
   const location = useLocation();
 
-  contentId;
   const [showConfirm, setShowConfirm] = useState(false);
   const [questionAmount, setQuestionAmount] = useState(0);
 
@@ -96,7 +95,7 @@ export default function Test() {
     setContentId(1);
     setChapter(Number(id));
     dispatch(actions.formActions.setNameMenu(`Chương trình`));
-    getData('1');
+    getData(id);
   }, [reload]);
 
   const handleOk = async () => {

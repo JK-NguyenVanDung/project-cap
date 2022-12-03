@@ -460,7 +460,47 @@ export default function Question() {
     for (let i = 0; i < 2; i++) {
       result.pop();
     }
+    let outEdit = {
+      typeId: selectedType,
+      questionTitle: values.questionTitle,
+      score: values.score,
+      questionContents: radioOptions.map(
+        (item: IQuestionOption, index: number) => {
+          let output;
+          let outQuestion = currentQuestion.questionContents[index]
+            ?.questionContentId
+            ? currentQuestion.questionContents[index]?.questionContentId
+            : null;
 
+          if (outQuestion === null) {
+            output =
+              currentQuestion && currentQuestion.questionId
+                ? {
+                    content: result[index][0],
+                    isAnswer: isAnswer(item),
+                  }
+                : {
+                    content: result[index][0],
+                    isAnswer: isAnswer(item),
+                  };
+          } else {
+            output =
+              currentQuestion && currentQuestion.questionId
+                ? {
+                    questionContentId: outQuestion,
+                    content: result[index][0],
+                    isAnswer: isAnswer(item),
+                  }
+                : {
+                    content: result[index][0],
+                    isAnswer: isAnswer(item),
+                  };
+          }
+
+          return output;
+        },
+      ),
+    };
     let out = {
       testsId: testId,
       typeId: selectedType,
@@ -496,7 +536,7 @@ export default function Question() {
         message.success('Thêm thành công');
       }
       await apiService.editQuestion({
-        output: out,
+        output: outEdit,
         id: currentQuestion.questionId,
       });
     } else {

@@ -16,6 +16,7 @@ import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import ConfirmModal from '../../../../components/admin/Modal/ConfirmModal';
 import { IChapter } from '../../../../api/apiInterface';
+import { useNavigateParams } from '../../../../hook/useNavigationParams';
 
 const Frame = React.forwardRef((props: any, ref: any) => {
   return (
@@ -52,8 +53,10 @@ export default function ChapterInfo() {
   const frameRef = useRef(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const itemChappter = useAppSelector((state) => state.form.setChapter);
-  console.log(itemChappter);
+  const navigateParams = useNavigateParams();
+
+  const itemChapter = useAppSelector((state) => state.form.setChapter);
+  console.log(itemChapter);
 
   const handleDelete = async (item: IChapter) => {
     try {
@@ -64,10 +67,47 @@ export default function ChapterInfo() {
       throw err.message;
     }
   };
+  function navToTest() {
+    navigateParams(`/admin/Program/Chapter/${itemChapter.contentId}/Test`, {
+      id: itemChapter.contentId,
+    });
+  }
+  async function getData() {
+    try {
+      setLoading(true);
+      // let res: any = await apiService.getPrograms();
+      let res: any = await apiService.getContent(itemChapter.contentId);
+
+      // let ques: any = await apiService.getQuestions(res.testId);
+      setData(res);
+
+      form.resetFields();
+      const setForm = () => {
+        form.setFieldsValue(res ? res : []);
+      };
+      if (res.contentType == 'Slide') {
+        setSwitchType(false);
+      } else {
+        setSwitchType(true);
+      }
+      if (res) {
+        setForm();
+      }
+
+      setLoading(false);
+    } catch (err: any) {
+      throw err.message;
+    }
+  }
+  function goBack() {
+    navigate(-1);
+  }
 
   useEffect(() => {
-    setChapter(2);
-  }, [reload]);
+    if (itemChapter) {
+      getData();
+    }
+  }, []);
   function updateRef(e: string) {
     setIframe(e);
   }
@@ -78,10 +118,10 @@ export default function ChapterInfo() {
         setLoading(true);
         const temp = [];
         let output = {
-          ContentTitle: values.ContentTitle,
-          ContentDescription: values.ContentDescription,
-          Content: values.Content,
-          ContentType: switchType ? 'Video' : 'Slide',
+          contentTitle: values.contentTitle,
+          contentDescription: values.contentDescription,
+          content: values.content,
+          contentType: switchType ? 'Video' : 'Slide',
         };
         if (data) {
           message.success('Thay đổi thành công');
@@ -107,8 +147,8 @@ export default function ChapterInfo() {
       <ConfirmModal
         show={showConfirm}
         setShow={setShowConfirm}
-        handler={() => handleDelete(itemChappter)}
-        title={`chương ${chapter}`}
+        handler={() => handleDelete(itemChapter)}
+        title={`chương ${itemChapter?.chapter?.toString()}`}
       >
         <p className="font-customFont text-xl font-[500]">
           Xoá nội dung và bài kiểm tra của chương này{' '}
@@ -116,14 +156,14 @@ export default function ChapterInfo() {
       </ConfirmModal>
       <div className="w-full h-14 flex items-center justify-between border-b mb-8">
         <p className="text-black text-lg font-bold font-customFont">
-          Nội dung chương {chapter}
+          Nội dung chương {itemChapter?.chapter?.toString()}
         </p>
-        <CustomButton text="Bài kiểm tra" noIcon onClick={() => {}} />
+        <CustomButton text="Bài kiểm tra" noIcon onClick={() => navToTest()} />
       </div>
       <Form form={form} onFinish={handleOk} className=" w-full ">
         <FormInput
           disabled={false}
-          name="ContentTitle"
+          name="contentTitle"
           label="Tên chương"
           rules={[
             {
@@ -140,7 +180,7 @@ export default function ChapterInfo() {
         <FormInput
           disabled={false}
           type="textArea"
-          name="ContentDescription"
+          name="contentDescription"
           label="Mô tả chương "
           rules={[
             {
@@ -166,7 +206,7 @@ export default function ChapterInfo() {
             />
           </label>
           <Form.Item
-            name="Content"
+            name="content"
             rules={[
               {
                 required: true,
@@ -200,16 +240,18 @@ export default function ChapterInfo() {
               className="w-32 mr-4"
               noIcon
               color="blue-gray"
-              onClick={() => navigate(-1)}
+              onClick={() => goBack()}
             />
-            <CustomButton
-              text="Xoá"
-              size="md"
-              color="red"
-              className="w-32 mr-4"
-              noIcon
-              onClick={() => setShowConfirm(!showConfirm)}
-            />
+            {itemChapter && (
+              <CustomButton
+                text="Xoá"
+                size="md"
+                color="red"
+                className="w-32 mr-4"
+                noIcon
+                onClick={() => setShowConfirm(!showConfirm)}
+              />
+            )}
 
             <button
               className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-gray-500 hover:bg-blue-gray-500 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-32 false"
