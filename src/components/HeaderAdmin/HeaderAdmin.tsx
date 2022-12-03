@@ -19,6 +19,7 @@ export default function () {
   const { instance, accounts } = useMsal();
   const navigate = useNavigate();
   const info = useAppSelector((state) => state.auth.info);
+  console.log(info);
 
   const logoutAdmin = () => {
     instance.logoutPopup({
@@ -45,12 +46,7 @@ export default function () {
         </MenuHandler>
         <MenuList>
           <MenuItem disabled className="font-customFont">
-            Xin Chào{' '}
-            {info.roleId == 2
-              ? 'Admin'
-              : info.roleId == 3
-              ? 'Trung Tâm'
-              : 'Phòng/Khoa'}{' '}
+            Xin Chào {info.role.roleName}
             <br />
             <br />
             {accounts[0].name?.slice(12, 29)}

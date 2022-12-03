@@ -296,7 +296,7 @@ export default function EditProgram() {
                   },
                 ]}
               >
-                <Select placeholder="Chọn Học Kì" defaultValue={'1'}>
+                <Select placeholder="Chọn Học Kì">
                   <Option value="1">Năm I</Option>
                   <Option value="2">Năm II</Option>
                   <Option value="3">Năm III</Option>

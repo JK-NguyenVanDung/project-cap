@@ -16,6 +16,7 @@ import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import ConfirmModal from '../../../../components/admin/Modal/ConfirmModal';
 import { IChapter } from '../../../../api/apiInterface';
+import { Breadcrumb } from '../../../../components/sharedComponents';
 import { useNavigateParams } from '../../../../hook/useNavigationParams';
 
 const Frame = React.forwardRef((props: any, ref: any) => {
@@ -144,6 +145,11 @@ export default function ChapterInfo() {
   };
   return (
     <div className="w-full h-screen px-5">
+      <Breadcrumb
+        name="Chương Trình"
+        router1="/admin/Program"
+        name2="Chuyên Đề"
+      />
       <ConfirmModal
         show={showConfirm}
         setShow={setShowConfirm}
