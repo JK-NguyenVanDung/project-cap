@@ -50,19 +50,19 @@ export default function ChapterInfo() {
   const [data, setData] = useState<IChapterItem>(null);
   const [form] = Form.useForm();
   const [switchType, setSwitchType] = useState(true);
-
+  const [contents, setListContent] = useState([]);
   const frameRef = useRef(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const navigateParams = useNavigateParams();
 
   const itemChapter = useAppSelector((state) => state.form.setChapter);
-  console.log(itemChapter);
+  const programId = useAppSelector((state) => state.form.programId);
 
-  const handleDelete = async (item: IChapter) => {
+  const handleDelete = async () => {
     try {
       navigate(-1);
-      await apiService.delChapter(item.chapter);
+      await apiService.delChapter(itemChapter?.contentId);
       message.success(MESSAGE.SUCCESS.DELETE);
     } catch (err: any) {
       throw err.message;
@@ -108,23 +108,44 @@ export default function ChapterInfo() {
     if (itemChapter) {
       getData();
     }
-  }, []);
+  }, [reload]);
   function updateRef(e: string) {
     setIframe(e);
   }
+  const fetchProgramContent = async () => {
+    const response: any = await apiService.getContentProgram(programId);
+    if (response) {
+      setListContent(response);
+    }
+  };
   const handleOk = async () => {
     form
       .validateFields()
       .then(async (values) => {
         setLoading(true);
-        const temp = [];
+        let nextChapter = contents[contents.length - 1].chapter;
+        let outputAdd = {
+          chapter: nextChapter ? nextChapter + 1 : 1,
+          programId: programId,
+          contentTitle: values.contentTitle,
+          contentDescription: values.contentDescription,
+          content: values.content,
+          contentType: switchType ? 'Video' : 'Slide',
+        };
+
         let output = {
+          chapter: itemChapter.chapter,
+          programId: itemChapter.programId,
           contentTitle: values.contentTitle,
           contentDescription: values.contentDescription,
           content: values.content,
           contentType: switchType ? 'Video' : 'Slide',
         };
         if (data) {
+          let res: any = await apiService.putContent(
+            itemChapter.contentId,
+            output,
+          );
           message.success('Thay đổi thành công');
           setReload(!reload);
 
@@ -132,7 +153,11 @@ export default function ChapterInfo() {
           form.resetFields();
           setIframe(null);
         } else {
+          let res: any = await apiService.postContent(outputAdd);
+
           message.success('Thêm thành công');
+          setReload(!reload);
+
           setLoading(false);
           form.resetFields();
           setIframe(null);
@@ -155,7 +180,7 @@ export default function ChapterInfo() {
       <ConfirmModal
         show={showConfirm}
         setShow={setShowConfirm}
-        handler={() => handleDelete(itemChapter)}
+        handler={() => handleDelete()}
         title={`chương ${itemChapter?.chapter?.toString()}`}
       >
         <p className="font-customFont text-xl font-[500]">

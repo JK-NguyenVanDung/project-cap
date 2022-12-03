@@ -41,7 +41,7 @@ export default function SideBar({ content }: { content: any }) {
   return (
     <>
       <div className="flex relative max-w-full h-screen">
-        <div className="fixed w-[80%] z-1 ">
+        <div className="fixed w-[77%] z-1 ">
           <div
             className="z-0  overflow-hidden bg-img-bar relative sidebar flex flex-col content-center items-center w-1/5"
             style={{
@@ -54,10 +54,10 @@ export default function SideBar({ content }: { content: any }) {
                 navigation('/admin');
                 dispatch(actions.formActions.setNameMenu(`${'Trang Chủ'}`));
               }}
-              className=" hover:text-white relative my-4  px-3 w-full flex flex-col items-center justify-center"
+              className=" hover:text-white relative my-2  px-2 w-full flex flex-row items-center justify-center"
             >
-              <img className="w-1/4 mb-2" src={logo} />
-              <p className="text-xl text-center"> VLG TRAINING</p>
+              <img className="w-1/5 h-full mb-2" src={logo} />
+              <p className="text-lg text-center mb-2 mx-2"> VLG TRAINING</p>
             </a>
             <ul className="relative list-none w-full text-center">
               {info.roleId == 2

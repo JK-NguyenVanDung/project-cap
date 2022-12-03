@@ -63,7 +63,7 @@ export default function Program() {
     },
     {
       title: 'Banner',
-      width: GIRD12.COL4,
+      width: GIRD12.COL1,
       render: (data: any) => (
         <div className="flex flex-row w-full items-center">
           <Image
@@ -106,12 +106,18 @@ export default function Program() {
       render: (data: any) => <p>{data ? data : 0}</p>,
     },
 
-    // {
-    //   title: 'Cập nhật vào',
-    //   dataIndex: 'updatedAt',
-    //   // render: (text) => <a>{text}</a>,
-    //   width: GIRD12.COL1,
-    // },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'isPublish',
+      render: (status: any) => {
+        return status ? (
+          <a className="font-bold text-blue-500">{'Công khai'}</a>
+        ) : (
+          <a className="font-bold text-orange-500">{'Chưa công khai'}</a>
+        );
+      },
+      width: GIRD12.COL2,
+    },
     {
       width: GIRD12.COL2,
 
@@ -120,6 +126,7 @@ export default function Program() {
         return (
           <PopOverAction
             size="sm"
+            detailType="chapter"
             handleEdit={() => handelDataProgram(item)}
             handleDelete={() => handleDelete(item)}
             handleShowDetail={() => handleShowDetail(item)}

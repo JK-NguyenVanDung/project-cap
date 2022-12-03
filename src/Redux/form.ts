@@ -8,8 +8,16 @@ const slice = createSlice({
     loadData: false,
     setProgram: null,
     setChapter: null,
+    reload: false,
+    programId: null,
   },
   reducers: {
+    setProgramId(state, actions) {
+      state.programId = actions.payload;
+    },
+    setReload(state, actions) {
+      state.reload = actions.payload;
+    },
     setNameMenu(state, actions) {
       state.nameMenu = actions.payload;
     },

@@ -21,6 +21,8 @@ export default function ProgramDetail() {
   const [category, setCategory]: any = useState();
   const [listContent, setListContent]: any = useState([]);
   const item = useAppSelector((state) => state.form.setProgram);
+  const reload = useAppSelector((state) => state.form.reload);
+
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useEffect(() => {
@@ -42,7 +44,19 @@ export default function ProgramDetail() {
       clearTimeout(t);
     };
   }, []);
+  useEffect(() => {
+    let t = setTimeout(() => {
+      fetchProgramContent();
+    }, 100);
+    return () => {
+      clearTimeout(t);
+    };
+  }, [reload]);
+
   const addChapter = () => {
+    dispatch(actions.formActions.setChappter(null));
+    dispatch(actions.formActions.setProgramId(item.programId));
+
     navigate(`/admin/Program/Chapter/${'AddContent'}`);
   };
   const fetchProgramContent = async () => {
@@ -140,30 +154,29 @@ export default function ProgramDetail() {
           Danh Sách chương
         </h1>
         <div className="my-10 h-full">
-          {listContent.map((item: any, index: number) => {
-            return (
-              <div
-                key={index}
-                className=" my-5 p-4 rounded-2xl flex items-center justify-between bg-gray-300 cursor-pointer active:bg-transparent"
-                onClick={() => {
-                  navigate(`/admin/Program/Chapter/${item.contentId}`);
-                  dispatch(actions.formActions.setChappter(item));
-                  dispatch(
-                    actions.formActions.setNameMenu(
-                      `Chương Trình ${item.content}`,
-                    ),
-                  );
-                }}
-              >
-                <div>
-                  <label className="text-black font-bold font-customFont ">
-                    Chương {item.chapter}: {item.content}
-                  </label>
+          {listContent.length > 0 &&
+            listContent.map((item: any, index: number) => {
+              return (
+                <div
+                  key={index}
+                  className=" my-5 p-4 rounded-2xl flex items-center justify-between bg-gray-300 cursor-pointer active:bg-transparent"
+                  onClick={() => {
+                    navigate(`/admin/Program/Chapter/${item.contentId}`);
+                    dispatch(actions.formActions.setChappter(item));
+                    dispatch(
+                      actions.formActions.setNameMenu(`Chương ${item.chapter}`),
+                    );
+                  }}
+                >
+                  <div>
+                    <label className="text-black font-bold font-customFont ">
+                      Chương {item.chapter}
+                    </label>
+                  </div>
+                  <SlArrowRight size={20} />
                 </div>
-                <SlArrowRight size={20} />
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </Form>
 

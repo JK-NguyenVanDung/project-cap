@@ -57,7 +57,10 @@ export const API_CONFIG = {
     GET: (id: number) => `/api/Programs/${id}/Contents`,
   },
   CONTENT: {
+    POST: '/api/Contents',
     GET: (id: number) => `/api/Contents/${id}`,
+    PUT: (id: number) => `/api/Contents/${id}`,
+    DELETE: (id: number) => `/api/Contents/${id}`,
   },
   CHAPPTER: {
     GET: (id: number) => `/api/Contents/${id}`,

@@ -127,6 +127,15 @@ export default {
   getContent: (id: number) => {
     return axiosConfig.get(API_CONFIG.CONTENT.GET(id));
   },
+  postContent: (params: any) => {
+    return axiosConfig.put(API_CONFIG.CONTENT.POST, params);
+  },
+  delContent: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.CONTENT.DELETE(id));
+  },
+  putContent: (id: number, params: any) => {
+    return axiosConfig.put(API_CONFIG.CONTENT.PUT(id), params);
+  },
   getContentProgram: (id: number) => {
     return axiosConfig.get(API_CONFIG.CONTENTPROGRAM.GET(id));
   },

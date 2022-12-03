@@ -332,7 +332,7 @@ export default function EditProgram() {
                 />
               </Form.Item>
               <label className="text-black font-bold font-customFont">
-                Vị Trí
+                Chức vụ
               </label>
               <Form.Item
                 name="Positions"

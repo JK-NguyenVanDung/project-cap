@@ -18,6 +18,7 @@ export default function PopOverAction({
   handleShowDetail,
   handleAuth,
   variant,
+  detailType,
 }: {
   size?: size;
   handleDelete?: Function;
@@ -27,6 +28,7 @@ export default function PopOverAction({
   handleShowDetail?: Function;
   handleAuth?: Function;
   variant?: any;
+  detailType?: string;
 }) {
   const [openAction, setOpenAction] = useState(false);
 
@@ -44,7 +46,11 @@ export default function PopOverAction({
     <>
       <div className="flex w-max items-center gap-4 z-[100] ">
         {handleEdit && (
-          <CustomButton size={size} type="edit" onClick={() => handleEdit()} />
+          <CustomButton
+            size={size}
+            type={'edit'}
+            onClick={() => handleEdit()}
+          />
         )}
         {handleAuth && (
           <CustomButton size={size} type="auth" onClick={() => handleAuth()} />
@@ -53,7 +59,7 @@ export default function PopOverAction({
         {handleShowDetail && (
           <CustomButton
             size={size}
-            type="detail"
+            type={detailType ? detailType : 'detail'}
             onClick={() => handleShowDetail()}
           />
         )}
