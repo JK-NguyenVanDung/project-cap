@@ -25,7 +25,7 @@ export default function Program() {
   const [data, setData] = useState<Array<IProgramItem>>([]);
   const [filterData, setFilterData] = useState([]);
   const navigate = useNavigate();
-  const navigateParmas = useNavigateParams();
+  const navigateParams = useNavigateParams();
 
   useEffect(() => {
     getData();
@@ -170,6 +170,14 @@ export default function Program() {
 
   return (
     <>
+      <CustomButton
+        onClick={() =>
+          navigateParams(`/admin/Program/Chapter/${8}/Test`, { id: 8 })
+        }
+        text="qua test nhanh"
+        noIcon
+      />
+
       <TableConfig
         onSearch={onChangeSearch}
         search={true}

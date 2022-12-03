@@ -85,7 +85,7 @@ const OptionalAnswer = ({
       : false;
   }
   return (
-    <ul className="w-full mb-4 relative h-auto">
+    <ul className="w-full  mb-4 relative h-auto">
       {options.map((item: any, index: number) => {
         return (
           <li className="w-full flex flex-row justify-between h-14 mb-6  ">
