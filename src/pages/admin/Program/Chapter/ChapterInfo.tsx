@@ -9,12 +9,13 @@ import apiService from '../../../../api/apiService';
 import { errorText, GIRD12, MESSAGE } from '../../../../helper/constant';
 import { IChapterItem } from '../../../../Type';
 import PopOverAction from '../../../../components/admin/PopOver';
-import { useAppDispatch } from '../../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
 import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import ConfirmModal from '../../../../components/admin/Modal/ConfirmModal';
+import { IChapter } from '../../../../api/apiInterface';
 
 const Frame = React.forwardRef((props: any, ref: any) => {
   return (
@@ -51,49 +52,20 @@ export default function ChapterInfo() {
   const frameRef = useRef(null);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const itemChappter = useAppSelector((state) => state.form.setChapter);
+  console.log(itemChappter);
 
-  function goBack() {
-    navigate(`/admin/Program/${chapter}`);
-  }
-  function handleDelete() {
-    goBack();
-    // try {
-    //   // await apiService.removeProgram(item.ProgramId);
-    //   message.success(MESSAGE.SUCCESS.DELETE);
-    //   navigate(`/admin/Program/${chapter}`);
-    // } catch (err: any) {
-    //   throw err.message;
-    // }
-  }
-
-  async function getData() {
+  const handleDelete = async (item: IChapter) => {
     try {
-      setLoading(true);
-      let res: any = await apiService.getPrograms();
-
-      dispatch(
-        actions.formActions.setNameMenu(
-          `Chương trình ${res[0].ProgramName && res[0].ProgramName}`,
-        ),
-      );
-      form.resetFields();
-
-      const setForm = () => {
-        form.setFieldsValue(data ? data : []);
-      };
-
-      if (data) {
-        setForm();
-      }
-
-      setLoading(false);
+      navigate(-1);
+      await apiService.delChapter(item.chapter);
+      message.success(MESSAGE.SUCCESS.DELETE);
     } catch (err: any) {
       throw err.message;
     }
-  }
+  };
 
   useEffect(() => {
-    getData();
     setChapter(2);
   }, [reload]);
   function updateRef(e: string) {
@@ -135,7 +107,7 @@ export default function ChapterInfo() {
       <ConfirmModal
         show={showConfirm}
         setShow={setShowConfirm}
-        handler={() => handleDelete()}
+        handler={() => handleDelete(itemChappter)}
         title={`chương ${chapter}`}
       >
         <p className="font-customFont text-xl font-[500]">
@@ -228,7 +200,7 @@ export default function ChapterInfo() {
               className="w-32 mr-4"
               noIcon
               color="blue-gray"
-              onClick={() => goBack()}
+              onClick={() => navigate(-1)}
             />
             <CustomButton
               text="Xoá"

@@ -8,15 +8,20 @@ import CustomButton from '../../../components/admin/Button';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import apiService from '../../../api/apiService';
-
+import { SlArrowRight } from 'react-icons/sl';
+import { actions } from '../../../Redux';
 export default function ProgramDetail() {
   const [form] = Form.useForm();
   const [image, setImage] = useState();
   const [startDate, setStartDate]: any = useState();
   const [endDate, setEndDate]: any = useState();
+  const [acedemicYear, setAcedemicYear]: any = useState();
+  const [faculty, setFaculty]: any = useState();
+  const [isPublish, setIsPublish]: any = useState();
+  const [category, setCategory]: any = useState();
   const [listContent, setListContent]: any = useState([]);
   const item = useAppSelector((state) => state.form.setProgram);
-
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useEffect(() => {
     Object.keys(item).forEach((key: any) => {
@@ -25,6 +30,11 @@ export default function ProgramDetail() {
     setImage(item.image);
     setStartDate(moment(item.startDate).format('DD-MM-YYYY'));
     setEndDate(moment(item.endDate).format('DD-MM-YYYY'));
+    setAcedemicYear(item.academicYear?.year ? item.academicYear?.year : '');
+    setFaculty(item.faculty.facultyName);
+    setCategory(item.category.categoryName);
+    4;
+    setIsPublish(item.isPublish);
     fetchProgramContent();
   }, []);
   const fetchProgramContent = async () => {
@@ -42,7 +52,7 @@ export default function ProgramDetail() {
     form.resetFields();
   };
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-full relative">
       <Breadcrumb
         router1={'/admin/Program'}
         name={'Chương Trình'}
@@ -51,13 +61,26 @@ export default function ProgramDetail() {
       <Form form={form} className="formCategory w-full px-5">
         <div className="flex justify-between">
           <div>
-            <FormInput name="programName" disabled={true} />
-            <FormInput type="textArea" name="descriptions" disabled={true} />
+            <FormInput
+              label="Tên Chương Trình"
+              name="programName"
+              disabled={true}
+            />
+            <FormInput
+              label="Mô Tả"
+              type="textArea"
+              name="descriptions"
+              disabled={true}
+            />
+            <FormInput label="Phòng/Khoa" value={faculty} disabled={true} />
+            <FormInput label="Học Kì" name="semester" disabled={true} />
           </div>
           <div>
-            <FormInput name="coin" disabled={true} />
-            <FormInput value={startDate} disabled={true} />
-            <FormInput value={endDate} disabled={true} />
+            <FormInput label="Điểm Đạt Được" name="coin" disabled={true} />
+            <FormInput label="Ngày Bắt Đầu" value={startDate} disabled={true} />
+            <FormInput label="Ngày Kết thúc" value={endDate} disabled={true} />
+            <FormInput label="Năm Học" value={acedemicYear} disabled={true} />
+            <FormInput label="Danh Mục" value={category} disabled={true} />
           </div>
           <div
             style={{
@@ -73,8 +96,10 @@ export default function ProgramDetail() {
               }}
               src={`${API_URL}/images/${image}`}
             />
+
             <div>
               <CustomButton
+                disabled
                 type="default"
                 onClick={() => handelOk()}
                 text="Lưu"
@@ -101,12 +126,50 @@ export default function ProgramDetail() {
         </h1>
         {listContent.map((item: any, index: number) => {
           return (
-            <div key={index}>
-              <div>item</div>
+            <div
+              key={index}
+              className=" my-5 p-4 rounded-2xl flex items-center justify-between bg-gray-300 cursor-pointer active:bg-transparent"
+              onClick={() => {
+                navigate(`/admin/Program/Chapter/${item.contentId}`);
+                dispatch(actions.formActions.setChappter(item));
+                dispatch(
+                  actions.formActions.setNameMenu(
+                    `Chương Trình ${item.content}`,
+                  ),
+                );
+              }}
+            >
+              <div>
+                <label className="text-black font-bold font-customFont ">
+                  {item.content}
+                </label>
+              </div>
+              <SlArrowRight size={20} />
             </div>
           );
         })}
       </Form>
+
+      <div className="flex w-4/6 absolute right-0 bottom-[-70px]">
+        <CustomButton
+          type="cancel"
+          text="Quay Lại"
+          noIcon={true}
+          className="w-2/5 my-3 mx-2 h-10"
+        />
+        <CustomButton
+          type="cancel"
+          text="Thêm Bài Kiểm Tra Cuối Kì"
+          noIcon={true}
+          className="w-4/5 bg-white border-gray-900 text-black my-3 mx-2 h-10"
+        />
+        <CustomButton
+          type="cancel"
+          text="Thêm Chương"
+          noIcon={true}
+          className="w-3/5 bg-white border-gray-900 text-black my-3 mx-2 h-10"
+        />
+      </div>
     </div>
   );
 }

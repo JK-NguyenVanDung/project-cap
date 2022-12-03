@@ -17,3 +17,10 @@ export type IFaculties = {
   facultyName: string;
   programs: [];
 };
+
+export type IChapter = {
+  programId: number;
+  chapter: number;
+  contentType: string;
+  content: string;
+};

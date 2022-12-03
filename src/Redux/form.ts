@@ -7,6 +7,7 @@ const slice = createSlice({
     show: false,
     loadData: false,
     setProgram: null,
+    setChapter: null,
   },
   reducers: {
     setNameMenu(state, actions) {
@@ -26,6 +27,9 @@ const slice = createSlice({
     },
     setProgramForm(state, actions) {
       state.setProgram = actions.payload;
+    },
+    setChappter(state, actions) {
+      state.setChapter = actions.payload;
     },
   },
 });
