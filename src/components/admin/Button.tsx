@@ -6,18 +6,6 @@ import { HiOutlineTrash } from 'react-icons/hi';
 
 import { color, size } from '@material-tailwind/react/types/components/button';
 import { BsFillPeopleFill } from 'react-icons/bs';
-interface CustomButton {
-  size?: size;
-  color?: color;
-  className?: string;
-  textClassName?: string;
-  onClick?: FC | Function;
-  Icon?: IconType;
-  noIcon?: boolean;
-  text?: string;
-  type?: string;
-  fullWidth?: boolean;
-}
 
 export default function CustomButton({
   size,
@@ -40,7 +28,7 @@ export default function CustomButton({
   color?: color;
   className?: string;
   iconClass?: string;
-  onClick?: React.MouseEventHandler;
+  onClick?: React.MouseEventHandler | Function;
   Icon?: IconType;
   noIcon?: boolean;
   text?: string;
@@ -110,7 +98,7 @@ export default function CustomButton({
       disabled={disabled}
       fullWidth={fullWidth}
       size={size ? size : `sm`}
-      color={color ? color : color}
+      color={color ? color : 'blue'}
       className={` flex flex-row justify-center  items-center ${typeClassName} ${className} ${
         size === 'sm' && 'px-1/2'
       }`}

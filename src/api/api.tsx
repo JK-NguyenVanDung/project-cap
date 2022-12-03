@@ -45,6 +45,7 @@ export const API_CONFIG = {
     POST: '/api/Questions',
     PUT: (id: number) => `/api/Questions/${id}`,
     DELETE: (id: number) => `/api/Questions/${id}`,
+    DELETE_ANSWER: (id: number) => `/api/Questions/content/${id}`,
   },
   ACEDEMICYEAR: {
     GET: '/api/AcademicYear',
@@ -54,6 +55,9 @@ export const API_CONFIG = {
   },
   CONTENTPROGRAM: {
     GET: (id: number) => `/api/Programs/${id}/Contents`,
+  },
+  CONTENT: {
+    GET: (id: number) => `/api/Contents/${id}`,
   },
   CHAPPTER: {
     GET: (id: number) => `/api/Contents/${id}`,

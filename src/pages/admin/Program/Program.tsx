@@ -25,7 +25,7 @@ export default function Program() {
   const [data, setData] = useState<Array<IProgramItem>>([]);
   const [filterData, setFilterData] = useState([]);
   const navigate = useNavigate();
-  const navigateParmas = useNavigateParams();
+  const navigateParams = useNavigateParams();
 
   useEffect(() => {
     getData();
@@ -46,13 +46,13 @@ export default function Program() {
   }
 
   function handleShowDetail(item: any) {
-    navigate(`/admin/Program/showDetail`);
     dispatch(actions.formActions.setProgramForm(item));
     dispatch(
       actions.formActions.setNameMenu(
         `Khóa Học ${item.programName && item.programName}`,
       ),
     );
+    navigate(`/admin/Program/showDetail`);
   }
 
   const columns = [
@@ -79,7 +79,7 @@ export default function Program() {
     },
 
     {
-      title: 'Tên Danh Mục',
+      title: 'Tên chương trình',
       dataIndex: 'programName',
       width: GIRD12.COL2,
     },

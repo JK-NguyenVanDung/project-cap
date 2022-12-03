@@ -114,11 +114,18 @@ export default {
   removeQuestion: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.QUESTION.DELETE(ID));
   },
+  removeAnswer: (ID: number) => {
+    return axiosConfig.delete(API_CONFIG.QUESTION.DELETE_ANSWER(ID));
+  },
   getAcedemicYear: () => {
     return axiosConfig.get(API_CONFIG.ACEDEMICYEAR.GET);
   },
   getPositions: () => {
     return axiosConfig.get(API_CONFIG.POSITION.GET);
+  },
+
+  getContent: (id: number) => {
+    return axiosConfig.get(API_CONFIG.CONTENT.GET(id));
   },
   getContentProgram: (id: number) => {
     return axiosConfig.get(API_CONFIG.CONTENTPROGRAM.GET(id));

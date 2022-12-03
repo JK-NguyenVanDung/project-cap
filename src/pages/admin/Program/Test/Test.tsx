@@ -13,6 +13,7 @@ import { IoTimeOutline } from 'react-icons/io5';
 import RadioGroup from '../../../../components/sharedComponents/RadioGroup';
 import { useLocation } from 'react-router-dom';
 import ConfirmModal from '../../../../components/admin/Modal/ConfirmModal';
+import { Breadcrumb } from '../../../../components/sharedComponents';
 
 const radioOptions = [
   {
@@ -29,7 +30,6 @@ export default function Test() {
   const [contentId, setContentId] = useState<number>();
   const location = useLocation();
 
-  contentId;
   const [showConfirm, setShowConfirm] = useState(false);
   const [questionAmount, setQuestionAmount] = useState(0);
 
@@ -95,7 +95,7 @@ export default function Test() {
     setContentId(1);
     setChapter(Number(id));
     dispatch(actions.formActions.setNameMenu(`Chương trình`));
-    getData('1');
+    getData(id);
   }, [reload]);
 
   const handleOk = async () => {
@@ -121,7 +121,6 @@ export default function Test() {
           setLoading(false);
           form.resetFields();
         } else {
-          // console.log(output);
           await apiService.addTest(output);
           setReload(!reload);
           message.success('Thêm thành công');
@@ -135,40 +134,49 @@ export default function Test() {
       });
   };
   return (
-    <div className="w-full h-fit px-5 ">
-      <ConfirmModal
-        show={showConfirm}
-        setShow={setShowConfirm}
-        handler={() => handleDelete()}
-        title={chapter?.toString()}
-      >
-        <p className="font-customFont text-xl font-[500]">
-          Xoá nội dung và bài kiểm tra của chương này{' '}
-        </p>
-      </ConfirmModal>
-      <div className="w-full h-14 flex items-center justify-between border-b mb-8">
-        <p className="text-black text-lg font-bold font-customFont">
-          Bài kiểm tra chương {chapter}
-        </p>
-      </div>
-      <Form form={form} onFinish={handleOk} className=" w-full ">
-        <FormInput
-          disabled={false}
-          name="testTitle"
-          label="Tên bài kiểm tra"
-          rules={[
-            {
-              required: true,
-              message: `Không được để trống tên bài kiểm tra`,
-            },
-            {
-              pattern: new RegExp(/^(?!\s*$|\s).*$/),
-              message: errorText.space,
-            },
-          ]}
+    <>
+      <div className="pl-2 pt-2">
+        <Breadcrumb
+          router1={'/admin/Program/'}
+          name={'Chương Trình'}
+          name2={data ? 'Sửa bài kiểm tra' : 'Thêm bài kiểm tra'}
         />
+      </div>
+      <div className="w-full h-fit px-5 ">
+        <ConfirmModal
+          show={showConfirm}
+          setShow={setShowConfirm}
+          handler={() => handleDelete()}
+          title={chapter?.toString()}
+        >
+          <p className="font-customFont text-xl font-[500]">
+            Xoá nội dung và bài kiểm tra của chương này{' '}
+          </p>
+        </ConfirmModal>
 
-        {/* <FormInput
+        <div className="w-full h-14 flex items-center justify-between border-b mb-8">
+          <p className="text-black text-lg font-bold font-customFont">
+            Bài kiểm tra chương {chapter}
+          </p>
+        </div>
+        <Form form={form} onFinish={handleOk} className=" w-full ">
+          <FormInput
+            disabled={false}
+            name="testTitle"
+            label="Tên bài kiểm tra"
+            rules={[
+              {
+                required: true,
+                message: `Không được để trống tên bài kiểm tra`,
+              },
+              {
+                pattern: new RegExp(/^(?!\s*$|\s).*$/),
+                message: errorText.space,
+              },
+            ]}
+          />
+
+          {/* <FormInput
           disabled={false}
           type="textArea"
           name="contentDescription"
@@ -185,95 +193,96 @@ export default function Test() {
           ]}
         /> */}
 
-        <FormInput
-          disabled={false}
-          name="time"
-          label="Thời gian làm bài (tính bằng phút)"
-          placeholder="Nhập thời gian làm bài"
-          rules={[
-            {
-              required: true,
-              message: `Không được để trống thời gian làm bài`,
-            },
-            {
-              pattern: new RegExp(/^(?!\s*$|\s).*$/),
-              message: errorText.space,
-            },
-            {
-              pattern: new RegExp(/^\d+$/),
-              message: 'Thời gian phải thuộc kiểu số nguyên dương',
-            },
-          ]}
-          IconRight={IoTimeOutline}
-        />
-
-        <div className="w-full mb-6 z-100">
-          <label className="text-black font-bold font-customFont ">
-            Ngẫu nhiên hoá câu hỏi
-          </label>
-
-          <RadioGroup
-            options={radioOptions}
-            onChange={onRadioChange}
-            value={radioValue}
+          <FormInput
+            disabled={false}
+            name="time"
+            label="Thời gian làm bài (tính bằng phút)"
+            placeholder="Nhập thời gian làm bài"
+            rules={[
+              {
+                required: true,
+                message: `Không được để trống thời gian làm bài`,
+              },
+              {
+                pattern: new RegExp(/^(?!\s*$|\s).*$/),
+                message: errorText.space,
+              },
+              {
+                pattern: new RegExp(/^\d+$/),
+                message: 'Thời gian phải thuộc kiểu số nguyên dương',
+              },
+            ]}
+            IconRight={IoTimeOutline}
           />
-        </div>
-        <div className="w-full mb-6 z-100">
-          <p className="text-black font-bold font-customFont ">
-            Tổng số câu hỏi
-          </p>
-          <div className="flex justify-start items-end">
-            <Input
-              disabled
-              type="text"
-              className={`mr-4 text-black font-customFont  font-bold min-w-[12rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-1/5 pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
-              placeholder={`${
-                questionAmount > 0
-                  ? `Hiện tại có ${questionAmount} câu hỏi`
-                  : 'Hiện tại chưa có câu hỏi nào'
-              }`}
-            ></Input>
-            <CustomButton
-              disabled={data ? false : true}
-              text={questionAmount > 0 ? 'Sửa câu hỏi' : 'Thêm câu hỏi'}
-              size="md"
-              className="pl-2"
-              color="green"
-              onClick={() => goQuestion()}
+
+          <div className="w-full mb-6 z-100">
+            <label className="text-black font-bold font-customFont ">
+              Ngẫu nhiên hoá câu hỏi
+            </label>
+
+            <RadioGroup
+              options={radioOptions}
+              onChange={onRadioChange}
+              value={radioValue}
             />
           </div>
-        </div>
-        <Form.Item noStyle label="" colon={false}>
-          <div className="w-full h-14 flex items-center justify-end mt-20">
-            <CustomButton
-              text="Quay lại"
-              size="md"
-              variant="outlined"
-              className="w-32 mr-4"
-              noIcon
-              color="blue-gray"
-              onClick={() => goBack()}
-            />
-            {data && (
+          <div className="w-full mb-6 z-100">
+            <p className="text-black font-bold font-customFont ">
+              Tổng số câu hỏi
+            </p>
+            <div className="flex justify-start items-end">
+              <Input
+                disabled
+                type="text"
+                className={`mr-4 text-black font-customFont  font-bold min-w-[12rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-1/5 pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+                placeholder={`${
+                  questionAmount > 0
+                    ? `Hiện tại có ${questionAmount} câu hỏi`
+                    : 'Hiện tại chưa có câu hỏi nào'
+                }`}
+              ></Input>
               <CustomButton
-                text="Xoá"
+                disabled={data ? false : true}
+                text={questionAmount > 0 ? 'Sửa câu hỏi' : 'Thêm câu hỏi'}
                 size="md"
+                className="pl-2"
+                color="green"
+                onClick={() => goQuestion()}
+              />
+            </div>
+          </div>
+          <Form.Item noStyle label="" colon={false}>
+            <div className="w-full h-14 flex items-center justify-end mt-12">
+              <CustomButton
+                text="Quay lại"
+                size="md"
+                variant="outlined"
                 className="w-32 mr-4"
                 noIcon
-                color="red"
-                onClick={() => handleDelete()}
+                color="blue-gray"
+                onClick={() => goBack()}
               />
-            )}
-            <button
-              type="submit"
-              className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-gray-500 hover:bg-blue-gray-500 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-32 false"
-              formNoValidate
-            >
-              <p className="font-customFont  font-semibold">Lưu</p>
-            </button>
-          </div>
-        </Form.Item>
-      </Form>
-    </div>
+              {data && (
+                <CustomButton
+                  text="Xoá"
+                  size="md"
+                  className="w-32 mr-4"
+                  noIcon
+                  color="red"
+                  onClick={() => handleDelete()}
+                />
+              )}
+              <button
+                type="submit"
+                className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-gray-500 hover:bg-blue-gray-500 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-32 false"
+                formNoValidate
+              >
+                <p className="font-customFont  font-semibold">Lưu</p>
+              </button>
+            </div>
+          </Form.Item>
+        </Form>
+      </div>
+    </>
   );
 }
