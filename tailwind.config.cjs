@@ -20,15 +20,18 @@ module.exports = withMT({
         'light-gray': '#FAFAFA',
         'light-pink': '#FFE5DD',
         'blue-500': '#3649F9',
-        'red-500': '#D41B29',
+        'red-500': '#C91522',
         'green-500': '#00B980',
         'purple-500': '#5D36F9',
         'dark-pink': '#FCC0AD',
         'blue-gray-500': '#11284A',
+        'orange-500': '#FF7240',
       },
       colors: {
-        'blue-gray-500': '#11284A',
+        'red-500': '#C91522',
 
+        'blue-gray-500': '#11284A',
+        'orange-500': '#FF7240',
         'border-gray': '#F0F0F0',
         'dark-blue': '#252B42', //  252B42
         primary: '#3649F9',

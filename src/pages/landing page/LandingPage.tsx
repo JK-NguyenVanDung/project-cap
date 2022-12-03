@@ -155,7 +155,7 @@ const Home = React.forwardRef((props, ref: any) => {
             <div className=" relative flex w-1/2 max-sm:w-4/5  items-center bg-white rounded-lg border shadow-md   ">
               <div className="relative z-10 flex  flex-col justify-between p-4 w-fit leading-normal">
                 <h5 className="mb-2 text-[3rem]  max-md:text-[1rem] max-sm:text-[2rem]   font-bold tracking-tight text-gray-900 dark:text-white">
-                  199+
+                  529+
                 </h5>
               </div>
               <div className="  z-10 relative flex   flex-col justify-between p-4 w-full leading-normal">

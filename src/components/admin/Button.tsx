@@ -6,6 +6,7 @@ import { HiOutlineTrash } from 'react-icons/hi';
 
 import { color, size } from '@material-tailwind/react/types/components/button';
 import { BsFillPeopleFill } from 'react-icons/bs';
+import { GiOpenBook } from 'react-icons/gi';
 
 export default function CustomButton({
   size,
@@ -74,6 +75,16 @@ export default function CustomButton({
       defaultText = '';
       Icon = FaEye;
       color = 'purple';
+
+      iconClass = 'mx-2 text-base ';
+      variant = 'outlined';
+
+      break;
+
+    case 'chapter':
+      defaultText = '';
+      Icon = GiOpenBook;
+      color = 'orange';
 
       iconClass = 'mx-2 text-base ';
       variant = 'outlined';

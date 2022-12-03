@@ -164,36 +164,35 @@ export default function Question() {
 
   async function handleDeleteAnswer(e: any) {
     let numb = Number(e);
-    if (currentQuestion.questionContents[numb - 1].isAnswer) {
-      message.error(
-        'Không thể xoá đáp án đúng này, xin chọn lại đáp án đúng và lưu lại để xoá!',
-      );
-    } else {
-      let op = radioOptions.filter(
-        (item: IQuestionOption) => item.value !== Number(e),
-      );
-      dispatch(actions.questionActions.setRadioOptions(op));
-      if (currentQuestion.questionContents[numb - 1]) {
-        try {
-          await apiService.removeAnswer(
-            currentQuestion.questionContents[numb - 1].questionContentId,
-          );
+    // if (currentQuestion.questionContents[numb - 1].isAnswer) {
+    //   message.error(
+    //     'Không thể xoá đáp án đúng này, xin chọn lại đáp án đúng và lưu lại để xoá!',
+    //   );
+    // }
+    // else {
+    let op = radioOptions.filter(
+      (item: IQuestionOption) => item.value !== Number(e),
+    );
+    dispatch(actions.questionActions.setRadioOptions(op));
+    if (currentQuestion.questionContents[numb - 1]) {
+      try {
+        await apiService.removeAnswer(
+          currentQuestion.questionContents[numb - 1].questionContentId,
+        );
 
-          let res: any = await apiService.getQuestions(testId);
-          let cur = res.find(
-            (e: IQuestion) => e.questionId === currentQuestion.questionId,
-          );
-          dispatch(actions.questionActions.setCurrentQuestion(cur[0]));
-          dispatch(
-            actions.questionActions.setCurrentQuestionIndex(
-              res.indexOf(cur[0]),
-            ),
-          );
-        } catch (err: any) {
-          throw err.message;
-        }
+        // let res: any = await apiService.getQuestions(testId);
+        // let cur = res.find(
+        //   (e: IQuestion) => e.questionId === currentQuestion.questionId,
+        // );
+        // dispatch(actions.questionActions.setCurrentQuestion(cur[0]));
+        // dispatch(
+        //   actions.questionActions.setCurrentQuestionIndex(res.indexOf(cur[0])),
+        // );
+      } catch (err: any) {
+        throw err.message;
       }
     }
+    // }
 
     setHeight((item) => String(Number.parseInt(item) - 12));
   }
@@ -471,6 +470,7 @@ export default function Question() {
     for (let i = 0; i < 2; i++) {
       result.pop();
     }
+    let hasAnswer = false;
     let outEdit = {
       typeId: selectedType,
       questionTitle: values.questionTitle,
@@ -478,10 +478,13 @@ export default function Question() {
       questionContents: radioOptions.map(
         (item: IQuestionOption, index: number) => {
           let output;
-          let outQuestion = currentQuestion.questionContents[index]
-            ?.questionContentId
-            ? currentQuestion.questionContents[index]?.questionContentId
-            : null;
+          let outQuestion =
+            currentQuestion.questionContents &&
+            currentQuestion.questionContents[index]
+              ? currentQuestion.questionContents[index].questionContentId
+                ? currentQuestion.questionContents[index]?.questionContentId
+                : null
+              : null;
 
           if (outQuestion === null) {
             output =
@@ -495,6 +498,12 @@ export default function Question() {
                     isAnswer: isAnswer(item),
                   };
           } else {
+            if (
+              currentQuestion.questionContents[index].isAnswer &&
+              hasAnswer === false
+            ) {
+              hasAnswer = true;
+            }
             output =
               currentQuestion && currentQuestion.questionId
                 ? {
@@ -538,13 +547,14 @@ export default function Question() {
         },
       ),
     };
+    // if (hasAnswer) {
     if (
       currentQuestion &&
       currentQuestion.questionId &&
       res[currentQuestionIndex]
     ) {
       if (!finish) {
-        message.success('Thêm thành công');
+        message.success('Sửa thành công');
       }
       await apiService.editQuestion({
         output: outEdit,
@@ -554,9 +564,11 @@ export default function Question() {
       if (!finish) {
         message.success('Tạo thành công');
       }
-
       await apiService.addQuestion(out);
     }
+    // } else {
+    //   message.error(`Phải có ít nhất 1 đáp án đúng`);
+    // }
   }
   function handleMoveQuestion(index: number) {
     dispatch(actions.questionActions.setCurrentQuestionIndex(index));
