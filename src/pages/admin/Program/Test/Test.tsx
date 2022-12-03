@@ -49,6 +49,7 @@ export default function Test() {
     dispatch(
       actions.questionActions.setHasQuestion(questionAmount > 0 ? true : false),
     );
+    dispatch(actions.questionActions.setChapter(chapter));
 
     data && dispatch(actions.questionActions.setTestId(data.testId));
     navigate(`/admin/Program/Chapter/${chapter}/Test/Question`);

@@ -6,6 +6,7 @@ const slice = createSlice({
   initialState: {
     detail: null,
     listAll: [],
+    chapter: '',
     listAnswer: [],
     loadData: false,
     testId: null,
@@ -69,6 +70,9 @@ const slice = createSlice({
     },
     setHasQuestion(state, actions) {
       state.hasQuestion = actions.payload;
+    },
+    setChapter(state, actions) {
+      state.chapter = actions.payload;
     },
   },
 });

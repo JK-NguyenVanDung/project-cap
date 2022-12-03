@@ -158,7 +158,13 @@ export default function ChapterInfo() {
         <p className="text-black text-lg font-bold font-customFont">
           Nội dung chương {itemChapter?.chapter?.toString()}
         </p>
-        <CustomButton text="Bài kiểm tra" noIcon onClick={() => navToTest()} />
+        {itemChapter && (
+          <CustomButton
+            text="Bài kiểm tra"
+            noIcon
+            onClick={() => navToTest()}
+          />
+        )}
       </div>
       <Form form={form} onFinish={handleOk} className=" w-full ">
         <FormInput
