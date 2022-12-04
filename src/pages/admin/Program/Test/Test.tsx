@@ -5,7 +5,7 @@ import FormInput from '../../../../components/admin/Modal/FormInput';
 import apiService from '../../../../api/apiService';
 import { errorText, MESSAGE } from '../../../../helper/constant';
 import { IChapterItem, ITest } from '../../../../Type';
-import { useAppDispatch } from '../../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
 import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -26,12 +26,12 @@ const radioOptions = [
 export default function Test() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
-  const [chapter, setChapter] = useState<number>();
-  const [contentId, setContentId] = useState<number>();
+  const chapter = useAppSelector((state) => state.form.setChapter);
   const location = useLocation();
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [questionAmount, setQuestionAmount] = useState(0);
+  const contentId = useAppSelector((state) => state.form.contentId);
 
   const [data, setData] = useState<ITest>(null);
   const [form] = Form.useForm();
@@ -75,7 +75,7 @@ export default function Test() {
       setData(res);
 
       form.resetFields();
-      res.chapter && setChapter(res.chapter);
+      // res.chapter && setChapter(res.chapter);
       setRadioValue(res.isRandom);
       const setForm = () => {
         form.setFieldsValue(res ? res : []);
@@ -92,11 +92,8 @@ export default function Test() {
   }
 
   useEffect(() => {
-    let id = location.search.split('=')[1];
-    setContentId(1);
-    setChapter(Number(id));
     dispatch(actions.formActions.setNameMenu(`Chương trình`));
-    getData(id);
+    getData(contentId);
   }, [reload]);
 
   const handleOk = async () => {
@@ -115,14 +112,16 @@ export default function Test() {
         };
         if (data) {
           let id = data.testId;
-          await apiService.editTest({ output: output, id: id });
+          let res: any = await apiService.editTest({ output: output, id: id });
+          setData(res);
           message.success('Thay đổi thành công');
           setReload(!reload);
 
           setLoading(false);
           form.resetFields();
         } else {
-          await apiService.addTest(output);
+          let res: any = await apiService.addTest(output);
+          setData(res);
           setReload(!reload);
           message.success('Thêm thành công');
           setLoading(false);

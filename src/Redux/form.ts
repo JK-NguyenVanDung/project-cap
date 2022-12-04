@@ -8,12 +8,16 @@ const slice = createSlice({
     loadData: false,
     setProgram: null,
     setChapter: null,
+    contentId: null,
     reload: false,
     programId: null,
   },
   reducers: {
     setProgramId(state, actions) {
       state.programId = actions.payload;
+    },
+    setContentId(state, actions) {
+      state.contentId = actions.payload;
     },
     setReload(state, actions) {
       state.reload = actions.payload;
@@ -36,7 +40,7 @@ const slice = createSlice({
     setProgramForm(state, actions) {
       state.setProgram = actions.payload;
     },
-    setChappter(state, actions) {
+    setChapter(state, actions) {
       state.setChapter = actions.payload;
     },
   },

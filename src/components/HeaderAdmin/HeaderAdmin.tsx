@@ -19,7 +19,6 @@ export default function () {
   const { instance, accounts } = useMsal();
   const navigate = useNavigate();
   const info = useAppSelector((state) => state.auth.info);
-  console.log(info);
 
   const logoutAdmin = () => {
     instance.logoutPopup({
