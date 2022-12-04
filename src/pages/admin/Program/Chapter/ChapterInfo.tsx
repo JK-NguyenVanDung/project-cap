@@ -43,7 +43,6 @@ const Frame = React.forwardRef((props: any, ref: any) => {
 export default function ChapterInfo() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
-  const [chapter, setChapter] = useState(1);
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [iframe, setIframe] = useState(null);
@@ -56,34 +55,37 @@ export default function ChapterInfo() {
   const navigate = useNavigate();
   const navigateParams = useNavigateParams();
 
+  const contentId = useAppSelector((state) => state.form.contentId);
+
   const itemChapter = useAppSelector((state) => state.form.setChapter);
   const programId = useAppSelector((state) => state.form.programId);
 
   const handleDelete = async () => {
     try {
-      navigate(-1);
-      await apiService.delChapter(itemChapter?.contentId);
+      navigate(`/admin/Program/showDetail`);
+      await apiService.delChapter(contentId);
       message.success(MESSAGE.SUCCESS.DELETE);
     } catch (err: any) {
       throw err.message;
     }
   };
   function navToTest() {
-    navigateParams(`/admin/Program/Chapter/${itemChapter.contentId}/Test`, {
-      id: itemChapter.contentId,
+    navigateParams(`/admin/Program/Chapter/${itemChapter}/Test`, {
+      id: contentId,
     });
   }
   async function getData() {
     try {
       setLoading(true);
       // let res: any = await apiService.getPrograms();
-      let res: any = await apiService.getContent(itemChapter.contentId);
+      let res: any = await apiService.getContent(contentId);
 
       // let ques: any = await apiService.getQuestions(res.testId);
       setData(res);
 
       form.resetFields();
       const setForm = () => {
+        updateRef(res.content);
         form.setFieldsValue(res ? res : []);
       };
       if (res.contentType == 'Slide') {
@@ -112,18 +114,16 @@ export default function ChapterInfo() {
   function updateRef(e: string) {
     setIframe(e);
   }
-  const fetchProgramContent = async () => {
-    const response: any = await apiService.getContentProgram(programId);
-    if (response) {
-      setListContent(response);
-    }
-  };
+
   const handleOk = async () => {
+    console.log(4);
+
     form
       .validateFields()
       .then(async (values) => {
-        setLoading(true);
-        let nextChapter = contents[contents.length - 1].chapter;
+        // console.log(3);
+        const response: any = await apiService.getContentProgram(programId);
+        let nextChapter = response[response.length - 1].chapter;
         let outputAdd = {
           chapter: nextChapter ? nextChapter + 1 : 1,
           programId: programId,
@@ -134,19 +134,26 @@ export default function ChapterInfo() {
         };
 
         let output = {
-          chapter: itemChapter.chapter,
-          programId: itemChapter.programId,
+          chapter: itemChapter,
+          programId: programId,
           contentTitle: values.contentTitle,
           contentDescription: values.contentDescription,
           content: values.content,
           contentType: switchType ? 'Video' : 'Slide',
         };
+
         if (data) {
-          let res: any = await apiService.putContent(
-            itemChapter.contentId,
-            output,
-          );
+          let res: any = await apiService.putContent(contentId, output);
+          const response: any = await apiService.getContentProgram(programId);
+
+          let temp = response.filter(
+            (item: any) => res.contentId === item.contentId,
+          )[0];
+
           message.success('Thay đổi thành công');
+          dispatch(actions.formActions.setChapter(response.indexOf(temp) + 1));
+          dispatch(actions.formActions.setContentId(res.contentId));
+
           setReload(!reload);
 
           setLoading(false);
@@ -154,11 +161,18 @@ export default function ChapterInfo() {
           setIframe(null);
         } else {
           let res: any = await apiService.postContent(outputAdd);
+          const response: any = await apiService.getContentProgram(programId);
+
+          let temp = response.filter(
+            (item: any) => res.contentId === item.contentId,
+          )[0];
+
+          dispatch(actions.formActions.setChapter(response.indexOf(temp) + 1));
+          dispatch(actions.formActions.setContentId(res.contentId));
 
           message.success('Thêm thành công');
           setReload(!reload);
 
-          setLoading(false);
           form.resetFields();
           setIframe(null);
         }
@@ -181,7 +195,7 @@ export default function ChapterInfo() {
         show={showConfirm}
         setShow={setShowConfirm}
         handler={() => handleDelete()}
-        title={`chương ${itemChapter?.chapter?.toString()}`}
+        title={`chương ${itemChapter?.toString()}`}
       >
         <p className="font-customFont text-xl font-[500]">
           Xoá nội dung và bài kiểm tra của chương này{' '}
@@ -189,7 +203,7 @@ export default function ChapterInfo() {
       </ConfirmModal>
       <div className="w-full h-14 flex items-center justify-between border-b mb-8">
         <p className="text-black text-lg font-bold font-customFont">
-          Nội dung chương {itemChapter?.chapter?.toString()}
+          Nội dung chương {itemChapter?.toString()}
         </p>
         {itemChapter && (
           <CustomButton
@@ -258,10 +272,10 @@ export default function ChapterInfo() {
             ]}
           >
             <Input
+              defaultValue=""
               onChange={(e) => updateRef(e.target.value)}
               disabled={false}
               type="text"
-              id="simple-search"
               className="text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Nhập đường dẫn nhúng"
               required

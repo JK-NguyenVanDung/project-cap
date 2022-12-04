@@ -91,8 +91,9 @@ export default function Question() {
   const handleChangeSelectedType = (e: any) => {
     dispatch(actions.questionActions.setSelectedType(e));
 
-    console.log(currentQuestion);
     if (currentQuestion.typeId !== e && e === 2) {
+      console.log(1);
+
       dispatch(actions.questionActions.setSelectedOptions([1]));
     }
   };
@@ -104,6 +105,8 @@ export default function Question() {
           : false;
       if (a) {
         if (selectedOptions.length > 1) {
+          console.log(2);
+          console.log(selectedOptions.filter((item: any) => item !== value));
           dispatch(
             actions.questionActions.setSelectedOptions(
               selectedOptions.filter((item: any) => item !== value),
@@ -114,6 +117,9 @@ export default function Question() {
         }
       } else {
         if (selectedOptions.length < radioOptions.length - 1) {
+          console.log(3);
+          console.log([...selectedOptions, value]);
+
           dispatch(
             actions.questionActions.setSelectedOptions([
               ...selectedOptions,
@@ -164,11 +170,7 @@ export default function Question() {
 
   async function handleDeleteAnswer(e: any) {
     let numb = Number(e);
-    // if (currentQuestion.questionContents[numb - 1].isAnswer) {
-    //   message.error(
-    //     'Không thể xoá đáp án đúng này, xin chọn lại đáp án đúng và lưu lại để xoá!',
-    //   );
-    // }
+
     // else {
     let op = radioOptions.filter(
       (item: IQuestionOption) => item.value !== Number(e),
@@ -179,6 +181,21 @@ export default function Question() {
         await apiService.removeAnswer(
           currentQuestion.questionContents[numb - 1].questionContentId,
         );
+        if (currentQuestion.questionContents[numb - 1].isAnswer) {
+          let count = 0;
+
+          for (let i = 0; i < currentQuestion.questionContents.length; i++) {
+            if (currentQuestion.questionContents[i].isAnswer) {
+              count++;
+            }
+          }
+          if (count < 2) {
+            console.log(4);
+
+            dispatch(actions.questionActions.setSelectedOptions([1]));
+            dispatch(actions.questionActions.setRadioValue(1));
+          }
+        }
 
         // let res: any = await apiService.getQuestions(testId);
         // let cur = res.find(
@@ -192,6 +209,7 @@ export default function Question() {
         throw err.message;
       }
     }
+
     // }
 
     setHeight((item) => String(Number.parseInt(item) - 12));
@@ -262,9 +280,9 @@ export default function Question() {
               value: index + 1,
             });
             item.isAnswer && defaultChecked.push(index + 1);
-            if (index > 3) {
-              setHeight((item) => String(Number.parseInt(item) + 12));
-            }
+            // if (index > 3) {
+            //   setHeight((item) => String(Number.parseInt(item) + 12));
+            // }
             return item.content;
           }),
         }
@@ -287,9 +305,11 @@ export default function Question() {
     dispatch(actions.questionActions.setRadioOptions(radioOptions));
 
     defaultChecked.length > 1
-      ? dispatch(actions.questionActions.setSelectedOptions(defaultChecked))
+      ? (console.log(5),
+        dispatch(actions.questionActions.setSelectedOptions(defaultChecked)))
       : dispatch(actions.questionActions.setRadioValue(defaultChecked[0]));
 
+    console.log(content);
     form.setFieldsValue(content);
   };
   function restoreDefault() {
@@ -332,6 +352,7 @@ export default function Question() {
           }
         }
       });
+      selected.length > 0 && console.log(6);
 
       selected.length > 0 &&
         dispatch(actions.questionActions.setSelectedOptions(selected));
@@ -389,7 +410,7 @@ export default function Question() {
             }
           }
         });
-
+        selected.length > 0 && console.log(7);
         selected.length > 0 &&
           dispatch(actions.questionActions.setSelectedOptions(selected));
         form.setFieldsValue(content);
@@ -470,7 +491,6 @@ export default function Question() {
     for (let i = 0; i < 2; i++) {
       result.pop();
     }
-    let hasAnswer = false;
     let outEdit = {
       typeId: selectedType,
       questionTitle: values.questionTitle,
@@ -498,12 +518,6 @@ export default function Question() {
                     isAnswer: isAnswer(item),
                   };
           } else {
-            if (
-              currentQuestion.questionContents[index].isAnswer &&
-              hasAnswer === false
-            ) {
-              hasAnswer = true;
-            }
             output =
               currentQuestion && currentQuestion.questionId
                 ? {
@@ -547,12 +561,7 @@ export default function Question() {
         },
       ),
     };
-    // if (hasAnswer) {
-    if (
-      currentQuestion &&
-      currentQuestion.questionId &&
-      res[currentQuestionIndex]
-    ) {
+    if (currentQuestion.questionId) {
       if (!finish) {
         message.success('Sửa thành công');
       }
@@ -566,13 +575,11 @@ export default function Question() {
       }
       await apiService.addQuestion(out);
     }
-    // } else {
-    //   message.error(`Phải có ít nhất 1 đáp án đúng`);
-    // }
   }
   function handleMoveQuestion(index: number) {
     dispatch(actions.questionActions.setCurrentQuestionIndex(index));
     dispatch(actions.questionActions.setCurrentQuestion(data[index]));
+
     form.resetFields();
     setHeight('100');
 
@@ -598,6 +605,7 @@ export default function Question() {
 
   async function handleNextQuestion(values: any) {
     await handleSubmit(values);
+    form.resetFields();
 
     let next = {
       testsId: testId,
@@ -609,14 +617,15 @@ export default function Question() {
     setHeight('100');
     let res: any = await apiService.getQuestions(testId);
     res.push(next);
+
     setData(res);
-
     dispatch(actions.questionActions.setRadioOptions(defaultOptions));
-
+    console.log(9);
     dispatch(actions.questionActions.setSelectedOptions([1]));
     dispatch(actions.questionActions.setRadioValue(1));
     dispatch(actions.questionActions.setCurrentQuestionIndex(res.length - 1));
     dispatch(actions.questionActions.setCurrentQuestion(res[res.length - 1]));
+    form.setFieldValue('score', 1);
   }
 
   const handleOk = async () => {
@@ -628,9 +637,7 @@ export default function Question() {
         if (data) {
           // await apiService.editProgram({
           // });
-          message.success('Tạo thành công');
           setLoading(false);
-          form.resetFields();
           if (finish) {
             setReload(!reload);
 
@@ -641,9 +648,7 @@ export default function Question() {
         } else {
           // await apiService.addProgram({});
           // setReload(!reload);
-          message.success('Thêm thành công');
           setLoading(false);
-          form.resetFields();
         }
       })
 
@@ -869,7 +874,7 @@ export default function Question() {
                 <button
                   type="submit"
                   onClick={() => setFinish(true)}
-                  className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-blue-500 hover:bg-blue-500 text-white shadow-md shadow-blue-500/20 hover:shadow-lg hover:shadow-blue-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                  className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
                   formNoValidate
                 >
                   <p className="font-customFont  font-semibold">
@@ -910,7 +915,7 @@ const QuestionButton = ({
         text={text}
         size="sm"
         variant={!active ? 'outlined' : 'filled'}
-        color={!active ? `blue` : `purple`}
+        color={!active ? `blue` : `orange`}
         noIcon
         className="w-24"
         onClick={onClick}

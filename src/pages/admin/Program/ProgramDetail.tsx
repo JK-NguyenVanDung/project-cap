@@ -54,7 +54,7 @@ export default function ProgramDetail() {
   }, [reload]);
 
   const addChapter = () => {
-    dispatch(actions.formActions.setChappter(null));
+    dispatch(actions.formActions.setChapter(null));
     dispatch(actions.formActions.setProgramId(item.programId));
 
     navigate(`/admin/Program/Chapter/${'AddContent'}`);
@@ -161,16 +161,17 @@ export default function ProgramDetail() {
                   key={index}
                   className=" my-5 p-4 rounded-2xl flex items-center justify-between bg-gray-300 cursor-pointer active:bg-transparent"
                   onClick={() => {
-                    navigate(`/admin/Program/Chapter/${item.contentId}`);
-                    dispatch(actions.formActions.setChappter(item));
-                    dispatch(
-                      actions.formActions.setNameMenu(`Chương ${item.chapter}`),
-                    );
+                    navigate(`/admin/Program/Chapter/${index + 1}`);
+                    dispatch(actions.formActions.setChapter(index + 1));
+                    dispatch(actions.formActions.setContentId(item.contentId));
+                    // dispatch(
+                    //   actions.formActions.setNameMenu(`Chương ${index + 1}`),
+                    // );
                   }}
                 >
                   <div>
                     <label className="text-black font-bold font-customFont ">
-                      Chương {item.chapter}
+                      Chương {index + 1}
                     </label>
                   </div>
                   <SlArrowRight size={20} />
