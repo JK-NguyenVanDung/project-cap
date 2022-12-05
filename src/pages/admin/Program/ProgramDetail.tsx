@@ -164,6 +164,8 @@ export default function ProgramDetail() {
                     navigate(`/admin/Program/Chapter/${index + 1}`);
                     dispatch(actions.formActions.setChapter(index + 1));
                     dispatch(actions.formActions.setContentId(item.contentId));
+                    dispatch(actions.formActions.setProgramId(item.programId));
+
                     // dispatch(
                     //   actions.formActions.setNameMenu(`Chương ${index + 1}`),
                     // );
@@ -171,7 +173,7 @@ export default function ProgramDetail() {
                 >
                   <div>
                     <label className="text-black font-bold font-customFont ">
-                      Chương {index + 1}
+                      Chương {index + 1}: {item.contentTitle}
                     </label>
                   </div>
                   <SlArrowRight size={20} />

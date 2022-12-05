@@ -273,7 +273,7 @@ const Product = React.forwardRef((props, ref: any) => {
 });
 const ProductCard = (props: any) => {
   return (
-    <div className="max-sm:m-4 hide hide-left relative max-w-[15rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="max-sm:m-4  relative max-w-[15rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <a>
         <img className="rounded-t-lg h-40 w-full" src={props.image} alt="" />
       </a>
@@ -377,21 +377,21 @@ const Introduction = React.forwardRef((props, ref: any) => {
       </div>
 
       <div className="  relative max-sm:w-[80%]  max-sm:h-[70vh] w-[38vw] h-[100vh] flex justify-center flex-col ">
-        <div className="hide hide-right  absolute w-full h-2/3 bg-dark-pink left-10 rounded-md" />
+        <div className="  absolute w-full h-2/3 bg-dark-pink left-10 rounded-md" />
 
         <img
           src={IntroMain}
-          className=" max-sm:h-[50vw] hide hide-right hide-delay relative rounded-md"
+          className=" max-sm:h-[50vw]  hide-delay relative rounded-md"
           alt=""
         />
         <div className=" pic-group relative flex flex-row h-[0vh] w-full justify-evenly ml-10">
-          <div className="hide hide-right mt-10 h-[14vh] w-[8vw] max-sm:h-[12vh] max-sm:w-[20vw] bg-white rounded-md">
+          <div className=" mt-10 h-[14vh] w-[8vw] max-sm:h-[12vh] max-sm:w-[20vw] bg-white rounded-md">
             <img src={IntroMain} className=" p-2 rounded-md " alt="" />
           </div>
-          <div className="hide hide-right hide-delay-1 mt-10 h-[14vh]  max-sm:h-[12vh] w-[8vw] max-sm:w-[20vw] bg-white rounded-md">
+          <div className=" hide-delay-1 mt-10 h-[14vh]  max-sm:h-[12vh] w-[8vw] max-sm:w-[20vw] bg-white rounded-md">
             <img src={IntroMain} className=" p-2 rounded-md " alt="" />
           </div>
-          <div className="hide hide-right hide-delay-2 mt-10 h-[14vh] max-sm:h-[12vh] w-[8vw] max-sm:w-[20vw] bg-white rounded-md">
+          <div className=" hide-delay-2 mt-10 h-[14vh] max-sm:h-[12vh] w-[8vw] max-sm:w-[20vw] bg-white rounded-md">
             <img src={IntroMain} className=" p-2 rounded-md " alt="" />
           </div>
         </div>

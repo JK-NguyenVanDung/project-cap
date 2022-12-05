@@ -44,6 +44,8 @@ export default function ChapterInfo() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
 
+  const [questionId, setQuestionId] = useState(null);
+
   const [showConfirm, setShowConfirm] = useState(false);
   const [iframe, setIframe] = useState(null);
   const [data, setData] = useState<IChapterItem>(null);
@@ -62,14 +64,19 @@ export default function ChapterInfo() {
 
   const handleDelete = async () => {
     try {
-      navigate(`/admin/Program/showDetail`);
+      questionId && (await apiService.removeTest(questionId));
+
       await apiService.delChapter(contentId);
+      navigate(`/admin/Program/showDetail`);
+
       message.success(MESSAGE.SUCCESS.DELETE);
     } catch (err: any) {
       throw err.message;
     }
   };
   function navToTest() {
+    console.log(contentId);
+
     navigateParams(`/admin/Program/Chapter/${itemChapter}/Test`, {
       id: contentId,
     });
@@ -80,9 +87,9 @@ export default function ChapterInfo() {
       // let res: any = await apiService.getPrograms();
       let res: any = await apiService.getContent(contentId);
 
-      // let ques: any = await apiService.getQuestions(res.testId);
+      let ques: any = await apiService.getTest(contentId);
       setData(res);
-
+      ques && setQuestionId(ques.testId);
       form.resetFields();
       const setForm = () => {
         updateRef(res.content);
@@ -196,7 +203,7 @@ export default function ChapterInfo() {
         title={`chương ${itemChapter?.toString()}`}
       >
         <p className="font-customFont text-xl font-[500]">
-          Xoá nội dung và bài kiểm tra của chương này{' '}
+          Xoá nội dung và bài kiểm tra của chương này?
         </p>
       </ConfirmModal>
       <div className="w-full h-14 flex items-center justify-between border-b mb-8">
