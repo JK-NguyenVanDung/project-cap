@@ -43,6 +43,7 @@ export const SideBarData = [
     path: '/admin/Faculties',
   },
 ];
+
 export const SideBarDataCT = [
   {
     title: 'Trang Chủ',
@@ -65,6 +66,7 @@ export const SideBarDataCT = [
     path: '/admin/Learner',
   },
 ];
+
 export const SideBarDataFacul = [
   {
     title: 'Trang Chủ',

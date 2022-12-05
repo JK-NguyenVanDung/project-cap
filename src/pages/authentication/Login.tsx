@@ -7,7 +7,7 @@ import trongdong from '../../assets/img/trongdong.png';
 import './index.css';
 import { loginRequest } from './loginconfig';
 import { useNavigate } from 'react-router-dom';
-
+import videoBackground from '../../assets/video/background.mp4';
 const DataLogin = [
   {
     id: '1',
@@ -32,8 +32,21 @@ export default function Login() {
 
   return (
     <div className="bg-slate-500 ">
-      <main className="fixed w-full h-full top-0 place-content-center items-center flex flex-col bg-[#252b42]">
-        <h1 className="text-yellow-200 font-bold text-center text-5xl mb-20">
+      <div className="overlay" />
+      <video
+        style={{
+          height: '100vh',
+          width: '100%',
+          objectFit: 'cover',
+        }}
+        src={videoBackground}
+        autoPlay
+        muted
+        loop
+        id="myVideo"
+      />
+      <main className="fixed w-full h-full top-0 place-content-center items-center flex flex-col">
+        <h1 className="text-[#fff] uppercase font-bold text-center text-5xl mb-20">
           <p className="my-4"> Đăng Nhập </p>
           <p className="my-4">VLU Training</p>
         </h1>
@@ -45,7 +58,7 @@ export default function Login() {
                 style={{
                   width: 300,
                 }}
-                className=" bg-white flex flex-col items-center m-4 p-3 py-12 rounded-lg cursor-pointer hover:-translate-y-4  "
+                className="group bg-[#fff] button_login hover:text-black flex flex-col items-center m-4 p-3 py-12 rounded-lg cursor-pointer hover:-translate-y-4 "
                 onClick={() => LoginPopUp(item)}
               >
                 <div className="w-full mb-4 flex flex-col items-center">
@@ -56,16 +69,15 @@ export default function Login() {
                     src={item.Logo}
                   />
                 </div>
-                <h2 className="text-blue-gray-900 font-normal text-2xl uppercase my-2 font-bold">
+                <h2 className="text-black group-hover:text-white font-normal text-2xl uppercase my-2 font-bold">
                   {item.title}
                 </h2>
-                <p className="text-blue-gray-900 text-lg">{item.description}</p>
+                <p className="text-black group-hover:text-white text-lg">
+                  {item.description}
+                </p>
               </div>
             );
           })}
-        </div>
-        <div className="layer layer-0">
-          <img src={trongdong} className="animation-0" alt="" />
         </div>
       </main>
     </div>

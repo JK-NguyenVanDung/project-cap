@@ -21,6 +21,7 @@ import {
 import { IoTrashOutline } from 'react-icons/io5';
 import { IAccountItem, IRoleItem } from '../../../Type';
 import PopOverAction from '../../../components/admin/PopOver';
+import DetailAccount from './DetailAccount';
 
 export default function Account() {
   const [showModal, setShowModal] = useState(false);
@@ -37,8 +38,6 @@ export default function Account() {
   const [data, setData] = useState<Array<IAccountItem>>([]);
   const [filterData, setFilterData] = useState([]);
   const handleEdit = (item: any) => {
-    // dispatch(actions.categoryActions.setDetail(data.ID))
-    // dispatch(actions.formActions.showForm())
     setDetail(item);
     setShowModal(true);
   };
@@ -57,7 +56,6 @@ export default function Account() {
     // dispatch(actions.formActions.showForm())
     setDetail(item);
     setShowDetail(true);
-    setShowModal(true);
   };
   function getDate(date: string) {
     return (
@@ -257,7 +255,6 @@ export default function Account() {
     return (
       <>
         <FormInput
-          disabled={detail || showDetail ? true : false}
           name="email"
           label="Email"
           rules={[
@@ -286,7 +283,6 @@ export default function Account() {
           ]}
         />
         <FormInput
-          disabled={showDetail ? true : false}
           name="roleId"
           options={getOptions()}
           type="select"
@@ -336,10 +332,16 @@ export default function Account() {
         FormItem={<FormItem />}
         dataFields={getDataFields()}
         form={form}
-        header={showDetail ? 'Xem Chi Tiết' : 'Phân Quyền'}
-        showDetail={showDetail}
-        setShowDetail={setShowDetail}
+        header={'Phân Quyền'}
       />
+      {showDetail ? (
+        <DetailAccount
+          item={detail}
+          setItem={setDetail}
+          visible={showDetail}
+          setVisible={setShowDetail}
+        />
+      ) : null}
     </>
   );
 }

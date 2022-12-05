@@ -1,7 +1,7 @@
 import { useMsal } from '@azure/msal-react';
 import React, { useEffect, useState } from 'react';
 import { loginRequest } from '../pages/authentication/loginconfig';
-import { Spin } from 'antd';
+import { Spin, notification } from 'antd';
 import { Navigate, useNavigate } from 'react-router-dom';
 import MakeAdminRouter from './AdminRouter';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -17,22 +17,6 @@ export default function Logined() {
 
   useEffect(() => {
     setLoading(true);
-    const postLogin = async () => {
-      try {
-        const reponseToken: any = await apiService.postAdminUser({
-          token: acceptToken,
-        });
-        if (reponseToken) {
-          setLoading(false);
-
-          dispatch(actions.authActions.Login(reponseToken.token));
-          localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
-        }
-      } catch (error) {
-        localStorage.clear();
-        navigate('/');
-      }
-    };
     function RequestAccessToken() {
       const request = {
         ...loginRequest,
@@ -50,10 +34,15 @@ export default function Logined() {
               setLoading(false);
               dispatch(actions.authActions.Login(reponseToken.token));
               localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
+              notification.success({ message: 'Đăng Nhập Thành Công' });
+            } else {
+              navigate('/');
+              notification.error({ message: 'Đăng Nhập Không Thành Công' });
             }
           } catch (error) {
             localStorage.clear();
             navigate('/');
+            notification.error({ message: 'Đăng Nhập Không Thành Công' });
           }
         })
         .catch((e) => {
@@ -61,7 +50,7 @@ export default function Logined() {
         });
     }
     RequestAccessToken();
-  }, [loading]);
+  }, []);
 
   const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
   return (

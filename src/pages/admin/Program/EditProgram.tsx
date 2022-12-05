@@ -49,7 +49,9 @@ export default function EditProgram() {
           EndDate: item ? moment(item.endDate) : '',
           AcademicYearId: item ? item.academicYearId : '',
           Semester: item ? item.semester?.toString() : '',
-          Positions: item ? item.positions : '',
+          Positions: item
+            ? item.position.map((item: any) => item.positionName)
+            : '',
           FacultyId: item ? item.facultyId : '',
           CategoryId: item ? item.categoryId : '',
           Descriptions: item ? item.descriptions : '',

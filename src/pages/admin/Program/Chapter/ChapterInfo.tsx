@@ -249,7 +249,7 @@ export default function ChapterInfo() {
 
         <div className="w-full mb-6 z-100">
           <label className="text-black font-bold font-customFont ">
-            Nhúng video/slide
+            Nhúng {switchType ? 'Video' : 'Sline'}
             <Switch
               checked={switchType}
               onChange={setSwitchType}
