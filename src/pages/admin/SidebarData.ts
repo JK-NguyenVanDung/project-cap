@@ -23,25 +23,26 @@ export const SideBarData = [
     path: '/admin/Account',
   },
   {
-    title: 'Chương Trình',
-    icon: IoBook,
-    path: '/admin/Program',
-  },
-  {
     title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
-  },
-  {
-    title: 'Học Viên',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Learner',
   },
   {
     title: 'Phòng Ban',
     icon: BsHouse,
     path: '/admin/Faculties',
   },
+  {
+    title: 'Chương Trình',
+    icon: IoBook,
+    path: '/admin/Program',
+  },
+
+  // {
+  //   title: 'Học Viên',
+  //   icon: BsFillPersonBadgeFill,
+  //   path: '/admin/Learner',
+  // },
 ];
 export const SideBarDataCT = [
   {
