@@ -115,7 +115,7 @@ export default function CustomButton({
       }`}
       onClick={(e) => onClick(e)}
       variant={variant}
-      {...style}
+      // {...style}
     >
       {!noIcon && <Icon className={`mx-2 text-base ${iconClass}`} />}
       <p className={`font-customFont  font-semibold ${textClassName}`}>
