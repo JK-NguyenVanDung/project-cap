@@ -450,6 +450,24 @@ export default function Question() {
 
     getTypes();
     getData();
+    return () => {
+      let next = {
+        testsId: testId,
+        typeId: 1,
+        questionTitle: '',
+        score: 1,
+      };
+      // data.pop();
+
+      setData([next]);
+      dispatch(actions.questionActions.setRadioOptions(defaultOptions));
+
+      dispatch(actions.questionActions.setSelectedOptions([1]));
+      dispatch(actions.questionActions.setRadioValue(1));
+      dispatch(actions.questionActions.setCurrentQuestionIndex(0));
+      dispatch(actions.questionActions.setCurrentQuestion(next));
+      form.setFieldValue('score', 1);
+    };
   }, []);
   // useEffect(() => {
   //   let timer = setTimeout(async (e: any) => {
@@ -595,6 +613,7 @@ export default function Question() {
   }
   async function handleFinish(values: any) {
     await handleSubmit(values);
+    message.success('Lưu lại thành công các câu hỏi');
 
     goBack();
   }

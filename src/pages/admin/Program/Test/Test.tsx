@@ -58,17 +58,17 @@ export default function Test() {
     try {
       await apiService.removeTest(data.testId);
       message.success(MESSAGE.SUCCESS.DELETE);
-      navigate(`/admin/Program/${chapter}`);
+      navigate(`/admin/Program/Chapter/${chapter}`);
     } catch (err: any) {
       throw err.message;
     }
   }
 
-  async function getData(id: string) {
+  async function getData() {
     try {
       setLoading(true);
       // let res: any = await apiService.getPrograms();
-      let res: any = await apiService.getTest(Number(id));
+      let res: any = await apiService.getTest(Number(contentId));
 
       let ques: any = await apiService.getQuestions(res.testId);
       setQuestionAmount(ques.length);
@@ -93,7 +93,8 @@ export default function Test() {
 
   useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`Chương trình`));
-    getData(contentId);
+    getData();
+    console.log(contentId);
   }, [reload]);
 
   const handleOk = async () => {
@@ -114,6 +115,8 @@ export default function Test() {
           let id = data.testId;
           let res: any = await apiService.editTest({ output: output, id: id });
           setData(res);
+          dispatch(actions.formActions.setContentId(res.contentId));
+
           message.success('Thay đổi thành công');
           setReload(!reload);
 
@@ -122,6 +125,8 @@ export default function Test() {
         } else {
           let res: any = await apiService.addTest(output);
           setData(res);
+          dispatch(actions.formActions.setContentId(res.contentId));
+
           setReload(!reload);
           message.success('Thêm thành công');
           setLoading(false);
@@ -147,10 +152,10 @@ export default function Test() {
           show={showConfirm}
           setShow={setShowConfirm}
           handler={() => handleDelete()}
-          title={chapter?.toString()}
+          title={'bài kiểm tra chương ' + chapter?.toString()}
         >
           <p className="font-customFont text-xl font-[500]">
-            Xoá nội dung và bài kiểm tra của chương này{' '}
+            Xoá bài kiểm tra và các câu hỏi?
           </p>
         </ConfirmModal>
 
@@ -269,7 +274,7 @@ export default function Test() {
                   className="w-32 mr-4"
                   noIcon
                   color="red"
-                  onClick={() => handleDelete()}
+                  onClick={() => setShowConfirm(!showConfirm)}
                 />
               )}
               <button
