@@ -209,10 +209,10 @@ export default function Account() {
         } else {
           let exist = checkAccountExist(values.email);
           if ((await exist) === false) {
-            // await apiService.addAccount({
-            //   email: values.email,
-            //   roleId: values.roleId,
-            // });
+            await apiService.addAccount({
+              email: values.email,
+              roleId: values.roleId,
+            });
             setShowModal(false);
             setReload(!reload);
             message.success('Thêm thành công');

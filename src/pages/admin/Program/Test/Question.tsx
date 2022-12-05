@@ -92,8 +92,6 @@ export default function Question() {
     dispatch(actions.questionActions.setSelectedType(e));
 
     if (currentQuestion.typeId !== e && e === 2) {
-      console.log(1);
-
       dispatch(actions.questionActions.setSelectedOptions([1]));
     }
   };
@@ -105,8 +103,6 @@ export default function Question() {
           : false;
       if (a) {
         if (selectedOptions.length > 1) {
-          console.log(2);
-          console.log(selectedOptions.filter((item: any) => item !== value));
           dispatch(
             actions.questionActions.setSelectedOptions(
               selectedOptions.filter((item: any) => item !== value),
@@ -117,9 +113,6 @@ export default function Question() {
         }
       } else {
         if (selectedOptions.length < radioOptions.length - 1) {
-          console.log(3);
-          console.log([...selectedOptions, value]);
-
           dispatch(
             actions.questionActions.setSelectedOptions([
               ...selectedOptions,
@@ -181,6 +174,15 @@ export default function Question() {
         await apiService.removeAnswer(
           currentQuestion.questionContents[numb - 1].questionContentId,
         );
+        // dispatch(
+        //   actions.questionActions.setRadioOptions(
+        //     radioOptions.map((item: IQuestionOption, index: number) => {
+        //       return {
+        //         value: index + 1,
+        //       };
+        //     }),
+        //   ),
+        // );
         if (currentQuestion.questionContents[numb - 1].isAnswer) {
           let count = 0;
 
@@ -190,8 +192,6 @@ export default function Question() {
             }
           }
           if (count < 2) {
-            console.log(4);
-
             dispatch(actions.questionActions.setSelectedOptions([1]));
             dispatch(actions.questionActions.setRadioValue(1));
           }
@@ -304,12 +304,10 @@ export default function Question() {
 
     dispatch(actions.questionActions.setRadioOptions(radioOptions));
 
-    defaultChecked.length > 1
-      ? (console.log(5),
-        dispatch(actions.questionActions.setSelectedOptions(defaultChecked)))
+    base.typeId === 2
+      ? dispatch(actions.questionActions.setSelectedOptions(defaultChecked))
       : dispatch(actions.questionActions.setRadioValue(defaultChecked[0]));
 
-    console.log(content);
     form.setFieldsValue(content);
   };
   function restoreDefault() {
@@ -352,7 +350,6 @@ export default function Question() {
           }
         }
       });
-      selected.length > 0 && console.log(6);
 
       selected.length > 0 &&
         dispatch(actions.questionActions.setSelectedOptions(selected));
@@ -410,7 +407,6 @@ export default function Question() {
             }
           }
         });
-        selected.length > 0 && console.log(7);
         selected.length > 0 &&
           dispatch(actions.questionActions.setSelectedOptions(selected));
         form.setFieldsValue(content);
@@ -620,7 +616,7 @@ export default function Question() {
 
     setData(res);
     dispatch(actions.questionActions.setRadioOptions(defaultOptions));
-    console.log(9);
+
     dispatch(actions.questionActions.setSelectedOptions([1]));
     dispatch(actions.questionActions.setRadioValue(1));
     dispatch(actions.questionActions.setCurrentQuestionIndex(res.length - 1));

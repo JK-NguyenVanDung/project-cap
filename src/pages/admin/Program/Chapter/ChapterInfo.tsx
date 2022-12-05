@@ -116,16 +116,14 @@ export default function ChapterInfo() {
   }
 
   const handleOk = async () => {
-    console.log(4);
-
     form
       .validateFields()
       .then(async (values) => {
-        // console.log(3);
         const response: any = await apiService.getContentProgram(programId);
-        let nextChapter = response[response.length - 1].chapter;
+        console.log(response);
+        let nextChapter = response[response.length - 1];
         let outputAdd = {
-          chapter: nextChapter ? nextChapter + 1 : 1,
+          chapter: nextChapter ? nextChapter.chapter + 1 : 1,
           programId: programId,
           contentTitle: values.contentTitle,
           contentDescription: values.contentDescription,
