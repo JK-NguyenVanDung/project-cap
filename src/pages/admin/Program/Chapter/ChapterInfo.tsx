@@ -87,9 +87,7 @@ export default function ChapterInfo() {
       // let res: any = await apiService.getPrograms();
       let res: any = await apiService.getContent(contentId);
 
-      let ques: any = await apiService.getTest(contentId);
       setData(res);
-      ques && setQuestionId(ques.testId);
       form.resetFields();
       const setForm = () => {
         updateRef(res.content);
@@ -159,6 +157,9 @@ export default function ChapterInfo() {
           dispatch(actions.formActions.setChapter(response.indexOf(temp) + 1));
           dispatch(actions.formActions.setContentId(res.contentId));
 
+          let ques: any = await apiService.getTest(res.contentId);
+          ques && setQuestionId(ques.testId);
+
           setReload(!reload);
 
           setLoading(false);
@@ -174,6 +175,8 @@ export default function ChapterInfo() {
 
           dispatch(actions.formActions.setChapter(response.indexOf(temp) + 1));
           dispatch(actions.formActions.setContentId(res.contentId));
+          let ques: any = await apiService.getTest(res.contentId);
+          ques && setQuestionId(ques.testId);
 
           message.success('Thêm thành công');
           setReload(!reload);
