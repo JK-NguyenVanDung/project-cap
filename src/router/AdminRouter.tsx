@@ -78,39 +78,76 @@ const Leaner = [
   },
 ];
 export default function MakePagesRouter() {
-  const [roleId, setRoleId] = useState();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
+  const [roleId, setRoleId] = useState();
+  const LoginParmas = useAppSelector((state) => state.auth.LoginId);
   useEffect(() => {
-    async () => {
+    const fetchInfo = async () => {
       const response: any = await apiService.getProfile();
       setRoleId(response.roleId);
       dispatch(actions.authActions.setInfo(response));
     };
+    fetchInfo();
   }, []);
-  return (
-    <Routes>
-      <Route
-        path="/admin/Program/Chapter/:number/Test/Question"
-        element={<Question />}
-      />
-      {roleId == 1
-        ? Leaner.map((router, index) => {
+  const RouterLeaner = () => {
+    if (LoginParmas.id == 1) {
+      console.log('leadner');
+
+      return (
+        <Routes>
+          {Leaner.map((router, index) => {
             return (
               <Route key={index} path={router.path} element={router.element} />
             );
-          })
-        : RouterPages.map((router, index) => {
-            return (
-              <Route
-                key={index}
-                path={router.path}
-                element={<SideBar content={router.element} />}
-              />
-            );
           })}
-      <Route path="/login" element={<Logined />} />
-      <Route path="/" element={<LandingPage />} />
-    </Routes>
-  );
+
+          <Route path="/login" element={<Logined />} />
+          <Route path="/" element={<LandingPage />} />
+        </Routes>
+      );
+    }
+
+    if (LoginParmas.id == 2) {
+      if (roleId != 1) {
+        console.log('admin');
+
+        return (
+          <Routes>
+            {RouterPages.map((router, index) => {
+              return (
+                <Route
+                  key={index}
+                  path={router.path}
+                  element={<SideBar content={router.element} />}
+                />
+              );
+            })}
+            <Route
+              path="/admin/Program/Chapter/:number/Test/Question"
+              element={<Question />}
+            />
+            <Route path="/login" element={<Logined />} />
+            <Route path="/" element={<LandingPage />} />
+          </Routes>
+        );
+      } else {
+        return (
+          <Routes>
+            {Leaner.map((router, index) => {
+              return (
+                <Route
+                  key={index}
+                  path={router.path}
+                  element={router.element}
+                />
+              );
+            })}
+            <Route path="/login" element={<Logined />} />
+            <Route path="/" element={<LandingPage />} />
+          </Routes>
+        );
+      }
+    }
+  };
+  return <RouterLeaner />;
 }

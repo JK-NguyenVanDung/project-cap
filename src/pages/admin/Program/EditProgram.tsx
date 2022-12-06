@@ -249,6 +249,10 @@ export default function EditProgram() {
                   required: true,
                   message: 'Vui Lòng Nhập Vào Coin',
                 },
+                {
+                  pattern: new RegExp('^[0-9]$'),
+                  message: 'Vui Lòng Nhập Vào Số',
+                },
               ]}
             />
             <div className="mt-12">

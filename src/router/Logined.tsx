@@ -14,6 +14,7 @@ export default function Logined() {
   const navigate = useNavigate();
   const [acceptToken, setAccessToken] = useState('');
   const { instance, accounts } = useMsal();
+  const LoginParmas = useAppSelector((state) => state.auth.LoginId);
 
   useEffect(() => {
     setLoading(true);
@@ -35,6 +36,14 @@ export default function Logined() {
               dispatch(actions.authActions.Login(reponseToken.token));
               localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
               notification.success({ message: 'Đăng Nhập Thành Công' });
+              if (LoginParmas.id == 1) {
+                navigate('/home');
+                console.log('abc');
+              }
+              if (LoginParmas.id == 2) {
+                navigate('/admin');
+                console.log('xyz');
+              }
             }
           } catch (error) {}
         })
@@ -44,13 +53,7 @@ export default function Logined() {
     }
     RequestAccessToken();
   }, []);
-  const LoginParmas = useAppSelector((state) => state.auth.LoginId);
-  if (LoginParmas.id == 1) {
-    navigate('/home');
-  }
-  if (LoginParmas.id == 2) {
-    navigate('/admin');
-  }
+
   const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
   return (
     <div
