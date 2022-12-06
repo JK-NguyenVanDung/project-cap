@@ -8,6 +8,8 @@ import './index.css';
 import { loginRequest } from './loginconfig';
 import { useNavigate } from 'react-router-dom';
 import videoBackground from '../../assets/video/background.mp4';
+import { useAppDispatch } from '../../hook/useRedux';
+import { actions } from '../../Redux';
 const DataLogin = [
   {
     id: '1',
@@ -23,11 +25,11 @@ const DataLogin = [
   },
 ];
 export default function Login() {
+  const dispatch = useAppDispatch();
   const { instance } = useMsal();
   function LoginPopUp(item: any) {
-    instance.loginPopup(loginRequest).catch((e) => {
-      console.log(e);
-    });
+    instance.loginPopup(loginRequest).catch((e) => {});
+    dispatch(actions.authActions.setRoleLogin(item));
   }
 
   return (

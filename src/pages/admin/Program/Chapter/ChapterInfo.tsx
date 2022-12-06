@@ -44,6 +44,8 @@ export default function ChapterInfo() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
 
+  const [questionId, setQuestionId] = useState(null);
+
   const [showConfirm, setShowConfirm] = useState(false);
   const [iframe, setIframe] = useState(null);
   const [data, setData] = useState<IChapterItem>(null);
@@ -62,14 +64,19 @@ export default function ChapterInfo() {
 
   const handleDelete = async () => {
     try {
-      navigate(`/admin/Program/showDetail`);
+      questionId && (await apiService.removeTest(questionId));
+
       await apiService.delChapter(contentId);
+      navigate(`/admin/Program/showDetail`);
+
       message.success(MESSAGE.SUCCESS.DELETE);
     } catch (err: any) {
       throw err.message;
     }
   };
   function navToTest() {
+    console.log(contentId);
+
     navigateParams(`/admin/Program/Chapter/${itemChapter}/Test`, {
       id: contentId,
     });
@@ -80,9 +87,7 @@ export default function ChapterInfo() {
       // let res: any = await apiService.getPrograms();
       let res: any = await apiService.getContent(contentId);
 
-      // let ques: any = await apiService.getQuestions(res.testId);
       setData(res);
-
       form.resetFields();
       const setForm = () => {
         updateRef(res.content);
@@ -143,14 +148,16 @@ export default function ChapterInfo() {
         if (data) {
           let res: any = await apiService.putContent(contentId, output);
           const response: any = await apiService.getContentProgram(programId);
-
+          message.success('Thay đổi thành công');
           let temp = response.filter(
             (item: any) => res.contentId === item.contentId,
           )[0];
 
-          message.success('Thay đổi thành công');
           dispatch(actions.formActions.setChapter(response.indexOf(temp) + 1));
           dispatch(actions.formActions.setContentId(res.contentId));
+
+          let ques: any = await apiService.getTest(res.contentId);
+          ques && setQuestionId(ques.testId);
 
           setReload(!reload);
 
@@ -160,6 +167,7 @@ export default function ChapterInfo() {
         } else {
           let res: any = await apiService.postContent(outputAdd);
           const response: any = await apiService.getContentProgram(programId);
+          message.success('Thêm thành công');
 
           let temp = response.filter(
             (item: any) => res.contentId === item.contentId,
@@ -167,8 +175,9 @@ export default function ChapterInfo() {
 
           dispatch(actions.formActions.setChapter(response.indexOf(temp) + 1));
           dispatch(actions.formActions.setContentId(res.contentId));
+          let ques: any = await apiService.getTest(res.contentId);
+          ques && setQuestionId(ques.testId);
 
-          message.success('Thêm thành công');
           setReload(!reload);
 
           form.resetFields();
@@ -196,7 +205,7 @@ export default function ChapterInfo() {
         title={`chương ${itemChapter?.toString()}`}
       >
         <p className="font-customFont text-xl font-[500]">
-          Xoá nội dung và bài kiểm tra của chương này{' '}
+          Xoá nội dung và bài kiểm tra của chương này?
         </p>
       </ConfirmModal>
       <div className="w-full h-14 flex items-center justify-between border-b mb-8">

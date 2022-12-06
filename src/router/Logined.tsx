@@ -35,15 +35,8 @@ export default function Logined() {
               dispatch(actions.authActions.Login(reponseToken.token));
               localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
               notification.success({ message: 'Đăng Nhập Thành Công' });
-            } else {
-              navigate('/');
-              notification.error({ message: 'Đăng Nhập Không Thành Công' });
             }
-          } catch (error) {
-            localStorage.clear();
-            navigate('/');
-            notification.error({ message: 'Đăng Nhập Không Thành Công' });
-          }
+          } catch (error) {}
         })
         .catch((e) => {
           console.log(e);
@@ -51,7 +44,13 @@ export default function Logined() {
     }
     RequestAccessToken();
   }, []);
-
+  const LoginParmas = useAppSelector((state) => state.auth.LoginId);
+  if (LoginParmas.id == 1) {
+    navigate('/home');
+  }
+  if (LoginParmas.id == 2) {
+    navigate('/admin');
+  }
   const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
   return (
     <div

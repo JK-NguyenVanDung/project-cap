@@ -41,7 +41,10 @@ export default function () {
         >
           <IoNotifications className="text-xl" />
         </IconButton>
-        <span className="mr-4"> Xin Chào {info.role.roleName} </span>
+        <span className="mr-4">
+          {' '}
+          Xin Chào {info.role == 1 ? null : info.role.roleName}{' '}
+        </span>
         <span> {accounts[0].name?.slice(12, 29)}</span>
         <MenuHandler>
           <button className="rounded-[12rem] mx-2 bg-white shadow-none hover:shadow-none p-0 ">

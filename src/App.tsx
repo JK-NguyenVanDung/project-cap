@@ -9,16 +9,13 @@ import {
 } from '@azure/msal-react';
 
 import Login from './pages/authentication/Login';
-import PageRouter from './router';
-import { useAppDispatch } from './hook/useRedux';
-import apiService from './api/apiService';
-import { actions } from './Redux';
+import MakePagesRouter from './router/AdminRouter';
 
 function App() {
   return (
     <>
       <AuthenticatedTemplate>
-        <PageRouter />
+        <MakePagesRouter />
       </AuthenticatedTemplate>
       <UnauthenticatedTemplate>
         <Routes>

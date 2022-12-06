@@ -49,9 +49,7 @@ export default function EditProgram() {
           EndDate: item ? moment(item.endDate) : '',
           AcademicYearId: item ? item.academicYearId : '',
           Semester: item ? item.semester?.toString() : '',
-          Positions: item
-            ? item.position.map((item: any) => item.positionName)
-            : '',
+          Positions: item ? item.position : '',
           FacultyId: item ? item.facultyId : '',
           CategoryId: item ? item.categoryId : '',
           Descriptions: item ? item.descriptions : '',
@@ -395,7 +393,7 @@ export default function EditProgram() {
                 },
               ]}
             >
-              <DatePicker picker="date" />
+              <DatePicker placeholder="Chọn Ngày" picker="date" />
             </Form.Item>
             <label className=" text-black font-bold font-customFont ">
               Ngày Kết Thúc
@@ -409,7 +407,7 @@ export default function EditProgram() {
                 },
               ]}
             >
-              <DatePicker picker="date" />
+              <DatePicker placeholder="Chọn Ngày" picker="date" />
             </Form.Item>
             <div>
               <CustomButton

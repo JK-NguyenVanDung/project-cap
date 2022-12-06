@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/newline-after-import
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import SideBar from '../pages/admin';
 import Dashboard from '../pages/admin/Dashboard/Dashboard';
@@ -16,8 +16,11 @@ import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
 import Question from '../pages/admin/Program/Test/Question';
 import Test from '../pages/admin/Program/Test/Test';
 import Home from '../pages/client';
+import apiService from '../api/apiService';
+import { useAppDispatch, useAppSelector } from '../hook/useRedux';
+import { actions } from '../Redux';
 
-export const AdminRouter = [
+export const RouterPages = [
   {
     path: '/admin',
     element: <Dashboard />,
@@ -63,28 +66,49 @@ export const AdminRouter = [
     path: '/admin/EditProgram',
     element: <EditProgram />,
   },
-  //leaner
   {
     path: '/home',
     element: <Home />,
   },
 ];
-export default function MakeAdminRouter() {
+const Leaner = [
+  {
+    path: '/home',
+    element: <Home />,
+  },
+];
+export default function MakePagesRouter() {
+  const [roleId, setRoleId] = useState();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    async () => {
+      const response: any = await apiService.getProfile();
+      setRoleId(response.roleId);
+      dispatch(actions.authActions.setInfo(response));
+    };
+  }, []);
   return (
     <Routes>
-      {AdminRouter.map((router, index) => {
-        return (
-          <Route
-            key={index}
-            path={router.path}
-            element={<SideBar content={router.element} />}
-          />
-        );
-      })}
       <Route
         path="/admin/Program/Chapter/:number/Test/Question"
         element={<Question />}
       />
+      {roleId == 1
+        ? Leaner.map((router, index) => {
+            return (
+              <Route key={index} path={router.path} element={router.element} />
+            );
+          })
+        : RouterPages.map((router, index) => {
+            return (
+              <Route
+                key={index}
+                path={router.path}
+                element={<SideBar content={router.element} />}
+              />
+            );
+          })}
       <Route path="/login" element={<Logined />} />
       <Route path="/" element={<LandingPage />} />
     </Routes>
