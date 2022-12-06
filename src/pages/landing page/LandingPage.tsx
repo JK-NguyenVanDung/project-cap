@@ -119,6 +119,8 @@ const Header = (props: any) => {
   );
 };
 const Home = React.forwardRef((props, ref: any) => {
+  const navigate = useNavigate();
+
   return (
     <div
       ref={ref}
@@ -136,7 +138,7 @@ const Home = React.forwardRef((props, ref: any) => {
             Hãy đăng nhập để tham gia khoá học của chúng tôi
           </h3>
           <div className="flex flex-row justify-center items-center">
-            <Button onClick={() => {}}>Tham gia đào tạo</Button>
+            <Button onClick={() => navigate('/login')}>Tham gia đào tạo</Button>
           </div>
         </div>
       </div>
@@ -231,6 +233,8 @@ function WhiteBlob() {
 }
 
 const Product = React.forwardRef((props, ref: any) => {
+  const navigate = useNavigate();
+
   return (
     <section ref={ref} className={`z-0  h-screen w-screen bg-gradient`}>
       <div className=" z-10 h-[20vh] separationBg w-full"></div>
@@ -240,7 +244,7 @@ const Product = React.forwardRef((props, ref: any) => {
             Một số khoá học mẫu của chúng tôi
           </p>
           <Button
-            onClick={() => {}}
+            onClick={() => navigate('/login')}
             className=" h-12 btn-transparent text-blue-700"
           >
             Xem thêm
@@ -272,6 +276,8 @@ const Product = React.forwardRef((props, ref: any) => {
   );
 });
 const ProductCard = (props: any) => {
+  const navigate = useNavigate();
+
   return (
     <div className="max-sm:m-4  relative max-w-[15rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <a>
@@ -296,7 +302,10 @@ const ProductCard = (props: any) => {
           </div>
         </div>
         <div className="flex w-full justify-center">
-          <Button onClick={() => {}} className="btn-primary btn-l">
+          <Button
+            onClick={() => navigate('/login')}
+            className="btn-primary btn-l"
+          >
             Xem khoá học
           </Button>
         </div>

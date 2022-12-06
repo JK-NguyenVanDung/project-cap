@@ -51,7 +51,7 @@ export default function () {
             {accounts[0].name?.slice(12, 29)}
           </MenuItem>
 
-          <MenuItem className="font-customFont">Trang Cá Nhân</MenuItem>
+          {/* <MenuItem className="font-customFont">Trang Cá Nhân</MenuItem> */}
 
           <MenuItem className="font-customFont" onClick={() => logoutAdmin()}>
             Đăng Xuất
