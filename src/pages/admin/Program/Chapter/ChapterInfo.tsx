@@ -148,12 +148,11 @@ export default function ChapterInfo() {
         if (data) {
           let res: any = await apiService.putContent(contentId, output);
           const response: any = await apiService.getContentProgram(programId);
-
+          message.success('Thay đổi thành công');
           let temp = response.filter(
             (item: any) => res.contentId === item.contentId,
           )[0];
 
-          message.success('Thay đổi thành công');
           dispatch(actions.formActions.setChapter(response.indexOf(temp) + 1));
           dispatch(actions.formActions.setContentId(res.contentId));
 
@@ -168,6 +167,7 @@ export default function ChapterInfo() {
         } else {
           let res: any = await apiService.postContent(outputAdd);
           const response: any = await apiService.getContentProgram(programId);
+          message.success('Thêm thành công');
 
           let temp = response.filter(
             (item: any) => res.contentId === item.contentId,
@@ -178,7 +178,6 @@ export default function ChapterInfo() {
           let ques: any = await apiService.getTest(res.contentId);
           ques && setQuestionId(ques.testId);
 
-          message.success('Thêm thành công');
           setReload(!reload);
 
           form.resetFields();
