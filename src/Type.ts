@@ -36,11 +36,8 @@ const AccountItem = z.object({
   extendnalId: z.string(),
   email: z.string(),
   phoneNumber: z.string(),
-  essayAnswers: z.unknown(),
   learnerAccountIdApproverNavigations: z.unknown(),
   learnerAccountIdLearnerNavigations: z.unknown(),
-  multipleChoiceAnswers: z.unknown(),
-  programs: z.unknown(),
   role: z.string(),
 });
 
