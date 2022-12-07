@@ -34,13 +34,14 @@ export default function EditProgram() {
   const frmData: any = new FormData();
   const navigate = useNavigate();
   const item: any = useAppSelector((state) => state.form.setProgram);
-  console.log(item);
+  const [valuePositons, setValuePositions]: any = useState({});
 
   useEffect(() => {
     getFacuties();
     getCategories();
     getAcedemicYear();
     getPositions();
+
     item
       ? (form.setFieldsValue({
           ProgramName: item ? item.programName : '',
@@ -49,12 +50,17 @@ export default function EditProgram() {
           EndDate: item ? moment(item.endDate) : '',
           AcademicYearId: item ? item.academicYearId : '',
           Semester: item ? item.semester?.toString() : '',
-          Positions: item ? item.position : '',
           FacultyId: item ? item.facultyId : '',
           CategoryId: item ? item.categoryId : '',
           Descriptions: item ? item.descriptions : '',
+          Positions: item ? valuePositons : '',
         }),
-        setImage(item.image))
+        setImage(item.image),
+        setValuePositions(
+          item?.position.map((item: any) => {
+            return item.positionName;
+          }),
+        ))
       : form.setFieldsValue(setLoading(false));
   }, [loading]);
   const getFacuties = async () => {
@@ -96,13 +102,20 @@ export default function EditProgram() {
     : '';
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
+    setValuePositions(newFileList);
+    console.log(newFileList);
+  };
+  const onChangePosition: UploadProps['onChange'] = ({
+    fileList: newFileList,
+  }) => {
+    setFileList(newFileList);
+    console.log(newFileList);
   };
   const onSearch = () => {};
   const handelOk = async () => {
     form
       .validateFields()
       .then(async (values) => {
-        console.log(values);
         frmData.append(
           'ProgramName',
           values.ProgramName ? values.ProgramName : item.programName,
@@ -249,10 +262,6 @@ export default function EditProgram() {
                   required: true,
                   message: 'Vui Lòng Nhập Vào Coin',
                 },
-                {
-                  pattern: new RegExp('^[0-9]$'),
-                  message: 'Vui Lòng Nhập Vào Số',
-                },
               ]}
             />
             <div className="mt-12">
@@ -301,9 +310,9 @@ export default function EditProgram() {
                 ]}
               >
                 <Select placeholder="Chọn Học Kì">
-                  <Option value="1">Năm I</Option>
-                  <Option value="2">Năm II</Option>
-                  <Option value="3">Năm III</Option>
+                  <Option value="1">Học Kì 1</Option>
+                  <Option value="2">Học Kì 2</Option>
+                  <Option value="3">Học Kì 3</Option>
                 </Select>
               </Form.Item>
               <label className="text-black font-bold font-customFont">
@@ -350,7 +359,7 @@ export default function EditProgram() {
                 <Select
                   placeholder="Chọn Chức Vụ"
                   optionFilterProp="children"
-                  onChange={onChange}
+                  onChange={onChangePosition}
                   mode="multiple"
                 >
                   {optionPosition}

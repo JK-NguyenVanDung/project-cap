@@ -45,7 +45,6 @@ export default function Faculties() {
     setAddFaculties(true);
   };
   async function handleDelete(item: IFaculties) {
-    console.log(item.facultyId);
     try {
       await apiService.delFaculties(item.facultyId);
       setLoading(!loading);

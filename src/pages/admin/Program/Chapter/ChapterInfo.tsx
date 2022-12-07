@@ -75,8 +75,6 @@ export default function ChapterInfo() {
     }
   };
   function navToTest() {
-    console.log(contentId);
-
     navigateParams(`/admin/Program/Chapter/${itemChapter}/Test`, {
       id: contentId,
     });
@@ -125,7 +123,6 @@ export default function ChapterInfo() {
       .validateFields()
       .then(async (values) => {
         const response: any = await apiService.getContentProgram(programId);
-        console.log(response);
         let nextChapter = response[response.length - 1];
         let outputAdd = {
           chapter: nextChapter ? nextChapter.chapter + 1 : 1,

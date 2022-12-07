@@ -65,11 +65,6 @@ export const SideBarDataCT = [
     icon: IoBook,
     path: '/admin/Program',
   },
-  {
-    title: 'Học Viên',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Learner',
-  },
 ];
 
 export const SideBarDataFacul = [
@@ -92,10 +87,5 @@ export const SideBarDataFacul = [
     title: 'Chương Trình',
     icon: IoBook,
     path: '/admin/Program',
-  },
-  {
-    title: 'Học Viên',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Learner',
   },
 ];

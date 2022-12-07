@@ -186,7 +186,6 @@ export default function Account() {
   async function checkAccountExist(email: string) {
     let res: any = await apiService.getAccounts();
     let obj = res.find((e: IAccountItem) => e.email === email);
-    console.log(obj);
     return obj !== undefined ? true : false;
   }
   const handleOk = async () => {

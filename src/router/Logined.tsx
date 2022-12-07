@@ -38,11 +38,9 @@ export default function Logined() {
               notification.success({ message: 'Đăng Nhập Thành Công' });
               if (LoginParmas.id == 1) {
                 navigate('/home');
-                console.log('abc');
               }
               if (LoginParmas.id == 2) {
                 navigate('/admin');
-                console.log('xyz');
               }
             }
           } catch (error) {}

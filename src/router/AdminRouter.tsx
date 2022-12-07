@@ -91,8 +91,6 @@ export default function MakePagesRouter() {
   }, []);
   const RouterLeaner = () => {
     if (LoginParmas.id == 1) {
-      console.log('leadner');
-
       return (
         <Routes>
           {Leaner.map((router, index) => {
@@ -109,8 +107,6 @@ export default function MakePagesRouter() {
 
     if (LoginParmas.id == 2) {
       if (roleId != 1) {
-        console.log('admin');
-
         return (
           <Routes>
             {RouterPages.map((router, index) => {
