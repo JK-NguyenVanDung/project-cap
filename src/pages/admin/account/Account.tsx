@@ -252,80 +252,56 @@ export default function Account() {
 
   const FormItem = () => {
     return (
-      <div className="grid grid-cols-2	 gap-32">
-        <div>
-          <FormInput
-            disabled={detail || showDetail ? true : false}
-            name="email"
-            label="Email"
-            rules={[
-              {
-                required: true,
-                message: 'Vui Lòng Nhập Vào Email',
-              },
-              // {
-              //   pattern: new RegExp(/.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$/),
-              //   message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU',
-              // },
-              {
-                pattern: new RegExp(
-                  /^\w*[A-Za-z]+(?:([._]?\w+)*)\@[A-Za-z]\w*[-]?\w+\.[A-Za-z]{1,}?(\.?[A-Za-z]+)$/,
-                ),
-                message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU ',
-              },
-              {
-                pattern: new RegExp(/^\w/),
-                message: errorText.email,
-              },
-              {
-                pattern: new RegExp(/^(?!\s*$|\s).*$/),
-                message: errorText.space,
-              },
-            ]}
-          />
-          <FormInput
-            disabled={showDetail ? true : false}
-            name="roleId"
-            options={getOptions()}
-            type="select"
-            label="Vai trò"
-            rules={[
-              {
-                required: true,
-                message: 'Vui Lòng Chọn Vai trò',
-              },
-            ]}
-          />
-          {showDetail && (
-            <FormInput
-              disabled={true}
-              name="phoneNumber"
-              label="Số điện thoại"
-              placeholder="Không có thông tin số điện thoại"
-            />
-          )}
-        </div>
+      <div>
+        <FormInput
+          disabled={detail || showDetail ? true : false}
+          name="email"
+          label="Email"
+          rules={[
+            {
+              required: true,
+              message: 'Vui Lòng Nhập Vào Email',
+            },
+            // {
+            //   pattern: new RegExp(/.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$/),
+            //   message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU',
+            // },
+            {
+              pattern: new RegExp(
+                /^\w*[A-Za-z]+(?:([._]?\w+)*)\@[A-Za-z]\w*[-]?\w+\.[A-Za-z]{1,}?(\.?[A-Za-z]+)$/,
+              ),
+              message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU ',
+            },
+            {
+              pattern: new RegExp(/^\w/),
+              message: errorText.email,
+            },
+            {
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
+              message: errorText.space,
+            },
+          ]}
+        />
+        <FormInput
+          disabled={showDetail ? true : false}
+          name="roleId"
+          options={getOptions()}
+          type="select"
+          label="Vai trò"
+          rules={[
+            {
+              required: true,
+              message: 'Vui Lòng Chọn Vai trò',
+            },
+          ]}
+        />
         {showDetail && (
-          <div>
-            <FormInput
-              disabled={true}
-              name="fullName"
-              label="Tên"
-              placeholder="Không có thông tin tên"
-            />
-            <FormInput
-              disabled={true}
-              name="faculty"
-              label="Ngành"
-              placeholder="Không có thông tin ngành"
-            />
-            <FormInput
-              disabled={true}
-              name="role"
-              label="Vai trò"
-              placeholder="Không có thông tin vai trò"
-            />
-          </div>
+          <FormInput
+            disabled={true}
+            name="phoneNumber"
+            label="Số điện thoại"
+            placeholder="Không có thông tin số điện thoại"
+          />
         )}
       </div>
     );
@@ -356,7 +332,6 @@ export default function Account() {
         ]}
       />
       <CustomModal
-        width={showDetail && '100%'}
         centered={true}
         show={showModal}
         setShow={setShowModal}
