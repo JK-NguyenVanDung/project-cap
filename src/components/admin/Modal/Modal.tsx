@@ -27,6 +27,9 @@ export default function CustomModal({
   header,
   showDetail,
   setShowDetail,
+  width,
+  showButton,
+  confirmLoading,
 }: {
   handleOk?: any;
   name?: any;
@@ -40,7 +43,10 @@ export default function CustomModal({
   isFocused?: boolean;
   header?: string;
   showDetail?: boolean;
+  width?: number;
   setShowDetail?: Function;
+  confirmLoading?: boolean;
+  showButton?: boolean;
 }) {
   const dismiss: dismissType = {
     outsidePointerDown: !isFocused,
@@ -73,6 +79,8 @@ export default function CustomModal({
       onCancel={handleShow}
       onOk={handleShow}
       centered
+      width={width}
+      confirmLoading={confirmLoading}
       footer={
         !showDetail && (
           <div className=" my-5 flex flex-row justify-evenly w-full">
@@ -84,15 +92,17 @@ export default function CustomModal({
               color="blue-gray"
               onClick={handleShow}
             />
-            <CustomButton
-              size="md"
-              onClick={() => handleOk()}
-              fullWidth={true}
-              className="mx-2"
-              noIcon={true}
-              color="blue-gray"
-              text={!dataItem ? `Lưu` : header ? header : 'Lưu'}
-            />
+            {showButton ? null : (
+              <CustomButton
+                size="md"
+                onClick={() => handleOk()}
+                fullWidth={true}
+                className="mx-2"
+                noIcon={true}
+                color="blue-gray"
+                text={!dataItem ? `Lưu` : header ? header : 'Lưu'}
+              />
+            )}
           </div>
         )
       }

@@ -68,7 +68,8 @@ export default function SideBar({ content }: { content: any }) {
                       </div>
                     );
                   })
-                : info.roleId == 3
+                : null}
+              {info.roleId == 3
                 ? SideBarDataCT.map((value, index) => {
                     return (
                       <div key={index}>
@@ -76,13 +77,16 @@ export default function SideBar({ content }: { content: any }) {
                       </div>
                     );
                   })
-                : SideBarDataFacul.map((value, index) => {
+                : null}
+              {info.roleId == 4
+                ? SideBarDataFacul.map((value, index) => {
                     return (
                       <div key={index}>
                         <ItemMenu params={value} />
                       </div>
                     );
-                  })}
+                  })
+                : null}
             </ul>
           </div>
         </div>

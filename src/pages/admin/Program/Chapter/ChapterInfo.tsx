@@ -75,8 +75,6 @@ export default function ChapterInfo() {
     }
   };
   function navToTest() {
-    console.log(contentId);
-
     navigateParams(`/admin/Program/Chapter/${itemChapter}/Test`, {
       id: contentId,
     });
@@ -125,7 +123,6 @@ export default function ChapterInfo() {
       .validateFields()
       .then(async (values) => {
         const response: any = await apiService.getContentProgram(programId);
-        console.log(response);
         let nextChapter = response[response.length - 1];
         let outputAdd = {
           chapter: nextChapter ? nextChapter.chapter + 1 : 1,
@@ -256,14 +253,14 @@ export default function ChapterInfo() {
 
         <div className="w-full mb-6 z-100">
           <label className="text-black font-bold font-customFont ">
-            Nhúng video/slide
-            {/* <Switch
+            Nhúng {switchType ? 'Video' : 'Sline'}
+            <Switch
               checked={switchType}
               onChange={setSwitchType}
               className="ml-4 bg-primary"
               checkedChildren="Video"
               unCheckedChildren="Slide"
-            /> */}
+            />
           </label>
           <Form.Item
             name="content"

@@ -94,7 +94,6 @@ export default function Test() {
   useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`Chương trình`));
     getData();
-    console.log(contentId);
   }, [reload]);
 
   const handleOk = async () => {
