@@ -70,7 +70,6 @@ axiosConfig.interceptors.response.use(
   },
   (error) => {
     // Handle errors
-    console.log(error.response);
 
     if (error.message) {
       throw error.message;

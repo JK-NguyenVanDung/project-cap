@@ -16,21 +16,19 @@ const baseUrl = window.location.href.toString().includes('5173')
   ? '/'
   : '/SEP25Team17/';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <Provider store={store}>
-      {baseUrl === '/' ? (
-        <MsalProvider instance={msalInstance}>
-          <BrowserRouter basename={baseUrl}>
-            <App />
-          </BrowserRouter>
-        </MsalProvider>
-      ) : (
-        <MsalProvider instance={msalInstance}>
-          <HashRouter>
-            <App />
-          </HashRouter>
-        </MsalProvider>
-      )}
-    </Provider>
-  </React.StrictMode>,
+  <Provider store={store}>
+    {baseUrl === '/' ? (
+      <MsalProvider instance={msalInstance}>
+        <BrowserRouter basename={baseUrl}>
+          <App />
+        </BrowserRouter>
+      </MsalProvider>
+    ) : (
+      <MsalProvider instance={msalInstance}>
+        <HashRouter>
+          <App />
+        </HashRouter>
+      </MsalProvider>
+    )}
+  </Provider>,
 );

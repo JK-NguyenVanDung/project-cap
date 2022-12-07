@@ -110,7 +110,7 @@ export default function FormInput({
     );
   };
   return (
-    <div className="w-full mb-6 z-1">
+    <div className="w-full mb-3 z-1">
       <label className="text-black font-bold font-customFont ">{label}</label>
       <FormComponent />
     </div>

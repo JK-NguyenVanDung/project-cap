@@ -29,6 +29,8 @@ export default function CustomModal({
   setShowDetail,
   centered = true,
   width,
+  showButton,
+  confirmLoading,
 }: {
   handleOk?: any;
   name?: any;
@@ -45,6 +47,8 @@ export default function CustomModal({
   setShowDetail?: Function;
   centered?: boolean;
   width?: number | string;
+  confirmLoading?: boolean;
+  showButton?: boolean;
 }) {
   const dismiss: dismissType = {
     outsidePointerDown: !isFocused,
@@ -66,7 +70,6 @@ export default function CustomModal({
   }, [dataItem]);
   return (
     <Modal
-      width={width ? width : undefined}
       className="text-black font-bold w-full"
       title={
         <p className="font-bold mt-1 font-customFont text-xl text-black">
@@ -78,6 +81,8 @@ export default function CustomModal({
       onCancel={handleShow}
       onOk={handleShow}
       centered={centered}
+      width={width}
+      confirmLoading={confirmLoading}
       footer={
         !showDetail && (
           <div className=" my-5 flex flex-row justify-evenly w-full">
@@ -89,15 +94,17 @@ export default function CustomModal({
               color="blue-gray"
               onClick={handleShow}
             />
-            <CustomButton
-              size="md"
-              onClick={() => handleOk()}
-              fullWidth={true}
-              className="mx-2"
-              noIcon={true}
-              color="blue-gray"
-              text={!dataItem ? `Lưu` : header ? header : 'Lưu'}
-            />
+            {showButton ? null : (
+              <CustomButton
+                size="md"
+                onClick={() => handleOk()}
+                fullWidth={true}
+                className="mx-2"
+                noIcon={true}
+                color="blue-gray"
+                text={!dataItem ? `Lưu` : header ? header : 'Lưu'}
+              />
+            )}
           </div>
         )
       }
