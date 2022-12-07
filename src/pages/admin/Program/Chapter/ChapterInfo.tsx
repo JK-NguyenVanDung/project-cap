@@ -75,8 +75,6 @@ export default function ChapterInfo() {
     }
   };
   function navToTest() {
-    console.log(contentId);
-
     navigateParams(`/admin/Program/Chapter/${itemChapter}/Test`, {
       id: contentId,
     });

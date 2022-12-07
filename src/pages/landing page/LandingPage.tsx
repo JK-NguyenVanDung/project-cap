@@ -12,6 +12,7 @@ import { BiTimer } from 'react-icons/bi';
 import Button from '../../components/sharedComponents/Button';
 import { IconType } from 'react-icons';
 import { useNavigate } from 'react-router-dom';
+import apiService from '../../api/apiService';
 
 const useMountEffect = (fun: any) => useEffect(fun, []);
 
@@ -241,7 +242,7 @@ const Product = React.forwardRef((props, ref: any) => {
       <div className="  z-20 relative min-h-[60vh]  px-20 bg-white text-black border-opacity-0">
         <div className="flex max-sm:flex-wrap  max-sm:mb-16 flex-row w-full h-20 items-center  md:px-[9rem] sd:px-0 justify-between mb-[0.75rem] ">
           <p className="max-sm:text-xl max-sm:w-full max-sm:mb-4  font-semibold md:text-3xl w-2/3">
-            Một số khoá học mẫu của chúng tôi
+            Một số khoá học nổi tiếng của chúng tôi
           </p>
           <Button
             onClick={() => navigate('/login')}
@@ -252,22 +253,22 @@ const Product = React.forwardRef((props, ref: any) => {
         </div>
         <div className="products max-sm:flex-wrap  flex flex-row justify-evenly items-center w-full ">
           <ProductCard
-            title="Khoá học Python"
-            view="1000"
+            title="Khoá học Đắc Nhân Tâm"
+            view="500 Học viên"
             hour="10 buổi"
-            image="https://hackr.io/blog/best-python-courses/thumbnail/large"
+            image="https://americastarbooks.com/wp-content/uploads/2018/11/noi-dung-sach-dac-nhan-tam-1280x720.jpg"
           />
           <ProductCard
-            title="Khoá học Python"
-            view="1000"
-            hour="10 buổi"
-            image="https://hackr.io/blog/best-python-courses/thumbnail/large"
+            title="Khoá học Tiếng Anh Giao Tiếp"
+            view="200 Học viên"
+            hour="20 buổi"
+            image="https://vcdn1-vnexpress.vnecdn.net/2020/09/12/English-4241-1599884287.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=lXq1p7RniKkjCoSZHhQ5PQ"
           />
           <ProductCard
-            title="Khoá học Python"
-            view="1000"
-            hour="10 buổi"
-            image="https://hackr.io/blog/best-python-courses/thumbnail/large"
+            title="Khoá học Kỹ Năng Mềm"
+            view="300 Học viên"
+            hour="12 buổi"
+            image="https://bme.binhminh.com.vn/wp-content/uploads/2020/05/tt-36.png"
           />
         </div>
       </div>
@@ -279,13 +280,13 @@ const ProductCard = (props: any) => {
   const navigate = useNavigate();
 
   return (
-    <div className="max-sm:m-4  relative max-w-[15rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="max-sm:m-4  relative max-w-[16.7rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <a>
         <img className="rounded-t-lg h-40 w-full" src={props.image} alt="" />
       </a>
       <div className="py-3 px-5">
         <a>
-          <h5 className=" text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className=" text-center text-xl font-bold tracking-tight text-gray-900 dark:text-white">
             {props.title}
           </h5>
         </a>
@@ -295,9 +296,9 @@ const ProductCard = (props: any) => {
               <img src={People} className="pr-2" />
               <span>{props.view}</span>
             </div>
-            <div className="inline-flex flex-row justify-between items-center pl-12 ">
+            <div className="inline-flex flex-row justify-between items-center pl-10 ">
               <IoTimeSharp className="text-lg text-primary" />
-              <span className="pl-2">{props.hour}</span>
+              <span className="pl-2 text-sm">{props.hour}</span>
             </div>
           </div>
         </div>
@@ -519,7 +520,18 @@ const LandingPage = () => {
     hiddenElements.forEach((el) => observer.observe(el));
     console.count();
   }, [observer]);
-
+  // useEffect(() => {
+  //   async function a() {
+  //     try {
+  //       let res: any = await apiService.getCategories();
+  //       res = res.reverse();
+  //       console.log(res);
+  //     } catch (err: any) {
+  //       throw err.message();
+  //     }
+  //   }
+  //   a();
+  // }, []);
   return (
     <>
       <div className=" font-customFont flex bg-dark-blue h-screen flex-col overflow-x-hidden	">

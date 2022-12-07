@@ -174,9 +174,18 @@ export default function Program() {
     dispatch(actions.formActions.setProgramForm(item));
     navigate('/admin/EditProgram');
   }
+  function temp() {
+    dispatch(actions.formActions.setChapter(1));
+    dispatch(actions.formActions.setContentId(22));
+    navigateParams(`/admin/Program/Chapter/${1}/Test`, {
+      id: 22,
+    });
+  }
 
   return (
+    //22
     <>
+      <CustomButton onClick={() => temp()} />
       <TableConfig
         onSearch={onChangeSearch}
         search={true}

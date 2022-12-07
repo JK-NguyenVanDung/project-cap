@@ -27,6 +27,8 @@ export default function CustomModal({
   header,
   showDetail,
   setShowDetail,
+  centered = true,
+  width,
 }: {
   handleOk?: any;
   name?: any;
@@ -41,6 +43,8 @@ export default function CustomModal({
   header?: string;
   showDetail?: boolean;
   setShowDetail?: Function;
+  centered?: boolean;
+  width?: number | string;
 }) {
   const dismiss: dismissType = {
     outsidePointerDown: !isFocused,
@@ -53,7 +57,7 @@ export default function CustomModal({
     form.resetFields();
 
     const setForm = () => {
-      form.setFieldsValue(dataFields ? dataFields : dataItem);
+      form.setFieldsValue(dataItem ? dataItem : dataFields);
     };
 
     if (dataItem) {
@@ -62,6 +66,7 @@ export default function CustomModal({
   }, [dataItem]);
   return (
     <Modal
+      width={width ? width : undefined}
       className="text-black font-bold w-full"
       title={
         <p className="font-bold mt-1 font-customFont text-xl text-black">
@@ -72,7 +77,7 @@ export default function CustomModal({
       open={show}
       onCancel={handleShow}
       onOk={handleShow}
-      centered
+      centered={centered}
       footer={
         !showDetail && (
           <div className=" my-5 flex flex-row justify-evenly w-full">

@@ -168,21 +168,15 @@ export default function Question() {
     let op = radioOptions.filter(
       (item: IQuestionOption) => item.value !== Number(e),
     );
+
     dispatch(actions.questionActions.setRadioOptions(op));
+
     if (currentQuestion.questionContents[numb - 1]) {
       try {
         await apiService.removeAnswer(
           currentQuestion.questionContents[numb - 1].questionContentId,
         );
-        // dispatch(
-        //   actions.questionActions.setRadioOptions(
-        //     radioOptions.map((item: IQuestionOption, index: number) => {
-        //       return {
-        //         value: index + 1,
-        //       };
-        //     }),
-        //   ),
-        // );
+
         if (currentQuestion.questionContents[numb - 1].isAnswer) {
           let count = 0;
 
@@ -196,6 +190,7 @@ export default function Question() {
             dispatch(actions.questionActions.setRadioValue(1));
           }
         }
+        setReload(!reload);
 
         // let res: any = await apiService.getQuestions(testId);
         // let cur = res.find(
@@ -211,8 +206,6 @@ export default function Question() {
     }
 
     // }
-
-    setHeight((item) => String(Number.parseInt(item) - 12));
   }
 
   async function handleDelete() {
@@ -261,6 +254,55 @@ export default function Question() {
       setForm(data.length - 1);
     }
   }
+  const setDataForm = (data: any) => {
+    let base = {
+      typeId: data.typeId,
+      score: data.score,
+      questionTitle: data.questionTitle,
+    };
+    let content = {};
+    let contents = data.questionContents;
+    let radioOptions: any = [];
+    let defaultChecked: any = [];
+
+    content = contents
+      ? {
+          ...base,
+          ...contents.map((item: IQuestionContent, index: number) => {
+            radioOptions.push({
+              value: index + 1,
+            });
+            item.isAnswer && defaultChecked.push(index + 1);
+            // if (index > 3) {
+            //   setHeight((item) => String(Number.parseInt(item) + 12));
+            // }
+            return item.content;
+          }),
+        }
+      : {
+          ...base,
+          ...defaultOptions.map((item, index: number) => {
+            radioOptions.push({
+              value: index + 1,
+            });
+            return '';
+          }),
+        };
+    !contents && defaultChecked.push(1);
+    if (!contents) {
+      dispatch(actions.questionActions.setSelectedType(1));
+    } else {
+      dispatch(actions.questionActions.setSelectedType(data.typeId));
+    }
+
+    dispatch(actions.questionActions.setRadioOptions(radioOptions));
+
+    base.typeId === 2
+      ? dispatch(actions.questionActions.setSelectedOptions(defaultChecked))
+      : dispatch(actions.questionActions.setRadioValue(defaultChecked[0]));
+
+    form.setFieldsValue(content);
+  };
   const setForm = (index: number) => {
     let base = {
       typeId: data[index].typeId,
@@ -388,17 +430,6 @@ export default function Question() {
         };
         let selected: any = [];
         contents?.map((item: IQuestionContent, index: number) => {
-          if (index > 3) {
-            dispatch(
-              actions.questionActions.setRadioOptions([
-                ...radioOptions,
-                {
-                  value: index + 1,
-                },
-              ]),
-            );
-            setHeight((item) => String(Number.parseInt(item) + 9));
-          }
           if (item.isAnswer) {
             if (res[0]?.typeId === 1) {
               dispatch(actions.questionActions.setRadioValue(index + 1));
@@ -424,7 +455,7 @@ export default function Question() {
       } else {
         dispatch(actions.questionActions.setCurrentQuestion(res[0]));
         setDefault();
-        setForm(0);
+        setDataForm(res[0]);
       }
 
       setLoading(false);
@@ -468,7 +499,7 @@ export default function Question() {
       dispatch(actions.questionActions.setCurrentQuestion(next));
       form.setFieldValue('score', 1);
     };
-  }, []);
+  }, [reload]);
   // useEffect(() => {
   //   let timer = setTimeout(async (e: any) => {
   //     dispatch(
@@ -575,7 +606,10 @@ export default function Question() {
         },
       ),
     };
-    if (currentQuestion.questionId) {
+    if (
+      currentQuestion.questionId &&
+      selectedOptions.length !== radioOptions.length
+    ) {
       if (!finish) {
         message.success('Sửa thành công');
       }
@@ -583,11 +617,13 @@ export default function Question() {
         output: outEdit,
         id: currentQuestion.questionId,
       });
-    } else {
+    } else if (selectedOptions.length !== radioOptions.length) {
       if (!finish) {
         message.success('Tạo thành công');
       }
       await apiService.addQuestion(out);
+    } else {
+      message.error('Phải có ít nhất 1 đáp án sai!');
     }
   }
   function handleMoveQuestion(index: number) {
@@ -620,27 +656,29 @@ export default function Question() {
 
   async function handleNextQuestion(values: any) {
     await handleSubmit(values);
-    form.resetFields();
+    if (selectedOptions.length !== radioOptions.length) {
+      form.resetFields();
 
-    let next = {
-      testsId: testId,
-      typeId: 1,
-      questionTitle: '',
-      score: 1,
-    };
-    // data.pop();
-    setHeight('100');
-    let res: any = await apiService.getQuestions(testId);
-    res.push(next);
+      let next = {
+        testsId: testId,
+        typeId: 1,
+        questionTitle: '',
+        score: 1,
+      };
+      // data.pop();
+      setHeight('100');
+      let res: any = await apiService.getQuestions(testId);
+      res.push(next);
 
-    setData(res);
-    dispatch(actions.questionActions.setRadioOptions(defaultOptions));
+      setData(res);
+      dispatch(actions.questionActions.setRadioOptions(defaultOptions));
 
-    dispatch(actions.questionActions.setSelectedOptions([1]));
-    dispatch(actions.questionActions.setRadioValue(1));
-    dispatch(actions.questionActions.setCurrentQuestionIndex(res.length - 1));
-    dispatch(actions.questionActions.setCurrentQuestion(res[res.length - 1]));
-    form.setFieldValue('score', 1);
+      dispatch(actions.questionActions.setSelectedOptions([1]));
+      dispatch(actions.questionActions.setRadioValue(1));
+      dispatch(actions.questionActions.setCurrentQuestionIndex(res.length - 1));
+      dispatch(actions.questionActions.setCurrentQuestion(res[res.length - 1]));
+      form.setFieldValue('score', 1);
+    }
   }
 
   const handleOk = async () => {
@@ -758,6 +796,7 @@ export default function Question() {
                   disabled={false}
                   name="score"
                   label="Số điểm"
+                  placeholder="Nhập số điểm"
                   rules={[
                     {
                       required: true,
