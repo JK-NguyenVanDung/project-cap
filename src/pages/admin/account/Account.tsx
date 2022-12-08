@@ -346,6 +346,7 @@ export default function Account() {
       />
       {showDetail ? (
         <DetailAccount
+          role={role}
           item={detail}
           setItem={setDetail}
           visible={showDetail}
