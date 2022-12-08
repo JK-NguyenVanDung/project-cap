@@ -210,6 +210,8 @@ export default function Question() {
 
   async function handleDelete() {
     // goBack();
+    console.log(currentQuestion);
+    console.log(currentQuestionIndex);
     if (currentQuestion.questionId) {
       try {
         await apiService.removeQuestion(currentQuestion.questionId);
@@ -228,12 +230,11 @@ export default function Question() {
                 res.indexOf(nextQuestion),
               ),
             );
-            dispatch(actions.questionActions.setCurrentQuestion(nextQuestion));
-            setForm(res.indexOf(nextQuestion));
+            setDataForm(nextQuestion);
           } else {
             dispatch(actions.questionActions.setCurrentQuestionIndex(0));
-            dispatch(actions.questionActions.setCurrentQuestion(null));
-            setForm(0);
+            dispatch(actions.questionActions.setCurrentQuestion(res[0]));
+            setDataForm(res[0]);
           }
         }
         setData(res);
