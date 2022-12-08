@@ -58,16 +58,14 @@ export default function Login() {
               <div
                 key={index}
                 style={{
-                  width: 300,
+                  width: 400,
                 }}
                 className="group bg-[#fff] button_login hover:text-black flex flex-col items-center m-4 p-3 py-12 rounded-lg cursor-pointer hover:-translate-y-4 "
                 onClick={() => LoginPopUp(item)}
               >
                 <div className="w-full mb-4 flex flex-col items-center">
                   <img
-                    style={{
-                      height: 100,
-                    }}
+                    className={item.id == '1' ? 'w-[6rem] h-fit' : 'h-[75px]'}
                     src={item.Logo}
                   />
                 </div>

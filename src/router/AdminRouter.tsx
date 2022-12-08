@@ -38,6 +38,10 @@ export const RouterPages = [
     element: <Program />,
   },
   {
+    path: '/admin/MyProgram',
+    element: <Program />,
+  },
+  {
     path: `/admin/Program/showDetail`,
     element: <ProgramDetail />,
   },

@@ -10,6 +10,7 @@ export interface ISidebar {
   title: string;
   icon: IconType;
   path: string;
+  children?: Array<ISidebar>;
 }
 export const SideBarData = [
   {
@@ -36,6 +37,18 @@ export const SideBarData = [
     title: 'Chương Trình',
     icon: IoBook,
     path: '/admin/Program',
+    children: [
+      {
+        title: 'Chương Trình',
+        icon: IoBook,
+        path: '/admin/Program',
+      },
+      {
+        title: 'Chương Trình Của Tôi',
+        icon: IoBook,
+        path: '/admin/MyProgram',
+      },
+    ],
   },
   {
     title: 'Học Viên',
