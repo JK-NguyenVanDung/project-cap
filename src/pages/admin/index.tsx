@@ -19,6 +19,7 @@ import { actions } from '../../Redux';
 import { useMsal } from '@azure/msal-react';
 import { loginRequest } from '../authentication/loginconfig';
 import ItemMenu from './ItemMenu';
+import MenuDropdown from './MenuDropdown';
 export default function SideBar({ content }: { content: any }) {
   let location = useLocation();
   const navigation = useNavigate();
@@ -64,7 +65,11 @@ export default function SideBar({ content }: { content: any }) {
                 ? SideBarData.map((value, index) => {
                     return (
                       <div key={index}>
-                        <ItemMenu params={value} />
+                        {value.children ? (
+                          <MenuDropdown params={value} />
+                        ) : (
+                          <ItemMenu params={value} />
+                        )}
                       </div>
                     );
                   })

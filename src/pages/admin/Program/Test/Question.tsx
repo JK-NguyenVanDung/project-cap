@@ -169,7 +169,12 @@ export default function Question() {
       (item: IQuestionOption) => item.value !== Number(e),
     );
 
-    dispatch(actions.questionActions.setRadioOptions(op));
+    let temp = op.map((item: IQuestionOption, index: number) => {
+      return {
+        value: index + 1,
+      };
+    });
+    dispatch(actions.questionActions.setRadioOptions(temp));
 
     if (currentQuestion.questionContents[numb - 1]) {
       try {
@@ -203,6 +208,7 @@ export default function Question() {
       } catch (err: any) {
         throw err.message;
       }
+    } else {
     }
 
     // }
@@ -210,15 +216,14 @@ export default function Question() {
 
   async function handleDelete() {
     // goBack();
-    console.log(currentQuestion);
-    console.log(currentQuestionIndex);
     if (currentQuestion.questionId) {
       try {
         await apiService.removeQuestion(currentQuestion.questionId);
 
         let res: any = await apiService.getQuestions(testId);
+
         setShowConfirm(!showConfirm);
-        if (res.length < 1) {
+        if (res.length < 1 || !res) {
           navigate(-1);
         } else {
           let index = currentQuestionIndex;
@@ -246,12 +251,16 @@ export default function Question() {
     } else {
       let newData: any = data.pop();
       setData((data) => data.filter((e) => e != newData));
-      dispatch(
-        actions.questionActions.setCurrentQuestionIndex(data.length - 1),
-      );
-      dispatch(
-        actions.questionActions.setCurrentQuestion(data[data.length - 1]),
-      );
+      if (data.length < 1) {
+        navigate(-1);
+      } else {
+        dispatch(
+          actions.questionActions.setCurrentQuestionIndex(data.length - 1),
+        );
+        dispatch(
+          actions.questionActions.setCurrentQuestion(data[data.length - 1]),
+        );
+      }
       setForm(data.length - 1);
     }
   }
@@ -453,6 +462,13 @@ export default function Question() {
             score: 1,
           },
         ]);
+
+        setDataForm({
+          testsId: 0,
+          typeId: 1,
+          questionTitle: '',
+          score: 1,
+        });
       } else {
         dispatch(actions.questionActions.setCurrentQuestion(res[0]));
         setDefault();
