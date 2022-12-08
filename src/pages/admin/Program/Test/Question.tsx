@@ -210,8 +210,6 @@ export default function Question() {
 
   async function handleDelete() {
     // goBack();
-    console.log(currentQuestion);
-    console.log(currentQuestionIndex);
     if (currentQuestion.questionId) {
       try {
         await apiService.removeQuestion(currentQuestion.questionId);
@@ -453,6 +451,13 @@ export default function Question() {
             score: 1,
           },
         ]);
+
+        setDataForm({
+          testsId: 0,
+          typeId: 1,
+          questionTitle: '',
+          score: 1,
+        });
       } else {
         dispatch(actions.questionActions.setCurrentQuestion(res[0]));
         setDefault();
