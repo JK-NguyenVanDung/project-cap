@@ -623,12 +623,13 @@ export default function Question() {
         },
       ),
     };
+
     if (
       currentQuestion.questionId &&
       selectedOptions.length !== radioOptions.length
     ) {
       if (!finish) {
-        message.success('Sửa thành công');
+        message.success('Lưu thành công');
       }
       await apiService.editQuestion({
         output: outEdit,
@@ -937,7 +938,7 @@ export default function Question() {
                 onClick={() => setFinish(false)}
               >
                 <p className="font-customFont  font-semibold">
-                  Thêm tiếp câu hỏi
+                  Lưu và thêm tiếp câu hỏi
                 </p>
               </button>
 
