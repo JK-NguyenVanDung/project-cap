@@ -73,6 +73,10 @@ export default function AddFaculties({
             pattern: new RegExp(/^(?!\s*$|\s).*$/),
             message: errorText.space,
           },
+          {
+            pattern: new RegExp(/^.{1,50}$/),
+            message: 'Đạt tối đa số lượng ký tự cho phép',
+          },
         ]}
       />
     );

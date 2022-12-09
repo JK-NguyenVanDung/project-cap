@@ -690,7 +690,7 @@ export default function Question() {
 
       setData(res);
       dispatch(actions.questionActions.setRadioOptions(defaultOptions));
-
+      dispatch(actions.questionActions.setSelectedType(1));
       dispatch(actions.questionActions.setSelectedOptions([1]));
       dispatch(actions.questionActions.setRadioValue(1));
       dispatch(actions.questionActions.setCurrentQuestionIndex(res.length - 1));
@@ -730,7 +730,7 @@ export default function Question() {
   return (
     <div
       ref={containerRef}
-      className="block overflow-auto  w-full mb-[10rem]  h-fit min-h-fit"
+      className="block overflow-auto  questionCont w-full mb-[10rem]  h-fit min-h-fit"
       // style={{
       //   height: height + 'vh',
       // }}

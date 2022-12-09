@@ -16,7 +16,9 @@ import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
 import Question from '../pages/admin/Program/Test/Question';
 import Test from '../pages/admin/Program/Test/Test';
 import Home from '../pages/client';
+import ReviewDetail from '../pages/admin/ReviewProgram/ReviewDetail';
 import apiService from '../api/apiService';
+
 import { useAppDispatch, useAppSelector } from '../hook/useRedux';
 import { actions } from '../Redux';
 import AcedemicYear from '../pages/admin/AcedemicYear/AcedemicYear';
@@ -27,6 +29,7 @@ export const RouterPages = [
     path: '/admin',
     element: <Dashboard />,
   },
+
   {
     path: '/admin/Account',
     element: <Account />,
@@ -136,6 +139,9 @@ export default function MakePagesRouter() {
               path="/admin/Program/Chapter/:number/Test/Question"
               element={<Question />}
             />
+
+            <Route path="/admin/reviewDetail" element={<ReviewDetail />} />
+
             <Route path="/login" element={<Logined />} />
             <Route path="/" element={<LandingPage />} />
           </Routes>
