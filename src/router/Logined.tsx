@@ -16,13 +16,12 @@ export default function Logined() {
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [acceptToken, setAccessToken] = useState('');
   const { instance, accounts } = useMsal();
   const LoginParmas = useAppSelector((state) => state.auth.LoginId);
   const info = useAppSelector((state) => state.auth.info);
 
   useEffect(() => {
-    setLoading(true);
+    RequestAccessToken();
   }, []);
 
   function RequestAccessToken() {
@@ -33,7 +32,7 @@ export default function Logined() {
     instance
       .acquireTokenSilent(request)
       .then(async (response) => {
-        setAccessToken(response.accessToken);
+        setLoading(true);
         try {
           const reponseToken: any = await apiService.postAdminUser({
             token: response.accessToken,
@@ -43,25 +42,25 @@ export default function Logined() {
             dispatch(actions.authActions.Login(reponseToken.token));
             localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
             notification.success({ message: 'Đăng Nhập Thành Công' });
+            console.log(info.roleId);
+
             if (LoginParmas.id == 1) {
               navigate('/home');
             }
             if (LoginParmas.id == 2) {
-              if (info.roleId == 1) {
-                instance.logoutPopup({
-                  postLogoutRedirectUri: '/',
-                  mainWindowRedirectUri: '/',
-                });
-                navigate('/');
-                localStorage.clear();
-                notification.error({ message: 'Đăng Nhập Không Thành Công' });
-                dispatch(actions.authActions.logout());
-              } else {
-                navigate('/admin');
-              }
+              navigate('/admin');
             }
           }
-        } catch (error) {}
+        } catch (error) {
+          instance.logoutPopup({
+            postLogoutRedirectUri: '/',
+            mainWindowRedirectUri: '/',
+          });
+          navigate('/');
+          localStorage.clear();
+          notification.error({ message: 'Đăng Nhập Không Thành Công' });
+          dispatch(actions.authActions.logout());
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -110,14 +109,14 @@ export default function Logined() {
           <CustomButton size="md" className="w-3/6" text="Đăng Nhập" noIcon />
         </div>
       </Form> */}
-      {/* <div
+      <div
         className="flex justify-center content-center items-center"
         style={{
           height: '100vh',
         }}
       >
         <Spin indicator={antIcon} tip="Loading..." spinning={loading} />
-      </div> */}
+      </div>
     </>
   );
 }

@@ -57,6 +57,16 @@ export const SideBarData = [
     icon: BsFillPersonBadgeFill,
     path: '/admin/Learner',
   },
+  {
+    title: 'Năm Học',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/AcedemicYear',
+  },
+  {
+    title: 'Chức Vụ',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/Postions',
+  },
 ];
 
 export const SideBarDataCT = [
@@ -80,6 +90,16 @@ export const SideBarDataCT = [
     icon: IoBook,
     path: '/admin/Program',
   },
+  {
+    title: 'Năm Học',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/AcedemicYear',
+  },
+  {
+    title: 'Chức Vụ',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/Postions',
+  },
 ];
 
 export const SideBarDataFacul = [
@@ -102,5 +122,15 @@ export const SideBarDataFacul = [
     title: 'Chương Trình',
     icon: IoBook,
     path: '/admin/Program',
+  },
+  {
+    title: 'Năm Học',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/AcedemicYear',
+  },
+  {
+    title: 'Chức Vụ',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/Postions',
   },
 ];
