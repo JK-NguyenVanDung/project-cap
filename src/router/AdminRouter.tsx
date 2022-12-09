@@ -21,6 +21,8 @@ import apiService from '../api/apiService';
 
 import { useAppDispatch, useAppSelector } from '../hook/useRedux';
 import { actions } from '../Redux';
+import AcedemicYear from '../pages/admin/AcedemicYear/AcedemicYear';
+import Position from '../pages/admin/Position/Position';
 
 export const RouterPages = [
   {
@@ -72,6 +74,14 @@ export const RouterPages = [
   {
     path: '/admin/EditProgram',
     element: <EditProgram />,
+  },
+  {
+    path: '/admin/AcedemicYear',
+    element: <AcedemicYear />,
+  },
+  {
+    path: '/admin/Postions',
+    element: <Position />,
   },
   {
     path: '/home',
