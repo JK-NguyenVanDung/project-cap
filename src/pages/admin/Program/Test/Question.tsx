@@ -690,6 +690,7 @@ export default function Question() {
 
       setData(res);
       dispatch(actions.questionActions.setRadioOptions(defaultOptions));
+      dispatch(actions.questionActions.setSelectedType(1));
 
       dispatch(actions.questionActions.setSelectedOptions([1]));
       dispatch(actions.questionActions.setRadioValue(1));

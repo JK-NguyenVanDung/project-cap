@@ -41,19 +41,44 @@ export default function DetailAccount({
     return (
       <div className="flex justify-around">
         <div>
-          <FormInput label="Họ Và Tên" disabled name="fullName" />
-          <FormInput label="Email" disabled name="email" />
+          <FormInput
+            label="Họ Và Tên"
+            disabled
+            name="fullName"
+            placeholder="Không có tên"
+          />
+          <FormInput
+            label="Email"
+            disabled
+            name="email"
+            placeholder="Không có Email"
+          />
           <FormInput
             label="Chức Vụ"
             disabled
             name="position"
             placeholder="Không có chức vụ"
           />
-          <FormInput label="Đăng Nhập Gần Đây" disabled value={lastLogin} />
+          <FormInput
+            label="Đăng Nhập Gần Đây"
+            disabled
+            value={lastLogin}
+            placeholder="Chưa đăng nhập"
+          />
         </div>
         <div>
-          <FormInput label="Địa Chỉ" disabled name="address" />
-          <FormInput label="Thuộc Khoa" disabled name="faculty" />
+          <FormInput
+            label="Địa Chỉ"
+            disabled
+            name="address"
+            placeholder="Không có địa chỉ"
+          />
+          <FormInput
+            label="Thuộc Khoa"
+            disabled
+            name="faculty"
+            placeholder="Không có thông tin này"
+          />
           <FormInput
             label="Vai trò"
             disabled
