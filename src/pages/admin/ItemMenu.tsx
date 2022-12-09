@@ -34,7 +34,13 @@ export default function ItemMenu({ params }: { params: any }) {
           <params.icon className="ml-2 text-md " />
         </div>{' '}
         <div id="title" className="flex uppercase ">
-          <p className="font-semibold text-sm">{params.title}</p>
+          <p
+            className={`font-semibold ${
+              params.smallText ? 'text-xs ' : 'text-sm'
+            }`}
+          >
+            {params.title}
+          </p>
         </div>
       </li>
     </>

@@ -42,7 +42,7 @@ export default function SideBar({ content }: { content: any }) {
   return (
     <>
       <div className="flex relative max-w-full h-screen">
-        <div className="fixed w-[77%] z-1 ">
+        <div className="fixed w-[79%] z-1 ">
           <div
             className="z-0  overflow-hidden bg-img-bar relative sidebar flex flex-col content-center items-center w-1/5"
             style={{

@@ -47,9 +47,9 @@ export default function MenuDropdown({ params }: { params: any }) {
         </div>
       </li>
       {dropDown && (
-        <div className=" flex flex-col mx-2 ml-8  ">
+        <div className="  ml-6  ">
           {params.children.map((item: any) => {
-            return <ItemMenu params={item} />;
+            return <ItemMenu params={{ ...item, smallText: true }} />;
           })}
         </div>
       )}
