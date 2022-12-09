@@ -85,8 +85,10 @@ export default function ChapterInfo() {
       setLoading(true);
       // let res: any = await apiService.getPrograms();
       let res: any = await apiService.getContent(contentId);
-      // let ques: any = await apiService.getTest(contentId);
-
+      let ques: any = contentId && (await apiService.getTest(contentId));
+      if (ques) {
+        setQuestionId(ques.testId);
+      }
       setData(res);
       form.resetFields();
       const setForm = () => {
@@ -156,6 +158,7 @@ export default function ChapterInfo() {
           dispatch(actions.formActions.setContentId(res.contentId));
 
           let ques: any = await apiService.getTest(res.contentId);
+
           ques && setQuestionId(ques.testId);
 
           setReload(!reload);
