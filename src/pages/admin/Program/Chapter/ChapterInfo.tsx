@@ -64,6 +64,7 @@ export default function ChapterInfo() {
 
   const handleDelete = async () => {
     try {
+      console.log(questionId);
       questionId && (await apiService.removeTest(questionId));
 
       await apiService.delChapter(contentId);
@@ -84,6 +85,7 @@ export default function ChapterInfo() {
       setLoading(true);
       // let res: any = await apiService.getPrograms();
       let res: any = await apiService.getContent(contentId);
+      // let ques: any = await apiService.getTest(contentId);
 
       setData(res);
       form.resetFields();
@@ -243,10 +245,6 @@ export default function ChapterInfo() {
             {
               required: true,
               message: `Không được để trống mô tả`,
-            },
-            {
-              pattern: new RegExp(/^(?!\s*$|\s).*$/),
-              message: errorText.space,
             },
           ]}
         />
