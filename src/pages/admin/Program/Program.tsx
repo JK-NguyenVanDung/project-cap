@@ -10,30 +10,37 @@ import PopOverAction from '../../../components/admin/PopOver';
 import ImagePlaceHolder from '../../../assets/img/menu-bg.jpeg';
 import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { actions } from '../../../Redux';
-import { useAppDispatch } from '../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { API_URL } from '../../../api/api';
 import moment from 'moment';
 import noImg from '../../../assets/img/no-image.png';
 import EditProgram from './EditProgram';
+import { useLocation } from 'react-router-dom';
+
 import { useNavigateParams } from '../../../hook/useNavigationParams';
 export default function Program() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const location = useLocation();
 
   const dispatch = useAppDispatch();
   const [data, setData] = useState<Array<IProgramItem>>([]);
   const [filterData, setFilterData] = useState([]);
   const navigate = useNavigate();
   const navigateParams = useNavigateParams();
+  const info = useAppSelector((state) => state.auth.info);
 
   useEffect(() => {
     getData();
-    setTimeout(() => {
+    let out = setTimeout(() => {
       setLoading(false);
       setConfirmLoading(false);
     }, 1000);
-  }, [reload]);
+    return () => {
+      clearTimeout(out);
+    };
+  }, [reload, location]);
   async function handleDelete(item: any) {
     try {
       await apiService.delProgram(item.programId);
@@ -68,12 +75,14 @@ export default function Program() {
         <div className="flex flex-row w-full items-center">
           <Image
             width={50}
-            src={data.image ? `${API_URL}/images/${data.image}` : noImg}
+            src={data?.image ? `${API_URL}/images/${data?.image}` : noImg}
             placeholder={
               <Image preview={false} src={ImagePlaceHolder} width={50} />
             }
           />
-          <p className="font-customFont ml-5  text-black">{data.ProgramName}</p>{' '}
+          <p className="font-customFont ml-5  text-black">
+            {data?.ProgramName}
+          </p>{' '}
         </div>
       ),
     },
@@ -156,12 +165,25 @@ export default function Program() {
       setLoading(true);
       let res: any = await apiService.getPrograms();
       res = res.reverse();
-      const temp = res.map((v: any, index: number) => {
-        return {
-          ...v,
-          index: index + 1,
-        };
-      });
+      let temp;
+      let paths = location.pathname.split('/');
+      if (paths[paths.length - 1] === 'MyProgram') {
+        temp = res.map((v: any, index: number) => {
+          return {
+            ...v,
+            index: index + 1,
+          };
+        });
+        temp = temp.filter((a: any) => a.accountIdCreator == info.accountId);
+      } else {
+        temp = res.map((v: any, index: number) => {
+          return {
+            ...v,
+            index: index + 1,
+          };
+        });
+      }
+
       // dispatch(actions.ProgramActions.setListAll(res))
       // dispatch(actions.ProgramActions.changeLoad(!loadData))
       setData(temp);
@@ -174,8 +196,16 @@ export default function Program() {
     dispatch(actions.formActions.setProgramForm(item));
     navigate('/admin/EditProgram');
   }
+  // function temp() {
+  //   dispatch(actions.formActions.setChapter(1));
+  //   dispatch(actions.formActions.setContentId(22));
+  //   navigateParams(`/admin/Program/Chapter/${1}/Test`, {
+  //     id: 22,
+  //   });
+  // }
 
   return (
+    //22
     <>
       <TableConfig
         onSearch={onChangeSearch}

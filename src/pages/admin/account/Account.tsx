@@ -252,8 +252,9 @@ export default function Account() {
 
   const FormItem = () => {
     return (
-      <>
+      <div>
         <FormInput
+          disabled={detail || showDetail ? true : false}
           name="email"
           label="Email"
           rules={[
@@ -282,6 +283,7 @@ export default function Account() {
           ]}
         />
         <FormInput
+          disabled={showDetail ? true : false}
           name="roleId"
           options={getOptions()}
           type="select"
@@ -293,7 +295,15 @@ export default function Account() {
             },
           ]}
         />
-      </>
+        {showDetail && (
+          <FormInput
+            disabled={true}
+            name="phoneNumber"
+            label="Số điện thoại"
+            placeholder="Không có thông tin số điện thoại"
+          />
+        )}
+      </div>
     );
   };
   function getDataFields() {
@@ -322,6 +332,7 @@ export default function Account() {
         ]}
       />
       <CustomModal
+        centered={true}
         show={showModal}
         setShow={setShowModal}
         dataItem={detail}
@@ -335,6 +346,7 @@ export default function Account() {
       />
       {showDetail ? (
         <DetailAccount
+          role={role}
           item={detail}
           setItem={setDetail}
           visible={showDetail}

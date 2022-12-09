@@ -3,16 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hook/useRedux';
 import { actions } from '../../Redux';
 import { ISidebar } from './SidebarData';
-
-export default function ItemMenu({ params }: { params: any }) {
+import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
+import ItemMenu from './ItemMenu';
+export default function MenuDropdown({ params }: { params: any }) {
+  const [dropDown, setDropDown] = React.useState(false);
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
   return (
     <>
       <li
         className={`${
-          location.pathname === params.path
-            ? 'bg-white bg-opacity-25 rounded-lg mx-1 '
+          location.pathname === params.path ||
+          location.pathname == '/admin/MyProgram'
+            ? 'bg-white bg-opacity-25 rounded-lg mx-1'
             : ''
         }${
           location.pathname === params.path ? ' text-primary' : 'text-primary'
@@ -32,17 +35,24 @@ export default function ItemMenu({ params }: { params: any }) {
       >
         <div id="icon">
           <params.icon className="ml-2 text-md " />
-        </div>{' '}
-        <div id="title" className="flex uppercase ">
-          <p
-            className={`font-semibold ${
-              params.smallText ? 'text-xs ' : 'text-sm'
-            }`}
-          >
-            {params.title}
-          </p>
+        </div>
+        <div id="title" className="flex uppercase w-fit ">
+          <p className="font-semibold text-sm">{params.title}</p>
+          <MdOutlineKeyboardArrowDown
+            className="text-xl ml-6"
+            onClick={() => {
+              setDropDown(!dropDown);
+            }}
+          />
         </div>
       </li>
+      {dropDown && (
+        <div className="  ml-6  ">
+          {params.children.map((item: any) => {
+            return <ItemMenu params={{ ...item, smallText: true }} />;
+          })}
+        </div>
+      )}
     </>
   );
 }

@@ -66,7 +66,7 @@ export default function ProgramDetail() {
     }
   };
   const handelCancel = () => {
-    navigate(-1);
+    navigate('/admin/Program');
     form.resetFields();
     dispatch(actions.formActions.setNameMenu('Quản Lý Chương Trình'));
   };

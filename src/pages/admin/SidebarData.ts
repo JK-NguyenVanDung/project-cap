@@ -4,12 +4,15 @@ import {
   BsFillPersonBadgeFill,
   BsHouse,
 } from 'react-icons/bs';
+
+import { ImAddressBook, ImBooks } from 'react-icons/im';
 import { IoApps, IoBook, IoAlbums, IoPeopleCircle } from 'react-icons/io5';
 
 export interface ISidebar {
   title: string;
   icon: IconType;
   path: string;
+  children?: Array<ISidebar>;
 }
 export const SideBarData = [
   {
@@ -36,6 +39,18 @@ export const SideBarData = [
     title: 'Chương Trình',
     icon: IoBook,
     path: '/admin/Program',
+    children: [
+      {
+        title: 'Tất Cả Chương Trình',
+        icon: ImBooks,
+        path: '/admin/Program',
+      },
+      {
+        title: 'Chương Trình Của Tôi',
+        icon: ImAddressBook,
+        path: '/admin/MyProgram',
+      },
+    ],
   },
   {
     title: 'Học Viên',

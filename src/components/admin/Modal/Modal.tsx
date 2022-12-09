@@ -27,6 +27,7 @@ export default function CustomModal({
   header,
   showDetail,
   setShowDetail,
+  centered = true,
   width,
   showButton,
   confirmLoading,
@@ -43,8 +44,9 @@ export default function CustomModal({
   isFocused?: boolean;
   header?: string;
   showDetail?: boolean;
-  width?: number;
   setShowDetail?: Function;
+  centered?: boolean;
+  width?: number | string;
   confirmLoading?: boolean;
   showButton?: boolean;
 }) {
@@ -59,7 +61,7 @@ export default function CustomModal({
     form.resetFields();
 
     const setForm = () => {
-      form.setFieldsValue(dataFields ? dataFields : dataItem);
+      form.setFieldsValue(dataItem ? dataItem : dataFields);
     };
 
     if (dataItem) {
@@ -78,7 +80,7 @@ export default function CustomModal({
       open={show}
       onCancel={handleShow}
       onOk={handleShow}
-      centered
+      centered={centered}
       width={width}
       confirmLoading={confirmLoading}
       footer={
