@@ -43,10 +43,17 @@ export default function Program() {
   }, [reload, location]);
   async function handleDelete(item: any) {
     try {
-      await apiService.delProgram(item.programId);
+      let res: any = await apiService.getContentProgram(item.programId);
+      if (!res) {
+        await apiService.delProgram(item.programId);
 
-      setReload(!reload);
-      message.success(MESSAGE.SUCCESS.DELETE);
+        setReload(!reload);
+        message.success(MESSAGE.SUCCESS.DELETE);
+      } else {
+        message.error(
+          'Chương trình hiện tại đang có nội dung, xin vui lòng xoá hết nội dung của chương trình này để xoá chương trình',
+        );
+      }
     } catch (err: any) {
       throw err.message();
     }
