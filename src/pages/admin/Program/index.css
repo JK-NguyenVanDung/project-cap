@@ -9,3 +9,10 @@
   display: flex;
   flex-direction: column;
 }
+
+.questionCont {
+  scrollbar-width: none;
+}
+.questionCont::-webkit-scrollbar {
+  display: none;
+}

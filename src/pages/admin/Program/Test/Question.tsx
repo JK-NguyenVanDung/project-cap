@@ -731,7 +731,7 @@ export default function Question() {
   return (
     <div
       ref={containerRef}
-      className="block overflow-auto  w-full mb-[10rem]  h-fit min-h-fit"
+      className="block overflow-auto  questionCont w-full mb-[10rem]  h-fit min-h-fit"
       // style={{
       //   height: height + 'vh',
       // }}
