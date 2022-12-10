@@ -14,7 +14,7 @@ export const msalConfig: any = {
   auth: {
     clientId: '70f575bd-03e9-41fb-8020-9b073facc3f9',
     authority: 'https://login.microsoftonline.com/common',
-    redirectUri: 'https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/',
+    redirectUri: 'http://localhost:5173/',
   },
   //    redirectUri: 'https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/',
 
