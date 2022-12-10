@@ -152,7 +152,7 @@ export default function Category() {
       <>
         <FormInput
           disabled={false}
-          name="name"
+          name="categoryName"
           label="Tên Danh Mục"
           rules={[
             {

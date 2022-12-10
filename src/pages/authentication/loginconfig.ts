@@ -15,8 +15,6 @@ export const msalConfig: any = {
     clientId: '70f575bd-03e9-41fb-8020-9b073facc3f9',
     authority: 'https://login.microsoftonline.com/common',
     redirectUri: 'http://localhost:5173/',
-
-    //https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/
   },
   cache: {
     cacheLocation: 'sessionStorage', // This configures where your cache will be stored
