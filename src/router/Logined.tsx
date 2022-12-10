@@ -42,7 +42,7 @@ export default function Logined() {
             dispatch(actions.authActions.Login(reponseToken.token));
             localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
             notification.success({ message: 'Đăng Nhập Thành Công' });
-            console.log(info.roleId);
+            // console.log(info.roleId);
 
             if (LoginParmas.id == 1) {
               navigate('/home');

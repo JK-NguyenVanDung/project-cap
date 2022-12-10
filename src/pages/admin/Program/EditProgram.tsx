@@ -41,7 +41,9 @@ export default function EditProgram() {
     getCategories();
     getAcedemicYear();
     getPositions();
-
+    let temp = item?.programPositions?.map((e: any) => {
+      return e.position.positionName;
+    });
     item
       ? (form.setFieldsValue({
           ProgramName: item ? item.programName : '',
@@ -53,11 +55,11 @@ export default function EditProgram() {
           FacultyId: item ? item.facultyId : '',
           CategoryId: item ? item.categoryId : '',
           Descriptions: item ? item.descriptions : '',
-          Positions: item ? valuePositons : '',
+          Positions: item ? temp : '',
         }),
         setImage(item.image),
         setValuePositions(
-          item?.position.map((item: any) => {
+          item?.programPositions?.map((item: any) => {
             return item.positionName;
           }),
         ))
@@ -102,14 +104,12 @@ export default function EditProgram() {
     : '';
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
-    setValuePositions(newFileList);
     console.log(newFileList);
   };
-  const onChangePosition: UploadProps['onChange'] = ({
-    fileList: newFileList,
-  }) => {
-    setFileList(newFileList);
-    console.log(newFileList);
+  const onChangePosition = (item: any) => {
+    setValuePositions(item);
+
+    console.log(item);
   };
   const onSearch = () => {};
   const handelOk = async () => {
@@ -146,10 +146,9 @@ export default function EditProgram() {
           'Descriptions',
           values.Descriptions ? values.Descriptions : item.descriptions,
         );
-        frmData.append(
-          'Positions',
-          values.Positions ? values.Positions : item.positions,
-        );
+        var json_arr = JSON.stringify(valuePositons);
+
+        frmData.append('PositionIds', 2 ? 2 : item.positions);
         frmData.append(
           'Semester',
           values.Semester ? values.Semester : item.semester,
@@ -158,6 +157,7 @@ export default function EditProgram() {
           'AcademicYearId',
           values.AcademicYearId ? values.AcademicYearId : item.academicYearId,
         );
+
         if (item) {
           const data = await apiService.putProgram(item.programId, frmData);
           if (data) {
@@ -209,8 +209,9 @@ export default function EditProgram() {
                 },
               ]}
             />
-            <div className="my-10">
+            <div className="my-10 mb-[52px]">
               <FormInput
+                areaHeight={7}
                 name="Descriptions"
                 type="textArea"
                 label="Mô Tả Chủ Đề"
@@ -222,7 +223,7 @@ export default function EditProgram() {
                 ]}
               />
             </div>
-            <label className=" text-black font-bold font-customFont ">
+            <label className=" text-black font-bold font-customFont  ">
               Phòng/Khoa
             </label>
             <Form.Item
@@ -301,7 +302,7 @@ export default function EditProgram() {
               </label>
               <Form.Item
                 name="Semester"
-                className="w-4/5"
+                className="w-full"
                 rules={[
                   {
                     required: true,

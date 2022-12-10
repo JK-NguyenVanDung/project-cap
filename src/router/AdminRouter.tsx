@@ -98,6 +98,8 @@ export default function MakePagesRouter() {
   const dispatch = useAppDispatch();
   const [roleId, setRoleId] = useState();
   const LoginParmas = useAppSelector((state) => state.auth.LoginId);
+  const token = localStorage.getItem('Bearer');
+
   useEffect(() => {
     const fetchInfo = async () => {
       const response: any = await apiService.getProfile();
@@ -105,7 +107,7 @@ export default function MakePagesRouter() {
       dispatch(actions.authActions.setInfo(response));
     };
     fetchInfo();
-  }, []);
+  }, [token]);
   const RouterLeaner = () => {
     if (LoginParmas.id == 1) {
       return (
