@@ -56,7 +56,7 @@ export default function Program() {
         );
       }
     } catch (err: any) {
-      throw err.message();
+      throw err.message;
     }
   }
 

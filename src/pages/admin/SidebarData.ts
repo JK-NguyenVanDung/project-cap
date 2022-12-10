@@ -52,11 +52,11 @@ export const SideBarData = [
       },
     ],
   },
-  {
-    title: 'Học Viên',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Learner',
-  },
+  // {
+  //   title: 'Học Viên',
+  //   icon: BsFillPersonBadgeFill,
+  //   path: '/admin/Learner',
+  // },
   {
     title: 'Năm Học',
     icon: BsFillPersonBadgeFill,
