@@ -56,8 +56,12 @@ export default function EditProgram() {
           CategoryId: item ? item.categoryId : '',
           Descriptions: item ? item.descriptions : '',
           Positions: item ? temp : '',
-          RegistrationStartDate: item ? moment(item.registrationStartDate) : '',
-          RegistrationEndDate: item ? moment(item.registrationEndDate) : '',
+          RegistrationStartDate: item.registrationStartDate
+            ? moment(item.registrationStartDate)
+            : '',
+          RegistrationEndDate: item.registrationStartDate
+            ? moment(item.registrationEndDate)
+            : '',
         }),
         setImage(item.image),
         setValuePositions(
@@ -160,9 +164,12 @@ export default function EditProgram() {
           'Descriptions',
           values.Descriptions ? values.Descriptions : item.descriptions,
         );
-        // var json_arr = JSON.stringify(valuePositons);
+        var json_arr = JSON.stringify(valuePositons);
 
-        frmData.append('PositionIds', 2 ? 2 : item.positions);
+        frmData.append(
+          'PositionIds',
+          valuePositons ? valuePositons : item.positions,
+        );
         frmData.append(
           'Semester',
           values.Semester ? values.Semester : item.semester,

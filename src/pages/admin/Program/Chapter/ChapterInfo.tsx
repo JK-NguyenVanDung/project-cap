@@ -85,10 +85,10 @@ export default function ChapterInfo() {
       setLoading(true);
       // let res: any = await apiService.getPrograms();
       let res: any = await apiService.getContent(contentId);
-      let ques: any = contentId && (await apiService.getTest(contentId));
-      if (ques) {
-        setQuestionId(ques.testId);
-      }
+      // let ques: any = contentId && (await apiService.getTest(contentId));
+      // if (ques) {
+      //   setQuestionId(ques.testId);
+      // }
       setData(res);
       form.resetFields();
       const setForm = () => {
