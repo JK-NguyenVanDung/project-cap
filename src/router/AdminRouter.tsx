@@ -95,16 +95,17 @@ const Leaner = [
   },
 ];
 export default function MakePagesRouter() {
-  const dispatch = useAppDispatch();
-  const [roleId, setRoleId] = useState();
   const LoginParmas = useAppSelector((state) => state.auth.LoginId);
+  const info = useAppSelector((state) => state.auth.info);
+  const dispatch = useAppDispatch();
   useEffect(() => {
     const fetchInfo = async () => {
       const response: any = await apiService.getProfile();
-      setRoleId(response.roleId);
       dispatch(actions.authActions.setInfo(response));
     };
-    fetchInfo();
+    setTimeout(() => {
+      fetchInfo();
+    }, 1000);
   }, []);
   const RouterLeaner = () => {
     if (LoginParmas.id == 1) {
@@ -123,7 +124,7 @@ export default function MakePagesRouter() {
     }
 
     if (LoginParmas.id == 2) {
-      if (roleId != 1) {
+      if (info?.roleId != 1) {
         return (
           <Routes>
             {RouterPages.map((router, index) => {

@@ -21,7 +21,14 @@ export default function Logined() {
   const info = useAppSelector((state) => state.auth.info);
 
   useEffect(() => {
+    const fetchInfo = async () => {
+      const response: any = await apiService.getProfile();
+      dispatch(actions.authActions.setInfo(response));
+    };
     RequestAccessToken();
+    setTimeout(() => {
+      fetchInfo();
+    }, 1000);
   }, []);
 
   function RequestAccessToken() {
@@ -43,7 +50,6 @@ export default function Logined() {
             localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
             notification.success({ message: 'Đăng Nhập Thành Công' });
             console.log(info.roleId);
-
             if (LoginParmas.id == 1) {
               navigate('/home');
             }
