@@ -230,9 +230,9 @@ export default function EditProgram() {
                 },
               ]}
             />
-            <div className="my-10 mb-[55px]">
+            <div className="mt-[1.65rem]">
               <FormInput
-                areaHeight={7}
+                areaHeight={10}
                 name="Descriptions"
                 type="textArea"
                 label="Mô Tả Chủ Đề"
@@ -248,6 +248,7 @@ export default function EditProgram() {
               Phòng/Khoa
             </label>
             <Form.Item
+              style={{ marginTop: 10 }}
               name="FacultyId"
               rules={[
                 {
@@ -309,61 +310,65 @@ export default function EditProgram() {
                 },
               ]}
             />
-            <div className="mt-12">
-              <label className="text-black font-bold font-customFont ">
-                Năm Học
-              </label>
-              <Form.Item
-                className="mb-4"
-                name="AcademicYearId"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Vui Lòng Nhập Vào Năm Học',
-                  },
-                ]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Chọn Năm Học"
-                  optionFilterProp="children"
-                  onChange={onChange}
-                  onSearch={onSearch}
-                  filterOption={(input: any, option: any) =>
-                    (option?.label ?? '')
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  options={acedemic.map((item: any) => ({
-                    value: item.id,
-                    label: item.year,
-                  }))}
-                />
-              </Form.Item>
 
-              <label className="text-black font-bold font-customFont ">
-                Học Kì
-              </label>
-              <Form.Item
-                name="Semester"
-                className="w-full"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Vui Lòng Nhập Vào Học Kì',
-                  },
-                ]}
-              >
-                <Select placeholder="Chọn Học Kì">
-                  <Option value="1">Học Kì 1</Option>
-                  <Option value="2">Học Kì 2</Option>
-                  <Option value="3">Học Kì 3</Option>
-                </Select>
-              </Form.Item>
+            <label className="text-black font-bold font-customFont ">
+              Năm Học
+            </label>
+            <Form.Item
+              style={{ marginTop: 10 }}
+              className="mb-4"
+              name="AcademicYearId"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Năm Học',
+                },
+              ]}
+            >
+              <Select
+                showSearch
+                placeholder="Chọn Năm Học"
+                optionFilterProp="children"
+                onChange={onChange}
+                onSearch={onSearch}
+                filterOption={(input: any, option: any) =>
+                  (option?.label ?? '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={acedemic.map((item: any) => ({
+                  value: item.id,
+                  label: item.year,
+                }))}
+              />
+            </Form.Item>
+
+            <label className="text-black font-bold font-customFont ">
+              Học Kì
+            </label>
+            <Form.Item
+              style={{ marginTop: 10 }}
+              name="Semester"
+              className="w-full"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Học Kì',
+                },
+              ]}
+            >
+              <Select placeholder="Chọn Học Kì">
+                <Option value="1">Học Kì 1</Option>
+                <Option value="2">Học Kì 2</Option>
+                <Option value="3">Học Kì 3</Option>
+              </Select>
+            </Form.Item>
+            <div className="mt-8">
               <label className="text-black font-bold font-customFont">
                 Danh Mục
               </label>
               <Form.Item
+                style={{ marginTop: 12 }}
                 name="CategoryId"
                 rules={[
                   {
@@ -393,6 +398,7 @@ export default function EditProgram() {
                 Chức vụ
               </label>
               <Form.Item
+                style={{ marginTop: 17 }}
                 name="Positions"
                 rules={[
                   {
@@ -427,7 +433,7 @@ export default function EditProgram() {
                 src={`${API_URL}/images/${image}`}
               />
             )}
-            <Form.Item className="mt-4" name="Image">
+            <Form.Item style={{ marginTop: 10 }} className="mt-4" name="Image">
               <Upload
                 listType="picture-card"
                 beforeUpload={() => false}
@@ -443,6 +449,7 @@ export default function EditProgram() {
               Ngày Bắt Đầu
             </label>
             <Form.Item
+              style={{ marginTop: 10 }}
               name="StartDate"
               rules={[
                 {
@@ -457,6 +464,7 @@ export default function EditProgram() {
               Ngày Kết Thúc
             </label>
             <Form.Item
+              style={{ marginTop: 10 }}
               name="EndDate"
               rules={[
                 {
@@ -468,9 +476,10 @@ export default function EditProgram() {
               <DatePicker placeholder="Chọn Ngày" picker="date" />
             </Form.Item>
             <label className=" text-black font-bold font-customFont">
-              Ngày Bắt Đầu Đăng Ký
+              Ngày Bắt Đầu ĐK
             </label>
             <Form.Item
+              style={{ marginTop: 10 }}
               name="RegistrationStartDate"
               rules={[
                 {
@@ -482,9 +491,10 @@ export default function EditProgram() {
               <DatePicker placeholder="Chọn Ngày" picker="date" />
             </Form.Item>
             <label className=" text-black font-bold font-customFont ">
-              Ngày Kết Thúc Đăng Ký
+              Ngày Kết Thúc ĐK
             </label>
             <Form.Item
+              style={{ marginTop: 10 }}
               name="RegistrationEndDate"
               rules={[
                 {

@@ -24,6 +24,9 @@ export default function ItemMenu({ params }: { params: any }) {
               `${
                 params.title == 'Trang Chủ'
                   ? params.title
+                  : params.headTitle &&
+                    params.headTitle.includes('Chương Trình')
+                  ? 'Quản Lý ' + params.headTitle
                   : 'Quản Lý ' + params.title
               }`,
             ),
@@ -33,10 +36,10 @@ export default function ItemMenu({ params }: { params: any }) {
         <div id="icon">
           <params.icon className="ml-2 text-md " />
         </div>{' '}
-        <div id="title" className="flex uppercase ">
+        <div id="title" className="flex  ">
           <p
             className={`font-semibold ${
-              params.smallText ? 'text-xs ' : 'text-sm'
+              params.textClassName ? params.textClassName : 'text-sm uppercase'
             }`}
           >
             {params.title}

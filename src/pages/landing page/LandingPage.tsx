@@ -253,19 +253,19 @@ const Product = React.forwardRef((props, ref: any) => {
         </div>
         <div className="products max-sm:flex-wrap  flex flex-row justify-evenly items-center w-full ">
           <ProductCard
-            title="Khoá học Đắc Nhân Tâm"
+            title="Đắc Nhân Tâm"
             view="500 Học viên"
             hour="10 buổi"
             image="https://americastarbooks.com/wp-content/uploads/2018/11/noi-dung-sach-dac-nhan-tam-1280x720.jpg"
           />
           <ProductCard
-            title="Khoá học Tiếng Anh Giao Tiếp"
+            title="Tiếng Anh Giao Tiếp"
             view="200 Học viên"
             hour="20 buổi"
             image="https://vcdn1-vnexpress.vnecdn.net/2020/09/12/English-4241-1599884287.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=lXq1p7RniKkjCoSZHhQ5PQ"
           />
           <ProductCard
-            title="Khoá học Kỹ Năng Mềm"
+            title="Kỹ Năng Mềm"
             view="300 Học viên"
             hour="12 buổi"
             image="https://bme.binhminh.com.vn/wp-content/uploads/2020/05/tt-36.png"

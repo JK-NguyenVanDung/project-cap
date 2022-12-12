@@ -58,10 +58,10 @@ export default function CustomModal({
     setShow(!show);
   };
   useEffect(() => {
-    form.resetFields();
+    form?.resetFields();
 
     const setForm = () => {
-      form.setFieldsValue(dataItem ? dataItem : dataFields);
+      form?.setFieldsValue(dataItem ? dataItem : dataFields);
     };
 
     if (dataItem) {

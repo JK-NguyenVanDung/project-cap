@@ -91,7 +91,7 @@ export default function CustomButton({
       defaultText = '';
       Icon = GiOpenBook;
       color = 'orange';
-      tip = 'Danh sách chương';
+      tip = 'Quản lý nội dung';
 
       iconClass = 'mx-2 text-base ';
       variant = 'outlined';
