@@ -13,7 +13,7 @@ export default {
     return axiosConfig.post(API_CONFIG.AUTH.LOGIN, token);
   },
   getProfile: () => {
-    return axiosConfig.get(API_CONFIG.AUTH.GETPROFILE);
+    return axiosConfig.get(API_CONFIG.AUTH.GET_PROFILE);
   },
   //CATEGORY
   getCategories: () => {
@@ -121,7 +121,7 @@ export default {
     return axiosConfig.delete(API_CONFIG.QUESTION.DELETE_ANSWER(ID));
   },
   getAcedemicYear: () => {
-    return axiosConfig.get(API_CONFIG.ACEDEMICYEAR.GET);
+    return axiosConfig.get(API_CONFIG.ACADEMIC_YEAR.GET);
   },
   getPositions: () => {
     return axiosConfig.get(API_CONFIG.POSITION.GET);
@@ -140,18 +140,28 @@ export default {
     return axiosConfig.put(API_CONFIG.CONTENT.PUT(id), params);
   },
   getContentProgram: (id: number) => {
-    return axiosConfig.get(API_CONFIG.CONTENTPROGRAM.GET(id));
+    return axiosConfig.get(API_CONFIG.CONTENT_PROGRAM.GET(id));
   },
   getChapter: (id: number) => {
-    return axiosConfig.get(API_CONFIG.CHAPPTER.GET(id));
+    return axiosConfig.get(API_CONFIG.CHAPTER.GET(id));
   },
   delChapter: (id: number) => {
-    return axiosConfig.delete(API_CONFIG.CHAPPTER.DEL(id));
+    return axiosConfig.delete(API_CONFIG.CHAPTER.DEL(id));
   },
   putChapter: (id: number, params: IChapter) => {
-    return axiosConfig.put(API_CONFIG.CHAPPTER.PUT(id), params);
+    return axiosConfig.put(API_CONFIG.CHAPTER.PUT(id), params);
   },
   postChapter: (params: IChapter) => {
-    return axiosConfig.post(API_CONFIG.CHAPPTER.POST, params);
+    return axiosConfig.post(API_CONFIG.CHAPTER.POST, params);
+  },
+  // REVIEWER
+  getReviewers: () => {
+    return axiosConfig.get(API_CONFIG.REVIEWER.GET_ALL);
+  },
+  getReviewer: (id: number) => {
+    return axiosConfig.get(API_CONFIG.REVIEWER.GET(id));
+  },
+  addReviewer: (params: any) => {
+    return axiosConfig.post(API_CONFIG.REVIEWER.POST, params);
   },
 };

@@ -4,7 +4,7 @@ export const API_URL = 'https://localhost:7206';
 export const API_CONFIG = {
   AUTH: {
     LOGIN: '/api/Accounts/Login',
-    GETPROFILE: '/api/Accounts/me',
+    GET_PROFILE: '/api/Accounts/me',
   },
   COURSE_CATEGORY: {
     GET: '/api/Categories/',
@@ -50,13 +50,13 @@ export const API_CONFIG = {
     DELETE: (id: number) => `/api/Questions/${id}`,
     DELETE_ANSWER: (id: number) => `/api/Questions/content/${id}`,
   },
-  ACEDEMICYEAR: {
+  ACADEMIC_YEAR: {
     GET: '/api/AcademicYear',
   },
   POSITION: {
     GET: '/api/Positions',
   },
-  CONTENTPROGRAM: {
+  CONTENT_PROGRAM: {
     GET: (id: number) => `/api/Programs/${id}/Contents`,
   },
   CONTENT: {
@@ -65,10 +65,15 @@ export const API_CONFIG = {
     PUT: (id: number) => `/api/Contents/${id}`,
     DELETE: (id: number) => `/api/Contents/${id}`,
   },
-  CHAPPTER: {
+  CHAPTER: {
     GET: (id: number) => `/api/Contents/${id}`,
     DEL: (id: number) => `/api/Contents/${id}`,
     PUT: (id: number) => `/api/Contents/${id}`,
     POST: `/api/Contents`,
+  },
+  REVIEWER: {
+    GET: (id: number) => `/api/ReviewPrograms/${id}`,
+    GET_ALL: `/api/ReviewPrograms`,
+    POST: `/api/ReviewPrograms/reviewer`,
   },
 };

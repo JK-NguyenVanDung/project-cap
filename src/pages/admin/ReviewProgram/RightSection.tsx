@@ -45,7 +45,7 @@ const RightSection = () => {
   }
   return (
     <div className=" rounded-xl w-[25%] text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
-      <p className="pt-4 text-xl font-light text-gray-900 text-center  flex w-full justify-center items-center">
+      <p className="mt-6 text-xl font-light text-gray-900 text-center  flex w-full justify-center items-center">
         THÔNG TIN KHOÁ HỌC
       </p>
       <CategoryDetail

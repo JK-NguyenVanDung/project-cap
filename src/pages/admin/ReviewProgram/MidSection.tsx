@@ -29,7 +29,6 @@ const MidSection = (props: any) => {
   const program: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
   );
-  useEffect(() => {}, [program]);
 
   function getTitle() {
     let out = '';
@@ -121,7 +120,7 @@ const MidSection = (props: any) => {
           <div className=" py-6 min-h-[10rem] w-full h-full">
             {currentTab === 1 && <DescriptionTab program={program} />}
 
-            {currentTab === 2 && <ChapterTab programId={program.programId} />}
+            {currentTab === 2 && <ChapterTab programId={program?.programId} />}
             {currentTab === 3 && <ReviewTab program={program} />}
           </div>
         </div>
@@ -137,12 +136,7 @@ const ChapterTab = ({ programId }: { programId: number }) => {
     try {
       let res: any = await apiService.getContentProgram(programId);
 
-      res = res.reverse();
-
-      const temp = res.map((v: any, index: number) => ({
-        ...v,
-        index: index + 1,
-      }));
+      let temp = res.reverse();
       if (temp) {
         setChapters(temp);
       }
@@ -169,7 +163,6 @@ const ChapterTab = ({ programId }: { programId: number }) => {
 const ChapterItem = ({ chapter }: { chapter: IChapterItem }) => {
   const [show, setShow] = useState(false);
   const [test, setTest] = useState<ITest>(null);
-  const contentRef = useRef(null);
   const parent = useRef(null);
   useEffect(() => {
     parent.current && autoAnimate(parent.current);
@@ -215,13 +208,6 @@ const ChapterItem = ({ chapter }: { chapter: IChapterItem }) => {
       </div>
       {show && (
         <>
-          <div
-            ref={contentRef}
-            className="py-8 hidden "
-            dangerouslySetInnerHTML={{
-              __html: chapter?.content ? chapter?.content : null,
-            }}
-          />
           <div className="content mx-6 mt-4">
             <div className="">
               <div className="flex justify-between items-center px-6  w-full rounded-xl bg-white h-14 ">
@@ -230,10 +216,12 @@ const ChapterItem = ({ chapter }: { chapter: IChapterItem }) => {
                     <BsFillPlayCircleFill className="text-primary text-lg" />
                   </button>
                   <p className=" text-base font-semibold text-black ">
-                    {contentRef ? contentRef?.current : null}
+                    {chapter?.contentTitle
+                      ? chapter.contentType + ' ' + chapter?.contentTitle
+                      : null}
                   </p>
                 </div>
-                <p className=" text-base font-semibold text-black ">11p20</p>
+                {/* <p className=" text-base font-semibold text-black ">11p20</p> */}
               </div>
             </div>
           </div>
@@ -245,7 +233,7 @@ const ChapterItem = ({ chapter }: { chapter: IChapterItem }) => {
                     <HiClipboardCheck className="text-primary text-2xl" />
                   </button>
                   <p className=" text-base font-semibold text-black ">
-                    Bài kiểm tra giới thiệu
+                    Bài Kiểm Tra {test?.testTitle ? test?.testTitle : null}
                   </p>
                 </div>
                 <p className=" text-base font-semibold text-black ">10 câu</p>
