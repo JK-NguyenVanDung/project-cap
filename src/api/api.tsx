@@ -22,6 +22,8 @@ export const API_CONFIG = {
   },
   PROGRAM: {
     GET: '/api/Programs',
+    GET_SINGLE: (ID: number) => `/api/Programs/${ID}`,
+
     POST: '/api/Programs',
     DELETE: (ID: number) => `/api/Programs/${ID}`,
     PUT: (ID: number) => `/api/Programs/${ID}`,

@@ -53,6 +53,9 @@ export default {
   getPrograms: () => {
     return axiosConfig.get(API_CONFIG.PROGRAM.GET);
   },
+  getProgram: (id: number) => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.GET_SINGLE(id));
+  },
   addProgram: (body: IProgramItem) => {
     return configFormData.post(API_CONFIG.PROGRAM.POST, body);
   },

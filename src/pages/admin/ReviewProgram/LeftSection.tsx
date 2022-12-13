@@ -1,10 +1,11 @@
 import { Form, notification, Select, Table } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CustomButton from '../../../components/admin/Button';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import { errorText, GIRD12 } from '../../../helper/constant';
+import { useAppSelector } from '../../../hook/useRedux';
 
 const LeftSection = () => {
   const [showAddReviewerModal, setShowAddReviewerModal] = useState(false);
@@ -15,6 +16,8 @@ const LeftSection = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const program: any = useAppSelector((state) => state.form.setProgram);
+  useEffect(() => {}, [program]);
   const [detail, setDetail] = useState({});
   const [history, setHistory] = useState([
     {
