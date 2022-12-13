@@ -1,20 +1,35 @@
 import autoAnimate from '@formkit/auto-animate';
 import { useEffect, useRef, useState } from 'react';
-import { BsFillPlayCircleFill, BsFillCheckCircleFill } from 'react-icons/bs';
+import {
+  BsFillPlayCircleFill,
+  BsFillCheckCircleFill,
+  BsPeople,
+} from 'react-icons/bs';
 import { HiClipboardCheck } from 'react-icons/hi';
+import { MdThumbUpOffAlt } from 'react-icons/md';
+import View from '../../../assets/svg/View.svg';
 
 import ActiveArrow from '../../../assets/svg/ActiveArrow';
 import NonActiveArrow from '../../../assets/svg/NonActiveArrow';
 import CustomButton from '../../../components/admin/Button';
 import RightSection from './RightSection';
+import { BiLike } from 'react-icons/bi';
+import { useAppSelector } from '../../../hook/useRedux';
+import { IChapterItem, IProgramItem, ITest } from '../../../Type';
+import apiService from '../../../api/apiService';
 const instruction = [
   'Xem danh sách các khoá học',
   'Nhấn chọn đăng ký để được xét duyệt tham gia đào tạo',
   'Sau khi  được xác duyệt tham gia khoá học, bạn sẽ có thể xem các chương và làm bài tập',
   'Hoàn thành các bài kiểm tra và làm bài kiểm tra cuối cùng để nhận được chứng chỉ',
 ];
-const MidSection = () => {
+const MidSection = (props: any) => {
   const [currentTab, setCurrentTab] = useState(1);
+
+  const program: IProgramItem = useAppSelector(
+    (state) => state.form.setProgram,
+  );
+
   function getTitle() {
     let out = '';
     if (currentTab === 1) {
@@ -29,17 +44,47 @@ const MidSection = () => {
   return (
     <>
       <div className=" w-[60%]  h-fit my-4 mx-2 flex flex-col justify-start items-center">
-        <div className="shadow-lg p-6 rounded-xl w-full h-[70vh] text-black bg-white  border flex flex-col justify-start items-center">
-          <div className="w-full h-[90%]">
-            <img
-              className="object-cover w-full h-full	rounded"
-              src={
-                'https://all.ie/wp-content/uploads/2015/09/Evening_English_1.jpg'
-              }
-            />
-            <p className="py-4 text-xl font-semibold text-primary">
-              Khoá học Lập trình Mobile App Android
+        <div className="shadow-lg p-6 rounded-xl w-full h-fit text-black bg-white  border flex flex-col justify-start items-center">
+          <div className="w-full h-fit font-customFont ">
+            <div className="w-full h-[50vh]">
+              <img
+                className="object-cover w-full h-full	rounded"
+                src={
+                  program?.image
+                    ? program?.image
+                    : 'https://all.ie/wp-content/uploads/2015/09/Evening_English_1.jpg'
+                }
+              />
+            </div>
+            <p className="py-4 text-2xl font-semibold text-primary">
+              {program?.programName ? program?.programName : 'N/A'}
             </p>
+            <div className="flex w-full text-base font-light">
+              <p>Khoa: </p>
+              <span className=" pl-2 pr-4 mr-2 border-r-[1px] font-normal">
+                {program?.faculty
+                  ? program.faculty.facultyName
+                  : 'Chưa có thông tin'}
+              </span>
+              <p>Giảng viên:</p>
+              <span className=" pl-2 pr-4 mr-2 font-normal ">
+                {program?.accountIdCreator
+                  ? program?.accountIdCreator
+                  : 'Chưa có thông tin'}
+              </span>
+            </div>
+            <div className="flex w-full items-center  mt-4 text-base">
+              <div className="flex items-center mr-4  font-light">
+                <img src={View} className="  mr-2 font-bold  " />
+                <span>
+                  {props.learnerCount ? props.learnerCount : 0} Người tham gia
+                </span>
+              </div>
+              <div className="flex items-center font-light ">
+                <BiLike className="text-[#54577A]  mr-2 font-bold text-xl " />
+                <span>{props.like ? props.like : 0} Lượt thích</span>
+              </div>
+            </div>
           </div>
         </div>
         <div className=" mt-8  flex w-full justify-between items-center">
@@ -73,10 +118,10 @@ const MidSection = () => {
             {getTitle()}
           </p>
           <div className=" py-6 min-h-[10rem] w-full h-full">
-            {currentTab === 1 && <DescriptionTab />}
+            {currentTab === 1 && <DescriptionTab program={program} />}
 
-            {currentTab === 2 && <ChapterTab />}
-            {currentTab === 3 && <ReviewTab />}
+            {currentTab === 2 && <ChapterTab programId={program?.programId} />}
+            {currentTab === 3 && <ReviewTab program={program} />}
           </div>
         </div>
       </div>
@@ -84,21 +129,64 @@ const MidSection = () => {
   );
 };
 
-const ChapterTab = () => {
+const ChapterTab = ({ programId }: { programId: number }) => {
+  const [chapters, setChapters] = useState(null);
+
+  async function getData() {
+    try {
+      let res: any = await apiService.getContentProgram(programId);
+
+      let temp = res.reverse();
+      if (temp) {
+        setChapters(temp);
+      }
+    } catch (err: any) {
+      throw err.message;
+    }
+  }
+  useEffect(() => {
+    let time = setTimeout(async () => {
+      await getData();
+    }, 100);
+    return () => {
+      clearTimeout(time);
+    };
+  }, [programId]);
   return (
     <>
-      <ChapterItem />
-      <ChapterItem />
+      {chapters?.map((item: IChapterItem) => {
+        return <ChapterItem chapter={item} />;
+      })}
     </>
   );
 };
-const ChapterItem = () => {
+const ChapterItem = ({ chapter }: { chapter: IChapterItem }) => {
   const [show, setShow] = useState(false);
-
+  const [test, setTest] = useState<ITest>(null);
   const parent = useRef(null);
   useEffect(() => {
     parent.current && autoAnimate(parent.current);
   }, [parent]);
+
+  async function getData() {
+    try {
+      let test: any = await apiService.getTest(chapter?.contentId);
+
+      if (test) {
+        setTest(test);
+      }
+    } catch (err: any) {
+      throw err.message;
+    }
+  }
+  useEffect(() => {
+    let time = setTimeout(async () => {
+      await getData();
+    }, 100);
+    return () => {
+      clearTimeout(time);
+    };
+  }, [chapter]);
 
   const reveal = () => setShow(!show);
   return (
@@ -114,7 +202,9 @@ const ChapterItem = () => {
         <button className="pr-4" onClick={reveal}>
           {show ? <ActiveArrow /> : <NonActiveArrow />}
         </button>
-        <p className=" text-base  font-semibold ">Chương 1: Giới thiệu</p>
+        <p className=" text-base  font-semibold ">
+          {chapter?.contentTitle ? chapter.contentTitle : 'N/A'}
+        </p>
       </div>
       {show && (
         <>
@@ -126,10 +216,12 @@ const ChapterItem = () => {
                     <BsFillPlayCircleFill className="text-primary text-lg" />
                   </button>
                   <p className=" text-base font-semibold text-black ">
-                    Video Giới thiệu
+                    {chapter?.contentTitle
+                      ? chapter.contentType + ' ' + chapter?.contentTitle
+                      : null}
                   </p>
                 </div>
-                <p className=" text-base font-semibold text-black ">11p20</p>
+                {/* <p className=" text-base font-semibold text-black ">11p20</p> */}
               </div>
             </div>
           </div>
@@ -141,7 +233,7 @@ const ChapterItem = () => {
                     <HiClipboardCheck className="text-primary text-2xl" />
                   </button>
                   <p className=" text-base font-semibold text-black ">
-                    Bài kiểm tra giới thiệu
+                    Bài Kiểm Tra {test?.testTitle ? test?.testTitle : null}
                   </p>
                 </div>
                 <p className=" text-base font-semibold text-black ">10 câu</p>
@@ -154,7 +246,7 @@ const ChapterItem = () => {
   );
 };
 
-const ReviewTab = () => {
+const ReviewTab = ({ program }: { program: IProgramItem }) => {
   return (
     <>
       <p className="pt-4 text-xl font-semibold text-black font-bold grid place-items-center	 h-full w-full">
@@ -163,15 +255,11 @@ const ReviewTab = () => {
     </>
   );
 };
-const DescriptionTab = () => {
+const DescriptionTab = ({ program }: { program: IProgramItem }) => {
   return (
     <>
       <p className="pb-4 text-md  text-[#141522]">
-        Làm theo video hướng dẫn ở trên. Hiểu cách sử dụng từng công cụ trong
-        ứng dụng Android Studio. Đồng thời học cách tạo ra một thiết kế tốt và
-        đúng đắn. Bắt đầu từ khoảng cách, kiểu chữ, nội dung và nhiều thứ bậc
-        thiết kế khác. Sau đó, cố gắng tự làm nó bằng trí tưởng tượng và cảm
-        hứng của bạn.
+        {program?.descriptions ? program.descriptions : 'Chưa có mô tả'}
       </p>
       <p className="pt-4 text-xl font-semibold text-black font-bold">
         Cách tham gia đào tạo

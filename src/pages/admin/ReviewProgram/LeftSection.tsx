@@ -1,13 +1,18 @@
-import { Form, notification, Select, Table } from 'antd';
-import { useState } from 'react';
+import { Form, message, notification, Select, Table } from 'antd';
+import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import apiService from '../../../api/apiService';
 import CustomButton from '../../../components/admin/Button';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import { errorText, GIRD12 } from '../../../helper/constant';
+import { useAppSelector } from '../../../hook/useRedux';
+import { IAccountItem, IProgramItem } from '../../../Type';
 
 const LeftSection = () => {
   const [showAddReviewerModal, setShowAddReviewerModal] = useState(false);
+  const [accounts, setAccounts] = useState(null);
+  const [reviewers, setReviewers] = useState(null);
 
   const [showDeclinedModal, setShowDeclinedModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
@@ -15,6 +20,49 @@ const LeftSection = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const program: IProgramItem = useAppSelector(
+    (state) => state.form.setProgram,
+  );
+  useEffect(() => {
+    let time = setTimeout(async () => {
+      // await getData();
+    }, 100);
+    return () => {
+      clearTimeout(time);
+    };
+  }, [program]);
+  useEffect(() => {
+    showAddReviewerModal == true && accounts == null && getAccounts();
+    getReviewers();
+  }, [showAddReviewerModal]);
+  async function getReviewers() {
+    try {
+      let res: any = await apiService.getReviewers();
+      const temp = res.map((v: IAccountItem, index: number) => {
+        return {
+          value: v.accountId,
+          label: v.fullName,
+        };
+      });
+      setReviewers(temp);
+    } catch (err: any) {
+      throw err.message;
+    }
+  }
+  async function getAccounts() {
+    try {
+      let res: any = await apiService.getAccounts();
+      const temp = res.map((v: IAccountItem, index: number) => {
+        return {
+          value: v.accountId,
+          label: v.fullName,
+        };
+      });
+      setAccounts(temp);
+    } catch (err: any) {
+      throw err.message;
+    }
+  }
   const [detail, setDetail] = useState({});
   const [history, setHistory] = useState([
     {
@@ -37,7 +85,34 @@ const LeftSection = () => {
   };
   const [form] = Form.useForm();
 
-  const handleOk = () => {};
+  function checkAccountExist(item: number) {
+    return reviewers.find((e: any) => e.accountId === item);
+  }
+  const handleAddReviewer = () => {
+    console.log(1);
+    form
+      .validateFields()
+      .then(async (value) => {
+        let exist = checkAccountExist(value.reviewerName);
+        console.log(exist);
+        if (!exist) {
+          await apiService.addReviewer({
+            accountId: value.reviewerName,
+            programId: program?.programId,
+          });
+          setShowAddReviewerModal(false);
+          notification.success({ message: 'Thêm thành công' });
+          setLoading(!loading);
+          form.resetFields();
+        } else {
+          message.error('Tài khoản này đã nằm trong danh sách người duyệt');
+        }
+      })
+
+      .catch((info) => {
+        // dispatch(actions.formActions.showError())
+      });
+  };
 
   const columns = [
     {
@@ -61,19 +136,19 @@ const LeftSection = () => {
       width: GIRD12.COL3,
     },
   ];
+  const columnsReviewer = [
+    {
+      title: 'STT',
+      render: (data: any) => <p>{data && data.index ? data.index : 0}</p>,
+      width: GIRD12.COL1,
+    },
+    {
+      title: 'Người duyệt',
+      dataIndex: 'reviewer',
+      key: 'reviewer',
+    },
+  ];
 
-  const HistoryFI = () => {
-    return (
-      <>
-        <Table
-          loading={loading}
-          className="tableContainer shadow-lg rounded-lg border-1"
-          dataSource={history}
-          columns={columns}
-        />
-      </>
-    );
-  };
   const DeclinedFI = () => {
     return (
       <FormInput
@@ -122,34 +197,18 @@ const LeftSection = () => {
                 .toLowerCase()
                 .localeCompare((optionB?.label ?? '').toLowerCase())
             }
-            options={[
-              {
-                value: '1',
-                label: 'Not Identified',
-              },
-              {
-                value: '2',
-                label: 'Closed',
-              },
-              {
-                value: '3',
-                label: 'Communicated',
-              },
-              {
-                value: '4',
-                label: 'Identified',
-              },
-              {
-                value: '5',
-                label: 'Resolved',
-              },
-              {
-                value: '6',
-                label: 'Cancelled',
-              },
-            ]}
+            options={accounts}
           />
         </Form.Item>
+        <label className="text-black font-bold font-customFont   ">
+          Danh sách người duyệt
+        </label>
+        <Table
+          loading={loading}
+          className="tableContainer shadow-lg rounded-lg border-1 mt-4"
+          dataSource={reviewers}
+          columns={columnsReviewer}
+        />
       </div>
     );
   };
@@ -159,8 +218,9 @@ const LeftSection = () => {
         PHÊ DUYỆT KHOÁ HỌC
       </p>
       <CustomModal
+        width={'50%'}
         show={showAddReviewerModal}
-        handleOk={handleOk}
+        handleOk={handleAddReviewer}
         setShow={setShowAddReviewerModal}
         dataItem={detail}
         label={'Người Duyệt'}
@@ -172,7 +232,7 @@ const LeftSection = () => {
       <CustomModal
         width={'50%'}
         show={showDeclinedModal}
-        handleOk={handleOk}
+        handleOk={() => {}}
         setShow={setShowDeclinedModal}
         dataItem={detail}
         label={''}
@@ -181,17 +241,11 @@ const LeftSection = () => {
         form={form}
         header={'Nhập lý do từ chối'}
       />
-      <CustomModal
-        width={'64%'}
-        show={showHistoryModal}
-        handleOk={handleOk}
-        setShow={setShowHistoryModal}
-        dataItem={detail}
-        name={detail}
-        FormItem={<HistoryFI />}
-        form={form}
-        header={'Lịch sử '}
-        showDetail
+      <History
+        showHistoryModal={showHistoryModal}
+        detail={detail}
+        history={history}
+        setShowHistoryModal={setShowHistoryModal}
       />
       <CustomButton
         noIcon
@@ -232,5 +286,69 @@ const LeftSection = () => {
     </div>
   );
 };
+const History = ({
+  showHistoryModal,
+  setShowHistoryModal,
+  history,
+  detail,
+}: {
+  showHistoryModal: boolean;
+  setShowHistoryModal: any;
+  history: any[];
+  detail: any;
+}) => {
+  const handleOk = () => {};
+  const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
 
+  const columns = [
+    {
+      title: 'STT',
+      render: (data: any) => <p>{data && data.index ? data.index : 0}</p>,
+      width: GIRD12.COL1,
+    },
+    {
+      title: 'Người duyệt',
+      dataIndex: 'reviewer',
+      key: 'reviewer',
+      width: GIRD12.COL2,
+    },
+    {
+      title: 'Bình luận',
+      dataIndex: 'comment',
+    },
+    {
+      title: 'Thời gian duyệt',
+      dataIndex: 'reviewTime',
+      width: GIRD12.COL3,
+    },
+  ];
+  const HistoryFI = () => {
+    return (
+      <>
+        <Table
+          loading={loading}
+          className="tableContainer shadow-lg rounded-lg border-1"
+          dataSource={history}
+          columns={columns}
+        />
+      </>
+    );
+  };
+
+  return (
+    <CustomModal
+      width={'64%'}
+      show={showHistoryModal}
+      handleOk={null}
+      setShow={setShowHistoryModal}
+      dataItem={detail}
+      name={detail}
+      FormItem={<HistoryFI />}
+      form={form}
+      header={'Lịch sử '}
+      showDetail
+    />
+  );
+};
 export default LeftSection;

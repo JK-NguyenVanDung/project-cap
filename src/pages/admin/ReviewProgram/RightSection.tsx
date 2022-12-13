@@ -1,53 +1,67 @@
+import moment from 'moment';
+import { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
+import apiService from '../../../api/apiService';
 import CustomButton from '../../../components/admin/Button';
+import { useAppSelector } from '../../../hook/useRedux';
+import { IAccountItem, IProgramItem } from '../../../Type';
 
 interface Content {
   title: string;
-  subject: string;
+  subject: string | number;
   icon?: any;
 }
 const RightSection = () => {
+  const program: IProgramItem = useAppSelector(
+    (state) => state.form.setProgram,
+  );
+  const [user, setUser] = useState<IAccountItem>(null);
+  useEffect(() => {
+    let time = setTimeout(async () => {
+      await getData();
+    }, 100);
+    return () => {
+      clearTimeout(time);
+    };
+  }, [program]);
+  async function getData() {
+    try {
+      let res: any = await apiService.getAccounts();
+      res = res.reverse();
+
+      const temp = res.map((v: any, index: number) => ({
+        ...v,
+        index: index + 1,
+      }));
+      if (temp) {
+        let acc = temp.find(
+          (item: any) => program.accountIdCreator == item.accountId,
+        );
+        setUser(acc);
+      }
+    } catch (err: any) {
+      throw err.message;
+    }
+  }
   return (
     <div className=" rounded-xl w-[25%] text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
-      <p className="pt-4 text-xl font-semibold text-gray-900 text-center  flex w-full justify-center items-center">
-        Ngành Công Nghệ Thông Tin
+      <p className="mt-6 text-xl font-light text-gray-900 text-center  flex w-full justify-center items-center">
+        THÔNG TIN KHOÁ HỌC
       </p>
       <CategoryDetail
         header="Người tạo"
         contents={[
           {
             title: 'Tên',
-            subject: 'Nguyễn Văn Dũng',
+            subject: user?.fullName ? user.fullName : 'N/A',
           },
           {
             title: 'Email',
-            subject: 'vandung 111@gmail.com',
+            subject: user?.email ? user.email : 'N/A',
           },
           {
             title: 'SĐT',
-            subject: '0368346742',
-          },
-        ]}
-      />
-      <CategoryDetail
-        header="Giảng viên"
-        contents={[
-          {
-            title: 'Tên',
-            subject: 'Nguyễn Văn Dũng',
-          },
-        ]}
-      />
-      <CategoryDetail
-        header="Tương tác"
-        contents={[
-          {
-            title: 'Học viên đã tham gia',
-            subject: '100',
-          },
-          {
-            title: 'Lượt thích',
-            subject: '40',
+            subject: user?.phoneNumber ? user.phoneNumber : 'N/A',
           },
         ]}
       />
@@ -57,15 +71,22 @@ const RightSection = () => {
         contents={[
           {
             title: 'Ngày bắt đầu',
-            subject: '11/12/2022',
+            subject: program?.startDate
+              ? moment(program.startDate).format('DD/MM/YYYY').toString()
+              : 'N/A',
           },
           {
             title: 'Ngày kết thúc',
-            subject: '11/12/2022',
+            subject: program?.endDate
+              ? moment(program.endDate).format('DD/MM/YYYY').toString()
+              : 'N/A',
           },
           {
             title: 'Số giờ đào tạo',
-            subject: '22',
+            subject:
+              program?.semester && program?.semester > 0
+                ? program.semester
+                : '0',
           },
         ]}
       />
@@ -74,11 +95,19 @@ const RightSection = () => {
         contents={[
           {
             title: 'Ngày bắt đầu',
-            subject: '11/12/2022',
+            subject: program?.registrationStartDate
+              ? moment(program.registrationStartDate)
+                  .format('DD/MM/YYYY')
+                  .toString()
+              : 'N/A',
           },
           {
             title: 'Ngày kết thúc',
-            subject: '11/12/2022',
+            subject: program?.registrationEndDate
+              ? moment(program.registrationEndDate)
+                  .format('DD/MM/YYYY')
+                  .toString()
+              : 'N/A',
           },
         ]}
       />
@@ -87,7 +116,7 @@ const RightSection = () => {
         contents={[
           {
             title: 'Số coin thưởng',
-            subject: '11',
+            subject: program?.coin && program?.coin > 0 ? program.coin : '0',
           },
         ]}
       />
@@ -129,8 +158,10 @@ const CategoryDetail = (props: { header: string; contents: Content[] }) => {
         {props.contents.map((item: Content) => {
           return (
             <div className="flex  w-full h-fit justify-between">
-              <p className="pt-4 text-sm text-gray-900 ">{item.title}</p>
-              <p className="pt-4 text-sm text-black font-semibold ">
+              <p className="pt-4 text-sm text-gray-900 text-left ">
+                {item.title}
+              </p>
+              <p className="pt-4 text-sm text-black font-semibold text-right ">
                 {item.subject}
               </p>
               {item.icon && <item.icon />}
