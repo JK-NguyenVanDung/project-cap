@@ -153,7 +153,7 @@ export default function Program() {
     let temp = data;
     const filteredData = temp
       .map((record: IProgramItem) => {
-        const emailMatch = record.ProgramName.match(reg);
+        const emailMatch = record.programName.match(reg);
         if (!emailMatch) {
           return null;
         }

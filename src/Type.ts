@@ -46,27 +46,61 @@ const CategoryItem = z.object({
   categoryName: z.string(),
 });
 
+const AcademicYear = {
+  id: z.number(),
+  year: z.string(),
+};
+const Faculty = {
+  facultyId: z.number(),
+  facultyName: z.string(),
+};
+const Position = {
+  programId: z.number(),
+  positionId: z.number(),
+  createdAt: z.date(),
+  position: z.object({
+    positionId: z.number(),
+    positionName: z.string(),
+  }),
+};
+
 const ProgramItem = z.object({
-  ProgramId: z.number(),
-  FacultyId: z.number(),
-  AccountIdCreator: z.number(),
-  CategoryId: z.number(),
-  ProgramName: z.string(),
-  Image: z.string(),
-  StartDate: z.date(),
-  EndDate: z.date(),
-  IsPublish: z.boolean(),
-  Coin: z.number(),
+  programId: z.number(),
+  facultyId: z.number(),
+  accountIdCreator: z.number(),
+  categoryId: z.number(),
+  programName: z.string(),
+  image: z.string(),
+  startDate: z.date(),
+  endDate: z.date(),
+  isPublish: z.boolean(),
+  coin: z.number(),
+  academicYearId: z.number(),
+  semester: z.number(),
+  descriptions: z.string(),
+  status: z.string(),
+  registrationStartDate: z.date(),
+  registrationEndDate: z.date(),
+  academicYear: z.object(AcademicYear),
+  accountPrograms: z.array(null),
+  accountIdCreatorNavigation: null,
+  learnerCount: z.number(),
+  category: z.object({
+    categoryId: z.number(),
+    categoryName: z.string(),
+  }),
+  faculty: z.object(Faculty),
+  programPositions: z.array(z.object(Position)),
 });
 
 const ChapterItem = z.object({
-  ContentId: z.number(),
-  ProgramId: z.number(),
-  ContentTitle: z.string(),
-  ContentDescription: z.string(),
-  Chapter: z.number(),
-  ContentType: z.string(),
-  Content: z.string(),
+  contentId: z.number(),
+  programId: z.number(),
+  contentTitle: z.string(),
+  contentDescription: z.string(),
+  chapter: z.number(),
+  contentType: z.string(),
+  content: z.string(),
 });
 const QuestionType = z.object({
   typeId: z.number(),
