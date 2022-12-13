@@ -155,8 +155,8 @@ export default {
     return axiosConfig.post(API_CONFIG.CHAPTER.POST, params);
   },
   // REVIEWER
-  getReviewers: () => {
-    return axiosConfig.get(API_CONFIG.REVIEWER.GET_ALL);
+  getListProgramsByReviewer: (id: number) => {
+    return axiosConfig.get(API_CONFIG.REVIEWER.GET_LIST_PROGRAM(id));
   },
   getReviewer: (id: number) => {
     return axiosConfig.get(API_CONFIG.REVIEWER.GET(id));
