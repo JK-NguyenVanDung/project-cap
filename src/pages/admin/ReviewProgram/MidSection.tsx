@@ -132,12 +132,10 @@ const MidSection = (props: any) => {
 
 const ChapterTab = ({ programId }: { programId: number }) => {
   const [chapters, setChapters] = useState(null);
-  const [test, setTest] = useState(null);
 
   async function getData() {
     try {
       let res: any = await apiService.getContentProgram(programId);
-      let test: any = await apiService.getTest(res?.contentId);
 
       res = res.reverse();
 
@@ -147,9 +145,6 @@ const ChapterTab = ({ programId }: { programId: number }) => {
       }));
       if (temp) {
         setChapters(temp);
-      }
-      if (test) {
-        setTest(test);
       }
     } catch (err: any) {
       throw err.message;
@@ -166,24 +161,39 @@ const ChapterTab = ({ programId }: { programId: number }) => {
   return (
     <>
       {chapters?.map((item: IChapterItem) => {
-        return <ChapterItem chapter={item} test={test} />;
+        return <ChapterItem chapter={item} />;
       })}
     </>
   );
 };
-const ChapterItem = ({
-  chapter,
-  test,
-}: {
-  chapter: IChapterItem;
-  test?: ITest;
-}) => {
+const ChapterItem = ({ chapter }: { chapter: IChapterItem }) => {
   const [show, setShow] = useState(false);
-
+  const [test, setTest] = useState<ITest>(null);
+  const contentRef = useRef(null);
   const parent = useRef(null);
   useEffect(() => {
     parent.current && autoAnimate(parent.current);
   }, [parent]);
+
+  async function getData() {
+    try {
+      let test: any = await apiService.getTest(chapter?.contentId);
+
+      if (test) {
+        setTest(test);
+      }
+    } catch (err: any) {
+      throw err.message;
+    }
+  }
+  useEffect(() => {
+    let time = setTimeout(async () => {
+      await getData();
+    }, 100);
+    return () => {
+      clearTimeout(time);
+    };
+  }, [chapter]);
 
   const reveal = () => setShow(!show);
   return (
@@ -200,11 +210,18 @@ const ChapterItem = ({
           {show ? <ActiveArrow /> : <NonActiveArrow />}
         </button>
         <p className=" text-base  font-semibold ">
-          {chapter?.ContentTitle ? chapter.ContentTitle : 'N/A'}
+          {chapter?.contentTitle ? chapter.contentTitle : 'N/A'}
         </p>
       </div>
       {show && (
         <>
+          <div
+            ref={contentRef}
+            className="py-8 hidden "
+            dangerouslySetInnerHTML={{
+              __html: chapter?.content ? chapter?.content : null,
+            }}
+          />
           <div className="content mx-6 mt-4">
             <div className="">
               <div className="flex justify-between items-center px-6  w-full rounded-xl bg-white h-14 ">
@@ -212,7 +229,9 @@ const ChapterItem = ({
                   <button className="pr-4">
                     <BsFillPlayCircleFill className="text-primary text-lg" />
                   </button>
-                  <p className=" text-base font-semibold text-black "></p>
+                  <p className=" text-base font-semibold text-black ">
+                    {contentRef ? contentRef?.current : null}
+                  </p>
                 </div>
                 <p className=" text-base font-semibold text-black ">11p20</p>
               </div>

@@ -94,13 +94,13 @@ const ProgramItem = z.object({
 });
 
 const ChapterItem = z.object({
-  ContentId: z.number(),
-  ProgramId: z.number(),
-  ContentTitle: z.string(),
-  ContentDescription: z.string(),
-  Chapter: z.number(),
-  ContentType: z.string(),
-  Content: z.string(),
+  contentId: z.number(),
+  programId: z.number(),
+  contentTitle: z.string(),
+  contentDescription: z.string(),
+  chapter: z.number(),
+  contentType: z.string(),
+  content: z.string(),
 });
 const QuestionType = z.object({
   typeId: z.number(),
