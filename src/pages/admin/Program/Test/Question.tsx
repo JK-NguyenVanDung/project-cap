@@ -77,6 +77,7 @@ export default function Question() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [finish, setFinish] = useState(false);
+  const [onlySave, setOnlySave] = useState(false);
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [showQuestionModal, setShowQuestionModal] = useState(false);
@@ -709,10 +710,17 @@ export default function Question() {
           // await apiService.editProgram({
           // });
           setLoading(false);
-          if (finish) {
-            setReload(!reload);
+          if (onlySave) {
+            if (selectedOptions.length !== radioOptions.length) {
+              await handleSubmit(values);
+              let res: any = await apiService.getQuestions(testId);
 
-            handleFinish(values);
+              setData(res);
+            }
+            setOnlySave(false);
+          } else if (finish) {
+            await handleFinish(values);
+            setReload(!reload);
           } else {
             handleNextQuestion(values);
           }
@@ -842,13 +850,7 @@ export default function Question() {
                         })
                   }
                 />
-                <FormInput
-                  disabled={true}
-                  type="select"
-                  label="Số slide"
-                  rules={[]}
-                  options={[{ value: '1', label: '1' }]}
-                />
+                <FormInput disabled={true} label="Số slide" rules={[]} />
               </div>
             </div>
             <div className=" w-full ">
@@ -930,7 +932,14 @@ export default function Question() {
                 noIcon
                 onClick={() => restoreDefault()}
               />
-
+              <button
+                type="submit"
+                onClick={() => setOnlySave(true)}
+                className=" mr-4 hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-cyan-500 hover:bg-cyan-500 text-white shadow-md shadow-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                formNoValidate
+              >
+                <p className="font-customFont  font-semibold">Lưu câu hỏi</p>
+              </button>
               <button
                 type="submit"
                 className=" mr-4 hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-gray-500 hover:bg-blue-gray-500 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
@@ -949,9 +958,7 @@ export default function Question() {
                   className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
                   formNoValidate
                 >
-                  <p className="font-customFont  font-semibold">
-                    Lưu Các Câu Hỏi
-                  </p>
+                  <p className="font-customFont  font-semibold">Quay lại</p>
                 </button>
               ) : (
                 <button

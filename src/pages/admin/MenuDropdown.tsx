@@ -8,20 +8,27 @@ import ItemMenu from './ItemMenu';
 export default function MenuDropdown({ params }: { params: any }) {
   const [dropDown, setDropDown] = React.useState(false);
   const navigation = useNavigate();
+
   const dispatch = useAppDispatch();
   return (
     <>
       <li
         className={`${
-          location.pathname === params.path ||
-          location.pathname == '/admin/MyProgram'
-            ? 'bg-white bg-opacity-25 rounded-lg mx-1'
+          location.pathname.includes(params.path) ||
+          params.children.find((item: any) =>
+            location.pathname.includes(item.path),
+          )
+            ? 'bg-white bg-opacity-25 rounded-lg '
             : ''
         }${
-          location.pathname === params.path ? ' text-primary' : 'text-primary'
-        }hover:bg-white hover:text-white py-4 my-2 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
+          location.pathname.includes(params.path)
+            ? ' text-primary'
+            : 'text-primary'
+        }hover:bg-white hover:text-white py-4 my-2 mx-1 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
         onClick={() => {
           navigation(params.path);
+          setDropDown(!dropDown);
+
           dispatch(
             actions.formActions.setNameMenu(
               `${
@@ -36,7 +43,7 @@ export default function MenuDropdown({ params }: { params: any }) {
         <div id="icon">
           <params.icon className="ml-2 text-md " />
         </div>
-        <div id="title" className="flex uppercase w-fit ">
+        <div id="title" className="flex uppercase w-full  justify-between pr-4">
           <p className="font-semibold text-sm">{params.title}</p>
           <MdOutlineKeyboardArrowDown
             className="text-xl ml-6"
@@ -49,7 +56,15 @@ export default function MenuDropdown({ params }: { params: any }) {
       {dropDown && (
         <div className="  ml-6  ">
           {params.children.map((item: any) => {
-            return <ItemMenu params={{ ...item, smallText: true }} />;
+            return (
+              <ItemMenu
+                params={{
+                  ...item,
+                  textClassName: 'text-xm ',
+                  headTitle: params.title,
+                }}
+              />
+            );
           })}
         </div>
       )}

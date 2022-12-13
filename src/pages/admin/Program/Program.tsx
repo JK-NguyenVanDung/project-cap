@@ -76,24 +76,6 @@ export default function Program() {
       render: (data: any) => <p>{data && data.index ? data.index : 0}</p>,
       width: GIRD12.COL0,
     },
-    {
-      title: 'Banner',
-      width: GIRD12.COL1,
-      render: (data: any) => (
-        <div className="flex flex-row w-full items-center">
-          <Image
-            width={50}
-            src={data?.image ? `${API_URL}/images/${data?.image}` : noImg}
-            placeholder={
-              <Image preview={false} src={ImagePlaceHolder} width={50} />
-            }
-          />
-          <p className="font-customFont ml-5  text-black">
-            {data?.ProgramName}
-          </p>{' '}
-        </div>
-      ),
-    },
 
     {
       title: 'Tên chương trình',
@@ -103,22 +85,35 @@ export default function Program() {
     {
       title: 'Ngày bắt đầu',
       dataIndex: 'startDate',
-      width: GIRD12.COL2,
       render: (item: any) => {
         return <p>{moment(item).format('DD-MM-YYYY')}</p>;
       },
     },
+
     {
       title: 'Ngày kết thúc',
       dataIndex: 'endDate',
-      width: GIRD12.COL2,
       render: (item: any) => {
         return <p>{moment(item).format('DD-MM-YYYY')}</p>;
       },
     },
     {
-      title: 'Tổng coin',
-      dataIndex: 'coin',
+      title: 'Ngày BĐĐK',
+      dataIndex: 'startDate',
+      render: (item: any) => {
+        return <p>{moment(item).format('DD-MM-YYYY')}</p>;
+      },
+    },
+    {
+      title: 'Ngày KTĐK',
+      dataIndex: 'endDate',
+      render: (item: any) => {
+        return <p>{moment(item).format('DD-MM-YYYY')}</p>;
+      },
+    },
+    {
+      title: 'Giờ đào tạo',
+      dataIndex: 'time',
       width: '10%',
       render: (data: any) => <p>{data ? data : 0}</p>,
     },
@@ -133,7 +128,7 @@ export default function Program() {
           <a className="font-bold text-orange-500">{'Chưa công khai'}</a>
         );
       },
-      width: GIRD12.COL2,
+      width: '13%',
     },
     {
       width: GIRD12.COL2,

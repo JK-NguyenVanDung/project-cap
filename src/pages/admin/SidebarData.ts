@@ -4,6 +4,7 @@ import {
   BsFillPersonBadgeFill,
   BsHouse,
 } from 'react-icons/bs';
+import { FaClipboardList } from 'react-icons/fa';
 
 import { ImAddressBook, ImBooks } from 'react-icons/im';
 import { IoApps, IoBook, IoAlbums, IoPeopleCircle } from 'react-icons/io5';
@@ -29,24 +30,42 @@ export const SideBarData = [
     title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
+    children: [
+      {
+        title: 'Nhóm chương trình',
+        icon: FaClipboardList,
+        path: '/admin/Category',
+      },
+      {
+        title: 'Khoa Ban',
+        icon: BsHouse,
+        path: '/admin/Faculties',
+      },
+      {
+        title: 'Năm Học',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/AcedemicYear',
+      },
+      {
+        title: 'Chức Vụ',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/Postions',
+      },
+    ],
   },
-  {
-    title: 'Phòng Ban',
-    icon: BsHouse,
-    path: '/admin/Faculties',
-  },
+
   {
     title: 'Chương Trình',
     icon: IoBook,
     path: '/admin/Program',
     children: [
       {
-        title: 'Tất Cả Chương Trình',
+        title: 'Tất Cả',
         icon: ImBooks,
         path: '/admin/Program',
       },
       {
-        title: 'Chương Trình Của Tôi',
+        title: 'Của Tôi',
         icon: ImAddressBook,
         path: '/admin/MyProgram',
       },

@@ -34,15 +34,15 @@ export default function EditProgram() {
   const frmData: any = new FormData();
   const navigate = useNavigate();
   const item: any = useAppSelector((state) => state.form.setProgram);
-  const [valuePositons, setValuePositions]: any = useState({});
-
+  const [valuePositons, setValuePositions]: any = useState([]);
   useEffect(() => {
     getFacuties();
     getCategories();
     getAcedemicYear();
     getPositions();
-    let temp = item?.programPositions?.map((e: any) => {
-      return e.position.positionName;
+    let temp;
+    item?.programPositions?.map((item: any) => {
+      temp = item.position;
     });
     item
       ? (form.setFieldsValue({
@@ -66,7 +66,7 @@ export default function EditProgram() {
         setImage(item.image),
         setValuePositions(
           item?.programPositions?.map((item: any) => {
-            return item.positionName;
+            return item.position.positionName;
           }),
         ))
       : form.setFieldsValue(setLoading(false));
@@ -113,15 +113,17 @@ export default function EditProgram() {
     console.log(newFileList);
   };
   const onChangePosition = (item: any) => {
-    setValuePositions(item);
-
-    console.log(item);
+    item.map((item: any) => {
+      setValuePositions(item);
+    });
   };
   const onSearch = () => {};
   const handelOk = async (type: 'save' | 'saveDraft') => {
     form
       .validateFields()
       .then(async (values) => {
+        console.log(values);
+
         frmData.append(
           'ProgramName',
           values.ProgramName ? values.ProgramName : item.programName,
@@ -168,8 +170,6 @@ export default function EditProgram() {
           ? frmData.append('Status', 'save')
           : frmData.append('Status', 'save draft');
         console.log(values);
-
-        var json_arr = JSON.stringify(valuePositons);
 
         frmData.append(
           'PositionIds',
@@ -237,7 +237,7 @@ export default function EditProgram() {
             />
             <div className="mt-5 ">
               <FormInput
-                areaHeight={7}
+                areaHeight={10}
                 name="Descriptions"
                 type="textArea"
                 label="Mô Tả Chủ Đề"
@@ -282,6 +282,7 @@ export default function EditProgram() {
               Phòng/Khoa
             </label>
             <Form.Item
+              style={{ marginTop: 10 }}
               name="FacultyId"
               rules={[
                 {
@@ -388,7 +389,8 @@ export default function EditProgram() {
                 Chức vụ
               </label>
               <Form.Item
-                name="Positions"
+                style={{ marginTop: 17 }}
+                name="PositionIds"
                 rules={[
                   {
                     required: true,
@@ -422,7 +424,7 @@ export default function EditProgram() {
                 src={`${API_URL}/images/${image}`}
               />
             )}
-            <Form.Item className="mt-4" name="Image">
+            <Form.Item style={{ marginTop: 10 }} className="mt-4" name="Image">
               <Upload
                 listType="picture-card"
                 beforeUpload={() => false}
@@ -438,6 +440,7 @@ export default function EditProgram() {
               Ngày Bắt Đầu
             </label>
             <Form.Item
+              style={{ marginTop: 10 }}
               name="StartDate"
               rules={[
                 {
@@ -452,6 +455,7 @@ export default function EditProgram() {
               Ngày Kết Thúc
             </label>
             <Form.Item
+              style={{ marginTop: 10 }}
               name="EndDate"
               rules={[
                 {
@@ -463,9 +467,10 @@ export default function EditProgram() {
               <DatePicker placeholder="Chọn Ngày" picker="date" />
             </Form.Item>
             <label className=" text-black font-bold font-customFont">
-              Ngày Bắt Đầu Đăng Ký
+              Ngày Bắt Đầu ĐK
             </label>
             <Form.Item
+              style={{ marginTop: 10 }}
               name="RegistrationStartDate"
               rules={[
                 {
@@ -477,9 +482,10 @@ export default function EditProgram() {
               <DatePicker placeholder="Chọn Ngày" picker="date" />
             </Form.Item>
             <label className=" text-black font-bold font-customFont ">
-              Ngày Kết Thúc Đăng Ký
+              Ngày Kết Thúc ĐK
             </label>
             <Form.Item
+              style={{ marginTop: 10 }}
               name="RegistrationEndDate"
               rules={[
                 {
