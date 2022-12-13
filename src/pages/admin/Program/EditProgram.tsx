@@ -41,7 +41,9 @@ export default function EditProgram() {
     getCategories();
     getAcedemicYear();
     getPositions();
-
+    let temp = item?.programPositions?.map((e: any) => {
+      return e.position.positionName;
+    });
     item
       ? (form.setFieldsValue({
           ProgramName: item ? item.programName : '',
@@ -53,11 +55,17 @@ export default function EditProgram() {
           FacultyId: item ? item.facultyId : '',
           CategoryId: item ? item.categoryId : '',
           Descriptions: item ? item.descriptions : '',
-          Positions: item ? valuePositons : '',
+          Positions: item ? temp : '',
+          RegistrationStartDate: item.registrationStartDate
+            ? moment(item.registrationStartDate)
+            : '',
+          RegistrationEndDate: item.registrationStartDate
+            ? moment(item.registrationEndDate)
+            : '',
         }),
         setImage(item.image),
         setValuePositions(
-          item?.position.map((item: any) => {
+          item?.programPositions?.map((item: any) => {
             return item.positionName;
           }),
         ))
@@ -102,17 +110,15 @@ export default function EditProgram() {
     : '';
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
-    setValuePositions(newFileList);
     console.log(newFileList);
   };
-  const onChangePosition: UploadProps['onChange'] = ({
-    fileList: newFileList,
-  }) => {
-    setFileList(newFileList);
-    console.log(newFileList);
+  const onChangePosition = (item: any) => {
+    setValuePositions(item);
+
+    console.log(item);
   };
   const onSearch = () => {};
-  const handelOk = async () => {
+  const handelOk = async (type: 'save' | 'saveDraft') => {
     form
       .validateFields()
       .then(async (values) => {
@@ -136,6 +142,18 @@ export default function EditProgram() {
             : moment(item.startDate).format('YYYY-MM-DD'),
         );
         frmData.append(
+          'RegistrationStartDate',
+          values.RegistrationStartDate
+            ? moment(values.RegistrationStartDate).format('YYYY-MM-DD')
+            : moment(item.registrationStartDate).format('YYYY-MM-DD'),
+        );
+        frmData.append(
+          'RegistrationEndDate',
+          values.RegistrationEndDate
+            ? moment(values.RegistrationEndDate).format('YYYY-MM-DD')
+            : moment(item.registrationEndDate).format('YYYY-MM-DD'),
+        );
+        frmData.append(
           'EndDate',
           values.EndDate
             ? moment(values.EndDate).format('YYYY-MM-DD')
@@ -146,9 +164,16 @@ export default function EditProgram() {
           'Descriptions',
           values.Descriptions ? values.Descriptions : item.descriptions,
         );
+        type = 'save'
+          ? frmData.append('Status', 'save')
+          : frmData.append('Status', 'save draft');
+        console.log(values);
+
+        var json_arr = JSON.stringify(valuePositons);
+
         frmData.append(
-          'Positions',
-          values.Positions ? values.Positions : item.positions,
+          'PositionIds',
+          valuePositons ? valuePositons : item.positions,
         );
         frmData.append(
           'Semester',
@@ -158,6 +183,7 @@ export default function EditProgram() {
           'AcademicYearId',
           values.AcademicYearId ? values.AcademicYearId : item.academicYearId,
         );
+
         if (item) {
           const data = await apiService.putProgram(item.programId, frmData);
           if (data) {
@@ -209,8 +235,9 @@ export default function EditProgram() {
                 },
               ]}
             />
-            <div className="my-10">
+            <div className="mt-5 ">
               <FormInput
+                areaHeight={7}
                 name="Descriptions"
                 type="textArea"
                 label="Mô Tả Chủ Đề"
@@ -222,7 +249,36 @@ export default function EditProgram() {
                 ]}
               />
             </div>
-            <label className=" text-black font-bold font-customFont ">
+            <label className="text-black font-bold font-customFont">
+              Danh Mục
+            </label>
+            <Form.Item
+              name="CategoryId"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Danh Mục',
+                },
+              ]}
+            >
+              <Select
+                showSearch
+                placeholder="Chọn Danh Mục"
+                optionFilterProp="children"
+                onChange={onChange}
+                onSearch={onSearch}
+                filterOption={(input: any, option: any) =>
+                  (option?.label ?? '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={dataCategory.map((item: any) => ({
+                  value: item.categoryId,
+                  label: item.categoryName,
+                }))}
+              />
+            </Form.Item>
+            <label className=" text-black font-bold font-customFont  ">
               Phòng/Khoa
             </label>
             <Form.Item
@@ -252,7 +308,19 @@ export default function EditProgram() {
               />
             </Form.Item>
           </div>
+
           <div className="w-full mx-5">
+            <FormInput
+              type="inputNumber"
+              label="Số Giờ Đào tạo"
+              name="Coin"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Số Giờ Đào tạo',
+                },
+              ]}
+            />
             <FormInput
               type="inputNumber"
               label="Số Coin Đạt Được Khi Hoàn Thành"
@@ -264,7 +332,7 @@ export default function EditProgram() {
                 },
               ]}
             />
-            <div className="mt-12">
+            <div>
               <label className="text-black font-bold font-customFont ">
                 Năm Học
               </label>
@@ -301,7 +369,7 @@ export default function EditProgram() {
               </label>
               <Form.Item
                 name="Semester"
-                className="w-4/5"
+                className="w-full"
                 rules={[
                   {
                     required: true,
@@ -315,35 +383,7 @@ export default function EditProgram() {
                   <Option value="3">Học Kì 3</Option>
                 </Select>
               </Form.Item>
-              <label className="text-black font-bold font-customFont">
-                Danh Mục
-              </label>
-              <Form.Item
-                name="CategoryId"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Vui Lòng Nhập Vào Danh Mục',
-                  },
-                ]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Chọn Danh Mục"
-                  optionFilterProp="children"
-                  onChange={onChange}
-                  onSearch={onSearch}
-                  filterOption={(input: any, option: any) =>
-                    (option?.label ?? '')
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  options={dataCategory.map((item: any) => ({
-                    value: item.categoryId,
-                    label: item.categoryName,
-                  }))}
-                />
-              </Form.Item>
+
               <label className="text-black font-bold font-customFont">
                 Chức vụ
               </label>
@@ -422,22 +462,58 @@ export default function EditProgram() {
             >
               <DatePicker placeholder="Chọn Ngày" picker="date" />
             </Form.Item>
-            <div>
-              <CustomButton
-                type="default"
-                onClick={() => handelOk()}
-                text="Lưu"
-                noIcon={true}
-                className="w-4/5 my-3  h-10"
-              />
-              <CustomButton
-                type="cancel"
-                noIcon={true}
-                onClick={() => handelCancel()}
-                className="w-4/5 my-3 h-10"
-              />
-            </div>
+            <label className=" text-black font-bold font-customFont">
+              Ngày Bắt Đầu Đăng Ký
+            </label>
+            <Form.Item
+              name="RegistrationStartDate"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Ngày Bắt Đầu',
+                },
+              ]}
+            >
+              <DatePicker placeholder="Chọn Ngày" picker="date" />
+            </Form.Item>
+            <label className=" text-black font-bold font-customFont ">
+              Ngày Kết Thúc Đăng Ký
+            </label>
+            <Form.Item
+              name="RegistrationEndDate"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Ngày Kết Thúc',
+                },
+              ]}
+            >
+              <DatePicker placeholder="Chọn Ngày" picker="date" />
+            </Form.Item>
           </div>
+        </div>
+        <div className="flex  w-full justify-center">
+          <CustomButton
+            type="default"
+            onClick={() => handelOk('save')}
+            text="Lưu"
+            noIcon={true}
+            className="w-44 my-3  h-10"
+          />
+          <CustomButton
+            type="cancel"
+            noIcon={true}
+            onClick={() => handelCancel()}
+            className="w-44 my-3 mx-10 h-10"
+          />
+          <CustomButton
+            tip="Lưu Nháp"
+            type="auth"
+            text="Lưu Nháp"
+            noIcon={true}
+            onClick={() => handelOk('saveDraft')}
+            className="w-44 my-3 h-10 bg-white border-orange-500 text-orange-500"
+          />
         </div>
       </Form>
       {/* <FooterButton /> */}

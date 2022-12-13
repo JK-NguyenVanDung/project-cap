@@ -118,7 +118,7 @@ export default function Category() {
         const temp = [];
         if (detail) {
           await apiService.editCategory({
-            name: values.name,
+            name: values.categoryName,
             ID: detail.categoryId,
           });
           setShowModal(false);
@@ -130,7 +130,7 @@ export default function Category() {
           form.resetFields();
         } else {
           await apiService.addCategory({
-            name: values.name,
+            name: values.categoryName,
           });
           setShowModal(false);
           setReload(!reload);
@@ -152,7 +152,7 @@ export default function Category() {
       <>
         <FormInput
           disabled={false}
-          name="name"
+          name="categoryName"
           label="Tên Danh Mục"
           rules={[
             {

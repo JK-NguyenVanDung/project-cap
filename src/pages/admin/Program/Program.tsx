@@ -44,7 +44,8 @@ export default function Program() {
   async function handleDelete(item: any) {
     try {
       let res: any = await apiService.getContentProgram(item.programId);
-      if (!res) {
+      console.log(res.length);
+      if (res.length === 0) {
         await apiService.delProgram(item.programId);
 
         setReload(!reload);
@@ -55,7 +56,7 @@ export default function Program() {
         );
       }
     } catch (err: any) {
-      throw err.message();
+      throw err.message;
     }
   }
 

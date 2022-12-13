@@ -192,14 +192,14 @@ export default function ProgramDetail() {
           color="blue-gray"
           className="w-2/5 my-3 mx-2 h-10"
         />
-        <CustomButton
+        {/* <CustomButton
           disabled
           type="cancel"
           text="Thêm Bài Kiểm Tra Cuối Kì"
           noIcon={true}
           variant="outlined"
           className="w-4/5 my-3 mx-2 h-10"
-        />
+        /> */}
         <CustomButton
           type="cancel"
           text="Thêm Chương"
