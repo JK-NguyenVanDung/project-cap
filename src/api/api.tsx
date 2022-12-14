@@ -76,5 +76,8 @@ export const API_CONFIG = {
     GET_ALL: `/api/ReviewPrograms`,
     GET_LIST_PROGRAM: (id: number) => `api/ReviewPrograms/listprogram/${id}`,
     POST: `/api/ReviewPrograms/reviewer`,
+    APPROVE: `/api/ReviewPrograms/approve`,
+    HISTORY: (idProgram: number) =>
+      `/api/ReviewPrograms/listapproved/${idProgram}?id=${idProgram}`,
   },
 };
