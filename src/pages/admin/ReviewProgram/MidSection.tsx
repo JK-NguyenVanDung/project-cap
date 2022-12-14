@@ -15,7 +15,7 @@ import CustomButton from '../../../components/admin/Button';
 import RightSection from './RightSection';
 import { BiLike } from 'react-icons/bi';
 import { useAppSelector } from '../../../hook/useRedux';
-import { IChapterItem, IProgramItem, ITest } from '../../../Type';
+import { IAccountItem, IChapterItem, IProgramItem, ITest } from '../../../Type';
 import apiService from '../../../api/apiService';
 const instruction = [
   'Xem danh sách các khoá học',
@@ -30,6 +30,30 @@ const MidSection = (props: any) => {
     (state) => state.form.setProgram,
   );
 
+  const [user, setUser] = useState<IAccountItem>(null);
+  useEffect(() => {
+    getData();
+  }, [program]);
+  async function getData() {
+    try {
+      let res: any = await apiService.getAccounts();
+      res = res.reverse();
+
+      const temp = res.map((v: any, index: number) => ({
+        ...v,
+        index: index + 1,
+      }));
+      if (temp) {
+        let acc = temp.find(
+          (item: any) => program.accountIdCreator == item.accountId,
+        );
+        setUser(acc);
+      }
+    } catch (err: any) {
+      throw err.message;
+    }
+  }
+
   function getTitle() {
     let out = '';
     if (currentTab === 1) {
@@ -43,7 +67,7 @@ const MidSection = (props: any) => {
   }
   return (
     <>
-      <div className=" w-[60%]  h-fit my-4 mx-2 flex flex-col justify-start items-center">
+      <div className=" w-[60%]  h-fit my-4  mb-12 mx-2 flex flex-col justify-start items-center">
         <div className="shadow-lg p-6 rounded-xl w-full h-fit text-black bg-white  border flex flex-col justify-start items-center">
           <div className="w-full h-fit font-customFont ">
             <div className="w-full h-[50vh]">
@@ -68,9 +92,7 @@ const MidSection = (props: any) => {
               </span>
               <p>Giảng viên:</p>
               <span className=" pl-2 pr-4 mr-2 font-normal ">
-                {program?.accountIdCreator
-                  ? program?.accountIdCreator
-                  : 'Chưa có thông tin'}
+                {user ? user.fullName?.split('-')[1] : 'Chưa có thông tin'}
               </span>
             </div>
             <div className="flex w-full items-center  mt-4 text-base">
