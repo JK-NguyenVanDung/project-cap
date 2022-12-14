@@ -1,4 +1,5 @@
 import { Form, message, notification, Select, Table } from 'antd';
+import moment from 'moment';
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../../../api/apiService';
@@ -6,6 +7,7 @@ import CustomButton from '../../../components/admin/Button';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import AddReviewer from '../../../components/admin/Review/AddReviewer';
+import ReviewHistory from '../../../components/admin/Review/ReviewHistory';
 import { errorText, GIRD12 } from '../../../helper/constant';
 import { useAppSelector } from '../../../hook/useRedux';
 import { IAccountItem, IProgramItem } from '../../../Type';
@@ -20,19 +22,6 @@ const LeftSection = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const program: IProgramItem = useAppSelector(
-    (state) => state.form.setProgram,
-  );
-
-  useEffect(() => {
-    let time = setTimeout(async () => {
-      // await getData();
-    }, 100);
-    return () => {
-      clearTimeout(time);
-    };
-  }, [program]);
-
   const [detail, setDetail] = useState({});
   const [history, setHistory] = useState([
     {
@@ -42,8 +31,21 @@ const LeftSection = () => {
       reviewTime: '11:02 12/2/2023',
     },
   ]);
+  const program: IProgramItem = useAppSelector(
+    (state) => state.form.setProgram,
+  );
+  const info: IAccountItem = useAppSelector((state) => state.auth.info);
+  useEffect(() => {
+    let time = setTimeout(async () => {
+      // await getData();
+    }, 100);
+    return () => {
+      clearTimeout(time);
+    };
+  }, [program]);
 
-  const approve = () => {
+  const approve = async () => {
+    await handleOk(true);
     notification.success({ message: 'Duyệt thành công' });
 
     setTimeout(() => {
@@ -65,11 +67,38 @@ const LeftSection = () => {
         rules={[
           {
             required: true,
-            message: 'Vui Lòng Chọn Vai trò',
+            message: 'Vui Lòng Nhập bình luận',
           },
         ]}
       />
     );
+  };
+  const handleOk = async (approved: boolean) => {
+    form
+      .validateFields()
+      .then(async (values) => {
+        if (values) {
+          await apiService.setApproval({
+            programId: program.programId,
+            accountId: info.accountId,
+            approved: approved,
+            comment: values?.comment ? values?.comment : null,
+            approvalDate: moment(),
+          });
+          setShowDeclinedModal(!showDeclinedModal);
+
+          notification.success({ message: 'Thêm thành công' });
+          form.resetFields();
+        } else {
+          setShowDeclinedModal(!showDeclinedModal);
+
+          notification.error({ message: 'Thêm không thành công' });
+        }
+      })
+
+      .catch((info) => {
+        // dispatch(actions.formActions.showError())
+      });
   };
 
   return (
@@ -80,7 +109,7 @@ const LeftSection = () => {
       <CustomModal
         width={'50%'}
         show={showDeclinedModal}
-        handleOk={() => {}}
+        handleOk={() => handleOk(false)}
         setShow={setShowDeclinedModal}
         dataItem={detail}
         label={''}
@@ -94,10 +123,9 @@ const LeftSection = () => {
         setShow={setShowAddReviewerModal}
         program={program}
       />
-      <History
+      <ReviewHistory
         showHistoryModal={showHistoryModal}
-        detail={detail}
-        history={history}
+        programId={program.programId}
         setShowHistoryModal={setShowHistoryModal}
       />
       <CustomButton
@@ -140,69 +168,4 @@ const LeftSection = () => {
   );
 };
 
-const History = ({
-  showHistoryModal,
-  setShowHistoryModal,
-  history,
-  detail,
-}: {
-  showHistoryModal: boolean;
-  setShowHistoryModal: any;
-  history: any[];
-  detail: any;
-}) => {
-  const handleOk = () => {};
-  const [loading, setLoading] = useState(false);
-  const [form] = Form.useForm();
-
-  const columns = [
-    {
-      title: 'STT',
-      render: (data: any) => <p>{data && data.index ? data.index : 0}</p>,
-      width: GIRD12.COL1,
-    },
-    {
-      title: 'Người duyệt',
-      dataIndex: 'reviewer',
-      key: 'reviewer',
-      width: GIRD12.COL2,
-    },
-    {
-      title: 'Bình luận',
-      dataIndex: 'comment',
-    },
-    {
-      title: 'Thời gian duyệt',
-      dataIndex: 'reviewTime',
-      width: GIRD12.COL3,
-    },
-  ];
-  const HistoryFI = () => {
-    return (
-      <>
-        <Table
-          loading={loading}
-          className="tableContainer shadow-lg rounded-lg border-1"
-          dataSource={history}
-          columns={columns}
-        />
-      </>
-    );
-  };
-
-  return (
-    <CustomModal
-      width={'64%'}
-      show={showHistoryModal}
-      handleOk={null}
-      setShow={setShowHistoryModal}
-      dataItem={detail}
-      name={detail}
-      FormItem={<HistoryFI />}
-      form={form}
-      header={'Lịch sử '}
-      showDetail
-    />
-  );
-};
 export default LeftSection;

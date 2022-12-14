@@ -164,4 +164,10 @@ export default {
   addReviewer: (params: any) => {
     return axiosConfig.post(API_CONFIG.REVIEWER.POST, params);
   },
+  setApproval: (params: any) => {
+    return axiosConfig.post(API_CONFIG.REVIEWER.APPROVE, params);
+  },
+  getHistory: (id: number) => {
+    return axiosConfig.get(API_CONFIG.REVIEWER.HISTORY(id));
+  },
 };
