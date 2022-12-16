@@ -10,17 +10,17 @@ import {
 } from '@material-tailwind/react';
 import avatar from '../../assets/img/test.jpg';
 import Color from '../constant/Color';
-import { IoNotifications } from 'react-icons/io5';
+import { IoNotificationsOutline } from 'react-icons/io5';
 import { useMsal } from '@azure/msal-react';
 import { IconButton } from '@material-tailwind/react';
 import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { actions } from '../../Redux';
+import { AiOutlineHeart } from 'react-icons/ai';
 export default function () {
   const { instance, accounts } = useMsal();
   const navigate = useNavigate();
-  const info = useAppSelector((state) => state.auth.info);
   const dispatch = useAppDispatch();
   const logoutAdmin = () => {
     instance.logoutPopup({
@@ -39,13 +39,20 @@ export default function () {
           color="gray"
           size="md"
         >
-          <IoNotifications className="text-xl" />
+          <AiOutlineHeart className="text-xl " />
         </IconButton>
-        <span className="mr-1">
-          {' '}
-          Xin Chào {info.role == 1 ? null : info.role.roleName}{' '}
-        </span>
-        <span> {accounts[0].name}</span>
+
+        <IconButton
+          variant="text"
+          className="text-dark-blue"
+          color="gray"
+          size="md"
+        >
+          <IoNotificationsOutline className="text-xl" />
+        </IconButton>
+
+        <span className="mr-1"> </span>
+        <span> </span>
         <MenuHandler>
           <button className="rounded-[12rem] mx-2 bg-white shadow-none hover:shadow-none p-0 ">
             <Avatar size="sm" src={avatar} alt="avatar" variant="circular" />

@@ -25,10 +25,5 @@ export default function Homepage() {
     dispatch(actions.formActions.setProgramForm(data));
     navigate('/admin/reviewDetail');
   }
-  return (
-    <div>
-      <p>Thêm video trong asset</p>
-      <button onClick={() => handelDataProgram()}>test </button>
-    </div>
-  );
+  return <div></div>;
 }

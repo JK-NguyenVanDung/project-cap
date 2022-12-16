@@ -12,13 +12,13 @@ export default function ItemMenu({ params }: { params: any }) {
       <li
         className={`${
           location.pathname === params.path
-            ? 'bg-primary rounded-lg mx-1 '
-            : ' rounded-lg mx-1 '
+            ? 'bg-primary rounded-lg mx-2 '
+            : ' rounded-lg mx-2 '
         }${
           location.pathname === params.path
             ? ' text-white'
             : 'text-light-purple'
-        } hover:bg-primary hover:text-white py-4 my-2 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
+        } hover:bg-primary hover:opacity-40 hover:text-white py-4 my-2 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
         onClick={() => {
           navigation(params.path);
           dispatch(
