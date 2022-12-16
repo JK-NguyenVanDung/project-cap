@@ -23,6 +23,8 @@ export default function ClientSideBar({ content }: { content: any }) {
   const nameMenu = useAppSelector((state: any) =>
     state.form.nameMenu ? state.form.nameMenu : 'Trang Chủ',
   );
+  const { instance, accounts } = useMsal();
+
   const info = useAppSelector((state) => state.auth.info);
   useEffect(() => {
     let temp = SideBarData.filter(
@@ -31,7 +33,12 @@ export default function ClientSideBar({ content }: { content: any }) {
     temp &&
       dispatch(
         actions.formActions.setNameMenu(
-          `${temp == 'Trang Chủ' ? temp : 'Quản Lý ' + temp}`,
+          `${
+            temp == 'Trang Chủ'
+              ? `Xin Chào \n
+               ${accounts[0].name.split('-')[1]}`
+              : temp
+          }`,
         ),
       );
   }, []);
@@ -43,7 +50,7 @@ export default function ClientSideBar({ content }: { content: any }) {
           <div className="z-0  overflow-hidden bg-white relative sidebar flex flex-col content-center items-center w-1/5">
             <a
               onClick={() => {
-                navigation('/admin');
+                navigation('/home');
                 dispatch(actions.formActions.setNameMenu(`${'Trang Chủ'}`));
               }}
               className=" hover:text-black relative my-2  px-2 w-full flex flex-row items-center justify-center"

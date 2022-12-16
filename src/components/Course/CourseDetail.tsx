@@ -19,7 +19,14 @@ export default function (props: any) {
 
   const [user, setUser] = useState<IAccountItem>(null);
   useEffect(() => {
+    props.setLoading(true);
     getData();
+    let time = setTimeout(() => {
+      props.setLoading(false);
+    }, 500);
+    return () => {
+      clearTimeout(time);
+    };
   }, [program]);
   async function getData() {
     try {
