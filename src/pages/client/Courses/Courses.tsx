@@ -62,7 +62,7 @@ export default function Homepage() {
         setData(filterData);
       }
       if (filter === 'Cũ nhất') {
-        setData(filterData.reverse());
+        setData(filterData.slice().reverse());
       }
     };
     filtering();
