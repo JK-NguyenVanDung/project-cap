@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useRef } from 'react';
 import { useMsal } from '@azure/msal-react';
 
 import Logo from '../../assets/img/logoVLU.png';
@@ -27,6 +27,7 @@ const DataLogin = [
 export default function Login() {
   const dispatch = useAppDispatch();
   const { instance } = useMsal();
+
   function LoginPopUp(item: any) {
     instance.loginPopup(loginRequest).catch((e) => {});
     dispatch(actions.authActions.setRoleLogin(item));
@@ -46,6 +47,7 @@ export default function Login() {
         muted
         loop
         id="myVideo"
+        ref={(player): any => console.log(player)}
       />
       <main className="fixed w-full h-full top-0 place-content-center items-center flex flex-col">
         <h1 className="text-[#fff] uppercase font-bold text-center text-5xl mb-20">

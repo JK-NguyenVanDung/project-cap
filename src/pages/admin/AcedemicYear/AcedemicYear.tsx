@@ -7,6 +7,7 @@ import uniqueId from '../../../utils/uinqueId';
 import { Button, message, notification, Popconfirm } from 'antd';
 import { GIRD12, MESSAGE } from '../../../helper/constant';
 import PopOverAction from '../../../components/admin/PopOver';
+import DetailAcedemicYear from './DetailAcedemicYear';
 export default function AcedemicYear() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
@@ -44,7 +45,7 @@ export default function AcedemicYear() {
   };
   async function handleDelete(item: any) {
     try {
-      //   await apiService.delAcedemicYear(item.facultyId);
+      await apiService.delAcedemicYear(item.id);
       setLoading(!loading);
       notification.success({
         message: MESSAGE.SUCCESS.DELETE,
@@ -114,6 +115,14 @@ export default function AcedemicYear() {
             onClick={() => handelAdd()}
           />,
         ]}
+      />
+      <DetailAcedemicYear
+        item={detail}
+        setItem={setDetail}
+        visible={addAcedemicYear}
+        setVisible={setAddAcedemicYear}
+        confirmLoading={confirmLoading}
+        setConfirmLoading={setConfirmLoading}
       />
     </>
   );

@@ -9,6 +9,8 @@ import {
   notification,
 } from 'antd';
 import { GrAdd } from 'react-icons/gr';
+import { AiOutlineSave } from 'react-icons/ai';
+
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import moment from 'moment';
 import { Breadcrumb } from '../../../components/sharedComponents';
@@ -20,7 +22,9 @@ import axios, { AxiosResponse } from 'axios';
 import { useAppSelector } from '../../../hook/useRedux';
 const { Option } = Select;
 import './index.css';
+
 import { API_URL } from '../../../api/api';
+import Color from '../../../components/constant/Color';
 export default function EditProgram() {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [dataFct, setDataFct]: any = useState([]);
@@ -34,15 +38,15 @@ export default function EditProgram() {
   const frmData: any = new FormData();
   const navigate = useNavigate();
   const item: any = useAppSelector((state) => state.form.setProgram);
-  const [valuePositons, setValuePositions]: any = useState({});
-
+  const [valuePositons, setValuePositions]: any = useState([]);
   useEffect(() => {
     getFacuties();
     getCategories();
     getAcedemicYear();
     getPositions();
-    let temp = item?.programPositions?.map((e: any) => {
-      return e.position.positionName;
+    let temp;
+    item?.programPositions?.map((item: any) => {
+      temp = item.position;
     });
     item
       ? (form.setFieldsValue({
@@ -66,7 +70,7 @@ export default function EditProgram() {
         setImage(item.image),
         setValuePositions(
           item?.programPositions?.map((item: any) => {
-            return item.positionName;
+            return item.position.positionName;
           }),
         ))
       : form.setFieldsValue(setLoading(false));
@@ -113,15 +117,17 @@ export default function EditProgram() {
     console.log(newFileList);
   };
   const onChangePosition = (item: any) => {
-    setValuePositions(item);
-
-    console.log(item);
+    item.map((item: any) => {
+      setValuePositions(item);
+    });
   };
   const onSearch = () => {};
-  const handelOk = async () => {
+  const handelOk = async (type: 'save' | 'saveDraft') => {
     form
       .validateFields()
       .then(async (values) => {
+        console.log(values);
+
         frmData.append(
           'ProgramName',
           values.ProgramName ? values.ProgramName : item.programName,
@@ -145,13 +151,13 @@ export default function EditProgram() {
           'RegistrationStartDate',
           values.RegistrationStartDate
             ? moment(values.RegistrationStartDate).format('YYYY-MM-DD')
-            : moment(item.RegistrationStartDate).format('YYYY-MM-DD'),
+            : moment(item.registrationStartDate).format('YYYY-MM-DD'),
         );
         frmData.append(
           'RegistrationEndDate',
           values.RegistrationEndDate
             ? moment(values.RegistrationEndDate).format('YYYY-MM-DD')
-            : moment(item.RegistrationEndDate).format('YYYY-MM-DD'),
+            : moment(item.registrationEndDate).format('YYYY-MM-DD'),
         );
         frmData.append(
           'EndDate',
@@ -164,7 +170,10 @@ export default function EditProgram() {
           'Descriptions',
           values.Descriptions ? values.Descriptions : item.descriptions,
         );
-        var json_arr = JSON.stringify(valuePositons);
+        type = 'save'
+          ? frmData.append('Status', 'save')
+          : frmData.append('Status', 'save draft');
+        console.log(values);
 
         frmData.append(
           'PositionIds',
@@ -230,7 +239,7 @@ export default function EditProgram() {
                 },
               ]}
             />
-            <div className="mt-[1.65rem]">
+            <div className="mt-5 ">
               <FormInput
                 areaHeight={10}
                 name="Descriptions"
@@ -244,6 +253,35 @@ export default function EditProgram() {
                 ]}
               />
             </div>
+            <label className="text-black font-bold font-customFont">
+              Danh Mục
+            </label>
+            <Form.Item
+              name="CategoryId"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Danh Mục',
+                },
+              ]}
+            >
+              <Select
+                showSearch
+                placeholder="Chọn Danh Mục"
+                optionFilterProp="children"
+                onChange={onChange}
+                onSearch={onSearch}
+                filterOption={(input: any, option: any) =>
+                  (option?.label ?? '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={dataCategory.map((item: any) => ({
+                  value: item.categoryId,
+                  label: item.categoryName,
+                }))}
+              />
+            </Form.Item>
             <label className=" text-black font-bold font-customFont  ">
               Phòng/Khoa
             </label>
@@ -274,17 +312,6 @@ export default function EditProgram() {
                 }))}
               />
             </Form.Item>
-            <FormInput
-              type="inputNumber"
-              label="Số Lượng Học Viên"
-              name="Coin"
-              rules={[
-                {
-                  required: true,
-                  message: 'Vui Lòng Nhập Vào Số Lượng Học Viên',
-                },
-              ]}
-            />
           </div>
 
           <div className="w-full mx-5">
@@ -310,76 +337,23 @@ export default function EditProgram() {
                 },
               ]}
             />
-
-            <label className="text-black font-bold font-customFont ">
-              Năm Học
-            </label>
-            <Form.Item
-              style={{ marginTop: 10 }}
-              className="mb-4"
-              name="AcademicYearId"
-              rules={[
-                {
-                  required: true,
-                  message: 'Vui Lòng Nhập Vào Năm Học',
-                },
-              ]}
-            >
-              <Select
-                showSearch
-                placeholder="Chọn Năm Học"
-                optionFilterProp="children"
-                onChange={onChange}
-                onSearch={onSearch}
-                filterOption={(input: any, option: any) =>
-                  (option?.label ?? '')
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={acedemic.map((item: any) => ({
-                  value: item.id,
-                  label: item.year,
-                }))}
-              />
-            </Form.Item>
-
-            <label className="text-black font-bold font-customFont ">
-              Học Kì
-            </label>
-            <Form.Item
-              style={{ marginTop: 10 }}
-              name="Semester"
-              className="w-full"
-              rules={[
-                {
-                  required: true,
-                  message: 'Vui Lòng Nhập Vào Học Kì',
-                },
-              ]}
-            >
-              <Select placeholder="Chọn Học Kì">
-                <Option value="1">Học Kì 1</Option>
-                <Option value="2">Học Kì 2</Option>
-                <Option value="3">Học Kì 3</Option>
-              </Select>
-            </Form.Item>
-            <div className="mt-8">
-              <label className="text-black font-bold font-customFont">
-                Danh Mục
+            <div>
+              <label className="text-black font-bold font-customFont ">
+                Năm Học
               </label>
               <Form.Item
-                style={{ marginTop: 12 }}
-                name="CategoryId"
+                className="mb-4"
+                name="AcademicYearId"
                 rules={[
                   {
                     required: true,
-                    message: 'Vui Lòng Nhập Vào Danh Mục',
+                    message: 'Vui Lòng Nhập Vào Năm Học',
                   },
                 ]}
               >
                 <Select
                   showSearch
-                  placeholder="Chọn Danh Mục"
+                  placeholder="Chọn Năm Học"
                   optionFilterProp="children"
                   onChange={onChange}
                   onSearch={onSearch}
@@ -388,18 +362,39 @@ export default function EditProgram() {
                       .toLowerCase()
                       .includes(input.toLowerCase())
                   }
-                  options={dataCategory.map((item: any) => ({
-                    value: item.categoryId,
-                    label: item.categoryName,
+                  options={acedemic.map((item: any) => ({
+                    value: item.id,
+                    label: item.year,
                   }))}
                 />
               </Form.Item>
+
+              <label className="text-black font-bold font-customFont ">
+                Học Kì
+              </label>
+              <Form.Item
+                name="Semester"
+                className="w-full"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Vui Lòng Nhập Vào Học Kì',
+                  },
+                ]}
+              >
+                <Select placeholder="Chọn Học Kì">
+                  <Option value="1">Học Kì 1</Option>
+                  <Option value="2">Học Kì 2</Option>
+                  <Option value="3">Học Kì 3</Option>
+                </Select>
+              </Form.Item>
+
               <label className="text-black font-bold font-customFont">
                 Chức vụ
               </label>
               <Form.Item
                 style={{ marginTop: 17 }}
-                name="Positions"
+                name="PositionIds"
                 rules={[
                   {
                     required: true,
@@ -510,16 +505,31 @@ export default function EditProgram() {
         <div className="flex  w-full justify-center">
           <CustomButton
             type="default"
-            onClick={() => handelOk()}
+            onClick={() => handelOk('save')}
             text="Lưu"
             noIcon={true}
-            className="w-44 my-3 mr-10 h-10"
+            className="w-44 my-3  h-10"
           />
           <CustomButton
             type="cancel"
             noIcon={true}
             onClick={() => handelCancel()}
-            className="w-44 my-3 h-10"
+            className="w-44 my-3 mx-10 h-10"
+          />
+          <CustomButton
+            tip="Lưu Nháp"
+            type="auth"
+            text="Lưu Nháp"
+            noIcon={true}
+            onClick={() => handelOk('saveDraft')}
+            className="w-44 my-3 h-10 bg-white border-orange-500 text-orange-500"
+          />
+          <CustomButton
+            tip="Gửi"
+            color="green"
+            text="Gửi"
+            onClick={() => handelOk('saveDraft')}
+            className="w-44 mx-10 my-3 h-10"
           />
         </div>
       </Form>

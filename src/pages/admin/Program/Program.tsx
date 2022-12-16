@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TableConfig from '../../../components/admin/Table/Table';
-import { Form, message, Image } from 'antd';
+import { Form, message, Image, Modal } from 'antd';
 import uniqueId from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
 import apiService from '../../../api/apiService';
@@ -16,8 +16,9 @@ import moment from 'moment';
 import noImg from '../../../assets/img/no-image.png';
 import EditProgram from './EditProgram';
 import { useLocation } from 'react-router-dom';
-
+import { AiFillUnlock, AiFillLock, AiFillWarning } from 'react-icons/ai';
 import { useNavigateParams } from '../../../hook/useNavigationParams';
+import Color from '../../../components/constant/Color';
 export default function Program() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
@@ -83,21 +84,6 @@ export default function Program() {
       width: GIRD12.COL2,
     },
     {
-      title: 'Ngày bắt đầu',
-      dataIndex: 'startDate',
-      render: (item: any) => {
-        return <p>{moment(item).format('DD-MM-YYYY')}</p>;
-      },
-    },
-
-    {
-      title: 'Ngày kết thúc',
-      dataIndex: 'endDate',
-      render: (item: any) => {
-        return <p>{moment(item).format('DD-MM-YYYY')}</p>;
-      },
-    },
-    {
       title: 'Ngày BĐĐK',
       dataIndex: 'startDate',
       render: (item: any) => {
@@ -114,21 +100,36 @@ export default function Program() {
     {
       title: 'Giờ đào tạo',
       dataIndex: 'time',
-      width: '10%',
+      width: '13%',
       render: (data: any) => <p>{data ? data : 0}</p>,
     },
 
     {
       title: 'Trạng thái',
-      dataIndex: 'isPublish',
-      render: (status: any) => {
-        return status ? (
-          <a className="font-bold text-blue-500">{'Công khai'}</a>
+      key: 'isPublish',
+      render: (data: any) => {
+        console.log(data);
+        return data.isPublish ? (
+          <CustomButton
+            type="Success"
+            Icon={AiFillUnlock}
+            text="Công Khai"
+            className="font-bold text-white"
+            color="green"
+            onClick={() => handelApprove(data)}
+          />
         ) : (
-          <a className="font-bold text-orange-500">{'Chưa công khai'}</a>
+          <CustomButton
+            type="error"
+            Icon={AiFillLock}
+            color="red"
+            text="Riêng Tư"
+            className="font-bold text-white"
+            onClick={() => handelApprove(data)}
+          />
         );
       },
-      width: '13%',
+      width: '18%',
     },
     {
       width: GIRD12.COL2,
@@ -147,6 +148,32 @@ export default function Program() {
       },
     },
   ];
+
+  function handelApprove(items: any) {
+    Modal.confirm({
+      title: 'xác nhận',
+      icon: <AiFillWarning size={30} color={Color.warning} />,
+      content: 'Bạn có chắc chắn công khai chương trình này ?',
+      okText: 'yes',
+      okType: 'danger',
+      onOk() {
+        const Approve = async () => {
+          // const data = await apiService.Approve(items.id);
+          if (data) {
+            message.success('duyệt thành công thành công');
+            setLoading(true);
+            setTimeout(() => {
+              setLoading(false);
+            }, 3000);
+          }
+        };
+        Approve();
+      },
+      onCancel() {
+        message.error('hủy');
+      },
+    });
+  }
 
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(value, 'gi');

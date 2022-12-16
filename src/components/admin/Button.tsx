@@ -25,6 +25,7 @@ export default function CustomButton({
   textClassName,
   disabled,
   style,
+  tip,
 }: {
   size?: size;
   color?: color;
@@ -41,10 +42,10 @@ export default function CustomButton({
   textClassName?: string;
   disabled?: boolean;
   style?: React.CSSProperties;
+  tip?: string;
 }) {
   let defaultText = '';
   let typeClassName = '';
-  let tip = '';
   switch (type) {
     case 'delete':
       defaultText = 'Xoá';
@@ -99,7 +100,7 @@ export default function CustomButton({
       break;
     case 'auth':
       defaultText = '';
-      tip = 'Phân quyền';
+      tip = tip ? tip : 'Phân quyền';
 
       Icon = BsFillPeopleFill;
       variant = 'outlined';

@@ -25,6 +25,7 @@ import { useAppDispatch, useAppSelector } from '../hook/useRedux';
 import { actions } from '../Redux';
 import AcedemicYear from '../pages/admin/AcedemicYear/AcedemicYear';
 import Position from '../pages/admin/Position/Position';
+import ListReviewPrograms from '../pages/admin/ReviewProgram/ListReviewProgram';
 import Courses from '../pages/client/Courses/Courses';
 import CourseDetail from '../pages/client/Courses/CourseDetail';
 
@@ -88,6 +89,10 @@ export const RouterPages = [
     element: <Position />,
   },
   {
+    path: '/admin/reviewProgram',
+    element: <ListReviewPrograms />,
+  },
+  {
     path: '/home',
     element: <Homepage />,
   },
@@ -107,15 +112,14 @@ const Leaner = [
   },
 ];
 export default function MakePagesRouter() {
-  const dispatch = useAppDispatch();
-  const [roleId, setRoleId] = useState();
   const LoginParmas = useAppSelector((state) => state.auth.LoginId);
+  const info = useAppSelector((state) => state.auth.info);
+  const dispatch = useAppDispatch();
   const token = localStorage.getItem('Bearer');
 
   useEffect(() => {
     const fetchInfo = async () => {
       const response: any = await apiService.getProfile();
-      setRoleId(response.roleId);
       dispatch(actions.authActions.setInfo(response));
     };
     fetchInfo();
@@ -140,7 +144,7 @@ export default function MakePagesRouter() {
     }
 
     if (LoginParmas.id == 2) {
-      if (roleId != 1) {
+      if (info?.roleId != 1) {
         return (
           <Routes>
             {RouterPages.map((router, index) => {

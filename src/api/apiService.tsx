@@ -123,8 +123,26 @@ export default {
   getAcedemicYear: () => {
     return axiosConfig.get(API_CONFIG.ACADEMIC_YEAR.GET);
   },
+  postAcedemicYear: (params: any) => {
+    return axiosConfig.post(API_CONFIG.ACADEMIC_YEAR.POST, params);
+  },
+  putAcedemicYear: (id: number, params: any) => {
+    return axiosConfig.put(API_CONFIG.ACADEMIC_YEAR.PUT(id), params);
+  },
+  delAcedemicYear: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.ACADEMIC_YEAR.DEL(id));
+  },
   getPositions: () => {
     return axiosConfig.get(API_CONFIG.POSITION.GET);
+  },
+  postPositions: (params: any) => {
+    return axiosConfig.post(API_CONFIG.POSITION.POST, params);
+  },
+  putPositions: (id: number, params: any) => {
+    return axiosConfig.put(API_CONFIG.POSITION.PUT(id), params);
+  },
+  delPositions: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.POSITION.DEL(id));
   },
 
   getContent: (id: number) => {
@@ -138,6 +156,9 @@ export default {
   },
   putContent: (id: number, params: any) => {
     return axiosConfig.put(API_CONFIG.CONTENT.PUT(id), params);
+  },
+  getReviewProgram: () => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.GET_REVIEW);
   },
   getContentProgram: (id: number) => {
     return axiosConfig.get(API_CONFIG.CONTENT_PROGRAM.GET(id));
