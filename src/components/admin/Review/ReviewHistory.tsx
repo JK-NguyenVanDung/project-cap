@@ -77,7 +77,7 @@ const ReviewHistory = ({
       dataIndex: 'approved',
       render: (data: boolean) => (
         <p className={`${!data ? 'text-red-500' : 'text-primary'}`}>
-          {data ? 'Công khai' : 'Từ chối'}
+          {data ? 'Đã duyệt' : 'Từ chối'}
         </p>
       ),
     },

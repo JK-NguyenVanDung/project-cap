@@ -19,10 +19,10 @@ export default function (props: any) {
 
   const [user, setUser] = useState<IAccountItem>(null);
   useEffect(() => {
-    props.setLoading(true);
+    props.setLoading && props.setLoading(true);
     getData();
     let time = setTimeout(() => {
-      props.setLoading(false);
+      props.setLoading && props.setLoading(false);
     }, 500);
     return () => {
       clearTimeout(time);
