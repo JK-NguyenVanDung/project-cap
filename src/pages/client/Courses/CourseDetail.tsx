@@ -6,12 +6,16 @@ import Loading from '../../../components/sharedComponents/Loading';
 
 export default function (props: any) {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   return (
     <>
       <Loading loading={loading} />
-      <div className="flex w-full justify-center">
+      <div
+        className={`flex w-full justify-center ${
+          loading ? 'invisible' : 'visible'
+        }`}
+      >
         <CourseDetail {...props} setLoading={setLoading} />
         <RightSection enable={true} goBack={() => navigate('/Courses/')} />
       </div>
