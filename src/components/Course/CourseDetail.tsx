@@ -8,6 +8,7 @@ import ChapterTab from './ChapterTab';
 import DescriptionTab from './DescriptionTab';
 import ReviewTab from './ReviewTab';
 import View from '../../assets/svg/View.svg';
+import { checkURL } from '../../helper/constant';
 
 export default function (props: any) {
   const [currentTab, setCurrentTab] = useState(1);
@@ -57,14 +58,16 @@ export default function (props: any) {
         <div className="shadow-lg p-6 rounded-xl w-full h-fit text-black bg-white  border flex flex-col justify-start items-center">
           <div className="w-full h-fit font-customFont ">
             <div className="w-full h-[50vh]">
-              <img
-                className="object-cover w-full h-full	rounded"
-                src={
-                  program?.image
-                    ? program?.image
-                    : 'https://all.ie/wp-content/uploads/2015/09/Evening_English_1.jpg'
-                }
-              />
+              <div className="h-full w-full">
+                <img
+                  className="object-cover w-full h-full	rounded "
+                  src={
+                    program?.image && !checkURL(program?.image)
+                      ? program?.image
+                      : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'
+                  }
+                />
+              </div>
             </div>
             <p className="py-4 text-2xl font-semibold text-primary">
               {program?.programName ? program?.programName : 'N/A'}

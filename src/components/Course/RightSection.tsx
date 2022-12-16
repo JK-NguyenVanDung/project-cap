@@ -5,6 +5,7 @@ import apiService from '../../api/apiService';
 import CustomButton from '../admin/Button';
 import { useAppSelector } from '../../hook/useRedux';
 import { IAccountItem, IProgramItem } from '../../Type';
+import { useNavigate } from 'react-router-dom';
 
 interface Content {
   title: string;
@@ -15,6 +16,8 @@ const RightSection = (props: any) => {
   const program: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
   );
+  const navigate = useNavigate();
+
   const [user, setUser] = useState<IAccountItem>(null);
   useEffect(() => {
     let time = setTimeout(async () => {
@@ -142,6 +145,7 @@ const RightSection = (props: any) => {
           variant={'outlined'}
           text="Quay lại"
           className=" w-[90%] my-2 h-10"
+          onClick={props.goBack}
         />
       </div>
     </div>

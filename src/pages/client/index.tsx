@@ -75,23 +75,8 @@ export default function ClientSideBar({ content }: { content: any }) {
               <HeaderClient />
             </div>
           </header>
-          <div className="bg-white py-4 pb-8 flex w-full justify-between">
-            <div className="w-fit mx-4">
-              <SearchBar
-                onSearch={{}}
-                className="shadow-none h-[3rem] border-2 rounded-xl border-gray-300"
-                prefix
-              />
-            </div>
-            <div className="w-fit mx-4 cursor-pointer	">
-              <div className=" h-[3rem] shadow-none border flex items-center p-2 rounded-lg border-gray-300">
-                <BsFilter className="text-xl mx-2" />
-                <div className="pr-2">Lọc bởi: Thời gian</div>
-              </div>
-            </div>
-          </div>
 
-          <main className="h-screen bg-gray-50">{content}</main>
+          <main className="min-h-screen bg-gray-50">{content}</main>
         </div>
       </div>
     </>
