@@ -63,3 +63,7 @@ export const errorText = {
   unit2: 'Không được để trống',
   max50: 'Giá trị phải nhỏ hơn 50 ký tự',
 };
+
+export function checkURL(url: string) {
+  return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
+}

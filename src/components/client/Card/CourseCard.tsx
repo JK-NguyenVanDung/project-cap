@@ -5,6 +5,7 @@ import { AiFillHeart } from 'react-icons/ai';
 import { IoPerson } from 'react-icons/io5';
 import { RiTimerFill } from 'react-icons/ri';
 import { IProgramItem } from '../../../Type';
+import { checkURL } from '../../../helper/constant';
 
 export default function (props: any) {
   return (
@@ -55,9 +56,6 @@ const CourseContent = (props: {
   onClick: React.MouseEventHandler;
   item: IProgramItem;
 }) => {
-  function checkURL(url: string) {
-    return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
-  }
   return (
     <>
       <div className="cardCont rounded-[20px] font-customFont ">
@@ -66,7 +64,7 @@ const CourseContent = (props: {
           bg-contain 	
           bg-no-repeat
           bg-clip-border	
-          overflow-hidden flex-col min-w-[5rem]  min-h-[50vh] w-[18rem] h-[44vh] rounded-[20px] justify-end border-[2px] border-white " //border-[2px] border-color-[#c3c6ce]
+          overflow-hidden flex-col min-w-[5rem]  min-h-[50vh] w-[18rem] h-[44vh] rounded-[20px] justify-end border-[2px] border-gray-50 " //border-[2px] border-color-[#c3c6ce]
           style={{
             backgroundImage: `url(${
               !checkURL(props.item.image)
