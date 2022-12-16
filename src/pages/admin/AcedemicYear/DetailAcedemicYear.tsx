@@ -34,7 +34,13 @@ export default function DetailAcedemicYear({
             label="Năm Học"
             name="year"
             placeholder="Năm Học"
-            rules={[{ require: true, message: 'vui lòng nhập vào năm học' }]}
+            rules={[
+              { required: true, message: 'Vui lòng nhập vào năm học' },
+              {
+                pattern: new RegExp(/^(?:[0-9]{4}-[0-9]{4}:?)$/),
+                message: 'Xin vui lòng nhập đúng định dạng',
+              },
+            ]}
           />
         </div>
       </div>

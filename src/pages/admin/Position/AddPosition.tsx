@@ -4,6 +4,7 @@ import { Form, notification } from 'antd';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import apiService from '../../../api/apiService';
+import { errorText } from '../../../helper/constant';
 export default function AddPosition({
   visible,
   setVisible,
@@ -34,7 +35,21 @@ export default function AddPosition({
             label="Chức Vụ"
             name="positionName"
             placeholder="Chức Vụ"
-            rules={[{ require: true, message: 'vui lòng nhập vào Chức Vụ' }]}
+            rules={[
+              { required: true, message: 'Vui lòng nhập vào Chức Vụ' },
+              {
+                pattern: new RegExp(/^[a-zA-Z ]*$/),
+                message: 'Chỉ cho phép nhập chữ',
+              },
+              {
+                pattern: new RegExp(/^(?!\s*$|\s).*$/),
+                message: errorText.space,
+              },
+              {
+                pattern: new RegExp(/^.{1,50}$/),
+                message: 'Đạt tối đa số lượng ký tự cho phép',
+              },
+            ]}
           />
         </div>
       </div>
