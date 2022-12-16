@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import HeaderAdmin from '../../../components/HeaderAdmin/HeaderAdmin';
+import HeaderAdmin from '../../../components/Header/HeaderAdmin';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
 import logo from '../../../assets/logo.svg';
@@ -8,7 +8,7 @@ import CustomButton from '../../../components/admin/Button';
 
 import MidSection from './MidSection';
 import LeftSection from './LeftSection';
-import RightSection from './RightSection';
+import RightSection from '../../../components/Course/RightSection';
 
 const ReviewDetail = () => {
   const navigation = useNavigate();
@@ -36,7 +36,7 @@ const ReviewDetail = () => {
           <div className=" w-[15%] m-4  p-4 mr-8 h-full" />
           <LeftSection />
           <MidSection />
-          <RightSection />
+          <RightSection enable={false} />
         </div>
       </div>
     </>

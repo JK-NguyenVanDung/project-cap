@@ -62,10 +62,7 @@ const ReviewHistory = ({
       key: 'accountId',
       render: (id: number) => (
         <p>
-          {
-            accounts?.find((item: IAccountItem) => item.accountId == id)
-              ?.fullName
-          }
+          {accounts?.find((item: IAccountItem) => item.accountId == id)?.email}
         </p>
       ),
 
@@ -88,7 +85,7 @@ const ReviewHistory = ({
       title: 'Thời gian duyệt',
       dataIndex: 'approvalDate',
       render: (data: Date) => (
-        <p>{data && moment(data).format('DD/MM/YYYY, h:mm:ss a')}</p>
+        <p>{data && moment(data).zone(10).format('DD/MM/YYYY, h:mm:ss a')}</p>
       ),
 
       width: GIRD12.COL3,

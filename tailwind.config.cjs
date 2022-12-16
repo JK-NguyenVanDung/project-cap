@@ -26,9 +26,11 @@ module.exports = withMT({
         'dark-pink': '#FCC0AD',
         'blue-gray-500': '#11284A',
         'orange-500': '#FF7240',
+        'light-purple': '#C3CCD8',
       },
       colors: {
         'red-500': '#C91522',
+        'light-purple': '#C3CCD8',
 
         'blue-gray-500': '#11284A',
         'orange-500': '#FF7240',
