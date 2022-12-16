@@ -21,9 +21,10 @@ export default function Homepage() {
     const fetch = async () => {
       try {
         const data: any = await apiService.getPrograms();
-        data.reverse();
-        setData(data);
-        setFilterData(data);
+        let temp = data.reverse();
+        temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
+        setData(temp);
+        setFilterData(temp);
       } catch (error) {
         console.log(error);
       }
@@ -100,9 +101,7 @@ export default function Homepage() {
   };
   return (
     <>
-      <Loading loading={loading} />
-
-      <div className="bg-white py-4 pb-8 flex w-full  items-center justify-between">
+      <div className="bg-white py-4 pb-8 flex  w-full  items-center justify-between">
         <div className="w-fit mx-4">
           <SearchBar
             onSearch={onChangeSearch}
@@ -123,6 +122,8 @@ export default function Homepage() {
           </div>
         </div>
       </div>
+      <Loading loading={loading} />
+
       <div className="w-full flex justify-center">
         <ul className=" grid  grid-cols-3 ">
           {data?.length > 0 ? (
