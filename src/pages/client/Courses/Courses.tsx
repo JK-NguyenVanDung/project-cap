@@ -22,7 +22,7 @@ export default function Homepage() {
       try {
         const data: any = await apiService.getPrograms();
         let temp = data.reverse();
-        temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
+        // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
         setData(temp);
         setFilterData(temp);
       } catch (error) {
