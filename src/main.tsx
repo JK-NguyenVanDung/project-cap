@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useLayoutEffect } from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, HashRouter } from 'react-router-dom';
+import { BrowserRouter, HashRouter, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
@@ -9,6 +9,13 @@ import { MsalProvider } from '@azure/msal-react';
 import { PublicClientApplication } from '@azure/msal-browser';
 import { msalConfig } from './pages/authentication/loginconfig';
 
+const Wrapper = ({ children }: any) => {
+  const location = useLocation();
+  useLayoutEffect(() => {
+    document.documentElement.scrollTo(0, 0);
+  }, [location.pathname]);
+  return children;
+};
 const msalInstance = new PublicClientApplication(msalConfig);
 let base =
   (document.querySelector('base')?.getAttribute('href') as string) ?? '/';
@@ -20,13 +27,17 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     {baseUrl === '/' ? (
       <MsalProvider instance={msalInstance}>
         <BrowserRouter basename={baseUrl}>
-          <App />
+          <Wrapper>
+            <App />
+          </Wrapper>
         </BrowserRouter>
       </MsalProvider>
     ) : (
       <MsalProvider instance={msalInstance}>
         <HashRouter>
-          <App />
+          <Wrapper>
+            <App />
+          </Wrapper>
         </HashRouter>
       </MsalProvider>
     )}

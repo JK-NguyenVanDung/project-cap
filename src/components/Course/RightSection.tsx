@@ -1,20 +1,23 @@
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
-import apiService from '../../../api/apiService';
-import CustomButton from '../../../components/admin/Button';
-import { useAppSelector } from '../../../hook/useRedux';
-import { IAccountItem, IProgramItem } from '../../../Type';
+import apiService from '../../api/apiService';
+import CustomButton from '../admin/Button';
+import { useAppSelector } from '../../hook/useRedux';
+import { IAccountItem, IProgramItem } from '../../Type';
+import { useNavigate } from 'react-router-dom';
 
 interface Content {
   title: string;
   subject: string | number;
   icon?: any;
 }
-const RightSection = () => {
+const RightSection = (props: any) => {
   const program: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
   );
+  const navigate = useNavigate();
+
   const [user, setUser] = useState<IAccountItem>(null);
   useEffect(() => {
     let time = setTimeout(async () => {
@@ -44,7 +47,7 @@ const RightSection = () => {
     }
   }
   return (
-    <div className=" rounded-xl w-[25%] text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
+    <div className=" rounded-xl w-fit text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
       <p className="mt-6 text-xl font-light text-gray-900 text-center  flex w-full justify-center items-center">
         THÔNG TIN KHOÁ HỌC
       </p>
@@ -53,7 +56,7 @@ const RightSection = () => {
         contents={[
           {
             title: 'Tên',
-            subject: user?.fullName ? user.fullName : 'N/A',
+            subject: user?.fullName ? user.fullName?.split('-')[1] : 'N/A',
           },
           {
             title: 'Email',
@@ -122,26 +125,27 @@ const RightSection = () => {
       />
       <div className="flex my-8 flex-col w-full items-center justify-center">
         <CustomButton
-          disabled
+          disabled={props.enable ? false : true}
           noIcon
           color="blue"
           text="Đăng ký tham gia"
           className=" w-[90%] my-2  h-10"
         />{' '}
         <CustomButton
-          disabled
+          disabled={props.enable ? false : true}
           Icon={AiFillHeart}
           color="red"
           text="Yêu thích"
           className=" w-[90%] my-2 h-10"
         />
         <CustomButton
-          disabled
+          disabled={props.enable ? false : true}
           noIcon
           color="blue"
           variant={'outlined'}
           text="Quay lại"
           className=" w-[90%] my-2 h-10"
+          onClick={props.goBack}
         />
       </div>
     </div>
@@ -161,7 +165,7 @@ const CategoryDetail = (props: { header: string; contents: Content[] }) => {
               <p className="pt-4 text-sm text-gray-900 text-left ">
                 {item.title}
               </p>
-              <p className="pt-4 text-sm text-black font-semibold text-right ">
+              <p className="pt-4 pl-16 text-sm text-black font-semibold text-right ">
                 {item.subject}
               </p>
               {item.icon && <item.icon />}

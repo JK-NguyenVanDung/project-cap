@@ -46,12 +46,15 @@ const LeftSection = () => {
 
   const approve = async () => {
     await handleOk(true);
-    notification.success({ message: 'Duyệt thành công' });
 
     setTimeout(() => {
       navigate(-1);
     }, 500);
+    notification.success({
+      message: 'Duyệt thành công',
+    });
   };
+
   const goBack = () => {
     navigate(-1);
   };
@@ -83,16 +86,20 @@ const LeftSection = () => {
             accountId: info.accountId,
             approved: approved,
             comment: values?.comment ? values?.comment : null,
-            approvalDate: moment(),
+            approvalDate: moment().local(),
           });
-          setShowDeclinedModal(!showDeclinedModal);
-
-          notification.success({ message: 'Thêm thành công' });
+          setShowDeclinedModal(false);
+          !approved &&
+            notification.success({
+              message: 'Thêm thành công',
+            });
           form.resetFields();
         } else {
-          setShowDeclinedModal(!showDeclinedModal);
+          setShowDeclinedModal(false);
 
-          notification.error({ message: 'Thêm không thành công' });
+          notification.error({
+            message: 'Thêm không thành công',
+          });
         }
       })
 
@@ -125,7 +132,7 @@ const LeftSection = () => {
       />
       <ReviewHistory
         showHistoryModal={showHistoryModal}
-        programId={program.programId}
+        programId={program?.programId}
         setShowHistoryModal={setShowHistoryModal}
       />
       <CustomButton

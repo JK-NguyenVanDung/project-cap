@@ -10,7 +10,7 @@ import {
 } from '@material-tailwind/react';
 import avatar from '../../assets/img/test.jpg';
 import Color from '../constant/Color';
-import { IoNotifications } from 'react-icons/io5';
+import { IoNotifications, IoNotificationsOutline } from 'react-icons/io5';
 import { useMsal } from '@azure/msal-react';
 import { IconButton } from '@material-tailwind/react';
 import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
@@ -39,7 +39,7 @@ export default function () {
           color="gray"
           size="md"
         >
-          <IoNotifications className="text-xl" />
+          <IoNotificationsOutline className="text-xl" />
         </IconButton>
         <span className="mr-1">
           {' '}

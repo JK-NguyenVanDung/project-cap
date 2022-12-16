@@ -15,15 +15,19 @@ import Logined from './Logined';
 import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
 import Question from '../pages/admin/Program/Test/Question';
 import Test from '../pages/admin/Program/Test/Test';
-import Home from '../pages/client';
 import ReviewDetail from '../pages/admin/ReviewProgram/ReviewDetail';
 import apiService from '../api/apiService';
+
+import ClientSideBar from '../pages/client/';
+import Homepage from '../pages/client/Homepage/Homepage';
 
 import { useAppDispatch, useAppSelector } from '../hook/useRedux';
 import { actions } from '../Redux';
 import AcedemicYear from '../pages/admin/AcedemicYear/AcedemicYear';
 import Position from '../pages/admin/Position/Position';
 import ListReviewPrograms from '../pages/admin/ReviewProgram/ListReviewProgram';
+import Courses from '../pages/client/Courses/Courses';
+import CourseDetail from '../pages/client/Courses/CourseDetail';
 
 export const RouterPages = [
   {
@@ -90,13 +94,21 @@ export const RouterPages = [
   },
   {
     path: '/home',
-    element: <Home />,
+    element: <Homepage />,
   },
 ];
 const Leaner = [
   {
     path: '/home',
-    element: <Home />,
+    element: <Homepage />,
+  },
+  {
+    path: '/Courses',
+    element: <Courses />,
+  },
+  {
+    path: '/Courses/:courseName',
+    element: <CourseDetail />,
   },
 ];
 export default function MakePagesRouter() {
@@ -118,10 +130,13 @@ export default function MakePagesRouter() {
         <Routes>
           {Leaner.map((router, index) => {
             return (
-              <Route key={index} path={router.path} element={router.element} />
+              <Route
+                key={index}
+                path={router.path}
+                element={<ClientSideBar content={router.element} />}
+              />
             );
           })}
-
           <Route path="/login" element={<Logined />} />
           <Route path="/" element={<LandingPage />} />
         </Routes>

@@ -14,7 +14,7 @@ import { IoIosArrowUp } from 'react-icons/io';
 import RadioGroup from '../../../../components/sharedComponents/RadioGroup';
 import { TiDelete } from 'react-icons/ti';
 import OptionalAnswer from '../../../../components/admin/OptionalAnswer';
-import HeaderAdmin from '../../../../components/HeaderAdmin/HeaderAdmin';
+import HeaderAdmin from '../../../../components/Header/HeaderAdmin';
 import ConfirmModal from '../../../../components/admin/Modal/ConfirmModal';
 import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb';
 
