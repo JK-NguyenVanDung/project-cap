@@ -7,6 +7,7 @@ import uniqueId from '../../../utils/uinqueId';
 import { Button, message, notification, Popconfirm } from 'antd';
 import { GIRD12, MESSAGE } from '../../../helper/constant';
 import PopOverAction from '../../../components/admin/PopOver';
+import AddPosition from './AddPosition';
 export default function Position() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
@@ -44,7 +45,7 @@ export default function Position() {
   };
   async function handleDelete(item: any) {
     try {
-      //   await apiService.delPosition(item.facultyId);
+      await apiService.delPositions(item.positionId);
       setLoading(!loading);
       notification.success({
         message: MESSAGE.SUCCESS.DELETE,
@@ -114,6 +115,14 @@ export default function Position() {
             onClick={() => handelAdd()}
           />,
         ]}
+      />
+      <AddPosition
+        confirmLoading={confirmLoading}
+        setConfirmLoading={setConfirmLoading}
+        item={detail}
+        setItem={setDetail}
+        visible={addPosition}
+        setVisible={setAddPosition}
       />
     </>
   );

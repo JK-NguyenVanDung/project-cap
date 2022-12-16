@@ -69,22 +69,17 @@ export const SideBarData = [
         icon: ImAddressBook,
         path: '/admin/MyProgram',
       },
+      {
+        title: 'Chương Trình Chờ',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/reviewProgram',
+      },
     ],
   },
   {
     title: 'Học Viên',
     icon: BsFillPersonBadgeFill,
     path: '/admin/Learner',
-  },
-  {
-    title: 'Năm Học',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/AcedemicYear',
-  },
-  {
-    title: 'Chức Vụ',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Postions',
   },
 ];
 
@@ -151,5 +146,10 @@ export const SideBarDataFacul = [
     title: 'Chức Vụ',
     icon: BsFillPersonBadgeFill,
     path: '/admin/Postions',
+  },
+  {
+    title: 'Chương Trình Chờ',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/reviewProgram',
   },
 ];

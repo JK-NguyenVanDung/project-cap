@@ -9,6 +9,8 @@ import {
   notification,
 } from 'antd';
 import { GrAdd } from 'react-icons/gr';
+import { AiOutlineSave } from 'react-icons/ai';
+
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import moment from 'moment';
 import { Breadcrumb } from '../../../components/sharedComponents';
@@ -20,7 +22,9 @@ import axios, { AxiosResponse } from 'axios';
 import { useAppSelector } from '../../../hook/useRedux';
 const { Option } = Select;
 import './index.css';
+
 import { API_URL } from '../../../api/api';
+import Color from '../../../components/constant/Color';
 export default function EditProgram() {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [dataFct, setDataFct]: any = useState([]);
@@ -519,6 +523,13 @@ export default function EditProgram() {
             noIcon={true}
             onClick={() => handelOk('saveDraft')}
             className="w-44 my-3 h-10 bg-white border-orange-500 text-orange-500"
+          />
+          <CustomButton
+            tip="Gửi"
+            color="green"
+            text="Gửi"
+            onClick={() => handelOk('saveDraft')}
+            className="w-44 mx-10 my-3 h-10"
           />
         </div>
       </Form>

@@ -23,6 +23,7 @@ import { useAppDispatch, useAppSelector } from '../hook/useRedux';
 import { actions } from '../Redux';
 import AcedemicYear from '../pages/admin/AcedemicYear/AcedemicYear';
 import Position from '../pages/admin/Position/Position';
+import ListReviewPrograms from '../pages/admin/ReviewProgram/ListReviewProgram';
 
 export const RouterPages = [
   {
@@ -82,6 +83,10 @@ export const RouterPages = [
   {
     path: '/admin/Postions',
     element: <Position />,
+  },
+  {
+    path: '/admin/reviewProgram',
+    element: <ListReviewPrograms />,
   },
   {
     path: '/home',
