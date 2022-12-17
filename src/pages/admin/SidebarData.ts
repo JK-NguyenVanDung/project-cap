@@ -94,26 +94,56 @@ export const SideBarDataCT = [
     title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
+    children: [
+      {
+        title: 'Nhóm chương trình',
+        icon: FaClipboardList,
+        path: '/admin/Category',
+      },
+      {
+        title: 'Khoa Ban',
+        icon: BsHouse,
+        path: '/admin/Faculties',
+      },
+      {
+        title: 'Năm Học',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/AcedemicYear',
+      },
+      {
+        title: 'Chức Vụ',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/Postions',
+      },
+    ],
   },
-  {
-    title: 'Phòng Ban',
-    icon: BsHouse,
-    path: '/admin/Faculties',
-  },
+
   {
     title: 'Chương Trình',
     icon: IoBook,
     path: '/admin/Program',
+    children: [
+      {
+        title: 'Tất Cả',
+        icon: ImBooks,
+        path: '/admin/Program',
+      },
+      {
+        title: 'Của Tôi',
+        icon: ImAddressBook,
+        path: '/admin/MyProgram',
+      },
+      {
+        title: 'Chương Trình Chờ',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/reviewProgram',
+      },
+    ],
   },
   {
-    title: 'Năm Học',
+    title: 'Học Viên',
     icon: BsFillPersonBadgeFill,
-    path: '/admin/AcedemicYear',
-  },
-  {
-    title: 'Chức Vụ',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Postions',
+    path: '/admin/Learner',
   },
 ];
 

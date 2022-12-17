@@ -78,7 +78,11 @@ export default function SideBar({ content }: { content: any }) {
                 ? SideBarDataCT.map((value, index) => {
                     return (
                       <div key={index}>
-                        <ItemMenu params={value} />
+                        {value.children ? (
+                          <MenuDropdown params={value} />
+                        ) : (
+                          <ItemMenu params={value} />
+                        )}
                       </div>
                     );
                   })
