@@ -9,8 +9,6 @@ import {
   notification,
 } from 'antd';
 import { GrAdd } from 'react-icons/gr';
-import { AiOutlineSave } from 'react-icons/ai';
-
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import moment from 'moment';
 import { Breadcrumb } from '../../../components/sharedComponents';
@@ -41,14 +39,18 @@ export default function EditProgram() {
   const frmData: any = new FormData();
   const navigate = useNavigate();
   const item: any = useAppSelector((state) => state.form.setProgram);
-  const [valuePositions, setValuePositions]: any = useState({});
+  const [valuePositions, setValuePositions]: any = useState([]);
+
   useEffect(() => {
     getFacuties();
     getCategories();
     getAcedemicYear();
     getPositions();
     let temp = item?.programPositions?.map((e: any) => {
-      return e.position.positionName;
+      return {
+        value: e.position.positionId,
+        label: e.position.positionName,
+      };
     });
     item
       ? (form.setFieldsValue({
@@ -56,7 +58,6 @@ export default function EditProgram() {
           Coin: item ? item.coin : '',
           Time: item ? item.time : '',
           Lecturers: item ? item.lecturers : '',
-
           StartDate: item ? moment(item.startDate) : '',
           EndDate: item ? moment(item.endDate) : '',
           AcademicYearId: item ? item.academicYearId : '',
@@ -64,7 +65,7 @@ export default function EditProgram() {
           FacultyId: item ? item.facultyId : '',
           CategoryId: item ? item.categoryId : '',
           Descriptions: item ? item.descriptions : '',
-          Positions: item ? temp : '',
+          PositionIds: item ? temp : '',
           RegistrationStartDate: item.registrationStartDate
             ? moment(item.registrationStartDate)
             : '',
@@ -75,7 +76,7 @@ export default function EditProgram() {
         setImage(item.image),
         setValuePositions(
           item?.programPositions?.map((item: any) => {
-            return item.positionName;
+            return item.positionId;
           }),
         ))
       : form.setFieldsValue(setLoading(false));
@@ -122,9 +123,9 @@ export default function EditProgram() {
     console.log(newFileList);
   };
   const onChangePosition = (item: any) => {
-    item.map((item: any) => {
-      setValuePositions(item);
-    });
+    setValuePositions(item);
+
+    console.log(item);
   };
   const onSearch = () => {};
   const handelOk = async (type: 'save' | 'saveDraft') => {
@@ -184,10 +185,15 @@ export default function EditProgram() {
           ? frmData.append('Status', 'save')
           : frmData.append('Status', 'save draft');
         console.log(values);
-
+        // for(let i = 0; i< valuePositions.length;i++){
+        //   frmData.append(
+        //     'PositionIds',
+        //     valuePositions ? valuePositions[i] : item.positions,
+        //   );
+        // }
         frmData.append(
           'PositionIds',
-          valuePositions ? valuePositions : item.positions,
+          valuePositions ? valuePositions[0] : item.positions,
         );
         frmData.append(
           'Semester',
@@ -558,7 +564,7 @@ export default function EditProgram() {
         </div>
       </Form>
       <ReviewHistory
-        programId={item.programId}
+        programId={item?.programId}
         setShow={setOpenHistory}
         show={openHistory}
       />

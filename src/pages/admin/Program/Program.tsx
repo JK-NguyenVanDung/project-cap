@@ -181,7 +181,6 @@ export default function Program() {
       },
     });
   }
-
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(value, 'gi');
     let temp = data;

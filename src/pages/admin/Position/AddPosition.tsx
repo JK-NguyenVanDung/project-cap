@@ -38,7 +38,7 @@ export default function AddPosition({
             rules={[
               { required: true, message: 'Vui lòng nhập vào Chức Vụ' },
               {
-                pattern: new RegExp(/^[a-zA-Z ]*$/),
+                pattern: new RegExp(/^([^0-9]*)$/),
                 message: 'Chỉ cho phép nhập chữ',
               },
               {
@@ -80,7 +80,7 @@ export default function AddPosition({
       handleOk={handelok}
       setShow={setVisible}
       dataItem={item}
-      label={'Phòng/Khoa'}
+      label={'Chức vụ'}
       name={item}
       FormItem={<FormItem />}
       form={form}
