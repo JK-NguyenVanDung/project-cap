@@ -12,6 +12,7 @@ import SearchBar from '../../../components/admin/ToolBar/ToolBar';
 import { MenuProps, Spin } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import Loading from '../../../components/sharedComponents/Loading';
+import { removeVietnameseTones } from '../../../utils/uinqueId';
 
 export default function Homepage() {
   const [data, setData] = useState<Array<IProgramItem>>(null);
@@ -76,14 +77,17 @@ export default function Homepage() {
   }, [filter]);
   const onChangeSearch = async (value: string) => {
     setLoading(true);
-    const reg = new RegExp(value, 'gi');
-    let temp = data;
+    const reg = new RegExp(removeVietnameseTones(value), 'gi');
+    let temp = filterData.slice();
+
     const filteredData = temp
       .map((record: IProgramItem) => {
-        const nameMatch = record.programName.match(reg);
+        const nameMatch = removeVietnameseTones(record.programName).match(reg);
 
-        const descMatch = record.descriptions.match(reg);
-        const cateMatch = record.category.categoryName.match(reg);
+        const descMatch = removeVietnameseTones(record.descriptions).match(reg);
+        const cateMatch = removeVietnameseTones(
+          record.category.categoryName,
+        ).match(reg);
 
         if (!nameMatch && !descMatch && !cateMatch) {
           return null;
@@ -91,7 +95,7 @@ export default function Homepage() {
         return record;
       })
       .filter((record) => !!record);
-    setData(value.trim() !== '' && filteredData ? filteredData : filterData);
+    setData(filteredData ? filteredData : filterData);
     let timer = setTimeout(() => {
       setLoading(false);
     }, 300);
