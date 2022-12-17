@@ -4,6 +4,7 @@ import { Form, notification } from 'antd';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import apiService from '../../../api/apiService';
+import { errorText } from '../../../helper/constant';
 export default function AddPosition({
   visible,
   setVisible,
@@ -29,17 +30,28 @@ export default function AddPosition({
   const FormItem = () => {
     return (
       <div className="flex justify-around">
-        <FormInput
-          label="Chức Vụ"
-          name="positionName"
-          placeholder="Chức Vụ"
-          rules={[
-            {
-              required: true,
-              message: 'Vui Lòng Chọn Chức Vụ',
-            },
-          ]}
-        />
+        <div>
+          <FormInput
+            label="Chức Vụ"
+            name="positionName"
+            placeholder="Chức Vụ"
+            rules={[
+              { required: true, message: 'Vui lòng nhập vào Chức Vụ' },
+              {
+                pattern: new RegExp(/^([^0-9]*)$/),
+                message: 'Chỉ cho phép nhập chữ',
+              },
+              {
+                pattern: new RegExp(/^(?!\s*$|\s).*$/),
+                message: errorText.space,
+              },
+              {
+                pattern: new RegExp(/^.{1,50}$/),
+                message: 'Đạt tối đa số lượng ký tự cho phép',
+              },
+            ]}
+          />
+        </div>
       </div>
     );
   };
@@ -68,7 +80,7 @@ export default function AddPosition({
       handleOk={handelok}
       setShow={setVisible}
       dataItem={item}
-      label={'Phòng/Khoa'}
+      label={'Chức vụ'}
       name={item}
       FormItem={<FormItem />}
       form={form}

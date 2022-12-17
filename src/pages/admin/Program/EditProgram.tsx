@@ -9,8 +9,6 @@ import {
   notification,
 } from 'antd';
 import { GrAdd } from 'react-icons/gr';
-import { AiOutlineSave } from 'react-icons/ai';
-
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import moment from 'moment';
 import { Breadcrumb } from '../../../components/sharedComponents';
@@ -25,6 +23,7 @@ import './index.css';
 
 import { API_URL } from '../../../api/api';
 import Color from '../../../components/constant/Color';
+import ReviewHistory from '../../../components/admin/Review/ReviewHistory';
 export default function EditProgram() {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [dataFct, setDataFct]: any = useState([]);
@@ -34,24 +33,31 @@ export default function EditProgram() {
   const [checkOption, setCheckOption] = useState(false);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);
+  const [openHistory, setOpenHistory] = useState(false);
+
   const [image, setImage]: any = useState(null);
   const frmData: any = new FormData();
   const navigate = useNavigate();
   const item: any = useAppSelector((state) => state.form.setProgram);
-  const [valuePositons, setValuePositions]: any = useState([]);
+  const [valuePositions, setValuePositions]: any = useState([]);
+
   useEffect(() => {
     getFacuties();
     getCategories();
     getAcedemicYear();
     getPositions();
-    let temp;
-    item?.programPositions?.map((item: any) => {
-      temp = item.position;
+    let temp = item?.programPositions?.map((e: any) => {
+      return {
+        value: e.position.positionId,
+        label: e.position.positionName,
+      };
     });
     item
       ? (form.setFieldsValue({
           ProgramName: item ? item.programName : '',
           Coin: item ? item.coin : '',
+          Time: item ? item.time : '',
+          Lecturers: item ? item.lecturers : '',
           StartDate: item ? moment(item.startDate) : '',
           EndDate: item ? moment(item.endDate) : '',
           AcademicYearId: item ? item.academicYearId : '',
@@ -59,7 +65,7 @@ export default function EditProgram() {
           FacultyId: item ? item.facultyId : '',
           CategoryId: item ? item.categoryId : '',
           Descriptions: item ? item.descriptions : '',
-          Positions: item ? temp : '',
+          PositionIds: item ? temp : '',
           RegistrationStartDate: item.registrationStartDate
             ? moment(item.registrationStartDate)
             : '',
@@ -71,7 +77,7 @@ export default function EditProgram() {
         setImage(item.image),
         setValuePositions(
           item?.programPositions?.map((item: any) => {
-            return item.position.positionName;
+            return item.positionId;
           }),
         ))
       : form.setFieldsValue(setLoading(false));
@@ -118,9 +124,9 @@ export default function EditProgram() {
     console.log(newFileList);
   };
   const onChangePosition = (item: any) => {
-    item.map((item: any) => {
-      setValuePositions(item);
-    });
+    setValuePositions(item);
+
+    console.log(item);
   };
   const onSearch = () => {};
   const handelOk = async (type: 'save' | 'saveDraft') => {
@@ -128,6 +134,11 @@ export default function EditProgram() {
       .validateFields()
       .then(async (values) => {
         console.log(values);
+        frmData.append('Time', values.Time ? values.Time : item.time);
+        frmData.append(
+          'Lecturers',
+          values.Lecturers ? values.Lecturers : item.lecturers,
+        );
 
         frmData.append(
           'ProgramName',
@@ -175,10 +186,15 @@ export default function EditProgram() {
           ? frmData.append('Status', 'save')
           : frmData.append('Status', 'save draft');
         console.log(values);
-
+        // for(let i = 0; i< valuePositions.length;i++){
+        //   frmData.append(
+        //     'PositionIds',
+        //     valuePositions ? valuePositions[i] : item.positions,
+        //   );
+        // }
         frmData.append(
           'PositionIds',
-          valuePositons ? valuePositons : item.positions,
+          valuePositions ? valuePositions[0] : item.positions,
         );
         frmData.append(
           'Semester',
@@ -241,7 +257,7 @@ export default function EditProgram() {
                 },
               ]}
             />
-            <div className="mt-5 ">
+            <div className="pt-1 pb-3">
               <FormInput
                 areaHeight={10}
                 name="Descriptions"
@@ -255,10 +271,11 @@ export default function EditProgram() {
                 ]}
               />
             </div>
-            <label className="text-black font-bold font-customFont">
+            <label className="text-black font-bold font-customFont ">
               Danh Mục
             </label>
             <Form.Item
+              className="mt-4"
               name="CategoryId"
               rules={[
                 {
@@ -288,7 +305,7 @@ export default function EditProgram() {
               Phòng/Khoa
             </label>
             <Form.Item
-              style={{ marginTop: 10 }}
+              className="mt-4"
               name="FacultyId"
               rules={[
                 {
@@ -344,7 +361,7 @@ export default function EditProgram() {
                 Năm Học
               </label>
               <Form.Item
-                className="mb-4"
+                className="mt-4"
                 name="AcademicYearId"
                 rules={[
                   {
@@ -371,25 +388,27 @@ export default function EditProgram() {
                 />
               </Form.Item>
 
-              <label className="text-black font-bold font-customFont ">
-                Học Kì
-              </label>
-              <Form.Item
-                name="Semester"
-                className="w-full"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Vui Lòng Nhập Vào Học Kì',
-                  },
-                ]}
-              >
-                <Select placeholder="Chọn Học Kì">
-                  <Option value="1">Học Kì 1</Option>
-                  <Option value="2">Học Kì 2</Option>
-                  <Option value="3">Học Kì 3</Option>
-                </Select>
-              </Form.Item>
+              <div className="">
+                <label className="text-black font-bold font-customFont ">
+                  Học Kì
+                </label>
+                <Form.Item
+                  name="Semester"
+                  className="w-full mt-4"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Vui Lòng Nhập Vào Học Kì',
+                    },
+                  ]}
+                >
+                  <Select placeholder="Chọn Học Kì">
+                    <Option value="1">Học Kì 1</Option>
+                    <Option value="2">Học Kì 2</Option>
+                    <Option value="3">Học Kì 3</Option>
+                  </Select>
+                </Form.Item>
+              </div>
 
               <label className="text-black font-bold font-customFont">
                 Chức vụ
@@ -413,6 +432,16 @@ export default function EditProgram() {
                   {optionPosition}
                 </Select>
               </Form.Item>
+              <FormInput
+                label="Giảng viên"
+                name="Lecturers"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Vui Lòng Nhập Vào Giảng viên',
+                  },
+                ]}
+              />
             </div>
           </div>
           <div className="w-2/3">
@@ -430,7 +459,7 @@ export default function EditProgram() {
                 src={`${API_URL}/images/${image}`}
               />
             )}
-            <Form.Item style={{ marginTop: 10 }} className="mt-4" name="Image">
+            <Form.Item style={{ marginTop: 10 }} className="mt-4 " name="Image">
               <Upload
                 listType="picture-card"
                 beforeUpload={() => false}
@@ -506,25 +535,26 @@ export default function EditProgram() {
         </div>
         <div className="flex  w-full justify-center">
           <CustomButton
+            type="cancel"
+            noIcon={true}
+            onClick={() => handelCancel()}
+            className="w-44 my-3  h-10"
+          />
+          <CustomButton
             type="default"
             onClick={() => handelOk('save')}
             text="Lưu"
             noIcon={true}
-            className="w-44 my-3  h-10"
-          />
-          <CustomButton
-            type="cancel"
-            noIcon={true}
-            onClick={() => handelCancel()}
             className="w-44 my-3 mx-10 h-10"
           />
+
           <CustomButton
-            tip="Lưu Nháp"
-            type="auth"
-            text="Lưu Nháp"
+            text="Lịch sử duyệt"
+            variant="filled"
+            color="blue-gray"
             noIcon={true}
-            onClick={() => handelOk('saveDraft')}
-            className="w-44 my-3 h-10 bg-white border-orange-500 text-orange-500"
+            onClick={() => setOpenHistory(!openHistory)}
+            className="w-44 my-3 h-10 "
           />
           <CustomButton
             tip="Gửi"
@@ -535,6 +565,11 @@ export default function EditProgram() {
           />
         </div>
       </Form>
+      <ReviewHistory
+        programId={item?.programId}
+        setShow={setOpenHistory}
+        show={openHistory}
+      />
       {/* <FooterButton /> */}
     </div>
   );

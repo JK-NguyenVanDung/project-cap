@@ -29,17 +29,20 @@ export default function DetailAcedemicYear({
   const FormItem = () => {
     return (
       <div className="flex justify-around">
-        <FormInput
-          label="Năm Học"
-          name="year"
-          placeholder="Năm Học"
-          rules={[
-            {
-              required: true,
-              message: 'Vui Lòng Chọn Năm Học',
-            },
-          ]}
-        />
+        <div>
+          <FormInput
+            label="Năm Học"
+            name="year"
+            placeholder="Năm Học"
+            rules={[
+              { required: true, message: 'Vui lòng nhập vào năm học' },
+              {
+                pattern: new RegExp(/^(?:[0-9]{4}-[0-9]{4}:?)$/),
+                message: 'Xin vui lòng nhập đúng định dạng',
+              },
+            ]}
+          />
+        </div>
       </div>
     );
   };

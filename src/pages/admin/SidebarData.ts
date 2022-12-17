@@ -1,5 +1,6 @@
 import { IconType } from 'react-icons';
 import {
+  BsCalendar2DateFill,
   BsFillHouseFill,
   BsFillPersonBadgeFill,
   BsHouse,
@@ -43,7 +44,7 @@ export const SideBarData = [
       },
       {
         title: 'Năm Học',
-        icon: BsFillPersonBadgeFill,
+        icon: BsCalendar2DateFill,
         path: '/admin/AcedemicYear',
       },
       {

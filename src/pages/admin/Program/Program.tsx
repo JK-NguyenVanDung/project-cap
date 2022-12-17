@@ -123,7 +123,7 @@ export default function Program() {
             type="error"
             Icon={AiFillLock}
             color="red"
-            text="Riêng Tư"
+            text="Riêng tư"
             className="font-bold text-white"
             onClick={() => handelApprove(data)}
           />
@@ -151,10 +151,17 @@ export default function Program() {
 
   function handelApprove(items: any) {
     Modal.confirm({
-      title: 'xác nhận',
+      title: <p className="font-bold text-xl my-2">Xác nhận</p>,
       icon: <AiFillWarning size={30} color={Color.warning} />,
-      content: 'Bạn có chắc chắn công khai chương trình này ?',
-      okText: 'yes',
+      content: (
+        <p className="font-medium text-base my-2">
+          Bạn có chắc chắn công khai chương trình này?
+        </p>
+      ),
+      okText: 'Đồng ký',
+      cancelText: 'Huỷ',
+      maskStyle: { borderRadius: 12 },
+      bodyStyle: { margin: 2, marginBottom: 4 },
       okType: 'danger',
       onOk() {
         const Approve = async () => {
@@ -174,7 +181,6 @@ export default function Program() {
       },
     });
   }
-
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(value, 'gi');
     let temp = data;

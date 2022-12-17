@@ -131,9 +131,9 @@ const LeftSection = () => {
         program={program}
       />
       <ReviewHistory
-        showHistoryModal={showHistoryModal}
+        show={showHistoryModal}
         programId={program?.programId}
-        setShowHistoryModal={setShowHistoryModal}
+        setShow={setShowHistoryModal}
       />
       <CustomButton
         noIcon
