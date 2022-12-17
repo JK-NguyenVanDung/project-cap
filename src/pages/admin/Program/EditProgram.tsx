@@ -66,6 +66,7 @@ export default function EditProgram() {
           RegistrationEndDate: item.registrationStartDate
             ? moment(item.registrationEndDate)
             : '',
+          Time: item.time ? item.time : '',
         }),
         setImage(item.image),
         setValuePositions(
@@ -187,6 +188,7 @@ export default function EditProgram() {
           'AcademicYearId',
           values.AcademicYearId ? values.AcademicYearId : item.academicYearId,
         );
+        frmData.append('Time', values.Time ? values.Time : item.time);
 
         if (item) {
           const data = await apiService.putProgram(item.programId, frmData);
@@ -318,7 +320,7 @@ export default function EditProgram() {
             <FormInput
               type="inputNumber"
               label="Số Giờ Đào tạo"
-              name="Coin"
+              name="Time"
               rules={[
                 {
                   required: true,

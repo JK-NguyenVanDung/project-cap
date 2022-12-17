@@ -29,14 +29,17 @@ export default function AddPosition({
   const FormItem = () => {
     return (
       <div className="flex justify-around">
-        <div>
-          <FormInput
-            label="Chức Vụ"
-            name="positionName"
-            placeholder="Chức Vụ"
-            rules={[{ require: true, message: 'vui lòng nhập vào Chức Vụ' }]}
-          />
-        </div>
+        <FormInput
+          label="Chức Vụ"
+          name="positionName"
+          placeholder="Chức Vụ"
+          rules={[
+            {
+              required: true,
+              message: 'Vui Lòng Chọn Chức Vụ',
+            },
+          ]}
+        />
       </div>
     );
   };
