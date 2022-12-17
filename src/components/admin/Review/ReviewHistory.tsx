@@ -7,12 +7,12 @@ import { IAccountItem } from '../../../Type';
 import CustomModal from '../Modal/Modal';
 import 'moment/locale/vi';
 const ReviewHistory = ({
-  showHistoryModal,
-  setShowHistoryModal,
+  show,
+  setShow,
   programId,
 }: {
-  showHistoryModal: boolean;
-  setShowHistoryModal: any;
+  show: boolean;
+  setShow: any;
   programId: number;
 }) => {
   const handleOk = () => {};
@@ -106,10 +106,11 @@ const ReviewHistory = ({
 
   return (
     <CustomModal
+      centered={false}
       width={'64%'}
-      show={showHistoryModal}
+      show={show}
       handleOk={null}
-      setShow={setShowHistoryModal}
+      setShow={setShow}
       dataItem={{}}
       name={{}}
       FormItem={<HistoryFI />}
