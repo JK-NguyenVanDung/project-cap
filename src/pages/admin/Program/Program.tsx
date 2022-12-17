@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TableConfig from '../../../components/admin/Table/Table';
 import { Form, message, Image, Modal } from 'antd';
-import uniqueId from '../../../utils/uinqueId';
+import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
 import apiService from '../../../api/apiService';
 import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
@@ -182,17 +182,18 @@ export default function Program() {
     });
   }
   const onChangeSearch = async (value: string) => {
-    const reg = new RegExp(value, 'gi');
+    const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = data;
     const filteredData = temp
-      .map((record: IProgramItem) => {
-        const emailMatch = record.programName.match(reg);
+      .map((record: any) => {
+        const emailMatch = removeVietnameseTones(record.programName).match(reg);
+
         if (!emailMatch) {
           return null;
         }
         return record;
       })
-      .filter((record: any) => !!record);
+      .filter((record) => !!record);
     setData(value.trim() !== '' ? filteredData : filterData);
   };
 

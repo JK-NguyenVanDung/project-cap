@@ -181,9 +181,8 @@ export default function EditProgram() {
           'Descriptions',
           values.Descriptions ? values.Descriptions : item.descriptions,
         );
-        type = 'save'
-          ? frmData.append('Status', 'save')
-          : frmData.append('Status', 'save draft');
+        type === 'save' && frmData.append('Status', 'Lưu Nháp');
+        type === 'saveDraft' && frmData.append('Status', 'Chờ Duyệt');
         console.log(values);
         // for(let i = 0; i< valuePositions.length;i++){
         //   frmData.append(

@@ -2,19 +2,24 @@ import React, { useEffect, useState } from 'react';
 import apiService from '../../../api/apiService';
 import CustomButton from '../../../components/admin/Button';
 import TableConfig from '../../../components/admin/Table/Table';
-import uniqueId from '../../../utils/uinqueId';
+import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import { Button, message, Modal, notification, Popconfirm } from 'antd';
 import { GIRD12, MESSAGE } from '../../../helper/constant';
 import PopOverAction from '../../../components/admin/PopOver';
 import { AiFillUnlock, AiFillLock, AiFillWarning } from 'react-icons/ai';
 import moment from 'moment';
 import Color from '../../../components/constant/Color';
+import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../../hook/useRedux';
+import { actions } from '../../../Redux';
 export default function ListReviewPrograms() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
   const [addListReviewProgram, setAddListReviewProgram] = useState(false);
   const [detail, setDetail] = useState();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [confirmLoading, setConfirmLoading] = useState(false);
   useEffect(() => {
     async function getListReviewProgram() {
@@ -53,7 +58,6 @@ export default function ListReviewPrograms() {
     {
       title: 'Tên chương trình',
       dataIndex: 'programName',
-      width: GIRD12.COL2,
     },
     {
       title: 'Trạng thái',
@@ -80,16 +84,26 @@ export default function ListReviewPrograms() {
           />
         );
       },
+      width: GIRD12.COL2,
     },
     {
       title: 'Thao tác',
       key: 'action',
 
       render: (data: any) => (
-        <PopOverAction size="sm" handleAuth={() => handelEdit(data)} />
+        <PopOverAction
+          size="sm"
+          handleAuth={() => handelEdit(data)}
+          handleShowDetail={() => handelDataProgram(data)}
+        />
       ),
+      width: GIRD12.COL2,
     },
   ];
+  function handelDataProgram(data: any) {
+    dispatch(actions.formActions.setProgramForm(data));
+    navigate('/admin/reviewDetail');
+  }
   function handelApprove(items: any) {
     Modal.confirm({
       title: 'xác nhận',
@@ -116,11 +130,11 @@ export default function ListReviewPrograms() {
     });
   }
   const onChangeSearch = async (value: string) => {
-    const reg = new RegExp(value, 'gi');
+    const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = data;
     const filteredData = temp
       .map((record: any) => {
-        const emailMatch = record.year.match(reg);
+        const emailMatch = removeVietnameseTones(record.programName).match(reg);
 
         if (!emailMatch) {
           return null;
@@ -130,6 +144,7 @@ export default function ListReviewPrograms() {
       .filter((record) => !!record);
     setData(value.trim() !== '' ? filteredData : filterData);
   };
+
   function handelAdd() {
     setAddListReviewProgram(true);
     setDetail(null);

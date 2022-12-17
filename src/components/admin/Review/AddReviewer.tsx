@@ -35,7 +35,7 @@ const AddReviewer = ({
       const temp = res.map((v: IAccountItem, index: number) => {
         return {
           value: v.accountId,
-          label: v.fullName,
+          label: v.email,
         };
       });
       setAccounts(temp);
@@ -65,7 +65,7 @@ const AddReviewer = ({
           <Select
             showSearch
             style={{ width: '100%', marginTop: 20 }}
-            placeholder="Search to Select"
+            placeholder="Tìm kiếm email để chọn"
             optionFilterProp="children"
             filterOption={(input: string, option: any) =>
               (option?.label ?? '').includes(input)

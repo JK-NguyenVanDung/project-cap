@@ -12,7 +12,7 @@ import {
   SideBarDataFacul,
 } from './SidebarData';
 import logo from '../../assets/logo.svg';
-import MenuBackground from '../../assets/img/menu-bg.jpeg';
+import MenuBackground from '../../assets/img/menu-bg.png';
 import HeaderAdmin from '../../components/Header/HeaderAdmin';
 import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { actions } from '../../Redux';

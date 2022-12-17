@@ -71,17 +71,17 @@ export const SideBarData = [
         path: '/admin/MyProgram',
       },
       {
-        title: 'Chương Trình Chờ',
+        title: 'Chờ Duyệt',
         icon: BsFillPersonBadgeFill,
         path: '/admin/reviewProgram',
       },
     ],
   },
-  {
-    title: 'Học Viên',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Learner',
-  },
+  // {
+  //   title: 'Học Viên',
+  //   icon: BsFillPersonBadgeFill,
+  //   path: '/admin/Learner',
+  // },
 ];
 
 export const SideBarDataCT = [

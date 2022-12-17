@@ -86,10 +86,7 @@ const RightSection = (props: any) => {
           },
           {
             title: 'Số giờ đào tạo',
-            subject:
-              program?.semester && program?.semester > 0
-                ? program.semester
-                : '0',
+            subject: program?.time ? program?.time : '0',
           },
         ]}
       />

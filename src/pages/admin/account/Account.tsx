@@ -4,7 +4,7 @@ import { Form, message, Space } from 'antd';
 import { BiEditAlt } from 'react-icons/bi';
 import { RiDeleteBinLine } from 'react-icons/ri';
 // import Button from '../../../components/sharedComponents/Button'
-import uniqueId from '../../../utils/uinqueId';
+import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import FormInput from '../../../components/admin/Modal/FormInput';
@@ -130,11 +130,11 @@ export default function Account() {
   ];
 
   const onChangeSearch = async (value: string) => {
-    const reg = new RegExp(value, 'gi');
+    const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = data;
     const filteredData = temp
-      .map((record: IAccountItem) => {
-        const emailMatch = record.email.match(reg);
+      .map((record: any) => {
+        const emailMatch = removeVietnameseTones(record.email).match(reg);
 
         if (!emailMatch) {
           return null;
@@ -262,10 +262,13 @@ export default function Account() {
               required: true,
               message: 'Vui Lòng Nhập Vào Email',
             },
-            // {
-            //   pattern: new RegExp(/.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$/),
-            //   message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU',
-            // },
+            {
+              pattern: new RegExp(
+                /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
+              ),
+              message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU',
+            },
+
             {
               pattern: new RegExp(
                 /^\w*[A-Za-z]+(?:([._]?\w+)*)\@[A-Za-z]\w*[-]?\w+\.[A-Za-z]{1,}?(\.?[A-Za-z]+)$/,

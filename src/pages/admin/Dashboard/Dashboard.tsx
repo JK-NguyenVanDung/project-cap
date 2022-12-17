@@ -27,8 +27,8 @@ export default function Dashboard() {
   }
   return (
     <div>
-      <p>Thêm video trong asset</p>
-      <button onClick={() => handelDataProgram()}>test </button>
+      {/* <p>Thêm video trong asset</p>
+      <button onClick={() => handelDataProgram()}>test </button> */}
     </div>
   );
 }
