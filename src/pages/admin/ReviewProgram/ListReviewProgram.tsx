@@ -12,6 +12,7 @@ import Color from '../../../components/constant/Color';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
+import AddReviewer from '../../../components/admin/Review/AddReviewer';
 export default function ListReviewPrograms() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
@@ -21,6 +22,7 @@ export default function ListReviewPrograms() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [confirmLoading, setConfirmLoading] = useState(false);
+
   useEffect(() => {
     async function getListReviewProgram() {
       try {
@@ -149,22 +151,28 @@ export default function ListReviewPrograms() {
     setAddListReviewProgram(true);
     setDetail(null);
   }
+
   return (
     <>
+      <AddReviewer
+        show={addListReviewProgram}
+        setShow={setAddListReviewProgram}
+        program={detail}
+      />
       <TableConfig
         onSearch={onChangeSearch}
         search={true}
         data={data}
         columns={Columns}
         loading={loading || confirmLoading}
-        extra={[
-          <CustomButton
-            type="add"
-            size="md"
-            key={`${uniqueId()}`}
-            onClick={() => handelAdd()}
-          />,
-        ]}
+        // extra={[
+        //   <CustomButton
+        //     type="add"
+        //     size="md"
+        //     key={`${uniqueId()}`}
+        //     onClick={() => handelAdd()}
+        //   />,
+        // ]}
       />
     </>
   );

@@ -180,19 +180,16 @@ export default function EditProgram() {
           'Descriptions',
           values.Descriptions ? values.Descriptions : item.descriptions,
         );
-        type === 'save' && frmData.append('Status', 'Lưu Nháp');
-        type === 'saveDraft' && frmData.append('Status', 'Chờ Duyệt');
+        type === 'save' && frmData.append('Status', 'save');
+        type === 'saveDraft' && frmData.append('Status', 'pending');
         console.log(values);
-        // for(let i = 0; i< valuePositions.length;i++){
-        //   frmData.append(
-        //     'PositionIds',
-        //     valuePositions ? valuePositions[i] : item.positions,
-        //   );
-        // } //
-        frmData.append(
-          'PositionIds',
-          valuePositions ? valuePositions : item.positions,
-        );
+        for (let i = 0; i < valuePositions.length; i++) {
+          frmData.append('PositionIds', valuePositions[i]);
+        } //
+        // frmData.append(
+        //   'PositionIds',
+        //   valuePositions ? valuePositions : item.positions,
+        // );
         frmData.append(
           'Semester',
           values.Semester ? values.Semester : item.semester,
@@ -554,6 +551,7 @@ export default function EditProgram() {
           />
           <CustomButton
             tip="Gửi"
+            noIcon={true}
             color="green"
             text="Gửi"
             onClick={() => handelOk('saveDraft')}
