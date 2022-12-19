@@ -624,7 +624,6 @@ export default function Question() {
         },
       ),
     };
-
     if (
       currentQuestion.questionId &&
       selectedOptions.length !== radioOptions.length
@@ -716,6 +715,12 @@ export default function Question() {
               let res: any = await apiService.getQuestions(testId);
 
               setData(res);
+              // dispatch(actions.questionActions.setCurrentQuestionIndex(res.length - 1));
+              dispatch(
+                actions.questionActions.setCurrentQuestion(
+                  res[currentQuestionIndex],
+                ),
+              );
             }
             setOnlySave(false);
           } else if (finish) {

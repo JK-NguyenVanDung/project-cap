@@ -188,10 +188,10 @@ export default function EditProgram() {
         //     'PositionIds',
         //     valuePositions ? valuePositions[i] : item.positions,
         //   );
-        // }
+        // } //
         frmData.append(
           'PositionIds',
-          valuePositions ? valuePositions[0] : item.positions,
+          valuePositions ? valuePositions : item.positions,
         );
         frmData.append(
           'Semester',

@@ -16,3 +16,11 @@
 .questionCont::-webkit-scrollbar {
   display: none;
 }
+
+.chapterItem:hover .child {
+  color: #fff;
+}
+
+.chapterItem:hover .icon {
+  color: #fff;
+}

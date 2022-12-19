@@ -268,7 +268,7 @@ const Product = React.forwardRef((props, ref: any) => {
             title="Kỹ Năng Mềm"
             view="300 Học viên"
             hour="12 buổi"
-            image="https://bme.binhminh.com.vn/wp-content/uploads/2020/05/tt-36.png"
+            image="https://images.careerbuilder.vn/content/images/loi-ich-tu-nhung-ky-nang-mem-careerbuilder.jpg  "
           />
         </div>
       </div>

@@ -3,9 +3,10 @@ import {
   BsCalendar2DateFill,
   BsFillHouseFill,
   BsFillPersonBadgeFill,
-  BsHouse,
+  BsHouseFill,
 } from 'react-icons/bs';
 import { FaClipboardList } from 'react-icons/fa';
+import { GoVerified } from 'react-icons/go';
 
 import { ImAddressBook, ImBooks } from 'react-icons/im';
 import { IoApps, IoBook, IoAlbums, IoPeopleCircle } from 'react-icons/io5';
@@ -33,15 +34,16 @@ export const SideBarData = [
     path: '/admin/Category',
     children: [
       {
+        title: 'Khoa Ban',
+        icon: BsHouseFill,
+        path: '/admin/Faculties',
+      },
+      {
         title: 'Nhóm chương trình',
         icon: FaClipboardList,
         path: '/admin/Category',
       },
-      {
-        title: 'Khoa Ban',
-        icon: BsHouse,
-        path: '/admin/Faculties',
-      },
+
       {
         title: 'Năm Học',
         icon: BsCalendar2DateFill,
@@ -72,7 +74,7 @@ export const SideBarData = [
       },
       {
         title: 'Chờ Duyệt',
-        icon: BsFillPersonBadgeFill,
+        icon: GoVerified,
         path: '/admin/reviewProgram',
       },
     ],
@@ -96,24 +98,24 @@ export const SideBarDataCT = [
     path: '/admin/Category',
     children: [
       {
+        title: 'Chức Vụ',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/Postions',
+      },
+      {
         title: 'Nhóm chương trình',
         icon: FaClipboardList,
         path: '/admin/Category',
       },
       {
         title: 'Khoa Ban',
-        icon: BsHouse,
+        icon: BsHouseFill,
         path: '/admin/Faculties',
       },
       {
         title: 'Năm Học',
         icon: BsFillPersonBadgeFill,
         path: '/admin/AcedemicYear',
-      },
-      {
-        title: 'Chức Vụ',
-        icon: BsFillPersonBadgeFill,
-        path: '/admin/Postions',
       },
     ],
   },
@@ -135,52 +137,72 @@ export const SideBarDataCT = [
       },
       {
         title: 'Chương Trình Chờ',
-        icon: BsFillPersonBadgeFill,
+        icon: GoVerified,
         path: '/admin/reviewProgram',
       },
     ],
   },
-  {
-    title: 'Học Viên',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Learner',
-  },
+  // {
+  //   title: 'Học Viên',
+  //   icon: BsFillPersonBadgeFill,
+  //   path: '/admin/Learner',
+  // },
 ];
 
 export const SideBarDataFacul = [
   {
-    title: 'Trang Chủ',
-    icon: IoApps,
-    path: '/admin',
-  },
-  {
     title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
+    children: [
+      {
+        title: 'Chức Vụ',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/Postions',
+      },
+      {
+        title: 'Nhóm chương trình',
+        icon: FaClipboardList,
+        path: '/admin/Category',
+      },
+      {
+        title: 'Khoa Ban',
+        icon: BsHouseFill,
+        path: '/admin/Faculties',
+      },
+      {
+        title: 'Năm Học',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/AcedemicYear',
+      },
+    ],
   },
-  {
-    title: 'Phòng Ban',
-    icon: BsHouse,
-    path: '/admin/Faculties',
-  },
+
   {
     title: 'Chương Trình',
     icon: IoBook,
     path: '/admin/Program',
+    children: [
+      {
+        title: 'Tất Cả',
+        icon: ImBooks,
+        path: '/admin/Program',
+      },
+      {
+        title: 'Của Tôi',
+        icon: ImAddressBook,
+        path: '/admin/MyProgram',
+      },
+      {
+        title: 'Chương Trình Chờ',
+        icon: GoVerified,
+        path: '/admin/reviewProgram',
+      },
+    ],
   },
-  {
-    title: 'Năm Học',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/AcedemicYear',
-  },
-  {
-    title: 'Chức Vụ',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Postions',
-  },
-  {
-    title: 'Chương Trình Chờ',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/reviewProgram',
-  },
+  // {
+  //   title: 'Học Viên',
+  //   icon: BsFillPersonBadgeFill,
+  //   path: '/admin/Learner',
+  // },
 ];
