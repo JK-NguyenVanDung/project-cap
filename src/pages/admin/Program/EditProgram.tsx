@@ -132,7 +132,6 @@ export default function EditProgram() {
     form
       .validateFields()
       .then(async (values) => {
-        console.log(values);
         frmData.append('Time', values.Time ? values.Time : item.time);
         frmData.append(
           'Lecturers',
@@ -181,19 +180,18 @@ export default function EditProgram() {
           'Descriptions',
           values.Descriptions ? values.Descriptions : item.descriptions,
         );
-        type = 'save'
-          ? frmData.append('Status', 'save')
-          : frmData.append('Status', 'save draft');
+        type === 'save' && frmData.append('Status', 'Lưu Nháp');
+        type === 'saveDraft' && frmData.append('Status', 'Chờ Duyệt');
         console.log(values);
         // for(let i = 0; i< valuePositions.length;i++){
         //   frmData.append(
         //     'PositionIds',
         //     valuePositions ? valuePositions[i] : item.positions,
         //   );
-        // }
+        // } //
         frmData.append(
           'PositionIds',
-          valuePositions ? valuePositions[0] : item.positions,
+          valuePositions ? valuePositions : item.positions,
         );
         frmData.append(
           'Semester',
@@ -203,7 +201,6 @@ export default function EditProgram() {
           'AcademicYearId',
           values.AcademicYearId ? values.AcademicYearId : item.academicYearId,
         );
-        frmData.append('Time', values.Time ? values.Time : item.time);
 
         if (item) {
           const data = await apiService.putProgram(item.programId, frmData);

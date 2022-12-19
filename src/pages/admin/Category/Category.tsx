@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import TableConfig from '../../../components/admin/Table/Table';
 import { Form, message } from 'antd';
-import uniqueId from '../../../utils/uinqueId';
+import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import FormInput from '../../../components/admin/Modal/FormInput';
@@ -68,11 +68,13 @@ export default function Category() {
   ];
 
   const onChangeSearch = async (value: string) => {
-    const reg = new RegExp(value, 'gi');
+    const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = data;
     const filteredData = temp
       .map((record: ICategoryItem) => {
-        const emailMatch = record.categoryName.match(reg);
+        const emailMatch = removeVietnameseTones(record.categoryName).match(
+          reg,
+        );
 
         if (!emailMatch) {
           return null;

@@ -4,7 +4,7 @@ import apiService from '../../../api/apiService';
 import CustomButton from '../../../components/admin/Button';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import TableConfig from '../../../components/admin/Table/Table';
-import uniqueId from '../../../utils/uinqueId';
+import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import { Button, message, notification, Popconfirm } from 'antd';
 import { GIRD12, MESSAGE } from '../../../helper/constant';
 import PopOverAction from '../../../components/admin/PopOver';
@@ -82,11 +82,11 @@ export default function Faculties() {
     },
   ];
   const onChangeSearch = async (value: string) => {
-    const reg = new RegExp(value, 'gi');
+    const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = data;
     const filteredData = temp
-      .map((record: IFaculties) => {
-        const emailMatch = record.facultyName.match(reg);
+      .map((record: any) => {
+        const emailMatch = removeVietnameseTones(record.facultyName).match(reg);
 
         if (!emailMatch) {
           return null;
@@ -96,6 +96,7 @@ export default function Faculties() {
       .filter((record) => !!record);
     setData(value.trim() !== '' ? filteredData : filterData);
   };
+
   function handelAdd() {
     setAddFaculties(true);
     setDetail(null);

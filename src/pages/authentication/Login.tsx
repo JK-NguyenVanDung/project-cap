@@ -32,7 +32,11 @@ export default function Login() {
     instance.loginPopup(loginRequest).catch((e) => {});
     dispatch(actions.authActions.setRoleLogin(item));
   }
+  const videoRef = useRef(null);
 
+  const setPlayBack = () => {
+    videoRef.current.playbackRate = 0.8;
+  };
   return (
     <div className="bg-slate-500 ">
       <div className="overlay" />
@@ -46,13 +50,14 @@ export default function Login() {
         autoPlay
         muted
         loop
+        onCanPlay={() => setPlayBack()}
         id="myVideo"
-        ref={(player): any => console.log(player)}
+        ref={videoRef}
       />
       <main className="fixed w-full h-full top-0 place-content-center items-center flex flex-col">
-        <h1 className="text-[#fff] uppercase font-bold text-center text-5xl mb-20">
+        <h1 className="text-[#fff] uppercase font-bold text-center text-5xl mb-10 mt-10">
           <p className="my-4"> Đăng Nhập </p>
-          <p className="my-4">VLU Training</p>
+          <p className="mt-4 ">VLU Training</p>
         </h1>
         <div className="flex justify-center ">
           {DataLogin.map((item, index) => {
@@ -62,12 +67,16 @@ export default function Login() {
                 style={{
                   width: 400,
                 }}
-                className="group bg-[#fff] button_login hover:text-black flex flex-col items-center m-4 p-3 py-12 rounded-lg cursor-pointer hover:-translate-y-4 "
+                className=" justify-end group bg-clip-padding bg-white backdrop-filter backdrop-blur-sm bg-opacity-60 border border-transparent button_login hover:text-black flex flex-col items-center m-4 p-3 py-12 rounded-lg cursor-pointer hover:-translate-y-4 "
                 onClick={() => LoginPopUp(item)}
               >
-                <div className="w-full mb-4 flex flex-col items-center">
+                <div
+                  className={`w-fit h-fit flex flex-col items-center ${
+                    item.id != '1' && 'justify-end mb-4'
+                  }`}
+                >
                   <img
-                    className={item.id == '1' ? 'w-[6rem] h-fit' : 'h-[75px]'}
+                    className={item.id == '1' ? 'w-[7rem]  h-fit' : 'h-[80px]'}
                     src={item.Logo}
                   />
                 </div>
@@ -80,6 +89,15 @@ export default function Login() {
               </div>
             );
           })}
+        </div>
+        <div className=" container mx-auto px-6">
+          <div className="mt-16 z- flex flex-col items-center">
+            <div className="sm:w-2/3 text-center py-6">
+              <p className=" text-sm text-white font-bold mb-2">
+                © 2022 - Bản Quyền Thuộc Trường Đại học Văn Lang
+              </p>
+            </div>
+          </div>
         </div>
       </main>
     </div>

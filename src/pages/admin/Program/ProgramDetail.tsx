@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, message, Image } from 'antd';
+import { Form, message, Image, Tooltip } from 'antd';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { Breadcrumb } from '../../../components/sharedComponents';
@@ -8,8 +8,26 @@ import CustomButton from '../../../components/admin/Button';
 import { useNavigate } from 'react-router-dom';
 import moment from 'moment';
 import apiService from '../../../api/apiService';
-import { SlArrowRight } from 'react-icons/sl';
+import { IoIosArrowForward } from 'react-icons/io';
+
+import { HiChevronUpDown } from 'react-icons/hi2';
+
 import { actions } from '../../../Redux';
+import {
+  PointerSensor,
+  useDraggable,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import { useSortable } from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { DndContext, closestCenter, DragOverlay } from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+
 export default function ProgramDetail() {
   const [form] = Form.useForm();
   const [image, setImage] = useState();
@@ -52,7 +70,24 @@ export default function ProgramDetail() {
       clearTimeout(t);
     };
   }, [reload]);
+  function handleDragEnd(event: any) {
+    console.log('Drag end called');
+    const { active, over } = event;
+    console.log('ACTIVE: ' + active.id);
+    console.log('OVER :' + over.id);
 
+    if (active.id !== over.id) {
+      setListContent((items: any) => {
+        const activeIndex = items.indexOf(
+          items.find((e: any) => e.contentId === active.id),
+        );
+        const overIndex = items.indexOf(
+          items.find((e: any) => e.contentId === over.id),
+        );
+        return arrayMove(items, activeIndex, overIndex);
+      });
+    }
+  }
   const addChapter = () => {
     dispatch(actions.formActions.setChapter(null));
     dispatch(actions.formActions.setProgramId(item.programId));
@@ -74,6 +109,13 @@ export default function ProgramDetail() {
     navigate(-1);
     form.resetFields();
   };
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 1,
+      },
+    }),
+  );
   return (
     <div className="w-full h-full relative">
       <div className="ml-[10px]">
@@ -83,7 +125,7 @@ export default function ProgramDetail() {
           name2={`Chuyên Đề`}
         />
       </div>
-      <Form form={form} className="formCategory w-full px-5">
+      <Form form={form} className="formCategory w-full px-5 mb-10">
         <div className="flex justify-between">
           <div>
             <FormInput
@@ -154,32 +196,21 @@ export default function ProgramDetail() {
           Danh Sách chương
         </h1>
         <div className="my-10 h-full">
-          {listContent.length > 0 &&
-            listContent.map((item: any, index: number) => {
-              return (
-                <div
-                  key={index}
-                  className=" my-5 p-4 rounded-2xl flex items-center justify-between bg-gray-300 cursor-pointer active:bg-transparent"
-                  onClick={() => {
-                    navigate(`/admin/Program/Chapter/${index + 1}`);
-                    dispatch(actions.formActions.setChapter(index + 1));
-                    dispatch(actions.formActions.setContentId(item.contentId));
-                    dispatch(actions.formActions.setProgramId(item.programId));
-
-                    // dispatch(
-                    //   actions.formActions.setNameMenu(`Chương ${index + 1}`),
-                    // );
-                  }}
-                >
-                  <div>
-                    <label className="text-black font-bold font-customFont ">
-                      Chương {index + 1}: {item.contentTitle}
-                    </label>
-                  </div>
-                  <SlArrowRight size={20} />
-                </div>
-              );
-            })}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={listContent.map((item: any) => item.contentId)}
+              strategy={verticalListSortingStrategy}
+            >
+              {listContent.length > 0 &&
+                listContent.map((item: any, index: number) => (
+                  <ChapterItem item={item} index={index} />
+                ))}
+            </SortableContext>
+          </DndContext>
         </div>
       </Form>
 
@@ -213,3 +244,52 @@ export default function ProgramDetail() {
     </div>
   );
 }
+
+const ChapterItem = ({ item, index }: { item: any; index: number }) => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: item?.contentId });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+  };
+  return (
+    <div
+      ref={setNodeRef}
+      style={style}
+      {...attributes}
+      {...listeners}
+      key={item?.contentId}
+      onClick={() => {
+        navigate(`/admin/Program/Chapter/${index + 1}`);
+        dispatch(actions.formActions.setChapter(index + 1));
+        dispatch(actions.formActions.setContentId(item?.contentId));
+        dispatch(actions.formActions.setProgramId(item?.programId));
+      }}
+      className="chapterItem text-black  hover:text-white text-semibold my-5 p-4 rounded-2xl flex items-center justify-between bg-gray-200  hover:bg-primary "
+    >
+      <div className="flex w-full items-center">
+        <Tooltip
+          title="Để sắp xếp lại thứ tự, kéo và thả vào vị trí mong muốn"
+          className="mr-4 h-full select-none cursor"
+        >
+          <HiChevronUpDown
+            size={26}
+            onClick={() => {}}
+            className="text-primary icon font-bold"
+          />
+        </Tooltip>
+
+        <p className="child font-bold font-customFont hover:text-white z-50">
+          {/* Chương {index + 1}: */}
+          {item.contentTitle}
+        </p>
+      </div>
+
+      <IoIosArrowForward size={20} />
+    </div>
+  );
+};

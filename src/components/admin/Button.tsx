@@ -6,8 +6,8 @@ import { HiOutlineTrash } from 'react-icons/hi';
 
 import { color, size } from '@material-tailwind/react/types/components/button';
 import { BsFillPeopleFill } from 'react-icons/bs';
-import { GiOpenBook } from 'react-icons/gi';
 import { Tooltip } from 'antd';
+import { ImBook } from 'react-icons/im';
 
 export default function CustomButton({
   size,
@@ -51,12 +51,12 @@ export default function CustomButton({
       defaultText = 'Xoá';
       color = 'red';
       Icon = HiOutlineTrash;
-      tip = 'Xoá';
+      tip = tip ? tip : 'Xoá';
       break;
     case 'cancel':
       defaultText = 'Huỷ';
       variant = 'outlined';
-      tip = 'Huỷ';
+      tip = tip ? tip : 'Huỷ';
       break;
     case 'edit':
       defaultText = '';
@@ -64,14 +64,14 @@ export default function CustomButton({
       color = 'blue';
       // variant = 'text'
       variant = 'outlined';
-      tip = 'Chỉnh sửa';
+      tip = tip ? tip : 'Chỉnh sửa';
 
       break;
     case 'add':
       defaultText = 'Thêm mới';
       Icon = FaPlus;
       color = 'green';
-      tip = 'Thêm mới';
+      tip = tip ? tip : 'Thêm mới';
 
       iconClass = 'mx-2 text-base ';
       typeClassName += 'mx-0 px-2 pr-8';
@@ -81,7 +81,7 @@ export default function CustomButton({
       defaultText = '';
       Icon = FaEye;
       color = 'brown';
-      tip = 'Chi tiết';
+      tip = tip ? tip : 'Chi tiết';
 
       iconClass = 'mx-2 text-base ';
       variant = 'outlined';
@@ -90,9 +90,9 @@ export default function CustomButton({
 
     case 'chapter':
       defaultText = '';
-      Icon = GiOpenBook;
+      Icon = ImBook;
       color = 'orange';
-      tip = 'Quản lý nội dung';
+      tip = tip ? tip : 'Quản lý nội dung';
 
       iconClass = 'mx-2 text-base ';
       variant = 'outlined';
@@ -114,7 +114,7 @@ export default function CustomButton({
   }
 
   return (
-    <Tooltip title={tip}>
+    <Tooltip title={!noIcon && tip}>
       <Button
         disabled={disabled}
         fullWidth={fullWidth}

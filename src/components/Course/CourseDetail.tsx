@@ -9,9 +9,11 @@ import DescriptionTab from './DescriptionTab';
 import ReviewTab from './ReviewTab';
 import View from '../../assets/svg/View.svg';
 import { checkURL } from '../../helper/constant';
+import { IFaculties } from '../../api/apiInterface';
 
 export default function (props: any) {
   const [currentTab, setCurrentTab] = useState(1);
+  const [faculty, setFaculty] = useState('');
 
   const program: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
@@ -28,9 +30,18 @@ export default function (props: any) {
       clearTimeout(time);
     };
   }, [program]);
+
   async function getData() {
     try {
       let res: any = await apiService.getAccounts();
+      let response: any = await apiService.getFaculties();
+      let fac: IFaculties = response.find(
+        (item: IFaculties) => item.facultyId == program.facultyId,
+      );
+
+      if (fac) {
+        setFaculty(fac.facultyName);
+      }
       res = res.reverse();
 
       const temp = res.map((v: any, index: number) => ({
@@ -47,7 +58,6 @@ export default function (props: any) {
       throw err.message;
     }
   }
-
   function getTitle() {
     let out = '';
     if (currentTab === 1) {
@@ -82,13 +92,11 @@ export default function (props: any) {
             <div className="flex w-full text-base font-light">
               <p>Khoa: </p>
               <span className=" pl-2 pr-4 mr-2 border-r-[1px] font-normal">
-                {program?.faculty
-                  ? program.faculty.facultyName
-                  : 'Chưa có thông tin'}
+                {faculty ? faculty : 'Chưa có thông tin'}
               </span>
               <p>Giảng viên:</p>
               <span className=" pl-2 pr-4 mr-2 font-normal ">
-                {user ? user.fullName?.split('-')[1] : 'Chưa có thông tin'}
+                {program?.lecturers ? program.lecturers : 'Chưa có thông tin'}
               </span>
             </div>
             <div className="flex w-full items-center  mt-4 text-base">
