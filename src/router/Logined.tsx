@@ -1,7 +1,7 @@
 import { useMsal } from '@azure/msal-react';
 import React, { useEffect, useState } from 'react';
 import { loginRequest } from '../pages/authentication/loginconfig';
-import { Spin, notification, Form } from 'antd';
+import { Spin, notification, Form, message } from 'antd';
 import { Navigate, useNavigate } from 'react-router-dom';
 import MakeAdminRouter from './AdminRouter';
 import { LoadingOutlined } from '@ant-design/icons';
@@ -18,10 +18,19 @@ export default function Logined() {
   const navigate = useNavigate();
   const { instance, accounts } = useMsal();
   const LoginParmas = useAppSelector((state) => state.auth.LoginId);
+  const navLink = useAppSelector((state) => state.nav.nav);
+
   const info = useAppSelector((state) => state.auth.info);
+  const alert = useAppSelector((state) => state.auth.notification);
 
   useEffect(() => {
     RequestAccessToken();
+  }, []);
+  useEffect(() => {
+    if (alert === true) {
+      notification.success({ message: 'Đăng Nhập Thành Công' });
+      dispatch(actions.authActions.showNotification(false));
+    }
   }, []);
 
   function RequestAccessToken() {
@@ -41,13 +50,15 @@ export default function Logined() {
             setLoading(false);
             dispatch(actions.authActions.Login(reponseToken.token));
             localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
-            notification.success({ message: 'Đăng Nhập Thành Công' });
-            // console.log(info.roleId);
 
-            if (LoginParmas.id == 1) {
+            dispatch(actions.authActions.showNotification(true));
+
+            // console.log(info.roleId);
+            if (navLink && LoginParmas.id == 1) {
+              navigate(navLink);
+            } else if (LoginParmas.id == 1) {
               navigate('/home');
-            }
-            if (LoginParmas.id == 2) {
+            } else if (LoginParmas.id == 2) {
               navigate('/admin');
             }
           }

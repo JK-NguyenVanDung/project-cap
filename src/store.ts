@@ -7,6 +7,8 @@ const config = combineReducers({
   form: reducers.formReducer,
   auth: reducers.authReducers,
   question: reducers.questionReducer,
+  nav: reducers.navReducers,
+  product: reducers.productReducers,
 });
 const persistConfig = {
   key: 'root',

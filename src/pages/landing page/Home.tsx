@@ -1,6 +1,5 @@
-import Hero from '../../assets/landingPage/hero-cover-1.png';
+import Hero from '../../assets/landingPage/hero-cover-1.webp';
 import Chart from '../../assets/landingPage/chart_line.svg';
-import People from '../../assets/landingPage/people.svg';
 import Button from '../../components/sharedComponents/Button';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -36,7 +35,11 @@ const Home = React.forwardRef((props, ref: any) => {
         </div>
         <div className="relative w-full  min-w-full  bottom-14 max-sm:bottom-0 ">
           <div className="flex justify-center items-center">
-            <img src={Hero} className=" max-w-full h-auto mb-10" />
+            <img
+              loading="eager"
+              src={Hero}
+              className=" max-w-full h-auto mb-10"
+            />
           </div>
         </div>
         <div className=" absolute w-full min-w-full  bottom-14 max-sm:bottom-0 ">
@@ -53,7 +56,7 @@ const Home = React.forwardRef((props, ref: any) => {
                 </h5>
               </div>
               <div className=" z-0 absolute w-5/6 left-5 ">
-                <img src={Chart} />
+                <img loading="lazy" src={Chart} />
               </div>
             </div>
           </div>

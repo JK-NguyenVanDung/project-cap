@@ -6,10 +6,12 @@ import { IoTimeSharp } from 'react-icons/io5';
 import People from '../../assets/landingPage/people.svg';
 import { useDispatch } from 'react-redux';
 import { actions } from '../../Redux';
+import { IProgramItem } from '../../Type';
 
 const Product = React.forwardRef((props, ref: any) => {
   const navigate = useNavigate();
-  const [programs, setPrograms] = useState(null);
+  const [programs, setPrograms] = useState<Array<IProgramItem>>(null);
+  const dispatch = useDispatch();
 
   async function getData() {
     try {
@@ -18,6 +20,11 @@ const Product = React.forwardRef((props, ref: any) => {
     } catch (err: any) {
       throw err.message();
     }
+  }
+  function handleNavProducts() {
+    dispatch(actions.navActions.setNav(`/Courses/`));
+
+    navigate('/login');
   }
   useEffect(() => {
     getData();
@@ -31,7 +38,7 @@ const Product = React.forwardRef((props, ref: any) => {
             Một số khoá học nổi tiếng của chúng tôi
           </p>
           <Button
-            onClick={() => navigate('/login')}
+            onClick={() => handleNavProducts()}
             className=" h-12 btn-transparent text-blue-700"
           >
             Xem thêm
@@ -40,22 +47,22 @@ const Product = React.forwardRef((props, ref: any) => {
         <div className="products max-sm:flex-wrap  flex flex-row justify-evenly items-center w-full ">
           <ProductCard
             program={programs && programs[0]}
-            title="Đắc Nhân Tâm"
+            title={programs && programs[0].programName}
             view="500 Học viên"
             hour="10 buổi"
             image="https://americastarbooks.com/wp-content/uploads/2018/11/noi-dung-sach-dac-nhan-tam-1280x720.jpg"
           />
           <ProductCard
-            program={programs && programs[0]}
-            title="Tiếng Anh Giao Tiếp"
+            program={programs && programs[2]}
+            title={programs && programs[2].programName}
             view="200 Học viên"
             hour="20 buổi"
             image="https://vcdn1-vnexpress.vnecdn.net/2020/09/12/English-4241-1599884287.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=lXq1p7RniKkjCoSZHhQ5PQ"
           />
           <ProductCard
-            program={programs && programs[0]}
-            title="Kỹ Năng Mềm"
-            view="300 Học viên"
+            program={programs && programs[1]}
+            title={programs && programs[1].programName}
+            view={programs && programs[1].learnerCount}
             hour="12 buổi"
             image="https://images.careerbuilder.vn/content/images/loi-ich-tu-nhung-ky-nang-mem-careerbuilder.jpg  "
           />
@@ -69,15 +76,20 @@ const ProductCard = (props: any) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   function handleNavProduct() {
-    navigate('/login');
-    dispatch(actions.navActions.setNav(`/Courses/${props.product.name}`));
+    dispatch(actions.navActions.setNav(`/Courses/${props?.title}`));
 
-    dispatch(actions.productActions.setDetail(props.product));
+    dispatch(actions.formActions.setProgramForm(props.program));
+    navigate('/login');
   }
   return (
-    <div className="max-sm:m-4  relative max-w-[16.7rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
+    <div className="max-sm:m-4   relative max-w-[16.7rem] bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700">
       <a>
-        <img className="rounded-t-lg h-40 w-full" src={props.image} alt="" />
+        <img
+          loading="lazy"
+          className="rounded-t-lg h-40 w-full"
+          src={props.image}
+          alt=""
+        />
       </a>
       <div className="py-3 px-5">
         <a>
@@ -85,13 +97,13 @@ const ProductCard = (props: any) => {
             {props.title}
           </h5>
         </a>
-        <div className=" ">
-          <div className="inline-flex flex-row w-full h-16 min-w-0">
+        <div className="flex w-full ">
+          <div className="inline-flex  justify-between  px-2 flex-row w-full h-16 min-w-0">
             <div className="inline-flex flex-row justify-between items-center ">
-              <img src={People} className="pr-2" />
-              <span>{props.view}</span>
+              <img loading="lazy" src={People} className="pr-2" />
+              <span className="w-fit ">{props.view}</span>
             </div>
-            <div className="inline-flex flex-row justify-between items-center pl-10 ">
+            <div className="inline-flex flex-row justify-between items-center  ">
               <IoTimeSharp className="text-lg text-primary" />
               <span className="pl-2 text-sm">{props.hour}</span>
             </div>
