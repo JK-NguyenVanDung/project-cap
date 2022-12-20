@@ -82,7 +82,7 @@ export default function AcedemicYear() {
   ];
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
-    let temp = data;
+    let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
         const emailMatch = removeVietnameseTones(record.year).match(reg);
@@ -92,8 +92,9 @@ export default function AcedemicYear() {
         }
         return record;
       })
-      .filter((record) => !!record);
-    setData(value.trim() !== '' ? filteredData : filterData);
+      .filter((record: any) => !!record);
+
+    setData(value.trim() !== '' && filteredData ? filteredData : filterData);
   };
 
   function handelAdd() {

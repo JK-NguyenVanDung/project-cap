@@ -183,7 +183,7 @@ export default function Program() {
   }
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
-    let temp = data;
+    let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
         const emailMatch = removeVietnameseTones(record.programName).match(reg);

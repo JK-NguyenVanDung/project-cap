@@ -94,7 +94,7 @@ export default function Homepage() {
         }
         return record;
       })
-      .filter((record) => !!record);
+      .filter((record: any) => !!record);
     setData(filteredData ? filteredData : filterData);
     let timer = setTimeout(() => {
       setLoading(false);

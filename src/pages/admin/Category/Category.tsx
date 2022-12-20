@@ -69,7 +69,7 @@ export default function Category() {
 
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
-    let temp = data;
+    let temp = filterData.slice();
     const filteredData = temp
       .map((record: ICategoryItem) => {
         const emailMatch = removeVietnameseTones(record.categoryName).match(
@@ -81,7 +81,7 @@ export default function Category() {
         }
         return record;
       })
-      .filter((record) => !!record);
+      .filter((record: any) => !!record);
     setData(value.trim() !== '' ? filteredData : filterData);
   };
 
