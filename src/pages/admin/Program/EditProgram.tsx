@@ -125,7 +125,7 @@ export default function EditProgram() {
   const onChangePosition = (item: any) => {
     setValuePositions(item);
 
-    console.log(item);
+    console.log(JSON.stringify(item));
   };
   const onSearch = () => {};
   const handelOk = async (type: 'save' | 'saveDraft') => {
@@ -191,7 +191,7 @@ export default function EditProgram() {
         // } //
         frmData.append(
           'PositionIds',
-          valuePositions ? valuePositions : item.positions,
+          valuePositions ? JSON.stringify(valuePositions) : item.positions,
         );
         frmData.append(
           'Semester',
