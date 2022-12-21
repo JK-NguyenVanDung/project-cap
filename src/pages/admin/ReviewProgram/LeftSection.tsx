@@ -53,6 +53,13 @@ const LeftSection = () => {
       message: 'Duyệt thành công',
     });
   };
+  const deny = async () => {
+    await handleOk(false);
+
+    setTimeout(() => {
+      navigate(-1);
+    }, 500);
+  };
 
   const goBack = () => {
     navigate(-1);
@@ -115,7 +122,7 @@ const LeftSection = () => {
       <CustomModal
         width={'50%'}
         show={showDeclinedModal}
-        handleOk={() => handleOk(false)}
+        handleOk={() => deny()}
         setShow={setShowDeclinedModal}
         dataItem={detail}
         label={''}
@@ -123,6 +130,7 @@ const LeftSection = () => {
         FormItem={<DeclinedFI />}
         form={form}
         header={'Nhập lý do từ chối'}
+        buttonText="Xác nhận"
       />
       <ReviewHistory
         show={showHistoryModal}

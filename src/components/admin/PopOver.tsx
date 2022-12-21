@@ -17,6 +17,7 @@ export default function PopOverAction({
   deleteItem,
   handleShowDetail,
   handleAuth,
+  authType,
   variant,
   detailType,
 }: {
@@ -28,6 +29,7 @@ export default function PopOverAction({
   handleShowDetail?: Function;
   handleAuth?: Function;
   variant?: any;
+  authType?: string;
   detailType?: string;
 }) {
   const [openAction, setOpenAction] = useState(false);
@@ -53,7 +55,11 @@ export default function PopOverAction({
           />
         )}
         {handleAuth && (
-          <CustomButton size={size} type="auth" onClick={() => handleAuth()} />
+          <CustomButton
+            size={size}
+            type={authType ? authType : 'auth'}
+            onClick={() => handleAuth()}
+          />
         )}
 
         {handleShowDetail && (

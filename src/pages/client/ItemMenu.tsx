@@ -28,8 +28,8 @@ export default function ItemMenu({ params }: { params: any }) {
                   ? params.title
                   : params.headTitle &&
                     params.headTitle.includes('Chương Trình')
-                  ? 'Quản Lý ' + params.headTitle
-                  : 'Quản Lý ' + params.title
+                  ? params.headTitle
+                  : params.title
               }`,
             ),
           );

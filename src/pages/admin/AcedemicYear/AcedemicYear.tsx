@@ -51,7 +51,10 @@ export default function AcedemicYear() {
         message: MESSAGE.SUCCESS.DELETE,
       });
     } catch (err: any) {
-      throw err.message();
+      notification.error({
+        message:
+          'Năm học này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn năm học khá trong chương trình đó để xoá năm học này',
+      });
     }
   }
   const Columns = [

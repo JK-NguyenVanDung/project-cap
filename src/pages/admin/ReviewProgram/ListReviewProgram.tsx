@@ -95,6 +95,7 @@ export default function ListReviewPrograms() {
       render: (data: any) => (
         <PopOverAction
           size="sm"
+          authType="addReviewer"
           handleAuth={() => handelEdit(data)}
           handleShowDetail={() => handelDataProgram(data)}
         />

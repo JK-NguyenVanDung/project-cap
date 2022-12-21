@@ -1,6 +1,6 @@
 import React from 'react';
 import Logo from '../../assets/logo.svg';
-
+import FooterImg from '../../assets/landingPage/footer.webp';
 const Footer = React.forwardRef((props, ref: any) => {
   return (
     <>
@@ -8,7 +8,7 @@ const Footer = React.forwardRef((props, ref: any) => {
         ref={ref}
         className="w-full bg-img footer bg-white relative border-b-2"
         style={{
-          backgroundImage: `url(https://aitcv.ac.vn/wp-content/uploads/2021/09/e63eb8a14d09bb57e218.jpg)`,
+          backgroundImage: `url(${FooterImg})`,
         }}
       >
         <div className=" absolute w-full h-full opacity-75 bg-dark-blue	" />

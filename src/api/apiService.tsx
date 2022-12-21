@@ -188,7 +188,17 @@ export default {
   setApproval: (params: any) => {
     return axiosConfig.post(API_CONFIG.REVIEWER.APPROVE, params);
   },
-  getHistory: (id: number) => {
+  getReviewHistory: (id: number) => {
     return axiosConfig.get(API_CONFIG.REVIEWER.HISTORY(id));
+  },
+  // GET PROGRAM INFO
+  getQuestionCount: (id: number) => {
+    return axiosConfig.get(API_CONFIG.CHECK_PROGRAM.GET_QUESTION_COUNT(id));
+  },
+  getChapterCount: (id: number) => {
+    return axiosConfig.get(API_CONFIG.CHECK_PROGRAM.GET_CHAPTER_COUNT(id));
+  },
+  getProgramStatus: (id: number) => {
+    return axiosConfig.get(API_CONFIG.CHECK_PROGRAM.GET_PROGRAM_STATUS(id));
   },
 };
