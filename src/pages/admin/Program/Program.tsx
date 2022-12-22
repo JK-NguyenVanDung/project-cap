@@ -44,13 +44,20 @@ export default function Program() {
   }, [reload, location]);
   async function handleDelete(item: any) {
     try {
-      await apiService.delProgram(item.programId);
-      setReload(!reload);
-      message.success(MESSAGE.SUCCESS.DELETE);
+      let res: any = await apiService.getContentProgram(item.programId);
+      console.log(res.length);
+      if (res.length === 0) {
+        await apiService.delProgram(item.programId);
+
+        setReload(!reload);
+        message.success(MESSAGE.SUCCESS.DELETE);
+      } else {
+        message.error(
+          'Chương trình hiện tại đang có nội dung, xin vui lòng xoá hết nội dung của chương trình này để xoá chương trình',
+        );
+      }
     } catch (err: any) {
-      message.error(
-        'Chương trình hiện tại đang có nội dung hoặc đã được duyệt, xin vui lòng xoá hết nội dung của chương trình này để xoá chương trình',
-      );
+      throw err.message;
     }
   }
 
@@ -99,8 +106,20 @@ export default function Program() {
 
     {
       title: 'Trạng thái',
-      dataIndex: 'status',
       key: 'status',
+      render: (data: any) => {
+        return data.status == 'approved' ? (
+          <h5>Đã Duyệt</h5>
+        ) : data.status == 'denied' ? (
+          <h5>Đã Từ Chối</h5>
+        ) : data.status == 'save' ? (
+          <h5>Đã Lưu</h5>
+        ) : data.status == 'public' ? (
+          <h5>Công Khai</h5>
+        ) : (
+          <h5>Riêng Tư</h5>
+        );
+      },
       width: '18%',
     },
     {
@@ -121,9 +140,41 @@ export default function Program() {
     },
   ];
 
+  function handelApprove(items: any) {
+    Modal.confirm({
+      title: <p className="font-bold text-xl my-2">Xác nhận</p>,
+      icon: <AiFillWarning size={30} color={Color.warning} />,
+      content: (
+        <p className="font-medium text-base my-2">
+          Bạn có chắc chắn công khai chương trình này?
+        </p>
+      ),
+      okText: 'Đồng ký',
+      cancelText: 'Huỷ',
+      maskStyle: { borderRadius: 12 },
+      bodyStyle: { margin: 2, marginBottom: 4 },
+      okType: 'danger',
+      onOk() {
+        const Approve = async () => {
+          // const data = await apiService.Approve(items.id);
+          if (data) {
+            message.success('duyệt thành công thành công');
+            setLoading(true);
+            setTimeout(() => {
+              setLoading(false);
+            }, 3000);
+          }
+        };
+        Approve();
+      },
+      onCancel() {
+        message.error('hủy');
+      },
+    });
+  }
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
-    let temp = filterData.slice();
+    let temp = data;
     const filteredData = temp
       .map((record: any) => {
         const emailMatch = removeVietnameseTones(record.programName).match(reg);
