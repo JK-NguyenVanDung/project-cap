@@ -265,7 +265,7 @@ export default function EditProgram() {
           setLoading(true);
           if (data) {
             message.success(
-              `${status === 'public' ? 'Ân' : 'Công khai'} thành công`,
+              `${status === 'public' ? 'Ẩn' : 'Công khai'} thành công`,
             );
             setTimeout(() => {
               setLoading(false);

@@ -7,8 +7,8 @@ const slice = createSlice({
   },
 
   reducers: {
-    setUpdateLike(state) {
-      state.updateLike = !state.updateLike;
+    setUpdateLike(state, action) {
+      state.updateLike = action.payload;
     },
     setDetail(state, action) {
       state.detail = action.payload;

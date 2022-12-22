@@ -93,7 +93,7 @@ export default function (props: any) {
               <div className="h-full w-full">
                 <img
                   className="object-cover w-full h-full	rounded "
-                  src={`${API_URL}/images/${program.image}`}
+                  src={`${API_URL}/images/${program?.image}`}
                   onError={({ currentTarget }) => {
                     currentTarget.onerror = null; // prevents looping
                     currentTarget.src =

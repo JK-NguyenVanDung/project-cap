@@ -114,7 +114,7 @@ export default function ListReviewPrograms() {
           <h5 className="text-bold text-yellow-800">Lưu nháp</h5>
         ) : data.status == 'public' ? (
           <h5 className="text-bold text-green-500">Công Khai</h5>
-        ) : data.status == 'private' ? (
+        ) : data.status == 'hide' ? (
           <h5 className="text-bold text-purple-500">Riêng tư</h5>
         ) : (
           <h5 className="text-bold text-orange-500">Chờ Duyệt</h5>
