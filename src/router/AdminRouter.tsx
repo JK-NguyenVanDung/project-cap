@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/newline-after-import
 import React, { useState, useEffect } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import SideBar from '../pages/admin';
 import Dashboard from '../pages/admin/Dashboard/Dashboard';
 import Login from '../pages/authentication/Login';
@@ -34,7 +34,10 @@ export const RouterPages = [
     path: '/admin',
     element: <Dashboard />,
   },
-
+  {
+    path: '*',
+    element: <Navigate replace to="/admin" />,
+  },
   {
     path: '/admin/Account',
     element: <Account />,
@@ -103,7 +106,10 @@ export const RouterCenter = [
     path: '/admin',
     element: <Dashboard />,
   },
-
+  {
+    path: '*',
+    element: <Navigate replace to="/admin" />,
+  },
   {
     path: '/admin/Category',
     element: <Category />,
@@ -167,7 +173,10 @@ export const RouterFaculty = [
     path: '/admin',
     element: <Dashboard />,
   },
-
+  {
+    path: '*',
+    element: <Navigate replace to="/admin" />,
+  },
   {
     path: '/admin/Category',
     element: <Category />,
@@ -230,6 +239,11 @@ const Leaner = [
   {
     path: '/home',
     element: <Homepage />,
+  },
+
+  {
+    path: '*',
+    element: <Navigate replace to="/home" />,
   },
   {
     path: '/Courses',
@@ -304,7 +318,7 @@ export default function MakePagesRouter() {
                 <Route
                   key={index}
                   path={router.path}
-                  element={router.element}
+                  element={<SideBar content={router.element} />}
                 />
               );
             })}
