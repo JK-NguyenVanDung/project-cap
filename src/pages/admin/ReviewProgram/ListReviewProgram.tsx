@@ -23,6 +23,8 @@ export default function ListReviewPrograms() {
   const dispatch = useAppDispatch();
   const [confirmLoading, setConfirmLoading] = useState(false);
 
+  const [approve, setApprove] = useState(false);
+  const [itemData, setItemData] = useState([]);
   useEffect(() => {
     async function getListReviewProgram() {
       try {
@@ -52,41 +54,48 @@ export default function ListReviewPrograms() {
   };
   const Columns = [
     {
-      title: 'STT',
-      render: (data: any) => <p>{data && data.index ? data.index : 0}</p>,
-      width: GIRD12.COL0,
+      title: 'Tên chương trình',
+      dataIndex: 'programName',
+      width: GIRD12.COL2,
+    },
+    {
+      title: 'Ngày BĐĐK',
+      dataIndex: 'startDate',
+      render: (item: any) => {
+        return <p>{moment(item).format('DD-MM-YYYY')}</p>;
+      },
+    },
+    {
+      title: 'Ngày KTĐK',
+      dataIndex: 'endDate',
+      render: (item: any) => {
+        return <p>{moment(item).format('DD-MM-YYYY')}</p>;
+      },
+    },
+    {
+      title: 'Giờ đào tạo',
+      dataIndex: 'time',
+      width: '13%',
+      render: (data: any) => <p>{data ? data : 0}</p>,
     },
 
     {
-      title: 'Tên chương trình',
-      dataIndex: 'programName',
-    },
-    {
       title: 'Trạng thái',
-      key: 'isPublish',
+      key: 'status',
       render: (data: any) => {
-        console.log(data);
-        return data.isPublish ? (
-          <CustomButton
-            type="Success"
-            Icon={AiFillUnlock}
-            text="Công Khai"
-            className="font-bold text-white"
-            color="green"
-            onClick={() => handelApprove(data)}
-          />
+        return data.status == 'approved' ? (
+          <h5>Đã Duyệt</h5>
+        ) : data.status == 'denied' ? (
+          <h5>Đã Từ Chối</h5>
+        ) : data.status == 'save' ? (
+          <h5>Đã Lưu</h5>
+        ) : data.status == 'public' ? (
+          <h5>Công Khai</h5>
         ) : (
-          <CustomButton
-            type="error"
-            Icon={AiFillLock}
-            color="red"
-            text="Riêng Tư"
-            className="font-bold text-white"
-            onClick={() => handelApprove(data)}
-          />
+          <h5>Riêng Tư</h5>
         );
       },
-      width: GIRD12.COL2,
+      width: '18%',
     },
     {
       title: 'Thao tác',
@@ -98,6 +107,7 @@ export default function ListReviewPrograms() {
           authType="addReviewer"
           handleAuth={() => handelEdit(data)}
           handleShowDetail={() => handelDataProgram(data)}
+          handleEdit={() => handelApprove(data)}
         />
       ),
       width: GIRD12.COL2,
@@ -108,29 +118,8 @@ export default function ListReviewPrograms() {
     navigate('/admin/reviewDetail');
   }
   function handelApprove(items: any) {
-    Modal.confirm({
-      title: 'xác nhận',
-      icon: <AiFillWarning size={30} color={Color.warning} />,
-      content: 'Bạn có chắc chắn công khai chương trình này ?',
-      okText: 'yes',
-      okType: 'danger',
-      onOk() {
-        const ApproveShipper = async () => {
-          // const data = await apiService.ApproveShiper(items.id);
-          if (data) {
-            message.success('duyệt thành công thành công');
-            setLoading(true);
-            setTimeout(() => {
-              setLoading(false);
-            }, 3000);
-          }
-        };
-        ApproveShipper();
-      },
-      onCancel() {
-        message.error('hủy');
-      },
-    });
+    setApprove(true);
+    setItemData(items);
   }
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');

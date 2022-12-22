@@ -6,6 +6,8 @@ import CustomButton from '../admin/Button';
 import { useAppSelector } from '../../hook/useRedux';
 import { IAccountItem, IProgramItem } from '../../Type';
 import { useNavigate } from 'react-router-dom';
+import Color from '../constant/Color';
+import { Spin } from 'antd';
 
 interface Content {
   title: string;
@@ -13,20 +15,27 @@ interface Content {
   icon?: any;
 }
 const RightSection = (props: any) => {
-  const program: IProgramItem = useAppSelector(
+  const programId: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
   );
   const navigate = useNavigate();
-
+  const [program, setProgram] = useState<IProgramItem>();
   const [user, setUser] = useState<IAccountItem>(null);
+  const [like, setLike]: any = useState();
   useEffect(() => {
     let time = setTimeout(async () => {
       await getData();
     }, 100);
+    const fetchProgram = async () => {
+      const data: any = await apiService.getProgram(programId.programId);
+      setProgram(data);
+      setLike(data.isLike);
+    };
+    fetchProgram();
     return () => {
       clearTimeout(time);
     };
-  }, [program]);
+  }, []);
   async function getData() {
     try {
       let res: any = await apiService.getAccounts();
@@ -46,6 +55,16 @@ const RightSection = (props: any) => {
       throw err.message;
     }
   }
+  const handelLove = (itemProgram?: IProgramItem) => {
+    setLike(!like);
+    const fetchLike = async () => {
+      const response: any = await apiService.likeProgram(
+        itemProgram?.programId,
+        !like,
+      );
+    };
+    fetchLike();
+  };
   return (
     <div className=" rounded-xl w-fit text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
       <p className="mt-6 text-xl font-light text-gray-900 text-center  flex w-full justify-center items-center">
@@ -131,9 +150,10 @@ const RightSection = (props: any) => {
         <CustomButton
           disabled={props.enable ? false : true}
           Icon={AiFillHeart}
-          color="red"
+          color={like === false ? 'gray' : 'red'}
           text="Yêu thích"
           className=" w-[90%] my-2 h-10"
+          onClick={() => handelLove(program)}
         />
         <CustomButton
           disabled={props.enable ? false : true}

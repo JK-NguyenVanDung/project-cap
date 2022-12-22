@@ -99,27 +99,18 @@ export default function Program() {
 
     {
       title: 'Trạng thái',
-      key: 'isPublish',
+      key: 'status',
       render: (data: any) => {
-        console.log(data);
-        return data.isPublish ? (
-          <CustomButton
-            type="Success"
-            Icon={AiFillUnlock}
-            text="Công Khai"
-            className="font-bold text-white"
-            color="green"
-            onClick={() => handelApprove(data)}
-          />
+        return data.status == 'approved' ? (
+          <h5>Đã Duyệt</h5>
+        ) : data.status == 'denied' ? (
+          <h5>Đã Từ Chối</h5>
+        ) : data.status == 'save' ? (
+          <h5>Đã Lưu</h5>
+        ) : data.status == 'public' ? (
+          <h5>Công Khai</h5>
         ) : (
-          <CustomButton
-            type="error"
-            Icon={AiFillLock}
-            color="red"
-            text="Riêng tư"
-            className="font-bold text-white"
-            onClick={() => handelApprove(data)}
-          />
+          <h5>Riêng Tư</h5>
         );
       },
       width: '18%',
@@ -142,41 +133,9 @@ export default function Program() {
     },
   ];
 
-  function handelApprove(items: any) {
-    Modal.confirm({
-      title: <p className="font-bold text-xl my-2">Xác nhận</p>,
-      icon: <AiFillWarning size={30} color={Color.warning} />,
-      content: (
-        <p className="font-medium text-base my-2">
-          Bạn có chắc chắn công khai chương trình này?
-        </p>
-      ),
-      okText: 'Đồng ký',
-      cancelText: 'Huỷ',
-      maskStyle: { borderRadius: 12 },
-      bodyStyle: { margin: 2, marginBottom: 4 },
-      okType: 'danger',
-      onOk() {
-        const Approve = async () => {
-          // const data = await apiService.Approve(items.id);
-          if (data) {
-            message.success('duyệt thành công thành công');
-            setLoading(true);
-            setTimeout(() => {
-              setLoading(false);
-            }, 3000);
-          }
-        };
-        Approve();
-      },
-      onCancel() {
-        message.error('hủy');
-      },
-    });
-  }
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
-    let temp = filterData.slice();
+    let temp = data;
     const filteredData = temp
       .map((record: any) => {
         const emailMatch = removeVietnameseTones(record.programName).match(reg);

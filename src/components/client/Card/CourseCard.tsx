@@ -1,11 +1,14 @@
 import IconButton from '@material-tailwind/react/components/IconButton';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Card.css';
 import { AiFillHeart } from 'react-icons/ai';
 import { IoPerson } from 'react-icons/io5';
 import { RiTimerFill } from 'react-icons/ri';
 import { IProgramItem } from '../../../Type';
 import { checkURL } from '../../../helper/constant';
+import Color from '../../constant/Color';
+import apiService from '../../../api/apiService';
+import { message } from 'antd';
 import { API_URL } from '../../../api/api';
 
 export default function (props: any) {
@@ -57,6 +60,23 @@ const CourseContent = (props: {
   onClick: React.MouseEventHandler;
   item: IProgramItem;
 }) => {
+  console.log(props.item.isLike);
+  const [like, setLike] = useState(props.item.isLike);
+  const [colorHeart, setColorHeart]: any = useState(Color.gray4);
+  const handelLove = (itemProgram?: IProgramItem) => {
+    setLike(!like);
+    like === false ? setColorHeart(Color.gray4) : setColorHeart(Color.error);
+    const fetchLike = async () => {
+      const response = await apiService.likeProgram(
+        itemProgram.programId,
+        like,
+      );
+    };
+    fetchLike();
+  };
+  useEffect(() => {
+    handelLove();
+  }, []);
   return (
     <>
       <div className="cardCont rounded-[20px] font-customFont ">
@@ -90,7 +110,11 @@ const CourseContent = (props: {
               >
                 {props.item?.programName}
               </p>
-              <AiFillHeart className="text-lg text-gray-400" />
+              <AiFillHeart
+                onClick={() => handelLove(props.item)}
+                color={colorHeart}
+                className="text-lg cursor-pointer"
+              />
             </div>
             <p className="text-body">
               {' '}
