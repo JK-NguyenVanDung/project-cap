@@ -7,8 +7,12 @@ import {
   DatePicker,
   Checkbox,
   notification,
+  Modal,
+  message,
+  Spin,
 } from 'antd';
 import { GrAdd } from 'react-icons/gr';
+import { AiFillWarning, AiFillUnlock, AiFillLock } from 'react-icons/ai';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import moment from 'moment';
 import { Breadcrumb } from '../../../components/sharedComponents';
@@ -40,6 +44,9 @@ export default function EditProgram() {
   const navigate = useNavigate();
   const item: any = useAppSelector((state) => state.form.setProgram);
   const [valuePositions, setValuePositions]: any = useState([]);
+  const [statusChange, setStatusChange]: any = useState(
+    item?.status == 'approved' || item?.status == 'hide' ? 'public' : 'hide',
+  );
 
   useEffect(() => {
     getFacuties();
@@ -72,6 +79,7 @@ export default function EditProgram() {
           RegistrationEndDate: item.registrationStartDate
             ? moment(item.registrationEndDate)
             : '',
+          Time: item.time ? item.time : '',
         }),
         setImage(item.image),
         setValuePositions(
@@ -80,7 +88,7 @@ export default function EditProgram() {
           }),
         ))
       : form.setFieldsValue(setLoading(false));
-  }, [loading]);
+  }, [loading, statusChange]);
   const getFacuties = async () => {
     const reponse: AxiosResponse<any, any> = await apiService.getFaculties();
     if (reponse) {
@@ -125,7 +133,7 @@ export default function EditProgram() {
   const onChangePosition = (item: any) => {
     setValuePositions(item);
 
-    console.log(item);
+    console.log(JSON.stringify(item));
   };
   const onSearch = () => {};
   const handelOk = async (type: 'save' | 'saveDraft') => {
@@ -198,6 +206,7 @@ export default function EditProgram() {
           'AcademicYearId',
           values.AcademicYearId ? values.AcademicYearId : item.academicYearId,
         );
+        frmData.append('Time', values.Time ? values.Time : item.time);
 
         if (item) {
           const data = await apiService.putProgram(item.programId, frmData);
@@ -224,6 +233,46 @@ export default function EditProgram() {
     navigate(-1);
     form.resetFields();
   };
+  function handelApprove(items: any) {
+    const { status } = items;
+    console.log('now', status);
+    console.log(statusChange);
+    Modal.confirm({
+      title: <p className="font-bold text-xl my-2">Xác nhận</p>,
+      icon: <AiFillWarning size={30} color={Color.warning} />,
+      content: (
+        <p className="font-medium text-base my-2">
+          Bạn có chắc chắn {status === 'public' ? 'ẩn' : 'công khai'} chương
+          trình này?
+        </p>
+      ),
+      okText: 'Đồng ký',
+      cancelText: 'Huỷ',
+      maskStyle: { borderRadius: 12 },
+      bodyStyle: { margin: 2, marginBottom: 4 },
+      okType: 'danger',
+      onOk() {
+        const Approve = async () => {
+          const data = await apiService.setStatusProgram(items.programId, {
+            Status: statusChange,
+          });
+          setLoading(true);
+          if (data) {
+            message.success(
+              `${status === 'public' ? 'ẩn' : 'công khai'} thành công`,
+            );
+            setTimeout(() => {
+              setLoading(false);
+            }, 2000);
+          }
+        };
+        Approve();
+      },
+      onCancel() {
+        message.error('hủy');
+      },
+    });
+  }
   return (
     <div className="h-full">
       <Breadcrumb
@@ -524,6 +573,35 @@ export default function EditProgram() {
             >
               <DatePicker placeholder="Chọn Ngày" picker="date" />
             </Form.Item>
+            {item ? (
+              item.status === 'approved' ||
+              item.status === 'hide' ||
+              item.status === null ? (
+                <Spin spinning={loading}>
+                  <CustomButton
+                    type="Success"
+                    Icon={AiFillLock}
+                    text="Riêng Tư"
+                    fullWidth
+                    className="font-bold text-white"
+                    color="teal"
+                    onClick={() => handelApprove(item)}
+                  />
+                </Spin>
+              ) : (
+                <Spin spinning={loading}>
+                  <CustomButton
+                    type="Success"
+                    Icon={AiFillUnlock}
+                    text="Công Khai"
+                    fullWidth
+                    className="font-bold text-white"
+                    color="light-green"
+                    onClick={() => handelApprove(item)}
+                  />
+                </Spin>
+              )
+            ) : null}
           </div>
         </div>
         <div className="flex  w-full justify-center">

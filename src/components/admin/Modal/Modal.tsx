@@ -8,10 +8,9 @@ import {
   DialogFooter,
 } from '@material-tailwind/react';
 
-import { Input, Form, Modal } from 'antd';
+import { Input, Form, Modal, ModalProps, FormProps } from 'antd';
 
 import CustomButton from '../../../components/admin/Button';
-
 import { IoClose } from 'react-icons/io5';
 import { dismissType } from '@material-tailwind/react/types/generic';
 export default function CustomModal({
@@ -31,6 +30,9 @@ export default function CustomModal({
   width,
   showButton,
   confirmLoading,
+  initialValues,
+  ModalProps,
+  formProps,
   buttonText,
 }: {
   handleOk?: any;
@@ -51,6 +53,9 @@ export default function CustomModal({
   confirmLoading?: boolean;
   buttonText?: string;
   showButton?: boolean;
+  initialValues?: any;
+  ModalProps?: ModalProps;
+  formProps?: FormProps;
 }) {
   const dismiss: dismissType = {
     outsidePointerDown: !isFocused,
@@ -118,6 +123,7 @@ export default function CustomModal({
           </div>
         )
       }
+      {...ModalProps}
     >
       {/* <DialogHeader>
         <div className="flex flex-row w-full justify-between items-center mb-6">
@@ -132,7 +138,12 @@ export default function CustomModal({
           </IconButton>
         </div>
       </DialogHeader> */}
-      <Form form={form} className="formCategory w-full">
+      <Form
+        initialValues={initialValues}
+        form={form}
+        className="formCategory w-full"
+        {...formProps}
+      >
         <div className=" w-full px-8 flex flex-col  justify-evenly">
           {FormItem}
         </div>

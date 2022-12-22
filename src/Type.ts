@@ -4,7 +4,7 @@ import {
   RouteObject,
   ShouldRevalidateFunction,
 } from 'react-router-dom';
-import { z } from 'zod';
+import { boolean, z } from 'zod';
 
 export interface ILogin {
   userName: string;
@@ -65,6 +65,7 @@ const Position = {
 };
 
 const ProgramItem = z.object({
+  isLike: z.boolean(),
   programId: z.number(),
   facultyId: z.number(),
   accountIdCreator: z.number(),
