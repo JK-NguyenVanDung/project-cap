@@ -273,7 +273,7 @@ export default function MakePagesRouter() {
     }
 
     if (LoginParmas.id == 2) {
-      if (info?.roleId != 1) {
+      if (info?.roleId === 2) {
         return (
           <Routes>
             {RouterPages.map((router, index) => {
