@@ -185,11 +185,8 @@ export default function EditProgram() {
         console.log(values);
         for (let i = 0; i < valuePositions.length; i++) {
           frmData.append('PositionIds', valuePositions[i]);
-        } //
-        // frmData.append(
-        //   'PositionIds',
-        //   valuePositions ? valuePositions : item.positions,
-        // );
+        }
+
         frmData.append(
           'Semester',
           values.Semester ? values.Semester : item.semester,
@@ -202,14 +199,14 @@ export default function EditProgram() {
         if (item) {
           const data = await apiService.putProgram(item.programId, frmData);
           if (data) {
-            notification.success({ message: 'sửa thành công' });
+            notification.success({ message: 'Sửa thành công' });
             navigate(-1);
           }
           form.resetFields();
         } else {
           const data = await apiService.addProgram(frmData);
           if (data) {
-            notification.success({ message: 'thêm thành công' });
+            notification.success({ message: 'Thêm thành công' });
             navigate(-1);
           }
           form.resetFields();

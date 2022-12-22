@@ -51,7 +51,10 @@ export default function Position() {
         message: MESSAGE.SUCCESS.DELETE,
       });
     } catch (err: any) {
-      throw err.message();
+      notification.error({
+        message:
+          'Chức vụ này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn chức vụ khá trong chương trình đó để xoá chức vụ này',
+      });
     }
   }
   const Columns = [

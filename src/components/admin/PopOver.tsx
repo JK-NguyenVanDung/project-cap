@@ -17,7 +17,7 @@ export default function PopOverAction({
   deleteItem,
   handleShowDetail,
   handleAuth,
-  authType,
+  authType = null,
   variant,
   detailType,
 }: {

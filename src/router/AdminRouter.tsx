@@ -97,6 +97,135 @@ export const RouterPages = [
     element: <Homepage />,
   },
 ];
+
+export const RouterCenter = [
+  {
+    path: '/admin',
+    element: <Dashboard />,
+  },
+
+  {
+    path: '/admin/Category',
+    element: <Category />,
+  },
+  {
+    path: '/admin/Program',
+    element: <Program />,
+  },
+  {
+    path: '/admin/MyProgram',
+    element: <Program />,
+  },
+  {
+    path: `/admin/Program/showDetail`,
+    element: <ProgramDetail />,
+  },
+  {
+    path: `/admin/Program/Chapter/:number`,
+    element: <ChapterInfo />,
+  },
+  {
+    path: '/admin/Program/Chapter/:number/Test',
+    element: <Test />,
+  },
+
+  {
+    path: '/admin/Learner',
+    element: <Account />,
+  },
+  {
+    path: '/admin/Test',
+    element: <Account />,
+  },
+  {
+    path: '/admin/Faculties',
+    element: <Faculties />,
+  },
+  {
+    path: '/admin/EditProgram',
+    element: <EditProgram />,
+  },
+  {
+    path: '/admin/AcedemicYear',
+    element: <AcedemicYear />,
+  },
+  {
+    path: '/admin/Postions',
+    element: <Position />,
+  },
+  {
+    path: '/admin/reviewProgram',
+    element: <ListReviewPrograms />,
+  },
+  {
+    path: '/home',
+    element: <Homepage />,
+  },
+];
+export const RouterFaculty = [
+  {
+    path: '/admin',
+    element: <Dashboard />,
+  },
+
+  {
+    path: '/admin/Category',
+    element: <Category />,
+  },
+  {
+    path: '/admin/Program',
+    element: <Program />,
+  },
+  {
+    path: '/admin/MyProgram',
+    element: <Program />,
+  },
+  {
+    path: `/admin/Program/showDetail`,
+    element: <ProgramDetail />,
+  },
+  {
+    path: `/admin/Program/Chapter/:number`,
+    element: <ChapterInfo />,
+  },
+  {
+    path: '/admin/Program/Chapter/:number/Test',
+    element: <Test />,
+  },
+
+  {
+    path: '/admin/Learner',
+    element: <Account />,
+  },
+  {
+    path: '/admin/Test',
+    element: <Account />,
+  },
+  {
+    path: '/admin/Faculties',
+    element: <Faculties />,
+  },
+  {
+    path: '/admin/EditProgram',
+    element: <EditProgram />,
+  },
+  {
+    path: '/admin/AcedemicYear',
+    element: <AcedemicYear />,
+  },
+  {
+    path: '/admin/Postions',
+    element: <Position />,
+  },
+  {
+    path: '/admin/reviewProgram',
+    element: <ListReviewPrograms />,
+  },
+  {
+    path: '/home',
+    element: <Homepage />,
+  },
+];
 const Leaner = [
   {
     path: '/home',
@@ -170,7 +299,7 @@ export default function MakePagesRouter() {
       } else {
         return (
           <Routes>
-            {Leaner.map((router, index) => {
+            {RouterCenter.map((router, index) => {
               return (
                 <Route
                   key={index}
@@ -179,6 +308,13 @@ export default function MakePagesRouter() {
                 />
               );
             })}
+            <Route
+              path="/admin/Program/Chapter/:number/Test/Question"
+              element={<Question />}
+            />
+
+            <Route path="/admin/reviewDetail" element={<ReviewDetail />} />
+
             <Route path="/login" element={<Logined />} />
             <Route path="/" element={<LandingPage />} />
           </Routes>

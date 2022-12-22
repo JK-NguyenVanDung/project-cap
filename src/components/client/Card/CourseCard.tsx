@@ -6,6 +6,7 @@ import { IoPerson } from 'react-icons/io5';
 import { RiTimerFill } from 'react-icons/ri';
 import { IProgramItem } from '../../../Type';
 import { checkURL } from '../../../helper/constant';
+import { API_URL } from '../../../api/api';
 
 export default function (props: any) {
   return (
@@ -60,18 +61,18 @@ const CourseContent = (props: {
     <>
       <div className="cardCont rounded-[20px] font-customFont ">
         <div
-          className="card hover:border-primary flex  
-  x
+          className="card hover:border-primary flex
           overflow-hidden flex-col min-w-[5rem]  min-h-[50vh] w-[18rem] h-[57vh] rounded-[20px] justify-end border-[2px] border-gray-50 " //border-[2px] border-color-[#c3c6ce]
         >
           <a>
             <img
-              className="rounded-t-lg  object-cover	 w-full"
-              src={
-                !checkURL(props.item.image)
-                  ? props.item.image
-                  : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'
-              }
+              className="rounded-t-lg object-fill	h-fit w-full"
+              src={`${API_URL}/images/${props.item.image}`}
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src =
+                  'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png';
+              }}
               alt=""
             />
           </a>
@@ -100,7 +101,7 @@ const CourseContent = (props: {
             </div>
 
             <div className="flex w-full justify-between items-center my-4">
-              <div className="flex   items-center">
+              <div className="flex items-center">
                 <IoPerson className="text-lg mr-2 text-gray-400" />
                 Thầy Minh
               </div>

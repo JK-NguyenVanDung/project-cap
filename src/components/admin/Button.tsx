@@ -105,13 +105,15 @@ export default function CustomButton({
 
       Icon = BsFillPeopleFill;
       variant = 'outlined';
+      break;
     case 'addReviewer':
       defaultText = '';
       tip = tip ? tip : 'Giao người duyệt';
       iconClass = 'text-xl';
+
       Icon = MdGroupAdd;
       variant = 'outlined';
-
+      break;
     default:
       defaultText = '';
       Icon = Icon ? Icon : FaPlus;
