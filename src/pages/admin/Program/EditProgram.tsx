@@ -79,7 +79,6 @@ export default function EditProgram() {
           RegistrationEndDate: item.registrationStartDate
             ? moment(item.registrationEndDate)
             : '',
-          Time: item.time ? item.time : '',
         }),
         setImage(item.image),
         setValuePositions(

@@ -81,8 +81,20 @@ export default function ListReviewPrograms() {
 
     {
       title: 'Trạng thái',
-      dataIndex: 'status',
       key: 'status',
+      render: (data: any) => {
+        return data.status == 'approved' ? (
+          <h5>Đã Duyệt</h5>
+        ) : data.status == 'denied' ? (
+          <h5>Đã Từ Chối</h5>
+        ) : data.status == 'save' ? (
+          <h5>Đã Lưu</h5>
+        ) : data.status == 'public' ? (
+          <h5>Công Khai</h5>
+        ) : (
+          <h5>Riêng Tư</h5>
+        );
+      },
       width: '18%',
     },
     {
