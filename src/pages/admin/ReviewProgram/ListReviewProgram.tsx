@@ -22,7 +22,7 @@ export default function ListReviewPrograms() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const roleId = useAppSelector((state) => state.auth.info);
+  const info = useAppSelector((state) => state.auth.info);
   const [approve, setApprove] = useState(false);
   const [itemData, setItemData] = useState([]);
   useEffect(() => {
@@ -49,9 +49,8 @@ export default function ListReviewPrograms() {
     const getListReviewProgramId = async () => {
       try {
         let response: any = await apiService.getListProgramsByReviewer(
-          roleId.accountId,
+          info.accountId,
         );
-        console.log(response);
         response = response.reverse();
         let res = response.map((item: any, index: number) => {
           return {
@@ -69,7 +68,8 @@ export default function ListReviewPrograms() {
         console.log(error);
       }
     };
-    roleId === 1 ? getListReviewProgram() : getListReviewProgramId();
+
+    info.roleId === 2 ? getListReviewProgram() : getListReviewProgramId();
   }, [loading, confirmLoading]);
   const handelEdit = (item: any) => {
     setDetail(item);
@@ -127,12 +127,22 @@ export default function ListReviewPrograms() {
       key: 'action',
 
       render: (data: any) => (
-        <PopOverAction
-          size="sm"
-          authType="addReviewer"
-          handleAuth={() => handelEdit(data)}
-          handleShowDetail={() => handelDataProgram(data)}
-        />
+        <>
+          {info.roleId === 2 ? (
+            <PopOverAction
+              size="sm"
+              authType="addReviewer"
+              handleAuth={() => handelEdit(data)}
+              handleShowDetail={() => handelDataProgram(data)}
+            />
+          ) : (
+            <PopOverAction
+              size="sm"
+              authType="addReviewer"
+              handleShowDetail={() => handelDataProgram(data)}
+            />
+          )}
+        </>
       ),
       width: GIRD12.COL2,
     },
