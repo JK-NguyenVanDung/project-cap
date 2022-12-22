@@ -10,7 +10,7 @@ import { AiFillUnlock, AiFillLock, AiFillWarning } from 'react-icons/ai';
 import moment from 'moment';
 import Color from '../../../components/constant/Color';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
 import AddReviewer from '../../../components/admin/Review/AddReviewer';
 export default function ListReviewPrograms() {
@@ -22,7 +22,7 @@ export default function ListReviewPrograms() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [confirmLoading, setConfirmLoading] = useState(false);
-
+  const roleId = useAppSelector((state) => state.auth.info);
   const [approve, setApprove] = useState(false);
   const [itemData, setItemData] = useState([]);
   useEffect(() => {
@@ -46,7 +46,30 @@ export default function ListReviewPrograms() {
         console.log(error);
       }
     }
-    getListReviewProgram();
+    const getListReviewProgramId = async () => {
+      try {
+        let response: any = await apiService.getListProgramsByReviewer(
+          roleId.accountId,
+        );
+        console.log(response);
+        response = response.reverse();
+        let res = response.map((item: any, index: number) => {
+          return {
+            ...item.program,
+            index: index + 1,
+          };
+        });
+        setData(res);
+        setTimeout(() => {
+          setLoading(false);
+          setFilterData(res);
+          setConfirmLoading(false);
+        }, 1000);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    roleId === 1 ? getListReviewProgram() : getListReviewProgramId();
   }, [loading, confirmLoading]);
   const handelEdit = (item: any) => {
     setDetail(item);
