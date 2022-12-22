@@ -22,7 +22,10 @@ export default function Homepage() {
     const fetch = async () => {
       try {
         const data: any = await apiService.getPrograms();
-        let temp = data.reverse();
+        let temp = data.filter(
+          (item: IProgramItem) => item.status === 'public',
+        );
+        temp = temp.reverse();
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
         setData(temp);
         setFilterData(temp);
