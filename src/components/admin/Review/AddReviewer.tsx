@@ -92,22 +92,19 @@ const AddReviewer = ({
     form
       .validateFields()
       .then(async (value: any) => {
-        let exist = checkAccountExist(value.reviewerName);
-        console.log(exist);
-        if (exist === false) {
-          await apiService.addReviewer({
-            accountId: value.reviewerName,
-            programId: program?.programId,
-          });
-          setShow(false);
-          notification.success({ message: 'Thêm thành công' });
-          form.resetFields();
-        } else {
-          message.error('Tài khoản này đã nằm trong danh sách người duyệt');
-        }
+        await apiService.addReviewer({
+          accountId: value.reviewerName,
+          programId: program?.programId,
+        });
+        setShow(false);
+        notification.success({ message: 'Thêm thành công' });
+        form.resetFields();
       })
 
       .catch((info) => {
+        notification.error({
+          message: 'Tài khoản này đã nằm trong danh sách người duyệt',
+        });
         // dispatch(actions.formActions.showError())
       });
   };

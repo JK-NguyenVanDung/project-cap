@@ -23,21 +23,14 @@ const RightSection = (props: any) => {
   const [user, setUser] = useState<IAccountItem>(null);
   const [like, setLike]: any = useState();
   useEffect(() => {
-    let time = setTimeout(async () => {
-      await getData();
-    }, 100);
-    const fetchProgram = async () => {
-      const data: any = await apiService.getProgram(programId.programId);
-      setProgram(data);
-      setLike(data.isLike);
-    };
-    fetchProgram();
-    return () => {
-      clearTimeout(time);
-    };
+    getData();
   }, []);
   async function getData() {
     try {
+      const data: any = await apiService.getProgram(programId.programId);
+      setProgram(data);
+      setLike(data.isLike);
+
       let res: any = await apiService.getAccounts();
       res = res.reverse();
 
@@ -45,10 +38,12 @@ const RightSection = (props: any) => {
         ...v,
         index: index + 1,
       }));
+      console.log(temp);
       if (temp) {
         let acc = temp.find(
-          (item: any) => program.accountIdCreator == item.accountId,
+          (item: any) => data.accountIdCreator == item.accountId,
         );
+        console.log(acc);
         setUser(acc);
       }
     } catch (err: any) {
@@ -152,7 +147,7 @@ const RightSection = (props: any) => {
           Icon={AiFillHeart}
           color={like === false ? 'gray' : 'red'}
           text="Yêu thích"
-          className=" w-[90%] my-2 h-10"
+          className=" w-[90%] my-2 h-10 hover:bg-red-400"
           onClick={() => handelLove(program)}
         />
         <CustomButton

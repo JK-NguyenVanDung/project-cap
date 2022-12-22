@@ -11,8 +11,12 @@ const slice = createSlice({
     contentId: null,
     reload: false,
     programId: null,
+    error: false,
   },
   reducers: {
+    showError(state, actions) {
+      state.error = actions.payload;
+    },
     setProgramId(state, actions) {
       state.programId = actions.payload;
     },

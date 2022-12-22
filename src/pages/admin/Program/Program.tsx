@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TableConfig from '../../../components/admin/Table/Table';
-import { Form, message, Image, Modal } from 'antd';
+import { Form, message, Image, Modal, notification } from 'antd';
 import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
 import apiService from '../../../api/apiService';
@@ -46,11 +46,12 @@ export default function Program() {
     try {
       await apiService.delProgram(item.programId);
       setReload(!reload);
-      message.success(MESSAGE.SUCCESS.DELETE);
+      notification.success({ message: MESSAGE.SUCCESS.DELETE });
     } catch (err: any) {
-      message.error(
-        'Chương trình hiện tại đang có nội dung hoặc đã được duyệt, xin vui lòng xoá hết nội dung của chương trình này để xoá chương trình',
-      );
+      notification.error({
+        message:
+          'Chương trình hiện tại đang có nội dung hoặc đã được duyệt, xin vui lòng xoá hết nội dung của chương trình này để xoá chương trình hoặc ẩn chương trình đi',
+      });
     }
   }
 
@@ -102,15 +103,17 @@ export default function Program() {
       key: 'status',
       render: (data: any) => {
         return data.status == 'approved' ? (
-          <h5>Đã Duyệt</h5>
+          <h5 className="text-bold text-primary">Đã Duyệt</h5>
         ) : data.status == 'denied' ? (
-          <h5>Đã Từ Chối</h5>
+          <h5 className="text-bold text-red-500">Từ Chối</h5>
         ) : data.status == 'save' ? (
-          <h5>Đã Lưu</h5>
+          <h5 className="text-bold text-yellow-800">Lưu nháp</h5>
         ) : data.status == 'public' ? (
-          <h5>Công Khai</h5>
+          <h5 className="text-bold text-green-500">Công Khai</h5>
+        ) : data.status == 'private' ? (
+          <h5 className="text-bold text-purple-500">Riêng tư</h5>
         ) : (
-          <h5>Riêng Tư</h5>
+          <h5 className="text-bold text-orange-500">Chờ Duyệt</h5>
         );
       },
       width: '18%',

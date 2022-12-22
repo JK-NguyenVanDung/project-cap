@@ -52,7 +52,10 @@ export default function Faculties() {
         message: MESSAGE.SUCCESS.DELETE,
       });
     } catch (err: any) {
-      throw err.message();
+      notification.error({
+        message:
+          'Khoa ban này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn khoa ban khá trong chương trình đó để xoá khoa ban này',
+      });
     }
   }
   const Columns = [

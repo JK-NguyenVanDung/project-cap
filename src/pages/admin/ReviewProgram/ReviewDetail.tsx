@@ -9,13 +9,16 @@ import CustomButton from '../../../components/admin/Button';
 import MidSection from './MidSection';
 import LeftSection from './LeftSection';
 import RightSection from '../../../components/Course/RightSection';
+import Loading from '../../../components/sharedComponents/Loading';
 
 const ReviewDetail = () => {
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
-
+  const [loading, setLoading] = useState(false);
   return (
     <>
+      <Loading loading={loading} />
+
       <div className="bg-gray-100 w-full h-full font-customFont">
         <div className="w-full h-14 flex items-center justify-between shadow-lg py-4  bg-white text-black">
           <a
@@ -35,7 +38,7 @@ const ReviewDetail = () => {
         <div className="flex flex-row w-full h-full">
           <div className=" w-[15%] m-4  p-4 mr-8 h-full" />
           <LeftSection />
-          <MidSection />
+          <MidSection setLoading={setLoading} />
           <RightSection enable={false} />
         </div>
       </div>

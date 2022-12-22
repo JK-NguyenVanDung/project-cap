@@ -54,6 +54,11 @@ export default function CustomButton({
       Icon = HiOutlineTrash;
       tip = tip ? tip : 'Xoá';
       break;
+    case 'goBack':
+      defaultText = 'Quay lại';
+      variant = 'outlined';
+      tip = tip ? tip : 'Quay lại';
+      break;
     case 'cancel':
       defaultText = 'Huỷ';
       variant = 'outlined';
