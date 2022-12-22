@@ -6,9 +6,13 @@ const slice = createSlice({
     token: null,
     info: null,
     LoginId: null,
+    notification: false,
   },
 
   reducers: {
+    showNotification(state, actions) {
+      state.notification = actions.payload;
+    },
     Login(state, actions) {
       state.token = actions.payload;
     },

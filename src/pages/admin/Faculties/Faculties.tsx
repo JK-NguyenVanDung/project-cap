@@ -83,7 +83,7 @@ export default function Faculties() {
   ];
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
-    let temp = data;
+    let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
         const emailMatch = removeVietnameseTones(record.facultyName).match(reg);
@@ -93,7 +93,7 @@ export default function Faculties() {
         }
         return record;
       })
-      .filter((record) => !!record);
+      .filter((record: any) => !!record);
     setData(value.trim() !== '' ? filteredData : filterData);
   };
 

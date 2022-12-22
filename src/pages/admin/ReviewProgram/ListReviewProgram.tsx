@@ -92,6 +92,7 @@ export default function ListReviewPrograms() {
       render: (data: any) => (
         <PopOverAction
           size="sm"
+          authType="addReviewer"
           handleAuth={() => handelEdit(data)}
           handleShowDetail={() => handelDataProgram(data)}
           handleEdit={() => handelApprove(data)}
@@ -110,7 +111,7 @@ export default function ListReviewPrograms() {
   }
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
-    let temp = data;
+    let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
         const emailMatch = removeVietnameseTones(record.programName).match(reg);
@@ -120,7 +121,7 @@ export default function ListReviewPrograms() {
         }
         return record;
       })
-      .filter((record) => !!record);
+      .filter((record: any) => !!record);
     setData(value.trim() !== '' ? filteredData : filterData);
   };
 

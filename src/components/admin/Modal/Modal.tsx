@@ -33,6 +33,7 @@ export default function CustomModal({
   initialValues,
   ModalProps,
   formProps,
+  buttonText,
 }: {
   handleOk?: any;
   name?: any;
@@ -50,6 +51,7 @@ export default function CustomModal({
   centered?: boolean;
   width?: number | string;
   confirmLoading?: boolean;
+  buttonText?: string;
   showButton?: boolean;
   initialValues?: any;
   ModalProps?: ModalProps;
@@ -107,7 +109,15 @@ export default function CustomModal({
                 className="mx-2"
                 noIcon={true}
                 color="blue-gray"
-                text={!dataItem ? `Lưu` : header ? header : 'Lưu'}
+                text={
+                  !dataItem
+                    ? `Lưu`
+                    : buttonText
+                    ? buttonText
+                    : header
+                    ? header
+                    : 'Lưu'
+                }
               />
             )}
           </div>

@@ -8,6 +8,7 @@ import { color, size } from '@material-tailwind/react/types/components/button';
 import { BsFillPeopleFill } from 'react-icons/bs';
 import { Tooltip } from 'antd';
 import { ImBook } from 'react-icons/im';
+import { MdGroupAdd } from 'react-icons/md';
 
 export default function CustomButton({
   size,
@@ -104,6 +105,12 @@ export default function CustomButton({
 
       Icon = BsFillPeopleFill;
       variant = 'outlined';
+    case 'addReviewer':
+      defaultText = '';
+      tip = tip ? tip : 'Giao người duyệt';
+      iconClass = 'text-xl';
+      Icon = MdGroupAdd;
+      variant = 'outlined';
 
     default:
       defaultText = '';
@@ -127,7 +134,7 @@ export default function CustomButton({
         variant={variant}
         // {...style}
       >
-        {!noIcon && <Icon className={`mx-2 text-base ${iconClass}`} />}
+        {!noIcon && <Icon className={`mx-2  text-base ${iconClass}`} />}
         <p className={`font-customFont  font-semibold ${textClassName}`}>
           {text ? text : defaultText}
         </p>

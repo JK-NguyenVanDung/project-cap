@@ -44,20 +44,13 @@ export default function Program() {
   }, [reload, location]);
   async function handleDelete(item: any) {
     try {
-      let res: any = await apiService.getContentProgram(item.programId);
-      console.log(res.length);
-      if (res.length === 0) {
-        await apiService.delProgram(item.programId);
-
-        setReload(!reload);
-        message.success(MESSAGE.SUCCESS.DELETE);
-      } else {
-        message.error(
-          'Chương trình hiện tại đang có nội dung, xin vui lòng xoá hết nội dung của chương trình này để xoá chương trình',
-        );
-      }
+      await apiService.delProgram(item.programId);
+      setReload(!reload);
+      message.success(MESSAGE.SUCCESS.DELETE);
     } catch (err: any) {
-      throw err.message;
+      message.error(
+        'Chương trình hiện tại đang có nội dung hoặc đã được duyệt, xin vui lòng xoá hết nội dung của chương trình này để xoá chương trình',
+      );
     }
   }
 
@@ -130,7 +123,7 @@ export default function Program() {
 
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
-    let temp = data;
+    let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
         const emailMatch = removeVietnameseTones(record.programName).match(reg);

@@ -24,11 +24,13 @@ const Header = (props: any) => {
   const executeScroll = (i: number) => {
     const e = props.references.filter((e: any, index: number) => index === i);
     if (e.length > 0) {
-      e[0].current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'nearest',
-      });
+      setTimeout(() => {
+        e[0].current.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+          inline: 'nearest',
+        });
+      }, 50);
     }
   };
 

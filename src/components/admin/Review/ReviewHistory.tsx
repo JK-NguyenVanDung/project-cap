@@ -30,7 +30,7 @@ const ReviewHistory = ({
   }, [programId]);
   async function getData() {
     try {
-      let res: any = await apiService.getHistory(programId);
+      let res: any = await apiService.getReviewHistory(programId);
       let acc: any = await apiService.getAccounts();
 
       let temp = res.reverse();

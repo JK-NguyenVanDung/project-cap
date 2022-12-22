@@ -82,18 +82,20 @@ const CourseContent = (props: {
       <div className="cardCont rounded-[20px] font-customFont ">
         <div
           className="card hover:border-primary flex  
-          bg-contain 	
-          bg-no-repeat
-          bg-clip-border	
-          overflow-hidden flex-col min-w-[5rem]  min-h-[50vh] w-[18rem] h-[44vh] rounded-[20px] justify-end border-[2px] border-gray-50 " //border-[2px] border-color-[#c3c6ce]
-          style={{
-            backgroundImage: `url(${
-              props.item.image
-                ? `${API_URL}/images/${props.item.image}`
-                : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'
-            })`,
-          }}
+  x
+          overflow-hidden flex-col min-w-[5rem]  min-h-[50vh] w-[18rem] h-[57vh] rounded-[20px] justify-end border-[2px] border-gray-50 " //border-[2px] border-color-[#c3c6ce]
         >
+          <a>
+            <img
+              className="rounded-t-lg  object-cover	 w-full"
+              src={
+                !checkURL(props.item.image)
+                  ? props.item.image
+                  : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'
+              }
+              alt=""
+            />
+          </a>
           <div className="flex flex-col bg-white h-[60%] rounded-b-2xl py-2 px-4">
             <div
               className="bg-primary w-fit p-1 text-white  rounded text-xs font-light "

@@ -1,5 +1,9 @@
-import IntroMain from '../../assets/landingPage/introduction-cover.jpg';
+import IntroMain from '../../assets/landingPage/introduction-cover.webp';
 import { IconType } from 'react-icons';
+
+import Remote from '../../assets/landingPage/remote.webp';
+import Calendar from '../../assets/landingPage/calendar.webp';
+import Note from '../../assets/landingPage/note.webp';
 
 import { IoTimeSharp, IoCalendar, IoArrowRedoOutline } from 'react-icons/io5';
 import { HiPresentationChartBar } from 'react-icons/hi';
@@ -82,19 +86,35 @@ const Introduction = React.forwardRef((props, ref: any) => {
         <div className="  absolute w-full h-2/3 bg-dark-pink left-10 rounded-md" />
 
         <img
+          loading="lazy"
           src={IntroMain}
-          className=" max-sm:h-[50vw]  hide-delay relative rounded-md"
+          className=" max-sm:h-[50vw]   relative rounded-md"
           alt=""
         />
         <div className=" pic-group relative flex flex-row h-[0vh] w-full justify-evenly ml-10">
           <div className=" mt-10 h-[14vh] w-[8vw] max-sm:h-[12vh] max-sm:w-[20vw] bg-white rounded-md">
-            <img src={IntroMain} className=" p-2 rounded-md " alt="" />
+            <img
+              loading="lazy"
+              src={Remote}
+              className=" p-2 rounded-md "
+              alt=""
+            />
           </div>
-          <div className=" hide-delay-1 mt-10 h-[14vh]  max-sm:h-[12vh] w-[8vw] max-sm:w-[20vw] bg-white rounded-md">
-            <img src={IntroMain} className=" p-2 rounded-md " alt="" />
+          <div className=" mt-10 h-[14vh]  max-sm:h-[12vh] w-[8vw] max-sm:w-[20vw] bg-white rounded-md">
+            <img
+              loading="lazy"
+              src={Note}
+              className=" p-2 rounded-md "
+              alt=""
+            />
           </div>
-          <div className=" hide-delay-2 mt-10 h-[14vh] max-sm:h-[12vh] w-[8vw] max-sm:w-[20vw] bg-white rounded-md">
-            <img src={IntroMain} className=" p-2 rounded-md " alt="" />
+          <div className=" mt-10 h-[14vh] max-sm:h-[12vh] w-[8vw] max-sm:w-[20vw] bg-white rounded-md">
+            <img
+              loading="lazy"
+              src={Calendar}
+              className=" p-2 rounded-md "
+              alt=""
+            />
           </div>
         </div>
       </div>

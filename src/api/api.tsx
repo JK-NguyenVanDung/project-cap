@@ -93,4 +93,12 @@ export const API_CONFIG = {
     HISTORY: (idProgram: number) =>
       `/api/ReviewPrograms/listapproved/${idProgram}?id=${idProgram}`,
   },
+  CHECK_PROGRAM: {
+    GET_QUESTION_COUNT: (testId: number) =>
+      `/api/ReviewPrograms/numberquestion/${testId}`,
+    GET_CHAPTER_COUNT: (programId: number) =>
+      `/api/ReviewPrograms/numbercontent/${programId}`,
+    GET_PROGRAM_STATUS: (programId: number) =>
+      `/api/ReviewPrograms/status/${programId}`,
+  },
 };

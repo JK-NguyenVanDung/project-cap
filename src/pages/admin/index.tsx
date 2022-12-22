@@ -57,7 +57,7 @@ export default function SideBar({ content }: { content: any }) {
               }}
               className=" hover:text-white relative my-2  px-2 w-full flex flex-row items-center justify-center"
             >
-              <img className="w-1/5 h-full mb-2" src={logo} />
+              <img className="w-1/5 h-fit mb-2" src={logo} />
               <p className="text-lg text-center mb-2 mx-2"> VLG TRAINING</p>
             </a>
             <ul className="relative list-none w-full text-center">

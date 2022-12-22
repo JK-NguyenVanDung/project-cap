@@ -626,7 +626,7 @@ export default function EditProgram() {
             className="w-44 my-3 h-10 "
           />
           <CustomButton
-            tip="Gửi"
+            tip="Gửi Duyệt"
             noIcon={true}
             color="green"
             text="Gửi"
