@@ -513,7 +513,7 @@ export default function EditProgram() {
               name="Image"
               rules={[
                 {
-                  required: true,
+                  required: image ? false : true,
                   message: 'Vui Lòng Chọn Ảnh Banner ',
                 },
               ]}
