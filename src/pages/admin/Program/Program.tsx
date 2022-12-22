@@ -106,29 +106,8 @@ export default function Program() {
 
     {
       title: 'Trạng thái',
-      key: 'isPublish',
-      render: (data: any) => {
-        console.log(data);
-        return data.isPublish ? (
-          <CustomButton
-            type="Success"
-            Icon={AiFillUnlock}
-            text="Công Khai"
-            className="font-bold text-white"
-            color="green"
-            onClick={() => handelApprove(data)}
-          />
-        ) : (
-          <CustomButton
-            type="error"
-            Icon={AiFillLock}
-            color="red"
-            text="Riêng tư"
-            className="font-bold text-white"
-            onClick={() => handelApprove(data)}
-          />
-        );
-      },
+      dataIndex: 'status',
+      key: 'status',
       width: '18%',
     },
     {
@@ -149,38 +128,6 @@ export default function Program() {
     },
   ];
 
-  function handelApprove(items: any) {
-    Modal.confirm({
-      title: <p className="font-bold text-xl my-2">Xác nhận</p>,
-      icon: <AiFillWarning size={30} color={Color.warning} />,
-      content: (
-        <p className="font-medium text-base my-2">
-          Bạn có chắc chắn công khai chương trình này?
-        </p>
-      ),
-      okText: 'Đồng ký',
-      cancelText: 'Huỷ',
-      maskStyle: { borderRadius: 12 },
-      bodyStyle: { margin: 2, marginBottom: 4 },
-      okType: 'danger',
-      onOk() {
-        const Approve = async () => {
-          // const data = await apiService.Approve(items.id);
-          if (data) {
-            message.success('duyệt thành công thành công');
-            setLoading(true);
-            setTimeout(() => {
-              setLoading(false);
-            }, 3000);
-          }
-        };
-        Approve();
-      },
-      onCancel() {
-        message.error('hủy');
-      },
-    });
-  }
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = data;

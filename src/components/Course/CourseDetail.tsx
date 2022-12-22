@@ -10,6 +10,7 @@ import ReviewTab from './ReviewTab';
 import View from '../../assets/svg/View.svg';
 import { checkURL } from '../../helper/constant';
 import { IFaculties } from '../../api/apiInterface';
+import { API_URL } from '../../api/api';
 
 export default function (props: any) {
   const [currentTab, setCurrentTab] = useState(1);
@@ -79,8 +80,8 @@ export default function (props: any) {
                 <img
                   className="object-cover w-full h-full	rounded "
                   src={
-                    program?.image && !checkURL(program?.image)
-                      ? program?.image
+                    program?.image
+                      ? `${API_URL}/images/${program?.image}`
                       : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'
                   }
                 />

@@ -191,4 +191,10 @@ export default {
   getHistory: (id: number) => {
     return axiosConfig.get(API_CONFIG.REVIEWER.HISTORY(id));
   },
+  likeProgram: (id: number, isLike: boolean) => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.LIKE(id, isLike));
+  },
+  setStatusProgram: (id: number, params: any) => {
+    return configFormData.put(API_CONFIG.PROGRAM.SET_STATUS(id), params);
+  },
 };

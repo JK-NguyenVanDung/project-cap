@@ -29,6 +29,11 @@ export const API_CONFIG = {
     PUT: (ID: number) => `/api/Programs/${ID}`,
 
     GET_REVIEW: '/api/ReviewPrograms',
+
+    SET_STATUS: (id: number) => `/api/Programs/${id}/Status`,
+
+    LIKE: (id: number, isLike: boolean) =>
+      `/api/Programs/${id}/LikeProgram?isLike=${isLike}`,
   },
   FACULTIES: {
     GET: '/api/Faculties',

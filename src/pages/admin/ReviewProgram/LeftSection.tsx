@@ -14,7 +14,6 @@ import { IAccountItem, IProgramItem } from '../../../Type';
 
 const LeftSection = () => {
   const [showAddReviewerModal, setShowAddReviewerModal] = useState(false);
-  const [reviewers, setReviewers] = useState(null);
 
   const [showDeclinedModal, setShowDeclinedModal] = useState(false);
   const [showHistoryModal, setShowHistoryModal] = useState(false);
@@ -125,11 +124,6 @@ const LeftSection = () => {
         form={form}
         header={'Nhập lý do từ chối'}
       />
-      <AddReviewer
-        show={showAddReviewerModal}
-        setShow={setShowAddReviewerModal}
-        program={program}
-      />
       <ReviewHistory
         show={showHistoryModal}
         programId={program?.programId}
@@ -142,13 +136,6 @@ const LeftSection = () => {
         className="mb-4 mt-8 w-full h-10"
         onClick={() => setShowHistoryModal(!showHistoryModal)}
       />
-      <CustomButton
-        noIcon
-        color="green"
-        text="Thêm người duyệt"
-        className="mb-4 w-full h-10"
-        onClick={() => setShowAddReviewerModal(!showAddReviewerModal)}
-      />{' '}
       <CustomButton
         noIcon
         color="blue"

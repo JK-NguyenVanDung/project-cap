@@ -112,7 +112,7 @@ export default function ProgramDetail() {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        distance: 1,
+        distance: 4,
       },
     }),
   );

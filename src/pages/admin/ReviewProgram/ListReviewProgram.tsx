@@ -12,6 +12,7 @@ import Color from '../../../components/constant/Color';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
+import AddReviewer from '../../../components/admin/Review/AddReviewer';
 export default function ListReviewPrograms() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
@@ -21,6 +22,9 @@ export default function ListReviewPrograms() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [confirmLoading, setConfirmLoading] = useState(false);
+
+  const [approve, setApprove] = useState(false);
+  const [itemData, setItemData] = useState([]);
   useEffect(() => {
     async function getListReviewProgram() {
       try {
@@ -50,41 +54,36 @@ export default function ListReviewPrograms() {
   };
   const Columns = [
     {
-      title: 'STT',
-      render: (data: any) => <p>{data && data.index ? data.index : 0}</p>,
-      width: GIRD12.COL0,
+      title: 'Tên chương trình',
+      dataIndex: 'programName',
+      width: GIRD12.COL2,
+    },
+    {
+      title: 'Ngày BĐĐK',
+      dataIndex: 'startDate',
+      render: (item: any) => {
+        return <p>{moment(item).format('DD-MM-YYYY')}</p>;
+      },
+    },
+    {
+      title: 'Ngày KTĐK',
+      dataIndex: 'endDate',
+      render: (item: any) => {
+        return <p>{moment(item).format('DD-MM-YYYY')}</p>;
+      },
+    },
+    {
+      title: 'Giờ đào tạo',
+      dataIndex: 'time',
+      width: '13%',
+      render: (data: any) => <p>{data ? data : 0}</p>,
     },
 
     {
-      title: 'Tên chương trình',
-      dataIndex: 'programName',
-    },
-    {
       title: 'Trạng thái',
-      key: 'isPublish',
-      render: (data: any) => {
-        console.log(data);
-        return data.isPublish ? (
-          <CustomButton
-            type="Success"
-            Icon={AiFillUnlock}
-            text="Công Khai"
-            className="font-bold text-white"
-            color="green"
-            onClick={() => handelApprove(data)}
-          />
-        ) : (
-          <CustomButton
-            type="error"
-            Icon={AiFillLock}
-            color="red"
-            text="Riêng Tư"
-            className="font-bold text-white"
-            onClick={() => handelApprove(data)}
-          />
-        );
-      },
-      width: GIRD12.COL2,
+      dataIndex: 'status',
+      key: 'status',
+      width: '18%',
     },
     {
       title: 'Thao tác',
@@ -95,6 +94,7 @@ export default function ListReviewPrograms() {
           size="sm"
           handleAuth={() => handelEdit(data)}
           handleShowDetail={() => handelDataProgram(data)}
+          handleEdit={() => handelApprove(data)}
         />
       ),
       width: GIRD12.COL2,
@@ -105,29 +105,8 @@ export default function ListReviewPrograms() {
     navigate('/admin/reviewDetail');
   }
   function handelApprove(items: any) {
-    Modal.confirm({
-      title: 'xác nhận',
-      icon: <AiFillWarning size={30} color={Color.warning} />,
-      content: 'Bạn có chắc chắn công khai chương trình này ?',
-      okText: 'yes',
-      okType: 'danger',
-      onOk() {
-        const ApproveShipper = async () => {
-          // const data = await apiService.ApproveShiper(items.id);
-          if (data) {
-            message.success('duyệt thành công thành công');
-            setLoading(true);
-            setTimeout(() => {
-              setLoading(false);
-            }, 3000);
-          }
-        };
-        ApproveShipper();
-      },
-      onCancel() {
-        message.error('hủy');
-      },
-    });
+    setApprove(true);
+    setItemData(items);
   }
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
@@ -149,22 +128,28 @@ export default function ListReviewPrograms() {
     setAddListReviewProgram(true);
     setDetail(null);
   }
+
   return (
     <>
+      <AddReviewer
+        show={addListReviewProgram}
+        setShow={setAddListReviewProgram}
+        program={detail}
+      />
       <TableConfig
         onSearch={onChangeSearch}
         search={true}
         data={data}
         columns={Columns}
         loading={loading || confirmLoading}
-        extra={[
-          <CustomButton
-            type="add"
-            size="md"
-            key={`${uniqueId()}`}
-            onClick={() => handelAdd()}
-          />,
-        ]}
+        // extra={[
+        //   <CustomButton
+        //     type="add"
+        //     size="md"
+        //     key={`${uniqueId()}`}
+        //     onClick={() => handelAdd()}
+        //   />,
+        // ]}
       />
     </>
   );
