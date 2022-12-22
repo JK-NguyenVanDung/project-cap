@@ -3,17 +3,19 @@ import { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import apiService from '../../api/apiService';
 import CustomButton from '../admin/Button';
-import { useAppSelector } from '../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { IAccountItem, IProgramItem } from '../../Type';
 import { useNavigate } from 'react-router-dom';
 import Color from '../constant/Color';
 import { Spin } from 'antd';
+import { actions } from '../../Redux';
 
 interface Content {
   title: string;
   subject: string | number;
   icon?: any;
 }
+
 const RightSection = (props: any) => {
   const programId: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
@@ -22,6 +24,9 @@ const RightSection = (props: any) => {
   const [program, setProgram] = useState<IProgramItem>();
   const [user, setUser] = useState<IAccountItem>(null);
   const [like, setLike]: any = useState();
+  useAppDispatch;
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     getData();
   }, []);
@@ -43,7 +48,6 @@ const RightSection = (props: any) => {
         let acc = temp.find(
           (item: any) => data.accountIdCreator == item.accountId,
         );
-        console.log(acc);
         setUser(acc);
       }
     } catch (err: any) {
@@ -59,6 +63,7 @@ const RightSection = (props: any) => {
       );
     };
     fetchLike();
+    dispatch(actions.productActions.setUpdateLike());
   };
   return (
     <div className=" rounded-xl w-fit text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
@@ -145,7 +150,7 @@ const RightSection = (props: any) => {
         <CustomButton
           disabled={props.enable ? false : true}
           Icon={AiFillHeart}
-          color={like === false ? 'gray' : 'red'}
+          color={like !== false ? 'gray' : 'red'}
           text="Yêu thích"
           className=" w-[90%] my-2 h-10 hover:bg-red-400"
           onClick={() => handelLove(program)}

@@ -94,6 +94,7 @@ const ProgramItem = z.object({
   programPositions: z.array(z.object(Position)),
   lecturers: z.string(),
   time: z.string(),
+  totalLike: z.number(),
 });
 
 const ChapterItem = z.object({
