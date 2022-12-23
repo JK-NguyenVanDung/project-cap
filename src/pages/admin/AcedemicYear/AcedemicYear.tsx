@@ -53,7 +53,7 @@ export default function AcedemicYear() {
     } catch (err: any) {
       notification.error({
         message:
-          'Năm học này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn năm học khá trong chương trình đó để xoá năm học này',
+          'Năm học này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn năm học khác trong chương trình đó để xoá năm học này',
       });
     }
   }
