@@ -62,7 +62,7 @@ export default function AddPosition({
           name: values.positionName,
         });
         setVisible(false);
-        notification.success({ message: 'thay đổi thành công' });
+        notification.success({ message: 'Thay đổi thành công' });
         setConfirmLoading(!confirmLoading);
         form.resetFields();
       } else {
