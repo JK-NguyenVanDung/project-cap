@@ -251,7 +251,7 @@ export default function EditProgram() {
           trình này?
         </p>
       ),
-      okText: 'Đồng ký',
+      okText: 'Đồng ý',
       cancelText: 'Huỷ',
       maskStyle: { borderRadius: 12 },
       bodyStyle: { margin: 2, marginBottom: 4 },
