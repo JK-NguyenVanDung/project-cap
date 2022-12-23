@@ -32,7 +32,12 @@ export default function Logined() {
       dispatch(actions.authActions.showNotification(false));
     }
   }, []);
-
+ useEffect(() => {
+  
+ }, [])
+ const FetchFormLogin = async () => {
+  const data = await apiService.
+ }
   function RequestAccessToken() {
     const request = {
       ...loginRequest,
@@ -79,47 +84,53 @@ export default function Logined() {
   }
   const [form] = Form.useForm();
   const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
+  const LoginFirt = () => {
+    return (
+      <>
+        <div className="overlay" />
+        <video
+          style={{
+            height: '100vh',
+            width: '100%',
+            objectFit: 'cover',
+          }}
+          src={videoBackground}
+          autoPlay
+          muted
+          loop
+          id="myVideo"
+        />
+        <Form
+          form={form}
+          initialValues={{
+            midifier: 'public',
+          }}
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100vh',
+            top: 0,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <div className="w-2/6 bg-white rounded-3xl p-10 flex flex-col justify-center items-center">
+            <h1 className="text-center font-bold text-2xl mb-10">
+              Thông Tin Của Bạn
+            </h1>
+            <FormInput label="Số Điện Thoại" />
+            <FormInput label="Địa Chỉ" />
+            <FormInput label="Thuộc Khoa" />
+            <CustomButton size="md" className="w-3/6" text="Đăng Nhập" noIcon />
+          </div>
+        </Form>
+      </>
+    );
+  };
   return (
     <>
-      {/* <div className="overlay" />
-      <video
-        style={{
-          height: '100vh',
-          width: '100%',
-          objectFit: 'cover',
-        }}
-        src={videoBackground}
-        autoPlay
-        muted
-        loop
-        id="myVideo"
-      />
-      <Form
-        form={form}
-        initialValues={{
-          midifier: 'public',
-        }}
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100vh',
-          top: 0,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <div className="w-2/6 bg-white rounded-3xl p-10 flex flex-col justify-center items-center">
-          <h1 className="text-center font-bold text-2xl mb-10">
-            Thông Tin Của Bạn
-          </h1>
-          <FormInput label="Số Điện Thoại" />
-          <FormInput label="Địa Chỉ" />
-          <FormInput label="Thuộc Khoa" />
-          <CustomButton size="md" className="w-3/6" text="Đăng Nhập" noIcon />
-        </div>
-      </Form> */}
       <div
         className="flex justify-center content-center items-center"
         style={{

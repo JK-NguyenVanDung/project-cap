@@ -5,6 +5,7 @@ export const API_CONFIG = {
   AUTH: {
     LOGIN: '/api/Accounts/Login',
     GET_PROFILE: '/api/Accounts/me',
+    POST_PROFILE: ``,
   },
   COURSE_CATEGORY: {
     GET: '/api/Categories/',
