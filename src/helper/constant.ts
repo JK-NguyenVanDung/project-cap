@@ -65,5 +65,6 @@ export const errorText = {
 };
 
 export function checkURL(url: string) {
+  let match = url.match(/\.(jpeg|jpg|gif|png)$/);
   return url.match(/\.(jpeg|jpg|gif|png)$/) != null;
 }

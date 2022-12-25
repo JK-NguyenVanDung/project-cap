@@ -11,6 +11,8 @@ import {
   message,
   Spin,
 } from 'antd';
+import { actions } from '../../../Redux';
+
 import { GrAdd } from 'react-icons/gr';
 import { AiFillWarning, AiFillUnlock, AiFillLock } from 'react-icons/ai';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
@@ -21,7 +23,7 @@ import CustomButton from '../../../components/admin/Button';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../../../api/apiService';
 import axios, { AxiosResponse } from 'axios';
-import { useAppSelector } from '../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 const { Option } = Select;
 import './index.css';
 
@@ -44,11 +46,17 @@ export default function EditProgram() {
   const navigate = useNavigate();
   const item: any = useAppSelector((state) => state.form.setProgram);
   const [valuePositions, setValuePositions]: any = useState([]);
-  const [statusChange, setStatusChange]: any = useState(
-    item?.status == 'approved' || item?.status == 'hide' ? 'public' : 'hide',
-  );
+  const dispatch = useAppDispatch();
 
+  async function getData() {
+    const res: AxiosResponse<any, any> = await apiService.getProgram(
+      item.programId,
+    );
+    dispatch(actions.formActions.setProgramForm(res));
+  }
   useEffect(() => {
+    getData();
+
     getFacuties();
     getCategories();
     getAcedemicYear();
@@ -87,7 +95,7 @@ export default function EditProgram() {
           }),
         ))
       : form.setFieldsValue(setLoading(false));
-  }, [loading, statusChange]);
+  }, [loading]);
   const getFacuties = async () => {
     const reponse: AxiosResponse<any, any> = await apiService.getFaculties();
     if (reponse) {
@@ -192,11 +200,8 @@ export default function EditProgram() {
         console.log(values);
         for (let i = 0; i < valuePositions.length; i++) {
           frmData.append('PositionIds', valuePositions[i]);
-        } //
-        // frmData.append(
-        //   'PositionIds',
-        //   valuePositions ? valuePositions : item.positions,
-        // );
+        }
+
         frmData.append(
           'Semester',
           values.Semester ? values.Semester : item.semester,
@@ -210,14 +215,17 @@ export default function EditProgram() {
         if (item) {
           const data = await apiService.putProgram(item.programId, frmData);
           if (data) {
-            notification.success({ message: 'sửa thành công' });
+            notification.success({
+              message:
+                type === 'save' ? 'Sửa thành công' : 'Gửi duyệt thành công',
+            });
             navigate(-1);
           }
           form.resetFields();
         } else {
           const data = await apiService.addProgram(frmData);
           if (data) {
-            notification.success({ message: 'thêm thành công' });
+            notification.success({ message: 'Thêm thành công' });
             navigate(-1);
           }
           form.resetFields();
@@ -234,35 +242,34 @@ export default function EditProgram() {
   };
   function handelApprove(items: any) {
     const { status } = items;
-    console.log('now', status);
-    console.log(statusChange);
     Modal.confirm({
       title: <p className="font-bold text-xl my-2">Xác nhận</p>,
       icon: <AiFillWarning size={30} color={Color.warning} />,
       content: (
         <p className="font-medium text-base my-2">
-          Bạn có chắc chắn {status === 'public' ? 'ẩn' : 'công khai'} chương
+          Bạn có chắc chắn {status === 'public' ? 'Ẩn' : 'Công khai'} chương
           trình này?
         </p>
       ),
-      okText: 'Đồng ký',
+      okText: 'Đồng ý',
       cancelText: 'Huỷ',
       maskStyle: { borderRadius: 12 },
       bodyStyle: { margin: 2, marginBottom: 4 },
       okType: 'danger',
       onOk() {
         const Approve = async () => {
+          let temp = status === 'public' ? 'hide' : 'public';
           const data = await apiService.setStatusProgram(items.programId, {
-            Status: statusChange,
+            Status: temp,
           });
           setLoading(true);
           if (data) {
             message.success(
-              `${status === 'public' ? 'ẩn' : 'công khai'} thành công`,
+              `${status === 'public' ? 'Ẩn' : 'Công khai'} thành công`,
             );
             setTimeout(() => {
               setLoading(false);
-            }, 2000);
+            }, 400);
           }
         };
         Approve();
@@ -500,8 +507,19 @@ export default function EditProgram() {
                 src={`${API_URL}/images/${image}`}
               />
             )}
-            <Form.Item style={{ marginTop: 10 }} className="mt-4 " name="Image">
+            <Form.Item
+              style={{ marginTop: 10 }}
+              className="mt-4 "
+              name="Image"
+              rules={[
+                {
+                  required: image ? false : true,
+                  message: 'Vui Lòng Chọn Ảnh Banner ',
+                },
+              ]}
+            >
               <Upload
+                accept="image/*"
                 listType="picture-card"
                 beforeUpload={() => false}
                 maxCount={1}
@@ -572,40 +590,11 @@ export default function EditProgram() {
             >
               <DatePicker placeholder="Chọn Ngày" picker="date" />
             </Form.Item>
-            {item ? (
-              item.status === 'approved' ||
-              item.status === 'hide' ||
-              item.status === null ? (
-                <Spin spinning={loading}>
-                  <CustomButton
-                    type="Success"
-                    Icon={AiFillLock}
-                    text="Riêng Tư"
-                    fullWidth
-                    className="font-bold text-white"
-                    color="teal"
-                    onClick={() => handelApprove(item)}
-                  />
-                </Spin>
-              ) : (
-                <Spin spinning={loading}>
-                  <CustomButton
-                    type="Success"
-                    Icon={AiFillUnlock}
-                    text="Công Khai"
-                    fullWidth
-                    className="font-bold text-white"
-                    color="light-green"
-                    onClick={() => handelApprove(item)}
-                  />
-                </Spin>
-              )
-            ) : null}
           </div>
         </div>
         <div className="flex  w-full justify-center">
           <CustomButton
-            type="cancel"
+            type={item ? 'goBack' : 'cancel'}
             noIcon={true}
             onClick={() => handelCancel()}
             className="w-44 my-3  h-10"
@@ -618,22 +607,54 @@ export default function EditProgram() {
             className="w-44 my-3 mx-10 h-10"
           />
 
-          <CustomButton
-            text="Lịch sử duyệt"
-            variant="filled"
-            color="blue-gray"
-            noIcon={true}
-            onClick={() => setOpenHistory(!openHistory)}
-            className="w-44 my-3 h-10 "
-          />
-          <CustomButton
-            tip="Gửi Duyệt"
-            noIcon={true}
-            color="green"
-            text="Gửi"
-            onClick={() => handelOk('saveDraft')}
-            className="w-44 mx-10 my-3 h-10"
-          />
+          {item && (
+            <CustomButton
+              text="Lịch sử duyệt"
+              variant="filled"
+              color="blue-gray"
+              noIcon={true}
+              onClick={() => setOpenHistory(!openHistory)}
+              className="w-44 my-3 h-10 "
+            />
+          )}
+          {item && (
+            <CustomButton
+              tip="Gửi Duyệt"
+              noIcon={true}
+              color="green"
+              text="Gửi"
+              onClick={() => handelOk('saveDraft')}
+              className="w-44 mx-10 my-3 h-10"
+            />
+          )}
+          {item &&
+          (item.status === 'approved' ||
+            item.status === 'hide' ||
+            item.status === 'public') ? (
+            item.status === 'public' ? (
+              <Spin spinning={loading}>
+                <CustomButton
+                  type="Success"
+                  Icon={AiFillLock}
+                  text="Riêng Tư"
+                  fullWidth
+                  className="w-44 text-white my-3 h-10 "
+                  color="teal"
+                  onClick={() => handelApprove(item)}
+                />
+              </Spin>
+            ) : (
+              <Spin spinning={loading}>
+                <CustomButton
+                  type="Success"
+                  text="Công Khai"
+                  className="w-44 text-white my-3 h-10 "
+                  color="light-green"
+                  onClick={() => handelApprove(item)}
+                />
+              </Spin>
+            )
+          ) : null}
         </div>
       </Form>
       <ReviewHistory

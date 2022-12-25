@@ -22,7 +22,10 @@ export default function Homepage() {
     const fetch = async () => {
       try {
         const data: any = await apiService.getPrograms();
-        let temp = data.reverse();
+        let temp = data.filter(
+          (item: IProgramItem) => item.status === 'public',
+        );
+        temp = temp.reverse();
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
         setData(temp);
         setFilterData(temp);
@@ -105,6 +108,8 @@ export default function Homepage() {
   };
   return (
     <>
+      <Loading loading={loading} />
+
       <div className="bg-white py-4 pb-8 flex  w-full  items-center justify-between">
         <div className="w-fit mx-4">
           <SearchBar
@@ -126,7 +131,6 @@ export default function Homepage() {
           </div>
         </div>
       </div>
-      <Loading loading={loading} />
 
       <div className="w-full flex justify-center">
         <ul className=" grid lg:grid-cols-3 grid-cols-3 md:grid-cols-2 sm:grid-cols-1 	">

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TableConfig from '../../../components/admin/Table/Table';
-import { Form, message } from 'antd';
+import { Form, message, notification } from 'antd';
 import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
 import CustomModal from '../../../components/admin/Modal/Modal';
@@ -33,7 +33,10 @@ export default function Category() {
       setReload(!reload);
       message.success(MESSAGE.SUCCESS.DELETE);
     } catch (err: any) {
-      throw err.message();
+      notification.error({
+        message:
+          'Nhóm chương trình này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn nhóm chương trình khá trong chương trình đó để xoá nhóm chương trình này',
+      });
     }
   }
 

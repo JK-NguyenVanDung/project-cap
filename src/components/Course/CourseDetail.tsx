@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { BiLike } from 'react-icons/bi';
 import apiService from '../../api/apiService';
-import { useAppSelector } from '../../hook/useRedux';
 import { IProgramItem, IAccountItem } from '../../Type';
 import CustomButton from '../admin/Button';
 import ChapterTab from './ChapterTab';
@@ -11,6 +10,8 @@ import View from '../../assets/svg/View.svg';
 import { checkURL } from '../../helper/constant';
 import { IFaculties } from '../../api/apiInterface';
 import { API_URL } from '../../api/api';
+import { actions } from '../../Redux';
+import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 
 export default function (props: any) {
   const [currentTab, setCurrentTab] = useState(1);
@@ -19,6 +20,10 @@ export default function (props: any) {
   const program: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
   );
+  const updateLike: boolean = useAppSelector(
+    (state) => state.product.updateLike,
+  );
+  const dispatch = useAppDispatch();
 
   const [user, setUser] = useState<IAccountItem>(null);
   useEffect(() => {
@@ -30,8 +35,18 @@ export default function (props: any) {
     return () => {
       clearTimeout(time);
     };
-  }, [program]);
+  }, []);
 
+  useEffect(() => {
+    getDetail();
+  }, [updateLike]);
+  async function getDetail() {
+    try {
+      let res: any = await apiService.getProgram(program.programId);
+      console.log(res);
+      dispatch(actions.formActions.setProgramForm(res));
+    } catch (err) {}
+  }
   async function getData() {
     try {
       let res: any = await apiService.getAccounts();
@@ -79,11 +94,12 @@ export default function (props: any) {
               <div className="h-full w-full">
                 <img
                   className="object-cover w-full h-full	rounded "
-                  src={
-                    program?.image
-                      ? `${API_URL}/images/${program?.image}`
-                      : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'
-                  }
+                  src={`${API_URL}/images/${program?.image}`}
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; // prevents looping
+                    currentTarget.src =
+                      'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png';
+                  }}
                 />
               </div>
             </div>
@@ -109,7 +125,9 @@ export default function (props: any) {
               </div>
               <div className="flex items-center font-light ">
                 <BiLike className="text-[#54577A]  mr-2 font-bold text-xl " />
-                <span>{props.like ? props.like : 0} Lượt thích</span>
+                <span>
+                  {program?.totalLike ? program.totalLike : 0} Lượt thích
+                </span>
               </div>
             </div>
           </div>

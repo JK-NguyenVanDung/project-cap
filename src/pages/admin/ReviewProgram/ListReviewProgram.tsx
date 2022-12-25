@@ -22,7 +22,7 @@ export default function ListReviewPrograms() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const roleId = useAppSelector((state) => state.auth.info);
+  const info = useAppSelector((state) => state.auth.info);
   const [approve, setApprove] = useState(false);
   const [itemData, setItemData] = useState([]);
   useEffect(() => {
@@ -49,9 +49,8 @@ export default function ListReviewPrograms() {
     const getListReviewProgramId = async () => {
       try {
         let response: any = await apiService.getListProgramsByReviewer(
-          roleId.accountId,
+          info.accountId,
         );
-        console.log(response);
         response = response.reverse();
         let res = response.map((item: any, index: number) => {
           return {
@@ -69,7 +68,8 @@ export default function ListReviewPrograms() {
         console.log(error);
       }
     };
-    roleId === 1 ? getListReviewProgram() : getListReviewProgramId();
+
+    info.roleId === 2 ? getListReviewProgram() : getListReviewProgramId();
   }, [loading, confirmLoading]);
   const handelEdit = (item: any) => {
     setDetail(item);
@@ -107,15 +107,17 @@ export default function ListReviewPrograms() {
       key: 'status',
       render: (data: any) => {
         return data.status == 'approved' ? (
-          <h5>Đã Duyệt</h5>
+          <h5 className="text-bold text-primary">Đã Duyệt</h5>
         ) : data.status == 'denied' ? (
-          <h5>Đã Từ Chối</h5>
+          <h5 className="text-bold text-red-500">Từ Chối</h5>
         ) : data.status == 'save' ? (
-          <h5>Đã Lưu</h5>
+          <h5 className="text-bold text-yellow-800">Lưu nháp</h5>
         ) : data.status == 'public' ? (
-          <h5>Công Khai</h5>
+          <h5 className="text-bold text-green-500">Công Khai</h5>
+        ) : data.status == 'hide' ? (
+          <h5 className="text-bold text-purple-500">Riêng tư</h5>
         ) : (
-          <h5>Riêng Tư</h5>
+          <h5 className="text-bold text-orange-500">Chờ Duyệt</h5>
         );
       },
       width: '18%',
@@ -125,12 +127,22 @@ export default function ListReviewPrograms() {
       key: 'action',
 
       render: (data: any) => (
-        <PopOverAction
-          size="sm"
-          authType="addReviewer"
-          handleShowDetail={() => handelDataProgram(data)}
-          handleEdit={() => handelApprove(data)}
-        />
+        <>
+          {info.roleId === 2 ? (
+            <PopOverAction
+              size="sm"
+              authType="addReviewer"
+              handleAuth={() => handelEdit(data)}
+              handleShowDetail={() => handelDataProgram(data)}
+            />
+          ) : (
+            <PopOverAction
+              size="sm"
+              authType="addReviewer"
+              handleShowDetail={() => handelDataProgram(data)}
+            />
+          )}
+        </>
       ),
       width: GIRD12.COL2,
     },

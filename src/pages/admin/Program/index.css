@@ -3,6 +3,9 @@
   background-color: #eeeeee;
   border-radius: 10px;
 }
+.ant-image-mask {
+  width: 50% !important;
+}
 
 .containerUpLoad .ant-upload-list .ant-upload .ant-upload {
   width: 100%;

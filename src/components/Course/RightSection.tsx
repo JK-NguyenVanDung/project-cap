@@ -3,17 +3,19 @@ import { useEffect, useState } from 'react';
 import { AiFillHeart } from 'react-icons/ai';
 import apiService from '../../api/apiService';
 import CustomButton from '../admin/Button';
-import { useAppSelector } from '../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { IAccountItem, IProgramItem } from '../../Type';
 import { useNavigate } from 'react-router-dom';
 import Color from '../constant/Color';
 import { Spin } from 'antd';
+import { actions } from '../../Redux';
 
 interface Content {
   title: string;
   subject: string | number;
   icon?: any;
 }
+
 const RightSection = (props: any) => {
   const programId: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
@@ -22,22 +24,25 @@ const RightSection = (props: any) => {
   const [program, setProgram] = useState<IProgramItem>();
   const [user, setUser] = useState<IAccountItem>(null);
   const [like, setLike]: any = useState();
+  const updateLike: boolean = useAppSelector(
+    (state) => state.product.updateLike,
+  );
+  useAppDispatch;
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
-    let time = setTimeout(async () => {
-      await getData();
-    }, 100);
-    const fetchProgram = async () => {
-      const data: any = await apiService.getProgram(programId.programId);
-      setProgram(data);
-      setLike(data.isLike);
-    };
-    fetchProgram();
-    return () => {
-      clearTimeout(time);
-    };
+    getData();
   }, []);
+
+  useEffect(() => {
+    setLike(program?.isLike);
+  }, [program]);
+
   async function getData() {
     try {
+      const data: any = await apiService.getProgram(programId.programId);
+      setProgram(data);
+
       let res: any = await apiService.getAccounts();
       res = res.reverse();
 
@@ -47,7 +52,7 @@ const RightSection = (props: any) => {
       }));
       if (temp) {
         let acc = temp.find(
-          (item: any) => program.accountIdCreator == item.accountId,
+          (item: any) => data.accountIdCreator == item.accountId,
         );
         setUser(acc);
       }
@@ -55,15 +60,17 @@ const RightSection = (props: any) => {
       throw err.message;
     }
   }
-  const handelLove = (itemProgram?: IProgramItem) => {
-    setLike(!like);
+  const handelLove = async (itemProgram?: IProgramItem) => {
     const fetchLike = async () => {
-      const response: any = await apiService.likeProgram(
-        itemProgram?.programId,
-        !like,
-      );
+      await apiService.likeProgram(itemProgram?.programId, !itemProgram.isLike);
     };
-    fetchLike();
+
+    await fetchLike();
+
+    const data: any = await apiService.getProgram(programId.programId);
+    setProgram(data);
+
+    dispatch(actions.productActions.setUpdateLike(!updateLike));
   };
   return (
     <div className=" rounded-xl w-fit text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
@@ -150,9 +157,9 @@ const RightSection = (props: any) => {
         <CustomButton
           disabled={props.enable ? false : true}
           Icon={AiFillHeart}
-          color={like === false ? 'gray' : 'red'}
+          color={!like ? 'gray' : 'red'}
           text="Yêu thích"
-          className=" w-[90%] my-2 h-10"
+          className=" w-[90%] my-2 h-10 hover:bg-red-400"
           onClick={() => handelLove(program)}
         />
         <CustomButton

@@ -54,6 +54,11 @@ export default function CustomButton({
       Icon = HiOutlineTrash;
       tip = tip ? tip : 'Xoá';
       break;
+    case 'goBack':
+      defaultText = 'Quay lại';
+      variant = 'outlined';
+      tip = tip ? tip : 'Quay lại';
+      break;
     case 'cancel':
       defaultText = 'Huỷ';
       variant = 'outlined';
@@ -105,13 +110,15 @@ export default function CustomButton({
 
       Icon = BsFillPeopleFill;
       variant = 'outlined';
+      break;
     case 'addReviewer':
       defaultText = '';
       tip = tip ? tip : 'Giao người duyệt';
       iconClass = 'text-xl';
+
       Icon = MdGroupAdd;
       variant = 'outlined';
-
+      break;
     default:
       defaultText = '';
       Icon = Icon ? Icon : FaPlus;
