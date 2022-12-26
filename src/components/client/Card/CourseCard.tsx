@@ -11,6 +11,12 @@ import apiService from '../../../api/apiService';
 import { message } from 'antd';
 import { API_URL } from '../../../api/api';
 
+function getStatus(status: string) {
+  switch (status) {
+    case 'public':
+      return 'Có thể đăng ký  ';
+  }
+}
 export default function (props: any) {
   return (
     <>
@@ -84,24 +90,40 @@ const CourseContent = (props: {
           className="card hover:border-primary flex
           overflow-hidden flex-col min-w-[5rem]  min-h-[50vh] w-[18rem] h-[57vh] rounded-[20px] justify-end border-[2px] border-gray-50 " //border-[2px] border-color-[#c3c6ce]
         >
-          <a>
+          <div className="  w-full">
+            <div className="absolute  tag bg-green-500 px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-0">
+              <div className="relative bg-green-500">
+                <p>{getStatus(props.item?.status)}</p>
+              </div>
+            </div>
             <img
               className="rounded-t-lg object-fill	h-fit w-full"
               src={`${API_URL}/images/${props.item.image}`}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
-                currentTarget.src =
-                  'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png';
+                currentTarget.src = `https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/images/${props.item.image}`;
               }}
               alt=""
             />
-          </a>
+          </div>
           <div className="flex flex-col bg-white h-[60%] rounded-b-2xl py-2 px-4">
-            <div
-              className="bg-primary w-fit p-1 text-white  rounded text-xs font-light "
-              onClick={props.onClick}
-            >
-              {props.item?.category?.categoryName}
+            <div className="flex w-full justify-between items-center">
+              <div
+                className="bg-primary w-fit p-1 text-white  rounded text-xs font-light "
+                onClick={props.onClick}
+              >
+                {props.item?.category?.categoryName}
+              </div>
+              <div className="flex items-center">
+                <span className="text-body text-bold">
+                  {props.item?.totalLike}
+                </span>
+                <AiFillHeart
+                  onClick={() => handelLove(props.item)}
+                  color={colorHeart}
+                  className="ml-2 text-xl cursor-pointer"
+                />
+              </div>
             </div>
             <div className="flex w-full justify-between items-center my-2">
               <p
@@ -110,11 +132,6 @@ const CourseContent = (props: {
               >
                 {props.item?.programName}
               </p>
-              <AiFillHeart
-                onClick={() => handelLove(props.item)}
-                color={colorHeart}
-                className="text-lg cursor-pointer"
-              />
             </div>
             <p className="text-body">
               {' '}
@@ -127,11 +144,11 @@ const CourseContent = (props: {
             <div className="flex w-full justify-between items-center my-4">
               <div className="flex items-center">
                 <IoPerson className="text-lg mr-2 text-gray-400" />
-                Thầy Minh
+                {props.item?.lecturers}
               </div>
               <div className="flex   items-center">
                 <RiTimerFill className="text-lg mr-2 text-gray-400" />
-                23 tiếng
+                {props.item?.time}
               </div>
             </div>
           </div>{' '}

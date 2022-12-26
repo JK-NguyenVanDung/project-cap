@@ -16,9 +16,9 @@ const ChapterTab = ({ programId }: { programId: number }) => {
     try {
       let res: any = await apiService.getContentProgram(programId);
 
-      let temp = res.reverse();
-      if (temp) {
-        setChapters(temp);
+      // let temp = res.reverse();
+      if (res) {
+        setChapters(res);
       }
       setLoading(false);
     } catch (err: any) {

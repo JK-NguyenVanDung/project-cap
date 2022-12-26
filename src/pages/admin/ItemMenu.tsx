@@ -3,10 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hook/useRedux';
 import { actions } from '../../Redux';
 import { ISidebar } from './SidebarData';
+import { message } from 'antd';
+import { matchRoutes, useLocation } from 'react-router-dom';
 
 export default function ItemMenu({ params }: { params: any }) {
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
+  let location = useLocation();
+
   return (
     <>
       <li

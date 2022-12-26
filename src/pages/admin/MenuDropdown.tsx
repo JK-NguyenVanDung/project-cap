@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hook/useRedux';
 import { actions } from '../../Redux';
 import { ISidebar } from './SidebarData';
@@ -8,6 +8,7 @@ import ItemMenu from './ItemMenu';
 export default function MenuDropdown({ params }: { params: any }) {
   const [dropDown, setDropDown] = React.useState(false);
   const navigation = useNavigate();
+  let location = useLocation();
 
   const dispatch = useAppDispatch();
   return (

@@ -110,7 +110,10 @@ export default function Homepage() {
     <>
       <Loading loading={loading} />
 
-      <div className="bg-white py-4 pb-8 flex  w-full  items-center justify-between">
+      <div
+        className={`bg-white py-4 pb-8 flex  w-full  items-center justify-between
+   ${loading ? 'hidden' : 'visible'}`}
+      >
         <div className="w-fit mx-4">
           <SearchBar
             onSearch={onChangeSearch}
@@ -132,7 +135,11 @@ export default function Homepage() {
         </div>
       </div>
 
-      <div className="w-full flex justify-center">
+      <div
+        className={`w-full flex justify-center ${
+          loading ? 'hidden' : 'visible'
+        }`}
+      >
         <ul className=" grid lg:grid-cols-3 grid-cols-3 md:grid-cols-2 sm:grid-cols-1 	">
           {data?.length > 0 ? (
             data?.map((item: IProgramItem) => {

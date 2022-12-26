@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hook/useRedux';
 import { actions } from '../../Redux';
 import { ISidebar } from './SidebarData';
@@ -7,6 +7,8 @@ import { ISidebar } from './SidebarData';
 export default function ItemMenu({ params }: { params: any }) {
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
+  let location = useLocation();
+
   return (
     <>
       <li

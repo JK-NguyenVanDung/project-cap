@@ -162,7 +162,7 @@ export default function (props: any) {
           <p className="pt-4 text-xl font-semibold text-black font-bold">
             {getTitle()}
           </p>
-          <div className=" py-6 min-h-[10rem] w-full h-full">
+          <div className=" py-6 min-h-[12rem] w-full h-full">
             {currentTab === 1 && <DescriptionTab program={program} />}
 
             {currentTab === 2 && <ChapterTab programId={program?.programId} />}

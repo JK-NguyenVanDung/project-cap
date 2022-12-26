@@ -1,6 +1,6 @@
 import React from 'react';
 import Logo from '../../assets/logo.svg';
-import FooterImg from '../../assets/landingPage/footer.webp';
+import FooterImg from '../../assets/landingPage/footer.jpg';
 const Footer = React.forwardRef((props, ref: any) => {
   return (
     <>

@@ -24,6 +24,18 @@
   place-content: center;
 } */
 
+.tag:before {
+  content: '';
+  display: inline-block;
+  position: absolute;
+  left: 0;
+  bottom: -0.1875rem;
+  border-top: 0.1875rem solid;
+  border-left: 0.1875rem solid transparent;
+  -webkit-filter: brightness(60%);
+  filter: brightness(60%);
+}
+
 .card-button {
   transform: translate(-50%, 125%);
   width: 60%;
