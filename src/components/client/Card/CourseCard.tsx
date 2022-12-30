@@ -83,6 +83,12 @@ const CourseContent = (props: {
   useEffect(() => {
     handelLove();
   }, []);
+  function getListLearnerType(item: IProgramItem) {
+    let items = item?.programPositions.map((e) => {
+      return [...e.position.positionName];
+    });
+    return items;
+  }
   return (
     <>
       <div className="cardCont rounded-[20px] font-customFont ">
@@ -101,7 +107,8 @@ const CourseContent = (props: {
               src={`${API_URL}/images/${props.item.image}`}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
-                currentTarget.src = `https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/images/${props.item.image}`;
+                currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+                //https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/images/${props.item.image}
               }}
               alt=""
             />
@@ -134,10 +141,12 @@ const CourseContent = (props: {
               </p>
             </div>
             <p className="text-body">
-              {' '}
               {`HK${props.item?.semester} - ${props.item?.academicYear.year}`}{' '}
             </p>
-            <div className="h-20 ">
+            <div className="h-22 ">
+              {/* <p className="text-semibold ">
+                {getListLearnerType(props?.item)}
+              </p> */}
               <p className="text-body eclipse">{props.item?.descriptions}</p>
             </div>
 
@@ -148,7 +157,7 @@ const CourseContent = (props: {
               </div>
               <div className="flex   items-center">
                 <RiTimerFill className="text-lg mr-2 text-gray-400" />
-                {props.item?.time}
+                {props.item?.time}h
               </div>
             </div>
           </div>{' '}

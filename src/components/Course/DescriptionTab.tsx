@@ -13,6 +13,18 @@ const DescriptionTab = ({ program }: { program: IProgramItem }) => {
       <p className="pb-4 text-md  text-[#141522]">
         {program?.descriptions ? program.descriptions : 'Chưa có mô tả'}
       </p>
+      <p className="pt-4 text-xl text-black font-bold">Đối tượng tham gia</p>
+      <div className="flex w-full justify-start ">
+        {program?.programPositions.map((item: any) => {
+          return (
+            <>
+              <div className="bg-primary w-fit p-1 text-white  rounded text-sm my-4 font-semibold mr-4 ">
+                {item?.position?.positionName}
+              </div>
+            </>
+          );
+        })}
+      </div>
       <p className="pt-4 text-xl text-black font-bold">Cách tham gia đào tạo</p>
       <div className="flex flex-col justify-between">
         {instruction.map((item: string, index: number) => {

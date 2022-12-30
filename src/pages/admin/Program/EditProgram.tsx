@@ -87,6 +87,7 @@ export default function EditProgram() {
           RegistrationEndDate: item.registrationStartDate
             ? moment(item.registrationEndDate)
             : '',
+          LearnerCount: item ? item.learnerCount : '',
         }),
         setImage(item.image),
         setValuePositions(
@@ -211,6 +212,10 @@ export default function EditProgram() {
           values.AcademicYearId ? values.AcademicYearId : item.academicYearId,
         );
         frmData.append('Time', values.Time ? values.Time : item.time);
+        frmData.append(
+          'LearnerCount',
+          values.LearnerCount ? values.LearnerCount : item.LearnerCount,
+        );
 
         if (item) {
           const data = await apiService.putProgram(item.programId, frmData);
@@ -404,38 +409,17 @@ export default function EditProgram() {
                 },
               ]}
             />
+            <FormInput
+              label="Số lượng tham gia tối đa"
+              name="LearnerCount"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Số lượng tham gia tối đa',
+                },
+              ]}
+            />
             <div>
-              <label className="text-black font-bold font-customFont ">
-                Năm Học
-              </label>
-              <Form.Item
-                className="mt-4"
-                name="AcademicYearId"
-                rules={[
-                  {
-                    required: true,
-                    message: 'Vui Lòng Nhập Vào Năm Học',
-                  },
-                ]}
-              >
-                <Select
-                  showSearch
-                  placeholder="Chọn Năm Học"
-                  optionFilterProp="children"
-                  onChange={onChange}
-                  onSearch={onSearch}
-                  filterOption={(input: any, option: any) =>
-                    (option?.label ?? '')
-                      .toLowerCase()
-                      .includes(input.toLowerCase())
-                  }
-                  options={acedemic.map((item: any) => ({
-                    value: item.id,
-                    label: item.year,
-                  }))}
-                />
-              </Form.Item>
-
               <div className="">
                 <label className="text-black font-bold font-customFont ">
                   Học Kì
@@ -589,6 +573,36 @@ export default function EditProgram() {
               ]}
             >
               <DatePicker placeholder="Chọn Ngày" picker="date" />
+            </Form.Item>
+            <label className="text-black font-bold font-customFont ">
+              Năm Học
+            </label>
+            <Form.Item
+              className="mt-4 w-fit"
+              name="AcademicYearId"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Năm Học',
+                },
+              ]}
+            >
+              <Select
+                showSearch
+                placeholder="Chọn Năm Học"
+                optionFilterProp="children"
+                onChange={onChange}
+                onSearch={onSearch}
+                filterOption={(input: any, option: any) =>
+                  (option?.label ?? '')
+                    .toLowerCase()
+                    .includes(input.toLowerCase())
+                }
+                options={acedemic.map((item: any) => ({
+                  value: item.id,
+                  label: item.year,
+                }))}
+              />
             </Form.Item>
           </div>
         </div>

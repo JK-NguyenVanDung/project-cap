@@ -855,7 +855,7 @@ export default function Question() {
                         })
                   }
                 />
-                <FormInput disabled={false} label="Số slide" rules={[]} />
+                {/* <FormInput disabled={false} label="Số slide" rules={[]} /> */}
               </div>
             </div>
             <div className=" w-full ">

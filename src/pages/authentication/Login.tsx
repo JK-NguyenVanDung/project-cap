@@ -1,7 +1,7 @@
 import React, { useCallback, useState, useRef } from 'react';
 import { useMsal } from '@azure/msal-react';
 
-import Logo from '../../assets/img/logoVLU.png';
+import Logo from '../../assets/logo.svg';
 import LogoTrungTam from '../../assets/img/logoTrungTam.png';
 import trongdong from '../../assets/img/trongdong.png';
 import './index.css';
@@ -67,20 +67,18 @@ export default function Login() {
                 style={{
                   width: 400,
                 }}
-                className=" justify-end group bg-clip-padding bg-white backdrop-filter backdrop-blur-sm bg-opacity-60 border border-transparent button_login hover:text-black flex flex-col items-center m-4 p-3 py-12 rounded-lg cursor-pointer hover:-translate-y-4 "
+                className=" justify-end group bg-clip-padding bg-white backdrop-filter backdrop-blur-sm bg-opacity-60 border border-transparent button_login hover:text-black flex flex-col items-center m-4 p-3 py-14 rounded-lg cursor-pointer hover:-translate-y-4 "
                 onClick={() => LoginPopUp(item)}
               >
                 <div
-                  className={`w-fit h-fit flex flex-col items-center ${
-                    item.id != '1' && 'justify-end mb-4'
-                  }`}
+                  className={`w-fit h-fit flex flex-col items-center ${'justify-end mb-4'}`}
                 >
                   <img
-                    className={item.id == '1' ? 'w-[7rem]  h-fit' : 'h-[80px]'}
+                    className={item?.id === '1' ? 'h-[70px]' : 'h-[80px]'}
                     src={item.Logo}
                   />
                 </div>
-                <h2 className="text-black group-hover:text-white font-normal text-2xl uppercase my-2 font-bold">
+                <h2 className="text-black group-hover:text-white text-2xl uppercase my-2 font-bold">
                   {item.title}
                 </h2>
                 <p className="text-black group-hover:text-white text-lg">

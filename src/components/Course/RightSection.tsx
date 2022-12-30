@@ -146,6 +146,7 @@ const RightSection = (props: any) => {
           },
         ]}
       />
+
       <div className="flex my-8 flex-col w-full items-center justify-center">
         <CustomButton
           disabled={props.enable ? false : true}
