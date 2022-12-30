@@ -25,7 +25,7 @@ export default function MenuDropdown({ params }: { params: any }) {
           location.pathname.includes(params.path)
             ? ' text-primary'
             : 'text-primary'
-        }hover:bg-white hover:text-white py-4 my-2 mx-1 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
+        }hover:bg-white hover:text-white py-4 my-1 mx-1 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
         onClick={() => {
           navigation(params.path);
           setDropDown(!dropDown);

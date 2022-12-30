@@ -20,7 +20,7 @@ export default function ItemMenu({ params }: { params: any }) {
             : ''
         }${
           location.pathname === params.path ? ' text-primary' : 'text-primary'
-        }hover:bg-white hover:text-white py-4 my-2 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
+        }hover:bg-white hover:text-white py-4 my-0 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
         onClick={() => {
           navigation(params.path);
           dispatch(

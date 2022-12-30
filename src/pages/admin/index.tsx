@@ -42,7 +42,7 @@ export default function SideBar({ content }: { content: any }) {
   return (
     <>
       <div className="flex relative max-w-full h-screen">
-        <div className="fixed w-[81%] z-1 ">
+        <div className="fixed w-[79%] z-1 ">
           <div
             className="z-0  overflow-hidden bg-img-bar relative sidebar flex flex-col content-center items-center w-1/5"
             style={{
@@ -99,7 +99,7 @@ export default function SideBar({ content }: { content: any }) {
             </ul>
           </div>
         </div>
-        <div className="z-[2] Layout ml-[16.5%] w-full  ">
+        <div className="z-[2] Layout ml-[16.1%] w-full  ">
           <header className="header bg-gray-50 px-4 shadow-md-2">
             <div className="container flex items-center justify-between ">
               <h1 className="font-semibold text-xl">{nameMenu}</h1>

@@ -44,15 +44,19 @@ export default function Homepage() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(false);
 
-  const [filter, setFilter] = useState('Mới nhất');
+  const [filter, setFilter] = useState('Chưa đăng ký');
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: <a onClick={() => setFilter('Mới nhất')}>Mới nhất</a>,
+      label: <a onClick={() => setFilter('Chưa đăng ký')}>Chưa đăng ký</a>,
     },
     {
       key: '2',
-      label: <a onClick={() => setFilter('Cũ nhất')}>Cũ nhất</a>,
+      label: <a onClick={() => setFilter('Hết hạn')}>Hết hạn</a>,
+    },
+    {
+      key: '3',
+      label: <a onClick={() => setFilter('Hoàn thành')}>Hoàn thành</a>,
     },
     // {
     //   key: '3',
@@ -62,13 +66,14 @@ export default function Homepage() {
   useEffect(() => {
     const filtering = () => {
       setLoading(true);
+      setData(filterData);
 
-      if (filter === 'Mới nhất') {
-        setData(filterData);
-      }
-      if (filter === 'Cũ nhất') {
-        setData(filterData.slice().reverse());
-      }
+      // if (filter === 'Hoàn thành') {
+      //   setData(filterData);
+      // }
+      // if (filter === 'Cũ nhất') {
+      //   setData(filterData.slice().reverse());
+      // }
     };
     filtering();
     let timer = setTimeout(() => {
