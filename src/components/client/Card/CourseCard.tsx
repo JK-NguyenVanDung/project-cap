@@ -69,6 +69,8 @@ const CourseContent = (props: {
   console.log(props.item.isLike);
   const [like, setLike] = useState(props.item.isLike);
   const [colorHeart, setColorHeart]: any = useState(Color.gray4);
+  const [program, setProgram]: any = useState(null);
+
   const handelLove = (itemProgram?: IProgramItem) => {
     setLike(!like);
     like === false ? setColorHeart(Color.gray4) : setColorHeart(Color.error);
@@ -77,6 +79,8 @@ const CourseContent = (props: {
         itemProgram.programId,
         like,
       );
+      const res = await apiService.getProgram(itemProgram.programId);
+      setProgram(res);
     };
     fetchLike();
   };
@@ -84,17 +88,21 @@ const CourseContent = (props: {
     handelLove();
   }, []);
   function getListLearnerType(item: IProgramItem) {
-    let items = item?.programPositions.map((e) => {
-      return [...e.position.positionName];
+    let out = 'Dành cho: ';
+    let items = item?.programPositions.map((e, index) => {
+      out += e.position.positionName;
+      if (index < item.programPositions.length - 1) {
+        out += ', ';
+      }
     });
-    return items;
+    return out;
   }
   return (
     <>
       <div className="cardCont rounded-[20px] font-customFont ">
         <div
           className="card hover:border-primary flex
-          overflow-hidden flex-col min-w-[5rem]  min-h-[50vh] w-[18rem] h-[57vh] rounded-[20px] justify-end border-[2px] border-gray-50 " //border-[2px] border-color-[#c3c6ce]
+          overflow-hidden flex-col min-w-[5rem]  min-h-[54vh] w-[18rem] h-[61vh] rounded-[20px] justify-end border-[2px] border-gray-50 " //border-[2px] border-color-[#c3c6ce]
         >
           <div className="  w-full">
             <div className="absolute  tag bg-green-500 px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-0">
@@ -123,7 +131,7 @@ const CourseContent = (props: {
               </div>
               <div className="flex items-center">
                 <span className="text-body text-bold">
-                  {props.item?.totalLike}
+                  {program ? program.totalLike : props.item?.totalLike}
                 </span>
                 <AiFillHeart
                   onClick={() => handelLove(props.item)}
@@ -144,9 +152,9 @@ const CourseContent = (props: {
               {`HK${props.item?.semester} - ${props.item?.academicYear.year}`}{' '}
             </p>
             <div className="h-22 ">
-              {/* <p className="text-semibold ">
+              <p className="text-semibold ">
                 {getListLearnerType(props?.item)}
-              </p> */}
+              </p>
               <p className="text-body eclipse">{props.item?.descriptions}</p>
             </div>
 
@@ -160,7 +168,7 @@ const CourseContent = (props: {
                 {props.item?.time}h
               </div>
             </div>
-          </div>{' '}
+          </div>
           <button
             className=" outline-none card-button bg-primary"
             onClick={props.onClick}
