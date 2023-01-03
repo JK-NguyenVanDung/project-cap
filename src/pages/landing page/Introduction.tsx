@@ -1,9 +1,9 @@
-import IntroMain from '../../assets/landingPage/introduction-cover.webp';
+import IntroMain from '../../assets/landingPage/introduction-cover.jpg';
 import { IconType } from 'react-icons';
 
-import Remote from '../../assets/landingPage/remote.webp';
-import Calendar from '../../assets/landingPage/calendar.webp';
-import Note from '../../assets/landingPage/note.webp';
+import Remote from '../../assets/landingPage/remote.jpg';
+import Calendar from '../../assets/landingPage/calendar.jpg';
+import Note from '../../assets/landingPage/note.jpg';
 
 import { IoTimeSharp, IoCalendar, IoArrowRedoOutline } from 'react-icons/io5';
 import { HiPresentationChartBar } from 'react-icons/hi';

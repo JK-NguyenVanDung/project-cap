@@ -1,4 +1,4 @@
-import Hero from '../../assets/landingPage/hero-cover-1.webp';
+import Hero from '../../assets/landingPage/hero-cover-1.png';
 import Chart from '../../assets/landingPage/chart_line.svg';
 import Button from '../../components/sharedComponents/Button';
 import React from 'react';

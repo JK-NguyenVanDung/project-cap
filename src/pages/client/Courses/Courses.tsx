@@ -44,15 +44,19 @@ export default function Homepage() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(false);
 
-  const [filter, setFilter] = useState('Mới nhất');
+  const [filter, setFilter] = useState('Chưa đăng ký');
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: <a onClick={() => setFilter('Mới nhất')}>Mới nhất</a>,
+      label: <a onClick={() => setFilter('Chưa đăng ký')}>Chưa đăng ký</a>,
     },
     {
       key: '2',
-      label: <a onClick={() => setFilter('Cũ nhất')}>Cũ nhất</a>,
+      label: <a onClick={() => setFilter('Hết hạn')}>Hết hạn</a>,
+    },
+    {
+      key: '3',
+      label: <a onClick={() => setFilter('Hoàn thành')}>Hoàn thành</a>,
     },
     // {
     //   key: '3',
@@ -62,13 +66,14 @@ export default function Homepage() {
   useEffect(() => {
     const filtering = () => {
       setLoading(true);
+      setData(filterData);
 
-      if (filter === 'Mới nhất') {
-        setData(filterData);
-      }
-      if (filter === 'Cũ nhất') {
-        setData(filterData.slice().reverse());
-      }
+      // if (filter === 'Hoàn thành') {
+      //   setData(filterData);
+      // }
+      // if (filter === 'Cũ nhất') {
+      //   setData(filterData.slice().reverse());
+      // }
     };
     filtering();
     let timer = setTimeout(() => {
@@ -110,7 +115,10 @@ export default function Homepage() {
     <>
       <Loading loading={loading} />
 
-      <div className="bg-white py-4 pb-8 flex  w-full  items-center justify-between">
+      <div
+        className={`bg-white py-4 pb-8 flex  w-full  items-center justify-between
+   ${loading ? 'hidden' : 'visible'}`}
+      >
         <div className="w-fit mx-4">
           <SearchBar
             onSearch={onChangeSearch}
@@ -132,7 +140,11 @@ export default function Homepage() {
         </div>
       </div>
 
-      <div className="w-full flex justify-center">
+      <div
+        className={`w-full flex justify-center ${
+          loading ? 'hidden' : 'visible'
+        }`}
+      >
         <ul className=" grid lg:grid-cols-3 grid-cols-3 md:grid-cols-2 sm:grid-cols-1 	">
           {data?.length > 0 ? (
             data?.map((item: IProgramItem) => {

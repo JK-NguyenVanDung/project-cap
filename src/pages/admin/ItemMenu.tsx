@@ -3,10 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hook/useRedux';
 import { actions } from '../../Redux';
 import { ISidebar } from './SidebarData';
+import { message } from 'antd';
+import { matchRoutes, useLocation } from 'react-router-dom';
 
 export default function ItemMenu({ params }: { params: any }) {
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
+  let location = useLocation();
+
   return (
     <>
       <li
@@ -16,7 +20,7 @@ export default function ItemMenu({ params }: { params: any }) {
             : ''
         }${
           location.pathname === params.path ? ' text-primary' : 'text-primary'
-        }hover:bg-white hover:text-white py-4 my-2 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
+        }hover:bg-white hover:text-white py-4 my-0 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
         onClick={() => {
           navigation(params.path);
           dispatch(

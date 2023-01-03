@@ -260,7 +260,7 @@ export default function ChapterInfo() {
         />
 
         <div className="w-full mb-6 z-100">
-          <label className="text-black font-bold font-customFont ">
+          {/* <label className="text-black font-bold font-customFont ">
             Nhúng {switchType ? 'Video' : 'Sline'}
             <Switch
               checked={switchType}
@@ -269,7 +269,7 @@ export default function ChapterInfo() {
               checkedChildren="Video"
               unCheckedChildren="Slide"
             />
-          </label>
+          </label> */}
           <Form.Item
             name="content"
             rules={[

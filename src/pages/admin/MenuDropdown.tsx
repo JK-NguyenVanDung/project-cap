@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hook/useRedux';
 import { actions } from '../../Redux';
 import { ISidebar } from './SidebarData';
@@ -8,6 +8,7 @@ import ItemMenu from './ItemMenu';
 export default function MenuDropdown({ params }: { params: any }) {
   const [dropDown, setDropDown] = React.useState(false);
   const navigation = useNavigate();
+  let location = useLocation();
 
   const dispatch = useAppDispatch();
   return (
@@ -24,7 +25,7 @@ export default function MenuDropdown({ params }: { params: any }) {
           location.pathname.includes(params.path)
             ? ' text-primary'
             : 'text-primary'
-        }hover:bg-white hover:text-white py-4 my-2 mx-1 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
+        }hover:bg-white hover:text-white py-4 my-1 mx-1 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
         onClick={() => {
           navigation(params.path);
           setDropDown(!dropDown);

@@ -136,7 +136,7 @@ export const SideBarDataCT = [
         path: '/admin/MyProgram',
       },
       {
-        title: 'Chương Trình Chờ',
+        title: 'Chờ Duyệt',
         icon: GoVerified,
         path: '/admin/reviewProgram',
       },
@@ -194,7 +194,7 @@ export const SideBarDataFacul = [
         path: '/admin/MyProgram',
       },
       {
-        title: 'Chương Trình Chờ',
+        title: 'Chờ Duyệt',
         icon: GoVerified,
         path: '/admin/reviewProgram',
       },
