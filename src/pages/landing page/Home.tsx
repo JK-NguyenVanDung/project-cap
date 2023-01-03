@@ -3,10 +3,16 @@ import Chart from '../../assets/landingPage/chart_line.svg';
 import Button from '../../components/sharedComponents/Button';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch } from '../../hook/useRedux';
+import { actions } from '../../Redux';
 
 const Home = React.forwardRef((props, ref: any) => {
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
+  function Login() {
+    navigate('/login');
+    dispatch(actions.authActions.setInfo(null));
+  }
   return (
     <div
       ref={ref}
@@ -24,7 +30,7 @@ const Home = React.forwardRef((props, ref: any) => {
             Hãy đăng nhập để tham gia khoá học của chúng tôi
           </h3>
           <div className="flex flex-row justify-center items-center">
-            <Button onClick={() => navigate('/login')}>Tham gia đào tạo</Button>
+            <Button onClick={() => Login()}>Tham gia đào tạo</Button>
           </div>
         </div>
       </div>

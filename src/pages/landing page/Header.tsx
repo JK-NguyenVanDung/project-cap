@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import apiService from '../../api/apiService';
 import Logo from '../../assets/logo.svg';
+import { useAppDispatch } from '../../hook/useRedux';
+import { actions } from '../../Redux';
 
 const useMountEffect = (fun: any) => useEffect(fun, []);
 
 const Header = (props: any) => {
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const headerList = [
     {
@@ -19,6 +22,10 @@ const Header = (props: any) => {
     { title: 'VỀ CHÚNG TÔI', index: 2 },
     { title: 'LIÊN HỆ', index: 3 },
   ];
+  function Login() {
+    navigate('/login');
+    dispatch(actions.authActions.setInfo(null));
+  }
   const [open, setOpen] = useState(false);
 
   const executeScroll = (i: number) => {
@@ -40,9 +47,6 @@ const Header = (props: any) => {
 
   useMountEffect(executeScroll); // Scroll on mount
 
-  function login() {
-    navigate('/login');
-  }
   return (
     <nav className="  hide hide-top relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
       <div className="container flex flex-wrap justify-between items-center mx-auto">
@@ -56,7 +60,7 @@ const Header = (props: any) => {
           <button
             type="button"
             className={`btn btn-primary`}
-            onClick={() => login()}
+            onClick={() => Login()}
           >
             Đăng nhập
           </button>

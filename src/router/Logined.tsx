@@ -19,23 +19,35 @@ export default function Logined() {
   const [dataFct, setDataFct]: any = useState([]);
   const [positons, setPositons]: any = useState([]);
 
+  const [roleId, setRoleId] = useState();
   const { instance, accounts } = useMsal();
   const LoginParmas = useAppSelector((state) => state.auth.LoginId);
   const navLink = useAppSelector((state) => state.nav.nav);
 
   const info = useAppSelector((state) => state.auth.info);
   const alert = useAppSelector((state) => state.auth.notification);
-  console.log(info);
   useEffect(() => {
     RequestAccessToken();
     getPositions();
     getFacuties();
+    const fetchInfo = async () => {
+      const response: any = await apiService.getProfile();
+      const { roleId } = response;
+      setRoleId(roleId);
+
+      dispatch(actions.authActions.setInfo(response));
+    };
+    fetchInfo();
   }, []);
   useEffect(() => {
     if (alert === true) {
       notification.success({ message: 'Đăng Nhập Thành Công' });
       dispatch(actions.authActions.showNotification(false));
     }
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
   }, []);
   function RequestAccessToken() {
     const request = {
@@ -45,29 +57,32 @@ export default function Logined() {
     instance
       .acquireTokenSilent(request)
       .then(async (response) => {
-        setLoading(true);
         try {
           const reponseToken: any = await apiService.postAdminUser({
             token: response.accessToken,
           });
           dispatch(actions.authActions.Login(reponseToken.token));
           localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
-          setLoading(false);
 
           dispatch(actions.authActions.showNotification(true));
-          setLoading(false);
-          if (info.phoneNumber === null) {
-            notification.success({
-              message: 'Vui lòng nhập vào thông tin của bạn',
+          if (LoginParmas.id == 2 && roleId == 1) {
+            navigate('/');
+            notification.error({
+              message: 'Bạn Không Có Quyền Đăng Nhập',
             });
-            return;
-          } else {
-            if (navLink && LoginParmas.id == 1) {
-              navigate(navLink);
-            } else if (LoginParmas.id == 1) {
-              navigate('/home');
-            } else if (LoginParmas.id == 2) {
-              navigate('/admin');
+            if (info?.phoneNumber === null) {
+              notification.success({
+                message: 'Vui lòng nhập vào thông tin của bạn',
+              });
+              return;
+            } else {
+              if (navLink && LoginParmas.id == 1) {
+                navigate(navLink);
+              } else if (LoginParmas.id == 1) {
+                navigate('/home');
+              } else if (LoginParmas.id == 2) {
+                navigate('/admin');
+              }
             }
           }
         } catch (error) {
@@ -234,7 +249,7 @@ export default function Logined() {
   };
   return (
     <>
-      {info.phoneNumber === null ? (
+      {info?.phoneNumber === null ? (
         <LoginFirt />
       ) : (
         <div
