@@ -27,7 +27,6 @@ export default function Test() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const chapter = useAppSelector((state) => state.form.setChapter);
-  const location = useLocation();
 
   const [showConfirm, setShowConfirm] = useState(false);
   const [questionAmount, setQuestionAmount] = useState(0);
@@ -45,7 +44,7 @@ export default function Test() {
   function goBack() {
     navigate(`/admin/Program/Chapter/${chapter}`);
   }
-  function goQuestion() {
+  function goToQuestion() {
     dispatch(
       actions.questionActions.setHasQuestion(questionAmount > 0 ? true : false),
     );
@@ -96,7 +95,7 @@ export default function Test() {
     getData();
   }, [reload]);
 
-  const handleOk = async () => {
+  const handleSubmit = async () => {
     form
       .validateFields()
       .then(async (values: ITest) => {
@@ -163,7 +162,7 @@ export default function Test() {
             Bài kiểm tra chương {chapter}
           </p>
         </div>
-        <Form form={form} onFinish={handleOk} className=" w-full ">
+        <Form form={form} onFinish={handleSubmit} className=" w-full ">
           <FormInput
             disabled={false}
             name="testTitle"
@@ -251,7 +250,7 @@ export default function Test() {
                 size="md"
                 className="pl-2"
                 color="green"
-                onClick={() => goQuestion()}
+                onClick={() => goToQuestion()}
               />
             </div>
           </div>

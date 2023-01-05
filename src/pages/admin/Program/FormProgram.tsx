@@ -30,7 +30,7 @@ import './index.css';
 import { API_URL } from '../../../api/api';
 import Color from '../../../components/constant/Color';
 import ReviewHistory from '../../../components/admin/Review/ReviewHistory';
-export default function EditProgram() {
+export default function FormProgram() {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [dataFct, setDataFct]: any = useState([]);
   const [acedemic, setAcedemic]: any = useState([]);

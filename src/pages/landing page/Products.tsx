@@ -89,6 +89,11 @@ const ProductCard = (props: any) => {
           className="rounded-t-lg h-40 w-full"
           src={props.image}
           alt=""
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null; // prevents looping
+            currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+            //https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/images/${props.item.image}
+          }}
         />
       </a>
       <div className="py-3 px-5">

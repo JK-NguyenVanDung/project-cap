@@ -38,7 +38,7 @@ const ReviewDetail = () => {
         <div className="flex flex-row w-full h-full">
           <div className=" w-[15%] m-4  p-4 mr-8 h-full" />
           <LeftSection />
-          <MidSection setLoading={setLoading} />
+          <MidSection setLoading={setLoading} isReviewing={true} />
           <RightSection enable={false} />
         </div>
       </div>

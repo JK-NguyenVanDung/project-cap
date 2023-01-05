@@ -66,7 +66,6 @@ const CourseContent = (props: {
   onClick: React.MouseEventHandler;
   item: IProgramItem;
 }) => {
-  console.log(props.item.isLike);
   const [like, setLike] = useState(props.item.isLike);
   const [colorHeart, setColorHeart]: any = useState(Color.gray4);
   const [program, setProgram]: any = useState(null);

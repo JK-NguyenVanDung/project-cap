@@ -14,7 +14,7 @@ import { Button, Dropdown, Space } from 'antd';
 import Loading from '../../../components/sharedComponents/Loading';
 import { removeVietnameseTones } from '../../../utils/uinqueId';
 
-export default function Homepage() {
+export default function Programs() {
   const [data, setData] = useState<Array<IProgramItem>>(null);
   const [filterData, setFilterData] = useState<Array<IProgramItem>>(null);
 
@@ -39,7 +39,7 @@ export default function Homepage() {
   const dispatch = useAppDispatch();
   function handelDataProgram(item: IProgramItem) {
     dispatch(actions.formActions.setProgramForm(item));
-    navigate(`/Courses/${item.programName}`);
+    navigate(`/Programs/${item.programId}`);
   }
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(false);

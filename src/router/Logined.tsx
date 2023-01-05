@@ -53,7 +53,6 @@ export default function Logined() {
 
             dispatch(actions.authActions.showNotification(true));
 
-            // console.log(info.roleId);
             if (navLink && LoginParmas.id == 1) {
               navigate(navLink);
             } else if (LoginParmas.id == 1) {

@@ -4,6 +4,11 @@ const slice = createSlice({
   initialState: {
     detail: null,
     updateLike: false,
+    programId: null,
+    contentBreadcrumb: '',
+    selectedChapter: null,
+    initChapter: null,
+    viewedContent: false,
   },
 
   reducers: {
@@ -12,6 +17,18 @@ const slice = createSlice({
     },
     setDetail(state, action) {
       state.detail = action.payload;
+    },
+    setProgramId(state, action) {
+      state.programId = action.payload;
+    },
+    setContentBreadcrumb(state, action) {
+      state.contentBreadcrumb = action.payload;
+    },
+    setSelectedChapter(state, action) {
+      state.selectedChapter = action.payload;
+    },
+    setInitSelectedChapter(state, action) {
+      state.initChapter = action.payload;
     },
   },
 });

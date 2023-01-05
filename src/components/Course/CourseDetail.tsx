@@ -159,13 +159,17 @@ export default function (props: any) {
           />
         </div>
         <div className=" shadow-lg rounded-xl w-full  h-fit  text-black bg-white  my-4 pb-8 border flex flex-col justify-start items-start px-4">
-          <p className="pt-4 text-xl font-semibold text-black font-bold">
-            {getTitle()}
-          </p>
+          <p className="pt-4 text-xl font-semibold text-black ">{getTitle()}</p>
           <div className=" py-6 min-h-[12rem] w-full h-full">
             {currentTab === 1 && <DescriptionTab program={program} />}
 
-            {currentTab === 2 && <ChapterTab programId={program?.programId} />}
+            {currentTab === 2 && (
+              <ChapterTab
+                programId={program?.programId}
+                isReviewing={props.isReviewing}
+                isDetail={props.isDetail}
+              />
+            )}
             {currentTab === 3 && <ReviewTab program={program} />}
           </div>
         </div>

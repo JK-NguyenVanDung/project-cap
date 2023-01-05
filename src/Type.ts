@@ -105,6 +105,7 @@ const ChapterItem = z.object({
   chapter: z.number(),
   contentType: z.string(),
   content: z.string(),
+  isTest: z.boolean(),
 });
 const QuestionType = z.object({
   typeId: z.number(),
