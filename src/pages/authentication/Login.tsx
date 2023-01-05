@@ -31,6 +31,7 @@ export default function Login() {
   function LoginPopUp(item: any) {
     instance.loginPopup(loginRequest).catch((e) => {});
     dispatch(actions.authActions.setRoleLogin(item));
+    dispatch(actions.authActions.setInfo(''));
   }
   const videoRef = useRef(null);
 

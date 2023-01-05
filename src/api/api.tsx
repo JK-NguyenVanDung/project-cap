@@ -5,6 +5,7 @@ export const API_CONFIG = {
   AUTH: {
     LOGIN: '/api/Accounts/Login',
     GET_PROFILE: '/api/Accounts/me',
+    POST_PROFILE: ``,
   },
   COURSE_CATEGORY: {
     GET: '/api/Categories/',
@@ -16,6 +17,7 @@ export const API_CONFIG = {
     GET: '/api/Accounts',
     POST: '/api/Accounts',
     PUT: (ID: number) => `/api/Accounts/${ID}`,
+    PUT_FORM: '/api/Accounts/me',
   },
   ROLES: {
     GET: '/api/Roles/getall',

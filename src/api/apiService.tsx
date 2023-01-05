@@ -43,7 +43,9 @@ export default {
       ...props,
     });
   },
-
+  infoAccount: (params: any) => {
+    return axiosConfig.put(API_CONFIG.ACCOUNT.PUT_FORM, params);
+  },
   //ROLES
   getRoles: () => {
     return axiosConfig.get(API_CONFIG.ROLES.GET);
