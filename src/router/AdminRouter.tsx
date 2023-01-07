@@ -10,7 +10,7 @@ import Account from '../pages/admin/account/Account';
 import Program from '../pages/admin/Program/Program';
 import ProgramDetail from '../pages/admin/Program/ProgramDetail';
 import Faculties from '../pages/admin/Faculties/Faculties';
-import EditProgram from '../pages/admin/Program/EditProgram';
+import FormProgram from '../pages/admin/Program/FormProgram';
 import Logined from './Logined';
 import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
 import Question from '../pages/admin/Program/Test/Question';
@@ -26,8 +26,9 @@ import { actions } from '../Redux';
 import AcedemicYear from '../pages/admin/AcedemicYear/AcedemicYear';
 import Position from '../pages/admin/Position/Position';
 import ListReviewPrograms from '../pages/admin/ReviewProgram/ListReviewProgram';
-import Courses from '../pages/client/Courses/Courses';
-import CourseDetail from '../pages/client/Courses/CourseDetail';
+import UserProgram from '../pages/client/Programs/Programs';
+import UserProgramDetail from '../pages/client/Programs/ProgramDetail';
+import UserChapters from '../pages/client/Programs/Chapters/Chapters';
 
 export const RouterPages = [
   {
@@ -80,8 +81,8 @@ export const RouterPages = [
     element: <Faculties />,
   },
   {
-    path: '/admin/EditProgram',
-    element: <EditProgram />,
+    path: '/admin/FormProgram',
+    element: <FormProgram />,
   },
   {
     path: '/admin/AcedemicYear',
@@ -148,8 +149,8 @@ export const RouterCenter = [
     element: <Faculties />,
   },
   {
-    path: '/admin/EditProgram',
-    element: <EditProgram />,
+    path: '/admin/FormProgram',
+    element: <FormProgram />,
   },
   {
     path: '/admin/AcedemicYear',
@@ -215,8 +216,8 @@ export const RouterFaculty = [
     element: <Faculties />,
   },
   {
-    path: '/admin/EditProgram',
-    element: <EditProgram />,
+    path: '/admin/FormProgram',
+    element: <FormProgram />,
   },
   {
     path: '/admin/AcedemicYear',
@@ -246,12 +247,16 @@ const Leaner = [
     element: <Navigate replace to="/home" />,
   },
   {
-    path: '/Courses',
-    element: <Courses />,
+    path: '/Programs',
+    element: <UserProgram />,
   },
   {
-    path: '/Courses/:courseName',
-    element: <CourseDetail />,
+    path: '/Programs/:programName',
+    element: <UserProgramDetail />,
+  },
+  {
+    path: '/Programs/:programName/Chapters',
+    element: <UserChapters />,
   },
 ];
 export default function MakePagesRouter() {

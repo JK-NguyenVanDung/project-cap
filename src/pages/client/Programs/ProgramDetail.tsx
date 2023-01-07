@@ -4,6 +4,10 @@ import RightSection from '../../../components/Course/RightSection';
 import { useEffect, useRef, useState } from 'react';
 import Loading from '../../../components/sharedComponents/Loading';
 import ScrollToTop from '../../../utils/scrollToTop';
+import Breadcrumb from '../../../components/sharedComponents/Breadcrumb';
+import { IProgramItem } from '../../../Type';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
+import { actions } from '../../../Redux';
 
 export default function (props: any) {
   const navigate = useNavigate();
@@ -18,13 +22,29 @@ export default function (props: any) {
   //     });
   //   }, 50);
   // };
+  const dispatch = useAppDispatch();
+  const program: IProgramItem = useAppSelector(
+    (state) => state.form.setProgram,
+  );
+  useEffect(() => {
+    // executeScroll(0);
+    // console.log(1);
+    dispatch(
+      actions.formActions.setNameMenu(
+        `${program ? program?.programName : 'N/A'}`,
+      ),
+    );
+  }, []);
 
-  // useEffect(() => {
-  //   executeScroll(0);
-  //   console.log(1);
-  // }, []);
   return (
     <>
+      <div className="w-full  px-4 pb-2 bg-white">
+        <Breadcrumb
+          router1={'/Programs/'}
+          name={'Chương Trình'}
+          name2={program ? program?.programName : 'N/A'}
+        />
+      </div>
       <Loading loading={loading} />
       <div
         ref={ref}
@@ -32,8 +52,8 @@ export default function (props: any) {
           loading ? 'hidden' : 'visible'
         }`}
       >
-        <CourseDetail {...props} setLoading={setLoading} />
-        <RightSection enable={true} goBack={() => navigate('/Courses/')} />
+        <CourseDetail {...props} setLoading={setLoading} isDetail={true} />
+        <RightSection enable={true} goBack={() => navigate('/Programs/')} />
       </div>
     </>
   );

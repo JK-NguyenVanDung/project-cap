@@ -54,15 +54,15 @@ const Product = React.forwardRef((props, ref: any) => {
           />
           <ProductCard
             program={programs && programs[2]}
-            title={programs && programs[2].programName}
+            title={programs && programs[6].programName}
             view="200 Học viên"
             hour="20 buổi"
-            image="https://vcdn1-vnexpress.vnecdn.net/2020/09/12/English-4241-1599884287.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=lXq1p7RniKkjCoSZHhQ5PQ"
+            image="https://thumbs.dreamstime.com/b/consultant-presenting-tag-cloud-information-technology-224099191.jpg"
           />
           <ProductCard
             program={programs && programs[1]}
             title={programs && programs[1].programName}
-            view={programs && programs[1].learnerCount}
+            view={'100 Học viên'}
             hour="12 buổi"
             image="https://images.careerbuilder.vn/content/images/loi-ich-tu-nhung-ky-nang-mem-careerbuilder.jpg  "
           />
@@ -90,6 +90,11 @@ const ProductCard = (props: any) => {
           className="rounded-t-lg h-40 w-full"
           src={props.image}
           alt=""
+          onError={({ currentTarget }) => {
+            currentTarget.onerror = null; // prevents looping
+            currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+            //https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/images/${props.item.image}
+          }}
         />
       </a>
       <div className="py-3 px-5">

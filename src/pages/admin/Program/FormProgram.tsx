@@ -30,7 +30,7 @@ import './index.css';
 import { API_URL } from '../../../api/api';
 import Color from '../../../components/constant/Color';
 import ReviewHistory from '../../../components/admin/Review/ReviewHistory';
-export default function EditProgram() {
+export default function FormProgram() {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [dataFct, setDataFct]: any = useState([]);
   const [acedemic, setAcedemic]: any = useState([]);
@@ -71,7 +71,7 @@ export default function EditProgram() {
       ? (form.setFieldsValue({
           ProgramName: item ? item.programName : '',
           Coin: item ? item.coin : '',
-          Time: item ? item.time : '',
+          TrainingHours: item ? item.trainingHours : '',
           Lecturers: item ? item.lecturers : '',
           StartDate: item ? moment(item.startDate) : '',
           EndDate: item ? moment(item.endDate) : '',
@@ -87,7 +87,7 @@ export default function EditProgram() {
           RegistrationEndDate: item.registrationStartDate
             ? moment(item.registrationEndDate)
             : '',
-          LearnerCount: item ? item.learnerCount : '',
+          LearnerCount: item && item.learnerCount ? item.learnerCount : '0',
         }),
         setImage(item.image),
         setValuePositions(
@@ -148,7 +148,10 @@ export default function EditProgram() {
     form
       .validateFields()
       .then(async (values) => {
-        frmData.append('Time', values.Time ? values.Time : item.time);
+        frmData.append(
+          'TrainingHours',
+          values.TrainingHours ? values.TrainingHours : item.trainingHours,
+        );
         frmData.append(
           'Lecturers',
           values.Lecturers ? values.Lecturers : item.lecturers,
@@ -211,7 +214,6 @@ export default function EditProgram() {
           'AcademicYearId',
           values.AcademicYearId ? values.AcademicYearId : item.academicYearId,
         );
-        frmData.append('Time', values.Time ? values.Time : item.time);
         frmData.append(
           'LearnerCount',
           values.LearnerCount ? values.LearnerCount : item.LearnerCount,
@@ -390,7 +392,7 @@ export default function EditProgram() {
             <FormInput
               type="inputNumber"
               label="Số Giờ Đào tạo"
-              name="Time"
+              name="TrainingHours"
               rules={[
                 {
                   required: true,
