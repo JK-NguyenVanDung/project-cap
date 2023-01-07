@@ -3,9 +3,9 @@ import Chart from '../../assets/landingPage/chart_line.svg';
 import Button from '../../components/sharedComponents/Button';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { actions } from '../../Redux';
-
+import { notification } from 'antd';
 const Home = React.forwardRef((props, ref: any) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

@@ -72,6 +72,13 @@ const RightSection = (props: any) => {
 
     dispatch(actions.productActions.setUpdateLike(!updateLike));
   };
+
+  const handelRegister = (item: any) => {
+    const fetchRegister = async () => {
+      // await apiService.registerOrUn()
+    };
+    fetchRegister;
+  };
   return (
     <div className=" rounded-xl w-fit text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
       <p className="mt-6 text-xl font-light text-gray-900 text-center  flex w-full justify-center items-center">
@@ -149,6 +156,7 @@ const RightSection = (props: any) => {
 
       <div className="flex my-8 flex-col w-full items-center justify-center">
         <CustomButton
+          onClick={() => handelRegister(program)}
           disabled={props.enable ? false : true}
           noIcon
           color="blue"

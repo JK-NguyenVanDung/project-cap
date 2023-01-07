@@ -103,4 +103,13 @@ export const API_CONFIG = {
     GET_PROGRAM_STATUS: (programId: number) =>
       `/api/ReviewPrograms/status/${programId}`,
   },
+  LEANER: {
+    REGISTER_OR_UN: `/api/Learners/RegisterOrUnRegister`,
+
+    GETLEANER_ID: (id: number) => `/api/Learners/GetListLearner/${id}`,
+
+    ADD_LEANER: `/api/Learners/AddLearner`,
+
+    UPDATE_LEANER: (id: number) => `/api/Learners/UpdateLearner/${id}`,
+  },
 };

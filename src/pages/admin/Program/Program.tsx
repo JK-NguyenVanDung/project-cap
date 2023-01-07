@@ -54,7 +54,11 @@ export default function Program() {
       });
     }
   }
+  function GoLeanerPage(item: any) {
+    dispatch(actions.formActions.setProgramForm(item));
 
+    navigate('/admin/ListLeaner');
+  }
   function handleShowDetail(item: any) {
     dispatch(actions.formActions.setProgramForm(item));
     dispatch(
@@ -117,6 +121,16 @@ export default function Program() {
         );
       },
       width: '18%',
+    },
+    {
+      title: 'Xem Người Học',
+      render: (item: IProgramItem) => (
+        <PopOverAction
+          size="sm"
+          detailType="chapter"
+          handleShowDetail={() => GoLeanerPage(item)}
+        />
+      ),
     },
     {
       width: GIRD12.COL2,
