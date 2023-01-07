@@ -54,15 +54,15 @@ const Product = React.forwardRef((props, ref: any) => {
           />
           <ProductCard
             program={programs && programs[2]}
-            title={programs && programs[2].programName}
+            title={programs && programs[6].programName}
             view="200 Học viên"
             hour="20 buổi"
-            image="https://vcdn1-vnexpress.vnecdn.net/2020/09/12/English-4241-1599884287.jpg?w=0&h=0&q=100&dpr=2&fit=crop&s=lXq1p7RniKkjCoSZHhQ5PQ"
+            image="https://thumbs.dreamstime.com/b/consultant-presenting-tag-cloud-information-technology-224099191.jpg"
           />
           <ProductCard
             program={programs && programs[1]}
             title={programs && programs[1].programName}
-            view={programs && programs[1].learnerCount}
+            view={'100 Học viên'}
             hour="12 buổi"
             image="https://images.careerbuilder.vn/content/images/loi-ich-tu-nhung-ky-nang-mem-careerbuilder.jpg  "
           />

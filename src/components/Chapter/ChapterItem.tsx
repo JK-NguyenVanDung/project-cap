@@ -27,6 +27,8 @@ const ChapterItem = ({
   const [show, setShow] = useState(false);
   const [showContent, setShowContent] = useState(false);
   const [showTest, setShowTest] = useState(false);
+  const [viewedContent, setViewedContent] = useState(false);
+
   // const [disabled, setDisabled] = useState(false);
   // const [finished, setFinished] = useState(false);
   // const [finished, setFinished] = useState(false);
@@ -39,9 +41,9 @@ const ChapterItem = ({
   const selectedChapter: IChapterItem = useAppSelector(
     (state) => state.product.selectedChapter,
   );
-  const viewedContent: boolean = useAppSelector(
-    (state) => state.product.viewedContent,
-  );
+  // const viewedContent: boolean = useAppSelector(
+  //   (state) => state.product.viewedContent,
+  // );
   const initChapter: IChapterItem = useAppSelector(
     (state) => state.product.initChapter,
   );
@@ -66,6 +68,13 @@ const ChapterItem = ({
       setShowTest(false);
       setShowContent(false);
     }
+    let timeLock = setTimeout(() => {
+      setViewedContent(true);
+    }, 30000);
+    return () => {
+      clearTimeout(timeLock);
+      // setViewedContent(false);
+    };
   }, [selectedChapter]);
   useEffect(() => {
     let time = setTimeout(async () => {
@@ -135,6 +144,7 @@ const ChapterItem = ({
         actions.productActions.setContentBreadcrumb(initChapter.contentTitle),
       );
     }
+    setViewedContent(false);
 
     initChapter?.contentId !== chapter?.contentId && setShow(!show);
   };
@@ -144,7 +154,12 @@ const ChapterItem = ({
       dispatch(
         actions.productActions.setContentBreadcrumb(chapter.contentTitle),
       );
-
+      dispatch(
+        actions.productActions.setSelectedChapter({
+          ...chapter,
+          isTest: false,
+        }),
+      );
       dispatch(actions.productActions.setProgramId(chapter.programId));
       navigate(`/Programs/${chapter.programId}/Chapters`);
     }
@@ -242,7 +257,9 @@ const ChapterItem = ({
                   <div className="flex items-center">
                     <button
                       className={` pr-3  ${
-                        (disabled || !viewedContent) && 'opacity-40'
+                        disabled || viewedContent === false
+                          ? 'opacity-40'
+                          : 'opacity-100'
                       }`}
                     >
                       <HiClipboardCheck
@@ -254,7 +271,11 @@ const ChapterItem = ({
                     <p
                       className={` text-sm font-semibold  eclipse-wrap ${
                         showTest ? 'text-white' : 'text-black'
-                      }  ${(disabled || !viewedContent) && 'opacity-40'}`}
+                      }  ${
+                        disabled || viewedContent === false
+                          ? 'opacity-40'
+                          : 'opacity-100'
+                      }`}
                     >
                       {test?.testTitle ? test?.testTitle : 'Bài Kiểm Tra'}
                     </p>
@@ -269,9 +290,13 @@ const ChapterItem = ({
                     </div>
                   ) : (
                     <p
-                      className={` text-sm font-semibold ${
+                      className={` text-sm text-center font-semibold ${
                         showTest ? 'text-white' : 'text-black'
-                      } ${(disabled || !viewedContent) && 'opacity-40'}`}
+                      } ${
+                        disabled || viewedContent === false
+                          ? 'opacity-40'
+                          : 'opacity-100'
+                      }`}
                     >
                       {questionCount ? questionCount : 0} câu
                     </p>

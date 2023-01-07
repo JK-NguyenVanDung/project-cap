@@ -164,7 +164,7 @@ const CourseContent = (props: {
               </div>
               <div className="flex   items-center">
                 <RiTimerFill className="text-lg mr-2 text-gray-400" />
-                {props.item?.time}h
+                {props.item?.trainingHours}h
               </div>
             </div>
           </div>

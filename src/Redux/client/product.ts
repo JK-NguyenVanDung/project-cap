@@ -15,6 +15,9 @@ const slice = createSlice({
     setUpdateLike(state, action) {
       state.updateLike = action.payload;
     },
+    setUnlock(state, action) {
+      state.viewedContent = action.payload;
+    },
     setDetail(state, action) {
       state.detail = action.payload;
     },

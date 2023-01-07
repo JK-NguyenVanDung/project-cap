@@ -93,7 +93,7 @@ const ProgramItem = z.object({
   faculty: z.object(Faculty),
   programPositions: z.array(z.object(Position)),
   lecturers: z.string(),
-  time: z.string(),
+  trainingHours: z.string(),
   totalLike: z.number(),
 });
 

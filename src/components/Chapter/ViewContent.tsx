@@ -4,27 +4,39 @@ import { BiLike } from 'react-icons/bi';
 import View from '../../assets/svg/View.svg';
 import { actions } from '../../Redux';
 import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 export default function (props: any) {
   const ref = useRef(null);
+  const iframeRef = useRef(null);
+  const [frame, setFrame] = useState(null);
+  const [unLock, setUnLock] = useState(false);
+  const dispatch = useAppDispatch();
+
   const program: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
   );
   const selectedChapter: IChapterItem = useAppSelector(
     (state) => state.product.selectedChapter,
   );
+
   useEffect(() => {
-    console.log(ref.current);
-  }, []);
+    // console.log(ref.current?.children[0]?.src);
+    setFrame(ref.current?.children[0]?.src);
+  }, [selectedChapter]);
   return (
     <>
+      <div
+        ref={ref}
+        className="py-8 hidden "
+        dangerouslySetInnerHTML={{ __html: selectedChapter?.content }}
+      />
       <div className="w-full h-[50vh]">
         <div className="h-full w-full border border-border-gray rounded-xl">
-          <div
-            ref={ref}
-            className="py-8 "
-            dangerouslySetInnerHTML={{ __html: selectedChapter?.content }}
-          />
+          <iframe
+            ref={iframeRef}
+            src={frame}
+            className="w-full h-full"
+          ></iframe>
         </div>
       </div>
       <p className="py-4 w-full text-2xl h-fit font-semibold text-primary eclipse-wrap">
@@ -41,7 +53,7 @@ export default function (props: any) {
         </span>
       </div>
       <div className="flex w-full items-center  mt-4 text-base">
-        <div className="flex items-center mr-4  font-light">
+        {/* <div className="flex items-center mr-4  font-light">
           <img src={View} className="  mr-2 font-bold  " />
           <span>
             {props.learnerCount ? props.learnerCount : 0} Người tham gia
@@ -50,9 +62,10 @@ export default function (props: any) {
         <div className="flex items-center font-light ">
           <BiLike className="text-[#54577A]  mr-2 font-bold text-xl " />
           <span>{program?.totalLike ? program.totalLike : 0} Lượt thích</span>
-        </div>
+        </div> */}
       </div>
-      <p className="py-4 text-md  text-[#141522]">
+      <p className="pb-2 text-lg  text-[#141522]">Mô tả</p>
+      <p className="pb-4 text-md  text-[#141522]">
         {selectedChapter?.contentDescription
           ? selectedChapter.contentDescription
           : 'Chưa có mô tả'}
