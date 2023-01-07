@@ -85,11 +85,7 @@ export default function LeanerPage() {
       width: GIRD12.COL1,
 
       render: (data: any) => (
-        <PopOverAction
-          size="sm"
-          handleEdit={() => handelEdit(data)}
-          handleDelete={() => handleDelete(data)}
-        />
+        <PopOverAction size="sm" handleEdit={() => handelEdit(data)} />
       ),
     },
   ];
