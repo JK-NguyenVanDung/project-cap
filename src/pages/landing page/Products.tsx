@@ -23,7 +23,7 @@ const Product = React.forwardRef((props, ref: any) => {
   }
   function handleNavProducts() {
     dispatch(actions.navActions.setNav(`/Courses/`));
-
+    dispatch(actions.authActions.setInfo(null));
     navigate('/login');
   }
   useEffect(() => {
@@ -77,8 +77,9 @@ const ProductCard = (props: any) => {
   const dispatch = useDispatch();
   function handleNavProduct() {
     dispatch(actions.navActions.setNav(`/Courses/${props?.title}`));
-
     dispatch(actions.formActions.setProgramForm(props.program));
+    dispatch(actions.authActions.setInfo(null));
+
     navigate('/login');
   }
   return (
