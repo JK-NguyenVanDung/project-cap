@@ -23,7 +23,7 @@ export default function Logined() {
   const navLink = useAppSelector((state) => state.nav.nav);
   const loading = true;
   const info = useAppSelector((state) => state.auth.info);
-
+  const [checkFirt, setCheckFirt] = useState(false);
   useEffect(() => {
     if (info.phoneNumber === null) {
       getPositions();
@@ -60,15 +60,17 @@ export default function Logined() {
             notification.error({
               message: 'Bạn Không Có Quyền Đăng Nhập',
             });
-          } else if (!info.phoneNumber) {
-            return;
+            if (navLink && LoginParmas.id == 1 && info.phoneNumber) {
+              navigate(navLink);
+            } else if (LoginParmas.id == 1 && info.phoneNumber) {
+              navigate('/home');
+            } else if (LoginParmas.id == 2 && info.phoneNumber) {
+              navigate('/admin');
+            }
           }
-          if (navLink && LoginParmas.id == 1) {
-            navigate(navLink);
-          } else if (LoginParmas.id == 1) {
-            navigate('/home');
-          } else if (LoginParmas.id == 2) {
-            navigate('/admin');
+          if (!info.phoneNumber) {
+            setCheckFirt(true);
+            return;
           }
         } catch (error) {
           instance.logoutPopup({
@@ -230,9 +232,8 @@ export default function Logined() {
   };
   return (
     <>
-      {info.phoneNumber ? (
-        <LoginFirt />
-      ) : (
+      {info.phoneNumber ? <LoginFirt /> : null}
+      {checkFirt == true && (
         <>
           <div className="overlay" />
           <video

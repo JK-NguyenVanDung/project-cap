@@ -7,27 +7,28 @@ import { errorText } from '../../../helper/constant';
 import { Select } from 'antd';
 import { useAppSelector } from '../../../hook/useRedux';
 import { IProgramItem } from '../../../Type';
+import Input from '../../../components/sharedComponents/Input';
+import CustomButton from '../../../components/admin/Button';
+import { HiOutlineTrash } from 'react-icons/hi';
 
 export default function ImportFile({
   showModal,
   setShowModal,
-  detail,
-  program,
   loading,
   setLoading,
 }: {
   loading: boolean;
   setLoading: (loading: boolean) => void;
-  program: IProgramItem;
-  detail: any;
   showModal: boolean;
   setShowModal: (showModal: boolean) => void;
 }) {
-  const [showDetail, setShowDetail] = useState(false);
+  const [valueMail, setValueMail] = useState('');
   const [form] = Form.useForm();
-  const account = useAppSelector((state) => state.auth.info);
   const [listProgram, setListProgram] = useState([]);
-
+  const tamp: any = {
+    email: valueMail,
+  };
+  const [arrMail, setArrMail] = useState([tamp]);
   useEffect(() => {
     async function fetchProgram() {
       let res: any = await apiService.getPrograms();
@@ -35,16 +36,15 @@ export default function ImportFile({
     }
     fetchProgram();
   }, []);
+
+  const handelEmail = (value: any) => {
+    setValueMail(value.target.value);
+  };
   const handleOk = async () => {
     form
       .validateFields()
       .then(async (values) => {
-        const valueProgram = {
-          accountIdLearner: values.accountIdLearner,
-          programId: program.programId,
-          accountIdApprover: account.accountId,
-        };
-        const data = apiService.addProgram(valueProgram);
+        const data = apiService.importFileLeaner(values);
         setLoading(true);
         if (data) {
           setLoading(false);
@@ -55,6 +55,69 @@ export default function ImportFile({
       })
 
       .catch((info) => {});
+  };
+  const handelAddEmail = () => {
+    setArrMail([...arrMail, tamp]);
+    console.log(arrMail);
+  };
+  const removeEmail = (index: number) => {
+    console.log(index);
+    const filteredItems = arrMail.filter((item, i) => {
+      return i + 1 !== index;
+    });
+    setArrMail([...filteredItems]);
+  };
+  const ItemFormEmail = ({ index }: { index: number }) => {
+    return (
+      <div className="flex justify-between items-center">
+        <div className="w-full">
+          <label className="text-start w-full mb-4 text-black font-bold font-customFont ">
+            Email {index}
+          </label>
+          <Form.Item
+            className="w-full "
+            rules={[
+              {
+                required: true,
+                message: 'Vui Lòng Nhập Vào Email',
+              },
+              {
+                pattern: new RegExp(
+                  /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
+                ),
+                message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU',
+              },
+
+              {
+                pattern: new RegExp(
+                  /^\w*[A-Za-z]+(?:([._]?\w+)*)\@[A-Za-z]\w*[-]?\w+\.[A-Za-z]{1,}?(\.?[A-Za-z]+)$/,
+                ),
+                message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU ',
+              },
+              {
+                pattern: new RegExp(/^\w/),
+                message: errorText.email,
+              },
+              {
+                pattern: new RegExp(/^(?!\s*$|\s).*$/),
+                message: errorText.space,
+              },
+            ]}
+          >
+            <Input onChange={(value: string) => handelEmail(value)} />
+          </Form.Item>
+        </div>
+        <div className=" pb-5">
+          <CustomButton
+            className="w-9 h-9"
+            size="sm"
+            Icon={HiOutlineTrash}
+            color="red"
+            onClick={() => removeEmail(index)}
+          />
+        </div>
+      </div>
+    );
   };
   const FormItem = () => {
     return (
@@ -85,6 +148,15 @@ export default function ImportFile({
             }))}
           />
         </Form.Item>
+        {arrMail.map((item, index) => {
+          return <ItemFormEmail key={index} index={index + 1} />;
+        })}
+        <CustomButton
+          className="w-36"
+          size="sm"
+          text="Thêm Email"
+          onClick={() => handelAddEmail()}
+        />
       </>
     );
   };
@@ -93,14 +165,10 @@ export default function ImportFile({
       show={showModal}
       handleOk={handleOk}
       setShow={setShowModal}
-      dataItem={detail}
-      label={'Phòng/Khoa'}
-      name={detail}
+      label={'Người Học'}
       FormItem={<FormItem />}
       form={form}
-      header={showDetail ? 'Thêm' : 'Sửa Phòng/Khoa'}
-      showDetail={showDetail}
-      setShowDetail={setShowDetail}
+      header={'Xuất Tập Tin'}
       confirmLoading={loading}
     />
   );

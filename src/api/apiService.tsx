@@ -222,4 +222,8 @@ export default {
   updateLeaner: (id: number, params: any) => {
     return axiosConfig.put(API_CONFIG.LEANER.UPDATE_LEANER(id), params);
   },
+
+  importFileLeaner: (param: any) => {
+    return axiosConfig.post(API_CONFIG.LEANER.IMPORT_FILE, param);
+  },
 };

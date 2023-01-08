@@ -9,6 +9,7 @@ import { GIRD12, MESSAGE } from '../../../helper/constant';
 import PopOverAction from '../../../components/admin/PopOver';
 import { useAppSelector } from '../../../hook/useRedux';
 import AddLeaner from './AddLeaner';
+import ImportFile from './ImportFile';
 export default function LeanerPage() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
@@ -18,6 +19,7 @@ export default function LeanerPage() {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const item = useAppSelector((state) => state.form.setProgram);
   const [program, setProgram] = useState(item);
+  const [importFile, setImportFile] = useState(false);
   useEffect(() => {
     async function getLeaner() {
       try {
@@ -110,8 +112,9 @@ export default function LeanerPage() {
     setDetail(null);
     setProgram(item);
   }
-
-  function handelImport() {}
+  function handelImport() {
+    setImportFile(true);
+  }
   return (
     <>
       <TableConfig
@@ -146,6 +149,12 @@ export default function LeanerPage() {
         program={program}
         loading={confirmLoading}
         setLoading={setConfirmLoading}
+      />
+      <ImportFile
+        loading={confirmLoading}
+        setLoading={setConfirmLoading}
+        showModal={importFile}
+        setShowModal={setImportFile}
       />
     </>
   );

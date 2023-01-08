@@ -111,5 +111,7 @@ export const API_CONFIG = {
     ADD_LEANER: `/api/Learners/AddLearner`,
 
     UPDATE_LEANER: (id: number) => `/api/Learners/UpdateLearner/${id}`,
+
+    IMPORT_FILE: '/api/Learners/Import',
   },
 };
