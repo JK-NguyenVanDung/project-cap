@@ -60,13 +60,13 @@ export default function Logined() {
             notification.error({
               message: 'Bạn Không Có Quyền Đăng Nhập',
             });
-            if (navLink && LoginParmas.id == 1 && info.phoneNumber) {
-              navigate(navLink);
-            } else if (LoginParmas.id == 1 && info.phoneNumber) {
-              navigate('/home');
-            } else if (LoginParmas.id == 2 && info.phoneNumber) {
-              navigate('/admin');
-            }
+          }
+          if (navLink && LoginParmas.id == 1 && info.phoneNumber) {
+            navigate(navLink);
+          } else if (LoginParmas.id == 1 && info.phoneNumber) {
+            navigate('/home');
+          } else if (LoginParmas.id == 2 && info.phoneNumber) {
+            navigate('/admin');
           }
           if (!info.phoneNumber) {
             setCheckFirt(true);
