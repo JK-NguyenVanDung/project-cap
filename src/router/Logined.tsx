@@ -68,10 +68,10 @@ export default function Logined() {
           } else if (LoginParmas.id == 2 && info.phoneNumber) {
             navigate('/admin');
           }
-          if (!info.phoneNumber) {
-            setCheckFirt(true);
-            return;
-          }
+          // if (!info.phoneNumber) {
+          //   setCheckFirt(true);
+          //   return;
+          // }
         } catch (error) {
           instance.logoutPopup({
             postLogoutRedirectUri: '/',
@@ -232,37 +232,37 @@ export default function Logined() {
   };
   return (
     <>
-      {info.phoneNumber ? <LoginFirt /> : null}
-      {checkFirt == true && (
-        <>
-          <div className="overlay" />
-          <video
-            style={{
-              height: '100vh',
-              width: '100%',
-              objectFit: 'cover',
-            }}
-            src={videoBackground}
-            autoPlay
-            muted
-            loop
-            id="myVideo"
-          />
-          <div
-            className="flex justify-center content-center items-center"
-            style={{
-              height: '100vh',
-            }}
-          >
-            <Spin
-              className="absolute top-1/2 left-1/2"
-              indicator={antIcon}
-              tip="Loading..."
-              spinning={loading}
-            ></Spin>
-          </div>
-        </>
-      )}
+      {/* {info.phoneNumber ? <LoginFirt /> : null} */}
+      {/* {checkFirt == true && ( */}
+      <>
+        <div className="overlay" />
+        <video
+          style={{
+            height: '100vh',
+            width: '100%',
+            objectFit: 'cover',
+          }}
+          src={videoBackground}
+          autoPlay
+          muted
+          loop
+          id="myVideo"
+        />
+        <div
+          className="flex justify-center content-center items-center"
+          style={{
+            height: '100vh',
+          }}
+        >
+          <Spin
+            className="absolute top-1/2 left-1/2"
+            indicator={antIcon}
+            tip="Loading..."
+            spinning={loading}
+          ></Spin>
+        </div>
+      </>
+      {/* )} */}
     </>
   );
 }

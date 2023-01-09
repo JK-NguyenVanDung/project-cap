@@ -56,11 +56,7 @@ export default function Program() {
       });
     }
   }
-  function GoLeanerPage(item: any) {
-    dispatch(actions.formActions.setProgramForm(item));
 
-    navigate('/admin/ListLeaner');
-  }
   function handleShowDetail(item: any) {
     dispatch(actions.formActions.setProgramForm(item));
     dispatch(
