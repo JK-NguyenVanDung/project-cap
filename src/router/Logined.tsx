@@ -109,9 +109,7 @@ export default function Logined() {
       try {
         const data = await apiService.infoAccount(values);
         if (data) {
-          if (navLink && LoginParmas.id == 1) {
-            navigate(navLink);
-          } else if (LoginParmas.id == 1) {
+          if (LoginParmas.id == 1) {
             navigate('/home');
           } else if (LoginParmas.id == 2) {
             navigate('/admin');
