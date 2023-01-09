@@ -226,4 +226,7 @@ export default {
   importFileLeaner: (param: any) => {
     return axiosConfig.post(API_CONFIG.LEANER.IMPORT_FILE, param);
   },
+  getMyProgram: () => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.MYPROGRAM);
+  },
 };

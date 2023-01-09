@@ -29,6 +29,12 @@ export const SideBarData = [
     path: '/admin/Account',
   },
   {
+    title: 'Học Viên',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/ListLeaner',
+    children: [{ title: 'Tất Cả', icon: ImBooks, path: '/admin/ListLeaner' }],
+  },
+  {
     title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
@@ -79,11 +85,6 @@ export const SideBarData = [
       },
     ],
   },
-  // {
-  //   title: 'Học Viên',
-  //   icon: BsFillPersonBadgeFill,
-  //   path: '/admin/Learner',
-  // },
 ];
 
 export const SideBarDataCT = [
@@ -93,6 +94,12 @@ export const SideBarDataCT = [
     path: '/admin',
   },
   {
+    title: 'Học Viên',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/ListLeaner',
+    children: [{ title: 'Tất Cả', icon: ImBooks, path: '/admin/ListLeaner' }],
+  },
+  {
     title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
@@ -142,15 +149,16 @@ export const SideBarDataCT = [
       },
     ],
   },
-  // {
-  //   title: 'Học Viên',
-  //   icon: BsFillPersonBadgeFill,
-  //   path: '/admin/Learner',
-  // },
 ];
 
 export const SideBarDataFacul = [
   {
+    title: 'Học Viên',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/ListLeaner',
+    children: [{ title: 'Tất Cả', icon: ImBooks, path: '/admin/ListLeaner' }],
+  },
+  {
     title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
@@ -200,9 +208,4 @@ export const SideBarDataFacul = [
       },
     ],
   },
-  // {
-  //   title: 'Học Viên',
-  //   icon: BsFillPersonBadgeFill,
-  //   path: '/admin/Learner',
-  // },
 ];

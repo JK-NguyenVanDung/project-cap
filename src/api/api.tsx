@@ -36,6 +36,8 @@ export const API_CONFIG = {
 
     LIKE: (id: number, isLike: boolean) =>
       `/api/Programs/${id}/LikeProgram?isLike=${isLike}`,
+
+    MYPROGRAM: '/api/Learners/MyApplications',
   },
   FACULTIES: {
     GET: '/api/Faculties',

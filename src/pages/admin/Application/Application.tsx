@@ -8,23 +8,15 @@ import { Button, message, notification, Popconfirm } from 'antd';
 import { GIRD12, MESSAGE } from '../../../helper/constant';
 import PopOverAction from '../../../components/admin/PopOver';
 import { useAppSelector } from '../../../hook/useRedux';
-import AddLeaner from './AddLeaner';
-import ImportFile from './ImportFile';
-export default function LeanerPage() {
+export default function Application() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
-  const [addLeaner, setAddLeaner] = useState(false);
   const [detail, setDetail] = useState();
-  const [confirmLoading, setConfirmLoading] = useState(false);
-  const item = useAppSelector((state) => state.form.setProgram);
-  const [program, setProgram] = useState(item);
-  const [importFile, setImportFile] = useState(false);
-  const [showLeaner, setShowLeaner] = useState(false);
   useEffect(() => {
-    async function getLeaner() {
+    async function getApplication() {
       try {
-        let response: any = await apiService.getLeaner_id(item.programId);
+        let response: any = await apiService.getApplication();
         response = response.reverse();
         let res = response.map((item: any, index: number) => {
           return {
@@ -34,10 +26,8 @@ export default function LeanerPage() {
         });
         setData(res);
         setLoading(true);
-        setConfirmLoading(true);
         setTimeout(() => {
           setLoading(false);
-          setConfirmLoading(false);
           setFilterData(res);
         }, 1000);
       } catch (error) {
@@ -45,26 +35,9 @@ export default function LeanerPage() {
       }
     }
 
-    getLeaner();
-  }, [addLeaner]);
-  const handelEdit = (item: any) => {
-    setDetail(item);
-    setAddLeaner(true);
-  };
-  async function handleDelete(item: any) {
-    try {
-      // await apiService.delLeaner(item.facultyId);
-      setLoading(!loading);
-      notification.success({
-        message: MESSAGE.SUCCESS.DELETE,
-      });
-    } catch (err: any) {
-      notification.error({
-        message:
-          'Khoa ban này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn khoa ban khá trong chương trình đó để xoá khoa ban này',
-      });
-    }
-  }
+    getApplication();
+  }, []);
+
   const Columns = [
     {
       title: 'STT',
@@ -88,17 +61,11 @@ export default function LeanerPage() {
       width: GIRD12.COL1,
 
       render: (data: any) => (
-        <PopOverAction
-          size="sm"
-          handleEdit={() => handelEdit(data)}
-          handleShowDetail={() => handelShow(data)}
-        />
+        <PopOverAction size="sm" handleShowDetail={() => handelShow(data)} />
       ),
     },
   ];
-  const handelShow = (item: any) => {
-    setShowLeaner(true);
-  };
+  const handelShow = (item: any) => {};
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
@@ -116,13 +83,9 @@ export default function LeanerPage() {
   };
 
   function handelAdd() {
-    setAddLeaner(true);
     setDetail(null);
-    setProgram(item);
   }
-  function handelImport() {
-    setImportFile(true);
-  }
+  function handelImport() {}
   return (
     <>
       <TableConfig
@@ -130,7 +93,7 @@ export default function LeanerPage() {
         search={true}
         data={data}
         columns={Columns}
-        loading={loading || confirmLoading}
+        loading={loading}
         extra={[
           <div className="flex">
             <CustomButton
@@ -149,20 +112,6 @@ export default function LeanerPage() {
             />
           </div>,
         ]}
-      />
-      <AddLeaner
-        detail={detail}
-        setShowModal={setAddLeaner}
-        showModal={addLeaner}
-        program={program}
-        loading={confirmLoading}
-        setLoading={setConfirmLoading}
-      />
-      <ImportFile
-        loading={confirmLoading}
-        setLoading={setConfirmLoading}
-        showModal={importFile}
-        setShowModal={setImportFile}
       />
     </>
   );

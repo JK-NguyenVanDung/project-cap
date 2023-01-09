@@ -29,6 +29,7 @@ import ListReviewPrograms from '../pages/admin/ReviewProgram/ListReviewProgram';
 import Courses from '../pages/client/Courses/Courses';
 import CourseDetail from '../pages/client/Courses/CourseDetail';
 import LeanerPage from '../pages/admin/Leaner/LeanerPage';
+import MyCourse from '../pages/client/Courses/MyCourse';
 
 export const RouterPages = [
   {
@@ -267,6 +268,10 @@ const Leaner = [
   {
     path: '/Courses/:courseName',
     element: <CourseDetail />,
+  },
+  {
+    path: '/MyCourses',
+    element: <MyCourse />,
   },
 ];
 export default function MakePagesRouter() {

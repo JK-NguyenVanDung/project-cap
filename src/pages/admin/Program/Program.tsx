@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TableConfig from '../../../components/admin/Table/Table';
-import { Form, message, Image, Modal, notification } from 'antd';
+import { Form, message, Image, Modal, notification, Space } from 'antd';
 import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
 import apiService from '../../../api/apiService';
@@ -19,6 +19,8 @@ import { useLocation } from 'react-router-dom';
 import { AiFillUnlock, AiFillLock, AiFillWarning } from 'react-icons/ai';
 import { useNavigateParams } from '../../../hook/useNavigationParams';
 import Color from '../../../components/constant/Color';
+import { BsPeopleFill } from 'react-icons/bs';
+import { AiFillIdcard } from 'react-icons/ai';
 export default function Program() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
@@ -98,7 +100,6 @@ export default function Program() {
     {
       title: 'Giờ đào tạo',
       dataIndex: 'time',
-      width: '13%',
       render: (data: any) => <p>{data ? data : 0}</p>,
     },
 
@@ -120,18 +121,8 @@ export default function Program() {
           <h5 className="text-bold text-orange-500">Chờ Duyệt</h5>
         );
       },
-      width: '18%',
     },
-    {
-      title: 'Xem Người Học',
-      render: (item: IProgramItem) => (
-        <PopOverAction
-          size="sm"
-          detailType="chapter"
-          handleShowDetail={() => GoLeanerPage(item)}
-        />
-      ),
-    },
+
     {
       width: GIRD12.COL2,
 
@@ -149,7 +140,9 @@ export default function Program() {
       },
     },
   ];
-
+  const goApplication = (item: any) => {
+    return;
+  };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
