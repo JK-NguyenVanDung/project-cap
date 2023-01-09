@@ -13,30 +13,30 @@ export default function Application() {
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
   const [detail, setDetail] = useState();
-  useEffect(() => {
-    async function getApplication() {
-      try {
-        let response: any = await apiService.getApplication();
-        response = response.reverse();
-        let res = response.map((item: any, index: number) => {
-          return {
-            ...item,
-            index: index + 1,
-          };
-        });
-        setData(res);
-        setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          setFilterData(res);
-        }, 1000);
-      } catch (error) {
-        console.log(error);
-      }
-    }
+  //   useEffect(() => {
+  //     async function getApplication() {
+  //       try {
+  //         let response: any = await apiService.getApplication();
+  //         response = response.reverse();
+  //         let res = response.map((item: any, index: number) => {
+  //           return {
+  //             ...item,
+  //             index: index + 1,
+  //           };
+  //         });
+  //         setData(res);
+  //         setLoading(true);
+  //         setTimeout(() => {
+  //           setLoading(false);
+  //           setFilterData(res);
+  //         }, 1000);
+  //       } catch (error) {
+  //         console.log(error);
+  //       }
+  //     }
 
-    getApplication();
-  }, []);
+  //     getApplication();
+  //   }, []);
 
   const Columns = [
     {
