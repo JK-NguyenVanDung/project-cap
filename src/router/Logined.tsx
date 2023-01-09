@@ -11,6 +11,7 @@ import { actions } from '../Redux';
 import videoBackground from '../assets/video/background.mp4';
 import FormInput from '../components/admin/Modal/FormInput';
 import CustomButton from '../components/admin/Button';
+import { useAsyncDebounce } from 'react-table';
 
 export default function Logined() {
   const dispatch = useAppDispatch();
@@ -21,16 +22,17 @@ export default function Logined() {
   const { instance, accounts } = useMsal();
   const LoginParmas = useAppSelector((state) => state.auth.LoginId);
   const navLink = useAppSelector((state) => state.nav.nav);
-  const loading = true;
+  const [loading, setLoading] = useState(false);
   const info = useAppSelector((state) => state.auth.info);
   const [checkFirt, setCheckFirt] = useState(false);
+  const [form] = Form.useForm();
   useEffect(() => {
-    if (info.phoneNumber === null) {
-      getPositions();
-      getFacuties();
-    }
-    fetchInfo();
+    getPositions();
+    getFacuties();
     RequestAccessToken();
+    setTimeout(() => {
+      fetchInfo();
+    }, 2000);
   }, []);
   const fetchInfo = async () => {
     const response: any = await apiService.getProfile();
@@ -54,24 +56,26 @@ export default function Logined() {
           localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
 
           dispatch(actions.authActions.showNotification(true));
-
+          setLoading(true);
+          setTimeout(() => {
+            setLoading(false);
+          }, 3000);
           if (LoginParmas.id == 2 && roleId == 1) {
             navigate('/');
             notification.error({
               message: 'Bạn Không Có Quyền Đăng Nhập',
             });
+          } else {
+            if (info?.phoneNumber == null) {
+              setCheckFirt(true);
+            } else {
+              if (LoginParmas.id == 1) {
+                navigate('/home');
+              } else if (LoginParmas.id == 2) {
+                navigate('/admin');
+              }
+            }
           }
-          if (navLink && LoginParmas.id == 1 && info.phoneNumber) {
-            navigate(navLink);
-          } else if (LoginParmas.id == 1 && info.phoneNumber) {
-            navigate('/home');
-          } else if (LoginParmas.id == 2 && info.phoneNumber) {
-            navigate('/admin');
-          }
-          // if (!info.phoneNumber) {
-          //   setCheckFirt(true);
-          //   return;
-          // }
         } catch (error) {
           instance.logoutPopup({
             postLogoutRedirectUri: '/',
@@ -99,9 +103,7 @@ export default function Logined() {
       setDataFct(reponse);
     }
   };
-  const [form] = Form.useForm();
 
-  const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
   const handelOk = () => {
     form.validateFields().then(async (values) => {
       try {
@@ -232,37 +234,33 @@ export default function Logined() {
   };
   return (
     <>
-      {/* {info.phoneNumber ? <LoginFirt /> : null} */}
-      {/* {checkFirt == true && ( */}
-      <>
-        <div className="overlay" />
-        <video
-          style={{
-            height: '100vh',
-            width: '100%',
-            objectFit: 'cover',
-          }}
-          src={videoBackground}
-          autoPlay
-          muted
-          loop
-          id="myVideo"
-        />
-        <div
-          className="flex justify-center content-center items-center"
-          style={{
-            height: '100vh',
-          }}
-        >
-          <Spin
-            className="absolute top-1/2 left-1/2"
-            indicator={antIcon}
-            tip="Loading..."
-            spinning={loading}
-          ></Spin>
-        </div>
-      </>
-      {/* )} */}
+      {info.phoneNumber === null && checkFirt === false ? (
+        <LoginFirt />
+      ) : (
+        <>
+          <div className="overlay" />
+          <video
+            style={{
+              height: '100vh',
+              width: '100%',
+              objectFit: 'cover',
+            }}
+            src={videoBackground}
+            autoPlay
+            muted
+            loop
+            id="myVideo"
+          />
+          <div className="flex justify-center content-center items-center absolute top-1/2 left-1/2">
+            <Spin
+              className=" "
+              indicator={<LoadingOutlined style={{ fontSize: 50 }} spin />}
+              tip="Loading..."
+              spinning={loading}
+            ></Spin>
+          </div>
+        </>
+      )}
     </>
   );
 }
