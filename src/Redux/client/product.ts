@@ -7,11 +7,15 @@ const slice = createSlice({
     programId: null,
     contentBreadcrumb: '',
     selectedChapter: null,
+    selectedTest: null,
     initChapter: null,
     viewedContent: false,
   },
 
   reducers: {
+    setSelectedTest(state, action) {
+      state.selectedTest = action.payload;
+    },
     setUpdateLike(state, action) {
       state.updateLike = action.payload;
     },

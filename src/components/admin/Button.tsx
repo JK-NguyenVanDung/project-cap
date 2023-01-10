@@ -27,6 +27,7 @@ export default function CustomButton({
   disabled,
   style,
   tip,
+  iconRight = false,
 }: {
   size?: size;
   color?: color;
@@ -35,7 +36,7 @@ export default function CustomButton({
   onClick?: React.MouseEventHandler | Function;
   Icon?: IconType;
   noIcon?: boolean;
-  text?: string;
+  text?: string | number | any;
   type?: string;
   fullWidth?: boolean;
   variant?: any;
@@ -44,6 +45,7 @@ export default function CustomButton({
   disabled?: boolean;
   style?: React.CSSProperties;
   tip?: string;
+  iconRight?: boolean;
 }) {
   let defaultText = '';
   let typeClassName = '';
@@ -141,10 +143,15 @@ export default function CustomButton({
         variant={variant}
         // {...style}
       >
-        {!noIcon && <Icon className={`mx-2  text-base ${iconClass}`} />}
+        {!noIcon && !iconRight && (
+          <Icon className={`mx-2  text-base ${iconClass}`} />
+        )}
         <p className={`font-customFont  font-semibold ${textClassName}`}>
           {text ? text : defaultText}
         </p>
+        {!noIcon && iconRight && (
+          <Icon className={`mx-2  text-base ${iconClass}`} />
+        )}
       </Button>
     </Tooltip>
   );

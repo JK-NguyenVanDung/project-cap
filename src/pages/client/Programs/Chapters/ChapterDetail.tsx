@@ -1,21 +1,25 @@
 import { useState, useEffect } from 'react';
-import apiService from '../../api/apiService';
-import { IProgramItem, IAccountItem } from '../../Type';
-import CustomButton from '../admin/Button';
+import apiService from '../../../../api/apiService';
+import { IProgramItem, IAccountItem, IChapterItem } from '../../../../Type';
+import CustomButton from '../../../../components/admin/Button';
 
 import View from '../../assets/svg/View.svg';
-import { checkURL } from '../../helper/constant';
-import { IFaculties } from '../../api/apiInterface';
-import { API_URL } from '../../api/api';
-import { actions } from '../../Redux';
-import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
+import { checkURL } from '../../../../helper/constant';
+import { IFaculties } from '../../../../api/apiInterface';
+import { API_URL } from '../../../../api/api';
+import { actions } from '../../../../Redux';
+import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import ViewContent from './ViewContent';
+import ViewTest from './ViewTest';
 export default function (props: any) {
   const program: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
   );
   const updateLike: boolean = useAppSelector(
     (state) => state.product.updateLike,
+  );
+  const selectedChapter: IChapterItem = useAppSelector(
+    (state) => state.product.selectedChapter,
   );
   const dispatch = useAppDispatch();
 
@@ -29,7 +33,7 @@ export default function (props: any) {
     return () => {
       clearTimeout(time);
     };
-  }, []);
+  }, [program]);
 
   useEffect(() => {
     getDetail();
@@ -70,7 +74,7 @@ export default function (props: any) {
       <div className=" w-[75%] max-w-[45rem]   h-fit my-4  mb-12 mx-2 flex flex-col justify-start items-center">
         <div className="shadow-lg p-6 rounded-xl w-full h-fit text-black bg-white  border flex flex-col justify-start items-center">
           <div className="w-full h-fit font-customFont ">
-            <ViewContent />
+            {!selectedChapter?.isTest ? <ViewContent /> : <ViewTest />}
           </div>
         </div>
       </div>

@@ -87,7 +87,7 @@ export default function FormProgram() {
           RegistrationEndDate: item.registrationStartDate
             ? moment(item.registrationEndDate)
             : '',
-          LearnerCount: item && item.learnerCount ? item.learnerCount : '0',
+          MaxLearner: item && item.maxLearner ? item.maxLearner : '0',
         }),
         setImage(item.image),
         setValuePositions(
@@ -215,8 +215,8 @@ export default function FormProgram() {
           values.AcademicYearId ? values.AcademicYearId : item.academicYearId,
         );
         frmData.append(
-          'LearnerCount',
-          values.LearnerCount ? values.LearnerCount : item.LearnerCount,
+          'MaxLearner',
+          values.MaxLearner ? values.MaxLearner : item.maxLearner,
         );
 
         if (item) {
@@ -413,7 +413,7 @@ export default function FormProgram() {
             />
             <FormInput
               label="Số lượng tham gia tối đa"
-              name="LearnerCount"
+              name="MaxLearner"
               rules={[
                 {
                   required: true,

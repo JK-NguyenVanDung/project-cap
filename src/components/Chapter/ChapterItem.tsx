@@ -16,13 +16,13 @@ const ChapterItem = ({
   isReviewing = false,
   isDetail = false,
   disabled = false,
-  finished = false,
+  isDone = false,
 }: {
   chapter: IChapterItem;
   isReviewing?: boolean;
   isDetail?: boolean;
   disabled?: boolean;
-  finished?: boolean;
+  isDone?: boolean;
 }) => {
   const [show, setShow] = useState(false);
   const [showContent, setShowContent] = useState(false);
@@ -30,8 +30,8 @@ const ChapterItem = ({
   const [viewedContent, setViewedContent] = useState(false);
 
   // const [disabled, setDisabled] = useState(false);
-  // const [finished, setFinished] = useState(false);
-  // const [finished, setFinished] = useState(false);
+  // const [isDone, setisDone] = useState(false);
+  // const [isDone, setisDone] = useState(false);
 
   const [test, setTest] = useState<ITest>(null);
   const [questionCount, setQuestionCount] = useState<number>(0);
@@ -63,6 +63,11 @@ const ChapterItem = ({
       } else {
         setShowContent(true);
       }
+      dispatch(
+        actions.productActions.setContentBreadcrumb(
+          selectedChapter.contentTitle,
+        ),
+      );
     } else {
       setShow(false);
       setShowTest(false);
@@ -70,36 +75,41 @@ const ChapterItem = ({
     }
     let timeLock = setTimeout(() => {
       setViewedContent(true);
-    }, 30000);
+    }, 300);
+    let time = setTimeout(async () => {
+      if (selectedChapter?.contentId === chapter?.contentId) {
+        await getData();
+      }
+    }, 100);
     return () => {
       clearTimeout(timeLock);
+      clearTimeout(time);
+
       // setViewedContent(false);
     };
   }, [selectedChapter]);
-  useEffect(() => {
-    let time = setTimeout(async () => {
-      await getData();
-    }, 100);
 
-    return () => {
-      clearTimeout(time);
-    };
-  }, [chapter]);
   async function getData() {
     try {
       let test: any = await apiService.getTest(chapter?.contentId);
       let questionCount: any = await apiService.getQuestionCount(test?.testId);
-      console.log(questionCount?.data);
-      console.log(questionCount);
+
+      console.count('test');
 
       if (test) {
-        setTest(test);
-
-        setQuestionCount(
+        let count =
           questionCount?.data !== undefined
             ? questionCount?.data
-            : questionCount,
+            : questionCount;
+        setTest(test);
+        dispatch(
+          actions.productActions.setSelectedTest({
+            ...test,
+            questionCount: count,
+          }),
         );
+
+        setQuestionCount(count);
       }
     } catch (err: any) {
       throw err.message;
@@ -194,7 +204,7 @@ const ChapterItem = ({
               {chapter?.contentTitle ? chapter.contentTitle : 'N/A'}
             </p>
           </div>
-          {finished && (
+          {isDone && (
             <div className="bg-white rounded-3xl">
               <HiCheckCircle
                 className={`${true ? 'text-green-500' : 'text-primary'} ${
@@ -233,7 +243,7 @@ const ChapterItem = ({
                       : null}
                   </p>
                 </div>
-                {finished && (
+                {isDone && (
                   <div className="bg-white rounded-3xl">
                     <HiCheckCircle
                       className={`${true ? 'text-green-500' : 'text-primary'} ${
@@ -280,7 +290,7 @@ const ChapterItem = ({
                       {test?.testTitle ? test?.testTitle : 'Bài Kiểm Tra'}
                     </p>
                   </div>
-                  {finished ? (
+                  {isDone ? (
                     <div className="bg-white rounded-3xl">
                       <HiCheckCircle
                         className={`${

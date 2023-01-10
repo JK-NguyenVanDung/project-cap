@@ -1,9 +1,9 @@
-import { API_URL } from '../../api/api';
-import { IProgramItem, IAccountItem, IChapterItem } from '../../Type';
+import { API_URL } from '../../../../api/api';
+import { IProgramItem, IAccountItem, IChapterItem } from '../../../../Type';
 import { BiLike } from 'react-icons/bi';
 import View from '../../assets/svg/View.svg';
-import { actions } from '../../Redux';
-import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
+import { actions } from '../../../../Redux';
+import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { useRef, useEffect, useState } from 'react';
 export default function (props: any) {
   const ref = useRef(null);
