@@ -14,6 +14,7 @@ import HeaderClient from '../../../../components/Header/HeaderClient';
 import logo from '../../../../assets/logo.svg';
 import ReviewQuestionItem from '../../../../components/Test/ReviewQuestionItem';
 import TestBar from '../../../../components/Test/TestBar';
+import CustomButton from '../../../../components/admin/Button';
 
 export default function ReviewTest(props: any) {
   const navigate = useNavigate();
@@ -57,6 +58,20 @@ export default function ReviewTest(props: any) {
       ),
     );
   }, []);
+  const content = [
+    {
+      title: 'Tổng thời gian làm bài:',
+      value: '20 phut', //moment(program?.endDate).format('DD/MM/YYYY').toString(),
+    },
+    {
+      title: 'Thời gian còn lại:',
+      value: '12p43', //moment(program?.endDate).format('DD/MM/YYYY').toString(),
+    },
+    {
+      title: 'Tổng số câu trả lời:',
+      value: '3 / 9 câu', //moment(program?.endDate).format('DD/MM/YYYY').toString(),
+    },
+  ];
   return (
     <>
       <div className="w-full h-14 flex items-center justify-between ">
@@ -94,7 +109,7 @@ export default function ReviewTest(props: any) {
       {/* <Loading loading={loading} /> */}
       <div
         ref={ref}
-        className={`flex w-full justify-between h-screen bg-gray-50 ${
+        className={`flex w-full justify-between min-h-screen bg-gray-50 ${
           loading ? 'visible' : 'visible'
         }`}
       >
@@ -113,7 +128,36 @@ export default function ReviewTest(props: any) {
             />
           </div>
           <div className="flex flex-col text-black  w-full justify-center items-center">
-            a
+            <div className="mb-4 mt-4 w-2/6">
+              {content.map((item: { title: string; value: any }) => {
+                return (
+                  <div className="flex w-full items-center justify-between  mt-4 text-base">
+                    <div className="flex items-center ">
+                      <span className="text-start font-semibold">
+                        {item.title}
+                      </span>
+                    </div>
+                    <div className="flex items-center   font-light">
+                      <span className="text-start ">{item.value}</span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className=" flex  w-1/2 justify-between mb-4 mt-4 ">
+              <CustomButton
+                className="min-w-[15rem] p-3"
+                variant="outlined"
+                noIcon
+                text="Quay lại  làm bài"
+              />
+              <CustomButton
+                className="min-w-[15rem] p-3"
+                color="green"
+                noIcon
+                text="Nộp bài"
+              />
+            </div>
           </div>
         </div>
       </div>

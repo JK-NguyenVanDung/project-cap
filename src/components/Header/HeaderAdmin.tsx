@@ -42,7 +42,6 @@ export default function () {
           <IoNotificationsOutline className="text-xl" />
         </IconButton>
         <span className="mr-1">
-          {' '}
           Xin Chào {info.role == 1 ? null : info.role.roleName}{' '}
         </span>
         <span> {accounts[0].name}</span>

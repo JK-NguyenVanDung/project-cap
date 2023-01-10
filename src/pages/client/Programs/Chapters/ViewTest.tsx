@@ -24,12 +24,12 @@ export default function (props: any) {
   );
   const content = [
     {
-      title: 'Hạn làm bài',
+      title: 'Hạn làm bài:',
       value: moment(program?.endDate).format('DD/MM/YYYY').toString(),
     },
-    { title: 'Thời gian làm', value: selectedTest?.time },
-    { title: 'Số lần làm', value: '1' },
-    { title: 'Số câu hỏi', value: selectedTest.questionCount },
+    { title: 'Thời gian làm:', value: selectedTest?.time },
+    { title: 'Số lần làm:', value: '1' },
+    { title: 'Số câu hỏi:', value: selectedTest.questionCount },
     selectedChapter.isDone && {
       title: 'Tổng số câu trả lời:',
       value: '10/10 câu',
@@ -57,7 +57,7 @@ export default function (props: any) {
           return (
             <div className="flex w-[50%] items-center justify-between  mt-4 text-base">
               <div className="flex items-center ">
-                <span className="text-start font-semibold">{item.title}:</span>
+                <span className="text-start font-semibold">{item.title}</span>
               </div>
               <div className="flex items-center w-[20%]  font-light">
                 <span className="text-start ">{item.value}</span>

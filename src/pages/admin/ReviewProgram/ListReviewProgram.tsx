@@ -97,7 +97,7 @@ export default function ListReviewPrograms() {
     },
     {
       title: 'Giờ đào tạo',
-      dataIndex: 'time',
+      dataIndex: 'trainingHours',
       width: '13%',
       render: (data: any) => <p>{data ? data : 0}</p>,
     },
