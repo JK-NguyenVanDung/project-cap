@@ -16,6 +16,9 @@ import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
 import Question from '../pages/admin/Program/Test/Question';
 import Test from '../pages/admin/Program/Test/Test';
 import ReviewDetail from '../pages/admin/ReviewProgram/ReviewDetail';
+import UserTest from '../pages/client/Programs/Test/Test';
+import UserReviewTest from '../pages/client/Programs/Test/ReviewTest';
+
 import apiService from '../api/apiService';
 
 import ClientSideBar from '../pages/client/';
@@ -236,7 +239,7 @@ export const RouterFaculty = [
     element: <Homepage />,
   },
 ];
-const Leaner = [
+const Learner = [
   {
     path: '/home',
     element: <Homepage />,
@@ -272,11 +275,11 @@ export default function MakePagesRouter() {
     };
     fetchInfo();
   }, [token]);
-  const RouterLeaner = () => {
+  const RouterLearner = () => {
     if (LoginParmas.id == 1) {
       return (
         <Routes>
-          {Leaner.map((router, index) => {
+          {Learner.map((router, index) => {
             return (
               <Route
                 key={index}
@@ -287,6 +290,12 @@ export default function MakePagesRouter() {
           })}
           <Route path="/login" element={<Logined />} />
           <Route path="/" element={<LandingPage />} />
+          <Route key={'test'} path={'/Test/:testId'} element={<UserTest />} />
+          <Route
+            key={'reviewTest'}
+            path={'/Test/Review/:testId'}
+            element={<UserReviewTest />}
+          />
         </Routes>
       );
     }
@@ -341,5 +350,5 @@ export default function MakePagesRouter() {
       }
     }
   };
-  return <RouterLeaner />;
+  return <RouterLearner />;
 }

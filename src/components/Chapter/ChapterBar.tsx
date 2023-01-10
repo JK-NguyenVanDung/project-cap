@@ -29,21 +29,21 @@ const ChapterBar = (props: any) => {
   );
   useAppDispatch;
   const dispatch = useAppDispatch();
+  const info = useAppSelector((state) => state.auth.info);
 
   useEffect(() => {
     getData();
-  }, []);
 
-  useEffect(() => {
     setLike(program?.isLike);
-  }, [program]);
+  }, [programNav]);
 
   async function getData() {
     try {
       const data: any = await apiService.getProgram(programNav?.programId);
-      let content: any = await apiService.getContentProgram(
-        programNav?.programId,
-      );
+      let content: any = await apiService.getProgramContents({
+        programId: programNav?.programId,
+        accountId: info?.accountId,
+      });
       if (content) {
         setChapters(content);
         dispatch(actions.productActions.setInitSelectedChapter(content[0]));
@@ -76,7 +76,7 @@ const ChapterBar = (props: any) => {
         Danh sách chương
       </p>
       {chapters?.map((item: IChapterItem) => {
-        return <ChapterItem chapter={item} />;
+        return <ChapterItem chapter={item} isDone={item.isDone} />;
       })}
     </div>
   );
