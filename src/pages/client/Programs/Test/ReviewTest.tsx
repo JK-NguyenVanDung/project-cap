@@ -12,7 +12,7 @@ import { useAppDispatch } from '../../../../hook/useRedux';
 import apiService from '../../../../api/apiService';
 import HeaderClient from '../../../../components/Header/HeaderClient';
 import logo from '../../../../assets/logo.svg';
-import QuestionItem from '../../../../components/Test/QuestionItem';
+import ReviewQuestionItem from '../../../../components/Test/ReviewQuestionItem';
 import TestBar from '../../../../components/Test/TestBar';
 
 export default function ReviewTest(props: any) {
@@ -94,11 +94,28 @@ export default function ReviewTest(props: any) {
       {/* <Loading loading={loading} /> */}
       <div
         ref={ref}
-        className={`flex w-full justify-between bg-gray-50 ${
+        className={`flex w-full justify-between h-screen bg-gray-50 ${
           loading ? 'visible' : 'visible'
         }`}
       >
-        <div className="flex w-full m-4 flex-col "></div>
+        <div className="flex w-full justify-between m-4 mx-8 flex-col bg-white p-8 rounded-lg ">
+          <div className="">
+            <p className="text-black text-lg font-bold font-customFont">
+              Danh sách các câu trả lời
+            </p>
+            <ReviewQuestionItem
+              index={1}
+              question={{ questionTitle: 'a', score: 1 }}
+            />
+            <ReviewQuestionItem
+              index={1}
+              question={{ questionTitle: 'a', score: 1 }}
+            />
+          </div>
+          <div className="flex flex-col text-black  w-full justify-center items-center">
+            a
+          </div>
+        </div>
       </div>
     </>
   );

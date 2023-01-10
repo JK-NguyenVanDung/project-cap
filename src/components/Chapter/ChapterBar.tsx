@@ -23,7 +23,12 @@ const ChapterBar = (props: any) => {
   const [user, setUser] = useState<IAccountItem>(null);
   const [like, setLike]: any = useState();
   const [chapters, setChapters] = useState(null);
-
+  const selectedChapter: IChapterItem = useAppSelector(
+    (state) => state.product.selectedChapter,
+  );
+  const initChapter: IChapterItem = useAppSelector(
+    (state) => state.product.initChapter,
+  );
   const updateLike: boolean = useAppSelector(
     (state) => state.product.updateLike,
   );
@@ -47,7 +52,15 @@ const ChapterBar = (props: any) => {
       if (content) {
         setChapters(content);
         dispatch(actions.productActions.setInitSelectedChapter(content[0]));
-        dispatch(actions.productActions.setSelectedChapter(content[0]));
+        console.log(selectedChapter?.contentId);
+        console.log(initChapter?.contentId);
+        if (
+          selectedChapter === undefined ||
+          initChapter === undefined ||
+          selectedChapter?.contentId === initChapter?.contentId
+        ) {
+          dispatch(actions.productActions.setSelectedChapter(content[0]));
+        }
       }
 
       setProgram(data);

@@ -56,34 +56,33 @@ const ChapterItem = ({
   //   }
   // }, [show]);
   useEffect(() => {
-    if (selectedChapter?.contentId === chapter?.contentId) {
-      setShow(true);
-      if (selectedChapter.isTest && viewedContent) {
-        setShowTest(true);
+    async function initData() {
+      if (selectedChapter?.contentId === chapter?.contentId) {
+        await getData();
+
+        setShow(true);
+        if (selectedChapter.isTest && viewedContent) {
+          setShowTest(true);
+        } else {
+          setShowContent(true);
+        }
+        dispatch(
+          actions.productActions.setContentBreadcrumb(
+            selectedChapter.contentTitle,
+          ),
+        );
       } else {
-        setShowContent(true);
+        setShow(false);
+        setShowTest(false);
+        setShowContent(false);
       }
-      dispatch(
-        actions.productActions.setContentBreadcrumb(
-          selectedChapter.contentTitle,
-        ),
-      );
-    } else {
-      setShow(false);
-      setShowTest(false);
-      setShowContent(false);
     }
+    initData();
     let timeLock = setTimeout(() => {
       setViewedContent(true);
     }, 300);
-    let time = setTimeout(async () => {
-      if (selectedChapter?.contentId === chapter?.contentId) {
-        await getData();
-      }
-    }, 100);
     return () => {
       clearTimeout(timeLock);
-      clearTimeout(time);
 
       // setViewedContent(false);
     };
@@ -237,6 +236,7 @@ const ChapterItem = ({
                     className={` text-sm font-semibold  w-full   pr-2 eclipse-wrap ${
                       showContent ? 'text-white' : 'text-black'
                     }`}
+                    onClick={() => !disabled && navToChapter(chapter)}
                   >
                     {chapter?.contentTitle
                       ? chapter?.contentTitle //chapter.contentType + ' ' +
