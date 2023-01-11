@@ -156,24 +156,25 @@ export const SideBarDataFacul = [
     path: '/admin/Category',
     children: [
       {
-        title: 'Chức Vụ',
-        icon: BsFillPersonBadgeFill,
-        path: '/admin/Postions',
+        title: 'Khoa Ban',
+        icon: BsHouseFill,
+        path: '/admin/Faculties',
       },
       {
         title: 'Nhóm chương trình',
         icon: FaClipboardList,
         path: '/admin/Category',
       },
-      {
-        title: 'Khoa Ban',
-        icon: BsHouseFill,
-        path: '/admin/Faculties',
-      },
+
       {
         title: 'Năm Học',
-        icon: BsFillPersonBadgeFill,
+        icon: BsCalendar2DateFill,
         path: '/admin/AcedemicYear',
+      },
+      {
+        title: 'Chức Vụ',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/Postions',
       },
     ],
   },

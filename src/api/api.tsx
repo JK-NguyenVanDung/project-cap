@@ -1,6 +1,6 @@
 import { ISignUp } from './apiInterface';
-export const API_URL = 'https://localhost:7206';
-//https://cntttest.vanlanguni.edu.vn:18081/CP25Team02
+export const API_URL = 'https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/';
+//https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17
 export const API_CONFIG = {
   AUTH: {
     LOGIN: '/api/Accounts/Login',
