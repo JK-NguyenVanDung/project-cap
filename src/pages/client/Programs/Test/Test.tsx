@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import Loading from '../../../../components/sharedComponents/Loading';
 import ScrollToTop from '../../../../utils/scrollToTop';
 import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb';
-import { IProgramItem } from '../../../../Type';
+import { IProgramItem, IQuestion, ITest } from '../../../../Type';
 import { useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
 import { useAppDispatch } from '../../../../hook/useRedux';
@@ -14,10 +14,12 @@ import HeaderClient from '../../../../components/Header/HeaderClient';
 import logo from '../../../../assets/logo.svg';
 import QuestionItem from '../../../../components/Test/QuestionItem';
 import TestBar from '../../../../components/Test/TestBar';
+import { AxiosResponse } from 'axios';
 
 export default function UserTest(props: any) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [questions, setQuestions] = useState<Array<IQuestion>>(null);
   let ref = useRef(null);
   const location = useLocation();
   // const executeScroll = (i: number) => {
@@ -31,31 +33,27 @@ export default function UserTest(props: any) {
   // };
 
   const dispatch = useAppDispatch();
-  const program: IProgramItem = useAppSelector(
-    (state) => state.form.setProgram,
+  const selectedTest: ITest = useAppSelector(
+    (state) => state.product.selectedTest,
   );
   const breadCrumb: string = useAppSelector(
     (state) => state.product.contentBreadcrumb,
   );
   async function getData() {
     try {
-      let current = location.pathname.split('/')[1].toString();
-      let res: any = await apiService.getProgram(Number(current));
-      dispatch(actions.formActions.setProgramForm(res));
+      let res: any = await apiService.getQuestions(selectedTest.testId);
+      res && setQuestions(res);
       dispatch(
-        actions.formActions.setNameMenu(`${res ? res?.programName : 'N/A'}`),
+        actions.formActions.setNameMenu(
+          `${selectedTest ? selectedTest.testTitle : 'N/A'}`,
+        ),
       );
     } catch (err) {}
   }
   useEffect(() => {
     // executeScroll(0);
     // console.log(1);
-    // !program && getData();
-    dispatch(
-      actions.formActions.setNameMenu(
-        `${program ? program?.programName : 'N/A'}`,
-      ),
-    );
+    getData();
   }, []);
   return (
     <>
@@ -82,13 +80,13 @@ export default function UserTest(props: any) {
       </div>
 
       <div className="w-full  px-4 pb-2 bg-white">
-        <Breadcrumb
+        {/* <Breadcrumb
           router1={'/Test/'}
           router2={`/Test/${program ? program?.programName : 'N/A'}`}
           name={'Chương Trình'}
           name2={program ? program?.programName : 'N/A'}
           name3={breadCrumb ? breadCrumb : 'N/A'}
-        />
+        /> */}
       </div>
 
       {/* <Loading loading={loading} /> */}
@@ -98,23 +96,12 @@ export default function UserTest(props: any) {
           loading ? 'visible' : 'visible'
         }`}
       >
-        <QuestionItem
-          question={{
-            questionId: 0,
-            testsId: 0,
-            typeId: 0,
-            questionTitle: '1',
-            score: 0,
-            questionContents: [
-              {
-                questionContentId: 0,
-                questionId: 0,
-                content: 'yrs',
-                isAnswer: false,
-              },
-            ],
-          }}
-        />
+        <div className="flex flex-col">
+          {questions?.map((item: IQuestion, index: number) => {
+            return <QuestionItem question={item} index={index + 1} />;
+          })}
+        </div>
+
         <div className=""></div>
         {
           /* <ChapterDetail {...props} setLoading={setLoading} />

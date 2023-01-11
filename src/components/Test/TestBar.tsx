@@ -16,7 +16,7 @@ interface Content {
   icon?: any;
 }
 
-const ChapterBar = (props: any) => {
+const QuestionBar = (props: any) => {
   const programNav: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
   );
@@ -161,4 +161,4 @@ const ChapterBar = (props: any) => {
   );
 };
 
-export default ChapterBar;
+export default QuestionBar;

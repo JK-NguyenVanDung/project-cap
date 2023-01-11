@@ -18,15 +18,17 @@ const QuestionItem = ({
   isDetail = false,
   disabled = false,
   finished = false,
+  index = 'N/A',
 }: {
   question?: IQuestion;
   isReviewing?: boolean;
   isDetail?: boolean;
   disabled?: boolean;
   finished?: boolean;
+  index?: number | string;
 }) => {
   const [show, setShow] = useState(false);
-  const [showContent, setShowContent] = useState(false);
+  const [answerList, setAnswerList] = useState<Array<number | string>>([]);
   const [showTest, setShowTest] = useState(false);
   const [viewedContent, setViewedContent] = useState(false);
 
@@ -48,6 +50,11 @@ const QuestionItem = ({
   const initChapter: IChapterItem = useAppSelector(
     (state) => state.product.initChapter,
   );
+  function chooseAnswer(id: number | string) {
+    answerList.push(id);
+    setAnswerList(answerList);
+  }
+
   useEffect(() => {
     parent.current && autoAnimate(parent.current);
   }, [parent]);
@@ -156,25 +163,26 @@ const QuestionItem = ({
   return (
     <>
       <div className="w-fit min-w-[60rem] max-w-[60rem] h-fit bg-white m-4 py-6 px-8 rounded-xl">
-        <div className="flex w-full justify-end text-primary font-bold ">
-          1 điểm
+        <div className="flex w-full justify-end text-primary font-bold text-lg ">
+          {question?.score} điểm
         </div>
         <div className="flex w-full justify-start  items-center mx-4">
           <div className="flex flex-col justify-start items-start w-fit my-4 ml-2 mr-14">
             <div className="CIRCLE py-4 px-6 bg-gray-400 rounded-[20rem] text-black text-3xl font-bold">
-              1
+              {index}
             </div>
           </div>
           <div className=" w-full flex ">
-            <p className="text-gray-900 ">
-              CAU HOICAU HOICAU HOICAU HOICAU HOICAU HOICAU HOI? CAU HOICAU
-              HOICAU HOICAU HOICAU HOICAU HOICAU HOI? CAU HOICAU HOICAU HOICAU
-              HOICAU HOICAU HOICAU HOI?
-            </p>
+            <p className="text-black text-lg">{question?.questionTitle}</p>
           </div>
         </div>
         <p className="text-red-500 pl-2 mb-2 ">{'(Nhiều lựa chọn)'}</p>
-        <Answer onChange={undefined} handleDelete={undefined} />
+        <Answer
+          isMultiple={question.typeId != 2 ? false : true}
+          contents={question.questionContents}
+          onChange={(answerId: string | number) => chooseAnswer(answerId)}
+          answerList={answerList}
+        />
       </div>
     </>
   );

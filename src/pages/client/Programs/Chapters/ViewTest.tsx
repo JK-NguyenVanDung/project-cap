@@ -1,9 +1,10 @@
 import { BiLike } from 'react-icons/bi';
-import { useAppSelector } from '../../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { IChapterItem, IProgramItem, ITest } from '../../../../Type';
 import moment from 'moment';
 import CustomButton from '../../../../components/admin/Button';
 import { useNavigate } from 'react-router-dom';
+import { actions } from '../../../../Redux';
 
 const instruction = `Bài kiểm tra này bao gồm 5 câu hỏi trắc nghiệm. Để thành công với các câu đố, điều quan trọng là phải trò chuyện với các chủ đề. Hãy ghi nhớ những điều sau:
 Thời gian - Bạn cần hoàn thành mỗi lần thử của mình trong một lần ngồi, vì bạn được phân bổ 30 phút cho mỗi lần thử.
@@ -37,6 +38,7 @@ export default function (props: any) {
 
     selectedChapter.isDone && { title: 'Kết quả', value: '100 điểm' },
   ];
+  const dispatch = useAppDispatch();
 
   function navToTest() {
     navigate(`/Test/${selectedTest.testId}`);
