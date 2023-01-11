@@ -16,7 +16,7 @@ export const msalConfig: any = {
     authority: 'https://login.microsoftonline.com/common',
     redirectUri: 'https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/',
   },
-  //    redirectUri: 'https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/',
+  //    redirectUri: 'https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/',
 
   cache: {
     cacheLocation: 'sessionStorage', // This configures where your cache will be stored
