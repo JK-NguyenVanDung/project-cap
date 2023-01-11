@@ -34,14 +34,14 @@ export const SideBarData = [
     path: '/admin/Category',
     children: [
       {
-        title: 'Khoa Ban',
-        icon: BsHouseFill,
-        path: '/admin/Faculties',
-      },
-      {
         title: 'Nhóm chương trình',
         icon: FaClipboardList,
         path: '/admin/Category',
+      },
+      {
+        title: 'Khoa Ban',
+        icon: BsHouseFill,
+        path: '/admin/Faculties',
       },
 
       {
@@ -98,11 +98,6 @@ export const SideBarDataCT = [
     path: '/admin/Category',
     children: [
       {
-        title: 'Chức Vụ',
-        icon: BsFillPersonBadgeFill,
-        path: '/admin/Postions',
-      },
-      {
         title: 'Nhóm chương trình',
         icon: FaClipboardList,
         path: '/admin/Category',
@@ -112,10 +107,16 @@ export const SideBarDataCT = [
         icon: BsHouseFill,
         path: '/admin/Faculties',
       },
+
       {
         title: 'Năm Học',
-        icon: BsFillPersonBadgeFill,
+        icon: BsCalendar2DateFill,
         path: '/admin/AcedemicYear',
+      },
+      {
+        title: 'Chức Vụ',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/Postions',
       },
     ],
   },
@@ -151,19 +152,24 @@ export const SideBarDataCT = [
 
 export const SideBarDataFacul = [
   {
+    title: 'Trang Chủ',
+    icon: IoApps,
+    path: '/admin',
+  },
+  {
     title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
     children: [
       {
-        title: 'Khoa Ban',
-        icon: BsHouseFill,
-        path: '/admin/Faculties',
-      },
-      {
         title: 'Nhóm chương trình',
         icon: FaClipboardList,
         path: '/admin/Category',
+      },
+      {
+        title: 'Khoa Ban',
+        icon: BsHouseFill,
+        path: '/admin/Faculties',
       },
 
       {

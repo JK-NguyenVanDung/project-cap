@@ -7,6 +7,7 @@ import People from '../../assets/landingPage/people.svg';
 import { useDispatch } from 'react-redux';
 import { actions } from '../../Redux';
 import { IProgramItem } from '../../Type';
+import { API_URL } from '../../api/api';
 
 const Product = React.forwardRef((props, ref: any) => {
   const navigate = useNavigate();
@@ -47,24 +48,24 @@ const Product = React.forwardRef((props, ref: any) => {
         <div className="products max-sm:flex-wrap  flex flex-row justify-evenly items-center w-full ">
           <ProductCard
             program={programs && programs[0]}
-            title={programs && programs[0].programName}
-            view="500 Học viên"
-            hour="10 buổi"
-            image="https://americastarbooks.com/wp-content/uploads/2018/11/noi-dung-sach-dac-nhan-tam-1280x720.jpg"
+            title={programs && programs[0]?.programName}
+            view={programs && programs[0]?.learnerCount + ' Học viên'}
+            hour={programs && programs[0]?.trainingHours + ' buổi'}
+            image={programs && programs[0]?.image}
           />
           <ProductCard
-            program={programs && programs[2]}
-            title={programs && programs[6].programName}
-            view="200 Học viên"
-            hour="20 buổi"
-            image="https://thumbs.dreamstime.com/b/consultant-presenting-tag-cloud-information-technology-224099191.jpg"
+            program={programs && programs[6]}
+            title={programs && programs[6]?.programName}
+            view={programs && programs[6]?.learnerCount + ' Học viên'}
+            hour={programs && programs[6]?.trainingHours + ' buổi'}
+            image={programs && programs[6]?.image}
           />
           <ProductCard
             program={programs && programs[1]}
-            title={programs && programs[1].programName}
-            view={'100 Học viên'}
-            hour="12 buổi"
-            image="https://images.careerbuilder.vn/content/images/loi-ich-tu-nhung-ky-nang-mem-careerbuilder.jpg  "
+            title={programs && programs[1]?.programName}
+            view={programs && programs[1]?.learnerCount + ' Học viên'}
+            hour={programs && programs[1]?.trainingHours + ' buổi'}
+            image={programs && programs[1]?.image}
           />
         </div>
       </div>
@@ -88,7 +89,7 @@ const ProductCard = (props: any) => {
         <img
           loading="lazy"
           className="rounded-t-lg h-40 w-full"
-          src={props.image}
+          src={`${API_URL}/images/${props?.image}`}
           alt=""
           onError={({ currentTarget }) => {
             currentTarget.onerror = null; // prevents looping

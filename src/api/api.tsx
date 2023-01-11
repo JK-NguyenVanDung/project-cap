@@ -1,5 +1,5 @@
 import { ISignUp } from './apiInterface';
-export const API_URL = 'https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17';
+export const API_URL = 'http://localhost:7206';
 //https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17
 //https://localhost:7206'
 export const API_CONFIG = {
@@ -26,7 +26,8 @@ export const API_CONFIG = {
   PROGRAM: {
     GET: '/api/Programs',
     GET_SINGLE: (ID: number) => `/api/Programs/${ID}`,
-
+    GET_CONTENT: (ids: { programId: number; accountId: number }) =>
+      `/api/Programs/Contents?ProgramId=${ids.programId}&AccountId=${ids.accountId}`,
     POST: '/api/Programs',
     DELETE: (ID: number) => `/api/Programs/${ID}`,
     PUT: (ID: number) => `/api/Programs/${ID}`,

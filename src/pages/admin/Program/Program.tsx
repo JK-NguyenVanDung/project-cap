@@ -167,7 +167,7 @@ export default function Program() {
           };
         });
         temp = temp.filter((a: any) => a.accountIdCreator == info.accountId);
-      } else {
+      } else if (info?.roleId === 1) {
         temp = res.map((v: any, index: number) => {
           return {
             ...v,
