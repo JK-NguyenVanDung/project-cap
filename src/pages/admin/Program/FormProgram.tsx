@@ -423,27 +423,62 @@ export default function FormProgram() {
             />
             <div>
               <div className="">
-                <label className="text-black font-bold font-customFont ">
-                  Học Kì
-                </label>
-                <Form.Item
-                  name="Semester"
-                  className="w-full mt-4"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Vui Lòng Nhập Vào Học Kì',
-                    },
-                  ]}
-                >
-                  <Select placeholder="Chọn Học Kì">
-                    <Option value="1">Học Kì 1</Option>
-                    <Option value="2">Học Kì 2</Option>
-                    <Option value="3">Học Kì 3</Option>
-                  </Select>
-                </Form.Item>
+                <div className="flex w-full justify-between">
+                  <div className="w-1/2 mr-4">
+                    <label className="text-black font-bold font-customFont ">
+                      Học Kì
+                    </label>
+                    <Form.Item
+                      name="Semester"
+                      className="w-full mt-4"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Vui Lòng Nhập Vào Học Kì',
+                        },
+                      ]}
+                    >
+                      <Select placeholder="Chọn Học Kì">
+                        <Option value="1">Học Kì 1</Option>
+                        <Option value="2">Học Kì 2</Option>
+                        <Option value="3">Học Kì 3</Option>
+                      </Select>
+                    </Form.Item>
+                  </div>
+                  <div className=" w-1/2">
+                    <label className="text-black font-bold font-customFont ">
+                      Năm Học
+                    </label>
+                    <Form.Item
+                      className="mt-4 "
+                      name="AcademicYearId"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Vui Lòng Nhập Vào Năm Học',
+                        },
+                      ]}
+                    >
+                      <Select
+                        showSearch
+                        placeholder="Chọn Năm Học"
+                        optionFilterProp="children"
+                        onChange={onChange}
+                        onSearch={onSearch}
+                        filterOption={(input: any, option: any) =>
+                          (option?.label ?? '')
+                            .toLowerCase()
+                            .includes(input.toLowerCase())
+                        }
+                        options={acedemic.map((item: any) => ({
+                          value: item.id,
+                          label: item.year,
+                        }))}
+                      />
+                    </Form.Item>
+                  </div>
+                </div>
               </div>
-
               <label className="text-black font-bold font-customFont">
                 Chức vụ
               </label>
@@ -575,36 +610,6 @@ export default function FormProgram() {
               ]}
             >
               <DatePicker placeholder="Chọn Ngày" picker="date" />
-            </Form.Item>
-            <label className="text-black font-bold font-customFont ">
-              Năm Học
-            </label>
-            <Form.Item
-              className="mt-4 w-fit"
-              name="AcademicYearId"
-              rules={[
-                {
-                  required: true,
-                  message: 'Vui Lòng Nhập Vào Năm Học',
-                },
-              ]}
-            >
-              <Select
-                showSearch
-                placeholder="Chọn Năm Học"
-                optionFilterProp="children"
-                onChange={onChange}
-                onSearch={onSearch}
-                filterOption={(input: any, option: any) =>
-                  (option?.label ?? '')
-                    .toLowerCase()
-                    .includes(input.toLowerCase())
-                }
-                options={acedemic.map((item: any) => ({
-                  value: item.id,
-                  label: item.year,
-                }))}
-              />
             </Form.Item>
           </div>
         </div>

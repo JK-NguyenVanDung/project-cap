@@ -90,6 +90,7 @@ const ProgramItem = z.object({
     categoryId: z.number(),
     categoryName: z.string(),
   }),
+  maxLearner: z.number() || z.string(),
   faculty: z.object(Faculty),
   programPositions: z.array(z.object(Position)),
   lecturers: z.string(),

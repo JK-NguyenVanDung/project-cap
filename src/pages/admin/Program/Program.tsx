@@ -31,6 +31,7 @@ export default function Program() {
   const navigate = useNavigate();
   const navigateParams = useNavigateParams();
   const info = useAppSelector((state) => state.auth.info);
+  let paths = location.pathname.split('/');
 
   useEffect(() => {
     getData();
@@ -125,6 +126,11 @@ export default function Program() {
       render: (item: IProgramItem) => {
         return (
           <PopOverAction
+            disabled={
+              paths[paths.length - 1] === 'MyProgram' || info?.roleId === 2
+                ? false
+                : true
+            }
             size="sm"
             detailType="chapter"
             handleEdit={() => handelDataProgram(item)}
@@ -158,7 +164,6 @@ export default function Program() {
       let res: any = await apiService.getPrograms();
       res = res.reverse();
       let temp;
-      let paths = location.pathname.split('/');
       if (paths[paths.length - 1] === 'MyProgram') {
         temp = res.map((v: any, index: number) => {
           return {
@@ -207,6 +212,11 @@ export default function Program() {
         loading={loading || confirmLoading}
         extra={[
           <CustomButton
+            disabled={
+              paths[paths.length - 1] === 'MyProgram' || info?.roleId === 2
+                ? false
+                : true
+            }
             type="add"
             size="md"
             key={`${uniqueId()}`}

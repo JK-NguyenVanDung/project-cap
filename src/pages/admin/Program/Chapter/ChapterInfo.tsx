@@ -260,16 +260,17 @@ export default function ChapterInfo() {
         />
 
         <div className="w-full mb-6 z-100">
-          {/* <label className="text-black font-bold font-customFont ">
-            Nhúng {switchType ? 'Video' : 'Sline'}
-            <Switch
+          <label className="text-black font-bold font-customFont ">
+            Nhúng Video / Slide / PDF
+            {/* {switchType ? 'Video' : 'Sline'} */}
+            {/* <Switch
               checked={switchType}
               onChange={setSwitchType}
               className="ml-4 bg-primary"
               checkedChildren="Video"
               unCheckedChildren="Slide"
-            />
-          </label> */}
+            /> */}
+          </label>
           <Form.Item
             name="content"
             rules={[
