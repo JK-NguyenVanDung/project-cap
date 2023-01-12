@@ -49,21 +49,21 @@ const Product = React.forwardRef((props, ref: any) => {
           <ProductCard
             program={programs && programs[0]}
             title={programs && programs[0]?.programName}
-            view={programs && programs[0]?.learnerCount + ' Học viên'}
+            view={programs && programs[0]?.maxLearner + ' Học viên'}
             hour={programs && programs[0]?.trainingHours + ' buổi'}
             image={programs && programs[0]?.image}
           />
           <ProductCard
             program={programs && programs[6]}
             title={programs && programs[6]?.programName}
-            view={programs && programs[6]?.learnerCount + ' Học viên'}
+            view={programs && programs[6]?.maxLearner + ' Học viên'}
             hour={programs && programs[6]?.trainingHours + ' buổi'}
             image={programs && programs[6]?.image}
           />
           <ProductCard
             program={programs && programs[1]}
             title={programs && programs[1]?.programName}
-            view={programs && programs[1]?.learnerCount + ' Học viên'}
+            view={programs && programs[1]?.maxLearner + ' Học viên'}
             hour={programs && programs[1]?.trainingHours + ' buổi'}
             image={programs && programs[1]?.image}
           />

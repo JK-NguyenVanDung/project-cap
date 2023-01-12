@@ -20,6 +20,7 @@ export default function PopOverAction({
   authType = null,
   variant,
   detailType,
+  disabled = false,
 }: {
   size?: size;
   handleDelete?: Function;
@@ -31,6 +32,7 @@ export default function PopOverAction({
   variant?: any;
   authType?: string;
   detailType?: string;
+  disabled?: boolean;
 }) {
   const [openAction, setOpenAction] = useState(false);
 
@@ -52,6 +54,7 @@ export default function PopOverAction({
             size={size}
             type={'edit'}
             onClick={() => handleEdit()}
+            disabled={disabled}
           />
         )}
         {handleAuth && (
@@ -59,6 +62,7 @@ export default function PopOverAction({
             size={size}
             type={authType ? authType : 'auth'}
             onClick={() => handleAuth()}
+            disabled={disabled}
           />
         )}
 
@@ -67,6 +71,7 @@ export default function PopOverAction({
             size={size}
             type={detailType ? detailType : 'detail'}
             onClick={() => handleShowDetail()}
+            disabled={disabled}
           />
         )}
         {handleDelete && (
@@ -87,6 +92,7 @@ export default function PopOverAction({
                 }`}
                 color="red"
                 variant={variant ? variant : 'outlined'}
+                disabled={disabled}
               >
                 <IoTrashOutline className="mx-2 text-base " />
                 {/* <p className="font-serif">{'Xoá'}</p> */}

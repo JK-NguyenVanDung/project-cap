@@ -27,7 +27,7 @@ export default function (props: any) {
       title: 'Hạn làm bài:',
       value: moment(program?.endDate).format('DD/MM/YYYY').toString(),
     },
-    { title: 'Thời gian làm:', value: selectedTest?.time },
+    { title: 'Thời gian làm:', value: selectedTest?.time + ' phút' },
     { title: 'Số lần làm:', value: '1' },
     { title: 'Số câu hỏi:', value: selectedTest.questionCount },
     selectedChapter.isDone && {

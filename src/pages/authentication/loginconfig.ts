@@ -16,8 +16,8 @@ export const msalConfig: any = {
     authority: 'https://login.microsoftonline.com/common',
     redirectUri: 'http://localhost:5173',
   },
-  //    redirectUri: 'https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/',
-
+  //    redirectUri: 'https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/',
+  //http://localhost:5173
   cache: {
     cacheLocation: 'sessionStorage', // This configures where your cache will be stored
     storeAuthStateInCookie: false, // Set this to "true" if you are having issues on IE11 or Edge
