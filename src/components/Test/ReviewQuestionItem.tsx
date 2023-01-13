@@ -1,26 +1,22 @@
-import autoAnimate from '@formkit/auto-animate';
-import { useState, useRef, useEffect } from 'react';
-import { BsFillPlayCircleFill } from 'react-icons/bs';
-import { HiCheckCircle, HiClipboardCheck } from 'react-icons/hi';
-import { IChapterItem, IQuestion, ITest } from '../../Type';
-import apiService from '../../api/apiService';
-import ActiveArrow from '../../assets/svg/ActiveArrow';
-import NonActiveArrow from '../../assets/svg/NonActiveArrow';
-import { useNavigate } from 'react-router-dom';
-import { actions } from '../../Redux';
-import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
-import { IChapter } from '../../api/apiInterface';
-import Answer from './Answer';
+import { IAnswer, IQuestion, ITest } from '../../Type';
+
+import { useAppSelector } from '../../hook/useRedux';
 
 const ReviewQuestionItem = ({
   question,
   index,
-  hasAnswer,
 }: {
   question?: IQuestion;
   index?: number;
-  hasAnswer?: boolean;
 }) => {
+  const answers: Array<IAnswer> = useAppSelector((state) => state.test.answers);
+  function isSelected(questionId: number) {
+    let isAnswer = answers?.find(
+      (ids: IAnswer) => ids.questionId == questionId,
+    );
+    return isAnswer ? true : false;
+  }
+
   return (
     <>
       <div className="w-full items-center flex justify-between h-fit bg-gray-200 text-black  my-4 p-2 px-4 rounded-xl">
@@ -29,7 +25,9 @@ const ReviewQuestionItem = ({
             <p className="text-lg text-bold">{index ? index : '0'}</p>
           </div>
           <p className="text-lg text-bold">
-            {!hasAnswer ? 'Chưa có đáp án' : 'Đã có đáp án'}
+            {isSelected(question.questionId)
+              ? 'Đã có đáp án'
+              : 'Chưa có đáp án'}
           </p>
         </div>
         <p className="text-lg text-bold text-primary">

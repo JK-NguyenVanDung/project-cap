@@ -29,9 +29,7 @@ const ChapterBar = (props: any) => {
   const initChapter: IChapterItem = useAppSelector(
     (state) => state.product.initChapter,
   );
-  const updateLike: boolean = useAppSelector(
-    (state) => state.product.updateLike,
-  );
+
   useAppDispatch;
   const dispatch = useAppDispatch();
   const info = useAppSelector((state) => state.auth.info);

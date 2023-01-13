@@ -1,10 +1,11 @@
 import { Form, Input } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
 import { errorText } from '../../helper/constant';
-import { useAppSelector } from '../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import CustomButton from '../admin/Button';
 import PopOverAction from '../admin/PopOver';
-import { IQuestionContent } from '../../Type';
+import { IAnswer, IQuestionContent } from '../../Type';
+import { actions } from '../../Redux';
 
 const UnselectedCircle = (props: any) => {
   return (
@@ -50,20 +51,32 @@ function getChar(c: number) {
 }
 
 const OptionalAnswer = ({
-  onChange,
   isMultiple,
   contents,
-  answerList,
+  questionId,
 }: {
-  onChange: Function;
   isMultiple: boolean;
   contents: Array<IQuestionContent>;
-  answerList: Array<number | string>;
+  questionId: number;
 }) => {
-  const options = useAppSelector((state: any) => state.question.radioOptions);
+  const answers: Array<IAnswer> = useAppSelector((state) => state.test.answers);
 
-  function getStyle(item: any) {
-    let isAnswer = answerList?.find((id: string | number) => id == item);
+  const dispatch = useAppDispatch();
+
+  function chooseAnswer(questionContentId: number | string) {
+    dispatch(
+      actions.testActions.addAnswers({
+        questionId: questionId,
+        questionContentId: questionContentId,
+        isMultiple: isMultiple,
+      }),
+    );
+  }
+
+  function getStyle(contentId: any, answers: Array<IAnswer>) {
+    let isAnswer = answers?.find(
+      (ids: IAnswer) => ids.questionContentId == contentId,
+    );
     return isAnswer ? true : false;
   }
   return (
@@ -75,63 +88,32 @@ const OptionalAnswer = ({
               type="button"
               formNoValidate
               className={`w-[6rem]  mr-8 my-4  flex border rounded-[10px] ${
-                getStyle(item.questionContentId)
+                getStyle(item.questionContentId, answers)
                   ? 'border-primary'
                   : 'border-gray-400'
               } min-h-[3rem] h-full justify-center items-center`}
-              onClick={() => onChange(item.questionContentId)}
+              onClick={() => chooseAnswer(item.questionContentId)}
             >
               <p
                 className={`text-3xl font-bold ${
-                  getStyle(item.questionContentId)
+                  getStyle(item.questionContentId, answers)
                     ? 'text-primary'
                     : 'text-gray-400'
                 }`}
               >
                 {getChar(index + 1)}
               </p>
-              {getStyle(item.questionContentId) ? (
+              {getStyle(item.questionContentId, answers) ? (
                 <FullCircle className="ml-4" />
               ) : (
                 <UnselectedCircle className="ml-4" />
               )}
             </button>
             <div className="w-full mb-2 z-1 ">
-              {/* <Form.Item
-                name={item.value - 1}
-                rules={[
-                  {
-                    required: true,
-                    message: `Vui Lòng Nhập Vào Đáp án ${getChar(item.value)}`,
-                  },
-                  {
-                    pattern: new RegExp(/^(?!\s*$|\s).*$/),
-                    message: errorText.space,
-                  },
-                ]}
-              >
-                <Input
-                  disabled
-                  type="text"
-                 
-                  placeholder={`Nhập đáp án ${getChar(item.value)}`}
-                  suffix={
-                    index > 3 && (
-                      <PopOverAction
-                        variant="text"
-                        handleDelete={() => handleDelete(item.value)}
-                        deleteItem={'câu ' + getChar(item.value)}
-                        size="sm"
-                      />
-                    )
-                  }
-                />
-            
-              </Form.Item> */}
               <div
                 className={`z-[0] min-h-[3rem] flex items-center text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border  text-sm rounded-lg focus:ring-gray-500 focus:gray-400-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:gray-400-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:gray-400-500
               ${
-                getStyle(item.questionContentId)
+                getStyle(item.questionContentId, answers)
                   ? 'border-primary'
                   : 'border-gray-400'
               } `}

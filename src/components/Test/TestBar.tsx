@@ -2,12 +2,20 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import apiService from '../../api/apiService';
 import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
-import { IAccountItem, IChapterItem, IProgramItem } from '../../Type';
+import {
+  IAccountItem,
+  IAnswer,
+  IChapterItem,
+  IProgramItem,
+  IQuestion,
+  ITest,
+} from '../../Type';
 import { useNavigate } from 'react-router-dom';
 
 import { actions } from '../../Redux';
 import CustomButton from '../admin/Button';
 import { HiOutlineChevronLeft, HiOutlineChevronRight } from 'react-icons/hi2';
+import useTimer from './Timer';
 // import ChapterItem from './ChapterItem';
 
 interface Content {
@@ -24,18 +32,45 @@ const QuestionBar = (props: any) => {
   const [program, setProgram] = useState<IProgramItem>();
   const [user, setUser] = useState<IAccountItem>(null);
   const [like, setLike]: any = useState();
-  const [chapters, setChapters] = useState(null);
+  // <Timer />
   const [current, setCurrent] = useState(0);
 
-  const updateLike: boolean = useAppSelector(
-    (state) => state.product.updateLike,
+  const [range, setRange] = useState({ base: 0, limit: 5 });
+  const selectedTest: ITest = useAppSelector(
+    (state) => state.test.selectedTest,
   );
-  useAppDispatch;
+  const answers: Array<IAnswer> = useAppSelector((state) => state.test.answers);
+  const listQuestions: Array<IQuestion> = useAppSelector(
+    (state) => state.test.listQuestions,
+  );
+  const initTime: { minutes: number; seconds: number } = useAppSelector(
+    (state) => state.test.time,
+  );
+  let time = useTimer({
+    initialMinute: initTime.minutes,
+    initialSeconds: initTime.seconds,
+  });
+
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     // getData();
   }, [programNav]);
+
+  useEffect(() => {
+    let base = current;
+    let limit = current + 1;
+
+    while (base % 5 !== 0 && base > 0) {
+      base--;
+    }
+    while (limit % 5 !== 0 && limit > 0) {
+      limit++;
+    }
+    let tempRange = { base: base, limit: limit };
+    setRange(tempRange);
+    dispatch(actions.testActions.setRange(tempRange));
+  }, [current]);
 
   // async function getData() {
   //   try {
@@ -68,28 +103,44 @@ const QuestionBar = (props: any) => {
   //     throw err.message;
   //   }
   // }
-  const testLength = 5;
+
   const isViewing = (index: number) => {
-    let length = testLength >= 5 ? 5 : testLength;
-    let limit = current + length;
-    if (index + 1 <= limit && limit <= testLength) {
+    let listQuestionLength = listQuestions.length;
+    let length = listQuestionLength >= 5 ? 5 : listQuestionLength;
+
+    if (index + 1 <= range.limit && index + 1 > range.base) {
+      // console.log(range.base, range.limit, index);
+
       return true;
     }
     return false;
   };
 
   function navToReview() {
-    let id = 1;
-    navigate(`/Test/Review/${id}`);
+    dispatch(
+      actions.testActions.setTime({
+        minutes: time.minutes,
+        seconds: time.seconds - 1,
+      }),
+    );
+    navigate(`/Test/Review/${selectedTest.testId}`);
   }
-  let arr = [1, 2, 3, 4, 5, 6, 7, 8];
+  function isSelected(questionId: number) {
+    let isAnswer = answers?.find(
+      (ids: IAnswer) => ids.questionId == questionId,
+    );
+    return isAnswer ? true : false;
+  }
+
+  useEffect(() => {}, []);
+
   return (
     <div className="fixed right-0 overflow-y-scroll rounded-xl w-fit text-black bg-white h-fit min-h-[80vh]    max-w-[25rem] m-4 p-2 px-8 border flex flex-col justify-start items-start">
       <p className="my-6 text-xl font-bold  text-gray-900 text-center  flex w-full justify-start items-start">
         Danh sách câu hỏi
       </p>
       <div className="flex flex-wrap justify-start items-center w-full border-b-2 border-gray-200 pb-4">
-        {arr?.map((item: number, index: number) => {
+        {listQuestions?.map((item: IQuestion, index: number) => {
           return (
             <div
               className={`${
@@ -99,9 +150,11 @@ const QuestionBar = (props: any) => {
               }`}
             >
               <CustomButton
+                color={isSelected(item.questionId) ? 'blue' : 'gray'}
                 noIcon
-                text={item}
+                text={index + 1}
                 className={'min-w-[2rem] py-2 m-3  text-md'}
+                onClick={() => setCurrent(index)}
               />
             </div>
           );
@@ -110,24 +163,37 @@ const QuestionBar = (props: any) => {
       <div className=" w-full my-2">
         <div className="flex w-full justify-between my-6">
           <p className="text-lg font-semibold  text-gray-900 text-center   items-start">
-            Tổng thời gian làm bài:{' '}
+            Tổng thời gian làm bài:
           </p>
           <p className=" font-semibold   text-gray-900 text-center   items-start">
-            20p{' '}
+            {selectedTest.time} phút
           </p>
         </div>
         <div className="flex w-full justify-between my-6">
           <p className="text-lg font-semibold  text-gray-900 text-center   items-start">
-            Thời gian còn lại:{' '}
+            Thời gian còn lại:
           </p>
           <p className=" font-semibold   text-gray-900 text-center   items-start">
-            12p30{' '}
+            <div>
+              <>
+                {time.minutes === 0 && time.seconds === 0 ? (
+                  <> {'00:00'} </>
+                ) : (
+                  <>
+                    {' '}
+                    {time.minutes}:
+                    {time.seconds < 10 ? `0${time.seconds}` : time.seconds}
+                  </>
+                )}
+              </>
+            </div>
           </p>
         </div>
       </div>
       <div className="flex flex-col w-full h-full ">
         <CustomButton
           noIcon
+          disabled={range.base === 0}
           text={
             <>
               <div className="flex items-center justify-center pr-5">
@@ -137,9 +203,11 @@ const QuestionBar = (props: any) => {
           }
           className="mx-10 py-3 mb-4"
           variant={'outlined'}
+          onClick={() => setCurrent(current - 5)}
         />
         <CustomButton
           noIcon
+          disabled={range.limit >= listQuestions.length}
           text={
             <>
               <div className="flex items-center justify-center pl-4">
@@ -147,6 +215,7 @@ const QuestionBar = (props: any) => {
               </div>
             </>
           }
+          onClick={() => setCurrent(current + 5)}
           className="mx-10 py-3 mb-4"
           variant={'outlined'}
         />

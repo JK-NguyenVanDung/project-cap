@@ -19,7 +19,6 @@ import { AxiosResponse } from 'axios';
 export default function UserTest(props: any) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
-  const [questions, setQuestions] = useState<Array<IQuestion>>(null);
   let ref = useRef(null);
   const location = useLocation();
   // const executeScroll = (i: number) => {
@@ -34,27 +33,34 @@ export default function UserTest(props: any) {
 
   const dispatch = useAppDispatch();
   const selectedTest: ITest = useAppSelector(
-    (state) => state.product.selectedTest,
+    (state) => state.test.selectedTest,
   );
   const breadCrumb: string = useAppSelector(
     (state) => state.product.contentBreadcrumb,
   );
-  async function getData() {
-    try {
-      let res: any = await apiService.getQuestions(selectedTest.testId);
-      res && setQuestions(res);
-      dispatch(
-        actions.formActions.setNameMenu(
-          `${selectedTest ? selectedTest.testTitle : 'N/A'}`,
-        ),
-      );
-    } catch (err) {}
-  }
+
+  const questions: Array<IQuestion> = useAppSelector(
+    (state) => state.test.currentQuestions,
+  );
+  const listAllQuestions: Array<IQuestion> = useAppSelector(
+    (state) => state.test.listQuestions,
+  );
+  const range: any = useAppSelector((state) => state.test.range);
+
   useEffect(() => {
     // executeScroll(0);
     // console.log(1);
-    getData();
   }, []);
+
+  useEffect(() => {
+    // executeScroll(0);
+    // console.log(1);
+    dispatch(
+      actions.testActions.setListCurrentQuestions(
+        listAllQuestions.slice(range.base, range.limit),
+      ),
+    );
+  }, [range]);
   return (
     <>
       <div className="w-full h-14 flex items-center justify-between ">
@@ -92,13 +98,13 @@ export default function UserTest(props: any) {
       {/* <Loading loading={loading} /> */}
       <div
         ref={ref}
-        className={`flex w-full justify-between bg-gray-50 ${
+        className={`flex w-full justify-between min-h-screen h-full bg-gray-50 ${
           loading ? 'visible' : 'visible'
         }`}
       >
         <div className="flex flex-col">
-          {questions?.map((item: IQuestion, index: number) => {
-            return <QuestionItem question={item} index={index + 1} />;
+          {questions?.map((item: IQuestion) => {
+            return <QuestionItem question={item} index={item.index} />;
           })}
         </div>
 

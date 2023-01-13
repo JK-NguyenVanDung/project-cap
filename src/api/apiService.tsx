@@ -107,6 +107,12 @@ export default {
   removeTest: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.TEST.DELETE(ID));
   },
+  doTest: (props: { accountId: number; body: any }) => {
+    return axiosConfig.post(
+      API_CONFIG.TEST.DO_TEST(props.accountId),
+      props.body,
+    );
+  },
   //QUESTIONS
   getQuestions: (id: number) => {
     return axiosConfig.get(API_CONFIG.QUESTION.GET + '?id=' + id);

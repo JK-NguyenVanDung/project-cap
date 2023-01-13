@@ -9,6 +9,7 @@ const config = combineReducers({
   question: reducers.questionReducer,
   nav: reducers.navReducers,
   product: reducers.productReducers,
+  test: reducers.testReducers,
 });
 const persistConfig = {
   key: 'root',

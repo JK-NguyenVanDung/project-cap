@@ -53,6 +53,7 @@ export const API_CONFIG = {
     POST: '/api/Tests',
     PUT: (id: number) => `/api/Tests/${id}`,
     DELETE: (id: number) => `/api/Tests/${id}`,
+    DO_TEST: (accountId: number) => `/api/DoTests/${accountId}`,
   },
   QUESTION: {
     GET: '/api/Questions',
