@@ -65,6 +65,7 @@ const Position = {
 };
 
 const ProgramItem = z.object({
+  isRegister: z.boolean(),
   isLike: z.boolean(),
   programId: z.number(),
   facultyId: z.number(),

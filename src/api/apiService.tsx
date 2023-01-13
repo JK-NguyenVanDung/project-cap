@@ -212,4 +212,29 @@ export default {
   getProgramStatus: (id: number) => {
     return axiosConfig.get(API_CONFIG.CHECK_PROGRAM.GET_PROGRAM_STATUS(id));
   },
+  registerOrUn: (params: any) => {
+    return axiosConfig.post(API_CONFIG.LEANER.REGISTER_OR_UN, params);
+  },
+
+  getLeaner_id: (id: number) => {
+    return axiosConfig.get(API_CONFIG.LEANER.GETLEANER_ID(id));
+  },
+  addLeaner: (params: any) => {
+    return axiosConfig.post(API_CONFIG.LEANER.ADD_LEANER, params);
+  },
+  updateLeaner: (id: number, params: any) => {
+    return axiosConfig.put(API_CONFIG.LEANER.UPDATE_LEANER(id), params);
+  },
+  delLeaner: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.LEANER.DELLEANER(id));
+  },
+  importFileLeaner: (param: any) => {
+    return axiosConfig.post(API_CONFIG.LEANER.IMPORT_FILE, param);
+  },
+  getMyProgram: () => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.MYPROGRAM);
+  },
+  getProgramPublish: () => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.GETPROGRAMPUBLISH);
+  },
 };

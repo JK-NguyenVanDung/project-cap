@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { IAccountItem, IProgramItem } from '../../Type';
 import { useNavigate } from 'react-router-dom';
 import Color from '../constant/Color';
-import { Spin } from 'antd';
+import { message, Spin } from 'antd';
 import { actions } from '../../Redux';
 
 interface Content {
@@ -24,6 +24,8 @@ const RightSection = (props: any) => {
   const [program, setProgram] = useState<IProgramItem>();
   const [user, setUser] = useState<IAccountItem>(null);
   const [like, setLike]: any = useState();
+  const [register, setRegister]: any = useState();
+  const [loading, setLoading] = useState(false);
   const updateLike: boolean = useAppSelector(
     (state) => state.product.updateLike,
   );
@@ -36,7 +38,8 @@ const RightSection = (props: any) => {
 
   useEffect(() => {
     setLike(program?.isLike);
-  }, [program]);
+    setRegister(program?.isRegister);
+  }, [program, loading]);
 
   async function getData() {
     try {
@@ -71,6 +74,23 @@ const RightSection = (props: any) => {
     setProgram(data);
 
     dispatch(actions.productActions.setUpdateLike(!updateLike));
+  };
+
+  const handelRegister = (item: IProgramItem) => {
+    const fetchRegister = async () => {
+      const value = {
+        programId: item.programId,
+        isRegister: !item.isRegister,
+      };
+      const data: any = await apiService.registerOrUn(value);
+      if (data) {
+        const response: any = await apiService.getProgram(programId.programId);
+        setLoading(true);
+        setProgram(response);
+        setRegister(response.isRegister);
+      }
+    };
+    fetchRegister();
   };
   return (
     <div className=" rounded-xl w-fit text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
@@ -149,12 +169,13 @@ const RightSection = (props: any) => {
 
       <div className="flex my-8 flex-col w-full items-center justify-center">
         <CustomButton
+          onClick={() => handelRegister(program)}
           disabled={props.enable ? false : true}
           noIcon
-          color="blue"
-          text="Đăng ký tham gia"
+          color={register ? 'red' : 'blue'}
+          text={register ? ' Hủy Đăng Ký' : 'Đăng Ký'}
           className=" w-[90%] my-2  h-10"
-        />{' '}
+        />
         <CustomButton
           disabled={props.enable ? false : true}
           Icon={AiFillHeart}
