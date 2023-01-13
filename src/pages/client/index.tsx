@@ -36,7 +36,7 @@ export default function ClientSideBar({ content }: { content: any }) {
           `${
             temp == 'Trang Chủ'
               ? `Xin Chào \n
-               ${accounts[0].name.split('-')[1]}`
+               ${accounts[0]?.name.split('-')[1]}`
               : temp
           }`,
         ),
@@ -55,7 +55,7 @@ export default function ClientSideBar({ content }: { content: any }) {
               }}
               className=" hover:text-black relative my-2  px-2 w-full flex flex-row items-center justify-center"
             >
-              <img className="w-1/5 h-fit mb-2" src={logo} />
+              <img className="w-1/6 h-fit mb-2" src={logo} />
               <p className="text-lg font-bold text-center mb-2 mx-2">
                 VLG TRAINING
               </p>

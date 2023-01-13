@@ -22,7 +22,7 @@ export default function ListReviewPrograms() {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const info = useAppSelector((state) => state.auth.info);
+  const info: any = useAppSelector((state) => state.auth.info);
   const [approve, setApprove] = useState(false);
   const [itemData, setItemData] = useState([]);
   useEffect(() => {
@@ -128,7 +128,7 @@ export default function ListReviewPrograms() {
 
       render: (data: any) => (
         <>
-          {info.roleId === 2 ? (
+          {info.roleId === 2 || info.roleId === 4 ? (
             <PopOverAction
               size="sm"
               authType="addReviewer"

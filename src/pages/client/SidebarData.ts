@@ -35,7 +35,7 @@ export const SideBarData = [
   {
     title: 'Chương Trình',
     icon: IoBook,
-    path: '/Courses',
+    path: '/Programs',
   },
   {
     title: 'Chương Trình Của Tôi',

@@ -94,7 +94,7 @@ const ProgramItem = z.object({
   faculty: z.object(Faculty),
   programPositions: z.array(z.object(Position)),
   lecturers: z.string(),
-  time: z.string(),
+  trainingHours: z.string(),
   totalLike: z.number(),
 });
 
@@ -106,6 +106,8 @@ const ChapterItem = z.object({
   chapter: z.number(),
   contentType: z.string(),
   content: z.string(),
+  isTest: z.boolean(),
+  isDone: z.boolean(),
 });
 const QuestionType = z.object({
   typeId: z.number(),
@@ -133,6 +135,7 @@ const Test = z.object({
   chapter: z.number(),
   isRandom: z.boolean(),
   questions: z.array(z.any()),
+  questionCount: z.number(),
 });
 
 export type IRoleItem = z.infer<typeof RoleItem>;

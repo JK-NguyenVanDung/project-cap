@@ -14,7 +14,7 @@ import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { API_URL } from '../../../api/api';
 import moment from 'moment';
 import noImg from '../../../assets/img/no-image.png';
-import EditProgram from './EditProgram';
+import FormProgram from './FormProgram';
 import { useLocation } from 'react-router-dom';
 import { AiFillUnlock, AiFillLock, AiFillWarning } from 'react-icons/ai';
 import { useNavigateParams } from '../../../hook/useNavigationParams';
@@ -95,7 +95,8 @@ export default function Program() {
     },
     {
       title: 'Giờ đào tạo',
-      dataIndex: 'time',
+      dataIndex: 'trainingHours',
+      width: '13%',
       render: (data: any) => <p>{data ? data : 0}</p>,
     },
 
@@ -189,7 +190,7 @@ export default function Program() {
   }
   function handelDataProgram(item?: any) {
     dispatch(actions.formActions.setProgramForm(item));
-    navigate('/admin/EditProgram');
+    navigate('/admin/FormProgram');
   }
   // function temp() {
   //   dispatch(actions.formActions.setChapter(1));
@@ -214,7 +215,7 @@ export default function Program() {
             size="md"
             key={`${uniqueId()}`}
             onClick={() => {
-              navigate('/admin/EditProgram');
+              navigate('/admin/FormProgram');
               dispatch(actions.formActions.setProgramForm(null));
             }}
           />,

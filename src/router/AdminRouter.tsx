@@ -10,12 +10,15 @@ import Account from '../pages/admin/account/Account';
 import Program from '../pages/admin/Program/Program';
 import ProgramDetail from '../pages/admin/Program/ProgramDetail';
 import Faculties from '../pages/admin/Faculties/Faculties';
-import EditProgram from '../pages/admin/Program/EditProgram';
+import FormProgram from '../pages/admin/Program/FormProgram';
 import Logined from './Logined';
 import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
 import Question from '../pages/admin/Program/Test/Question';
 import Test from '../pages/admin/Program/Test/Test';
 import ReviewDetail from '../pages/admin/ReviewProgram/ReviewDetail';
+import UserTest from '../pages/client/Programs/Test/Test';
+import UserReviewTest from '../pages/client/Programs/Test/ReviewTest';
+
 import apiService from '../api/apiService';
 
 import ClientSideBar from '../pages/client/';
@@ -26,12 +29,12 @@ import { actions } from '../Redux';
 import AcedemicYear from '../pages/admin/AcedemicYear/AcedemicYear';
 import Position from '../pages/admin/Position/Position';
 import ListReviewPrograms from '../pages/admin/ReviewProgram/ListReviewProgram';
-import Courses from '../pages/client/Courses/Courses';
-import CourseDetail from '../pages/client/Courses/CourseDetail';
 import LeanerPage from '../pages/admin/Leaner/LeanerPage';
-import MyCourse from '../pages/client/Courses/MyCourse';
 import ProgramPublish from '../pages/admin/Leaner/ProgramPublish';
-
+import UserProgram from '../pages/client/Programs/Programs';
+import UserProgramDetail from '../pages/client/Programs/ProgramDetail';
+import UserChapters from '../pages/client/Programs/Chapters/Chapters';
+import MyCourse from '../pages/client/Programs/MyCourse';
 export const RouterPages = [
   {
     path: '/admin',
@@ -83,8 +86,8 @@ export const RouterPages = [
     element: <Faculties />,
   },
   {
-    path: '/admin/EditProgram',
-    element: <EditProgram />,
+    path: '/admin/FormProgram',
+    element: <FormProgram />,
   },
   {
     path: '/admin/AcedemicYear',
@@ -159,8 +162,8 @@ export const RouterCenter = [
     element: <Faculties />,
   },
   {
-    path: '/admin/EditProgram',
-    element: <EditProgram />,
+    path: '/admin/FormProgram',
+    element: <FormProgram />,
   },
   {
     path: '/admin/AcedemicYear',
@@ -235,8 +238,8 @@ export const RouterFaculty = [
     element: <Faculties />,
   },
   {
-    path: '/admin/EditProgram',
-    element: <EditProgram />,
+    path: '/admin/FormProgram',
+    element: <FormProgram />,
   },
   {
     path: '/admin/AcedemicYear',
@@ -265,7 +268,7 @@ export const RouterFaculty = [
     element: <ProgramPublish />,
   },
 ];
-const Leaner = [
+const Learner = [
   {
     path: '/home',
     element: <Homepage />,
@@ -276,12 +279,16 @@ const Leaner = [
     element: <Navigate replace to="/home" />,
   },
   {
-    path: '/Courses',
-    element: <Courses />,
+    path: '/Programs',
+    element: <UserProgram />,
   },
   {
-    path: '/Courses/:courseName',
-    element: <CourseDetail />,
+    path: '/Programs/:programName',
+    element: <UserProgramDetail />,
+  },
+  {
+    path: '/Programs/:programName/Chapters',
+    element: <UserChapters />,
   },
   {
     path: '/MyCourses',
@@ -301,11 +308,11 @@ export default function MakePagesRouter() {
     };
     fetchInfo();
   }, [token]);
-  const RouterLeaner = () => {
+  const RouterLearner = () => {
     if (LoginParmas.id == 1) {
       return (
         <Routes>
-          {Leaner.map((router, index) => {
+          {Learner.map((router, index) => {
             return (
               <Route
                 key={index}
@@ -316,6 +323,12 @@ export default function MakePagesRouter() {
           })}
           <Route path="/login" element={<Logined />} />
           <Route path="/" element={<LandingPage />} />
+          <Route key={'test'} path={'/Test/:testId'} element={<UserTest />} />
+          <Route
+            key={'reviewTest'}
+            path={'/Test/Review/:testId'}
+            element={<UserReviewTest />}
+          />
         </Routes>
       );
     }
@@ -370,5 +383,5 @@ export default function MakePagesRouter() {
       }
     }
   };
-  return <RouterLeaner />;
+  return <RouterLearner />;
 }

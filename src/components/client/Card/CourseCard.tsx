@@ -66,7 +66,6 @@ const CourseContent = (props: {
   onClick: React.MouseEventHandler;
   item: IProgramItem;
 }) => {
-  console.log(props.item.isLike);
   const [like, setLike] = useState(props.item.isLike);
   const [colorHeart, setColorHeart]: any = useState(Color.gray4);
   const [program, setProgram]: any = useState(null);
@@ -165,7 +164,7 @@ const CourseContent = (props: {
               </div>
               <div className="flex   items-center">
                 <RiTimerFill className="text-lg mr-2 text-gray-400" />
-                {props.item?.time}h
+                {props.item?.trainingHours}h
               </div>
             </div>
           </div>
