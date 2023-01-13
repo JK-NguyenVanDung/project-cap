@@ -29,11 +29,11 @@
 //   useEffect(() => {
 //     getPositions();
 //     getFacuties();
+//     RequestAccessToken();
 //     setTimeout(() => {
 //       fetchInfo();
 //     }, 2000);
 //   }, []);
-//   RequestAccessToken();
 //   const fetchInfo = async () => {
 //     const response: any = await apiService.getProfile();
 //     const { roleId } = response;
