@@ -37,6 +37,12 @@ export const SideBarData = [
     icon: IoBook,
     path: '/Programs',
   },
+  {
+    title: 'Chương Trình Của Tôi',
+    icon: IoBook,
+    path: '/MyCourses',
+  },
+
   // {
   //   title: 'Học Viên',
   //   icon: BsFillPersonBadgeFill,

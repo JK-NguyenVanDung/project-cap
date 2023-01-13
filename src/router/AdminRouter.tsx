@@ -29,10 +29,12 @@ import { actions } from '../Redux';
 import AcedemicYear from '../pages/admin/AcedemicYear/AcedemicYear';
 import Position from '../pages/admin/Position/Position';
 import ListReviewPrograms from '../pages/admin/ReviewProgram/ListReviewProgram';
+import LeanerPage from '../pages/admin/Leaner/LeanerPage';
+import ProgramPublish from '../pages/admin/Leaner/ProgramPublish';
 import UserProgram from '../pages/client/Programs/Programs';
 import UserProgramDetail from '../pages/client/Programs/ProgramDetail';
 import UserChapters from '../pages/client/Programs/Chapters/Chapters';
-
+import MyCourse from '../pages/client/Programs/MyCourse';
 export const RouterPages = [
   {
     path: '/admin',
@@ -103,6 +105,14 @@ export const RouterPages = [
     path: '/home',
     element: <Homepage />,
   },
+  {
+    path: '/admin/ListLeaner',
+    element: <LeanerPage />,
+  },
+  {
+    path: '/admin/ProgramPublish',
+    element: <ProgramPublish />,
+  },
 ];
 
 export const RouterCenter = [
@@ -171,6 +181,15 @@ export const RouterCenter = [
     path: '/home',
     element: <Homepage />,
   },
+
+  {
+    path: '/admin/ListLeaner',
+    element: <LeanerPage />,
+  },
+  {
+    path: '/admin/ProgramPublish',
+    element: <ProgramPublish />,
+  },
 ];
 export const RouterFaculty = [
   {
@@ -238,6 +257,16 @@ export const RouterFaculty = [
     path: '/home',
     element: <Homepage />,
   },
+
+  {
+    path: '/admin/ListLeaner',
+    element: <LeanerPage />,
+  },
+
+  {
+    path: '/admin/ProgramPublish',
+    element: <ProgramPublish />,
+  },
 ];
 const Learner = [
   {
@@ -260,6 +289,10 @@ const Learner = [
   {
     path: '/Programs/:programName/Chapters',
     element: <UserChapters />,
+  },
+  {
+    path: '/MyCourses',
+    element: <MyCourse />,
   },
 ];
 export default function MakePagesRouter() {

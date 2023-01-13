@@ -28,6 +28,7 @@ export const SideBarData = [
     icon: IoPeopleCircle,
     path: '/admin/Account',
   },
+
   {
     title: 'Danh Mục',
     icon: IoAlbums,
@@ -79,11 +80,11 @@ export const SideBarData = [
       },
     ],
   },
-  // {
-  //   title: 'Học Viên',
-  //   icon: BsFillPersonBadgeFill,
-  //   path: '/admin/Learner',
-  // },
+  {
+    title: 'Học Viên',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/ProgramPublish',
+  },
 ];
 
 export const SideBarDataCT = [
@@ -92,6 +93,7 @@ export const SideBarDataCT = [
     icon: IoApps,
     path: '/admin',
   },
+
   {
     title: 'Danh Mục',
     icon: IoAlbums,
@@ -143,11 +145,11 @@ export const SideBarDataCT = [
       },
     ],
   },
-  // {
-  //   title: 'Học Viên',
-  //   icon: BsFillPersonBadgeFill,
-  //   path: '/admin/Learner',
-  // },
+  {
+    title: 'Học Viên',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/ProgramPublish',
+  },
 ];
 
 export const SideBarDataFacul = [
@@ -156,6 +158,7 @@ export const SideBarDataFacul = [
     icon: IoApps,
     path: '/admin',
   },
+
   {
     title: 'Danh Mục',
     icon: IoAlbums,
@@ -207,9 +210,9 @@ export const SideBarDataFacul = [
       },
     ],
   },
-  // {
-  //   title: 'Học Viên',
-  //   icon: BsFillPersonBadgeFill,
-  //   path: '/admin/Learner',
-  // },
+  {
+    title: 'Học Viên',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/ProgramPublish',
+  },
 ];
