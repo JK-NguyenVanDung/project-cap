@@ -5,25 +5,46 @@ import CustomButton from '../../../components/admin/Button';
 import apiService from '../../../api/apiService';
 import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
 import { IProgramItem, IRoleItem } from '../../../Type';
-import PopOverAction from '../../../components/admin/PopOver';
 import { actions } from '../../../Redux';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { useNavigate } from 'react-router-dom';
-export default function ProgramApprove() {
+import { Space } from 'antd';
+import { BsPeopleFill } from 'react-icons/bs';
+import { AiFillIdcard } from 'react-icons/ai';
+export default function ProgramPublish() {
+  const [data, setData] = useState([]);
+  const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
-
-  const [data, setData] = useState<Array<IProgramItem>>([]);
-  const [filterData, setFilterData] = useState([]);
-
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const info = useAppSelector((state) => state.auth.info);
 
   useEffect(() => {
-    getData();
-  }, []);
+    async function getProgramPublish() {
+      try {
+        let response: any = await apiService.getProgramPublish();
+        response = response.reverse();
+        let res = response.map((item: any, index: number) => {
+          return {
+            ...item,
+            index: index + 1,
+          };
+        });
+        console.log(response);
+        setData(res);
 
+        setTimeout(() => {
+          setLoading(false);
+          setFilterData(res);
+          setConfirmLoading(false);
+        }, 1000);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    getProgramPublish();
+  }, [loading, confirmLoading]);
   const columns = [
     {
       title: 'STT',
@@ -36,19 +57,33 @@ export default function ProgramApprove() {
       dataIndex: 'programName',
       width: GIRD12.COL2,
     },
-
+    {
+      title: 'Giảng Viên',
+      dataIndex: 'lecturers',
+      width: GIRD12.COL2,
+    },
     {
       width: GIRD12.COL2,
 
       title: 'Thao tác',
       render: (item: IProgramItem) => {
         return (
-          <PopOverAction
-            size="sm"
-            detailType="chapter"
-            handleEdit={() => goLeaner(item)}
-            handleShowDetail={() => goApplication(item)}
-          />
+          <Space>
+            <CustomButton
+              tip="Xem Học Viên"
+              size="sm"
+              color="red"
+              Icon={BsPeopleFill}
+              onClick={() => goLeaner(item)}
+            />
+            <CustomButton
+              tip="Xem Đơn Đăng Ký"
+              size="sm"
+              color="brown"
+              Icon={AiFillIdcard}
+              onClick={() => goApplication(item)}
+            />
+          </Space>
         );
       },
     },
@@ -59,59 +94,25 @@ export default function ProgramApprove() {
     navigate('/admin/ListLeaner');
   }
   const goApplication = (item: any) => {
-    return;
+    console.log(item);
   };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
-        const emailMatch = removeVietnameseTones(record.programName).match(reg);
+        const emailMatch = removeVietnameseTones(record.year).match(reg);
 
         if (!emailMatch) {
           return null;
         }
         return record;
       })
-      .filter((record) => !!record);
-    setData(value.trim() !== '' ? filteredData : filterData);
+      .filter((record: any) => !!record);
+
+    setData(value.trim() !== '' && filteredData ? filteredData : filterData);
   };
-
-  async function getData() {
-    try {
-      setLoading(true);
-      let res: any = await apiService.getPrograms();
-      res = res.reverse();
-      let temp;
-      let paths = location.pathname.split('/');
-      if (paths[paths.length - 1] === 'MyProgram') {
-        temp = res.map((v: any, index: number) => {
-          return {
-            ...v,
-            index: index + 1,
-          };
-        });
-        temp = temp.filter((a: any) => a.accountIdCreator == info.accountId);
-      } else {
-        temp = res.map((v: any, index: number) => {
-          return {
-            ...v,
-            index: index + 1,
-          };
-        });
-      }
-
-      // dispatch(actions.ProgramActions.setListAll(res))
-      // dispatch(actions.ProgramActions.changeLoad(!loadData))
-      setData(temp);
-      setFilterData(temp);
-    } catch (err: any) {
-      throw err.message();
-    }
-  }
-
   return (
-    //22
     <>
       <TableConfig
         onSearch={onChangeSearch}

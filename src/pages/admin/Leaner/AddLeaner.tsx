@@ -44,22 +44,26 @@ export default function AddLeaner({
           programId: program.programId,
           accountIdApprover: account.accountId,
         };
-        if (detail) {
-          const data = apiService.updateLeaner(detail.learnerId, values);
-          setLoading(true);
-          if (data) {
-            setLoading(false);
-            notification.success({ message: 'Thay đổi thành công' });
+        try {
+          if (detail) {
+            const data = apiService.updateLeaner(detail.learnerId, values);
+            setLoading(true);
+            if (data) {
+              setLoading(false);
+              notification.success({ message: 'Thay đổi thành công' });
+            }
+            setShowModal(false);
+            form.resetFields();
+          } else {
+            const data = apiService.addLeaner(valueLeaner);
+            if (data) {
+              notification.success({ message: 'Thêm thành công' });
+            }
+            setShowModal(false);
+            form.resetFields();
           }
-          setShowModal(false);
-          form.resetFields();
-        } else {
-          const data = apiService.addLeaner(valueLeaner);
-          if (data) {
-            notification.success({ message: 'Thêm thành công' });
-          }
-          setShowModal(false);
-          form.resetFields();
+        } catch (error) {
+          notification.error({ message: 'Thực hiện không thành công' });
         }
       })
 

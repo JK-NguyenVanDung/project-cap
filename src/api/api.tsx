@@ -38,6 +38,7 @@ export const API_CONFIG = {
       `/api/Programs/${id}/LikeProgram?isLike=${isLike}`,
 
     MYPROGRAM: '/api/Learners/MyApplications',
+    GETPROGRAMPUBLISH: '/api/Programs/Public',
   },
   FACULTIES: {
     GET: '/api/Faculties',
@@ -115,5 +116,6 @@ export const API_CONFIG = {
     UPDATE_LEANER: (id: number) => `/api/Learners/UpdateLearner/${id}`,
 
     IMPORT_FILE: '/api/Learners/Import',
+    DELLEANER: (id: number) => `/api/Learners/${id}`,
   },
 };

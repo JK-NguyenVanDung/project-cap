@@ -34,17 +34,15 @@ export default function LeanerPage() {
         });
         setData(res);
         setLoading(true);
-        setConfirmLoading(true);
         setTimeout(() => {
           setLoading(false);
           setConfirmLoading(false);
           setFilterData(res);
-        }, 1000);
+        }, 3000);
       } catch (error) {
         console.log(error);
       }
     }
-
     getLeaner();
   }, [addLeaner]);
   const handelEdit = (item: any) => {
@@ -53,16 +51,13 @@ export default function LeanerPage() {
   };
   async function handleDelete(item: any) {
     try {
-      // await apiService.delLeaner(item.facultyId);
+      await apiService.delLeaner(item.learnerId);
       setLoading(!loading);
       notification.success({
         message: MESSAGE.SUCCESS.DELETE,
       });
     } catch (err: any) {
-      notification.error({
-        message:
-          'Khoa ban này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn khoa ban khá trong chương trình đó để xoá khoa ban này',
-      });
+      console.log(err);
     }
   }
   const Columns = [
@@ -92,6 +87,7 @@ export default function LeanerPage() {
           size="sm"
           handleEdit={() => handelEdit(data)}
           handleShowDetail={() => handelShow(data)}
+          handleDelete={() => handleDelete(data)}
         />
       ),
     },

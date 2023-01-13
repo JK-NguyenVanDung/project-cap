@@ -222,11 +222,16 @@ export default {
   updateLeaner: (id: number, params: any) => {
     return axiosConfig.put(API_CONFIG.LEANER.UPDATE_LEANER(id), params);
   },
-
+  delLeaner: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.LEANER.DELLEANER(id));
+  },
   importFileLeaner: (param: any) => {
     return axiosConfig.post(API_CONFIG.LEANER.IMPORT_FILE, param);
   },
   getMyProgram: () => {
     return axiosConfig.get(API_CONFIG.PROGRAM.MYPROGRAM);
+  },
+  getProgramPublish: () => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.GETPROGRAMPUBLISH);
   },
 };

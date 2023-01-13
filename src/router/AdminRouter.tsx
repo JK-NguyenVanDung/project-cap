@@ -30,6 +30,7 @@ import Courses from '../pages/client/Courses/Courses';
 import CourseDetail from '../pages/client/Courses/CourseDetail';
 import LeanerPage from '../pages/admin/Leaner/LeanerPage';
 import MyCourse from '../pages/client/Courses/MyCourse';
+import ProgramPublish from '../pages/admin/Leaner/ProgramPublish';
 
 export const RouterPages = [
   {
@@ -105,6 +106,10 @@ export const RouterPages = [
     path: '/admin/ListLeaner',
     element: <LeanerPage />,
   },
+  {
+    path: '/admin/ProgramPublish',
+    element: <ProgramPublish />,
+  },
 ];
 
 export const RouterCenter = [
@@ -178,6 +183,10 @@ export const RouterCenter = [
     path: '/admin/ListLeaner',
     element: <LeanerPage />,
   },
+  {
+    path: '/admin/ProgramPublish',
+    element: <ProgramPublish />,
+  },
 ];
 export const RouterFaculty = [
   {
@@ -249,6 +258,11 @@ export const RouterFaculty = [
   {
     path: '/admin/ListLeaner',
     element: <LeanerPage />,
+  },
+
+  {
+    path: '/admin/ProgramPublish',
+    element: <ProgramPublish />,
   },
 ];
 const Leaner = [
