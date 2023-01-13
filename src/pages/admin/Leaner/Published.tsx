@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { Space } from 'antd';
 import { BsPeopleFill } from 'react-icons/bs';
 import { AiFillIdcard } from 'react-icons/ai';
-export default function ProgramPublish() {
+export default function Published() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
@@ -63,7 +63,7 @@ export default function ProgramPublish() {
       width: GIRD12.COL2,
     },
     {
-      width: GIRD12.COL2,
+      width: GIRD12.COL1,
 
       title: 'Thao tác',
       render: (item: IProgramItem) => {
