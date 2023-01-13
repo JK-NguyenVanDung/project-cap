@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import Loading from '../../../../components/sharedComponents/Loading';
 import ScrollToTop from '../../../../utils/scrollToTop';
 import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb';
-import { IProgramItem } from '../../../../Type';
+import { IProgramItem, IQuestion, ITest } from '../../../../Type';
 import { useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
 import { useAppDispatch } from '../../../../hook/useRedux';
@@ -14,6 +14,7 @@ import HeaderClient from '../../../../components/Header/HeaderClient';
 import logo from '../../../../assets/logo.svg';
 import QuestionItem from '../../../../components/Test/QuestionItem';
 import TestBar from '../../../../components/Test/TestBar';
+import { AxiosResponse } from 'axios';
 
 export default function UserTest(props: any) {
   const navigate = useNavigate();
@@ -31,32 +32,35 @@ export default function UserTest(props: any) {
   // };
 
   const dispatch = useAppDispatch();
-  const program: IProgramItem = useAppSelector(
-    (state) => state.form.setProgram,
+  const selectedTest: ITest = useAppSelector(
+    (state) => state.test.selectedTest,
   );
   const breadCrumb: string = useAppSelector(
     (state) => state.product.contentBreadcrumb,
   );
-  async function getData() {
-    try {
-      let current = location.pathname.split('/')[1].toString();
-      let res: any = await apiService.getProgram(Number(current));
-      dispatch(actions.formActions.setProgramForm(res));
-      dispatch(
-        actions.formActions.setNameMenu(`${res ? res?.programName : 'N/A'}`),
-      );
-    } catch (err) {}
-  }
+
+  const questions: Array<IQuestion> = useAppSelector(
+    (state) => state.test.currentQuestions,
+  );
+  const listAllQuestions: Array<IQuestion> = useAppSelector(
+    (state) => state.test.listQuestions,
+  );
+  const range: any = useAppSelector((state) => state.test.range);
+
   useEffect(() => {
     // executeScroll(0);
     // console.log(1);
-    // !program && getData();
+  }, []);
+
+  useEffect(() => {
+    // executeScroll(0);
+    // console.log(1);
     dispatch(
-      actions.formActions.setNameMenu(
-        `${program ? program?.programName : 'N/A'}`,
+      actions.testActions.setListCurrentQuestions(
+        listAllQuestions.slice(range.base, range.limit),
       ),
     );
-  }, []);
+  }, [range]);
   return (
     <>
       <div className="w-full h-14 flex items-center justify-between ">
@@ -82,39 +86,28 @@ export default function UserTest(props: any) {
       </div>
 
       <div className="w-full  px-4 pb-2 bg-white">
-        <Breadcrumb
+        {/* <Breadcrumb
           router1={'/Test/'}
           router2={`/Test/${program ? program?.programName : 'N/A'}`}
           name={'Chương Trình'}
           name2={program ? program?.programName : 'N/A'}
           name3={breadCrumb ? breadCrumb : 'N/A'}
-        />
+        /> */}
       </div>
 
       {/* <Loading loading={loading} /> */}
       <div
         ref={ref}
-        className={`flex w-full justify-between bg-gray-50 ${
+        className={`flex w-full justify-between min-h-screen h-full bg-gray-50 ${
           loading ? 'visible' : 'visible'
         }`}
       >
-        <QuestionItem
-          question={{
-            questionId: 0,
-            testsId: 0,
-            typeId: 0,
-            questionTitle: '1',
-            score: 0,
-            questionContents: [
-              {
-                questionContentId: 0,
-                questionId: 0,
-                content: 'yrs',
-                isAnswer: false,
-              },
-            ],
-          }}
-        />
+        <div className="flex flex-col">
+          {questions?.map((item: IQuestion) => {
+            return <QuestionItem question={item} index={item.index} />;
+          })}
+        </div>
+
         <div className=""></div>
         {
           /* <ChapterDetail {...props} setLoading={setLoading} />

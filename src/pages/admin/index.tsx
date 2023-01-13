@@ -61,7 +61,7 @@ export default function SideBar({ content }: { content: any }) {
               <p className="text-lg text-center mb-2 mx-2"> VLG TRAINING</p>
             </a>
             <ul className="relative list-none w-full text-center">
-              {info.roleId == 2
+              {info?.roleId == 2
                 ? SideBarData.map((value, index) => {
                     return (
                       <div key={index}>
@@ -74,7 +74,7 @@ export default function SideBar({ content }: { content: any }) {
                     );
                   })
                 : null}
-              {info.roleId == 3
+              {info?.roleId == 3
                 ? SideBarDataCT.map((value, index) => {
                     return (
                       <div key={index}>
@@ -87,11 +87,15 @@ export default function SideBar({ content }: { content: any }) {
                     );
                   })
                 : null}
-              {info.roleId == 4
+              {info?.roleId == 4
                 ? SideBarDataFacul.map((value, index) => {
                     return (
                       <div key={index}>
-                        <ItemMenu params={value} />
+                        {value.children ? (
+                          <MenuDropdown params={value} />
+                        ) : (
+                          <ItemMenu params={value} />
+                        )}
                       </div>
                     );
                   })

@@ -102,7 +102,7 @@ const ChapterItem = ({
             : questionCount;
         setTest(test);
         dispatch(
-          actions.productActions.setSelectedTest({
+          actions.testActions.setSelectedTest({
             ...test,
             questionCount: count,
           }),
