@@ -37,6 +37,9 @@ export const API_CONFIG = {
 
     LIKE: (id: number, isLike: boolean) =>
       `/api/Programs/${id}/LikeProgram?isLike=${isLike}`,
+
+    MYPROGRAM: '/api/Learners/MyApplications',
+    GETPROGRAMPUBLISH: '/api/Programs/Public',
   },
   FACULTIES: {
     GET: '/api/Faculties',
@@ -103,5 +106,17 @@ export const API_CONFIG = {
       `/api/ReviewPrograms/numbercontent/${programId}`,
     GET_PROGRAM_STATUS: (programId: number) =>
       `/api/ReviewPrograms/status/${programId}`,
+  },
+  LEANER: {
+    REGISTER_OR_UN: `/api/Learners/RegisterOrUnRegister`,
+
+    GETLEANER_ID: (id: number) => `/api/Learners/GetListLearner/${id}`,
+
+    ADD_LEANER: `/api/Learners/AddLearner`,
+
+    UPDATE_LEANER: (id: number) => `/api/Learners/UpdateLearner/${id}`,
+
+    IMPORT_FILE: '/api/Learners/Import',
+    DELLEANER: (id: number) => `/api/Learners/${id}`,
   },
 };
