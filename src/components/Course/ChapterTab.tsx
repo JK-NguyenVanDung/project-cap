@@ -9,6 +9,7 @@ import { IChapterItem, ITest } from '../../Type';
 import Loading from '../sharedComponents/Loading';
 import ChapterItem from '../Chapter/ChapterItem';
 import { message } from 'antd';
+import { useAppSelector } from '../../hook/useRedux';
 
 const ChapterTab = ({
   programId,
@@ -21,11 +22,14 @@ const ChapterTab = ({
 }) => {
   const [chapters, setChapters] = useState(null);
   const [loading, setLoading] = useState(false);
+  const info = useAppSelector((state) => state.auth.info);
 
   async function getData() {
     try {
-      let res: any = await apiService.getContentProgram(programId);
-
+      let res: any = await apiService.getProgramContents({
+        programId: programId,
+        accountId: info?.accountId,
+      });
       // let temp = res.reverse();
       if (res) {
         setChapters(res);
@@ -45,16 +49,26 @@ const ChapterTab = ({
       clearTimeout(time);
     };
   }, [programId]);
+  function hasDoneTest(prevChapter: IChapterItem) {
+    if (prevChapter?.isDone) {
+      return false;
+    }
+    return true;
+  }
+
   return (
     <>
       <Loading loading={loading} className="h-fit mt-10" />
       {!loading &&
-        chapters?.map((item: IChapterItem) => {
+        chapters?.map((item: IChapterItem, index: number) => {
           return (
             <ChapterItem
               chapter={item}
               isReviewing={isReviewing}
               isDetail={isDetail}
+              isDone={item.isDone}
+              // navTest={item.isDone ? true : false}
+              disabled={index === 0 ? null : hasDoneTest(chapters[index - 1])}
             />
           );
         })}

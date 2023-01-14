@@ -18,12 +18,14 @@ const ChapterItem = ({
   isDetail = false,
   disabled = false,
   isDone = false,
+  navTest = false,
 }: {
   chapter: IChapterItem;
   isReviewing?: boolean;
   isDetail?: boolean;
   disabled?: boolean;
   isDone?: boolean;
+  navTest?: boolean;
 }) => {
   const [show, setShow] = useState(false);
   const [showContent, setShowContent] = useState(false);
@@ -136,6 +138,7 @@ const ChapterItem = ({
           isTest: true,
         }),
       );
+      //navTest
     }
   }
   const reveal = () => {
@@ -165,12 +168,14 @@ const ChapterItem = ({
       dispatch(
         actions.productActions.setContentBreadcrumb(chapter.contentTitle),
       );
+
       dispatch(
         actions.productActions.setSelectedChapter({
           ...chapter,
           isTest: false,
         }),
       );
+
       dispatch(actions.productActions.setProgramId(chapter.programId));
       navigate(`/Programs/${chapter.programId}/Chapters`);
     }
@@ -197,7 +202,9 @@ const ChapterItem = ({
               {show ? <ActiveArrow /> : <NonActiveArrow />}
             </button>
             <p
-              className={` text-sm hover:${!show && 'text-primary'}  ${
+              className={` text-sm hover:${
+                !show && !disabled && 'text-primary'
+              }  ${
                 disabled && 'opacity-40'
               } w-full eclipse-wrap pr-2 font-semibold cursor-pointer	`}
               onClick={() => !disabled && navToChapter(chapter)}
@@ -258,7 +265,9 @@ const ChapterItem = ({
             </div>
             <div
               className="content mx-6 my-4 h-fit cursor-pointer"
-              onClick={() => (isReviewing ? {} : resetSelection(false))}
+              onClick={() =>
+                isReviewing || isDetail ? {} : resetSelection(false)
+              }
             >
               <div className="">
                 <div
@@ -269,7 +278,7 @@ const ChapterItem = ({
                   <div className="flex items-center">
                     <button
                       className={` pr-3  ${
-                        disabled || viewedContent === false
+                        disabled || viewedContent === false || isDetail
                           ? 'opacity-40'
                           : 'opacity-100'
                       }`}
@@ -281,11 +290,12 @@ const ChapterItem = ({
                       />
                     </button>
                     <p
+                      // onClick={() => !disabled && navToChapter(chapter)}
                       className={` text-sm font-semibold  eclipse-wrap ${
                         showTest ? 'text-white' : 'text-black'
                       }  ${
-                        disabled || viewedContent === false
-                          ? 'opacity-40'
+                        disabled || viewedContent === false || isDetail
+                          ? 'opacity-40 no-copy'
                           : 'opacity-100'
                       }`}
                     >
@@ -295,9 +305,7 @@ const ChapterItem = ({
                   {isDone ? (
                     <div className="bg-white rounded-3xl">
                       <HiCheckCircle
-                        className={`${
-                          true ? 'text-green-500' : 'text-primary'
-                        } text-lg`}
+                        className={`${'text-green-500'} text-lg`}
                       />
                     </div>
                   ) : (
@@ -305,7 +313,7 @@ const ChapterItem = ({
                       className={` text-sm text-center font-semibold ${
                         showTest ? 'text-white' : 'text-black'
                       } ${
-                        disabled || viewedContent === false
+                        disabled || viewedContent === false || isDetail
                           ? 'opacity-40'
                           : 'opacity-100'
                       }`}

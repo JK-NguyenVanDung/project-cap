@@ -34,6 +34,7 @@ export default function Programs() {
       }
     };
     fetch();
+    dispatch(actions.formActions.setNameMenu(`${'Chương trình'}`));
   }, []);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

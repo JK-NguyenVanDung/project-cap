@@ -314,3 +314,9 @@ button:focus-visible {
   align-self: center;
   justify-self: center;
 }
+
+.no-copy {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
