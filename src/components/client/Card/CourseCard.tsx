@@ -148,7 +148,7 @@ const CourseContent = (props: {
               </p>
             </div>
             <p className="text-body">
-              {`HK${props.item?.semester} - ${props.item?.academicYear.year}`}{' '}
+              {`HK${props.item?.semester} - ${props.item?.academicYear?.year}`}{' '}
             </p>
             <div className="h-22 ">
               <p className="text-semibold ">

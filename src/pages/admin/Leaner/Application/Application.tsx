@@ -169,24 +169,6 @@ export default function Application() {
         data={data}
         columns={Columns}
         loading={loading}
-        extra={[
-          <div className="flex">
-            <CustomButton
-              className="mx-3"
-              type="add"
-              size="md"
-              key={`${uniqueId()}`}
-              onClick={() => handelAdd()}
-            />
-            <CustomButton
-              size="md"
-              text="Thêm Tập Tin"
-              noIcon={true}
-              key={`${uniqueId()}`}
-              onClick={() => handelImport()}
-            />
-          </div>,
-        ]}
       />
       <CustomModal
         show={showModal}
