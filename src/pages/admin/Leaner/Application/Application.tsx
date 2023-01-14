@@ -45,13 +45,25 @@ export default function Application() {
     }
 
     getApplication();
-  }, []);
+  }, [showModal]);
 
   const Columns = [
     {
       title: 'STT',
       dataIndex: 'index',
       key: 'index',
+      width: '7%',
+    },
+    {
+      title: 'Trạng Thái Đăng Ký',
+      dataIndex: 'registerStatus',
+      key: 'registerStatus',
+      width: '7%',
+    },
+    {
+      title: 'Trạng Thái',
+      dataIndex: 'status',
+      key: 'status',
       width: '7%',
     },
     {
