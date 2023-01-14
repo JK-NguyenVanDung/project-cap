@@ -35,16 +35,18 @@ export default function Application() {
         });
         setData(res);
         setLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          setFilterData(res);
-        }, 1000);
+        setFilterData(res);
       } catch (error) {
         console.log(error);
       }
     }
-
+    let timeOut = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
     getApplication();
+    return () => {
+      clearTimeout(timeOut);
+    };
   }, [showModal]);
 
   const Columns = [
@@ -52,8 +54,9 @@ export default function Application() {
       title: 'STT',
       dataIndex: 'index',
       key: 'index',
-      width: '7%',
+      width: '2%',
     },
+
     {
       title: 'Trạng Thái Đăng Ký',
       dataIndex: 'registerStatus',
@@ -69,7 +72,7 @@ export default function Application() {
     {
       title: 'Thao tác',
       key: 'action',
-      width: GIRD12.COL1,
+      width: GIRD12.COL0,
 
       render: (data: any) => (
         <Space>
@@ -108,7 +111,6 @@ export default function Application() {
           );
           setLoading(true);
           if (data) {
-            setLoading(false);
             notification.success({ message: 'Hủy Đơn Thành Công' });
           }
           setShowModal(false);
@@ -116,6 +118,9 @@ export default function Application() {
         } catch (error) {
           notification.error({ message: 'Hủy Đơn Không Thành Công' });
         }
+        let timeOut = setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       })
 
       .catch((info) => {
@@ -129,15 +134,18 @@ export default function Application() {
   const handelApprove = (item: any) => {
     const approveApplication = async () => {
       try {
-        const data = await apiService.approveApplication(item.learnerId);
         setLoading(true);
+
+        const data = await apiService.approveApplication(item.learnerId);
         if (data) {
-          setLoading(false);
           notification.success({ message: 'Đăng Ký Thành Công' });
         }
       } catch (error) {
         notification.error({ message: 'Đăng Ký Không Thành Công' });
       }
+      let timeOut = setTimeout(() => {
+        setLoading(false);
+      }, 1000);
     };
     approveApplication();
   };
@@ -164,6 +172,7 @@ export default function Application() {
   return (
     <>
       <TableConfig
+        key={data[0]?.programId}
         onSearch={onChangeSearch}
         search={true}
         data={data}

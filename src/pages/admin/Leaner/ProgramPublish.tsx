@@ -63,7 +63,7 @@ export default function ProgramPublish() {
       width: GIRD12.COL2,
     },
     {
-      width: GIRD12.COL2,
+      width: GIRD12.COL1,
 
       title: 'Thao tác',
       render: (item: IProgramItem) => {
