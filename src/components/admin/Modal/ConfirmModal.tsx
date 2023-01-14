@@ -7,6 +7,7 @@ const ConfirmModal = ({
   handler,
   children,
   title,
+  type = 'delete',
 }: {
   show: boolean;
   setShow: Function;
@@ -14,6 +15,7 @@ const ConfirmModal = ({
 
   children: any;
   title?: string;
+  type?: string;
 }) => {
   const handleOk = () => {
     setShow(false);
@@ -28,7 +30,9 @@ const ConfirmModal = ({
       <Modal
         title={
           <p className="font-customFont text-lg font-semibold mt-1">
-            {`Xác nhận xoá ${title}?`}
+            {type === 'delete'
+              ? `Xác nhận xoá ${title}?`
+              : `Xác nhận ${title}?`}
           </p>
         }
         open={show}
@@ -39,7 +43,7 @@ const ConfirmModal = ({
             <CustomButton
               text="Quay lại"
               size="md"
-              color="red"
+              color={type === 'delete' ? 'red' : 'green'}
               variant="outlined"
               className="w-32 mr-4"
               noIcon
@@ -49,7 +53,7 @@ const ConfirmModal = ({
             <CustomButton
               text="Xác nhận"
               size="md"
-              color="red"
+              color={type === 'delete' ? 'red' : 'green'}
               className="w-32 mr-4"
               key="submit"
               noIcon

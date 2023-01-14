@@ -29,10 +29,16 @@ export default function (props: any) {
       title: 'Hạn làm bài:',
       value: moment(program?.endDate).format('DD/MM/YYYY').toString(),
     },
-    { title: 'Thời gian làm:', value: selectedTest?.time + ' phút' },
+    {
+      title: 'Thời gian làm:',
+      value: selectedTest?.time ? selectedTest?.time + ' phút' : 0 + ' phút',
+    },
     { title: 'Số lần làm:', value: '1' },
-    { title: 'Số câu hỏi:', value: selectedTest.questionCount },
-    selectedChapter.isDone && {
+    {
+      title: 'Số câu hỏi:',
+      value: selectedTest?.questionCount ? selectedTest?.questionCount : 'N/A',
+    },
+    selectedChapter?.isDone && {
       title: 'Tổng số câu trả lời:',
       value: '10/10 câu',
     },
@@ -98,10 +104,10 @@ export default function (props: any) {
           <p>Vui lòng đọc hướng dẫn phía dưới: </p>
         </div>
       )}
-      <div className="mb-12 mt-4">
+      <div className="mb-12 mt-4 w-full">
         {content.map((item: { title: string; value: any }) => {
           return (
-            <div className="flex w-[50%] items-center justify-between  mt-4 text-base">
+            <div className="flex w-[70%] items-center justify-between  mt-4 text-base">
               <div className="flex items-center ">
                 <span className="text-start font-semibold">{item.title}</span>
               </div>

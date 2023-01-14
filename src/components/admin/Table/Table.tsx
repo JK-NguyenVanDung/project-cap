@@ -21,7 +21,7 @@ export default function TableConfig({
   onSearch?: React.FC | Function;
 }) {
   return (
-    // key={data}
+    // key={data} => gây ra lỗi search
     <div>
       <div className="flex content-center items-center justify-between px-5 my-10">
         {search && <SearchBar onSearch={onSearch} />}
