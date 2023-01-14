@@ -38,12 +38,12 @@ export default function (props: any) {
       title: 'Số câu hỏi:',
       value: selectedTest?.questionCount ? selectedTest?.questionCount : 'N/A',
     },
-    selectedChapter?.isDone && {
-      title: 'Tổng số câu trả lời:',
-      value: '10/10 câu',
-    },
+    // selectedChapter?.isDone && {
+    //   title: 'Tổng số câu trả lời:',
+    //   value: 'Đã hoàn thành',
+    // },
 
-    selectedChapter.isDone && { title: 'Kết quả', value: '100 điểm' },
+    selectedChapter.isDone && { title: 'Kết quả', value: 'Đã hoàn thành' },
   ];
   const dispatch = useAppDispatch();
   function shuffleArray(array: []) {
@@ -104,14 +104,14 @@ export default function (props: any) {
           <p>Vui lòng đọc hướng dẫn phía dưới: </p>
         </div>
       )}
-      <div className="mb-12 mt-4 w-full">
+      <div className="mb-12 mt-4 w-full min-w-[20rem]">
         {content.map((item: { title: string; value: any }) => {
           return (
             <div className="flex w-[70%] items-center justify-between  mt-4 text-base">
               <div className="flex items-center ">
                 <span className="text-start font-semibold">{item.title}</span>
               </div>
-              <div className="flex items-center w-[20%]  font-light">
+              <div className="flex items-center w-[30%]  font-light">
                 <span className="text-start ">{item.value}</span>
               </div>
             </div>
