@@ -3,6 +3,8 @@ import { authActions, authReducers } from './auth';
 import { categoryActions, categoryReducer } from './admin/category';
 import { questionActions, questionReducer } from './admin/question';
 import { productActions, productReducers } from './client/product';
+
+import { testActions, testReducers } from './client/test';
 import { navActions, navReducers } from './nav';
 
 const actions = {
@@ -11,6 +13,7 @@ const actions = {
   authActions,
   productActions,
   navActions,
+  testActions,
 };
 
 const reducers = {
@@ -18,6 +21,7 @@ const reducers = {
   questionReducer,
   authReducers,
   productReducers,
+  testReducers,
   navReducers,
 };
 

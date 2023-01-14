@@ -54,7 +54,6 @@ export default function Application() {
       key: 'index',
       width: '7%',
     },
-
     {
       title: 'Thao tác',
       key: 'action',

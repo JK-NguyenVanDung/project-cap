@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import Loading from '../../../../components/sharedComponents/Loading';
 import ScrollToTop from '../../../../utils/scrollToTop';
 import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb';
-import { IProgramItem } from '../../../../Type';
+import { IAnswer, IProgramItem, IQuestion, ITest } from '../../../../Type';
 import { useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
 import { useAppDispatch } from '../../../../hook/useRedux';
@@ -14,6 +14,9 @@ import HeaderClient from '../../../../components/Header/HeaderClient';
 import logo from '../../../../assets/logo.svg';
 import ReviewQuestionItem from '../../../../components/Test/ReviewQuestionItem';
 import TestBar from '../../../../components/Test/TestBar';
+import CustomButton from '../../../../components/admin/Button';
+import Timer from '../../../../components/Test/Timer';
+import useTimer from '../../../../components/Test/Timer';
 
 export default function ReviewTest(props: any) {
   const navigate = useNavigate();
@@ -31,21 +34,56 @@ export default function ReviewTest(props: any) {
   // };
 
   const dispatch = useAppDispatch();
+  const listAllQuestions: Array<IQuestion> = useAppSelector(
+    (state) => state.test.listQuestions,
+  );
+  const answerLength: number = useAppSelector(
+    (state) => state.test.answerLength,
+  );
+
+  const time: { minutes: number; seconds: number } = useAppSelector(
+    (state) => state.test.time,
+  );
+  const selectedTest: ITest = useAppSelector(
+    (state) => state.test.selectedTest,
+  );
+
+  let timer = useTimer({
+    initialMinute: time.minutes,
+    initialSeconds: time.seconds,
+  });
+
   const program: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
   );
   const breadCrumb: string = useAppSelector(
     (state) => state.product.contentBreadcrumb,
   );
-  async function getData() {
-    try {
-      let current = location.pathname.split('/')[1].toString();
-      let res: any = await apiService.getProgram(Number(current));
-      dispatch(actions.formActions.setProgramForm(res));
-      dispatch(
-        actions.formActions.setNameMenu(`${res ? res?.programName : 'N/A'}`),
-      );
-    } catch (err) {}
+  let answers: Array<IAnswer> = useAppSelector((state) => state.test.answers);
+  const info = useAppSelector((state) => state.auth.info);
+
+  function goBack() {
+    dispatch(
+      actions.testActions.setTime({
+        minutes: timer.minutes,
+        seconds: timer.seconds - 1,
+      }),
+    );
+    navigate(-1);
+  }
+
+  async function submit() {
+    let output = answers.map((item) => {
+      return {
+        questionId: item.questionId,
+        questionContentId: item.questionContentId,
+      };
+    });
+    await apiService.doTest({
+      accountId: info.accountId,
+      body: output,
+    });
+    navigate(`/Programs/${program.programId}/Chapters`);
   }
   useEffect(() => {
     // executeScroll(0);
@@ -57,6 +95,20 @@ export default function ReviewTest(props: any) {
       ),
     );
   }, []);
+  const content = [
+    {
+      title: 'Tổng thời gian làm bài:',
+      value: selectedTest?.time + ' phút', //moment(program?.endDate).format('DD/MM/YYYY').toString(),
+    },
+    {
+      title: 'Thời gian còn lại:',
+      value: 'timeLeft', //moment(program?.endDate).format('DD/MM/YYYY').toString(),
+    },
+    {
+      title: 'Tổng số câu trả lời:',
+      value: `${answerLength} / ${selectedTest.questionCount} câu`, //moment(program?.endDate).format('DD/MM/YYYY').toString(),
+    },
+  ];
   return (
     <>
       <div className="w-full h-14 flex items-center justify-between ">
@@ -94,7 +146,7 @@ export default function ReviewTest(props: any) {
       {/* <Loading loading={loading} /> */}
       <div
         ref={ref}
-        className={`flex w-full justify-between h-screen bg-gray-50 ${
+        className={`flex w-full justify-between min-h-screen bg-gray-50 ${
           loading ? 'visible' : 'visible'
         }`}
       >
@@ -103,17 +155,61 @@ export default function ReviewTest(props: any) {
             <p className="text-black text-lg font-bold font-customFont">
               Danh sách các câu trả lời
             </p>
-            <ReviewQuestionItem
-              index={1}
-              question={{ questionTitle: 'a', score: 1 }}
-            />
-            <ReviewQuestionItem
-              index={1}
-              question={{ questionTitle: 'a', score: 1 }}
-            />
+            {listAllQuestions.map((item: IQuestion) => {
+              return <ReviewQuestionItem index={item.index} question={item} />;
+            })}
           </div>
           <div className="flex flex-col text-black  w-full justify-center items-center">
-            a
+            <div className="mb-4 mt-4 w-2/6">
+              {content.map((item: { title: string; value: any }) => {
+                return (
+                  <div className="flex w-full items-center justify-between  mt-4 text-base">
+                    <div className="flex items-center ">
+                      <span className="text-start font-semibold">
+                        {item.title}
+                      </span>
+                    </div>
+                    <div className="flex items-center   font-light">
+                      <span className="text-start ">
+                        {item.value === 'timeLeft' ? (
+                          <>
+                            {timer.minutes === 0 && timer.seconds === 0 ? (
+                              <> {'00:00'} </>
+                            ) : (
+                              <>
+                                {' '}
+                                {timer.minutes}:
+                                {timer.seconds < 10
+                                  ? `0${timer.seconds}`
+                                  : timer.seconds}
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          item.value
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            <div className=" flex  w-1/2 justify-between mb-4 mt-4 ">
+              <CustomButton
+                className="min-w-[15rem] p-3"
+                variant="outlined"
+                noIcon
+                text="Quay lại  làm bài"
+                onClick={() => goBack()}
+              />
+              <CustomButton
+                className="min-w-[15rem] p-3"
+                color="green"
+                noIcon
+                text="Nộp bài"
+                onClick={submit}
+              />
+            </div>
           </div>
         </div>
       </div>

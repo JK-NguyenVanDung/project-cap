@@ -1,9 +1,11 @@
 import { Form, Input } from 'antd';
 import React, { FC, useEffect, useState } from 'react';
 import { errorText } from '../../helper/constant';
-import { useAppSelector } from '../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import CustomButton from '../admin/Button';
 import PopOverAction from '../admin/PopOver';
+import { IAnswer, IQuestionContent } from '../../Type';
+import { actions } from '../../Redux';
 
 const UnselectedCircle = (props: any) => {
   return (
@@ -15,7 +17,7 @@ const UnselectedCircle = (props: any) => {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
       >
-        <circle cx="10" cy="10" r="9" stroke="#F0F0F0" stroke-width="2" />
+        <circle cx="10" cy="10" r="9" stroke="#BDBDBD" stroke-width="2" />
       </svg>
     </div>
   );
@@ -49,90 +51,74 @@ function getChar(c: number) {
 }
 
 const OptionalAnswer = ({
-  onChange,
-
-  handleDelete,
+  isMultiple,
+  contents,
+  questionId,
 }: {
-  onChange: Function;
-
-  handleDelete: Function;
+  isMultiple: boolean;
+  contents: Array<IQuestionContent>;
+  questionId: number;
 }) => {
-  const options = useAppSelector((state: any) => state.question.radioOptions);
-  const value = useAppSelector((state: any) => state.question.radioValue);
-  const values = useAppSelector((state: any) => state.question.selectedOptions);
-  const type: number = useAppSelector(
-    (state: any) => state.question.selectedType,
-  );
-  function getStyle(item: any) {
-    return type != 2
-      ? value === item.value
-      : values.length > 0
-      ? values.find((e: any) => e === item.value) !== undefined
-      : false;
+  const answers: Array<IAnswer> = useAppSelector((state) => state.test.answers);
+
+  const dispatch = useAppDispatch();
+
+  function chooseAnswer(questionContentId: number | string) {
+    dispatch(
+      actions.testActions.addAnswers({
+        questionId: questionId,
+        questionContentId: questionContentId,
+        isMultiple: isMultiple,
+      }),
+    );
+  }
+
+  function getStyle(contentId: any, answers: Array<IAnswer>) {
+    let isAnswer = answers?.find(
+      (ids: IAnswer) => ids.questionContentId == contentId,
+    );
+    return isAnswer ? true : false;
   }
   return (
     <ul className="w-full relative h-auto">
-      {options.map((item: any, index: number) => {
+      {contents.map((item: IQuestionContent, index: number) => {
         return (
           <li className="w-full flex flex-row justify-between min-h-[3rem] mb-0  ">
             <button
               type="button"
               formNoValidate
               className={`w-[6rem]  mr-8 my-4  flex border rounded-[10px] ${
-                getStyle(item) ? 'border-primary' : 'border-border-gray'
+                getStyle(item.questionContentId, answers)
+                  ? 'border-primary'
+                  : 'border-gray-400'
               } min-h-[3rem] h-full justify-center items-center`}
-              onClick={() => onChange(item.value)}
+              onClick={() => chooseAnswer(item.questionContentId)}
             >
               <p
                 className={`text-3xl font-bold ${
-                  getStyle(item) ? 'text-primary' : 'text-border-gray'
+                  getStyle(item.questionContentId, answers)
+                    ? 'text-primary'
+                    : 'text-gray-400'
                 }`}
               >
-                {getChar(item.value)}
+                {getChar(index + 1)}
               </p>
-              {getStyle(item) ? (
+              {getStyle(item.questionContentId, answers) ? (
                 <FullCircle className="ml-4" />
               ) : (
                 <UnselectedCircle className="ml-4" />
               )}
             </button>
             <div className="w-full mb-2 z-1 ">
-              {/* <Form.Item
-                name={item.value - 1}
-                rules={[
-                  {
-                    required: true,
-                    message: `Vui Lòng Nhập Vào Đáp án ${getChar(item.value)}`,
-                  },
-                  {
-                    pattern: new RegExp(/^(?!\s*$|\s).*$/),
-                    message: errorText.space,
-                  },
-                ]}
-              >
-                <Input
-                  disabled
-                  type="text"
-                 
-                  placeholder={`Nhập đáp án ${getChar(item.value)}`}
-                  suffix={
-                    index > 3 && (
-                      <PopOverAction
-                        variant="text"
-                        handleDelete={() => handleDelete(item.value)}
-                        deleteItem={'câu ' + getChar(item.value)}
-                        size="sm"
-                      />
-                    )
-                  }
-                />
-            
-              </Form.Item> */}
               <div
-                className={`z-[0] min-h-[3rem] flex items-center text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border  text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500
-              ${getStyle(item) ? 'border-primary' : 'border-border-gray'} `}
+                className={`z-[0] min-h-[3rem] flex items-center text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border  text-sm rounded-lg focus:ring-gray-500 focus:gray-400-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:gray-400-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:gray-400-500
+              ${
+                getStyle(item.questionContentId, answers)
+                  ? 'border-primary'
+                  : 'border-gray-400'
+              } `}
               >
-                A
+                {item.content}
               </div>
             </div>
           </li>

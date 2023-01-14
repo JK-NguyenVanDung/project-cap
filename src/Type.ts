@@ -91,6 +91,7 @@ const ProgramItem = z.object({
     categoryId: z.number(),
     categoryName: z.string(),
   }),
+  maxLearner: z.number() || z.string(),
   faculty: z.object(Faculty),
   programPositions: z.array(z.object(Position)),
   lecturers: z.string(),
@@ -126,6 +127,7 @@ const Question = z.object({
   questionTitle: z.string(),
   score: z.number(),
   questionContents: z.array(QuestionContent),
+  index: z.number(),
 });
 const Test = z.object({
   testId: z.number(),
@@ -138,7 +140,12 @@ const Test = z.object({
   questionCount: z.number(),
 });
 
+const Answer = z.object({
+  questionId: z.number(),
+  questionContentId: z.number(),
+});
 export type IRoleItem = z.infer<typeof RoleItem>;
+export type IAnswer = z.infer<typeof Answer>;
 
 export type ICategoryItem = z.infer<typeof CategoryItem>;
 export type IAccountItem = z.infer<typeof AccountItem>;

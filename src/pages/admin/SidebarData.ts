@@ -28,6 +28,7 @@ export const SideBarData = [
     icon: IoPeopleCircle,
     path: '/admin/Account',
   },
+
   {
     title: 'Học Viên',
     icon: BsFillPersonBadgeFill,
@@ -42,14 +43,14 @@ export const SideBarData = [
     path: '/admin/Category',
     children: [
       {
-        title: 'Khoa Ban',
-        icon: BsHouseFill,
-        path: '/admin/Faculties',
-      },
-      {
         title: 'Nhóm chương trình',
         icon: FaClipboardList,
         path: '/admin/Category',
+      },
+      {
+        title: 'Khoa Ban',
+        icon: BsHouseFill,
+        path: '/admin/Faculties',
       },
 
       {
@@ -95,6 +96,7 @@ export const SideBarDataCT = [
     icon: IoApps,
     path: '/admin',
   },
+
   {
     title: 'Học Viên',
     icon: BsFillPersonBadgeFill,
@@ -109,11 +111,6 @@ export const SideBarDataCT = [
     path: '/admin/Category',
     children: [
       {
-        title: 'Chức Vụ',
-        icon: BsFillPersonBadgeFill,
-        path: '/admin/Postions',
-      },
-      {
         title: 'Nhóm chương trình',
         icon: FaClipboardList,
         path: '/admin/Category',
@@ -123,10 +120,16 @@ export const SideBarDataCT = [
         icon: BsHouseFill,
         path: '/admin/Faculties',
       },
+
       {
         title: 'Năm Học',
-        icon: BsFillPersonBadgeFill,
+        icon: BsCalendar2DateFill,
         path: '/admin/AcedemicYear',
+      },
+      {
+        title: 'Chức Vụ',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/Postions',
       },
     ],
   },
@@ -170,11 +173,6 @@ export const SideBarDataFacul = [
     path: '/admin/Category',
     children: [
       {
-        title: 'Chức Vụ',
-        icon: BsFillPersonBadgeFill,
-        path: '/admin/Postions',
-      },
-      {
         title: 'Nhóm chương trình',
         icon: FaClipboardList,
         path: '/admin/Category',
@@ -184,10 +182,16 @@ export const SideBarDataFacul = [
         icon: BsHouseFill,
         path: '/admin/Faculties',
       },
+
       {
         title: 'Năm Học',
-        icon: BsFillPersonBadgeFill,
+        icon: BsCalendar2DateFill,
         path: '/admin/AcedemicYear',
+      },
+      {
+        title: 'Chức Vụ',
+        icon: BsFillPersonBadgeFill,
+        path: '/admin/Postions',
       },
     ],
   },
@@ -213,5 +217,10 @@ export const SideBarDataFacul = [
         path: '/admin/reviewProgram',
       },
     ],
+  },
+  {
+    title: 'Học Viên',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/Published',
   },
 ];

@@ -21,7 +21,8 @@ export default function TableConfig({
   onSearch?: React.FC | Function;
 }) {
   return (
-    <div key={data}>
+    // key={data}
+    <div>
       <div className="flex content-center items-center justify-between px-5 my-10">
         {search && <SearchBar onSearch={onSearch} />}
         {extra}
