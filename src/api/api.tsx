@@ -120,5 +120,9 @@ export const API_CONFIG = {
 
     IMPORT_FILE: '/api/Learners/Import',
     DELLEANER: (id: number) => `/api/Learners/${id}`,
+    APPLICATION_PROGRAM: (id: number) =>
+      `/api/Learners/Applications?ProgramId=${id}`,
+    REFUSE: (id: number) => `/api/Learners/Applications/${id}/Refuse`,
+    APPROVE: (id: number) => `/api/Learners/Applications/${id}/Approve`,
   },
 };

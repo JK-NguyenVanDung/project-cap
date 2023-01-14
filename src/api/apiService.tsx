@@ -243,4 +243,13 @@ export default {
   getProgramPublish: () => {
     return axiosConfig.get(API_CONFIG.PROGRAM.GETPROGRAMPUBLISH);
   },
+  getApplication_program: (id: number) => {
+    return axiosConfig.get(API_CONFIG.LEANER.APPLICATION_PROGRAM(id));
+  },
+  refulseApplication: (id: number, params: any) => {
+    return axiosConfig.put(API_CONFIG.LEANER.REFUSE(id), params);
+  },
+  approveApplication: (id: number) => {
+    return axiosConfig.put(API_CONFIG.LEANER.APPROVE(id));
+  },
 };
