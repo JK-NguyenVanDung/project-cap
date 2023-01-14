@@ -17,8 +17,10 @@ import TestBar from '../../../../components/Test/TestBar';
 import CustomButton from '../../../../components/admin/Button';
 import Timer from '../../../../components/Test/Timer';
 import useTimer from '../../../../components/Test/Timer';
+import ConfirmModal from '../../../../components/admin/Modal/ConfirmModal';
 
 export default function ReviewTest(props: any) {
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   let ref = useRef(null);
@@ -86,14 +88,14 @@ export default function ReviewTest(props: any) {
     navigate(`/Programs/${program.programId}/Chapters`);
   }
   useEffect(() => {
-    // executeScroll(0);
-    // console.log(1);
-    // !program && getData();
-    dispatch(
-      actions.formActions.setNameMenu(
-        `${program ? program?.programName : 'N/A'}`,
-      ),
-    );
+    return () => {
+      dispatch(
+        actions.testActions.setTime({
+          minutes: time.minutes,
+          seconds: time.seconds - 1,
+        }),
+      );
+    };
   }, []);
   const content = [
     {
@@ -111,6 +113,15 @@ export default function ReviewTest(props: any) {
   ];
   return (
     <>
+      <ConfirmModal
+        type="test"
+        children={`Bạn có chắc chắn muốn kết thúc quá trình làm bài 
+và nộp kết quả bài kiểm tra này không?`}
+        title="nộp bài kiểm tra"
+        show={showModal}
+        setShow={setShowModal}
+        handler={submit}
+      />
       <div className="w-full h-14 flex items-center justify-between ">
         <div className="z-0  overflow-hidden bg-white relative flex flex-col justify-center content-center items-center w-1/5">
           <a
@@ -207,7 +218,7 @@ export default function ReviewTest(props: any) {
                 color="green"
                 noIcon
                 text="Nộp bài"
-                onClick={submit}
+                onClick={() => setShowModal(true)}
               />
             </div>
           </div>
