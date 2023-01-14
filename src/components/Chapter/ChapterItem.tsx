@@ -10,6 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { actions } from '../../Redux';
 import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { IChapter } from '../../api/apiInterface';
+import { notification } from 'antd';
 
 const ChapterItem = ({
   chapter,
@@ -78,6 +79,7 @@ const ChapterItem = ({
       }
     }
     initData();
+
     let timeLock = setTimeout(() => {
       setViewedContent(true);
     }, 300);
@@ -111,7 +113,7 @@ const ChapterItem = ({
         setQuestionCount(count);
       }
     } catch (err: any) {
-      throw err.message;
+      notification.error({ message: 'Không tìm thấy bài kiểm tra ' });
     }
   }
 
