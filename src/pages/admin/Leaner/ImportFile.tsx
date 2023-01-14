@@ -1,16 +1,9 @@
 import { Form, notification } from 'antd';
 import React, { useState, useEffect } from 'react';
 import apiService from '../../../api/apiService';
-import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomModal from '../../../components/admin/Modal/Modal';
-import { errorText } from '../../../helper/constant';
-import { Select } from 'antd';
-import { useAppSelector } from '../../../hook/useRedux';
-import { IProgramItem } from '../../../Type';
 import Input from '../../../components/sharedComponents/Input';
-import CustomButton from '../../../components/admin/Button';
-import { HiOutlineTrash } from 'react-icons/hi';
-
+import * as XLSX from 'xlsx';
 export default function ImportFile({
   showModal,
   setShowModal,
@@ -23,7 +16,7 @@ export default function ImportFile({
   setShowModal: (showModal: boolean) => void;
 }) {
   const [form] = Form.useForm();
-
+  const [listEmail, setListEmail] = useState([]);
   const handleOk = async () => {
     form
       .validateFields()
@@ -41,7 +34,24 @@ export default function ImportFile({
       .catch((info) => {});
   };
   const handelReadFile = (value: any) => {
-    console.log(value.target.files);
+    const readFileExcel = async () => {
+      const file = value.target.files[0];
+      const fileReader = new FileReader();
+      fileReader.readAsArrayBuffer(file);
+      fileReader.onload = (e) => {
+        const bufferArray = e.target.result;
+        const workbook = XLSX.read(bufferArray, { type: 'buffer' });
+        const wsName = workbook.SheetNames[0];
+        const ws = workbook.Sheets[wsName];
+        const data = XLSX.utils.sheet_to_json(ws);
+        data.map((item: any, index) => {
+          const tamp = [];
+          tamp.push(...item.Email);
+          console.log(tamp);
+        });
+      };
+    };
+    readFileExcel();
   };
   const FormItem = () => {
     return (

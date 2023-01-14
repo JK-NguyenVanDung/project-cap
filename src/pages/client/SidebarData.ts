@@ -38,7 +38,7 @@ export const SideBarData = [
     path: '/Programs',
   },
   {
-    title: 'Chương Trình Của Tôi',
+    title: 'Đơn Đăng Ký',
     icon: IoBook,
     path: '/MyCourses',
   },
