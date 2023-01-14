@@ -94,7 +94,8 @@ export default function ProgramPublish() {
     navigate('/admin/ListLeaner');
   }
   const goApplication = (item: any) => {
-    console.log(item);
+    dispatch(actions.formActions.setProgramForm(item));
+    navigate('/admin/Application');
   };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');

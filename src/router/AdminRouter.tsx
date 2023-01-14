@@ -35,6 +35,7 @@ import UserProgram from '../pages/client/Programs/Programs';
 import UserProgramDetail from '../pages/client/Programs/ProgramDetail';
 import UserChapters from '../pages/client/Programs/Chapters/Chapters';
 import MyCourse from '../pages/client/Programs/MyCourse';
+import Application from '../pages/admin/Leaner/Application/Application';
 export const RouterPages = [
   {
     path: '/admin',
@@ -113,6 +114,10 @@ export const RouterPages = [
     path: '/admin/ProgramPublish',
     element: <ProgramPublish />,
   },
+  {
+    path: '/admin/Application',
+    element: <Application />,
+  },
 ];
 
 export const RouterCenter = [
@@ -190,8 +195,16 @@ export const RouterCenter = [
     path: '/admin/ProgramPublish',
     element: <ProgramPublish />,
   },
+  {
+    path: '/admin/Application',
+    element: <Application />,
+  },
 ];
 export const RouterFaculty = [
+  {
+    path: '/admin/Application',
+    element: <Application />,
+  },
   {
     path: '/admin',
     element: <Dashboard />,
