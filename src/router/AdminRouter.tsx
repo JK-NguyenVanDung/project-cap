@@ -30,7 +30,7 @@ import AcedemicYear from '../pages/admin/AcedemicYear/AcedemicYear';
 import Position from '../pages/admin/Position/Position';
 import ListReviewPrograms from '../pages/admin/ReviewProgram/ListReviewProgram';
 import LeanerPage from '../pages/admin/Leaner/LeanerPage';
-import ProgramPublish from '../pages/admin/Leaner/ProgramPublish';
+import Published from '../pages/admin/Leaner/ProgramPublish';
 import UserProgram from '../pages/client/Programs/Programs';
 import UserProgramDetail from '../pages/client/Programs/ProgramDetail';
 import UserChapters from '../pages/client/Programs/Chapters/Chapters';
@@ -111,8 +111,8 @@ export const RouterPages = [
     element: <LeanerPage />,
   },
   {
-    path: '/admin/ProgramPublish',
-    element: <ProgramPublish />,
+    path: '/admin/Published',
+    element: <Published />,
   },
   {
     path: '/admin/Application',
@@ -192,8 +192,8 @@ export const RouterCenter = [
     element: <LeanerPage />,
   },
   {
-    path: '/admin/ProgramPublish',
-    element: <ProgramPublish />,
+    path: '/admin/Published',
+    element: <Published />,
   },
   {
     path: '/admin/Application',
@@ -277,8 +277,8 @@ export const RouterFaculty = [
   },
 
   {
-    path: '/admin/ProgramPublish',
-    element: <ProgramPublish />,
+    path: '/admin/Published',
+    element: <Published />,
   },
 ];
 const Learner = [
