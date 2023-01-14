@@ -84,7 +84,7 @@ const ChapterItem = ({
 
     let timeLock = setTimeout(() => {
       setViewedContent(true);
-    }, 300);
+    }, 3000);
     return () => {
       clearTimeout(timeLock);
 
@@ -96,8 +96,6 @@ const ChapterItem = ({
     try {
       let test: any = await apiService.getTest(chapter?.contentId);
       let questionCount: any = await apiService.getQuestionCount(test?.testId);
-
-      console.count('test');
 
       if (test) {
         let count =
