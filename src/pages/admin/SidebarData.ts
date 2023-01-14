@@ -32,10 +32,7 @@ export const SideBarData = [
   {
     title: 'Học Viên',
     icon: BsFillPersonBadgeFill,
-    path: '/admin/ProgramPublish',
-    children: [
-      { title: 'Tất Cả', icon: ImBooks, path: '/admin/ProgramPublish' },
-    ],
+    path: '/admin/Published',
   },
   {
     title: 'Danh Mục',
@@ -100,10 +97,7 @@ export const SideBarDataCT = [
   {
     title: 'Học Viên',
     icon: BsFillPersonBadgeFill,
-    path: '/admin/ProgramPublish',
-    children: [
-      { title: 'Tất Cả', icon: ImBooks, path: '/admin/ProgramPublish' },
-    ],
+    path: '/admin/Published',
   },
   {
     title: 'Danh Mục',
@@ -162,10 +156,7 @@ export const SideBarDataFacul = [
   {
     title: 'Học Viên',
     icon: BsFillPersonBadgeFill,
-    path: '/admin/ProgramPublish',
-    children: [
-      { title: 'Tất Cả', icon: ImBooks, path: '/admin/ProgramPublish' },
-    ],
+    path: '/admin/Published',
   },
   {
     title: 'Danh Mục',

@@ -11,6 +11,7 @@ export default function TableConfig({
   extra,
   search = true,
   onSearch,
+  key,
 }: {
   loading?: boolean;
   data?: any;
@@ -19,10 +20,11 @@ export default function TableConfig({
   extra?: React.ReactNode;
   search?: boolean;
   onSearch?: React.FC | Function;
+  key?: string;
 }) {
   return (
     // key={data} => gây ra lỗi search
-    <div>
+    <div key={key ? key : null}>
       <div className="flex content-center items-center justify-between px-5 my-10">
         {search && <SearchBar onSearch={onSearch} />}
         {extra}
