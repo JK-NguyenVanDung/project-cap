@@ -122,7 +122,7 @@ và nộp kết quả bài kiểm tra này không?`}
         setShow={setShowModal}
         handler={submit}
       />
-      <div className="w-full h-14 flex items-center justify-between ">
+      <div className="w-full h-24 flex items-center justify-between ">
         <div className="z-0  overflow-hidden bg-white relative flex flex-col justify-center content-center items-center w-1/5">
           <a
             onClick={() => {
@@ -137,21 +137,24 @@ và nộp kết quả bài kiểm tra này không?`}
         </div>
 
         <div className="w-full h-14 flex items-center justify-between ">
-          <p className="text-black text-lg font-bold font-customFont">
-            Bài kiểm tra chương
-          </p>
+          <div className="flex flex-col justify-center items-start w-full">
+            <p className="ml-2 text-black text-lg font-bold font-customFont">
+              Bài kiểm tra chương
+            </p>
+            <div className="w-full  bg-white">
+              <Breadcrumb
+                router1={'/Programs/'}
+                router2={`/Programs/${
+                  program ? program?.programId : 'N/A'
+                }/Chapters`}
+                name={'Chương Trình'}
+                name2={program ? program?.programName : 'N/A'}
+                name3={'Bài kiểm tra: ' + selectedTest?.testTitle}
+              />
+            </div>
+          </div>
           <HeaderClient />
         </div>
-      </div>
-
-      <div className="w-full  px-4 pb-2 bg-white">
-        <Breadcrumb
-          router1={'/Test/Review/'}
-          router2={`/Test/Review/${program ? program?.programName : 'N/A'}`}
-          name={'Chương Trình'}
-          name2={program ? program?.programName : 'N/A'}
-          name3={breadCrumb ? breadCrumb : 'N/A'}
-        />
       </div>
 
       {/* <Loading loading={loading} /> */}
