@@ -45,9 +45,7 @@ export default function ImportFile({
         const ws = workbook.Sheets[wsName];
         const data = XLSX.utils.sheet_to_json(ws);
         data.map((item: any, index) => {
-          const tamp = [];
-          tamp.push(...item.Email);
-          console.log(tamp);
+          console.log(item.Email);
         });
       };
     };

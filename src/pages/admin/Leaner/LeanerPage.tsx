@@ -86,7 +86,6 @@ export default function LeanerPage() {
         <PopOverAction
           size="sm"
           handleEdit={() => handelEdit(data)}
-          handleShowDetail={() => handelShow(data)}
           handleDelete={() => handleDelete(data)}
         />
       ),

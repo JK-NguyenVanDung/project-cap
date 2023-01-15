@@ -54,8 +54,15 @@ const QuestionBar = (props: any) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    // getData();
-  }, [programNav]);
+    return () => {
+      dispatch(
+        actions.testActions.setTime({
+          minutes: time.minutes,
+          seconds: time.seconds - 1,
+        }),
+      );
+    };
+  }, []);
 
   useEffect(() => {
     let base = current;
@@ -160,12 +167,12 @@ const QuestionBar = (props: any) => {
           );
         })}
       </div>
-      <div className=" w-full my-2">
-        <div className="flex w-full justify-between my-6">
+      <div className=" min-w-[20rem] w-full my-2">
+        <div className="flex w-full items-center justify-between my-6">
           <p className="text-lg font-semibold  text-gray-900 text-center   items-start">
             Tổng thời gian làm bài:
           </p>
-          <p className=" font-semibold   text-gray-900 text-center   items-start">
+          <p className=" font-semibold  text-gray-900 text-center   items-start">
             {selectedTest.time} phút
           </p>
         </div>

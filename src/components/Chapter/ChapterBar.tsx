@@ -80,14 +80,26 @@ const ChapterBar = (props: any) => {
       throw err.message;
     }
   }
+  function hasDoneTest(prevChapter: IChapterItem) {
+    if (prevChapter?.isDone) {
+      return false;
+    }
+    return true;
+  }
 
   return (
     <div className="overflow-scroll rounded-xl w-fit max-w-xl text-black bg-white h-fit min-h-[85vh] m-4 p-2 px-8 border flex flex-col justify-start items-start">
       <p className="my-6 text-xl font-bold  text-gray-900 text-center  flex w-full justify-start items-start">
         Danh sách chương
       </p>
-      {chapters?.map((item: IChapterItem) => {
-        return <ChapterItem chapter={item} isDone={item.isDone} />;
+      {chapters?.map((item: IChapterItem, index: number) => {
+        return (
+          <ChapterItem
+            chapter={item}
+            isDone={item.isDone}
+            disabled={index === 0 ? null : hasDoneTest(chapters[index - 1])}
+          />
+        );
       })}
     </div>
   );
