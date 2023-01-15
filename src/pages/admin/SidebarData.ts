@@ -209,9 +209,4 @@ export const SideBarDataFacul = [
       },
     ],
   },
-  {
-    title: 'Học Viên',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Published',
-  },
 ];

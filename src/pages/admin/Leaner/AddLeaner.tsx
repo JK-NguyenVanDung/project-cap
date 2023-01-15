@@ -96,7 +96,7 @@ export default function AddLeaner({
             }
             options={listLeaner?.map((item: any) => ({
               value: item.accountId,
-              label: item.fullName,
+              label: item.email,
             }))}
           />
         </Form.Item>
@@ -128,11 +128,10 @@ export default function AddLeaner({
       handleOk={handleOk}
       setShow={setShowModal}
       dataItem={detail}
-      label={'Phòng/Khoa'}
+      label={'Người Học'}
       name={detail}
       FormItem={detail ? <FormUpdate /> : <FormItem />}
       form={form}
-      header={showDetail ? 'Thêm' : 'Sửa Phòng/Khoa'}
       showDetail={showDetail}
       setShowDetail={setShowDetail}
       confirmLoading={loading}
