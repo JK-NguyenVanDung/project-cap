@@ -85,6 +85,8 @@ export default function (props: any) {
 
   async function navToTest() {
     await getData();
+
+    dispatch(actions.testActions.reset());
     dispatch(
       actions.testActions.setTime({
         minutes: selectedTest.time,

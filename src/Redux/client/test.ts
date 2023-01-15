@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+
 const slice = createSlice({
   name: 'test',
   initialState: {
@@ -12,6 +13,16 @@ const slice = createSlice({
   },
 
   reducers: {
+    reset(state) {
+      return {
+        ...state,
+        answerLength: 0,
+        answers: [],
+        currentQuestions: [],
+        range: { base: 0, limit: 5 },
+        time: { minutes: 0, seconds: 0 },
+      };
+    },
     setTime(state, action) {
       state.time = action.payload;
     },
