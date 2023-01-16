@@ -50,8 +50,6 @@ const ChapterBar = (props: any) => {
       if (content) {
         setChapters(content);
         dispatch(actions.productActions.setInitSelectedChapter(content[0]));
-        console.log(selectedChapter?.contentId);
-        console.log(initChapter?.contentId);
         if (
           selectedChapter === undefined ||
           initChapter === undefined ||

@@ -152,8 +152,8 @@ const QuestionBar = (props: any) => {
             <div
               className={`${
                 isViewing(index)
-                  ? 'bg-primary bg-opacity-20'
-                  : 'bg-white bg-opacity-100'
+                  ? 'border-primary border-b-[5px]  border-opacity-40'
+                  : 'border-none'
               }`}
             >
               <CustomButton

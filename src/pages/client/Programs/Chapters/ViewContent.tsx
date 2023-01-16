@@ -5,12 +5,15 @@ import View from '../../assets/svg/View.svg';
 import { actions } from '../../../../Redux';
 import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { useRef, useEffect, useState } from 'react';
+import { IFaculties } from '../../../../api/apiInterface';
+import apiService from '../../../../api/apiService';
 export default function (props: any) {
   const ref = useRef(null);
   const iframeRef = useRef(null);
   const [frame, setFrame] = useState(null);
   const [unLock, setUnLock] = useState(false);
   const dispatch = useAppDispatch();
+  const [faculty, setFaculty] = useState('');
 
   const program: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
@@ -19,9 +22,25 @@ export default function (props: any) {
     (state) => state.product.selectedChapter,
   );
 
+  async function getData() {
+    try {
+      let response: any = await apiService.getFaculties();
+
+      let fac: IFaculties = response.find(
+        (item: IFaculties) => item.facultyId == program.facultyId,
+      );
+
+      if (fac) {
+        setFaculty(fac.facultyName);
+      }
+    } catch (err) {}
+  }
+
   useEffect(() => {
     // console.log(ref.current?.children[0]?.src);
     setFrame(ref.current?.children[0]?.src);
+
+    getData();
   }, [selectedChapter]);
   return (
     <>
@@ -45,7 +64,7 @@ export default function (props: any) {
       <div className="flex w-full text-base font-light">
         <p>Khoa: </p>
         <span className=" pl-2 pr-4 mr-2 border-r-[1px] font-normal">
-          {props.faculty ? props.faculty : 'Chưa có thông tin'}
+          {faculty ? faculty : 'Chưa có thông tin'}
         </span>
         <p>Giảng viên:</p>
         <span className=" pl-2 pr-4 mr-2 font-normal ">

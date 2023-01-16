@@ -13,6 +13,8 @@ import { useAppDispatch } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
 import { IProgramItem } from '../../../Type';
 import { removeVietnameseTones } from '../../../utils/uinqueId';
+import RegisterCard from '../../../components/client/Card/RegisterCard';
+import ConfirmModal from '../../../components/admin/Modal/ConfirmModal';
 export enum Register {
   unApproved = 'UnApproved',
   Approved = 'Approved',
@@ -38,7 +40,11 @@ export default function MyCourse() {
   const navigate = useNavigate();
   const [filterData, setFilterData] = useState<Array<IProgramItem>>(null);
   const [data, setData] = useState<Array<IProgramItem>>(null);
+  const [showConfirm, setShowConfirm] = useState(false);
 
+  const [reload, setReload] = useState(false);
+  const [unRegisterProgram, setUnRegisterProgram] =
+    useState<IProgramItem>(null);
   useEffect(() => {
     const fetchMyProgram = async () => {
       const data: any = await apiService.getMyProgram();
@@ -50,12 +56,12 @@ export default function MyCourse() {
       setFilterData(temp);
     };
     fetchMyProgram();
-  }, []);
+  }, [reload]);
   const [loading, setLoading] = useState(false);
 
   function handelDataProgram(item: IProgramItem) {
-    dispatch(actions.formActions.setProgramForm(item));
-    navigate(`/Programs/${item.programId}`);
+    setUnRegisterProgram(item);
+    setShowConfirm(true);
   }
   useEffect(() => {}, []);
   const onChangeSearch = async (value: string) => {
@@ -86,16 +92,53 @@ export default function MyCourse() {
       clearTimeout(timer);
     };
   };
+
+  const handelRegister = (item: IProgramItem) => {
+    const fetchRegister = async () => {
+      const value = {
+        programId: item.programId,
+        isRegister: item.isRegister,
+      };
+      const data: any = await apiService.registerOrUn(value);
+      if (data) {
+        setLoading(true);
+        setReload(!reload);
+      }
+    };
+    fetchRegister();
+    setTimeout(() => {
+      setLoading(false);
+    }, 900);
+  };
   return (
     <>
-      <div className="w-fit  ml-4">
-        <SearchBar
-          onSearch={onChangeSearch}
-          className="
-            box-border	shadow-none min-w-[22rem] h-[2.8rem] border-2 rounded-[14px] border-[#F5F5F7]"
-          prefix
-        />
+      <Loading loading={loading} />
+      <ConfirmModal
+        show={showConfirm}
+        setShow={setShowConfirm}
+        type="cancel"
+        handler={() => handelRegister(unRegisterProgram)}
+        title={`huỷ đăng ký`}
+      >
+        <p className="font-customFont text-xl font-[500]">
+          Huỷ đăng ký chương trình {unRegisterProgram?.programName}
+        </p>
+      </ConfirmModal>
+      <div
+        className={`bg-white py-4 pb-8 flex  w-full  items-center justify-between
+${loading ? 'hidden' : 'visible'}`}
+      >
+        <div className="w-fit mx-4">
+          <SearchBar
+            onSearch={onChangeSearch}
+            className="
+      
+      box-border	shadow-none min-w-[22rem] h-[2.8rem] border-2 rounded-[14px] border-[#F5F5F7]"
+            prefix
+          />
+        </div>
       </div>
+
       <div className="container p-6 flex items-center">
         <div className="w-2 h-10 bg-blue-gray-500 m-3 rounded-lg" />
         <h1 className="font-semibold text-lg">Khóa Học Đã Đăng Ký</h1>
@@ -111,12 +154,12 @@ export default function MyCourse() {
         <ul className=" grid lg:grid-cols-3 grid-cols-3 md:grid-cols-2 sm:grid-cols-1 	">
           {toDoList?.length > 0 ? (
             toDoList?.map((item) => {
-              console.log(item.program.category);
+              console.log(item.program?.category);
               return (
-                <li className="m-8 inline-block " key={item.programId}>
-                  <CourseCard
-                    onClick={() => handelDataProgram(item.program)}
-                    item={item.program}
+                <li className="m-8 inline-block " key={item?.programId}>
+                  <RegisterCard
+                    onClick={() => handelDataProgram(item?.program)}
+                    item={item?.program}
                   />
                 </li>
               );
