@@ -117,6 +117,7 @@ export default function LeanerPage() {
   }
   function handelImport() {
     setImportFile(true);
+    setProgram(item);
   }
   return (
     <>
@@ -154,6 +155,7 @@ export default function LeanerPage() {
         setLoading={setConfirmLoading}
       />
       <ImportFile
+        program={program}
         loading={confirmLoading}
         setLoading={setConfirmLoading}
         showModal={importFile}

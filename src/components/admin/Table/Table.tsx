@@ -3,6 +3,7 @@ import { Table, Layout, PageHeader } from 'antd';
 import './index.css';
 import { Button } from '@material-tailwind/react';
 import SearchBar from '../ToolBar/ToolBar';
+import { boolean } from 'zod';
 export default function TableConfig({
   loading,
   data,
@@ -12,6 +13,7 @@ export default function TableConfig({
   search = true,
   onSearch,
   key,
+  panigation,
 }: {
   loading?: boolean;
   data?: any;
@@ -21,14 +23,17 @@ export default function TableConfig({
   search?: boolean;
   onSearch?: React.FC | Function;
   key?: string;
+  panigation?: any;
 }) {
   return (
     // key={data} => gây ra lỗi search
     <div key={key ? key : null}>
-      <div className="flex content-center items-center justify-between px-5 my-10">
-        {search && <SearchBar onSearch={onSearch} />}
-        {extra}
-      </div>
+      {search && (
+        <div className="flex content-center items-center justify-between px-5 my-10">
+          <SearchBar onSearch={onSearch} />
+          {extra}
+        </div>
+      )}
       <Table
         loading={loading}
         className="tableContainer shadow-lg rounded-lg border-1"
@@ -37,6 +42,7 @@ export default function TableConfig({
         }}
         dataSource={data}
         columns={columns}
+        pagination={panigation}
       />
     </div>
   );
