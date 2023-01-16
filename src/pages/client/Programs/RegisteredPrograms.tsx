@@ -34,7 +34,7 @@ export type MyCourse = {
   accountIdLearnerNavigation: number;
 };
 
-export default function MyCourse() {
+export default function RegisteredPrograms() {
   const [toDoList, setToDoList] = useState<Array<MyCourse>>([]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -44,6 +44,10 @@ export default function MyCourse() {
   const [reload, setReload] = useState(false);
   const [unRegisterProgram, setUnRegisterProgram] =
     useState<IProgramItem>(null);
+
+  useEffect(() => {
+    dispatch(actions.formActions.setNameMenu(`${'Khóa Học Đã Đăng Ký '}`));
+  }, []);
   useEffect(() => {
     const fetchMyProgram = async () => {
       const data: any = await apiService.getMyProgram();
@@ -53,7 +57,6 @@ export default function MyCourse() {
       console.log(data);
       setFilterData(temp);
     };
-    dispatch(actions.formActions.setNameMenu(`${'Khóa Học Đã Đăng Ký '}`));
 
     fetchMyProgram();
   }, [reload]);
