@@ -11,10 +11,24 @@ import apiService from '../../../api/apiService';
 import { message } from 'antd';
 import { API_URL } from '../../../api/api';
 
+function getStatusColor(status: string) {
+  switch (status) {
+    case 'UnApproved':
+      return 'bg-blue-600';
+    case 'Approved':
+      return 'bg-green-500';
+    case 'Refuse':
+      return 'bg-red-500';
+  }
+}
 function getStatus(status: string) {
   switch (status) {
-    case 'public':
-      return 'Có thể đăng ký  ';
+    case 'UnApproved':
+      return 'Chưa được duyệt ';
+    case 'UnApproved':
+      return 'Đã duyệt ';
+    case 'Refuse':
+      return 'Từ chối ';
   }
 }
 export default function (props: any) {
@@ -28,6 +42,7 @@ export default function (props: any) {
 const CourseContent = (props: {
   onClick: React.MouseEventHandler;
   item: IProgramItem;
+  registerStatus: string;
 }) => {
   const [like, setLike] = useState(props.item.isLike);
   const [colorHeart, setColorHeart]: any = useState(Color.gray4);
@@ -81,10 +96,12 @@ const CourseContent = (props: {
           <div className="flex flex-col bg-white h-[60%] rounded-b-2xl py-2 px-4 pb-4">
             <div className="flex w-full justify-between items-center">
               <div
-                className="bg-primary w-fit p-1 text-white  rounded text-xs font-light "
+                className={`${getStatusColor(
+                  props.registerStatus,
+                )} w-fit p-1 text-white  rounded text-xs font-light `}
                 onClick={props.onClick}
               >
-                {getStatus(props.item?.status)}
+                {getStatus(props.registerStatus)}
               </div>
               <div className="flex items-center">
                 {/* <span className="text-body text-bold">

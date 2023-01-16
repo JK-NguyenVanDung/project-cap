@@ -38,8 +38,7 @@ export default function MyCourse() {
   const [toDoList, setToDoList] = useState<Array<MyCourse>>([]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [filterData, setFilterData] = useState<Array<IProgramItem>>(null);
-  const [data, setData] = useState<Array<IProgramItem>>(null);
+  const [filterData, setFilterData] = useState<Array<MyCourse>>(null);
   const [showConfirm, setShowConfirm] = useState(false);
 
   const [reload, setReload] = useState(false);
@@ -52,9 +51,10 @@ export default function MyCourse() {
       let temp = data;
       temp = temp.reverse();
       console.log(data);
-      setData(temp);
       setFilterData(temp);
     };
+    dispatch(actions.formActions.setNameMenu(`${'Khóa Học Đã Đăng Ký '}`));
+
     fetchMyProgram();
   }, [reload]);
   const [loading, setLoading] = useState(false);
@@ -63,28 +63,26 @@ export default function MyCourse() {
     setUnRegisterProgram(item);
     setShowConfirm(true);
   }
-  useEffect(() => {}, []);
   const onChangeSearch = async (value: string) => {
     setLoading(true);
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
 
     const filteredData = temp
-      .map((record: IProgramItem) => {
-        const nameMatch = removeVietnameseTones(record.programName).match(reg);
-
-        const descMatch = removeVietnameseTones(record.descriptions).match(reg);
-        const cateMatch = removeVietnameseTones(
-          record.category.categoryName,
+      .map((record: any) => {
+        console.log(record);
+        const nameMatch = removeVietnameseTones(
+          record.program?.programName,
         ).match(reg);
 
-        if (!nameMatch && !descMatch && !cateMatch) {
+        if (!nameMatch) {
           return null;
         }
         return record;
       })
       .filter((record: any) => !!record);
-    setData(filteredData ? filteredData : filterData);
+
+    setToDoList(filteredData ? filteredData : filterData);
     let timer = setTimeout(() => {
       setLoading(false);
     }, 300);
@@ -139,11 +137,6 @@ ${loading ? 'hidden' : 'visible'}`}
         </div>
       </div>
 
-      <div className="container p-6 flex items-center">
-        <div className="w-2 h-10 bg-blue-gray-500 m-3 rounded-lg" />
-        <h1 className="font-semibold text-lg">Khóa Học Đã Đăng Ký</h1>
-      </div>
-
       <Loading loading={loading} />
 
       <div
@@ -151,25 +144,27 @@ ${loading ? 'hidden' : 'visible'}`}
           loading ? 'hidden' : 'visible'
         }`}
       >
-        <ul className=" grid lg:grid-cols-3 grid-cols-3 md:grid-cols-2 sm:grid-cols-1 	">
-          {toDoList?.length > 0 ? (
-            toDoList?.map((item) => {
-              console.log(item.program?.category);
+        {toDoList?.length > 0 ? (
+          <ul className=" grid lg:grid-cols-3 grid-cols-3 md:grid-cols-2 sm:grid-cols-1 	">
+            {toDoList?.map((item) => {
               return (
                 <li className="m-8 inline-block " key={item?.programId}>
                   <RegisterCard
                     onClick={() => handelDataProgram(item?.program)}
                     item={item?.program}
+                    registerStatus={item?.registerStatus}
                   />
                 </li>
               );
-            })
-          ) : (
-            <div className="w-full ml-[80%] h-[60vh] grid content-center text-xl font-bold">
-              Không có dữ liệu
+            })}
+          </ul>
+        ) : (
+          <div className="flex items-center justify-center">
+            <div className="w-full h-[60vh] flex justify-center items-center text-xl font-bold">
+              Bạn đang không đăng ký chương trình nào cả.
             </div>
-          )}
-        </ul>
+          </div>
+        )}
       </div>
     </>
   );
