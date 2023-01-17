@@ -75,6 +75,7 @@ export default function ImportFile({
             if (
               !email
                 .toString()
+                .trim()
                 .match(
                   /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
                 )

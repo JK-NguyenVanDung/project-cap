@@ -101,7 +101,7 @@ export default function LeanerPage() {
             ) : item == 'Complete' ? (
               <span className="text-blue-gray-600">Hoàn Thành</span>
             ) : (
-              ''
+              'không có trạng thái'
             )}
           </p>
         );
