@@ -219,23 +219,23 @@ export default {
     return axiosConfig.get(API_CONFIG.CHECK_PROGRAM.GET_PROGRAM_STATUS(id));
   },
   registerOrUn: (params: any) => {
-    return axiosConfig.post(API_CONFIG.LEANER.REGISTER_OR_UN, params);
+    return axiosConfig.post(API_CONFIG.LEARNER.REGISTER_OR_UN, params);
   },
 
-  getLeaner_id: (id: number) => {
-    return axiosConfig.get(API_CONFIG.LEANER.GETLEANER_ID(id));
+  getLearner_id: (id: number) => {
+    return axiosConfig.get(API_CONFIG.LEARNER.GETLEANER_ID(id));
   },
-  addLeaner: (params: any) => {
-    return axiosConfig.post(API_CONFIG.LEANER.ADD_LEANER, params);
+  addLearner: (params: any) => {
+    return axiosConfig.post(API_CONFIG.LEARNER.ADD_LEANER, params);
   },
-  updateLeaner: (id: number, params: any) => {
-    return axiosConfig.put(API_CONFIG.LEANER.UPDATE_LEANER(id), params);
+  updateLearner: (id: number, params: any) => {
+    return axiosConfig.put(API_CONFIG.LEARNER.UPDATE_LEANER(id), params);
   },
-  delLeaner: (id: number) => {
-    return axiosConfig.delete(API_CONFIG.LEANER.DELLEANER(id));
+  delLearner: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.LEARNER.DELLEANER(id));
   },
-  importFileLeaner: (param: any) => {
-    return axiosConfig.post(API_CONFIG.LEANER.IMPORT_FILE, param);
+  importFileLearner: (param: any) => {
+    return axiosConfig.post(API_CONFIG.LEARNER.IMPORT_FILE, param);
   },
   getMyProgram: () => {
     return axiosConfig.get(API_CONFIG.PROGRAM.MYPROGRAM);
@@ -244,12 +244,12 @@ export default {
     return axiosConfig.get(API_CONFIG.PROGRAM.GETPROGRAMPUBLISH);
   },
   getApplication_program: (id: number) => {
-    return axiosConfig.get(API_CONFIG.LEANER.APPLICATION_PROGRAM(id));
+    return axiosConfig.get(API_CONFIG.LEARNER.APPLICATION_PROGRAM(id));
   },
   refulseApplication: (id: number, params: any) => {
-    return axiosConfig.put(API_CONFIG.LEANER.REFUSE(id), params);
+    return axiosConfig.put(API_CONFIG.LEARNER.REFUSE(id), params);
   },
   approveApplication: (id: number) => {
-    return axiosConfig.put(API_CONFIG.LEANER.APPROVE(id));
+    return axiosConfig.put(API_CONFIG.LEARNER.APPROVE(id));
   },
 };

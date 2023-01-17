@@ -13,11 +13,14 @@ import { FaEye } from 'react-icons/fa';
 
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import { BiLock, BiLockOpen } from 'react-icons/bi';
+import { IAccountItem } from '../../../../Type';
 import ShowDetail from './ShowDetail';
 import { Breadcrumb } from '../../../../components/sharedComponents';
 export default function Application() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
+  const [accounts, setAccounts] = useState([]);
+
   const [loading, setLoading] = useState(false);
   const [detail, setDetail] = useState();
   const item = useAppSelector((state) => state.form.setProgram);
@@ -31,6 +34,8 @@ export default function Application() {
         let response: any = await apiService.getApplication_program(
           item.programId,
         );
+        let accounts: any = await apiService.getAccounts();
+        accounts && setAccounts(accounts);
         response = response.reverse();
         let res = response.map((item: any, index: number) => {
           return {
@@ -61,7 +66,20 @@ export default function Application() {
       key: 'index',
       width: '2%',
     },
+    {
+      title: 'Email đăng ký',
 
+      width: '7%',
+      render: (data: any) => (
+        <>
+          {
+            accounts.find(
+              (item: IAccountItem) => item.accountId === data.accountIdLearner,
+            )?.email
+          }
+        </>
+      ),
+    },
     {
       title: 'Trạng Thái Đăng Ký',
       dataIndex: 'registerStatus',

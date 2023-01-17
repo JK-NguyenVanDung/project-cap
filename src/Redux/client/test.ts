@@ -34,7 +34,7 @@ const slice = createSlice({
           .filter((item) => item.questionId !== out.questionId);
         return {
           ...state,
-          answerLength: tempArr.length + 1,
+          answerLength: state.answerLength + 1,
 
           answers: [...tempArr, out],
         };
@@ -48,13 +48,21 @@ const slice = createSlice({
           .filter((item) => item.questionContentId !== out.questionContentId);
         return {
           ...state,
-          answerLength: tempArr.length - 1,
+          answerLength: !state.answers.find(
+            (item) => item.questionId === out.questionId,
+          )
+            ? tempArr.length - 1
+            : state.answerLength,
           answers: tempArr,
         };
       }
       return {
         ...state,
-        answerLength: state.answers.length + 1,
+        answerLength: !state.answers.find(
+          (item) => item.questionId === out.questionId,
+        )
+          ? state.answers.length + 1
+          : state.answerLength,
         answers: [...state.answers, out],
       };
     },

@@ -8,23 +8,23 @@ import { Button, message, notification, Popconfirm } from 'antd';
 import { GIRD12, MESSAGE } from '../../../helper/constant';
 import PopOverAction from '../../../components/admin/PopOver';
 import { useAppSelector } from '../../../hook/useRedux';
-import AddLeaner from './AddLeaner';
+import AddLearner from './AddLearner';
 import ImportFile from './ImportFile';
 import { Breadcrumb } from '../../../components/sharedComponents';
 export default function LeanerPage() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
-  const [addLeaner, setAddLeaner] = useState(false);
+  const [addLearner, setAddLearner] = useState(false);
   const [detail, setDetail] = useState();
   const [confirmLoading, setConfirmLoading] = useState(false);
   const item = useAppSelector((state) => state.form.setProgram);
   const [program, setProgram] = useState(item);
   const [importFile, setImportFile] = useState(false);
   useEffect(() => {
-    async function getLeaner() {
+    async function getLearner() {
       try {
-        let response: any = await apiService.getLeaner_id(item.programId);
+        let response: any = await apiService.getLearner_id(item.programId);
         response = response.reverse();
         let res = response.map((item: any, index: number) => {
           console.log(item);
@@ -48,15 +48,15 @@ export default function LeanerPage() {
         console.log(error);
       }
     }
-    getLeaner();
+    getLearner();
   }, [loading, confirmLoading]);
   const handelEdit = (item: any) => {
     setDetail(item);
-    setAddLeaner(true);
+    setAddLearner(true);
   };
   async function handleDelete(item: any) {
     try {
-      await apiService.delLeaner(item.learnerId);
+      await apiService.delLearner(item.learnerId);
       setLoading(!loading);
       notification.success({
         message: MESSAGE.SUCCESS.DELETE,
@@ -138,7 +138,7 @@ export default function LeanerPage() {
   };
 
   function handelAdd() {
-    setAddLeaner(true);
+    setAddLearner(true);
     setDetail(null);
     setProgram(item);
     setLoading(!loading);
@@ -180,10 +180,10 @@ export default function LeanerPage() {
           </div>,
         ]}
       />
-      <AddLeaner
+      <AddLearner
         detail={detail}
-        setShowModal={setAddLeaner}
-        showModal={addLeaner}
+        setShowModal={setAddLearner}
+        showModal={addLearner}
         program={program}
         loading={confirmLoading}
         setLoading={setConfirmLoading}
