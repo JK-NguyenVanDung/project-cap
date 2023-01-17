@@ -7,6 +7,9 @@ import { errorText } from '../../../helper/constant';
 import { Select } from 'antd';
 import { useAppSelector } from '../../../hook/useRedux';
 import { IProgramItem } from '../../../Type';
+
+const { Option } = Select;
+
 export default function AddLearner({
   showModal,
   setShowModal,
