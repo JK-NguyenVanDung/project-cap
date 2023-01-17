@@ -10,7 +10,8 @@ import PopOverAction from '../../../components/admin/PopOver';
 import { useAppSelector } from '../../../hook/useRedux';
 import AddLearner from './AddLearner';
 import ImportFile from './ImportFile';
-export default function LearnerPage() {
+import { Breadcrumb } from '../../../components/sharedComponents';
+export default function LeanerPage() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
@@ -148,6 +149,11 @@ export default function LearnerPage() {
   }
   return (
     <>
+      <Breadcrumb
+        router1={'/admin/Published'}
+        name={'Học Viên'}
+        name2={`${item.programName}`}
+      />
       <TableConfig
         onSearch={onChangeSearch}
         search={true}
@@ -160,12 +166,13 @@ export default function LearnerPage() {
               className="mx-3"
               type="add"
               size="md"
+              text="Thêm Mới Học Viên"
               key={`${uniqueId()}`}
               onClick={() => handelAdd()}
             />
             <CustomButton
               size="md"
-              text="Thêm Tập Tin"
+              text="Định Dạng Tập Tin"
               noIcon={true}
               key={`${uniqueId()}`}
               onClick={() => handelImport()}
