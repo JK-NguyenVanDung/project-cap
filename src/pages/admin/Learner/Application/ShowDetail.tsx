@@ -101,6 +101,7 @@ export default function ShowDetail({
       showDetail={showDetail}
       setShowDetail={setShowDetail}
       width={900}
+      showButton={true}
     />
   );
 }
