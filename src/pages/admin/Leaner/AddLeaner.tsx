@@ -7,6 +7,8 @@ import { errorText } from '../../../helper/constant';
 import { Select } from 'antd';
 import { useAppSelector } from '../../../hook/useRedux';
 import { IProgramItem } from '../../../Type';
+const { Option } = Select;
+
 export default function AddLeaner({
   showModal,
   setShowModal,
@@ -26,7 +28,6 @@ export default function AddLeaner({
   const [form] = Form.useForm();
   const account = useAppSelector((state) => state.auth.info);
   const [listLeaner, setListLeaner] = useState([]);
-
   useEffect(() => {
     async function fetchLeaner() {
       let res: any = await apiService.getAccounts();
@@ -56,7 +57,9 @@ export default function AddLeaner({
             form.resetFields();
           } else {
             const data = apiService.addLeaner(valueLeaner);
+            setLoading(true);
             if (data) {
+              setLoading(false);
               notification.success({ message: 'Thêm thành công' });
             }
             setShowModal(false);
@@ -106,12 +109,26 @@ export default function AddLeaner({
   const FormUpdate = () => {
     return (
       <>
-        <FormInput
-          label="Trạng Thái"
+        <label className="text-start w-full mb-4 text-black font-bold font-customFont ">
+          Người Học
+        </label>
+        <Form.Item
           name="status"
-          placeholder="Trạng Thái"
-          rules={[{ required: true, message: 'Vui lòng nhập vào Trạng Thái' }]}
-        />
+          className="w-full mt-4"
+          rules={[
+            {
+              required: true,
+              message: 'Vui Lòng Nhập Vào Trạng Thái',
+            },
+          ]}
+        >
+          <Select placeholder="Chọn Trạng Thái">
+            <Option value="Attending">Đang Tham Gia</Option>
+            <Option value="Stop Attending">Ngưng Tham Gia</Option>
+            <Option value="Not Complete">Chưa Hoàn Thành</Option>
+            <Option value="Complete">Hoàn Thành</Option>
+          </Select>
+        </Form.Item>
         <FormInput
           type="textArea"
           label="Nhận Xét"
