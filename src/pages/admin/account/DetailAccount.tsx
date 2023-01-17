@@ -40,7 +40,7 @@ export default function DetailAccount({
   const FormItem = () => {
     return (
       <div className="flex justify-around">
-        <div>
+        <div className="w-full p-5">
           <FormInput
             label="Họ Và Tên"
             disabled
@@ -66,7 +66,7 @@ export default function DetailAccount({
             placeholder="Chưa đăng nhập"
           />
         </div>
-        <div>
+        <div className="w-full p-5">
           <FormInput
             label="Địa Chỉ"
             disabled

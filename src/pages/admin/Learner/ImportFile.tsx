@@ -47,6 +47,11 @@ export default function ImportFile({
   };
   const handelReadFile = (value: any) => {
     const file = value.target.files[0];
+    if (file) {
+      notification.success({
+        message: `Đã Thêm File ${file.name} Thành Công`,
+      });
+    }
     const readFileExcel = new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsArrayBuffer(file);
@@ -62,8 +67,8 @@ export default function ImportFile({
         reject(error);
       };
     });
-    readFileExcel.then((data: any) => {
-      data &&
+    readFileExcel
+      .then((data: any) => {
         setListEmail(
           data.map((item: any) => {
             const email = item.Email || item.email;
@@ -80,7 +85,10 @@ export default function ImportFile({
             }
           }),
         );
-    });
+      })
+      .catch((error) => {
+        notification.error({ message: 'Lấy File Không Thành Công' });
+      });
   };
   const dataTable = [
     {
@@ -129,7 +137,7 @@ export default function ImportFile({
       show={showModal}
       handleOk={handleOk}
       setShow={setShowModal}
-      label={'Người Học'}
+      label={'Định Dạng Tập Tin'}
       FormItem={<FormItem />}
       form={form}
       header={'Xuất Tập Tin'}
