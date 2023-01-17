@@ -9,12 +9,8 @@ import { useNavigate } from 'react-router-dom';
 import Color from '../constant/Color';
 import { message, notification, Spin } from 'antd';
 import { actions } from '../../Redux';
-<<<<<<< HEAD
-import { notification } from 'antd';
-=======
 import ConfirmModal from '../admin/Modal/ConfirmModal';
 
->>>>>>> 3ca03b25a51e9a352146715d14b699b67b0bae71
 interface Content {
   title: string;
   subject: string | number;
