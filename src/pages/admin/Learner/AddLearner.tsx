@@ -56,7 +56,9 @@ export default function AddLearner({
             form.resetFields();
           } else {
             const data = apiService.addLearner(valueLearner);
+            setLoading(true);
             if (data) {
+              setLoading(false);
               notification.success({ message: 'Thêm thành công' });
             }
             setShowModal(false);
@@ -106,12 +108,26 @@ export default function AddLearner({
   const FormUpdate = () => {
     return (
       <>
-        <FormInput
-          label="Trạng Thái"
+        <label className="text-start w-full mb-4 text-black font-bold font-customFont ">
+          Người Học
+        </label>
+        <Form.Item
           name="status"
-          placeholder="Trạng Thái"
-          rules={[{ required: true, message: 'Vui lòng nhập vào Trạng Thái' }]}
-        />
+          className="w-full mt-4"
+          rules={[
+            {
+              required: true,
+              message: 'Vui Lòng Nhập Vào Trạng Thái',
+            },
+          ]}
+        >
+          <Select placeholder="Chọn Trạng Thái">
+            <Option value="Attending">Đang Tham Gia</Option>
+            <Option value="Stop Attending">Ngưng Tham Gia</Option>
+            <Option value="Not Complete">Chưa Hoàn Thành</Option>
+            <Option value="Complete">Hoàn Thành</Option>
+          </Select>
+        </Form.Item>
         <FormInput
           type="textArea"
           label="Nhận Xét"

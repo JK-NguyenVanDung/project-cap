@@ -88,6 +88,11 @@ const RightSection = (props: any) => {
       const data: any = await apiService.registerOrUn(value);
       if (data) {
         const response: any = await apiService.getProgram(programId.programId);
+        if (response.isRegister == false) {
+          notification.error({ message: 'Hủy Đăng Ký Thành Công' });
+        } else {
+          notification.success({ message: 'Đăng Ký Thành Công' });
+        }
         setLoading(true);
         setProgram(response);
         setRegister(response.isRegister);

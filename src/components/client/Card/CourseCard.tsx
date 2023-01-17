@@ -28,7 +28,7 @@ export default function (props: any) {
 const HomeContent = () => {
   return (
     <>
-      <div className="flex flex-col bg-white h-1/2 border border-white border-4 py-2 px-4">
+      <div className="flex flex-col bg-white h-1/2 border-white border-4 py-2 px-4">
         <div className="flex w-full justify-between items-center">
           <p className="text-xl font-semibold">Khoá học CNTT</p>
           <IconButton variant="text">

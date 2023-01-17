@@ -68,12 +68,12 @@ export default function DetailAcedemicYear({
       show={visible}
       handleOk={handelok}
       setShow={setVisible}
-      dataItem={item}
+      header={showDetail ? 'Thêm' : 'Sửa'}
       label={'Năm học'}
+      dataItem={item}
       name={item}
       FormItem={<FormItem />}
       form={form}
-      header={showDetail ? 'Thêm' : 'Sửa'}
       showDetail={showDetail}
       setShowDetail={setShowDetail}
     />

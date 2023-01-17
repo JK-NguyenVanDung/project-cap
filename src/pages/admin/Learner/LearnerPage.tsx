@@ -20,31 +20,35 @@ export default function LearnerPage() {
   const item = useAppSelector((state) => state.form.setProgram);
   const [program, setProgram] = useState(item);
   const [importFile, setImportFile] = useState(false);
-  const [showLearner, setShowLearner] = useState(false);
   useEffect(() => {
     async function getLearner() {
       try {
         let response: any = await apiService.getLearner_id(item.programId);
         response = response.reverse();
         let res = response.map((item: any, index: number) => {
+          console.log(item);
           return {
             ...item,
             index: index + 1,
+            emailAccount: item.accountIdLearnerNavigation.email,
           };
         });
-        setData(res);
-        setLoading(true);
-        setTimeout(() => {
+        setLoading(!loading);
+        setConfirmLoading(!confirmLoading);
+        if (response) {
           setLoading(false);
           setConfirmLoading(false);
+        }
+        setData(res);
+        setTimeout(() => {
           setFilterData(res);
-        }, 3000);
+        }, 1000);
       } catch (error) {
         console.log(error);
       }
     }
     getLearner();
-  }, [addLearner]);
+  }, [loading, confirmLoading]);
   const handelEdit = (item: any) => {
     setDetail(item);
     setAddLearner(true);
@@ -69,12 +73,38 @@ export default function LearnerPage() {
     },
     {
       title: 'Email',
-      render: (data: any) => <>{data.accountIdLearnerNavigation?.email}</>,
+      dataIndex: 'emailAccount',
+      key: 'emailAccount',
     },
     {
-      title: 'Trạng Thái Đăng Ký',
-      dataIndex: 'registerStatus',
-      key: 'registerStatus',
+      title: 'Nhận Xét',
+      dataIndex: 'comment',
+      key: 'comment',
+      render: (item: any) => {
+        return <p>{item ? item : 'không có nhận xét'}</p>;
+      },
+    },
+    {
+      title: 'Trạng Thái',
+      dataIndex: 'status',
+      key: 'status',
+      render: (item: any) => {
+        return (
+          <p>
+            {item == 'Attending' ? (
+              <span className="text-green-600">Đang Tham Gia</span>
+            ) : item == 'Stop Attending' ? (
+              <span className="text-error">Ngưng Tham Gia</span>
+            ) : item == 'Not Complete' ? (
+              <span className="text-yellow-600">Chưa Hoàn Thành</span>
+            ) : item == 'Complete' ? (
+              <span className="text-blue-gray-600">Hoàn Thành</span>
+            ) : (
+              ''
+            )}
+          </p>
+        );
+      },
     },
     {
       title: 'Thao tác',
@@ -90,9 +120,6 @@ export default function LearnerPage() {
       ),
     },
   ];
-  const handelShow = (item: any) => {
-    setShowLearner(true);
-  };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
@@ -113,6 +140,7 @@ export default function LearnerPage() {
     setAddLearner(true);
     setDetail(null);
     setProgram(item);
+    setLoading(!loading);
   }
   function handelImport() {
     setImportFile(true);
