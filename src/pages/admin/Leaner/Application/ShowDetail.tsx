@@ -22,17 +22,17 @@ export default function ShowDetail({
       item,
       programName: item?.program.programName,
       statusProgram:
-        item?.program.status == 'public' ? 'Đang Công Khai' : 'Riêng Tư',
+        item?.program?.status == 'public' ? 'Đang Công Khai' : 'Riêng Tư',
       emailLeaner: item?.accountIdLearnerNavigation?.email,
       fullName: item?.accountIdLearnerNavigation?.fullName,
       statusLeaner:
-        item.status == 'Attending'
+        item?.status == 'Attending'
           ? 'Đang Tham Gia'
-          : item.status == 'Stop Attending'
+          : item?.status == 'Stop Attending'
           ? 'Ngưng Tham Gia'
-          : item.status == 'Not Complete'
+          : item?.status == 'Not Complete'
           ? 'Chưa Hoàn Thành'
-          : item.status == 'Complete'
+          : item?.status == 'Complete'
           ? 'Hoàn Thành'
           : '',
     });
