@@ -152,7 +152,7 @@ export default function LeanerPage() {
       <Breadcrumb
         router1={'/admin/Published'}
         name={'Học Viên'}
-        name2={`${item.programName}`}
+        name2={`${item?.programName}`}
       />
       <TableConfig
         onSearch={onChangeSearch}
