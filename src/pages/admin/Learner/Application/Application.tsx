@@ -245,7 +245,7 @@ export default function Application() {
       <Breadcrumb
         router1={'/admin/Published'}
         name={'Đơn Đăng Ký'}
-        name2={`${item.programName}`}
+        name2={`${item?.programName}`}
       />
       <TableConfig
         key={data[0]?.programId}
