@@ -84,9 +84,12 @@ export default function ImportFile({
           data.map((item: any) => {
             const email = item.Email || item.email;
             if (
-              !new RegExp(
-                /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
-              ).test(email.trim())
+              !email
+                .toString()
+                .trim()
+                .match(
+                  /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
+                )
             ) {
               notification.error({ message: 'Email không đúng định dạng' });
             } else {

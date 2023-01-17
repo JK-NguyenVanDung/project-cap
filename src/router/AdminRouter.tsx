@@ -36,6 +36,7 @@ import UserProgramDetail from '../pages/client/Programs/ProgramDetail';
 import UserChapters from '../pages/client/Programs/Chapters/Chapters';
 import RegisteredPrograms from '../pages/client/Programs/RegisteredPrograms';
 import Application from '../pages/admin/Learner/Application/Application';
+import MyApplication from '../pages/client/Programs/MyApplication';
 export const RouterPages = [
   {
     path: '/admin',
@@ -306,6 +307,10 @@ const Learner = [
   {
     path: '/RegisteredPrograms',
     element: <RegisteredPrograms />,
+  },
+  {
+    path: '/MyApplication',
+    element: <MyApplication />,
   },
 ];
 export default function MakePagesRouter() {
