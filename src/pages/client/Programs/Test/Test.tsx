@@ -107,7 +107,7 @@ export default function UserTest(props: any) {
           loading ? 'visible' : 'visible'
         }`}
       >
-        <div className="flex flex-col">
+        <div className="flex flex-col w-full">
           {questions?.map((item: IQuestion) => {
             return <QuestionItem question={item} index={item.index} />;
           })}

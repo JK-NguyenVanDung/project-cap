@@ -142,11 +142,11 @@ const QuestionBar = (props: any) => {
   useEffect(() => {}, []);
 
   return (
-    <div className="fixed right-0 overflow-y-scroll rounded-xl w-fit text-black bg-white h-fit min-h-[80vh]    max-w-[25rem] m-4 p-2 px-8 border flex flex-col justify-start items-start">
+    <div className="fixed right-0 overflow-y-scroll rounded-xl  text-black bg-white h-fit min-h-[80vh]    w-[27rem] m-4 p-2 px-8 border flex flex-col justify-start items-start">
       <p className="my-6 text-xl font-bold  text-gray-900 text-center  flex w-full justify-start items-start">
         Danh sách câu hỏi
       </p>
-      <div className="flex flex-wrap justify-start items-center w-full border-b-2 border-gray-200 pb-4">
+      <div className="flex flex-wrap justify-center items-center w-full border-b-2 border-gray-200 pb-4">
         {listQuestions?.map((item: IQuestion, index: number) => {
           return (
             <div

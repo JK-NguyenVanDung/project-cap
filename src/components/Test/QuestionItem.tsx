@@ -37,13 +37,13 @@ const QuestionItem = ({
 
   return (
     <>
-      <div className="w-fit min-w-[60rem] max-w-[60rem] h-fit bg-white m-4 py-6 px-8 rounded-xl">
+      <div className="w-fit min-w-[60rem] max-w-full h-fit bg-white m-4 py-6 px-8 rounded-xl">
         <div className="flex w-full justify-end text-primary font-bold text-lg ">
           {question?.score} điểm
         </div>
-        <div className="flex w-full justify-start  items-center mx-4">
-          <div className="flex flex-col justify-start items-start w-fit my-4  mr-14">
-            <div className="CIRCLE py-4 px-6 bg-gray-400 rounded-[20rem] text-black text-3xl font-bold">
+        <div className="flex w-full justify-start  items-center mx-2">
+          <div className="flex flex-col justify-start items-start w-fit my-4  mr-12">
+            <div className="CIRCLE py-4 px-2 min-w-[4.2rem] bg-gray-400 rounded-[20rem] text-black text-center text-3xl font-bold">
               {index}
             </div>
           </div>

@@ -79,7 +79,7 @@ export default function Programs() {
     filtering();
     let timer = setTimeout(() => {
       setLoading(false);
-    }, 300);
+    }, 500);
     return () => {
       clearTimeout(timer);
     };
