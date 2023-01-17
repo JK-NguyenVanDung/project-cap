@@ -25,8 +25,10 @@ export default function TableConfig({
   key?: string;
   panigation?: any;
 }) {
+  console.log(loading);
   return (
     // key={data} => gây ra lỗi search
+
     <div key={key ? key : null}>
       {search && (
         <div className="flex content-center items-center justify-between px-5 my-10">

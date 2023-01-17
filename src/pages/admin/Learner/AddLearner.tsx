@@ -5,8 +5,9 @@ import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import { errorText } from '../../../helper/constant';
 import { Select } from 'antd';
-import { useAppSelector } from '../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { IProgramItem } from '../../../Type';
+import { actions } from '../../../Redux';
 
 const { Option } = Select;
 
@@ -29,6 +30,7 @@ export default function AddLearner({
   const [form] = Form.useForm();
   const account = useAppSelector((state) => state.auth.info);
   const [listLearner, setListLearner] = useState([]);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     async function fetchLearner() {
@@ -48,25 +50,31 @@ export default function AddLearner({
           accountIdApprover: account.accountId,
         };
         try {
+          //reload
+          dispatch(actions.reloadActions.setReload());
+          setLoading(true);
+
           if (detail) {
             const data = apiService.updateLearner(detail.learnerId, values);
-            setLoading(true);
             if (data) {
-              setLoading(false);
               notification.success({ message: 'Thay đổi thành công' });
             }
             setShowModal(false);
             form.resetFields();
           } else {
             const data = apiService.addLearner(valueLearner);
-            setLoading(true);
             if (data) {
-              setLoading(false);
               notification.success({ message: 'Thêm thành công' });
             }
             setShowModal(false);
             form.resetFields();
           }
+
+          setTimeout(() => {
+            setLoading(false);
+
+            dispatch(actions.reloadActions.setReload());
+          }, 1000);
         } catch (error) {
           notification.error({ message: 'Thực hiện không thành công' });
         }

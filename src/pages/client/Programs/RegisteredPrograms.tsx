@@ -54,7 +54,6 @@ export default function RegisteredPrograms() {
       setToDoList(data);
       let temp = data;
       temp = temp.reverse();
-      console.log(data);
       setFilterData(temp);
     };
 
@@ -73,7 +72,6 @@ export default function RegisteredPrograms() {
 
     const filteredData = temp
       .map((record: any) => {
-        console.log(record);
         const nameMatch = removeVietnameseTones(
           record.program?.programName,
         ).match(reg);

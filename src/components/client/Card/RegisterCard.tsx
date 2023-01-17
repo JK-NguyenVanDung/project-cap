@@ -40,7 +40,7 @@ export default function (props: any) {
 }
 
 const CourseContent = (props: {
-  onClick: React.MouseEventHandler;
+  onClick: any;
   item: IProgramItem;
   registerStatus: string;
 }) => {
@@ -79,7 +79,7 @@ const CourseContent = (props: {
       <div className="cardCont border min-w-[7rem] h-fit  min-h-[48vh] max-h-[29rem] w-[18rem] rounded-[20px] font-customFont ">
         <div
           className={`card ${
-            props.registerStatus === 'Approved'
+            props.registerStatus == 'Approved'
               ? 'hover:border-green-500'
               : 'hover:border-red-500'
           } flex overflow-hidden flex-col  w-full rounded-[20px] justify-end border-[2px] border-gray-200 `} //border-[2px] border-color-[#c3c6ce]
@@ -146,15 +146,13 @@ const CourseContent = (props: {
           </div>
           <button
             className={` outline-none card-button ${
-              props.registerStatus === 'Approved'
-                ? 'bg-green-500'
-                : 'bg-red-500'
+              props.registerStatus == 'Approved' ? 'bg-green-500' : 'bg-red-500'
             }`}
             onClick={() =>
-              props.registerStatus === 'Approved' ? {} : props.onClick
+              props.registerStatus == 'Approved' ? {} : props.onClick()
             }
           >
-            {props.registerStatus === 'Approved'
+            {props.registerStatus == 'Approved'
               ? 'Đã được duyệt'
               : 'Huỷ đăng ký'}
           </button>

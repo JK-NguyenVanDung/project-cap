@@ -7,11 +7,12 @@ import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import { Button, message, notification, Popconfirm } from 'antd';
 import { GIRD12, MESSAGE } from '../../../helper/constant';
 import PopOverAction from '../../../components/admin/PopOver';
-import { useAppSelector } from '../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import AddLearner from './AddLearner';
 import ImportFile from './ImportFile';
 import { Breadcrumb } from '../../../components/sharedComponents';
-export default function LeanerPage() {
+import { actions } from '../../../Redux';
+export default function LearnerPage() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
@@ -21,17 +22,19 @@ export default function LeanerPage() {
   const item = useAppSelector((state) => state.form.setProgram);
   const [program, setProgram] = useState(item);
   const [importFile, setImportFile] = useState(false);
+  const reload = useAppSelector((state: any) => state.reload.reload);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     async function getLearner() {
       try {
         let response: any = await apiService.getLearner_id(item.programId);
         response = response.reverse();
         let res = response.map((item: any, index: number) => {
-          console.log(item);
           return {
             ...item,
             index: index + 1,
-            emailAccount: item.accountIdLearnerNavigation.email,
+            emailAccount: item.accountIdLearnerNavigation?.email,
           };
         });
         setLoading(!loading);
@@ -41,9 +44,7 @@ export default function LeanerPage() {
           setConfirmLoading(false);
         }
         setData(res);
-        setTimeout(() => {
-          setFilterData(res);
-        }, 1000);
+        setFilterData(res);
       } catch (error) {
         console.log(error);
       }
@@ -86,24 +87,22 @@ export default function LeanerPage() {
       },
     },
     {
-      title: 'Trạng Thái',
-      dataIndex: 'status',
-      key: 'status',
-      render: (item: any) => {
+      title: 'Trạng Thái Đăng Ký',
+      dataIndex: 'registerStatus',
+      key: 'registerStatus',
+      render: (item: string) => {
         return (
-          <p>
-            {item == 'Attending' ? (
-              <span className="text-green-600">Đang Tham Gia</span>
-            ) : item == 'Stop Attending' ? (
-              <span className="text-error">Ngưng Tham Gia</span>
-            ) : item == 'Not Complete' ? (
-              <span className="text-yellow-600">Chưa Hoàn Thành</span>
-            ) : item == 'Complete' ? (
-              <span className="text-blue-gray-600">Hoàn Thành</span>
-            ) : (
-              ''
-            )}
-          </p>
+          <>
+            <p>
+              {item == 'Approved' ? (
+                <p className="text-green-600">Đã Được Duyệt</p>
+              ) : item == 'UnApproved' ? (
+                <p className="text-yellow-700">Chưa Được Duyệt</p>
+              ) : (
+                <p className="text-error">Bị Từ Chối</p>
+              )}
+            </p>
+          </>
         );
       },
     },
@@ -126,7 +125,9 @@ export default function LeanerPage() {
     let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
-        const emailMatch = removeVietnameseTones(record.facultyName).match(reg);
+        const emailMatch = removeVietnameseTones(
+          record.accountIdLearnerNavigation.email,
+        ).match(reg);
 
         if (!emailMatch) {
           return null;
@@ -155,11 +156,12 @@ export default function LeanerPage() {
         name2={`${item?.programName}`}
       />
       <TableConfig
+        key={'table'}
         onSearch={onChangeSearch}
         search={true}
         data={data}
         columns={Columns}
-        loading={loading || confirmLoading}
+        loading={loading || confirmLoading || reload}
         extra={[
           <div className="flex">
             <CustomButton

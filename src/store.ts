@@ -10,6 +10,7 @@ const config = combineReducers({
   nav: reducers.navReducers,
   product: reducers.productReducers,
   test: reducers.testReducers,
+  reload: reducers.reloadReducer,
 });
 const persistConfig = {
   key: 'root',

@@ -30,7 +30,6 @@ const ChapterBar = (props: any) => {
     (state) => state.product.initChapter,
   );
 
-  useAppDispatch;
   const dispatch = useAppDispatch();
   const info = useAppSelector((state) => state.auth.info);
 
