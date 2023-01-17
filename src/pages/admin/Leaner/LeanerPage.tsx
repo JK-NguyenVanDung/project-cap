@@ -166,12 +166,13 @@ export default function LeanerPage() {
               className="mx-3"
               type="add"
               size="md"
+              text="Thêm Mới Học Viên"
               key={`${uniqueId()}`}
               onClick={() => handelAdd()}
             />
             <CustomButton
               size="md"
-              text="Thêm Tập Tin"
+              text="Định Dạng Tập Tin"
               noIcon={true}
               key={`${uniqueId()}`}
               onClick={() => handelImport()}
