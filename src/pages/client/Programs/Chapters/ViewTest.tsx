@@ -106,7 +106,7 @@ export default function (props: any) {
           <p>Vui lòng đọc hướng dẫn phía dưới: </p>
         </div>
       )}
-      <div className="mb-12 mt-4 w-full min-w-[20rem]">
+      <div className="my-8 w-full min-w-[20rem]">
         {content.map((item: { title: string; value: any }) => {
           return (
             <div className="flex w-[70%] items-center justify-between  mt-4 text-base">

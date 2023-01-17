@@ -1,6 +1,3 @@
-.card {
-}
-
 .cardCont {
   width: fit-content;
   position: relative;
@@ -17,6 +14,11 @@
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+.eclipse-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* text-overflow: clip; */
 }
 .eclipse-wrap {
   overflow-wrap: break-word;
@@ -54,10 +56,11 @@
   border: none;
   color: #fff;
   font-size: 1rem;
+
   padding: 0.5rem 1rem;
   position: absolute;
   left: 50%;
-  bottom: 0;
+  bottom: 8;
   opacity: 0;
   transition: 0.3s ease-out;
 }

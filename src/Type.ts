@@ -97,6 +97,7 @@ const ProgramItem = z.object({
   lecturers: z.string(),
   trainingHours: z.string(),
   totalLike: z.number(),
+  registerStatus: z.string(),
 });
 
 const ChapterItem = z.object({

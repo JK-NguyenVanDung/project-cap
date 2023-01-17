@@ -7,9 +7,14 @@ import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { IAccountItem, IProgramItem } from '../../Type';
 import { useNavigate } from 'react-router-dom';
 import Color from '../constant/Color';
-import { message, Spin } from 'antd';
+import { message, notification, Spin } from 'antd';
 import { actions } from '../../Redux';
+<<<<<<< HEAD
 import { notification } from 'antd';
+=======
+import ConfirmModal from '../admin/Modal/ConfirmModal';
+
+>>>>>>> 3ca03b25a51e9a352146715d14b699b67b0bae71
 interface Content {
   title: string;
   subject: string | number;
@@ -29,6 +34,8 @@ const RightSection = (props: any) => {
   const updateLike: boolean = useAppSelector(
     (state) => state.product.updateLike,
   );
+  const [showConfirm, setShowConfirm] = useState(false);
+
   useAppDispatch;
   const dispatch = useAppDispatch();
 
@@ -93,113 +100,131 @@ const RightSection = (props: any) => {
         setLoading(true);
         setProgram(response);
         setRegister(response.isRegister);
+        !response.isRegister
+          ? notification.success({ message: 'Huỷ đăng ký thành công' })
+          : notification.success({ message: 'Đăng ký thành công' });
       }
     };
     fetchRegister();
   };
   return (
-    <div className=" rounded-xl w-fit text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
-      <p className="mt-6 text-xl font-light text-gray-900 text-center  flex w-full justify-center items-center">
-        THÔNG TIN KHOÁ HỌC
-      </p>
-      <CategoryDetail
-        header="Người tạo"
-        contents={[
-          {
-            title: 'Tên',
-            subject: user?.fullName ? user.fullName?.split('-')[1] : 'N/A',
-          },
-          {
-            title: 'Email',
-            subject: user?.email ? user.email : 'N/A',
-          },
-          {
-            title: 'SĐT',
-            subject: user?.phoneNumber ? user.phoneNumber : 'N/A',
-          },
-        ]}
-      />
+    <>
+      <ConfirmModal
+        show={showConfirm}
+        setShow={setShowConfirm}
+        type="cancel"
+        handler={() => handelRegister(program)}
+        title={`huỷ đăng ký`}
+      >
+        <p className="font-customFont text-xl font-[500]">
+          Huỷ đăng ký chương trình {program?.programName}
+        </p>
+      </ConfirmModal>
+      <div className=" rounded-xl w-fit text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
+        <p className="mt-6 text-xl font-light text-gray-900 text-center  flex w-full justify-center items-center">
+          THÔNG TIN KHOÁ HỌC
+        </p>
+        <CategoryDetail
+          header="Người tạo"
+          contents={[
+            {
+              title: 'Tên',
+              subject: user?.fullName ? user.fullName?.split('-')[1] : 'N/A',
+            },
+            {
+              title: 'Email',
+              subject: user?.email ? user.email : 'N/A',
+            },
+            {
+              title: 'SĐT',
+              subject: user?.phoneNumber ? user.phoneNumber : 'N/A',
+            },
+          ]}
+        />
 
-      <CategoryDetail
-        header="Thời gian tham gia"
-        contents={[
-          {
-            title: 'Ngày bắt đầu',
-            subject: program?.startDate
-              ? moment(program.startDate).format('DD/MM/YYYY').toString()
-              : 'N/A',
-          },
-          {
-            title: 'Ngày kết thúc',
-            subject: program?.endDate
-              ? moment(program.endDate).format('DD/MM/YYYY').toString()
-              : 'N/A',
-          },
-          {
-            title: 'Số giờ đào tạo',
-            subject: program?.trainingHours ? program?.trainingHours : '0',
-          },
-        ]}
-      />
-      <CategoryDetail
-        header="Thời gian đăng ký"
-        contents={[
-          {
-            title: 'Ngày bắt đầu',
-            subject: program?.registrationStartDate
-              ? moment(program.registrationStartDate)
-                  .format('DD/MM/YYYY')
-                  .toString()
-              : 'N/A',
-          },
-          {
-            title: 'Ngày kết thúc',
-            subject: program?.registrationEndDate
-              ? moment(program.registrationEndDate)
-                  .format('DD/MM/YYYY')
-                  .toString()
-              : 'N/A',
-          },
-        ]}
-      />
-      <CategoryDetail
-        header="Phần thưởng"
-        contents={[
-          {
-            title: 'Số coin thưởng',
-            subject: program?.coin && program?.coin > 0 ? program.coin : '0',
-          },
-        ]}
-      />
+        <CategoryDetail
+          header="Thời gian tham gia"
+          contents={[
+            {
+              title: 'Ngày bắt đầu',
+              subject: program?.startDate
+                ? moment(program.startDate).format('DD/MM/YYYY').toString()
+                : 'N/A',
+            },
+            {
+              title: 'Ngày kết thúc',
+              subject: program?.endDate
+                ? moment(program.endDate).format('DD/MM/YYYY').toString()
+                : 'N/A',
+            },
+            {
+              title: 'Số giờ đào tạo',
+              subject: program?.trainingHours ? program?.trainingHours : '0',
+            },
+          ]}
+        />
+        <CategoryDetail
+          header="Thời gian đăng ký"
+          contents={[
+            {
+              title: 'Ngày bắt đầu',
+              subject: program?.registrationStartDate
+                ? moment(program.registrationStartDate)
+                    .format('DD/MM/YYYY')
+                    .toString()
+                : 'N/A',
+            },
+            {
+              title: 'Ngày kết thúc',
+              subject: program?.registrationEndDate
+                ? moment(program.registrationEndDate)
+                    .format('DD/MM/YYYY')
+                    .toString()
+                : 'N/A',
+            },
+          ]}
+        />
+        <CategoryDetail
+          header="Phần thưởng"
+          contents={[
+            {
+              title: 'Số coin thưởng',
+              subject: program?.coin && program?.coin > 0 ? program.coin : '0',
+            },
+          ]}
+        />
 
-      <div className="flex my-8 flex-col w-full items-center justify-center">
-        <CustomButton
-          onClick={() => handelRegister(program)}
-          disabled={props.enable ? false : true}
-          noIcon
-          color={register ? 'red' : 'blue'}
-          text={register ? ' Hủy Đăng Ký' : 'Đăng Ký'}
-          className=" w-[90%] my-2  h-10"
-        />
-        <CustomButton
-          disabled={props.enable ? false : true}
-          Icon={AiFillHeart}
-          color={!like ? 'gray' : 'red'}
-          text="Yêu thích"
-          className=" w-[90%] my-2 h-10 hover:bg-red-400"
-          onClick={() => handelLove(program)}
-        />
-        <CustomButton
-          disabled={props.enable ? false : true}
-          noIcon
-          color="blue"
-          variant={'outlined'}
-          text="Quay lại"
-          className=" w-[90%] my-2 h-10"
-          onClick={props.goBack}
-        />
+        <div className="flex my-8 flex-col w-full items-center justify-center">
+          <CustomButton
+            onClick={() =>
+              register ? setShowConfirm(!showConfirm) : handelRegister(program)
+            }
+            disabled={props.enable ? false : true}
+            noIcon
+            color={register ? 'red' : 'blue'}
+            text={register ? ' Hủy Đăng Ký' : 'Đăng Ký'}
+            className=" w-[90%] my-2  h-10"
+          />
+          <CustomButton
+            disabled={props.enable ? false : true}
+            Icon={AiFillHeart}
+            color={!like ? 'gray' : 'red'}
+            text="Yêu thích"
+            className=" w-[90%] my-2 h-10 hover:bg-red-400"
+            onClick={() => handelLove(program)}
+          />
+          <CustomButton
+            disabled={props.enable ? false : true}
+            noIcon
+            color="blue"
+            variant={'outlined'}
+            text="Quay lại"
+            className=" w-[90%] my-2 h-10"
+            onClick={props.goBack}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
