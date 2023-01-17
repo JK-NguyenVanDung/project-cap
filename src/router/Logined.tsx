@@ -328,15 +328,14 @@ export default function Logined() {
             }
           }
         } catch (error) {
-          // instance.logoutPopup({
-          //   postLogoutRedirectUri: '/',
-          //   mainWindowRedirectUri: '/',
-          // });
-          // navigate('/');
-          // localStorage.clear();
-          // notification.error({ message: 'Đăng Nhập Không Thành Công' });
-          // dispatch(actions.authActions.logout());
-          console.log(error);
+          instance.logoutPopup({
+            postLogoutRedirectUri: '/',
+            mainWindowRedirectUri: '/',
+          });
+          navigate('/');
+          localStorage.clear();
+          notification.error({ message: 'Đăng Nhập Không Thành Công' });
+          dispatch(actions.authActions.logout());
         }
       })
       .catch((e) => {

@@ -9,8 +9,11 @@ import { GIRD12, MESSAGE } from '../../../../helper/constant';
 import PopOverAction from '../../../../components/admin/PopOver';
 import { useAppSelector } from '../../../../hook/useRedux';
 import { Form, Space } from 'antd';
+import { FaEye } from 'react-icons/fa';
+
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import { BiLock, BiLockOpen } from 'react-icons/bi';
+import ShowDetail from './ShowDetail';
 export default function Application() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
@@ -20,6 +23,7 @@ export default function Application() {
   const [form] = Form.useForm();
   const [showModal, setShowModal] = useState(false);
   const [dataDetail, setDataDetal]: any = useState();
+  const [showDetail, setShowDetail] = useState(false);
   useEffect(() => {
     async function getApplication() {
       try {
@@ -61,13 +65,49 @@ export default function Application() {
       title: 'Trạng Thái Đăng Ký',
       dataIndex: 'registerStatus',
       key: 'registerStatus',
-      width: '7%',
+      render: (item: string) => {
+        return (
+          <>
+            <p>
+              {item == 'Approve' ? (
+                <p className="text-green-600">Đã Được Duyệt</p>
+              ) : (
+                <p className="text-error">Không Được Duyệt</p>
+              )}
+            </p>
+          </>
+        );
+      },
+    },
+    {
+      title: 'Nhận Xét',
+      dataIndex: 'comment',
+      key: 'comment',
+      render: (item: any) => {
+        return <p>{item ? 'không có nhận xét' : item}</p>;
+      },
     },
     {
       title: 'Trạng Thái',
       dataIndex: 'status',
       key: 'status',
-      width: '7%',
+      render: (item: any) => {
+        return (
+          <p>
+            {item == 'Attending' ? (
+              <span className="text-green-600">Đang Tham Gia</span>
+            ) : item == 'Stop Attending' ? (
+              <span className="text-error">Ngưng Tham Gia</span>
+            ) : item == 'Not Complete' ? (
+              <span className="text-yellow-600">Chưa Hoàn Thành</span>
+            ) : item == 'Complete' ? (
+              <span className="text-blue-gray-600">Hoàn Thành</span>
+            ) : (
+              ''
+            )}
+          </p>
+        );
+      },
     },
     {
       title: 'Thao tác',
@@ -90,10 +130,22 @@ export default function Application() {
             Icon={BiLockOpen}
             onClick={() => handelApprove(data)}
           />
+          <CustomButton
+            tip="Xem Chi Tiết"
+            size="sm"
+            color="deep-orange"
+            Icon={FaEye}
+            onClick={() => handelShowDetail(data)}
+          />
         </Space>
       ),
     },
   ];
+  const handelShowDetail = (item: any) => {
+    console.log(item);
+    setShowDetail(true);
+    setDetail(item);
+  };
   const FormApplicationRef = () => {
     return (
       <FormInput type="textArea" label="Lý Do Hủy Đơn" name="reasonRefusal" />
@@ -188,6 +240,12 @@ export default function Application() {
         form={form}
         header={'Hủy Đơn Đăng Ký'}
         confirmLoading={loading}
+      />
+      <ShowDetail
+        item={detail}
+        setItem={setDetail}
+        visible={showDetail}
+        setVisible={setShowDetail}
       />
     </>
   );
