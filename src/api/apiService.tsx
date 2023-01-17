@@ -218,6 +218,22 @@ export default {
   getProgramStatus: (id: number) => {
     return axiosConfig.get(API_CONFIG.CHECK_PROGRAM.GET_PROGRAM_STATUS(id));
   },
+  getIfProgramIsRegistered: ({
+    programId,
+    accountId,
+  }: {
+    programId: number;
+    accountId: number;
+  }) => {
+    return axiosConfig.get(
+      API_CONFIG.CHECK_PROGRAM.GET_IF_PROGRAM_IS_REGISTERED(
+        programId,
+        accountId,
+      ),
+    );
+  },
+
+  // REGISTER AND LEARNER
   registerOrUn: (params: any) => {
     return axiosConfig.post(API_CONFIG.LEARNER.REGISTER_OR_UN, params);
   },

@@ -108,6 +108,8 @@ export const API_CONFIG = {
       `/api/ReviewPrograms/numbercontent/${programId}`,
     GET_PROGRAM_STATUS: (programId: number) =>
       `/api/ReviewPrograms/status/${programId}`,
+    GET_IF_PROGRAM_IS_REGISTERED: (programId: number, accountId: number) =>
+      `/api/MyPrograms/ProgramRegistered/?idAccount=${accountId}&idProgram=${programId}`,
   },
   LEARNER: {
     REGISTER_OR_UN: `/api/Learners/RegisterOrUnRegister`,

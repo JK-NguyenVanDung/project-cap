@@ -8,10 +8,13 @@ import Breadcrumb from '../../../components/sharedComponents/Breadcrumb';
 import { IProgramItem } from '../../../Type';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
+import apiService from '../../../api/apiService';
 
 export default function (props: any) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [isApproved, setIsApproved] = useState(false);
+
   let ref = useRef(null);
   // const executeScroll = (i: number) => {
   //   setTimeout(() => {
@@ -26,9 +29,21 @@ export default function (props: any) {
   const program: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
   );
+  const info = useAppSelector((state) => state.auth.info);
+
   useEffect(() => {
-    // executeScroll(0);
-    // console.log(1);
+    const getData = async () => {
+      try {
+        let res: any = await apiService.getIfProgramIsRegistered({
+          programId: program?.programId,
+          accountId: info.accountId,
+        });
+        if (res) {
+          setIsApproved(res);
+        }
+      } catch (err) {}
+    };
+    getData();
     dispatch(
       actions.formActions.setNameMenu(
         `${program ? program?.programName : 'N/A'}`,
@@ -52,8 +67,17 @@ export default function (props: any) {
           loading ? 'hidden' : 'visible'
         }`}
       >
-        <CourseDetail {...props} setLoading={setLoading} isDetail={true} />
-        <RightSection enable={true} goBack={() => navigate('/Programs/')} />
+        <CourseDetail
+          {...props}
+          isApproved={isApproved}
+          setLoading={setLoading}
+          isDetail={true}
+        />
+        <RightSection
+          isApproved={isApproved}
+          enable={true}
+          goBack={() => navigate('/Programs/')}
+        />
       </div>
     </>
   );

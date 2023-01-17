@@ -92,7 +92,7 @@ const CourseContent = (props: {
           className="card hover:border-primary flex
           overflow-hidden flex-col  w-full rounded-[20px] justify-end border-[2px] border-gray-200 " //border-[2px] border-color-[#c3c6ce]
         >
-          <div className="h-[40%]  w-full">
+          <div className="max-h-[40vh] h-[25vh]  w-full">
             <div className="absolute  tag bg-green-500 px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-0">
               <div className="relative bg-green-500">
                 <p>{getStatus(props.item?.status)}</p>
@@ -103,7 +103,7 @@ const CourseContent = (props: {
               src={`${API_URL}/images/${props.item.image}`}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
-                currentTarget.src = `https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${props.item.image}`;
+                currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
                 // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${props.item.image}
               }}
               alt=""

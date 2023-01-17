@@ -195,7 +195,7 @@ const ChapterItem = ({
           <div className={`flex  w-full   h-fit  `}>
             <button
               className={`${disabled && 'opacity-40'} pr-4`}
-              onClick={!disabled && reveal}
+              onClick={(!disabled || isReviewing) && reveal}
             >
               {show ? <ActiveArrow /> : <NonActiveArrow />}
             </button>

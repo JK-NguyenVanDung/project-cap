@@ -168,6 +168,7 @@ export default function (props: any) {
                 programId={program?.programId}
                 isReviewing={props.isReviewing}
                 isDetail={props.isDetail}
+                isApproved={props.isApproved}
               />
             )}
             {currentTab === 3 && <ReviewTab program={program} />}

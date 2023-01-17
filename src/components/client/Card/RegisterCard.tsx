@@ -25,7 +25,7 @@ function getStatus(status: string) {
   switch (status) {
     case 'UnApproved':
       return 'Chưa được duyệt ';
-    case 'UnApproved':
+    case 'Approved':
       return 'Đã duyệt ';
     case 'Refuse':
       return 'Từ chối ';
@@ -64,22 +64,25 @@ const CourseContent = (props: {
   useEffect(() => {
     handelLove();
   }, []);
-  function getListLearnerType(item: IProgramItem) {
-    let out = 'Dành cho: ';
-    item?.programPositions.map((e, index) => {
-      out += e.position.positionName;
-      if (index < item.programPositions.length - 1) {
-        out += ', ';
-      }
-    });
-    return out;
-  }
+  // function getListLearnerType(item: IProgramItem) {
+  //   let out = 'Dành cho: ';
+  //   item?.programPositions.map((e, index) => {
+  //     out += e.position.positionName;
+  //     if (index < item.programPositions.length - 1) {
+  //       out += ', ';
+  //     }
+  //   });
+  //   return out;
+  // }
   return (
     <>
       <div className="cardCont border min-w-[7rem] h-fit  min-h-[48vh] max-h-[29rem] w-[18rem] rounded-[20px] font-customFont ">
         <div
-          className="card hover:border-red-500 flex
-          overflow-hidden flex-col  w-full rounded-[20px] justify-end border-[2px] border-gray-200 " //border-[2px] border-color-[#c3c6ce]
+          className={`card ${
+            props.registerStatus === 'Approved'
+              ? 'hover:border-green-500'
+              : 'hover:border-red-500'
+          } flex overflow-hidden flex-col  w-full rounded-[20px] justify-end border-[2px] border-gray-200 `} //border-[2px] border-color-[#c3c6ce]
         >
           <div className="h-[40%]  w-full">
             <img
@@ -142,10 +145,18 @@ const CourseContent = (props: {
             </div>
           </div>
           <button
-            className=" outline-none card-button bg-red-500"
-            onClick={props.onClick}
+            className={` outline-none card-button ${
+              props.registerStatus === 'Approved'
+                ? 'bg-green-500'
+                : 'bg-red-500'
+            }`}
+            onClick={() =>
+              props.registerStatus === 'Approved' ? {} : props.onClick
+            }
           >
-            Huỷ đăng ký
+            {props.registerStatus === 'Approved'
+              ? 'Đã được duyệt'
+              : 'Huỷ đăng ký'}
           </button>
         </div>
       </div>

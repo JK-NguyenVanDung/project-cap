@@ -108,11 +108,11 @@ export default function ImportFile({
     return (
       <>
         <p>
-          <span className="text-error">*</span> email phải có thật, định dạng
-          @vanlanguni.vn
+          <span className="text-error">*</span> Email phải có thật, định dạng
+          đuôi @vanlanguni.vn hoặc @vlu.edu.vn
         </p>
         <p>
-          <span className="text-error">*</span> Ví Dụ Cho Cho Excel
+          <span className="text-error">*</span> Ví Dụ Cho Excel
         </p>
         <TableConfig
           panigation={false}

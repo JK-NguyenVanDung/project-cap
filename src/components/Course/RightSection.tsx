@@ -31,7 +31,6 @@ const RightSection = (props: any) => {
     (state) => state.product.updateLike,
   );
   const [showConfirm, setShowConfirm] = useState(false);
-
   useAppDispatch;
   const dispatch = useAppDispatch();
 
@@ -42,7 +41,7 @@ const RightSection = (props: any) => {
   useEffect(() => {
     setLike(program?.isLike);
     setRegister(program?.isRegister);
-  }, [program, loading]);
+  }, [program, loading, props.isApproved]);
 
   async function getData() {
     try {
@@ -88,16 +87,12 @@ const RightSection = (props: any) => {
       const data: any = await apiService.registerOrUn(value);
       if (data) {
         const response: any = await apiService.getProgram(programId.programId);
-        if (response.isRegister == false) {
-          notification.error({ message: 'Hủy Đăng Ký Thành Công' });
-        } else {
-          notification.success({ message: 'Đăng Ký Thành Công' });
-        }
+
         setLoading(true);
         setProgram(response);
         setRegister(response.isRegister);
         !response.isRegister
-          ? notification.success({ message: 'Huỷ đăng ký thành công' })
+          ? notification.error({ message: 'Huỷ đăng ký thành công' })
           : notification.success({ message: 'Đăng ký thành công' });
       }
     };
@@ -191,16 +186,28 @@ const RightSection = (props: any) => {
         />
 
         <div className="flex my-8 flex-col w-full items-center justify-center">
-          <CustomButton
-            onClick={() =>
-              register ? setShowConfirm(!showConfirm) : handelRegister(program)
-            }
-            disabled={props.enable ? false : true}
-            noIcon
-            color={register ? 'red' : 'blue'}
-            text={register ? ' Hủy Đăng Ký' : 'Đăng Ký'}
-            className=" w-[90%] my-2  h-10"
-          />
+          {props.isApproved === true ? (
+            <CustomButton
+              noIcon
+              color={'green'}
+              text={'Đã đăng ký'}
+              className=" w-[90%] my-2  h-10"
+            />
+          ) : (
+            <CustomButton
+              onClick={() =>
+                register
+                  ? setShowConfirm(!showConfirm)
+                  : handelRegister(program)
+              }
+              disabled={props.enable ? false : true}
+              noIcon
+              color={register ? 'red' : 'blue'}
+              text={register ? ' Hủy Đăng Ký' : 'Đăng Ký'}
+              className=" w-[90%] my-2  h-10"
+            />
+          )}
+
           <CustomButton
             disabled={props.enable ? false : true}
             Icon={AiFillHeart}

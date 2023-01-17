@@ -15,10 +15,12 @@ const ChapterTab = ({
   programId,
   isReviewing,
   isDetail,
+  isApproved,
 }: {
   programId: number;
   isReviewing?: boolean;
   isDetail?: boolean;
+  isApproved?: boolean;
 }) => {
   const [chapters, setChapters] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -61,10 +63,11 @@ const ChapterTab = ({
       <Loading loading={loading} className="h-fit mt-10" />
       {!loading &&
         chapters?.map((item: IChapterItem, index: number) => {
+          console.log(isApproved);
           return (
             <ChapterItem
               chapter={item}
-              isReviewing={isReviewing}
+              isReviewing={isApproved != true || isReviewing}
               isDetail={isDetail}
               isDone={item.isDone}
               // navTest={item.isDone ? true : false}
