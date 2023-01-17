@@ -10,6 +10,7 @@ import PopOverAction from '../../../components/admin/PopOver';
 import { useAppSelector } from '../../../hook/useRedux';
 import AddLeaner from './AddLeaner';
 import ImportFile from './ImportFile';
+import { Breadcrumb } from '../../../components/sharedComponents';
 export default function LeanerPage() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
@@ -148,6 +149,11 @@ export default function LeanerPage() {
   }
   return (
     <>
+      <Breadcrumb
+        router1={'/admin/Published'}
+        name={'Học Viên'}
+        name2={`${item.programName}`}
+      />
       <TableConfig
         onSearch={onChangeSearch}
         search={true}

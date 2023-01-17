@@ -14,6 +14,7 @@ import { FaEye } from 'react-icons/fa';
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import { BiLock, BiLockOpen } from 'react-icons/bi';
 import ShowDetail from './ShowDetail';
+import { Breadcrumb } from '../../../../components/sharedComponents';
 export default function Application() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
@@ -84,7 +85,7 @@ export default function Application() {
       dataIndex: 'comment',
       key: 'comment',
       render: (item: any) => {
-        return <p>{item ? 'không có nhận xét' : item}</p>;
+        return <p>{item ? item : 'không có nhận xét'}</p>;
       },
     },
     {
@@ -223,6 +224,11 @@ export default function Application() {
   function handelImport() {}
   return (
     <>
+      <Breadcrumb
+        router1={'/admin/Published'}
+        name={'Đơn Đăng Ký'}
+        name2={`${item.programName}`}
+      />
       <TableConfig
         key={data[0]?.programId}
         onSearch={onChangeSearch}
