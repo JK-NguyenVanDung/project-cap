@@ -8,23 +8,23 @@ import { Button, message, notification, Popconfirm } from 'antd';
 import { GIRD12, MESSAGE } from '../../../helper/constant';
 import PopOverAction from '../../../components/admin/PopOver';
 import { useAppSelector } from '../../../hook/useRedux';
-import AddLeaner from './AddLeaner';
+import AddLearner from './AddLearner';
 import ImportFile from './ImportFile';
-export default function LeanerPage() {
+export default function LearnerPage() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
-  const [addLeaner, setAddLeaner] = useState(false);
+  const [addLearner, setAddLearner] = useState(false);
   const [detail, setDetail] = useState();
   const [confirmLoading, setConfirmLoading] = useState(false);
   const item = useAppSelector((state) => state.form.setProgram);
   const [program, setProgram] = useState(item);
   const [importFile, setImportFile] = useState(false);
-  const [showLeaner, setShowLeaner] = useState(false);
+  const [showLearner, setShowLearner] = useState(false);
   useEffect(() => {
-    async function getLeaner() {
+    async function getLearner() {
       try {
-        let response: any = await apiService.getLeaner_id(item.programId);
+        let response: any = await apiService.getLearner_id(item.programId);
         response = response.reverse();
         let res = response.map((item: any, index: number) => {
           return {
@@ -43,15 +43,15 @@ export default function LeanerPage() {
         console.log(error);
       }
     }
-    getLeaner();
-  }, [addLeaner]);
+    getLearner();
+  }, [addLearner]);
   const handelEdit = (item: any) => {
     setDetail(item);
-    setAddLeaner(true);
+    setAddLearner(true);
   };
   async function handleDelete(item: any) {
     try {
-      await apiService.delLeaner(item.learnerId);
+      await apiService.delLearner(item.learnerId);
       setLoading(!loading);
       notification.success({
         message: MESSAGE.SUCCESS.DELETE,
@@ -68,9 +68,8 @@ export default function LeanerPage() {
       width: '7%',
     },
     {
-      title: 'Nhận Xét',
-      dataIndex: 'comment',
-      key: 'comment',
+      title: 'Email',
+      render: (data: any) => <>{data.accountIdLearnerNavigation?.email}</>,
     },
     {
       title: 'Trạng Thái Đăng Ký',
@@ -92,7 +91,7 @@ export default function LeanerPage() {
     },
   ];
   const handelShow = (item: any) => {
-    setShowLeaner(true);
+    setShowLearner(true);
   };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
@@ -111,7 +110,7 @@ export default function LeanerPage() {
   };
 
   function handelAdd() {
-    setAddLeaner(true);
+    setAddLearner(true);
     setDetail(null);
     setProgram(item);
   }
@@ -146,10 +145,10 @@ export default function LeanerPage() {
           </div>,
         ]}
       />
-      <AddLeaner
+      <AddLearner
         detail={detail}
-        setShowModal={setAddLeaner}
-        showModal={addLeaner}
+        setShowModal={setAddLearner}
+        showModal={addLearner}
         program={program}
         loading={confirmLoading}
         setLoading={setConfirmLoading}

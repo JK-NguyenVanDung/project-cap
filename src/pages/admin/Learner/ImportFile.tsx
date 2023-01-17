@@ -31,7 +31,7 @@ export default function ImportFile({
           programId: program.programId,
           emails: listEmail,
         };
-        const data: any = apiService.importFileLeaner(values);
+        const data: any = apiService.importFileLearner(values);
         setLoading(true);
         if (data) {
           setLoading(false);

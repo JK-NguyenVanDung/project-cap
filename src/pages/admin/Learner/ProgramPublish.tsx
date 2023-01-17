@@ -13,6 +13,7 @@ import { BsPeopleFill } from 'react-icons/bs';
 import { AiFillIdcard } from 'react-icons/ai';
 export default function ProgramPublish() {
   const [data, setData] = useState([]);
+
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -24,6 +25,7 @@ export default function ProgramPublish() {
     async function getProgramPublish() {
       try {
         let response: any = await apiService.getProgramPublish();
+
         response = response.reverse();
         let res = response.map((item: any, index: number) => {
           return {
@@ -74,7 +76,7 @@ export default function ProgramPublish() {
               size="sm"
               color="red"
               Icon={BsPeopleFill}
-              onClick={() => goLeaner(item)}
+              onClick={() => goLearner(item)}
             />
             <CustomButton
               tip="Xem Đơn Đăng Ký"
@@ -88,10 +90,10 @@ export default function ProgramPublish() {
       },
     },
   ];
-  function goLeaner(item: any) {
+  function goLearner(item: any) {
     dispatch(actions.formActions.setProgramForm(item));
 
-    navigate('/admin/ListLeaner');
+    navigate('/admin/ListLearner');
   }
   const goApplication = (item: any) => {
     dispatch(actions.formActions.setProgramForm(item));

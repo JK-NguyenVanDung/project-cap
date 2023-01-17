@@ -109,7 +109,7 @@ export const API_CONFIG = {
     GET_PROGRAM_STATUS: (programId: number) =>
       `/api/ReviewPrograms/status/${programId}`,
   },
-  LEANER: {
+  LEARNER: {
     REGISTER_OR_UN: `/api/Learners/RegisterOrUnRegister`,
 
     GETLEANER_ID: (id: number) => `/api/Learners/GetListLearner/${id}`,

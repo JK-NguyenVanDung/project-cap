@@ -7,7 +7,7 @@ import { errorText } from '../../../helper/constant';
 import { Select } from 'antd';
 import { useAppSelector } from '../../../hook/useRedux';
 import { IProgramItem } from '../../../Type';
-export default function AddLeaner({
+export default function AddLearner({
   showModal,
   setShowModal,
   detail,
@@ -25,28 +25,28 @@ export default function AddLeaner({
   const [showDetail, setShowDetail] = useState(false);
   const [form] = Form.useForm();
   const account = useAppSelector((state) => state.auth.info);
-  const [listLeaner, setListLeaner] = useState([]);
+  const [listLearner, setListLearner] = useState([]);
 
   useEffect(() => {
-    async function fetchLeaner() {
+    async function fetchLearner() {
       let res: any = await apiService.getAccounts();
-      setListLeaner(res);
+      setListLearner(res);
       console.log(res);
     }
-    fetchLeaner();
+    fetchLearner();
   }, []);
   const handleOk = async () => {
     form
       .validateFields()
       .then(async (values) => {
-        const valueLeaner = {
+        const valueLearner = {
           accountIdLearner: values.accountIdLearner,
           programId: program.programId,
           accountIdApprover: account.accountId,
         };
         try {
           if (detail) {
-            const data = apiService.updateLeaner(detail.learnerId, values);
+            const data = apiService.updateLearner(detail.learnerId, values);
             setLoading(true);
             if (data) {
               setLoading(false);
@@ -55,7 +55,7 @@ export default function AddLeaner({
             setShowModal(false);
             form.resetFields();
           } else {
-            const data = apiService.addLeaner(valueLeaner);
+            const data = apiService.addLearner(valueLearner);
             if (data) {
               notification.success({ message: 'Thêm thành công' });
             }
@@ -94,7 +94,7 @@ export default function AddLeaner({
             filterOption={(input: any, option: any) =>
               (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
             }
-            options={listLeaner?.map((item: any) => ({
+            options={listLearner?.map((item: any) => ({
               value: item.accountId,
               label: item.email,
             }))}
