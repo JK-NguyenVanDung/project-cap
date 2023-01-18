@@ -250,8 +250,17 @@ export default {
   delLearner: (id: number) => {
     return axiosConfig.delete(API_CONFIG.LEARNER.DELLEANER(id));
   },
-  importFileLearner: (param: any) => {
-    return axiosConfig.post(API_CONFIG.LEARNER.IMPORT_FILE, param);
+  importFileLearner: (param: {
+    body: {
+      programId: number;
+      emails: [];
+    };
+    accountId: number;
+  }) => {
+    return axiosConfig.post(
+      API_CONFIG.LEARNER.IMPORT_FILE(param.accountId),
+      param.body,
+    );
   },
 
   getMyPrograms: (accountId: number) => {

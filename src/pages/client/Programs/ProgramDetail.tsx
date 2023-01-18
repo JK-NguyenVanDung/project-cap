@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import CourseDetail from '../../../components/Course/CourseDetail';
 import RightSection from '../../../components/Course/RightSection';
 import { useEffect, useRef, useState } from 'react';
@@ -14,6 +14,7 @@ export default function (props: any) {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [isApproved, setIsApproved] = useState(false);
+  const location = useLocation();
 
   let ref = useRef(null);
   // const executeScroll = (i: number) => {
@@ -55,8 +56,12 @@ export default function (props: any) {
     <>
       <div className="w-full  px-4 pb-2 bg-white">
         <Breadcrumb
-          router1={'/Programs/'}
-          name={'Chương Trình'}
+          router1={`/${location.pathname.split('/')[1]}/`}
+          name={
+            location.pathname.split('/')[1] === 'MyCourses'
+              ? 'Khoá học Của Tôi'
+              : 'Chương Trình'
+          }
           name2={program ? program?.programName : 'N/A'}
         />
       </div>
@@ -76,7 +81,7 @@ export default function (props: any) {
         <RightSection
           isApproved={isApproved}
           enable={true}
-          goBack={() => navigate('/Programs/')}
+          goBack={() => navigate(`/${location.pathname.split('/')[1]}/`)}
         />
       </div>
     </>

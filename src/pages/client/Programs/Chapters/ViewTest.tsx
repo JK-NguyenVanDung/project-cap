@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { actions } from '../../../../Redux';
 import apiService from '../../../../api/apiService';
 
-const instruction = `Bài kiểm tra này bao gồm 5 câu hỏi trắc nghiệm. Để thành công với các câu đố, điều quan trọng là phải trò chuyện với các chủ đề. Hãy ghi nhớ những điều sau:
-Thời gian - Bạn cần hoàn thành mỗi lần thử của mình trong một lần ngồi, vì bạn được phân bổ 30 phút cho mỗi lần thử.
+const instruction = `Bài kiểm tra này bao gồm các câu hỏi trắc nghiệm. Để thành công với các câu đố, điều quan trọng là phải trò chuyện với các chủ đề. Hãy ghi nhớ những điều sau:
+Thời gian - Bạn cần hoàn thành các câu hỏi của mình trong một lần ngồi.
 Câu trả lời - Bạn có thể xem lại các lựa chọn câu trả lời của mình và so sánh chúng với câu trả lời đúng sau lần thử cuối cùng của bạn.
 
 Để bắt đầu, hãy nhấp vào nút "Bắt đầu". Khi hoàn tất, hãy nhấp vào nút "Nộp bài".`;
@@ -126,13 +126,13 @@ export default function (props: any) {
           <span className="text-xl text-start font-semibold"> Hướng dẫn</span>
 
           <p className="py-2 text-md  text-[#141522]">
-            Bài kiểm tra này bao gồm 5 câu hỏi trắc nghiệm. Để thành công với
+            Bài kiểm tra này bao gồm các câu hỏi trắc nghiệm. Để thành công với
             các câu đố, điều quan trọng là phải trò chuyện với các chủ đề. Hãy
             ghi nhớ những điều sau:
           </p>
           <p className="py-2 text-md  text-[#141522]">
-            Thời gian - Bạn cần hoàn thành mỗi lần thử của mình trong một lần
-            ngồi, vì bạn được phân bổ 30 phút cho mỗi lần thử.
+            Thời gian - Bạn cần hoàn thành các câu hỏi của mình trong một lần
+            ngồi.
           </p>
 
           <p className="py-2 text-md  text-[#141522]">

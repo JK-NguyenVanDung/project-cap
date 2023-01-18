@@ -11,12 +11,12 @@ import apiService from '../../../api/apiService';
 import { message } from 'antd';
 import { API_URL } from '../../../api/api';
 
-function getStatus(status: string) {
-  switch (status) {
-    case 'public':
-      return 'Có thể đăng ký  ';
-  }
-}
+// function getStatus(status: string) {
+//   switch (status) {
+//     case 'public':
+//       return 'Có thể đăng ký  ';
+//   }
+// }
 export default function (props: any) {
   return (
     <>
@@ -64,10 +64,10 @@ const CourseContent = (props: {
     like === false ? setColorHeart(Color.gray4) : setColorHeart(Color.error);
     const fetchLike = async () => {
       const response = await apiService.likeProgram(
-        itemProgram.programId,
+        itemProgram?.programId,
         like,
       );
-      const res = await apiService.getProgram(itemProgram.programId);
+      const res = await apiService.getProgram(itemProgram?.programId);
       setProgram(res);
     };
     fetchLike();
@@ -93,11 +93,11 @@ const CourseContent = (props: {
           overflow-hidden flex-col  w-full rounded-[20px] justify-end border-[2px] border-gray-200 " //border-[2px] border-color-[#c3c6ce]
         >
           <div className="max-h-[40vh] h-[25vh]  w-full">
-            <div className="absolute  tag bg-green-500 px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-0">
+            {/* <div className="absolute  tag bg-green-500 px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-0">
               <div className="relative bg-green-500">
                 <p>{getStatus(props.item?.status)}</p>
               </div>
-            </div>
+            </div> */}
             <img
               className="rounded-t-lg object-cover	h-full w-full"
               src={`${API_URL}/images/${props.item.image}`}

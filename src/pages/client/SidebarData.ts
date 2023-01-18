@@ -38,14 +38,14 @@ export const SideBarData = [
     path: '/Programs',
   },
   {
-    title: 'Khóa Học Đăng Ký',
+    title: 'Đơn Đăng Ký',
     icon: IoBook,
     path: '/RegisteredPrograms',
   },
   {
     title: 'Khóa Học Của Tôi',
     icon: IoBook,
-    path: '/MyProgram',
+    path: '/MyCourses',
   },
 
   // {

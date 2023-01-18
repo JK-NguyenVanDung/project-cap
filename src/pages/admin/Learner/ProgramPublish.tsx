@@ -35,7 +35,7 @@ export default function ProgramPublish() {
         });
         console.log(response);
         setData(res);
-
+        setFilterData(res);
         setTimeout(() => {
           setLoading(false);
           setFilterData(res);
@@ -104,7 +104,7 @@ export default function ProgramPublish() {
     let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
-        const emailMatch = removeVietnameseTones(record.year).match(reg);
+        const emailMatch = removeVietnameseTones(record.programName).match(reg);
 
         if (!emailMatch) {
           return null;

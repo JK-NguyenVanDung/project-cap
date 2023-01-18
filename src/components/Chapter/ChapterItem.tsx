@@ -84,7 +84,7 @@ const ChapterItem = ({
 
     let timeLock = setTimeout(() => {
       setViewedContent(true);
-    }, 3000);
+    }, 30000);
     return () => {
       clearTimeout(timeLock);
 
@@ -175,7 +175,9 @@ const ChapterItem = ({
       );
 
       dispatch(actions.productActions.setProgramId(chapter.programId));
-      navigate(`/Programs/${chapter.programId}/Chapters`);
+      navigate(
+        `/${location.pathname.split('/')[1]}/${chapter.programId}/Chapters`,
+      );
     }
   }
 

@@ -34,6 +34,7 @@ export default function CustomModal({
   ModalProps,
   formProps,
   buttonText,
+  notAdd,
 }: {
   handleOk?: any;
   name?: any;
@@ -56,6 +57,7 @@ export default function CustomModal({
   initialValues?: any;
   ModalProps?: ModalProps;
   formProps?: FormProps;
+  notAdd?: boolean;
 }) {
   const dismiss: dismissType = {
     outsidePointerDown: !isFocused,
@@ -80,7 +82,11 @@ export default function CustomModal({
       className="text-black font-bold w-full"
       title={
         <p className="font-bold mt-1 font-customFont text-xl text-black">
-          {!dataItem ? `Thêm ${label}` : header ? header : `Sửa ${label}`}
+          {!dataItem
+            ? `${!notAdd ? 'Thêm' : ''} ${label}`
+            : header
+            ? header
+            : `Sửa ${label}`}
         </p>
       }
       style={{ top: 20 }}

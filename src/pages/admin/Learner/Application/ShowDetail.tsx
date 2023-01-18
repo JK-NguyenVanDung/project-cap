@@ -17,24 +17,38 @@ export default function ShowDetail({
 
   const [showDetail, setShowDetail] = useState(false);
   const [loading, setLoading] = useState(false);
+  function getComment(item: any) {
+    let text = '';
+    if (!item) {
+      return 'Chưa có nhận xét';
+    }
+    if (item.reasonRefusal) {
+      text += 'Lý do từ chối: ';
+      text += item.reasonRefusal;
+      text += `\n`;
+    }
+    if (item.comment) {
+      text += item.comment;
+    }
+    return text;
+  }
   useEffect(() => {
     form.setFieldsValue({
       item,
+      commentAndReason: getComment(item),
       programName: item?.program.programName,
       statusProgram:
         item?.program?.status == 'public' ? 'Đang Công Khai' : 'Riêng Tư',
-      emailLeaner: item?.accountIdLearnerNavigation?.email,
+      emailLearner: item?.accountIdLearnerNavigation?.email,
       fullName: item?.accountIdLearnerNavigation?.fullName,
-      statusLeaner:
-        item?.status == 'Attending'
-          ? 'Đang Tham Gia'
-          : item?.status == 'Stop Attending'
-          ? 'Ngưng Tham Gia'
-          : item?.status == 'Not Complete'
-          ? 'Chưa Hoàn Thành'
-          : item?.status == 'Complete'
-          ? 'Hoàn Thành'
-          : '',
+      statusLearner:
+        item?.registerStatus == 'Approved'
+          ? 'Đã Được Duyệt'
+          : item?.registerStatus == 'UnApproved'
+          ? 'Chưa Được Duyệt'
+          : item?.registerStatus == 'Refuse'
+          ? 'Bị Từ Chối'
+          : 'Chưa Có Trạng Thái',
     });
     setLoading(true);
     if (item) {
@@ -58,13 +72,20 @@ export default function ShowDetail({
             label="Trạng Thái Chương Trình"
             name="statusProgram"
           />
+          <FormInput
+            placeholder="Nhận xét"
+            disabled
+            label="Nhận Xét"
+            name="commentAndReason"
+            type="textArea"
+          />
         </div>
         <div className="w-full p-6">
           <FormInput
             placeholder="Email"
             disabled
             label="Email"
-            name="emailLeaner"
+            name="emailLearner"
           />
           <FormInput
             placeholder="Họ Và Tên"
@@ -73,17 +94,10 @@ export default function ShowDetail({
             name="fullName"
           />
           <FormInput
-            placeholder="Trạng Thái"
+            placeholder="Trạng Thái Đơn Đăng Ký"
             disabled
             label="Trạng Thái"
-            name="statusLeaner"
-          />
-          <FormInput
-            placeholder="Nhận xét"
-            disabled
-            label="Nhận Xét"
-            name="comment"
-            type="textArea"
+            name="statusLearner"
           />
         </div>
       </div>
@@ -93,6 +107,7 @@ export default function ShowDetail({
     <CustomModal
       show={visible}
       setShow={setVisible}
+      header={'Xem Chi Tiết Đơn Đăng Ký'}
       label={'Đơn Đăng Ký'}
       dataItem={item}
       name={item}

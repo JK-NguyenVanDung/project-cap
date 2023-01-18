@@ -122,7 +122,7 @@ export const API_CONFIG = {
 
     UPDATE_LEANER: (id: number) => `/api/Learners/UpdateLearner/${id}`,
 
-    IMPORT_FILE: '/api/Learners/Import',
+    IMPORT_FILE: (idAccount: number) => `/api/Learners/Import/${idAccount}`,
     DELLEANER: (id: number) => `/api/Learners/${id}`,
     APPLICATION_PROGRAM: (id: number) =>
       `/api/Learners/Applications?ProgramId=${id}`,

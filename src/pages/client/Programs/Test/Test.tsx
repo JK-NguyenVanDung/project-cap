@@ -21,6 +21,7 @@ export default function UserTest(props: any) {
   const [loading, setLoading] = useState(true);
   let ref = useRef(null);
   const location = useLocation();
+
   // const executeScroll = (i: number) => {
   //   setTimeout(() => {
   //     ref.current.scrollIntoView({
@@ -86,11 +87,15 @@ export default function UserTest(props: any) {
             </p>
             <div className="w-full  bg-white">
               <Breadcrumb
-                router1={'/Programs/'}
-                router2={`/Programs/${
+                router1={`/${location.pathname.split('/')[1]}/`}
+                router2={`/${location.pathname.split('/')[1]}/${
                   program ? program?.programId : 'N/A'
                 }/Chapters`}
-                name={'Chương Trình'}
+                name={
+                  location.pathname.split('/')[1] === 'MyCourses'
+                    ? 'Khoá học Của Tôi'
+                    : 'Chương Trình'
+                }
                 name2={program ? program?.programName : 'N/A'}
                 name3={'Bài kiểm tra: ' + selectedTest?.testTitle}
               />
@@ -117,7 +122,10 @@ export default function UserTest(props: any) {
         {
           /* <ChapterDetail {...props} setLoading={setLoading} />
         <ChapterBar enable={true} goBack={() => navigate('/Programs/')} /> */
-          <TestBar enable={true} goBack={() => navigate('/Programs/')} />
+          <TestBar
+            enable={true}
+            goBack={() => navigate(`/${location.pathname.split('/')[1]}/`)}
+          />
         }
       </div>
     </>

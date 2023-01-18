@@ -37,7 +37,7 @@ const QuestionItem = ({
 
   return (
     <>
-      <div className="w-fit min-w-[60rem] max-w-full h-fit bg-white m-4 py-6 px-8 rounded-xl">
+      <div className="w-fit min-w-[60rem] max-w-[60rem] h-fit bg-white m-4 py-6 px-8 rounded-xl">
         <div className="flex w-full justify-end text-primary font-bold text-lg ">
           {question?.score} điểm
         </div>

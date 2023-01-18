@@ -8,7 +8,7 @@ import * as XLSX from 'xlsx';
 import TableConfig from '../../../components/admin/Table/Table';
 import { IProgramItem } from '../../../Type';
 import Validate from '../../../config/Validate';
-import { useAppDispatch } from '../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
 export default function ImportFile({
   showModal,
@@ -26,18 +26,23 @@ export default function ImportFile({
   const [form] = Form.useForm();
   const [listEmail, setListEmail] = useState();
   const dispatch = useAppDispatch();
+  const info = useAppSelector((state) => state.auth.info);
 
   const handleOk = async () => {
     form
       .validateFields()
       .then(async () => {
         try {
+          dispatch(actions.reloadActions.setReload());
+
           const values = {
             programId: program.programId,
             emails: listEmail,
           };
-          const data: any = apiService.importFileLearner(values);
-          dispatch(actions.reloadActions.setReload());
+          const data: any = apiService.importFileLearner({
+            body: values,
+            accountId: info.accountId,
+          });
 
           setLoading(true);
           if (data) {

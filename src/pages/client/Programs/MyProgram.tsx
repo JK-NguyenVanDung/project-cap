@@ -23,11 +23,11 @@ export default function MyProgram() {
     const fetch = async () => {
       try {
         const data: any = await apiService.getMyPrograms(info.accountId);
-        let temp = data.reverse();
+        let temp = data.filter(
+          (item: IProgramItem) => item.status === 'public',
+        );
+        temp = data.reverse();
 
-        temp = data.map((item: any) => {
-          return item.program;
-        });
         setData(temp);
         setFilterData(temp);
       } catch (error) {
@@ -35,13 +35,13 @@ export default function MyProgram() {
       }
     };
     fetch();
-    dispatch(actions.formActions.setNameMenu(`${'Chương trình'}`));
+    dispatch(actions.formActions.setNameMenu(`${'Khóa Học Của Tôi'}`));
   }, []);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   function handelDataProgram(item: IProgramItem) {
     dispatch(actions.formActions.setProgramForm(item));
-    navigate(`/Programs/${item.programId}`);
+    navigate(`/MyCourses/${item.programId}`);
   }
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(false);

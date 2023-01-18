@@ -59,9 +59,15 @@ export default function (props: any) {
     <>
       <div className="w-full  px-4 pb-2 bg-white">
         <Breadcrumb
-          router1={'/Programs/'}
-          router2={`/Programs/${program ? program?.programName : 'N/A'}`}
-          name={'Chương Trình'}
+          router1={`/${location.pathname.split('/')[1]}/`}
+          router2={`/${location.pathname.split('/')[1]}/${
+            program ? program?.programName : 'N/A'
+          }`}
+          name={
+            location.pathname.split('/')[1] === 'MyCourses'
+              ? 'Khoá học Của Tôi'
+              : 'Chương Trình'
+          }
           name2={program ? program?.programName : 'N/A'}
           name3={breadCrumb ? breadCrumb : 'N/A'}
         />
@@ -74,7 +80,10 @@ export default function (props: any) {
         }`}
       >
         <ChapterDetail {...props} setLoading={setLoading} />
-        <ChapterBar enable={true} goBack={() => navigate('/Programs/')} />
+        <ChapterBar
+          enable={true}
+          goBack={() => navigate(`/${location.pathname.split('/')[1]}/`)}
+        />
       </div>
     </>
   );

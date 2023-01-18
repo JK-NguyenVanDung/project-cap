@@ -50,7 +50,7 @@ export default function LearnerPage() {
       }
     }
     getLearner();
-  }, [loading, confirmLoading]);
+  }, [loading, confirmLoading, reload]);
   const handelEdit = (item: any) => {
     setDetail(item);
     setAddLearner(true);

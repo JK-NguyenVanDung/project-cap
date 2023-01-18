@@ -28,6 +28,22 @@ export default function Application() {
   const [showModal, setShowModal] = useState(false);
   const [dataDetail, setDataDetal]: any = useState();
   const [showDetail, setShowDetail] = useState(false);
+
+  function getComment(item: any) {
+    let text = '';
+    if (!item) {
+      return 'Chưa có nhận xét';
+    }
+    if (item.reasonRefusal) {
+      text += 'Lý do từ chối: ';
+      text += item.reasonRefusal;
+      text += `\n`;
+    }
+    if (item.comment) {
+      text += item.comment;
+    }
+    return text;
+  }
   useEffect(() => {
     async function getApplication() {
       try {
@@ -66,7 +82,7 @@ export default function Application() {
     {
       title: 'Email đăng ký',
 
-      width: '7%',
+      width: '12%',
       render: (data: any) => (
         <>
           {
@@ -81,6 +97,8 @@ export default function Application() {
       title: 'Trạng Thái Đăng Ký',
       dataIndex: 'registerStatus',
       key: 'registerStatus',
+      width: GIRD12.COL2,
+
       render: (item: string) => {
         return (
           <>
@@ -98,17 +116,14 @@ export default function Application() {
       },
     },
     {
-      title: 'Nhận Xét',
-      dataIndex: 'comment',
-      key: 'comment',
-      render: (item: any) => {
-        return <p>{item ? item : 'Chưa có nhận xét'}</p>;
-      },
+      title: 'Lý do từ chối',
+      key: 'reasonRefusal',
+      dataIndex: 'reasonRefusal',
     },
     {
       title: 'Thao tác',
       key: 'action',
-      width: GIRD12.COL0,
+      width: GIRD12.COL1,
 
       render: (data: any) => (
         <Space>
@@ -143,7 +158,17 @@ export default function Application() {
   };
   const FormApplicationRef = () => {
     return (
-      <FormInput type="textArea" label="Lý Do Hủy Đơn" name="reasonRefusal" />
+      <FormInput
+        type="textArea"
+        label="Lý Do Hủy Đơn"
+        name="reasonRefusal"
+        rules={[
+          {
+            required: true,
+            message: 'Vui Lòng Nhập Lý Do Huỷ Đơn',
+          },
+        ]}
+      />
     );
   };
   const handleOk = () => {
@@ -165,9 +190,10 @@ export default function Application() {
         } catch (error) {
           notification.error({ message: 'Hủy Đơn Không Thành Công' });
         }
-        let timeOut = setTimeout(() => {
+        let timeout = setTimeout(() => {
           setLoading(false);
-        }, 1000);
+        }, 500);
+        clearTimeout(timeout);
       })
 
       .catch((info) => {
@@ -202,7 +228,9 @@ export default function Application() {
     let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
-        const emailMatch = removeVietnameseTones(record.facultyName).match(reg);
+        const emailMatch = removeVietnameseTones(
+          record.accountIdLearnerNavigation?.email,
+        ).match(reg);
 
         if (!emailMatch) {
           return null;
@@ -236,10 +264,11 @@ export default function Application() {
         show={showModal}
         handleOk={handleOk}
         setShow={setShowModal}
-        label="Hủy Đơn"
+        label="Từ chối Đơn Đăng Ký"
+        header="Từ chối Đơn Đăng Ký"
         FormItem={<FormApplicationRef />}
         form={form}
-        header={'Hủy Đơn Đăng Ký'}
+        notAdd={true}
         confirmLoading={loading}
       />
       <ShowDetail
