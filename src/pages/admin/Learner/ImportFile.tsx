@@ -8,6 +8,8 @@ import * as XLSX from 'xlsx';
 import TableConfig from '../../../components/admin/Table/Table';
 import { IProgramItem } from '../../../Type';
 import Validate from '../../../config/Validate';
+import { SideBarDataCT } from '../SidebarData';
+import { useAppSelector } from '../../../hook/useRedux';
 export default function ImportFile({
   showModal,
   setShowModal,
@@ -23,6 +25,7 @@ export default function ImportFile({
 }) {
   const [form] = Form.useForm();
   const [listEmail, setListEmail] = useState();
+  const info = useAppSelector((state) => state.auth.info);
   const handleOk = async () => {
     form
       .validateFields()
@@ -31,13 +34,18 @@ export default function ImportFile({
           programId: program.programId,
           emails: listEmail,
         };
-        const data: any = apiService.importFileLearner(values);
-        setLoading(true);
-        if (data) {
-          setLoading(false);
-          notification.success({ message: 'Thêm tập tin thành công' });
-        } else {
-          notification.success({ message: 'Thêm tập tin không thành công' });
+        try {
+          const data: any = apiService.importFileLearner(
+            info.accountId,
+            values,
+          );
+          setLoading(true);
+          if (data) {
+            setLoading(false);
+            notification.success({ message: 'Thêm tập tin thành công' });
+          }
+        } catch (error) {
+          notification.error({ message: 'Email đã tồn tại hoặc không đúng' });
         }
         setShowModal(false);
         form.resetFields();
@@ -69,23 +77,24 @@ export default function ImportFile({
     });
     readFileExcel
       .then((data: any) => {
-        setListEmail(
-          data.map((item: any) => {
-            const email = item.Email || item.email;
-            if (
-              !email
-                .toString()
-                .trim()
-                .match(
-                  /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
-                )
-            ) {
-              notification.error({ message: 'Email không đúng định dạng' });
-            } else {
-              return email;
-            }
-          }),
-        );
+        data &&
+          setListEmail(
+            data.map((item: any) => {
+              const email = item.Email || item.email;
+              if (
+                !email
+                  .toString()
+                  .trim()
+                  .match(
+                    /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
+                  )
+              ) {
+                notification.error({ message: 'Email không đúng định dạng' });
+              } else {
+                return email;
+              }
+            }),
+          );
       })
       .catch((error) => {
         notification.error({ message: 'Lấy File Không Thành Công' });
@@ -117,8 +126,7 @@ export default function ImportFile({
     return (
       <>
         <p>
-          <span className="text-error">*</span> email phải có thật, định dạng
-          @vanlanguni.vn
+          <span className="text-error">*</span> Email phải tồn tại trên hệ thống
         </p>
         <p>
           <span className="text-error">*</span> Ví Dụ Cho Cho Excel
