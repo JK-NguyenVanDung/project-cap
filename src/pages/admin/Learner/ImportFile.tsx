@@ -10,6 +10,7 @@ import { IProgramItem } from '../../../Type';
 import Validate from '../../../config/Validate';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
+import { SideBarDataCT } from '../SidebarData';
 export default function ImportFile({
   showModal,
   setShowModal,
@@ -41,26 +42,28 @@ export default function ImportFile({
             programId: program.programId,
             emails: listEmail,
           };
-          const data: any = apiService.importFileLearner({
-            body: values,
-            accountId: info.accountId,
-          });
-
-          setLoading(true);
-          if (data) {
-            setLoading(false);
-            notification.success({ message: 'Thêm tập tin thành công' });
-          } else {
-            notification.success({ message: 'Thêm tập tin không thành công' });
+          try {
+            const data: any = apiService.importFileLearner({
+              body: values,
+              accountId: info.accountId,
+            });
+            setLoading(true);
+            if (data) {
+              setLoading(false);
+              notification.success({ message: 'Thêm tập tin thành công' });
+            }
+          } catch (error) {
+            notification.error({ message: 'Email đã tồn tại hoặc không đúng' });
           }
           setShowModal(false);
           form.resetFields();
           setTimeout(() => {
             dispatch(actions.reloadActions.setReload());
           }, 1000);
-        } catch (err) {}
+        } catch (error) {
+          notification.error({ message: 'Email đã tồn tại hoặc không đúng' });
+        }
       })
-
       .catch((info) => {});
   };
   const handelReadFile = (value: any) => {
@@ -88,23 +91,24 @@ export default function ImportFile({
     });
     readFileExcel
       .then((data: any) => {
-        setListEmail(
-          data.map((item: any) => {
-            const email = item.Email || item.email;
-            if (
-              !email
-                .toString()
-                .trim()
-                .match(
-                  /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
-                )
-            ) {
-              notification.error({ message: 'Email không đúng định dạng' });
-            } else {
-              return email.trim();
-            }
-          }),
-        );
+        data &&
+          setListEmail(
+            data.map((item: any) => {
+              const email = item.Email || item.email;
+              if (
+                !email
+                  .toString()
+                  .trim()
+                  .match(
+                    /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
+                  )
+              ) {
+                notification.error({ message: 'Email không đúng định dạng' });
+              } else {
+                return email;
+              }
+            }),
+          );
       })
       .catch((error) => {
         setJustAddedFile('');
