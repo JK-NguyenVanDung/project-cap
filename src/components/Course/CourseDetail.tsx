@@ -169,6 +169,7 @@ export default function (props: any) {
                 isReviewing={props.isReviewing}
                 isDetail={props.isDetail}
                 isApproved={props.isApproved}
+                reRoute={props.reRoute}
               />
             )}
             {currentTab === 3 && <ReviewTab program={program} />}

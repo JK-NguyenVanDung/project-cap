@@ -16,11 +16,13 @@ const ChapterTab = ({
   isReviewing,
   isDetail,
   isApproved,
+  reRoute,
 }: {
   programId: number;
   isReviewing?: boolean;
   isDetail?: boolean;
   isApproved?: boolean;
+  reRoute?: string;
 }) => {
   const [chapters, setChapters] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -71,6 +73,7 @@ const ChapterTab = ({
               isDetail={isDetail}
               isDone={item.isDone}
               // navTest={item.isDone ? true : false}
+              reRoute={reRoute}
               disabled={index === 0 ? null : hasDoneTest(chapters[index - 1])}
             />
           );

@@ -25,6 +25,8 @@ export default function ImportFile({
 }) {
   const [form] = Form.useForm();
   const [listEmail, setListEmail] = useState();
+  const [file, setJustAddedFile] = useState('');
+
   const dispatch = useAppDispatch();
   const info = useAppSelector((state) => state.auth.info);
 
@@ -64,6 +66,7 @@ export default function ImportFile({
   const handelReadFile = (value: any) => {
     const file = value.target.files[0];
     if (file) {
+      setJustAddedFile(file?.name);
       notification.success({
         message: `Đã Thêm File ${file.name} Thành Công`,
       });
@@ -104,6 +107,7 @@ export default function ImportFile({
         );
       })
       .catch((error) => {
+        setJustAddedFile('');
         notification.error({ message: 'Lấy File Không Thành Công' });
       });
   };
@@ -145,6 +149,7 @@ export default function ImportFile({
           columns={column}
         />
         <Input type="file" onChange={(value: any) => handelReadFile(value)} />
+        <p>File vừa thêm vào: {file}</p>
       </>
     );
   };

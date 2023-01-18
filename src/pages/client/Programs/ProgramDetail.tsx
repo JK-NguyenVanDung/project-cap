@@ -50,6 +50,7 @@ export default function (props: any) {
         `${program ? program?.programName : 'N/A'}`,
       ),
     );
+    console.log(location.pathname);
   }, []);
 
   return (
@@ -58,7 +59,7 @@ export default function (props: any) {
         <Breadcrumb
           router1={`/${location.pathname.split('/')[1]}/`}
           name={
-            location.pathname.split('/')[1] === 'MyCourses'
+            location.pathname.includes('MyCourses')
               ? 'Khoá học Của Tôi'
               : 'Chương Trình'
           }
@@ -77,6 +78,9 @@ export default function (props: any) {
           isApproved={isApproved}
           setLoading={setLoading}
           isDetail={true}
+          reRoute={
+            location.pathname.includes('MyCourses') ? 'MyCourses' : 'Programs'
+          }
         />
         <RightSection
           isApproved={isApproved}

@@ -19,6 +19,7 @@ const ChapterItem = ({
   disabled = false,
   isDone = false,
   navTest = false,
+  reRoute,
 }: {
   chapter: IChapterItem;
   isReviewing?: boolean;
@@ -26,6 +27,7 @@ const ChapterItem = ({
   disabled?: boolean;
   isDone?: boolean;
   navTest?: boolean;
+  reRoute?: string;
 }) => {
   const [show, setShow] = useState(false);
   const [showContent, setShowContent] = useState(false);
@@ -173,11 +175,8 @@ const ChapterItem = ({
           isTest: false,
         }),
       );
-
       dispatch(actions.productActions.setProgramId(chapter.programId));
-      navigate(
-        `/${location.pathname.split('/')[1]}/${chapter.programId}/Chapters`,
-      );
+      navigate(`/${reRoute}/${chapter.programId}/Chapters`);
     }
   }
 

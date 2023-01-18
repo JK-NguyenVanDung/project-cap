@@ -49,6 +49,7 @@ export default function (props: any) {
     // executeScroll(0);
     // console.log(1);
     !program && getData();
+
     dispatch(
       actions.formActions.setNameMenu(
         `${program ? program?.programName : 'N/A'}`,
