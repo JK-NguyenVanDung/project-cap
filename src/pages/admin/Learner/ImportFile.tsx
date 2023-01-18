@@ -148,7 +148,7 @@ export default function ImportFile({
       show={showModal}
       handleOk={handleOk}
       setShow={setShowModal}
-      label={'Định Dạng Tập Tin'}
+      label={'Bằng Tập Tin'}
       FormItem={<FormItem />}
       form={form}
       header={'Xuất Tập Tin'}

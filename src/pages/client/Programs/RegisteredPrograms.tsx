@@ -50,7 +50,7 @@ export default function RegisteredPrograms() {
   }, []);
   useEffect(() => {
     const fetchMyProgram = async () => {
-      const data: any = await apiService.getMyProgram();
+      const data: any = await apiService.getMyApplications();
       setToDoList(data);
       let temp = data;
       temp = temp.reverse();

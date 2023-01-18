@@ -71,41 +71,45 @@ export default function LearnerPage() {
       title: 'STT',
       dataIndex: 'index',
       key: 'index',
-      width: '7%',
+      width: '3%',
     },
     {
       title: 'Email',
       dataIndex: 'emailAccount',
       key: 'emailAccount',
+      width: '5%',
+    },
+    {
+      title: 'Trạng Thái',
+      dataIndex: 'status',
+      key: 'status',
+      render: (item: any) => {
+        return (
+          <p>
+            {item == 'Attending' ? (
+              <span className="text-green-600">Đang Tham Gia</span>
+            ) : item == 'Stop Attending' ? (
+              <span className="text-error">Ngưng Tham Gia</span>
+            ) : item == 'Not Complete' ? (
+              <span className="text-yellow-600">Chưa Hoàn Thành</span>
+            ) : item == 'Complete' ? (
+              <span className="text-blue-gray-600">Hoàn Thành</span>
+            ) : (
+              'Chưa có trạng thái'
+            )}
+          </p>
+        );
+      },
     },
     {
       title: 'Nhận Xét',
       dataIndex: 'comment',
       key: 'comment',
       render: (item: any) => {
-        return <p>{item ? item : 'không có nhận xét'}</p>;
+        return <p>{item ? item : 'Chưa có nhận xét'}</p>;
       },
     },
-    {
-      title: 'Trạng Thái Đăng Ký',
-      dataIndex: 'registerStatus',
-      key: 'registerStatus',
-      render: (item: string) => {
-        return (
-          <>
-            <p>
-              {item == 'Approved' ? (
-                <p className="text-green-600">Đã Được Duyệt</p>
-              ) : item == 'UnApproved' ? (
-                <p className="text-yellow-700">Chưa Được Duyệt</p>
-              ) : (
-                <p className="text-error">Bị Từ Chối</p>
-              )}
-            </p>
-          </>
-        );
-      },
-    },
+
     {
       title: 'Thao tác',
       key: 'action',
@@ -174,7 +178,7 @@ export default function LearnerPage() {
             />
             <CustomButton
               size="md"
-              text="Định Dạng Tập Tin"
+              text="Thêm Bằng Tập Tin"
               noIcon={true}
               key={`${uniqueId()}`}
               onClick={() => handelImport()}

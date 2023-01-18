@@ -88,7 +88,7 @@ export default function Application() {
               {item == 'Approved' ? (
                 <p className="text-green-600">Đã Được Duyệt</p>
               ) : item == 'UnApproved' ? (
-                <p className="text-yellow-600">Chưa Được Duyệt</p>
+                <p className="text-yellow-800">Chưa Được Duyệt</p>
               ) : (
                 <p className="text-error">Bị Từ Chối</p>
               )}
@@ -102,7 +102,7 @@ export default function Application() {
       dataIndex: 'comment',
       key: 'comment',
       render: (item: any) => {
-        return <p>{item ? item : 'không có nhận xét'}</p>;
+        return <p>{item ? item : 'Chưa có nhận xét'}</p>;
       },
     },
     {
@@ -113,21 +113,21 @@ export default function Application() {
       render: (data: any) => (
         <Space>
           <CustomButton
-            tip="Hủy Đăng Ký"
+            tip="Từ chối đăng ký"
             size="sm"
             color="red"
             Icon={BiLock}
             onClick={() => handelRefulse(data)}
           />
           <CustomButton
-            tip="Nhận Đơn Đăng Ký"
+            tip="Duyệt đơn đăng ký"
             size="sm"
             color="green"
             Icon={BiLockOpen}
             onClick={() => handelApprove(data)}
           />
           <CustomButton
-            tip="Xem Chi Tiết"
+            tip="xem chi tiết"
             size="sm"
             color="deep-orange"
             Icon={FaEye}

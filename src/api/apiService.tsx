@@ -253,8 +253,12 @@ export default {
   importFileLearner: (param: any) => {
     return axiosConfig.post(API_CONFIG.LEARNER.IMPORT_FILE, param);
   },
-  getMyProgram: () => {
-    return axiosConfig.get(API_CONFIG.PROGRAM.MYPROGRAM);
+
+  getMyPrograms: (accountId: number) => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.MY_PROGRAMS(accountId));
+  },
+  getMyApplications: () => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.MY_APPLICATIONS);
   },
   getProgramPublish: () => {
     return axiosConfig.get(API_CONFIG.PROGRAM.GETPROGRAMPUBLISH);

@@ -12,7 +12,7 @@ module.exports = withMT({
   theme: {
     extend: {
       fontFamily: {
-        customFont: ['"Montserrat"', 'sans-serif'],
+        customFont: ['"Quicksand"', 'sans-serif'],
       },
       backgroundColor: {
         'dark-blue': '#252B42',
