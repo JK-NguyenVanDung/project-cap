@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import { actions } from '../../Redux';
 import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { IChapter } from '../../api/apiInterface';
-import { notification } from 'antd';
+import { notification, Tooltip } from 'antd';
 
 const ChapterItem = ({
   chapter,
@@ -19,7 +19,7 @@ const ChapterItem = ({
   disabled = false,
   isDone = false,
   navTest = false,
-  reRoute,
+  reRoute = 'Programs',
 }: {
   chapter: IChapterItem;
   isReviewing?: boolean;
@@ -84,9 +84,12 @@ const ChapterItem = ({
     }
     initData();
 
-    let timeLock = setTimeout(() => {
-      setViewedContent(true);
-    }, 30000);
+    let timeLock = setTimeout(
+      () => {
+        setViewedContent(true);
+      },
+      isDone ? 0 : 30000,
+    );
     return () => {
       clearTimeout(timeLock);
 
@@ -262,67 +265,137 @@ const ChapterItem = ({
                 )}
               </div>
             </div>
-            <div
-              className="content mx-6 my-4 h-fit cursor-pointer"
-              onClick={() =>
-                isReviewing || isDetail ? {} : resetSelection(false)
-              }
-            >
-              <div className="">
+            {isDone ? (
+              <>
                 <div
-                  className={`flex justify-between  items-center pl-[1.4rem] pr-6 w-full rounded-xl ${
-                    showTest ? 'bg-primary' : 'bg-white'
-                  } min-h-[3.5rem]  h-fit  py-1 `}
+                  className="content mx-6 my-4 h-fit cursor-pointer"
+                  onClick={() =>
+                    isReviewing || isDetail ? {} : resetSelection(false)
+                  }
                 >
-                  <div className="flex items-center">
-                    <button
-                      className={` pr-3  ${
-                        disabled || viewedContent === false || isDetail
-                          ? 'opacity-40'
-                          : 'opacity-100'
-                      }`}
+                  <div className="">
+                    <div
+                      className={`flex justify-between  items-center pl-[1.4rem] pr-6 w-full rounded-xl ${
+                        showTest ? 'bg-primary' : 'bg-white'
+                      } min-h-[3.5rem]  h-fit  py-1 `}
                     >
-                      <HiClipboardCheck
-                        className={`${
-                          showTest ? ' text-white' : ' text-primary'
-                        } text-2xl`}
-                      />
-                    </button>
-                    <p
-                      // onClick={() => !disabled && navToChapter(chapter)}
-                      className={` text-sm font-semibold  eclipse-wrap ${
-                        showTest ? 'text-white' : 'text-black'
-                      }  ${
-                        disabled || viewedContent === false || isDetail
-                          ? 'opacity-40 no-copy'
-                          : 'opacity-100'
-                      }`}
-                    >
-                      {test?.testTitle ? test?.testTitle : 'Bài Kiểm Tra'}
-                    </p>
-                  </div>
-                  {isDone ? (
-                    <div className="bg-white rounded-3xl">
-                      <HiCheckCircle
-                        className={`${'text-green-500'} text-lg`}
-                      />
+                      <div className="flex items-center">
+                        <button
+                          className={` pr-3  ${
+                            disabled || viewedContent === false || isDetail
+                              ? 'opacity-40'
+                              : 'opacity-100'
+                          }`}
+                        >
+                          <HiClipboardCheck
+                            className={`${
+                              showTest ? ' text-white' : ' text-primary'
+                            } text-2xl`}
+                          />
+                        </button>
+                        <p
+                          // onClick={() => !disabled && navToChapter(chapter)}
+                          className={` text-sm font-semibold  eclipse-wrap ${
+                            showTest ? 'text-white' : 'text-black'
+                          }  ${
+                            disabled || viewedContent === false || isDetail
+                              ? 'opacity-40 no-copy'
+                              : 'opacity-100'
+                          }`}
+                        >
+                          {test?.testTitle ? test?.testTitle : 'Bài Kiểm Tra'}
+                        </p>
+                      </div>
+                      {isDone ? (
+                        <div className="bg-white rounded-3xl">
+                          <HiCheckCircle
+                            className={`${'text-green-500'} text-lg`}
+                          />
+                        </div>
+                      ) : (
+                        <p
+                          className={` text-sm text-center font-semibold ${
+                            showTest ? 'text-white' : 'text-black'
+                          } ${
+                            disabled || viewedContent === false || isDetail
+                              ? 'opacity-40'
+                              : 'opacity-100'
+                          }`}
+                        >
+                          {questionCount ? questionCount : 0} câu
+                        </p>
+                      )}
                     </div>
-                  ) : (
-                    <p
-                      className={` text-sm text-center font-semibold ${
-                        showTest ? 'text-white' : 'text-black'
-                      } ${
-                        disabled || viewedContent === false || isDetail
-                          ? 'opacity-40'
-                          : 'opacity-100'
-                      }`}
-                    >
-                      {questionCount ? questionCount : 0} câu
-                    </p>
-                  )}
+                  </div>
                 </div>
-              </div>
-            </div>
+              </>
+            ) : (
+              <Tooltip
+                title={'Xem nội dung ít nhất 30 giây để làm bài kiểm tra'}
+              >
+                <div
+                  className="content mx-6 my-4 h-fit cursor-pointer"
+                  onClick={() =>
+                    isReviewing || isDetail ? {} : resetSelection(false)
+                  }
+                >
+                  <div className="">
+                    <div
+                      className={`flex justify-between  items-center pl-[1.4rem] pr-6 w-full rounded-xl ${
+                        showTest ? 'bg-primary' : 'bg-white'
+                      } min-h-[3.5rem]  h-fit  py-1 `}
+                    >
+                      <div className="flex items-center">
+                        <button
+                          className={` pr-3  ${
+                            disabled || viewedContent === false || isDetail
+                              ? 'opacity-40'
+                              : 'opacity-100'
+                          }`}
+                        >
+                          <HiClipboardCheck
+                            className={`${
+                              showTest ? ' text-white' : ' text-primary'
+                            } text-2xl`}
+                          />
+                        </button>
+                        <p
+                          // onClick={() => !disabled && navToChapter(chapter)}
+                          className={` text-sm font-semibold  eclipse-wrap ${
+                            showTest ? 'text-white' : 'text-black'
+                          }  ${
+                            disabled || viewedContent === false || isDetail
+                              ? 'opacity-40 no-copy'
+                              : 'opacity-100'
+                          }`}
+                        >
+                          {test?.testTitle ? test?.testTitle : 'Bài Kiểm Tra'}
+                        </p>
+                      </div>
+                      {isDone ? (
+                        <div className="bg-white rounded-3xl">
+                          <HiCheckCircle
+                            className={`${'text-green-500'} text-lg`}
+                          />
+                        </div>
+                      ) : (
+                        <p
+                          className={` text-sm text-center font-semibold ${
+                            showTest ? 'text-white' : 'text-black'
+                          } ${
+                            disabled || viewedContent === false || isDetail
+                              ? 'opacity-40'
+                              : 'opacity-100'
+                          }`}
+                        >
+                          {questionCount ? questionCount : 0} câu
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Tooltip>
+            )}
           </>
         )}
       </div>

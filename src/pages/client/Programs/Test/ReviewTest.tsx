@@ -5,7 +5,13 @@ import { useEffect, useRef, useState } from 'react';
 import Loading from '../../../../components/sharedComponents/Loading';
 import ScrollToTop from '../../../../utils/scrollToTop';
 import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb';
-import { IAnswer, IProgramItem, IQuestion, ITest } from '../../../../Type';
+import {
+  IAnswer,
+  IChapterItem,
+  IProgramItem,
+  IQuestion,
+  ITest,
+} from '../../../../Type';
 import { useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
 import { useAppDispatch } from '../../../../hook/useRedux';
@@ -42,7 +48,9 @@ export default function ReviewTest(props: any) {
   const answerLength: number = useAppSelector(
     (state) => state.test.answerLength,
   );
-
+  const selectedChapter: IChapterItem = useAppSelector(
+    (state) => state.product.selectedChapter,
+  );
   const time: { minutes: number; seconds: number } = useAppSelector(
     (state) => state.test.time,
   );
@@ -85,9 +93,13 @@ export default function ReviewTest(props: any) {
       accountId: info.accountId,
       body: output,
     });
-    navigate(
-      `/${location.pathname.split('/')[1]}/${program.programId}/Chapters`,
+    dispatch(
+      actions.productActions.setSelectedChapter({
+        ...selectedChapter,
+        isTest: false,
+      }),
     );
+    navigate(`/Programs/${program.programId}/Chapters`);
   }
   useEffect(() => {
     return () => {

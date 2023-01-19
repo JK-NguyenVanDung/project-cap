@@ -253,7 +253,6 @@ export default function Application() {
         name2={`${item?.programName}`}
       />
       <TableConfig
-        key={data[0]?.programId}
         onSearch={onChangeSearch}
         search={true}
         data={data}

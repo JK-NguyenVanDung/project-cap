@@ -7,7 +7,14 @@ import {
 import { FaClipboardList } from 'react-icons/fa';
 
 import { ImAddressBook, ImBooks } from 'react-icons/im';
-import { IoApps, IoBook, IoAlbums, IoPeopleCircle } from 'react-icons/io5';
+import {
+  IoApps,
+  IoBook,
+  IoAlbums,
+  IoPeopleCircle,
+  IoNewspaper,
+} from 'react-icons/io5';
+import { MdCollectionsBookmark } from 'react-icons/md';
 
 export interface ISidebar {
   title: string;
@@ -39,12 +46,12 @@ export const SideBarData = [
   },
   {
     title: 'Đơn Đăng Ký',
-    icon: IoBook,
+    icon: IoNewspaper,
     path: '/RegisteredPrograms',
   },
   {
     title: 'Khóa Học Của Tôi',
-    icon: IoBook,
+    icon: MdCollectionsBookmark,
     path: '/MyCourses',
   },
 
