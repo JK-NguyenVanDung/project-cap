@@ -93,16 +93,16 @@ export default function ImportFile({
       .then((data: any) => {
         data &&
           setListEmail(
-            data.map((item: any) => {
-              const email = item.Email || item.email;
-              if (
-                !email
-                  .toString()
-                  .trim()
-                  .match(
-                    /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
-                  )
-              ) {
+            data.map((item: any, index: number) => {
+              const email = item.Email || item.email || item.EMAIL;
+              const checkEmail = email
+                .toString()
+                .trim()
+                .match(
+                  /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
+                );
+              if (!checkEmail) {
+                console.log(!checkEmail, index);
                 notification.error({ message: 'Email không đúng định dạng' });
               } else {
                 return email;
