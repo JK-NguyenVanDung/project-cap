@@ -15,36 +15,19 @@ const QuestionItem = ({
 
   index?: number | string;
 }) => {
-  const [show, setShow] = useState(false);
-  const [showTest, setShowTest] = useState(false);
-  const [viewedContent, setViewedContent] = useState(false);
-  // const [disabled, setDisabled] = useState(false);
-  // const [finished, setFinished] = useState(false);
-  // const [finished, setFinished] = useState(false);
-
-  const [test, setTest] = useState<ITest>(null);
-  const [questionCount, setQuestionCount] = useState<number>(0);
-  const navigate = useNavigate();
-  const parent = useRef(null);
-  const dispatch = useAppDispatch();
-
-  // const viewedContent: boolean = useAppSelector(
-  //   (state) => state.product.viewedContent,
-  // );
-  const initChapter: IChapterItem = useAppSelector(
-    (state) => state.product.initChapter,
-  );
-
   return (
     <>
-      <div className="w-fit min-w-[60rem] max-w-[60rem] h-fit bg-white m-4 py-6 px-8 rounded-xl">
-        <div className="flex w-full justify-end text-primary font-bold text-lg ">
+      <div className="w-fit min-w-[60rem] max-w-[60rem] max-sm:min-w-fit max-sm:max-w-fit h-fit bg-white m-4 py-6 px-8 rounded-xl">
+        <div className="flex w-full max-sm:flex-col max-sm:hidden  justify-end text-primary font-bold text-lg ">
           {question?.score} điểm
         </div>
-        <div className="flex w-full justify-start  items-center mx-2">
-          <div className="flex flex-col justify-start items-start w-fit my-4  mr-12">
-            <div className="CIRCLE py-4 px-2 min-w-[4.2rem] bg-gray-400 rounded-[20rem] text-black text-center text-3xl font-bold">
+        <div className="flex w-full justify-start max-sm:flex-col max-sm:items-start  items-center mx-2">
+          <div className="flex flex-col max-sm:flex-row max-sm:justify-between max-sm:w-full max-sm:items-center   justify-start items-start w-fit my-4  mr-12">
+            <div className="CIRCLE max-sm:min-w-[3.2rem] max-sm:py-2 py-4 px-2 min-w-[4.2rem] bg-gray-400 rounded-[20rem] text-black text-center text-3xl font-bold">
               {index}
+            </div>
+            <div className="flex w-full hidden max-sm:visible max-sm:items-start  justify-end text-primary font-bold text-lg ">
+              {question?.score} điểm
             </div>
           </div>
           <div className=" w-full flex ">

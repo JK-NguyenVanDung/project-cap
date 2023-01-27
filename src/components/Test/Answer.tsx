@@ -45,6 +45,55 @@ const FullCircle = (props: any) => {
     </div>
   );
 };
+
+const UnselectedSquare = (props: any) => {
+  return (
+    <div {...props}>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          x="0.5"
+          y="0.5"
+          width="19"
+          height="19"
+          rx="4.5"
+          fill="#FAFAFA"
+          stroke="#D9D9D9"
+        />
+      </svg>
+    </div>
+  );
+};
+
+const FullSquare = (props: any) => {
+  return (
+    <div {...props}>
+      <svg
+        width="20"
+        height="20"
+        viewBox="0 0 20 20"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect
+          x="0.5"
+          y="0.5"
+          width="19"
+          height="19"
+          rx="4.5"
+          fill="#3649F9"
+          stroke="#BCC3FF"
+        />
+      </svg>
+    </div>
+  );
+};
+
 function getChar(c: number) {
   let n = (c + 9).toString(36).toUpperCase();
   return n;
@@ -83,11 +132,11 @@ const OptionalAnswer = ({
     <ul className="w-full relative h-auto">
       {contents.map((item: IQuestionContent, index: number) => {
         return (
-          <li className="w-full flex flex-row justify-between min-h-[3rem] mb-0  ">
+          <li className="w-full flex flex-row justify-between min-h-[3rem] max-sm:min-h-fit mb-0  ">
             <button
               type="button"
               formNoValidate
-              className={`w-[6rem]  mr-8 my-4  flex border rounded-[10px] ${
+              className={`w-[6rem]  mr-8 max-sm:mr-2 my-4  flex border rounded-[10px] ${
                 getStyle(item.questionContentId, answers)
                   ? 'border-primary'
                   : 'border-gray-400'
@@ -104,14 +153,20 @@ const OptionalAnswer = ({
                 {getChar(index + 1)}
               </p>
               {getStyle(item.questionContentId, answers) ? (
-                <FullCircle className="ml-4" />
+                isMultiple ? (
+                  <FullSquare className="ml-4" />
+                ) : (
+                  <FullCircle className="ml-4" />
+                )
+              ) : isMultiple ? (
+                <UnselectedSquare className="ml-4" />
               ) : (
                 <UnselectedCircle className="ml-4" />
               )}
             </button>
             <div className="w-full mb-2 z-1 ">
               <div
-                className={`z-[0] min-h-[3rem] flex items-center text-black font-customFont  font-bold min-w-[20rem] mt-4 bg-white border  text-sm rounded-lg focus:ring-gray-500 focus:gray-400-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:gray-400-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:gray-400-500
+                className={`z-[0] min-h-[3rem] flex items-center text-black font-customFont  font-bold min-w-[20rem] max-sm:min-w-[4rem] mt-4 bg-white border  text-sm rounded-lg focus:ring-gray-500 focus:gray-400-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:gray-400-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:gray-400-500
               ${
                 getStyle(item.questionContentId, answers)
                   ? 'border-primary'

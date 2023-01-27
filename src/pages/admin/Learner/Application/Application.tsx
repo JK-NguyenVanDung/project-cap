@@ -7,7 +7,7 @@ import uniqueId, { removeVietnameseTones } from '../../../../utils/uinqueId';
 import { Button, message, notification, Popconfirm } from 'antd';
 import { GIRD12, MESSAGE } from '../../../../helper/constant';
 import PopOverAction from '../../../../components/admin/PopOver';
-import { useAppSelector } from '../../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { Form, Space } from 'antd';
 import { FaEye } from 'react-icons/fa';
 
@@ -16,6 +16,7 @@ import { BiLock, BiLockOpen } from 'react-icons/bi';
 import { IAccountItem } from '../../../../Type';
 import ShowDetail from './ShowDetail';
 import { Breadcrumb } from '../../../../components/sharedComponents';
+import { actions } from '../../../../Redux';
 export default function Application() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
@@ -171,12 +172,16 @@ export default function Application() {
       />
     );
   };
+  const dispatch = useAppDispatch();
+
   const handleOk = () => {
     form
       .validateFields()
       .then(async (values) => {
         console.log(values);
         try {
+          dispatch(actions.reloadActions.setReload());
+
           const data = apiService.refulseApplication(
             dataDetail.learnerId,
             values,
@@ -192,6 +197,7 @@ export default function Application() {
         }
         let timeout = setTimeout(() => {
           setLoading(false);
+          dispatch(actions.reloadActions.setReload());
         }, 500);
         clearTimeout(timeout);
       })

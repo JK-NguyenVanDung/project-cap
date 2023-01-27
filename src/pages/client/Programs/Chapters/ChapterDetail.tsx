@@ -71,7 +71,7 @@ export default function (props: any) {
 
   return (
     <>
-      <div className=" w-[75%] max-w-[45rem]   h-fit my-4  mb-12 mx-2 flex flex-col justify-start items-center">
+      <div className=" ml-[2%] max-sm:ml-0 max-sm:min-w-fit min-w-[45rem] max-sm:max-w-fit max-w-[45rem]  h-fit my-4  mb-12 mx-2 flex flex-col justify-start items-center">
         <div className="shadow-lg p-6 rounded-xl w-full h-fit text-black bg-white  border flex flex-col justify-start items-center">
           <div className="w-full h-fit font-customFont ">
             {!selectedChapter?.isTest ? <ViewContent /> : <ViewTest />}

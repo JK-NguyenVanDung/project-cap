@@ -69,7 +69,7 @@ export default function (props: any) {
       <Loading loading={loading} />
       <div
         ref={ref}
-        className={`flex w-full justify-center ${
+        className={`flex w-full max-sm:flex-col justify-center ${
           loading ? 'hidden' : 'visible'
         }`}
       >

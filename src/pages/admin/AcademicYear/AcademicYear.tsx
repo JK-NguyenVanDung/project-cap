@@ -7,18 +7,18 @@ import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import { Button, message, notification, Popconfirm } from 'antd';
 import { GIRD12, MESSAGE } from '../../../helper/constant';
 import PopOverAction from '../../../components/admin/PopOver';
-import DetailAcedemicYear from './DetailAcedemicYear';
-export default function AcedemicYear() {
+import DetailAcademicYear from './DetailAcademicYear';
+export default function AcademicYear() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
-  const [addAcedemicYear, setAddAcedemicYear] = useState(false);
+  const [addAcademicYear, setAddAcademicYear] = useState(false);
   const [detail, setDetail] = useState();
   const [confirmLoading, setConfirmLoading] = useState(false);
   useEffect(() => {
-    async function getAcedemicYear() {
+    async function getAcademicYear() {
       try {
-        let response: any = await apiService.getAcedemicYear();
+        let response: any = await apiService.getAcademicYear();
         response = response.reverse();
         let res = response.map((item: any, index: number) => {
           return {
@@ -37,15 +37,15 @@ export default function AcedemicYear() {
         console.log(error);
       }
     }
-    getAcedemicYear();
+    getAcademicYear();
   }, [loading, confirmLoading]);
   const handelEdit = (item: any) => {
     setDetail(item);
-    setAddAcedemicYear(true);
+    setAddAcademicYear(true);
   };
   async function handleDelete(item: any) {
     try {
-      await apiService.delAcedemicYear(item.id);
+      await apiService.delAcademicYear(item.id);
       setLoading(!loading);
       notification.success({
         message: MESSAGE.SUCCESS.DELETE,
@@ -101,7 +101,7 @@ export default function AcedemicYear() {
   };
 
   function handelAdd() {
-    setAddAcedemicYear(true);
+    setAddAcademicYear(true);
     setDetail(null);
   }
   return (
@@ -121,11 +121,11 @@ export default function AcedemicYear() {
           />,
         ]}
       />
-      <DetailAcedemicYear
+      <DetailAcademicYear
         item={detail}
         setItem={setDetail}
-        visible={addAcedemicYear}
-        setVisible={setAddAcedemicYear}
+        visible={addAcademicYear}
+        setVisible={setAddAcademicYear}
         confirmLoading={confirmLoading}
         setConfirmLoading={setConfirmLoading}
       />

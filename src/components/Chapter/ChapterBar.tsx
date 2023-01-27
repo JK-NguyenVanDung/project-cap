@@ -85,7 +85,7 @@ const ChapterBar = (props: any) => {
   }
 
   return (
-    <div className="overflow-scroll rounded-xl w-fit max-w-xl text-black bg-white h-fit min-h-[85vh] m-4 p-2 px-8 border flex flex-col justify-start items-start">
+    <div className="overflow-y-scroll rounded-xl  w-fit max-w-xl text-black bg-white h-fit min-h-[85vh] m-4 p-2 px-8 border flex flex-col justify-start items-start">
       <p className="my-6 text-xl font-bold  text-gray-900 text-center  flex w-full justify-start items-start">
         Danh sách chương
       </p>

@@ -43,26 +43,26 @@ const QuestionBar = (props: any) => {
   const listQuestions: Array<IQuestion> = useAppSelector(
     (state) => state.test.listQuestions,
   );
-  const initTime: { minutes: number; seconds: number } = useAppSelector(
-    (state) => state.test.time,
-  );
-  let time = useTimer({
-    initialMinute: initTime.minutes,
-    initialSeconds: initTime.seconds,
-  });
+  // const initTime: { minutes: number; seconds: number } = useAppSelector(
+  //   (state) => state.test.time,
+  // );
+  // let time = useTimer({
+  //   initialMinute: initTime.minutes,
+  //   initialSeconds: initTime.seconds,
+  // });
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    return () => {
-      dispatch(
-        actions.testActions.setTime({
-          minutes: time.minutes,
-          seconds: time.seconds - 1,
-        }),
-      );
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(
+  //       actions.testActions.setTime({
+  //         minutes: time.minutes,
+  //         seconds: time.seconds - 1,
+  //       }),
+  //     );
+  //   };
+  // }, []);
 
   useEffect(() => {
     let base = current;
@@ -124,13 +124,14 @@ const QuestionBar = (props: any) => {
   };
 
   function navToReview() {
-    dispatch(
-      actions.testActions.setTime({
-        minutes: time.minutes,
-        seconds: time.seconds - 1,
-      }),
-    );
-    navigate(`/Test/Review/${selectedTest.testId}`);
+    // dispatch(
+    //   actions.testActions.setTime({
+    //     minutes: time.minutes,
+    //     seconds: time.seconds - 1,
+    //   }),
+    // );
+    // navigate(`/Test/Review/${selectedTest.testId}`);
+    props.goForward();
   }
   function isSelected(questionId: number) {
     let isAnswer = answers?.find(
@@ -142,7 +143,7 @@ const QuestionBar = (props: any) => {
   useEffect(() => {}, []);
 
   return (
-    <div className="fixed right-0 overflow-y-scroll rounded-xl  text-black bg-white h-fit min-h-[80vh]    w-[27rem] m-4 p-2 px-8 border flex flex-col justify-start items-start">
+    <div className="fixed  max-sm:relative  right-0 overflow-y-scroll rounded-xl  text-black bg-white h-fit min-h-[80vh]   max-sm:w-fit w-[27rem] m-4 p-2 px-8 border flex flex-col justify-start items-start">
       <p className="my-6 text-xl font-bold  text-gray-900 text-center  flex w-full justify-start items-start">
         Danh sách câu hỏi
       </p>
@@ -167,7 +168,7 @@ const QuestionBar = (props: any) => {
           );
         })}
       </div>
-      <div className=" min-w-[20rem] w-full my-2">
+      <div className=" min-w-[20rem] max-sm:min-w-fit w-full my-2">
         <div className="flex w-full items-center justify-between my-6">
           <p className="text-lg font-semibold  text-gray-900 text-center   items-start">
             Tổng thời gian làm bài:
@@ -183,13 +184,15 @@ const QuestionBar = (props: any) => {
           <p className=" font-semibold   text-gray-900 text-center   items-start">
             <div>
               <>
-                {time.minutes === 0 && time.seconds === 0 ? (
+                {props.timer?.minutes === 0 && props.timer?.seconds === 0 ? (
                   <> {'00:00'} </>
                 ) : (
                   <>
                     {' '}
-                    {time.minutes}:
-                    {time.seconds < 10 ? `0${time.seconds}` : time.seconds}
+                    {props.timer?.minutes}:
+                    {props.timer?.seconds < 10
+                      ? `0${props.timer?.seconds}`
+                      : props.timer?.seconds}
                   </>
                 )}
               </>

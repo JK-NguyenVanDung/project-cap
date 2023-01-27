@@ -43,6 +43,7 @@ const CourseContent = (props: {
   onClick: any;
   item: IProgramItem;
   registerStatus: string;
+  seeReason: any;
 }) => {
   const [like, setLike] = useState(props.item.isLike);
   const [colorHeart, setColorHeart]: any = useState(Color.gray4);
@@ -76,21 +77,21 @@ const CourseContent = (props: {
   // }
   return (
     <>
-      <div className="cardCont border min-w-[7rem] h-fit  min-h-[48vh] max-h-[29rem] w-[18rem] rounded-[20px] font-customFont ">
+      <div className="cardCont border min-w-[7rem] h-fit  min-h-[28vh] max-h-[29rem] w-[18rem] rounded-[20px] font-customFont ">
         <div
           className={`card ${
-            props.registerStatus == 'Approved'
-              ? 'hover:border-green-500'
+            props.registerStatus == 'Refuse'
+              ? 'hover:border-orange-500'
               : 'hover:border-red-500'
           } flex overflow-hidden flex-col  w-full rounded-[20px] justify-end border-[2px] border-gray-200 `} //border-[2px] border-color-[#c3c6ce]
         >
-          <div className="h-[40%]  w-full">
+          <div className="h-[30vh]  w-full">
             <img
               className="rounded-t-lg object-cover	h-full w-full"
               src={`${API_URL}/images/${props.item.image}`}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
-                currentTarget.src = `https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${props.item.image}`;
+                currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
                 // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${props.item.image}
               }}
               alt=""
@@ -144,18 +145,24 @@ const CourseContent = (props: {
               </div>
             </div>
           </div>
-          <button
-            className={` outline-none card-button ${
-              props.registerStatus == 'Approved' ? 'bg-green-500' : 'bg-red-500'
-            }`}
-            onClick={() =>
-              props.registerStatus == 'Approved' ? {} : props.onClick()
-            }
-          >
-            {props.registerStatus == 'Approved'
-              ? 'Đã được duyệt'
-              : 'Huỷ đăng ký'}
-          </button>
+          {props.registerStatus == 'Approved' ? (
+            <></>
+          ) : (
+            <button
+              className={` outline-none card-button ${
+                props.registerStatus == 'Refuse'
+                  ? 'bg-orange-500'
+                  : 'bg-red-500'
+              }`}
+              onClick={() =>
+                props.registerStatus == 'Refuse'
+                  ? props.seeReason()
+                  : props.onClick()
+              }
+            >
+              {props.registerStatus == 'Refuse' ? 'Xem lý do' : 'Huỷ đăng ký'}
+            </button>
+          )}
         </div>
       </div>
     </>

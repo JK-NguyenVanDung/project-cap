@@ -88,7 +88,7 @@ const ChapterItem = ({
       () => {
         setViewedContent(true);
       },
-      isDone ? 0 : 30000,
+      isDone ? 0 : 3000,
     );
     return () => {
       clearTimeout(timeLock);
@@ -188,7 +188,7 @@ const ChapterItem = ({
       <div
         ref={parent}
         className={` ${
-          isReviewing || isDetail ? 'w-full' : 'w-[20rem]'
+          isReviewing || isDetail ? 'w-full' : 'w-[100%]'
         } flex flex-col  h-full mb-6 bg-gray-100  rounded-xl`}
       >
         <div

@@ -49,7 +49,7 @@ export default function ({
                 navigate(`${router1}`);
                 dispatch(actions.formActions.setNameMenu(`${name}`));
               }}
-              className="text-[16px] font-bold"
+              className="text-[16px]  max-sm:text-[12px] font-bold"
             >
               {item.name}
             </Breadcrumb.Item>
@@ -58,14 +58,14 @@ export default function ({
                 <Breadcrumb.Item
                   key={index}
                   onClick={() => navigate(`${router2 ? router2 : ''}`)}
-                  className="text-[16px] font-bold"
+                  className="text-[16px] font-bold max-sm:text-[12px]"
                 >
                   {item.name2}
                 </Breadcrumb.Item>
                 <Breadcrumb.Item
                   key={index}
                   onClick={() => navigate(`${router3 ? router3 : ''}`)}
-                  className="text-[16px] font-bold text-[#252B42]"
+                  className="text-[16px] font-bold max-sm:text-[12px] text-[#252B42]"
                 >
                   {item.name3}
                 </Breadcrumb.Item>

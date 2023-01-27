@@ -39,7 +39,7 @@ export default function Login() {
     videoRef.current.playbackRate = 0.8;
   };
   return (
-    <div className="bg-slate-500 ">
+    <div className="bg-slate-500 max-sm:bg-gray-900 max-sm:w-fit ">
       <div className="overlay" />
       <video
         style={{
@@ -54,21 +54,19 @@ export default function Login() {
         onCanPlay={() => setPlayBack()}
         id="myVideo"
         ref={videoRef}
+        className="max-sm:hidden"
       />
-      <main className="fixed w-full h-full top-0 place-content-center items-center flex flex-col">
-        <h1 className="text-[#fff] uppercase font-bold text-center text-5xl mb-10 mt-10">
+      <main className="fixed max-sm:relative w-full h-full top-0 place-content-center items-center flex flex-col">
+        <h1 className="text-[#fff] uppercase font-bold text-center max-sm:text-3xl text-5xl mb-10 mt-10">
           <p className="my-4"> Đăng Nhập </p>
           <p className="mt-4 ">VLU Training</p>
         </h1>
-        <div className="flex justify-center ">
+        <div className="flex justify-center max-sm:flex-col w-full max-sm:items-center">
           {DataLogin.map((item, index) => {
             return (
               <div
                 key={index}
-                style={{
-                  width: 400,
-                }}
-                className=" justify-end group bg-clip-padding bg-white backdrop-filter backdrop-blur-sm bg-opacity-60 border border-transparent button_login hover:text-black flex flex-col items-center m-4 p-3 py-14 rounded-lg cursor-pointer hover:-translate-y-4 "
+                className="w-[400px]  max-sm:w-full max-sm:mx-12 justify-end group bg-clip-padding bg-white backdrop-filter backdrop-blur-sm bg-opacity-60 border border-transparent button_login hover:text-black flex flex-col items-center m-4 p-3 py-14 rounded-lg cursor-pointer hover:-translate-y-4 "
                 onClick={() => LoginPopUp(item)}
               >
                 <div
@@ -91,7 +89,7 @@ export default function Login() {
         </div>
         <div className=" container mx-auto px-6">
           <div className="mt-16 z- flex flex-col items-center">
-            <div className="sm:w-2/3 text-center py-6">
+            <div className="sm:w-2/3 max-sm:w-fit text-center py-6">
               <p className=" text-sm text-white font-bold mb-2">
                 © 2022 - Bản Quyền Thuộc Trường Đại học Văn Lang
               </p>

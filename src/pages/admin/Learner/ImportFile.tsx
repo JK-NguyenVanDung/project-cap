@@ -147,7 +147,7 @@ export default function ImportFile({
           <span className="text-error">*</span> Ví Dụ Cho Excel
         </p>
         <TableConfig
-          panigation={false}
+          pagination={false}
           search={false}
           data={dataTable}
           columns={column}

@@ -26,7 +26,7 @@ export default function SearchBar(props: any) {
           ref={inputRef}
           type="text"
           id="simple-search"
-          className={` min-w-[20rem]  bg-white border border-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ${
+          className={` sm:min-w-[10rem] md:min-w-[20rem] lg:min-w-[20rem] bg-white border border-gray-50 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ${
             props.prefix ? 'pl-10 pr-2.5 p-2.5' : 'pr-10 pl-2.5 p-2.5 '
           } dark:bg-gray-700 dark:border-gray-600 outline-none dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ${
             props.className ? props.className : ' shadow-xl '

@@ -48,8 +48,8 @@ const Header = (props: any) => {
   useMountEffect(executeScroll); // Scroll on mount
 
   return (
-    <nav className="  hide hide-top relative z-20  flex container  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
-      <div className="container flex flex-wrap justify-between items-center mx-auto">
+    <nav className="  hide hide-top relative z-20  flex max-sm:container  w-full  items-start mx-auto border-gray-200 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900">
+      <div className=" max-sm:container w-full flex flex-wrap justify-between items-center mx-auto px-16 max-sm:px-0">
         <a href="/" className="logo px-2 md:order-1 flex flex-row items-center">
           <img src={Logo} className="mr-3 h-6 sm:h-9 " alt="Training Logo" />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-white">

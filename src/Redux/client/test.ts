@@ -10,6 +10,7 @@ const slice = createSlice({
     range: { base: 0, limit: 5 },
     time: { minutes: 0, seconds: 0 },
     answerLength: 0,
+    isTest: false,
   },
 
   reducers: {
@@ -22,6 +23,10 @@ const slice = createSlice({
         range: { base: 0, limit: 5 },
         time: { minutes: 0, seconds: 0 },
       };
+    },
+
+    setIsTest(state, action) {
+      state.isTest = action.payload;
     },
     setTime(state, action) {
       state.time = action.payload;

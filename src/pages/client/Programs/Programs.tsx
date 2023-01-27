@@ -117,19 +117,19 @@ export default function Programs() {
       <Loading loading={loading} />
 
       <div
-        className={`bg-white py-4 pb-8 flex  w-full  items-center justify-between
+        className={`bg-white py-4  pb-8 flex max-sm:flex-wrap  w-full  items-center justify-between
    ${loading ? 'hidden' : 'visible'}`}
       >
-        <div className="w-fit mx-4">
+        <div className="w-fit mx-4 ">
           <SearchBar
             onSearch={onChangeSearch}
             className="
-            
+            max-sm:min-w-[21rem]
             box-border	shadow-none min-w-[22rem] h-[2.8rem] border-2 rounded-[14px] border-[#F5F5F7]"
             prefix
           />
         </div>
-        <div className="w-fit mx-4 cursor-pointer	">
+        <div className="w-fit mx-4 cursor-pointer	max-sm:mt-4">
           <div className="  shadow-none border flex items-center p-2 rounded-lg border-[#F5F5F7]">
             <Dropdown menu={{ items }} placement="bottomRight">
               <button className="flex justify-center items-center">
@@ -146,7 +146,7 @@ export default function Programs() {
           loading ? 'hidden' : 'visible'
         }`}
       >
-        <ul className=" grid lg:grid-cols-3 grid-cols-3 md:grid-cols-2 sm:grid-cols-1 	">
+        <ul className=" px-2 grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  grid-cols-3 md:grid-cols-2 sm:grid-cols-1  max-sm:grid-cols-1	">
           {data?.length > 0 ? (
             data?.map((item: IProgramItem) => {
               return (

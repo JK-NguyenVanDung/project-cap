@@ -26,7 +26,7 @@ import Homepage from '../pages/client/Homepage/Homepage';
 
 import { useAppDispatch, useAppSelector } from '../hook/useRedux';
 import { actions } from '../Redux';
-import AcedemicYear from '../pages/admin/AcedemicYear/AcedemicYear';
+import AcademicYear from '../pages/admin/AcademicYear/AcademicYear';
 import Position from '../pages/admin/Position/Position';
 import ListReviewPrograms from '../pages/admin/ReviewProgram/ListReviewProgram';
 import LearnerPage from '../pages/admin/Learner/LearnerPage';
@@ -92,11 +92,11 @@ export const RouterPages = [
     element: <FormProgram />,
   },
   {
-    path: '/admin/AcedemicYear',
-    element: <AcedemicYear />,
+    path: '/admin/AcademicYear',
+    element: <AcademicYear />,
   },
   {
-    path: '/admin/Postions',
+    path: '/admin/Position',
     element: <Position />,
   },
   {
@@ -172,11 +172,11 @@ export const RouterCenter = [
     element: <FormProgram />,
   },
   {
-    path: '/admin/AcedemicYear',
-    element: <AcedemicYear />,
+    path: '/admin/AcademicYear',
+    element: <AcademicYear />,
   },
   {
-    path: '/admin/Postions',
+    path: '/admin/Position',
     element: <Position />,
   },
   {
@@ -256,11 +256,11 @@ export const RouterFaculty = [
     element: <FormProgram />,
   },
   {
-    path: '/admin/AcedemicYear',
-    element: <AcedemicYear />,
+    path: '/admin/AcademicYear',
+    element: <AcademicYear />,
   },
   {
-    path: '/admin/Postions',
+    path: '/admin/Position',
     element: <Position />,
   },
   {

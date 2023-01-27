@@ -85,6 +85,7 @@ export default function (props: any) {
 
   async function navToTest() {
     await getData();
+    dispatch(actions.testActions.setIsTest(true));
 
     dispatch(actions.testActions.reset());
     dispatch(
@@ -93,7 +94,12 @@ export default function (props: any) {
         seconds: 1,
       }),
     );
-    navigate(`/Test/${selectedTest.testId}`);
+    let time = setTimeout(() => {
+      navigate(`/Test/${selectedTest.testId}`);
+    }, 100);
+    return () => {
+      clearTimeout(time);
+    };
   }
   return (
     <>

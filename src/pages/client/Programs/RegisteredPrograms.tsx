@@ -15,10 +15,14 @@ import { IProgramItem } from '../../../Type';
 import { removeVietnameseTones } from '../../../utils/uinqueId';
 import RegisterCard from '../../../components/client/Card/RegisterCard';
 import ConfirmModal from '../../../components/admin/Modal/ConfirmModal';
+import Dropdown from 'antd/lib/dropdown/dropdown';
+import { BsFilter } from 'react-icons/bs';
+import { MenuProps } from 'antd/lib/menu';
 export enum Register {
   unApproved = 'UnApproved',
   Approved = 'Approved',
 }
+
 export type MyCourse = {
   learnerId: number;
   accountIdLearner: number;
@@ -44,7 +48,26 @@ export default function RegisteredPrograms() {
   const [reload, setReload] = useState(false);
   const [unRegisterProgram, setUnRegisterProgram] =
     useState<IProgramItem>(null);
+  const [filter, setFilter] = useState('Chưa đăng ký');
 
+  const items: MenuProps['items'] = [
+    {
+      key: '1',
+      label: <a onClick={() => setFilter('Chưa đăng ký')}>Chưa đăng ký</a>,
+    },
+    {
+      key: '2',
+      label: <a onClick={() => setFilter('Hết hạn')}>Hết hạn</a>,
+    },
+    {
+      key: '3',
+      label: <a onClick={() => setFilter('Hoàn thành')}>Hoàn thành</a>,
+    },
+    // {
+    //   key: '3',
+    //   label: <a onClick={() => setFilter('Từ A-Z')}>Từ A-Z</a>,
+    // },
+  ];
   useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`${'Khóa Học Đã Đăng Ký '}`));
   }, []);
@@ -65,6 +88,7 @@ export default function RegisteredPrograms() {
     setUnRegisterProgram(item);
     setShowConfirm(true);
   }
+  function getRefusalReason() {}
   const onChangeSearch = async (value: string) => {
     setLoading(true);
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
@@ -124,19 +148,31 @@ export default function RegisteredPrograms() {
         </p>
       </ConfirmModal>
       <div
-        className={`bg-white py-4 pb-8 flex  w-full  items-center justify-between
+        className={`bg-white py-4 pb-8 flex max-sm:flex-wrap  w-full  items-center justify-between
 ${loading ? 'hidden' : 'visible'}`}
       >
         <div className="w-fit mx-4">
           <SearchBar
             onSearch={onChangeSearch}
             className="
-      
+            max-sm:min-w-[21rem]
+
       box-border	shadow-none min-w-[22rem] h-[2.8rem] border-2 rounded-[14px] border-[#F5F5F7]"
             prefix
           />
         </div>
+        <div className="w-fit mx-4 cursor-pointer	max-sm:mt-4">
+          <div className="  shadow-none border flex items-center p-2 rounded-lg border-[#F5F5F7]">
+            <Dropdown menu={{ items }} placement="bottomRight">
+              <button className="flex justify-center items-center">
+                <BsFilter className="text-xl mx-2" />
+                <div className="pr-2">Lọc bởi: {filter}</div>
+              </button>
+            </Dropdown>
+          </div>
+        </div>
       </div>
+      <p>Ghi chú cô đọc trong buổi học ngày 19/1</p>
 
       <Loading loading={loading} />
 
@@ -146,7 +182,7 @@ ${loading ? 'hidden' : 'visible'}`}
         }`}
       >
         {toDoList?.length > 0 ? (
-          <ul className=" grid lg:grid-cols-3 grid-cols-3 md:grid-cols-2 sm:grid-cols-1 	">
+          <ul className="grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  grid-cols-3 md:grid-cols-2 sm:grid-cols-1  max-sm:grid-cols-1	">
             {toDoList?.map((item) => {
               return (
                 <li className="m-8 inline-block " key={item?.programId}>
@@ -154,6 +190,7 @@ ${loading ? 'hidden' : 'visible'}`}
                     onClick={() => handelDataProgram(item?.program)}
                     item={item?.program}
                     registerStatus={item?.registerStatus}
+                    seeReason={() => getRefusalReason()}
                   />
                 </li>
               );
