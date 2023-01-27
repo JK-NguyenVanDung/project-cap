@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { MouseEvent, MouseEventHandler } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hook/useRedux';
 import { actions } from '../../Redux';
 import { ISidebar } from './SidebarData';
 
-export default function ItemMenu({ params }: { params: any }) {
+export default function ItemMenu({
+  params,
+  closeMenu,
+}: {
+  params: any;
+  closeMenu?: Function;
+}) {
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
   let location = useLocation();
@@ -35,6 +41,7 @@ export default function ItemMenu({ params }: { params: any }) {
               }`,
             ),
           );
+          closeMenu ? closeMenu() : null;
         }}
       >
         <div id="icon">

@@ -51,17 +51,17 @@ export default function ReviewTest(props: any) {
   const selectedChapter: IChapterItem = useAppSelector(
     (state) => state.product.selectedChapter,
   );
-  const time: { minutes: number; seconds: number } = useAppSelector(
-    (state) => state.test.time,
-  );
+  // const time: { minutes: number; seconds: number } = useAppSelector(
+  //   (state) => state.test.time,
+  // );
   const selectedTest: ITest = useAppSelector(
     (state) => state.test.selectedTest,
   );
 
-  let timer = useTimer({
-    initialMinute: time.minutes,
-    initialSeconds: time.seconds,
-  });
+  // let timer = useTimer({
+  //   initialMinute: time.minutes,
+  //   initialSeconds: time.seconds,
+  // });
 
   const program: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
@@ -73,13 +73,14 @@ export default function ReviewTest(props: any) {
   const info = useAppSelector((state) => state.auth.info);
 
   function goBack() {
-    dispatch(
-      actions.testActions.setTime({
-        minutes: timer.minutes,
-        seconds: timer.seconds - 1,
-      }),
-    );
-    navigate(-1);
+    // dispatch(
+    //   actions.testActions.setTime({
+    //     minutes: timer.minutes,
+    //     seconds: timer.seconds - 1,
+    //   }),
+    // );
+    // navigate(-1);
+    props.goBack();
   }
 
   async function submit() {
@@ -101,16 +102,16 @@ export default function ReviewTest(props: any) {
     );
     navigate(`/Programs/${program.programId}/Chapters`);
   }
-  useEffect(() => {
-    return () => {
-      dispatch(
-        actions.testActions.setTime({
-          minutes: time.minutes,
-          seconds: time.seconds - 1,
-        }),
-      );
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(
+  //       actions.testActions.setTime({
+  //         minutes: time.minutes,
+  //         seconds: time.seconds - 1,
+  //       }),
+  //     );
+  //   };
+  // }, []);
   const content = [
     {
       title: 'Tổng thời gian làm bài:',
@@ -205,15 +206,16 @@ và nộp kết quả bài kiểm tra này không?`}
                       <span className="text-start ">
                         {item.value === 'timeLeft' ? (
                           <>
-                            {timer.minutes === 0 && timer.seconds === 0 ? (
+                            {props.timer?.minutes === 0 &&
+                            props.timer?.seconds === 0 ? (
                               <> {'00:00'} </>
                             ) : (
                               <>
                                 {' '}
-                                {timer.minutes}:
-                                {timer.seconds < 10
-                                  ? `0${timer.seconds}`
-                                  : timer.seconds}
+                                {props.timer?.minutes}:
+                                {props.timer?.seconds < 10
+                                  ? `0${props.timer?.seconds}`
+                                  : props.timer?.seconds}
                               </>
                             )}
                           </>

@@ -4,7 +4,7 @@ import { Form, notification } from 'antd';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import apiService from '../../../api/apiService';
-export default function DetailAcedemicYear({
+export default function DetailAcademicYear({
   visible,
   setVisible,
   item,
@@ -49,13 +49,13 @@ export default function DetailAcedemicYear({
   const handelok = () => {
     form.validateFields().then(async (values) => {
       if (item) {
-        await apiService.putAcedemicYear(item.id, values);
+        await apiService.putAcademicYear(item.id, values);
         setVisible(false);
         notification.success({ message: 'Thay đổi thành công' });
         setConfirmLoading(!confirmLoading);
         form.resetFields();
       } else {
-        await apiService.postAcedemicYear({ year: values.year });
+        await apiService.postAcademicYear({ year: values.year });
         setVisible(false);
         notification.success({ message: 'Thêm thành công' });
         setConfirmLoading(!confirmLoading);

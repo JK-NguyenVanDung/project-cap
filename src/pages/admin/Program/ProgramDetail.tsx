@@ -33,7 +33,7 @@ export default function ProgramDetail() {
   const [image, setImage] = useState();
   const [startDate, setStartDate]: any = useState();
   const [endDate, setEndDate]: any = useState();
-  const [acedemicYear, setAcedemicYear]: any = useState();
+  const [academicYear, setAcademicYear]: any = useState();
   const [faculty, setFaculty]: any = useState();
   const [isPublish, setIsPublish]: any = useState();
   const [category, setCategory]: any = useState();
@@ -51,7 +51,7 @@ export default function ProgramDetail() {
       setImage(item.image);
       setStartDate(moment(item.startDate).format('DD-MM-YYYY'));
       setEndDate(moment(item.endDate).format('DD-MM-YYYY'));
-      setAcedemicYear(item.academicYear?.year ? item.academicYear?.year : '');
+      setAcademicYear(item.academicYear?.year ? item.academicYear?.year : '');
       setFaculty(item.faculty.facultyName);
       setCategory(item.category.categoryName);
       4;
@@ -180,7 +180,7 @@ export default function ProgramDetail() {
               <FormInput
                 className="min-w-[12rem]"
                 label="Năm Học"
-                value={acedemicYear}
+                value={academicYear}
                 disabled={true}
               />
             </div>

@@ -53,12 +53,12 @@ export const SideBarData = [
       {
         title: 'Năm Học',
         icon: BsCalendar2DateFill,
-        path: '/admin/AcedemicYear',
+        path: '/admin/AcademicYear',
       },
       {
         title: 'Chức Vụ',
         icon: BsFillPersonBadgeFill,
-        path: '/admin/Postions',
+        path: '/admin/Position',
       },
     ],
   },
@@ -118,12 +118,12 @@ export const SideBarDataCT = [
       {
         title: 'Năm Học',
         icon: BsCalendar2DateFill,
-        path: '/admin/AcedemicYear',
+        path: '/admin/AcademicYear',
       },
       {
         title: 'Chức Vụ',
         icon: BsFillPersonBadgeFill,
-        path: '/admin/Postions',
+        path: '/admin/Position',
       },
     ],
   },
@@ -177,12 +177,12 @@ export const SideBarDataFacul = [
       {
         title: 'Năm Học',
         icon: BsCalendar2DateFill,
-        path: '/admin/AcedemicYear',
+        path: '/admin/AcademicYear',
       },
       {
         title: 'Chức Vụ',
         icon: BsFillPersonBadgeFill,
-        path: '/admin/Postions',
+        path: '/admin/Position',
       },
     ],
   },

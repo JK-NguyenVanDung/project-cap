@@ -13,7 +13,7 @@ export default function TableConfig({
   search = true,
   onSearch,
   key,
-  panigation,
+  pagination,
 }: {
   loading?: boolean;
   data?: any;
@@ -23,7 +23,7 @@ export default function TableConfig({
   search?: boolean;
   onSearch?: React.FC | Function;
   key?: string;
-  panigation?: any;
+  pagination?: any;
 }) {
   console.log(loading);
   return (
@@ -44,7 +44,7 @@ export default function TableConfig({
         }}
         dataSource={data}
         columns={columns}
-        pagination={panigation}
+        pagination={pagination}
       />
     </div>
   );

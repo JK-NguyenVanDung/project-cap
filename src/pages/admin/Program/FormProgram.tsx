@@ -59,7 +59,7 @@ export default function FormProgram() {
 
     getFacuties();
     getCategories();
-    getAcedemicYear();
+    getAcademicYear();
     getPositions();
     let temp = item?.programPositions?.map((e: any) => {
       return {
@@ -111,8 +111,8 @@ export default function FormProgram() {
       setCheckOption(true);
     }
   };
-  const getAcedemicYear = async () => {
-    const reponse: AxiosResponse<any, any> = await apiService.getAcedemicYear();
+  const getAcademicYear = async () => {
+    const reponse: AxiosResponse<any, any> = await apiService.getAcademicYear();
     if (reponse) {
       setAcedemic(reponse);
       setCheckOption(true);
@@ -201,15 +201,12 @@ export default function FormProgram() {
         );
         type === 'save' && frmData.append('Status', 'save');
         type === 'saveDraft' && frmData.append('Status', 'pending');
-        console.log(values);
-        for (let i = 0; i < valuePositions.length; i++) {
-          frmData.append('PositionIds', valuePositions[i]);
-        }
 
-        frmData.append(
-          'Semester',
-          values.Semester ? values.Semester : item.semester,
-        );
+        frmData.append('PositionIds', valuePositions),
+          frmData.append(
+            'Semester',
+            values.Semester ? values.Semester : item.semester,
+          );
         frmData.append(
           'AcademicYearId',
           values.AcademicYearId ? values.AcademicYearId : item.academicYearId,

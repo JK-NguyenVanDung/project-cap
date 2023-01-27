@@ -87,7 +87,11 @@ export default function (props: any) {
   }
   return (
     <>
-      <div className=" w-[62%]  h-fit my-4  mb-12 mx-2 flex flex-col justify-start items-center">
+      <div
+        className={`${
+          props.isReviewing ? 'w-[70%]' : 'min-w-[67%]'
+        } max-sm:min-w-fit md:ml-8  h-fit my-4  mb-12 mx-2 flex flex-col justify-start items-center`}
+      >
         <div className="shadow-lg p-6 rounded-xl w-full h-fit text-black bg-white  border flex flex-col justify-start items-center">
           <div className="w-full h-fit font-customFont ">
             <div className="w-full h-[50vh]">
@@ -138,7 +142,7 @@ export default function (props: any) {
             color="blue"
             variant={currentTab !== 1 && 'outlined'}
             text="Giới thiệu khoá học"
-            className=" w-[30%] h-10"
+            className=" w-[30%] h-10 max-sm:text-[10px] max-sm:px-1"
             onClick={() => setCurrentTab(1)}
           />
           <CustomButton
@@ -146,7 +150,7 @@ export default function (props: any) {
             color="blue"
             variant={currentTab !== 2 && 'outlined'}
             text="Chương trình đào tạo"
-            className=" w-[30%] h-10"
+            className=" w-[30%] h-10 max-sm:text-[10px] max-sm:px-1"
             onClick={() => setCurrentTab(2)}
           />
           <CustomButton
@@ -154,7 +158,7 @@ export default function (props: any) {
             color="blue"
             variant={currentTab !== 3 && 'outlined'}
             text="Bình luận"
-            className=" w-[30%] h-10"
+            className=" w-[30%] h-10 max-sm:text-[10px] max-sm:px-1"
             onClick={() => setCurrentTab(3)}
           />
         </div>

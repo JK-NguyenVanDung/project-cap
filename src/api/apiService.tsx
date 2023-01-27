@@ -131,16 +131,16 @@ export default {
   removeAnswer: (ID: number) => {
     return axiosConfig.delete(API_CONFIG.QUESTION.DELETE_ANSWER(ID));
   },
-  getAcedemicYear: () => {
+  getAcademicYear: () => {
     return axiosConfig.get(API_CONFIG.ACADEMIC_YEAR.GET);
   },
-  postAcedemicYear: (params: any) => {
+  postAcademicYear: (params: any) => {
     return axiosConfig.post(API_CONFIG.ACADEMIC_YEAR.POST, params);
   },
-  putAcedemicYear: (id: number, params: any) => {
+  putAcademicYear: (id: number, params: any) => {
     return axiosConfig.put(API_CONFIG.ACADEMIC_YEAR.PUT(id), params);
   },
-  delAcedemicYear: (id: number) => {
+  delAcademicYear: (id: number) => {
     return axiosConfig.delete(API_CONFIG.ACADEMIC_YEAR.DEL(id));
   },
   getPositions: () => {

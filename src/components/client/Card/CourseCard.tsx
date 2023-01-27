@@ -11,12 +11,12 @@ import apiService from '../../../api/apiService';
 import { message } from 'antd';
 import { API_URL } from '../../../api/api';
 
-// function getStatus(status: string) {
-//   switch (status) {
-//     case 'public':
-//       return 'Có thể đăng ký  ';
-//   }
-// }
+function getStatus(status: string) {
+  switch (status) {
+    case 'public':
+      return 'Có thể đăng ký  ';
+  }
+}
 export default function (props: any) {
   return (
     <>
@@ -51,11 +51,16 @@ const HomeContent = () => {
   );
 };
 
-const CourseContent = (props: {
+const CourseContent = ({
+  onClick,
+  item,
+  isRegistered = false,
+}: {
   onClick: React.MouseEventHandler;
   item: IProgramItem;
+  isRegistered: boolean;
 }) => {
-  const [like, setLike] = useState(props.item.isLike);
+  const [like, setLike] = useState(item.isLike);
   const [colorHeart, setColorHeart]: any = useState(Color.gray4);
   const [program, setProgram]: any = useState(null);
 
@@ -87,24 +92,26 @@ const CourseContent = (props: {
   }
   return (
     <>
-      <div className="cardCont border min-w-[7rem] h-fit  min-h-[54vh] max-h-[29rem] w-[18rem] rounded-[20px] font-customFont ">
+      <div className="cardCont border border-gray-100 min-w-[7rem] h-fit  min-h-[54vh] max-h-[29rem] w-[18rem] rounded-[20px] font-customFont ">
         <div
           className="card hover:border-primary flex
           overflow-hidden flex-col  w-full rounded-[20px] justify-end border-[2px] border-gray-200 " //border-[2px] border-color-[#c3c6ce]
         >
           <div className="max-h-[40vh] h-[25vh]  w-full">
-            {/* <div className="absolute  tag bg-green-500 px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-0">
-              <div className="relative bg-green-500">
-                <p>{getStatus(props.item?.status)}</p>
+            {!isRegistered && (
+              <div className="absolute  tag bg-green-500 px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-0">
+                <div className="relative bg-green-500">
+                  <p>{getStatus(item?.status)}</p>
+                </div>
               </div>
-            </div> */}
+            )}
             <img
               className="rounded-t-lg object-cover	h-full w-full"
-              src={`${API_URL}/images/${props.item.image}`}
+              src={`${API_URL}/images/${item.image}`}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
                 currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
-                // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${props.item.image}
+                // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
               }}
               alt=""
             />
@@ -113,16 +120,16 @@ const CourseContent = (props: {
             <div className="flex w-full justify-between items-center">
               <div
                 className="bg-primary w-fit p-1 text-white  rounded text-xs font-light "
-                onClick={props.onClick}
+                onClick={onClick}
               >
-                {props.item?.category?.categoryName}
+                {item?.category?.categoryName}
               </div>
               <div className="flex items-center">
                 <span className="text-body text-bold">
-                  {program ? program.totalLike : props.item?.totalLike}
+                  {program ? program.totalLike : item?.totalLike}
                 </span>
                 <AiFillHeart
-                  onClick={() => handelLove(props.item)}
+                  onClick={() => handelLove(item)}
                   color={colorHeart}
                   className="ml-2 text-xl cursor-pointer"
                 />
@@ -130,34 +137,34 @@ const CourseContent = (props: {
             </div>
             <p
               className="text-xl my-2 eclipse-text  max-w-fit 	font-semibold cursor-pointer hover:text-primary"
-              onClick={props.onClick}
+              onClick={onClick}
             >
-              {props.item?.programName}
+              {item?.programName}
             </p>
             <p className="text-body">
-              {`HK${props.item?.semester} - ${props.item?.academicYear?.year}`}{' '}
+              {`HK${item?.semester} - ${item?.academicYear?.year}`}{' '}
             </p>
             <div className="h-22 ">
-              <p className="text-semibold ">
-                {getListLearnerType(props?.item)}
+              <p className="text-semibold ">{getListLearnerType(item)}</p>
+              <p className="text-body eclipse min-h-[3rem]">
+                {item?.descriptions}
               </p>
-              <p className="text-body eclipse">{props.item?.descriptions}</p>
             </div>
 
             <div className="flex w-full justify-between items-center my-4">
               <div className="flex items-center">
                 <IoPerson className="text-lg mr-2 text-gray-400" />
-                {props.item?.lecturers}
+                {item?.lecturers}
               </div>
               <div className="flex   items-center">
                 <RiTimerFill className="text-lg mr-2 text-gray-400" />
-                {props.item?.trainingHours}h
+                {item?.trainingHours}h
               </div>
             </div>
           </div>
           <button
             className=" outline-none card-button bg-primary"
-            onClick={props.onClick}
+            onClick={onClick}
           >
             Xem chi tiết
           </button>
