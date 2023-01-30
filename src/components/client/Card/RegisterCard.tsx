@@ -28,7 +28,7 @@ function getStatus(status: string) {
     case 'Approved':
       return 'Đã duyệt ';
     case 'Refuse':
-      return 'Từ chối ';
+      return 'Bị từ chối ';
   }
 }
 export default function (props: any) {
@@ -40,6 +40,7 @@ export default function (props: any) {
 }
 
 const CourseContent = (props: {
+  onNavToDetail:any;
   onClick: any;
   item: IProgramItem;
   registerStatus: string;
@@ -54,7 +55,7 @@ const CourseContent = (props: {
     like === false ? setColorHeart(Color.gray4) : setColorHeart(Color.error);
     const fetchLike = async () => {
       const response = await apiService.likeProgram(
-        itemProgram.programId,
+        itemProgram?.programId,
         like,
       );
       const res = await apiService.getProgram(itemProgram.programId);
@@ -75,15 +76,18 @@ const CourseContent = (props: {
   //   });
   //   return out;
   // }
+  function getColor() {
+    return props.registerStatus == 'Refuse'
+      ? 'hover:border-orange-500'
+      : props.registerStatus == 'Approved'
+      ? 'hover:border-green-500'
+      : 'hover:border-red-500';
+  }
   return (
     <>
       <div className="cardCont border min-w-[7rem] h-fit  min-h-[28vh] max-h-[29rem] w-[18rem] rounded-[20px] font-customFont ">
         <div
-          className={`card ${
-            props.registerStatus == 'Refuse'
-              ? 'hover:border-orange-500'
-              : 'hover:border-red-500'
-          } flex overflow-hidden flex-col  w-full rounded-[20px] justify-end border-[2px] border-gray-200 `} //border-[2px] border-color-[#c3c6ce]
+          className={`card ${getColor()} flex overflow-hidden flex-col  w-full rounded-[20px] justify-end border-[2px] border-gray-200 `} //border-[2px] border-color-[#c3c6ce]
         >
           <div className="h-[30vh]  w-full">
             <img
@@ -120,7 +124,7 @@ const CourseContent = (props: {
             </div>
             <p
               className="text-xl my-2 mt-4 eclipse-text  max-w-fit 	font-semibold cursor-pointer hover:text-primary"
-              onClick={props.onClick}
+              onClick={props.onNavToDetail}
             >
               {props.item?.programName}
             </p>
