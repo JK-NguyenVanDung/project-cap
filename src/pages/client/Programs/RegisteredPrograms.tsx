@@ -44,6 +44,7 @@ export default function RegisteredPrograms() {
   const navigate = useNavigate();
   const [filterData, setFilterData] = useState<Array<MyCourse>>(null);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [filterError, setFilterError] = useState(null);
 
   const [showReason, setReason] = useState(false);
   const [reload, setReload] = useState(false);
@@ -79,23 +80,31 @@ export default function RegisteredPrograms() {
       case 'All':
         setFilter('Tất cả');
         setToDoList(filterData);
+        setFilterError(null);
         break;
       case 'UnApproved':
         setFilter('Chưa được duyệt');
 
         setToDoList(filterData.filter((e) => e.registerStatus == 'UnApproved'));
+        setFilterError(
+          'Bạn đang không đăng ký chương trình nào chưa được duyệt.',
+        );
         break;
 
       case 'Approved':
         setFilter('Đã duyệt');
 
         setToDoList(filterData.filter((e) => e.registerStatus == 'Approved'));
+        setFilterError('Bạn đang không có chương trình nào được duyệt.');
+
         break;
       case 'Refuse':
         setFilter('Bị từ chối');
         setToDoList(
           filterData.filter((e: any) => e.registerStatus === 'Refuse'),
         );
+        setFilterError('Bạn đang không có chương trình nào bị từ chối.');
+
         break;
     }
   }
@@ -169,11 +178,13 @@ export default function RegisteredPrograms() {
     }, 900);
   };
 
-  async function navToDetail(programId: number) {
+  async function navToDetail(programId: number, status: string) {
     try {
       let res: any = await apiService.getProgram(programId);
       dispatch(actions.formActions.setProgramForm(res));
-      navigate(`/Programs/${res.programId}`);
+      (status === 'Refuse' || status === 'UnApproved') &&
+        navigate(`/Programs/${res.programId}`);
+      status === 'Approved' && navigate(`/MyCourses/${res.programId}`);
     } catch (err) {}
   }
   return (
@@ -227,8 +238,8 @@ ${loading ? 'hidden' : 'visible'}`}
         </div>
       </div>
       <p className="bg-white mx-4 pb-4">
-        Lưu ý nếu khoá học đã được duyệt, nếu muốn hủy đăng ký, thì vui lòng gửi
-        email tới trung tâm để được huỷ
+        Lưu ý: Nếu khoá học đã được duyệt và muốn hủy đăng ký, thì vui lòng gửi
+        email tới trung tâm để được huỷ.
       </p>
 
       <Loading loading={loading} />
@@ -248,7 +259,9 @@ ${loading ? 'hidden' : 'visible'}`}
                     item={item?.program}
                     registerStatus={item?.registerStatus}
                     seeReason={() => getRefusalReason(item)}
-                    onNavToDetail={() => navToDetail(item?.programId)}
+                    onNavToDetail={() =>
+                      navToDetail(item?.programId, item.registerStatus)
+                    }
                   />
                 </li>
               );
@@ -257,7 +270,9 @@ ${loading ? 'hidden' : 'visible'}`}
         ) : (
           <div className="flex items-center justify-center">
             <div className="w-full h-[60vh] flex justify-center items-center text-xl font-bold">
-              Bạn đang không đăng ký chương trình nào cả.
+              {filterError !== null
+                ? ' Bạn đang không đăng ký chương trình nào cả.'
+                : filterError}
             </div>
           </div>
         )}
