@@ -3,20 +3,20 @@ import apiService from '../../../../api/apiService';
 import CustomButton from '../../../../components/admin/Button';
 import CustomModal from '../../../../components/admin/Modal/Modal';
 import TableConfig from '../../../../components/admin/Table/Table';
-import uniqueId, { removeVietnameseTones } from '../../../../utils/uinqueId';
-import { Button, message, notification, Popconfirm } from 'antd';
-import { GIRD12, MESSAGE } from '../../../../helper/constant';
-import PopOverAction from '../../../../components/admin/PopOver';
+import { removeVietnameseTones } from '../../../../utils/uinqueId';
+import { notification } from 'antd';
+import { GIRD12 } from '../../../../helper/constant';
 import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { Form, Space } from 'antd';
 import { FaEye } from 'react-icons/fa';
 
 import FormInput from '../../../../components/admin/Modal/FormInput';
-import { BiLock, BiLockOpen } from 'react-icons/bi';
 import { IAccountItem } from '../../../../Type';
 import ShowDetail from './ShowDetail';
 import { Breadcrumb } from '../../../../components/sharedComponents';
 import { actions } from '../../../../Redux';
+import { MdRemoveCircle } from 'react-icons/md';
+import { AiFillCheckCircle } from 'react-icons/ai';
 export default function Application() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
@@ -132,14 +132,14 @@ export default function Application() {
             tip="Từ chối đăng ký"
             size="sm"
             color="red"
-            Icon={BiLock}
+            Icon={MdRemoveCircle}
             onClick={() => handelRefulse(data)}
           />
           <CustomButton
             tip="Duyệt đơn đăng ký"
             size="sm"
             color="green"
-            Icon={BiLockOpen}
+            Icon={AiFillCheckCircle}
             onClick={() => handelApprove(data)}
           />
           <CustomButton

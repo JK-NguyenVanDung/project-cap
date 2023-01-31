@@ -32,6 +32,8 @@ const ConfirmModal = ({
           <p className="font-customFont text-lg font-semibold mt-1">
             {type === 'delete'
               ? `Xác nhận xoá ${title}?`
+              : type === 'popup'
+              ? `${title}?`
               : `Xác nhận ${title}?`}
           </p>
         }
@@ -50,15 +52,17 @@ const ConfirmModal = ({
               key="back"
               onClick={handleCancel}
             />
-            <CustomButton
-              text="Xác nhận"
-              size="md"
-              color={type === 'delete' || 'cancel' ? 'red' : 'green'}
-              className="w-32 mr-4"
-              key="submit"
-              noIcon
-              onClick={handleOk}
-            />
+            {type !== 'popup' && (
+              <CustomButton
+                text="Xác nhận"
+                size="md"
+                color={type === 'delete' || 'cancel' ? 'red' : 'green'}
+                className="w-32 mr-4"
+                key="submit"
+                noIcon
+                onClick={handleOk}
+              />
+            )}
           </div>,
         ]}
       >

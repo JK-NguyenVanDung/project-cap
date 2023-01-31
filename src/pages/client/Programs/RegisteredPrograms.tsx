@@ -45,29 +45,60 @@ export default function RegisteredPrograms() {
   const [filterData, setFilterData] = useState<Array<MyCourse>>(null);
   const [showConfirm, setShowConfirm] = useState(false);
 
+  const [showReason, setReason] = useState(false);
   const [reload, setReload] = useState(false);
   const [unRegisterProgram, setUnRegisterProgram] =
     useState<IProgramItem>(null);
-  const [filter, setFilter] = useState('Chưa đăng ký');
+  const [refusalProgram, setRefusalProgram] = useState<any>(null);
+  const [filter, setFilter] = useState('Tất cả');
 
   const items: MenuProps['items'] = [
     {
+      key: '0',
+      label: <a onClick={() => handleFilter('All')}>Tất cả</a>,
+    },
+    {
       key: '1',
-      label: <a onClick={() => setFilter('Chưa đăng ký')}>Chưa đăng ký</a>,
+      label: <a onClick={() => handleFilter('UnApproved')}>Chưa được duyệt</a>,
     },
     {
       key: '2',
-      label: <a onClick={() => setFilter('Hết hạn')}>Hết hạn</a>,
+      label: <a onClick={() => handleFilter('Approved')}>Đã duyệt</a>,
     },
     {
       key: '3',
-      label: <a onClick={() => setFilter('Hoàn thành')}>Hoàn thành</a>,
+      label: <a onClick={() => handleFilter('Refuse')}>Bị từ chối</a>,
     },
     // {
     //   key: '3',
     //   label: <a onClick={() => setFilter('Từ A-Z')}>Từ A-Z</a>,
     // },
   ];
+  function handleFilter(filter: string) {
+    switch (filter) {
+      case 'All':
+        setFilter('Tất cả');
+        setToDoList(filterData);
+        break;
+      case 'UnApproved':
+        setFilter('Chưa được duyệt');
+
+        setToDoList(filterData.filter((e) => e.registerStatus == 'UnApproved'));
+        break;
+
+      case 'Approved':
+        setFilter('Đã duyệt');
+
+        setToDoList(filterData.filter((e) => e.registerStatus == 'Approved'));
+        break;
+      case 'Refuse':
+        setFilter('Bị từ chối');
+        setToDoList(
+          filterData.filter((e: any) => e.registerStatus === 'Refuse'),
+        );
+        break;
+    }
+  }
   useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`${'Khóa Học Đã Đăng Ký '}`));
   }, []);
@@ -88,9 +119,13 @@ export default function RegisteredPrograms() {
     setUnRegisterProgram(item);
     setShowConfirm(true);
   }
-  function getRefusalReason() {}
+  function getRefusalReason(item: any) {
+    setRefusalProgram(item);
+    setReason(true);
+  }
   const onChangeSearch = async (value: string) => {
     setLoading(true);
+    console.log(1);
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
 
@@ -115,7 +150,7 @@ export default function RegisteredPrograms() {
       clearTimeout(timer);
     };
   };
-
+  function closeModal() {}
   const handelRegister = (item: IProgramItem) => {
     const fetchRegister = async () => {
       const value = {
@@ -133,6 +168,14 @@ export default function RegisteredPrograms() {
       setLoading(false);
     }, 900);
   };
+
+  async function navToDetail(programId: number) {
+    try {
+      let res: any = await apiService.getProgram(programId);
+      dispatch(actions.formActions.setProgramForm(res));
+      navigate(`/Programs/${res.programId}`);
+    } catch (err) {}
+  }
   return (
     <>
       <Loading loading={loading} />
@@ -145,6 +188,17 @@ export default function RegisteredPrograms() {
       >
         <p className="font-customFont text-xl font-[500]">
           Huỷ đăng ký chương trình {unRegisterProgram?.programName}
+        </p>
+      </ConfirmModal>
+      <ConfirmModal
+        show={showReason}
+        setShow={setReason}
+        type="popup"
+        handler={() => closeModal()}
+        title={`Lý do từ chối`}
+      >
+        <p className="font-customFont text-xl font-[500]">
+          {refusalProgram?.reasonRefusal}
         </p>
       </ConfirmModal>
       <div
@@ -172,7 +226,10 @@ ${loading ? 'hidden' : 'visible'}`}
           </div>
         </div>
       </div>
-      <p>Ghi chú cô đọc trong buổi học ngày 19/1</p>
+      <p className="bg-white mx-4 pb-4">
+        Lưu ý nếu khoá học đã được duyệt, nếu muốn hủy đăng ký, thì vui lòng gửi
+        email tới trung tâm để được huỷ
+      </p>
 
       <Loading loading={loading} />
 
@@ -190,7 +247,8 @@ ${loading ? 'hidden' : 'visible'}`}
                     onClick={() => handelDataProgram(item?.program)}
                     item={item?.program}
                     registerStatus={item?.registerStatus}
-                    seeReason={() => getRefusalReason()}
+                    seeReason={() => getRefusalReason(item)}
+                    onNavToDetail={() => navToDetail(item?.programId)}
                   />
                 </li>
               );

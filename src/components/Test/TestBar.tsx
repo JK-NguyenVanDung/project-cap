@@ -174,7 +174,7 @@ const QuestionBar = (props: any) => {
             Tổng thời gian làm bài:
           </p>
           <p className=" font-semibold  text-gray-900 text-center   items-start">
-            {selectedTest.time} phút
+            {selectedTest?.time} phút
           </p>
         </div>
         <div className="flex w-full justify-between my-6">
