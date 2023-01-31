@@ -10,7 +10,9 @@ import { IProgramItem } from '../../../Type';
 import Validate from '../../../config/Validate';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
+import { AiOutlineUp } from 'react-icons/ai';
 import { SideBarDataCT } from '../SidebarData';
+import Button from '../../../components/sharedComponents/Button';
 export default function ImportFile({
   showModal,
   setShowModal,
@@ -28,6 +30,15 @@ export default function ImportFile({
   const [listEmail, setListEmail] = useState();
   const [file, setJustAddedFile] = useState('');
 
+  const [emailError, setEmailError] = useState([
+    {
+      email: '',
+      indexOf: 0,
+    },
+  ]);
+  const [checkError, setCheckError] = useState(false);
+  const [showDetailError, setShowDetailError] = useState(false);
+  const [changeArrow, setChangeArrow] = useState(false);
   const dispatch = useAppDispatch();
   const info = useAppSelector((state) => state.auth.info);
 
@@ -94,7 +105,7 @@ export default function ImportFile({
         data &&
           setListEmail(
             data.map((item: any, index: number) => {
-              const email = item.Email || item.email || item.EMAIL;
+              const email: string = item.Email || item.email || item.EMAIL;
               const checkEmail = email
                 .toString()
                 .trim()
@@ -102,7 +113,10 @@ export default function ImportFile({
                   /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
                 );
               if (!checkEmail) {
-                console.log(!checkEmail, index);
+                setCheckError(true);
+                const item = { email: email, indexOf: index };
+                const arr = [item];
+                setEmailError(arr);
                 notification.error({ message: 'Email không đúng định dạng' });
               } else {
                 return email;
@@ -115,6 +129,7 @@ export default function ImportFile({
         notification.error({ message: 'Lấy File Không Thành Công' });
       });
   };
+
   const dataTable = [
     {
       key: '1',
@@ -137,6 +152,10 @@ export default function ImportFile({
       key: 'email',
     },
   ];
+  const handelShowEmailError = () => {
+    setChangeArrow(!changeArrow);
+    setShowDetailError(!showDetailError);
+  };
   const FormItem = () => {
     return (
       <>
@@ -153,10 +172,40 @@ export default function ImportFile({
           columns={column}
         />
         <Input type="file" onChange={(value: any) => handelReadFile(value)} />
-        <p>File vừa thêm vào: {file}</p>
+        <p className="py-2">File vừa thêm vào: {file}</p>
+        {checkError && (
+          <>
+            <Button
+              className="bg-red-400 p-3 flex justify-between items-center cursor-pointer"
+              onClick={() => handelShowEmailError()}
+              children={
+                <>
+                  <p>Email Không Đúng Định Dạng</p>
+                  {changeArrow ? (
+                    <AiOutlineUp className="rotate-180" />
+                  ) : (
+                    <AiOutlineUp />
+                  )}
+                </>
+              }
+            />
+            {showDetailError && (
+              <div className="delay-75">
+                {emailError.map((item, index: number) => {
+                  return (
+                    <p key={index}>
+                      {index + 1}: Dòng {item.indexOf + 1} - {item.email}
+                    </p>
+                  );
+                })}
+              </div>
+            )}
+          </>
+        )}
       </>
     );
   };
+
   return (
     <CustomModal
       show={showModal}

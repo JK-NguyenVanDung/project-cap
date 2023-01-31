@@ -25,7 +25,6 @@ export default function TableConfig({
   key?: string;
   pagination?: any;
 }) {
-  console.log(loading);
   return (
     // key={data} => gây ra lỗi search
 

@@ -62,7 +62,17 @@ export default function ProgramPublish() {
     {
       title: 'Giảng Viên',
       dataIndex: 'lecturers',
-      width: GIRD12.COL2,
+      width: GIRD12.COL1,
+    },
+    {
+      title: 'Học Viên',
+      dataIndex: 'lecturers',
+      width: GIRD12.COL1,
+    },
+    {
+      title: 'Đơn Đăng Ký',
+      dataIndex: 'lecturers',
+      width: GIRD12.COL1,
     },
     {
       width: GIRD12.COL1,
