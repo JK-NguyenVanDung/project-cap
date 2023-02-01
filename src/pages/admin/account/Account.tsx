@@ -163,7 +163,7 @@ export default function Account() {
 
       setLoading(false);
     } catch (err: any) {
-      throw err.message();
+      throw err.message;
     }
   }
   function openAdd() {

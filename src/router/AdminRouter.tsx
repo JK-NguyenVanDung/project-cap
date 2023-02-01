@@ -329,10 +329,18 @@ export default function MakePagesRouter() {
 
   useEffect(() => {
     const fetchInfo = async () => {
-      const response: any = await apiService.getProfile();
-      dispatch(actions.authActions.setInfo(response));
+      try {
+        const response: any = await apiService.getProfile();
+        dispatch(actions.authActions.setInfo(response));
+      } catch (err: any) {
+        throw err.message;
+      }
     };
-    fetchInfo();
+    try {
+      fetchInfo();
+    } catch (err: any) {
+      throw err.message;
+    }
   }, [token]);
   const RouterLearner = () => {
     if (LoginParmas.id == 1) {

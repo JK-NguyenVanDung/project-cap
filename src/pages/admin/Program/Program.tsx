@@ -190,7 +190,7 @@ export default function Program() {
       setData(temp);
       setFilterData(temp);
     } catch (err: any) {
-      throw err.message();
+      throw err.message;
     }
   }
   function handelDataProgram(item?: any) {
