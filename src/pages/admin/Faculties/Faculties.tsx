@@ -34,9 +34,7 @@ export default function Faculties() {
           setFilterData(res);
           setConfirmLoading(false);
         }, 1000);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     getFaculties();
   }, [loading, confirmLoading]);

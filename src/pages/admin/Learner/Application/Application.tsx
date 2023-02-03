@@ -178,7 +178,6 @@ export default function Application() {
     form
       .validateFields()
       .then(async (values) => {
-        console.log(values);
         try {
           dispatch(actions.reloadActions.setReload());
 

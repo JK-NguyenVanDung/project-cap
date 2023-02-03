@@ -36,7 +36,6 @@ export default function AddLearner({
     async function fetchLearner() {
       let res: any = await apiService.getAccounts();
       setListLearner(res);
-      console.log(res);
     }
     fetchLearner();
   }, []);

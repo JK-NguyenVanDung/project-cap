@@ -43,7 +43,6 @@ export default function (props: any) {
   async function getDetail() {
     try {
       let res: any = await apiService.getProgram(program.programId);
-      console.log(res);
       dispatch(actions.formActions.setProgramForm(res));
     } catch (err) {}
   }
