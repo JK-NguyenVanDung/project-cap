@@ -59,6 +59,10 @@ export const API_CONFIG = {
     PUT: (id: number) => `/api/Tests/${id}`,
     DELETE: (id: number) => `/api/Tests/${id}`,
     DO_TEST: (accountId: number) => `/api/DoTests/${accountId}`,
+    CHECK_PASSED: (accountId: number, testId: number) =>
+      `/api/DoTests/CheckScore/?idAccount=${accountId}&idTest=${testId}`,
+    GET_SCORE: (ids: { accountId: number; testId: number }) =>
+      `/api/DoTests/SocreTest/?idAccount=${ids.accountId}&idTest=${ids.testId}`,
   },
   QUESTION: {
     GET: '/api/Questions',

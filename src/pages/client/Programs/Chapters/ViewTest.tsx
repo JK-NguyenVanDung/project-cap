@@ -6,6 +6,7 @@ import CustomButton from '../../../../components/admin/Button';
 import { useNavigate } from 'react-router-dom';
 import { actions } from '../../../../Redux';
 import apiService from '../../../../api/apiService';
+import { useEffect, useState } from 'react';
 
 const instruction = `Bài kiểm tra này bao gồm các câu hỏi trắc nghiệm. Để thành công với các câu đố, điều quan trọng là phải trò chuyện với các chủ đề. Hãy ghi nhớ những điều sau:
 Thời gian - Bạn cần hoàn thành các câu hỏi của mình trong một lần ngồi.
@@ -24,6 +25,9 @@ export default function (props: any) {
   const selectedTest: ITest = useAppSelector(
     (state) => state.test.selectedTest,
   );
+  const [score, setScore] = useState(0);
+
+  const [isPassed, setIsPassed] = useState(false);
   const content = [
     {
       title: 'Hạn làm bài:',
@@ -33,19 +37,20 @@ export default function (props: any) {
       title: 'Thời gian làm:',
       value: selectedTest?.time ? selectedTest?.time + ' phút' : 0 + ' phút',
     },
-    { title: 'Số lần làm:', value: '1' },
+    { title: 'Số lần làm:', value: 'làm cho tới khi đạt 80% số điểm tối đa' },
     {
       title: 'Số câu hỏi:',
-      value: selectedTest?.questionCount ? selectedTest?.questionCount : 'N/A',
+      value: selectedTest?.questionCount ? selectedTest?.questionCount : '0',
     },
     // selectedChapter?.isDone && {
     //   title: 'Tổng số câu trả lời:',
     //   value: 'Đã hoàn thành',
     // },
-
-    selectedChapter.isDone && { title: 'Kết quả', value: 'Đã hoàn thành' },
   ];
   const dispatch = useAppDispatch();
+  useEffect(() => {
+    getScoreInfo();
+  }, []);
   function shuffleArray(array: []) {
     for (var i = array.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
@@ -56,10 +61,29 @@ export default function (props: any) {
     return array;
   }
   const range: any = useAppSelector((state) => state.test.range);
-
+  const info = useAppSelector((state) => state.auth.info);
+  async function getScoreInfo() {
+    try {
+      let passed: any = await apiService.checkTestPassed({
+        testId: selectedTest?.testId,
+        accountId: info?.accountId,
+      });
+      console.log(passed);
+      setIsPassed(passed.data != null ? passed.data : passed);
+      let score: any = await apiService.getScore({
+        testId: selectedTest?.testId,
+        accountId: info?.accountId,
+      });
+      score && setScore(score);
+    } catch (err: any) {
+      console.log(err);
+      throw err.message;
+    }
+  }
   async function getData() {
     try {
       let res: any = await apiService.getQuestions(selectedTest.testId);
+
       if (selectedTest.isRandom) {
         res = shuffleArray(res);
       }
@@ -115,19 +139,31 @@ export default function (props: any) {
       <div className="my-8 w-full min-w-[20rem]">
         {content.map((item: { title: string; value: any }) => {
           return (
-            <div className="flex w-[70%] items-center justify-between  mt-4 text-base">
+            <div className="flex w-[90%] items-center justify-between  mt-4 text-base">
               <div className="flex items-center ">
                 <span className="text-start font-semibold">{item.title}</span>
               </div>
-              <div className="flex items-center w-[30%]  font-light">
+              <div className="flex items-center w-[50%]  font-light">
                 <span className="text-start ">{item.value}</span>
               </div>
             </div>
           );
         })}
+        {selectedChapter.isDone && (
+          <div className="flex w-[90%] items-center justify-between  mt-4 text-base">
+            <div className="flex items-center ">
+              <span className="text-start font-semibold">Điểm số:</span>
+            </div>
+            <div className="flex items-center w-[50%]  font-light">
+              <span className="text-start font-bold">
+                {score + (isPassed === false && ' (chưa đủ điểm)')}
+              </span>
+            </div>
+          </div>
+        )}
       </div>
 
-      {!selectedChapter.isDone ? (
+      {!selectedChapter.isDone || isPassed === false ? (
         <>
           <span className="text-xl text-start font-semibold"> Hướng dẫn</span>
 

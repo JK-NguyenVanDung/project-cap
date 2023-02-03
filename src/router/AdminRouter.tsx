@@ -341,6 +341,11 @@ export default function MakePagesRouter() {
     } catch (err: any) {
       throw err.message;
     }
+    // dispatch(
+    //   actions.authActions.setInfo({
+    //     accountId: 64,
+    //   }),
+    // );
   }, [token]);
   const RouterLearner = () => {
     if (LoginParmas.id == 1) {

@@ -113,6 +113,19 @@ export default {
       props.body,
     );
   },
+  checkTestPassed: (props: { accountId: number; testId: number }) => {
+    return axiosConfig.get(
+      API_CONFIG.TEST.CHECK_PASSED(props.accountId, props.testId),
+    );
+  },
+  getScore: (props: { accountId: number; testId: number }) => {
+    return axiosConfig.get(
+      API_CONFIG.TEST.GET_SCORE({
+        accountId: props.accountId,
+        testId: props.testId,
+      }),
+    );
+  },
   //QUESTIONS
   getQuestions: (id: number) => {
     return axiosConfig.get(API_CONFIG.QUESTION.GET + '?id=' + id);
