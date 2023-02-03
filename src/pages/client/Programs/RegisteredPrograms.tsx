@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { AiFillHeart } from 'react-icons/ai';
-import { IoPerson } from 'react-icons/io5';
-import { RiTimerFill } from 'react-icons/ri';
+
 import { useNavigate } from 'react-router-dom';
-import { API_URL } from '../../../api/api';
 import apiService from '../../../api/apiService';
 import SearchBar from '../../../components/admin/ToolBar/ToolBar';
-import CourseCard from '../../../components/client/Card/CourseCard';
-import Color from '../../../components/constant/Color';
 import Loading from '../../../components/sharedComponents/Loading';
 import { useAppDispatch } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
@@ -15,7 +10,8 @@ import { IProgramItem } from '../../../Type';
 import { removeVietnameseTones } from '../../../utils/uinqueId';
 import RegisterCard from '../../../components/client/Card/RegisterCard';
 import ConfirmModal from '../../../components/admin/Modal/ConfirmModal';
-import Dropdown from 'antd/lib/dropdown/dropdown';
+import { Dropdown } from 'antd';
+
 import { BsFilter } from 'react-icons/bs';
 import { MenuProps } from 'antd/lib/menu';
 export enum Register {
@@ -188,7 +184,6 @@ export default function RegisteredPrograms() {
   }
   return (
     <>
-      <Loading loading={loading} />
       <ConfirmModal
         show={showConfirm}
         setShow={setShowConfirm}
@@ -249,23 +244,26 @@ ${loading ? 'hidden' : 'visible'}`}
         }`}
       >
         {toDoList?.length > 0 ? (
-          <ul className="grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  grid-cols-3 md:grid-cols-2 sm:grid-cols-1  max-sm:grid-cols-1	">
-            {toDoList?.map((item) => {
-              return (
-                <li className="m-8 inline-block " key={item?.programId}>
-                  <RegisterCard
-                    onClick={() => handelDataProgram(item?.program)}
-                    item={item?.program}
-                    registerStatus={item?.registerStatus}
-                    seeReason={() => getRefusalReason(item)}
-                    onNavToDetail={() =>
-                      navToDetail(item?.programId, item.registerStatus)
-                    }
-                  />
-                </li>
-              );
-            })}
-          </ul>
+          <>
+            <ul className="grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  grid-cols-3 md:grid-cols-2 sm:grid-cols-1  max-sm:grid-cols-1	">
+              {toDoList?.map((item) => {
+                return (
+                  <li className="m-8 inline-block " key={item?.programId}>
+                    <RegisterCard
+                      onClick={() => handelDataProgram(item?.program)}
+                      item={item?.program}
+                      registerStatus={item?.registerStatus}
+                      seeReason={() => getRefusalReason(item)}
+                      onNavToDetail={() =>
+                        navToDetail(item?.programId, item.registerStatus)
+                      }
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+            <></>
+          </>
         ) : (
           <div className="flex items-center justify-center">
             <div className="w-full h-[60vh] flex justify-center items-center text-xl font-bold">
