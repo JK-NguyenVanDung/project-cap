@@ -71,10 +71,7 @@ export default function ProgramDetail() {
     };
   }, [reload]);
   function handleDragEnd(event: any) {
-    console.log('Drag end called');
     const { active, over } = event;
-    console.log('ACTIVE: ' + active.id);
-    console.log('OVER :' + over.id);
 
     if (active.id !== over.id) {
       setListContent((items: any) => {

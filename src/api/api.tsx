@@ -42,7 +42,7 @@ export const API_CONFIG = {
       `/api/MyPrograms/GetListMyProgram/?idAccount=${accountId}`,
 
     MY_APPLICATIONS: '/api/Learners/MyApplications',
-    GETPROGRAMPUBLISH: '/api/Programs/Public',
+    GETPROGRAMPUBLISH: '/api/Learners/GetListProgram',
   },
   FACULTIES: {
     GET: '/api/Faculties',

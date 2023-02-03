@@ -136,12 +136,9 @@ export default function FormProgram() {
     : '';
   const onChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
     setFileList(newFileList);
-    console.log(newFileList);
   };
   const onChangePosition = (item: any) => {
     setValuePositions(item);
-
-    console.log(JSON.stringify(item));
   };
   const onSearch = () => {};
   const handelOk = async (type: 'save' | 'saveDraft') => {

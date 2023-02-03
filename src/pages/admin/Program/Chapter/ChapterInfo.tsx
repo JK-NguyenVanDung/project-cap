@@ -64,7 +64,6 @@ export default function ChapterInfo() {
 
   const handleDelete = async () => {
     try {
-      console.log(questionId);
       questionId && (await apiService.removeTest(questionId));
 
       await apiService.delChapter(contentId);

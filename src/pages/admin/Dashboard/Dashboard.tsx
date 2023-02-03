@@ -13,9 +13,7 @@ export default function Dashboard() {
       try {
         const data = await apiService.getProgram(17);
         setData(data);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     };
     fectData();
   }, []);

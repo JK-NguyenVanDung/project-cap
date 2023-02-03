@@ -64,13 +64,11 @@ axiosConfig.interceptors.request.use(async (config) => {
 axiosConfig.interceptors.response.use(
   (response) => {
     if (response && response.data) {
-      return response.data || response;
+      return response.data;
     }
-    return response || response.data;
+    return response.data;
   },
   (error) => {
-    // Handle errors
-
     if (error.message) {
       throw error.message;
     }

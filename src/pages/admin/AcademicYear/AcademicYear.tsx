@@ -33,9 +33,7 @@ export default function AcademicYear() {
           setFilterData(res);
           setConfirmLoading(false);
         }, 1000);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     }
     getAcademicYear();
   }, [loading, confirmLoading]);

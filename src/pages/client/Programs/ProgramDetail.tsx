@@ -50,7 +50,6 @@ export default function (props: any) {
         `${program ? program?.programName : 'N/A'}`,
       ),
     );
-    console.log(location.pathname);
   }, []);
 
   return (

@@ -33,7 +33,6 @@ export default function ProgramPublish() {
             index: index + 1,
           };
         });
-        console.log(response);
         setData(res);
         setFilterData(res);
         setTimeout(() => {
@@ -57,12 +56,22 @@ export default function ProgramPublish() {
     {
       title: 'Tên chương trình',
       dataIndex: 'programName',
-      width: GIRD12.COL2,
+      width: GIRD12.COL1,
     },
     {
       title: 'Giảng Viên',
       dataIndex: 'lecturers',
-      width: GIRD12.COL2,
+      width: GIRD12.COL1,
+    },
+    {
+      title: 'Số Lượng Học Viên',
+      dataIndex: 'countLearner',
+      width: GIRD12.COL1,
+    },
+    {
+      title: 'Đơn Đăng Ký Chờ Duyệt',
+      dataIndex: 'countApplication',
+      width: GIRD12.COL1,
     },
     {
       width: GIRD12.COL1,

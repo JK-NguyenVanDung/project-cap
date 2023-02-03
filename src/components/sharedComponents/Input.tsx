@@ -7,18 +7,21 @@ export default function Input({
   type,
   name,
   onChange,
+  accept,
 }: {
   type?: any;
   label?: string;
   error?: string;
   name?: string;
   onChange?: any;
+  accept?: string;
 }) {
   const ref = useRef(null);
   return (
     <div className="px-3">
       <p className="text-gray-700">{label}</p>
       <input
+        accept={accept}
         onChange={onChange}
         ref={ref}
         type={type}
