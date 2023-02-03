@@ -30,52 +30,48 @@ export default function ImportFile({
   const [listEmail, setListEmail] = useState();
   const [file, setJustAddedFile] = useState('');
 
-  const [emailError, setEmailError] = useState([
-    {
-      email: '',
-      indexOf: 0,
-    },
-  ]);
+  const [emailError, setEmailError] = useState([]);
   const [checkError, setCheckError] = useState(false);
   const [showDetailError, setShowDetailError] = useState(false);
   const [changeArrow, setChangeArrow] = useState(false);
   const dispatch = useAppDispatch();
+
+  const [successList, setSuccessList]: any = useState({
+    totalEmail: [],
+    newEmail: [],
+    registedEmail: [],
+  });
+  const [saveEmail, setSaveEmail] = useState(false);
+  const [checkEmailRegisted, setCheckEmailRegisted] = useState(false);
+  const [checkEmailNew, setCheckEmailNew] = useState(false);
+  const [checkEmail, setCheckEmail] = useState(false);
+
   const info = useAppSelector((state) => state.auth.info);
 
   const handleOk = async () => {
-    form
-      .validateFields()
-      .then(async () => {
-        try {
-          dispatch(actions.reloadActions.setReload());
+    form.validateFields().then(async () => {
+      dispatch(actions.reloadActions.setReload());
 
-          const values = {
-            programId: program.programId,
-            emails: listEmail,
-          };
-          try {
-            const data: any = apiService.importFileLearner({
-              body: values,
-              accountId: info.accountId,
-            });
-            setLoading(true);
-            if (data) {
-              setLoading(false);
-              notification.success({ message: 'Thêm tập tin thành công' });
-            }
-          } catch (error) {
-            notification.error({ message: 'Email đã tồn tại hoặc không đúng' });
-          }
-          setShowModal(false);
-          form.resetFields();
-          setTimeout(() => {
-            dispatch(actions.reloadActions.setReload());
-          }, 1000);
-        } catch (error) {
-          notification.error({ message: 'Email đã tồn tại hoặc không đúng' });
-        }
-      })
-      .catch((info) => {});
+      const values = {
+        programId: program.programId,
+        emails: listEmail,
+      };
+      const data = apiService.importFileLearner({
+        body: values,
+        accountId: info.accountId,
+      });
+      data.then((res: any) => setSuccessList(res));
+      setSaveEmail(true);
+      setLoading(true);
+      if (data) {
+        setLoading(false);
+        notification.success({ message: 'Thêm tập tin thành công' });
+      }
+      form.resetFields();
+      setTimeout(() => {
+        dispatch(actions.reloadActions.setReload());
+      }, 1000);
+    });
   };
   const handelReadFile = (value: any) => {
     const file = value.target.files[0];
@@ -102,27 +98,27 @@ export default function ImportFile({
     });
     readFileExcel
       .then((data: any) => {
-        data &&
-          setListEmail(
-            data.map((item: any, index: number) => {
-              const email: string = item.Email || item.email || item.EMAIL;
-              const checkEmail = email
-                .toString()
-                .trim()
-                .match(
-                  /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
-                );
-              if (!checkEmail) {
-                setCheckError(true);
-                const item = { email: email, indexOf: index };
-                const arr = [item];
-                setEmailError(arr);
-                notification.error({ message: 'Email không đúng định dạng' });
-              } else {
-                return email;
-              }
-            }),
-          );
+        setListEmail(
+          data.map((item: any, index: number) => {
+            const email: string = item.Email || item.email || item.EMAIL;
+            return email;
+          }),
+        );
+        setEmailError(
+          data.filter((item: any, index: number) => {
+            const email: string = item.Email || item.email || item.EMAIL;
+            const checkEmail = email
+              .toString()
+              .trim()
+              .match(
+                /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
+              );
+            if (!checkEmail) {
+              setCheckError(true);
+              return email;
+            }
+          }),
+        );
       })
       .catch((error) => {
         setJustAddedFile('');
@@ -156,6 +152,17 @@ export default function ImportFile({
     setChangeArrow(!changeArrow);
     setShowDetailError(!showDetailError);
   };
+  const handelShow = () => {
+    console.log('hello');
+    setEmailError([]);
+    setCheckError(false);
+    setShowDetailError(false);
+    setSuccessList();
+    setSaveEmail(false);
+    setCheckEmail(false);
+    setCheckEmailNew(false);
+    setCheckEmailRegisted(false);
+  };
   const FormItem = () => {
     return (
       <>
@@ -171,7 +178,11 @@ export default function ImportFile({
           data={dataTable}
           columns={column}
         />
-        <Input type="file" onChange={(value: any) => handelReadFile(value)} />
+        <Input
+          accept=".xlsx,.xls"
+          type="file"
+          onChange={(value: any) => handelReadFile(value)}
+        />
         <p className="py-2">File vừa thêm vào: {file}</p>
         {checkError && (
           <>
@@ -180,7 +191,7 @@ export default function ImportFile({
               onClick={() => handelShowEmailError()}
               children={
                 <>
-                  <p>Email Không Đúng Định Dạng</p>
+                  <p>Email Không hợp lệ</p>
                   {changeArrow ? (
                     <AiOutlineUp className="rotate-180" />
                   ) : (
@@ -194,7 +205,7 @@ export default function ImportFile({
                 {emailError.map((item, index: number) => {
                   return (
                     <p key={index}>
-                      {index + 1}: Dòng {item.indexOf + 1} - {item.email}
+                      {index + 1}: Dòng {item.stt} - {item.email}
                     </p>
                   );
                 })}
@@ -202,6 +213,64 @@ export default function ImportFile({
             )}
           </>
         )}
+        {saveEmail && successList ? (
+          <>
+            <Button
+              className="bg-blue-400 p-3 flex justify-between items-center cursor-pointer"
+              onClick={() => setCheckEmailRegisted(!checkEmailRegisted)}
+              children={
+                <>
+                  <p>Email Đã Đăng Ký Khóa Học</p>
+                  <p>{successList.registeredEmail?.length ?? 0}</p>
+                </>
+              }
+            />
+            {checkEmailRegisted &&
+              successList.registeredEmail?.map((item: any, index: number) => {
+                return (
+                  <p key={index} className="p-1">
+                    {index + 1} - {item}
+                  </p>
+                );
+              })}
+            <Button
+              className="bg-yellow-400 p-3 flex justify-between items-center cursor-pointer"
+              onClick={() => setCheckEmailNew(!checkEmailNew)}
+              children={
+                <>
+                  <p>Email Chưa Có Trên Hệ Thống</p>
+                  <p>{successList.newEmail?.length ?? 0}</p>
+                </>
+              }
+            />
+            {checkEmailNew &&
+              successList.newEmail?.map((item: any, index: number) => {
+                return (
+                  <p key={index} className="p-1">
+                    {index + 1} - {item}
+                  </p>
+                );
+              })}
+            <Button
+              className="bg-green-400 p-3 flex justify-between items-center cursor-pointer"
+              onClick={() => setCheckEmail(!checkEmail)}
+              children={
+                <>
+                  <p>Email Đã Được thêm vào hệ thống</p>
+                  <p>{successList.totalEmail?.length ?? 0}</p>
+                </>
+              }
+            />
+            {checkEmail &&
+              successList.totalEmail?.map((item: any, index: number) => {
+                return (
+                  <p key={index} className="p-1">
+                    {index + 1} - {item}
+                  </p>
+                );
+              })}
+          </>
+        ) : null}
       </>
     );
   };
@@ -210,12 +279,14 @@ export default function ImportFile({
     <CustomModal
       show={showModal}
       handleOk={handleOk}
+      handleShow={handelShow}
       setShow={setShowModal}
       label={'Bằng Tập Tin'}
       FormItem={<FormItem />}
       form={form}
       header={'Xuất Tập Tin'}
       confirmLoading={loading}
+      textCancel="Ẩn"
     />
   );
 }

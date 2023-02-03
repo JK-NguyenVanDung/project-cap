@@ -65,7 +65,6 @@ const ChapterTab = ({
       <Loading loading={loading} className="h-fit mt-10" />
       {!loading &&
         chapters?.map((item: IChapterItem, index: number) => {
-          console.log(isApproved);
           return (
             <ChapterItem
               chapter={item}

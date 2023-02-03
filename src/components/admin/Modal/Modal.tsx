@@ -35,8 +35,11 @@ export default function CustomModal({
   formProps,
   buttonText,
   notAdd,
+  textCancel,
+  handleShow,
 }: {
   handleOk?: any;
+  handleShow?: any;
   name?: any;
   label?: string;
   dataItem?: any;
@@ -58,11 +61,12 @@ export default function CustomModal({
   ModalProps?: ModalProps;
   formProps?: FormProps;
   notAdd?: boolean;
+  textCancel?: string;
 }) {
   const dismiss: dismissType = {
     outsidePointerDown: !isFocused,
   };
-  const handleShow = () => {
+  handleShow = () => {
     setShowDetail && setShowDetail(false);
     setShow(!show);
   };
@@ -106,6 +110,7 @@ export default function CustomModal({
               type="cancel"
               color="blue-gray"
               onClick={handleShow}
+              text={textCancel ?? 'Hủy'}
             />
             {showButton ? null : (
               <CustomButton

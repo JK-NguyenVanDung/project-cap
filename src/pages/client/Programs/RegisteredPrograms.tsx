@@ -125,7 +125,6 @@ export default function RegisteredPrograms() {
   }
   const onChangeSearch = async (value: string) => {
     setLoading(true);
-    console.log(1);
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
 

@@ -24,8 +24,6 @@ export default function DetailAccount({
   function getRoleName() {
     for (let i = 0; i < role.length; i++) {
       if (item.roleId == role[i].roleId) {
-        console.log(role[i]);
-
         setRoleName(role[i].roleName);
         break;
       }
