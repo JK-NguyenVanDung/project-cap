@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { actions } from '../../../../Redux';
 import apiService from '../../../../api/apiService';
 import { useEffect, useState } from 'react';
+import Loading from '../../../../components/sharedComponents/Loading';
 
 const instruction = `Bài kiểm tra này bao gồm các câu hỏi trắc nghiệm. Để thành công với các câu đố, điều quan trọng là phải trò chuyện với các chủ đề. Hãy ghi nhớ những điều sau:
 Thời gian - Bạn cần hoàn thành các câu hỏi của mình trong một lần ngồi.
@@ -25,7 +26,8 @@ export default function (props: any) {
   const selectedTest: ITest = useAppSelector(
     (state) => state.test.selectedTest,
   );
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(-1);
+  const [loading, setLoading] = useState(false);
 
   const [isPassed, setIsPassed] = useState(false);
   const content = [
@@ -49,7 +51,15 @@ export default function (props: any) {
   ];
   const dispatch = useAppDispatch();
   useEffect(() => {
+    setLoading(true);
+
     getScoreInfo();
+    let time = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+    return () => {
+      clearTimeout(time);
+    };
   }, []);
   function shuffleArray(array: []) {
     for (var i = array.length - 1; i > 0; i--) {
@@ -68,15 +78,14 @@ export default function (props: any) {
         testId: selectedTest?.testId,
         accountId: info?.accountId,
       });
-      console.log(passed);
-      setIsPassed(passed.data != null ? passed.data : passed);
+      setIsPassed(passed);
       let score: any = await apiService.getScore({
         testId: selectedTest?.testId,
         accountId: info?.accountId,
       });
-      score && setScore(score);
+
+      setScore(score);
     } catch (err: any) {
-      console.log(err);
       throw err.message;
     }
   }
@@ -127,74 +136,85 @@ export default function (props: any) {
   }
   return (
     <>
-      <p className="py-4 text-2xl font-semibold text-primary">
-        Bài kiểm tra:{' '}
-        {selectedTest?.testTitle ? selectedTest?.testTitle : 'N/A'}
-      </p>
-      {!selectedChapter.isDone && (
-        <div className="flex w-full text-base font-light">
-          <p>Vui lòng đọc hướng dẫn phía dưới: </p>
-        </div>
-      )}
-      <div className="my-8 w-full min-w-[20rem]">
-        {content.map((item: { title: string; value: any }) => {
-          return (
-            <div className="flex w-[90%] items-center justify-between  mt-4 text-base">
-              <div className="flex items-center ">
-                <span className="text-start font-semibold">{item.title}</span>
-              </div>
-              <div className="flex items-center w-[50%]  font-light">
-                <span className="text-start ">{item.value}</span>
-              </div>
-            </div>
-          );
-        })}
-        {selectedChapter.isDone && (
-          <div className="flex w-[90%] items-center justify-between  mt-4 text-base">
-            <div className="flex items-center ">
-              <span className="text-start font-semibold">Điểm số:</span>
-            </div>
-            <div className="flex items-center w-[50%]  font-light">
-              <span className="text-start font-bold">
-                {score + (isPassed === false && ' (chưa đủ điểm)')}
-              </span>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {!selectedChapter.isDone || isPassed === false ? (
+      <Loading loading={loading} />
+      {!loading && (
         <>
-          <span className="text-xl text-start font-semibold"> Hướng dẫn</span>
-
-          <p className="py-2 text-md  text-[#141522]">
-            Bài kiểm tra này bao gồm các câu hỏi trắc nghiệm. Để thành công với
-            các câu đố, điều quan trọng là phải trò chuyện với các chủ đề. Hãy
-            ghi nhớ những điều sau:
+          <p className="py-4 text-2xl font-semibold text-primary">
+            Bài kiểm tra:{' '}
+            {selectedTest?.testTitle ? selectedTest?.testTitle : 'N/A'}
           </p>
-          <p className="py-2 text-md  text-[#141522]">
-            Thời gian - Bạn cần hoàn thành các câu hỏi của mình trong một lần
-            ngồi.
-          </p>
-
-          <p className="py-2 text-md  text-[#141522]">
-            Câu trả lời - Bạn có thể xem lại các lựa chọn câu trả lời của mình
-            và so sánh chúng với câu trả lời đúng sau lần thử cuối cùng của bạn.
-          </p>
-          <p className="py-2 text-md  text-[#141522]">
-            Để bắt đầu, hãy nhấp vào nút "Bắt đầu". Khi hoàn tất, hãy nhấp vào
-            nút "Nộp bài".
-          </p>
-          <div className="w-full flex justify-center items-center my-4">
-            <CustomButton
-              onClick={() => navToTest()}
-              noIcon
-              text="Bắt đầu"
-              className={`w-2/5 mx-3 h-10`}
-            />
+          {!selectedChapter.isDone && (
+            <div className="flex w-full text-base font-light">
+              <p>Vui lòng đọc hướng dẫn phía dưới: </p>
+            </div>
+          )}
+          <div className="my-8 w-full min-w-[20rem]">
+            {content.map((item: { title: string; value: any }) => {
+              return (
+                <div className="flex w-[90%] items-center justify-between  mt-4 text-base">
+                  <div className="flex items-center ">
+                    <span className="text-start font-semibold">
+                      {item.title}
+                    </span>
+                  </div>
+                  <div className="flex items-center w-[50%]  font-light">
+                    <span className="text-start ">{item.value}</span>
+                  </div>
+                </div>
+              );
+            })}
+            {score !== -1 && (
+              <div className="flex w-[90%] items-center justify-between  mt-4 text-base">
+                <div className="flex items-center ">
+                  <span className="text-start font-semibold">Điểm số:</span>
+                </div>
+                <div className="flex items-center w-[50%]  font-light">
+                  <span className="text-start font-bold">
+                    {score + (isPassed === false && ' (chưa đủ điểm)')}
+                  </span>
+                </div>
+              </div>
+            )}
           </div>
+
+          {!selectedChapter.isDone || isPassed === false ? (
+            <>
+              <span className="text-xl text-start font-semibold">
+                {' '}
+                Hướng dẫn
+              </span>
+
+              <p className="py-2 text-md  text-[#141522]">
+                Bài kiểm tra này bao gồm các câu hỏi trắc nghiệm. Để thành công
+                với các câu đố, điều quan trọng là phải trò chuyện với các chủ
+                đề. Hãy ghi nhớ những điều sau:
+              </p>
+              <p className="py-2 text-md  text-[#141522]">
+                Thời gian - Bạn cần hoàn thành các câu hỏi của mình trong một
+                lần ngồi.
+              </p>
+
+              <p className="py-2 text-md  text-[#141522]">
+                Câu trả lời - Bạn có thể xem lại các lựa chọn câu trả lời của
+                mình và so sánh chúng với câu trả lời đúng sau lần thử cuối cùng
+                của bạn.
+              </p>
+              <p className="py-2 text-md  text-[#141522]">
+                Để bắt đầu, hãy nhấp vào nút "Bắt đầu". Khi hoàn tất, hãy nhấp
+                vào nút "Nộp bài".
+              </p>
+              <div className="w-full flex justify-center items-center my-4">
+                <CustomButton
+                  onClick={() => navToTest()}
+                  noIcon
+                  text="Bắt đầu"
+                  className={`w-2/5 mx-3 h-10`}
+                />
+              </div>
+            </>
+          ) : null}
         </>
-      ) : null}
+      )}
     </>
   );
 }

@@ -33,6 +33,7 @@ const ChapterItem = ({
   const [showContent, setShowContent] = useState(false);
   const [showTest, setShowTest] = useState(false);
   const [viewedContent, setViewedContent] = useState(false);
+  const [score, setScore] = useState(-1);
 
   // const [disabled, setDisabled] = useState(false);
   // const [isDone, setisDone] = useState(false);
@@ -96,6 +97,7 @@ const ChapterItem = ({
       // setViewedContent(false);
     };
   }, [selectedChapter]);
+  const info = useAppSelector((state) => state.auth.info);
 
   async function getData() {
     try {
@@ -103,6 +105,13 @@ const ChapterItem = ({
       let questionCount: any = await apiService.getQuestionCount(test?.testId);
 
       if (test) {
+        let getScore: any = await apiService.getScore({
+          testId: test?.testId,
+          accountId: info?.accountId,
+        });
+
+        getScore >= 0 && setViewedContent(true);
+
         let count =
           questionCount?.data !== undefined
             ? questionCount?.data
