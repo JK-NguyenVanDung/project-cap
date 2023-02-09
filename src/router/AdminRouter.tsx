@@ -37,6 +37,15 @@ import UserChapters from '../pages/client/Programs/Chapters/Chapters';
 import RegisteredPrograms from '../pages/client/Programs/RegisteredPrograms';
 import Application from '../pages/admin/Learner/Application/Application';
 import MyCourses from '../pages/client/Programs/MyProgram';
+import Survey from '../pages/admin/Survey/General/Survey';
+import SurveyDetail from '../pages/admin/Survey/General/SurveyDetail';
+
+import SurveyQuestion from '../pages/admin/Survey/General/SurveyQuestion/Question';
+import CourseSurvey from '../pages/admin/Survey/Program/ProgramSurvey';
+import CourseSurveyDetail from '../pages/admin/Survey/Program/ProgramSurveyDetail';
+
+import ClientSurvey from '../pages/client/Survey/Survey';
+
 export const RouterPages = [
   {
     path: '/admin',
@@ -118,6 +127,22 @@ export const RouterPages = [
   {
     path: '/admin/Application',
     element: <Application />,
+  },
+  {
+    path: '/admin/Survey',
+    element: <Survey />,
+  },
+  {
+    path: '/admin/Survey/Detail',
+    element: <SurveyDetail />,
+  },
+  {
+    path: '/admin/CourseSurvey',
+    element: <CourseSurvey />,
+  },
+  {
+    path: '/admin/CourseSurvey/Detail',
+    element: <CourseSurveyDetail />,
   },
 ];
 
@@ -368,6 +393,7 @@ export default function MakePagesRouter() {
             path={'/Test/Review/:testId'}
             element={<UserReviewTest />}
           />
+          <Route path="/Survey/:surveyId" element={<ClientSurvey />} />
         </Routes>
       );
     }
@@ -389,11 +415,13 @@ export default function MakePagesRouter() {
               path="/admin/Program/Chapter/:number/Test/Question"
               element={<Question />}
             />
+            <Route path="/admin/Survey/Question" element={<SurveyQuestion />} />
 
             <Route path="/admin/reviewDetail" element={<ReviewDetail />} />
 
             <Route path="/login" element={<Logined />} />
             <Route path="/" element={<LandingPage />} />
+            <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
           </Routes>
         );
       } else {

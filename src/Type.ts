@@ -145,18 +145,64 @@ const Answer = z.object({
   questionId: z.number(),
   questionContentId: z.number(),
 });
+const SurveyItem = z.object({
+  surveyId: z.number(),
+  accountIdCreate: z.number(),
+  title: z.string(),
+  isPublish: z.boolean(),
+  startDate: z.string(),
+  endDate: z.string(),
+  countAccount: z.number(),
+});
+const SurveyQuestionContent = z.object({
+  contentSurveyId: z.number(),
+  questionSurveyId: z.number(),
+  content: z.string(),
+  isAnswer: z.boolean(),
+});
+const SurveyQuestion = z.object({
+  questionSurveyId: z.number(),
+  surveyId: z.number(),
+  title: z.string(),
+  isChoice: z.boolean(),
+  contentQuestions: z.array(SurveyQuestionContent),
+  index: z.number(),
+});
+const AccountSurvey = z.object({
+  accountSurveyId: z.number(),
+  accountId: z.number(),
+  contentSurveyId: z.number(),
+  questionSurveyId: z.number(),
+
+  content: z.string().max(200),
+});
+const SurveyProgram = z.object({
+  surveyProgramId: z.number(),
+  accountId: z.number(),
+  programId: z.number(),
+  number: z.number(),
+  answer: z.string().max(200),
+});
+
 export type IRoleItem = z.infer<typeof RoleItem>;
 export type IAnswer = z.infer<typeof Answer>;
 
 export type ICategoryItem = z.infer<typeof CategoryItem>;
 export type IAccountItem = z.infer<typeof AccountItem>;
 export type IProgramItem = z.infer<typeof ProgramItem>;
+
 export type IQuestionType = z.infer<typeof QuestionType>;
 export type IQuestion = z.infer<typeof Question>;
 export type ITest = z.infer<typeof Test>;
 
 export type IQuestionContent = z.infer<typeof QuestionContent>;
 export type IChapterItem = z.infer<typeof ChapterItem>;
+export type ISurveyItem = z.infer<typeof SurveyItem>;
+export type ISurveyQuestion = z.infer<typeof SurveyQuestion>;
+export type IAccountSurvey = z.infer<typeof AccountSurvey>;
+export type ISurveyProgram = z.infer<typeof SurveyProgram>;
+export type ISurveyQuestionContent = z.infer<typeof SurveyQuestionContent>;
+
 export interface IRouterObj {
   path?: string;
   index?: boolean;

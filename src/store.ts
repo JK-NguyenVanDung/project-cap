@@ -11,6 +11,7 @@ const config = combineReducers({
   product: reducers.productReducers,
   test: reducers.testReducers,
   reload: reducers.reloadReducer,
+  survey: reducers.surveyReducers,
 });
 const persistConfig = {
   key: 'root',
