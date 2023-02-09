@@ -146,4 +146,13 @@ export const API_CONFIG = {
     PUT_ATTENDANCES: (id: number) => `/api/Attendances/${id}`,
     DEL_ATTENDANCES: (id: number) => `/api/Attendances/${id}`,
   },
+  SURVEY: {
+    GETALL: '/api/Surveys',
+    CREATE_SURVEY: '/api/Surveys/CreateSurvey',
+    CREATE_QUESTION: '/api/Surveys/CreateQuestion',
+    UPDATE_SURVEY: (surveyId: number) =>
+      `/api/Surveys/UpdateSurvey/?idSurvey=${surveyId}`,
+    UPDATE_QUESTION: (questionId: number) =>
+      `/api/Surveys/UpdateQuestion/?idQuestion=${questionId}`,
+  },
 };

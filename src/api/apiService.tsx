@@ -5,6 +5,8 @@ import {
   IAccountItem,
   IProgramItem /* IQuestion, ITest  */,
   IQuestion,
+  ISurveyItem,
+  ISurveyQuestion,
   ITest,
 } from '../Type';
 export default {
@@ -316,5 +318,22 @@ export default {
   },
   delAttendance: (id: number) => {
     return axiosConfig.delete(API_CONFIG.ATTENDANCES.DEL_ATTENDANCES(id));
+  },
+  // SURVEY
+
+  getSurveys: () => {
+    return axiosConfig.get(API_CONFIG.SURVEY.GETALL);
+  },
+  addSurvey: (params: ISurveyItem) => {
+    return axiosConfig.post(API_CONFIG.SURVEY.CREATE_SURVEY, params);
+  },
+  addSurveyQuestion: (params: ISurveyQuestion) => {
+    return axiosConfig.post(API_CONFIG.SURVEY.CREATE_QUESTION, params);
+  },
+  updateSurvey: (id: number, params: any) => {
+    return axiosConfig.put(API_CONFIG.SURVEY.UPDATE_SURVEY(id), params);
+  },
+  updateSurveyQuestion: (id: number, params: any) => {
+    return axiosConfig.put(API_CONFIG.SURVEY.UPDATE_QUESTION(id), params);
   },
 };

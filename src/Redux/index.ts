@@ -8,6 +8,7 @@ import { productActions, productReducers } from './client/product';
 
 import { testActions, testReducers } from './client/test';
 import { navActions, navReducers } from './nav';
+import { surveyActions, surveyReducers } from './survey';
 
 const actions = {
   formActions,
@@ -17,6 +18,7 @@ const actions = {
   navActions,
   testActions,
   reloadActions,
+  surveyActions,
 };
 
 const reducers = {
@@ -27,6 +29,7 @@ const reducers = {
   testReducers,
   navReducers,
   reloadReducer,
+  surveyReducers,
 };
 
 export { actions, reducers };

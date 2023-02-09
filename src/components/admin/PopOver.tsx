@@ -17,6 +17,7 @@ export default function PopOverAction({
   deleteItem,
   handleShowDetail,
   handleAuth,
+  ExtraButton,
   authType = null,
   variant,
   detailType,
@@ -28,6 +29,7 @@ export default function PopOverAction({
   setLoading?: React.MouseEventHandler;
   deleteItem?: string;
   handleShowDetail?: Function;
+  ExtraButton?: any;
   handleAuth?: Function;
   variant?: any;
   authType?: string;
@@ -49,6 +51,7 @@ export default function PopOverAction({
   return (
     <>
       <div className="flex w-max items-center gap-4 z-[100] ">
+        {ExtraButton ? ExtraButton : null}
         {handleEdit && (
           <CustomButton
             size={size}
@@ -91,7 +94,7 @@ export default function PopOverAction({
                   size === 'sm' && 'px-1/2'
                 }`}
                 color="red"
-                variant={variant ? variant : 'outlined'}
+                variant={variant ? variant : 'filled'}
                 disabled={disabled}
               >
                 <IoTrashOutline className="mx-2 text-base " />

@@ -194,15 +194,6 @@ export default function Attendance() {
           Ngày Bắt Đầu <AiOutlineSwapRight className="inline mx-4" />
           Ngày Kết Thúc
         </label>
-        {detail ? (
-          <>
-            <span> {moment(detail.startDate).format('MM-DD-YYYY hh:mm')}</span>
-            <span>
-              <AiOutlineSwapRight className="inline mx-4" />
-            </span>
-            <span>{moment(detail.endDate).format('MM-DD-YYYY hh:mm')}</span>
-          </>
-        ) : null}
         <Form.Item name="startDate">
           <RangePicker
             showTime={{ format: 'HH:mm' }}
