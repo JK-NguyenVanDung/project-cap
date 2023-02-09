@@ -19,7 +19,7 @@ const Product = React.forwardRef((props, ref: any) => {
       let res: any = await apiService.getPrograms();
       setPrograms(res);
     } catch (err: any) {
-      throw err.message();
+      throw err.message;
     }
   }
   function handleNavProducts() {

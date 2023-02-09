@@ -40,32 +40,12 @@ export default function (props: any) {
 }
 
 const CourseContent = (props: {
-  onNavToDetail:any;
+  onNavToDetail: any;
   onClick: any;
   item: IProgramItem;
   registerStatus: string;
   seeReason: any;
 }) => {
-  const [like, setLike] = useState(props.item.isLike);
-  const [colorHeart, setColorHeart]: any = useState(Color.gray4);
-  const [program, setProgram]: any = useState(null);
-
-  const handelLove = (itemProgram?: IProgramItem) => {
-    setLike(!like);
-    like === false ? setColorHeart(Color.gray4) : setColorHeart(Color.error);
-    const fetchLike = async () => {
-      const response = await apiService.likeProgram(
-        itemProgram?.programId,
-        like,
-      );
-      const res = await apiService.getProgram(itemProgram.programId);
-      setProgram(res);
-    };
-    fetchLike();
-  };
-  useEffect(() => {
-    handelLove();
-  }, []);
   // function getListLearnerType(item: IProgramItem) {
   //   let out = 'Dành cho: ';
   //   item?.programPositions.map((e, index) => {
@@ -77,9 +57,9 @@ const CourseContent = (props: {
   //   return out;
   // }
   function getColor() {
-    return props.registerStatus == 'Refuse'
+    return props?.registerStatus == 'Refuse'
       ? 'hover:border-orange-500'
-      : props.registerStatus == 'Approved'
+      : props?.registerStatus == 'Approved'
       ? 'hover:border-green-500'
       : 'hover:border-red-500';
   }
@@ -92,7 +72,7 @@ const CourseContent = (props: {
           <div className="h-[30vh]  w-full">
             <img
               className="rounded-t-lg object-cover	h-full w-full"
-              src={`${API_URL}/images/${props.item.image}`}
+              src={`${API_URL}/images/${props.item?.image}`}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
                 currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
@@ -105,11 +85,11 @@ const CourseContent = (props: {
             <div className="flex w-full justify-between items-center">
               <div
                 className={`${getStatusColor(
-                  props.registerStatus,
+                  props?.registerStatus,
                 )} w-fit p-1 text-white  rounded text-xs font-light `}
-                onClick={props.onClick}
+                onClick={props?.onClick}
               >
-                {getStatus(props.registerStatus)}
+                {getStatus(props?.registerStatus)}
               </div>
               <div className="flex items-center">
                 {/* <span className="text-body text-bold">
@@ -149,22 +129,22 @@ const CourseContent = (props: {
               </div>
             </div>
           </div>
-          {props.registerStatus == 'Approved' ? (
+          {props?.registerStatus == 'Approved' ? (
             <></>
           ) : (
             <button
               className={` outline-none card-button ${
-                props.registerStatus == 'Refuse'
+                props?.registerStatus == 'Refuse'
                   ? 'bg-orange-500'
                   : 'bg-red-500'
               }`}
               onClick={() =>
-                props.registerStatus == 'Refuse'
+                props?.registerStatus == 'Refuse'
                   ? props.seeReason()
                   : props.onClick()
               }
             >
-              {props.registerStatus == 'Refuse' ? 'Xem lý do' : 'Huỷ đăng ký'}
+              {props?.registerStatus == 'Refuse' ? 'Xem lý do' : 'Huỷ đăng ký'}
             </button>
           )}
         </div>

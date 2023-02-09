@@ -103,7 +103,7 @@ export default function Category() {
 
       setLoading(false);
     } catch (err: any) {
-      throw err.message();
+      throw err.message;
     }
   }
   function openAdd() {

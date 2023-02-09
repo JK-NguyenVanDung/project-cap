@@ -100,7 +100,7 @@ export default function ReviewTest(props: any) {
         isTest: false,
       }),
     );
-    navigate(`/Programs/${program.programId}/Chapters`);
+    navigate(-1);
   }
   // useEffect(() => {
   //   return () => {
