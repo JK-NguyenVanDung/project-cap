@@ -10,7 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { useNavigate } from 'react-router-dom';
 import { Space } from 'antd';
 import { BsPeopleFill } from 'react-icons/bs';
-import { AiFillIdcard } from 'react-icons/ai';
+import { AiFillIdcard, AiOutlineFileProtect } from 'react-icons/ai';
 export default function ProgramPublish() {
   const [data, setData] = useState([]);
 
@@ -19,7 +19,6 @@ export default function ProgramPublish() {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const info = useAppSelector((state) => state.auth.info);
 
   useEffect(() => {
     async function getProgramPublish() {
@@ -94,11 +93,25 @@ export default function ProgramPublish() {
               Icon={AiFillIdcard}
               onClick={() => goApplication(item)}
             />
+            <CustomButton
+              tip="Xem Danh Sách Điểm Danh"
+              size="sm"
+              color="brown"
+              Icon={AiOutlineFileProtect}
+              onClick={() => goAttendances(item)}
+            />
           </Space>
         );
       },
     },
   ];
+
+  function goAttendances(item: any) {
+    dispatch(actions.formActions.setProgramForm(item));
+
+    navigate('/admin/Attendance');
+  }
+
   function goLearner(item: any) {
     dispatch(actions.formActions.setProgramForm(item));
 

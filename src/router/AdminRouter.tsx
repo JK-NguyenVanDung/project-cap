@@ -37,6 +37,7 @@ import UserChapters from '../pages/client/Programs/Chapters/Chapters';
 import RegisteredPrograms from '../pages/client/Programs/RegisteredPrograms';
 import Application from '../pages/admin/Learner/Application/Application';
 import MyCourses from '../pages/client/Programs/MyProgram';
+import Attendance from '../pages/admin/Attendances/Attendance';
 import Survey from '../pages/admin/Survey/General/Survey';
 import SurveyDetail from '../pages/admin/Survey/General/SurveyDetail';
 
@@ -129,6 +130,10 @@ export const RouterPages = [
     element: <Application />,
   },
   {
+    path: '/admin/Attendance',
+    element: <Attendance />,
+  },
+  {
     path: '/admin/Survey',
     element: <Survey />,
   },
@@ -147,6 +152,10 @@ export const RouterPages = [
 ];
 
 export const RouterCenter = [
+  {
+    path: '/admin/Attendance',
+    element: <Attendance />,
+  },
   {
     path: '/admin',
     element: <Dashboard />,
@@ -230,6 +239,10 @@ export const RouterFaculty = [
   {
     path: '/admin/Application',
     element: <Application />,
+  },
+  {
+    path: '/admin/Attendance',
+    element: <Attendance />,
   },
   {
     path: '/admin',
