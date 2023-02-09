@@ -129,4 +129,17 @@ export const API_CONFIG = {
     REFUSE: (id: number) => `/api/Learners/Applications/${id}/Refuse`,
     APPROVE: (id: number) => `/api/Learners/Applications/${id}/Approve`,
   },
+
+  COMMENT: {
+    GET_COMMENT: (idProgram: number) => `/api/Comments/${idProgram}`,
+    SENT_COMMENT: `/api/Comments`,
+  },
+  ATTENDANCES: {
+    GET_ATTENDANCES: (idProgram: number) =>
+      `/api/Attendances/Programs/${idProgram}`,
+    GET_ID_ATTENDANCES: (id: number) => `/api/Attendances/${id}`,
+    POST_ATTENDANCES: `/api/Attendances`,
+    PUT_ATTENDANCES: (id: number) => `/api/Attendances/${id}`,
+    DEL_ATTENDANCES: (id: number) => `/api/Attendances/${id}`,
+  },
 };

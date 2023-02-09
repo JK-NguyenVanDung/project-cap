@@ -37,6 +37,7 @@ import UserChapters from '../pages/client/Programs/Chapters/Chapters';
 import RegisteredPrograms from '../pages/client/Programs/RegisteredPrograms';
 import Application from '../pages/admin/Learner/Application/Application';
 import MyCourses from '../pages/client/Programs/MyProgram';
+import Attendance from '../pages/admin/Attendances/Attendance';
 export const RouterPages = [
   {
     path: '/admin',
@@ -119,9 +120,17 @@ export const RouterPages = [
     path: '/admin/Application',
     element: <Application />,
   },
+  {
+    path: '/admin/Attendance',
+    element: <Attendance />,
+  },
 ];
 
 export const RouterCenter = [
+  {
+    path: '/admin/Attendance',
+    element: <Attendance />,
+  },
   {
     path: '/admin',
     element: <Dashboard />,
@@ -205,6 +214,10 @@ export const RouterFaculty = [
   {
     path: '/admin/Application',
     element: <Application />,
+  },
+  {
+    path: '/admin/Attendance',
+    element: <Attendance />,
   },
   {
     path: '/admin',

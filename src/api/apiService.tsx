@@ -281,4 +281,27 @@ export default {
   approveApplication: (id: number) => {
     return axiosConfig.put(API_CONFIG.LEARNER.APPROVE(id));
   },
+
+  getComment: (idProgram: number) => {
+    return axiosConfig.get(API_CONFIG.COMMENT.GET_COMMENT(idProgram));
+  },
+  sentComment: (params: any) => {
+    return axiosConfig.post(API_CONFIG.COMMENT.SENT_COMMENT, params);
+  },
+
+  getAttendance: (id: number) => {
+    return axiosConfig.get(API_CONFIG.ATTENDANCES.GET_ATTENDANCES(id));
+  },
+  getAttendanceId: (id: number) => {
+    return axiosConfig.get(API_CONFIG.ATTENDANCES.GET_ID_ATTENDANCES(id));
+  },
+  postAttendance: (params: any) => {
+    return axiosConfig.post(API_CONFIG.ATTENDANCES.POST_ATTENDANCES, params);
+  },
+  putAttendance: (params: any, id: number) => {
+    return axiosConfig.put(API_CONFIG.ATTENDANCES.PUT_ATTENDANCES(id), params);
+  },
+  delAttendance: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.ATTENDANCES.DEL_ATTENDANCES(id));
+  },
 };

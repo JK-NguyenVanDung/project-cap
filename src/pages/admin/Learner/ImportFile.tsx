@@ -216,29 +216,11 @@ export default function ImportFile({
         {saveEmail && successList ? (
           <>
             <Button
-              className="bg-blue-400 p-3 flex justify-between items-center cursor-pointer"
-              onClick={() => setCheckEmailRegisted(!checkEmailRegisted)}
-              children={
-                <>
-                  <p>Email Đã Đăng Ký Khóa Học</p>
-                  <p>{successList.registeredEmail?.length ?? 0}</p>
-                </>
-              }
-            />
-            {checkEmailRegisted &&
-              successList.registeredEmail?.map((item: any, index: number) => {
-                return (
-                  <p key={index} className="p-1">
-                    {index + 1} - {item}
-                  </p>
-                );
-              })}
-            <Button
               className="bg-yellow-400 p-3 flex justify-between items-center cursor-pointer"
               onClick={() => setCheckEmailNew(!checkEmailNew)}
               children={
                 <>
-                  <p>Email Chưa Có Trên Hệ Thống</p>
+                  <p>Email chưa có trên hệ thống</p>
                   <p>{successList.newEmail?.length ?? 0}</p>
                 </>
               }
@@ -256,13 +238,49 @@ export default function ImportFile({
               onClick={() => setCheckEmail(!checkEmail)}
               children={
                 <>
-                  <p>Email Đã Được thêm vào hệ thống</p>
+                  <p>Email vừa được thêm vào khóa học</p>
                   <p>{successList.totalEmail?.length ?? 0}</p>
                 </>
               }
             />
             {checkEmail &&
               successList.totalEmail?.map((item: any, index: number) => {
+                return (
+                  <p key={index} className="p-1">
+                    {index + 1} - {item}
+                  </p>
+                );
+              })}
+            <Button
+              className="bg-blue-500 p-3 flex justify-between items-center cursor-pointer"
+              onClick={() => setCheckEmail(!checkEmail)}
+              children={
+                <>
+                  <p>Email đã tồn tại trong khóa học</p>
+                  <p>{successList.exitsEmail?.length ?? 0}</p>
+                </>
+              }
+            />
+            {checkEmail &&
+              successList.exitsEmail?.map((item: any, index: number) => {
+                return (
+                  <p key={index} className="p-1">
+                    {index + 1} - {item}
+                  </p>
+                );
+              })}
+            <Button
+              className="bg-blue-400 p-3 flex justify-between items-center cursor-pointer"
+              onClick={() => setCheckEmailRegisted(!checkEmailRegisted)}
+              children={
+                <>
+                  <p>Email đã đăng ký khóa học</p>
+                  <p>{successList.registeredEmail?.length ?? 0}</p>
+                </>
+              }
+            />
+            {checkEmailRegisted &&
+              successList.registeredEmail?.map((item: any, index: number) => {
                 return (
                   <p key={index} className="p-1">
                     {index + 1} - {item}

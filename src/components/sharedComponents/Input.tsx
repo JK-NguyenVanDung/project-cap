@@ -8,6 +8,7 @@ export default function Input({
   name,
   onChange,
   accept,
+  placeholder,
 }: {
   type?: any;
   label?: string;
@@ -15,6 +16,7 @@ export default function Input({
   name?: string;
   onChange?: any;
   accept?: string;
+  placeholder?: string;
 }) {
   const ref = useRef(null);
   return (
@@ -25,6 +27,7 @@ export default function Input({
         onChange={onChange}
         ref={ref}
         type={type}
+        placeholder={placeholder}
         className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
       />
       <p className="">{error ? error : ''}</p>
