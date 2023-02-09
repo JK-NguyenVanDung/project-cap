@@ -1,12 +1,14 @@
 import { IconType } from 'react-icons';
+import { BiClipboard } from 'react-icons/bi';
 import {
   BsCalendar2DateFill,
   BsFillHouseFill,
   BsFillPersonBadgeFill,
   BsHouseFill,
 } from 'react-icons/bs';
-import { FaClipboardList } from 'react-icons/fa';
+import { FaClipboard, FaClipboardList } from 'react-icons/fa';
 import { GoVerified } from 'react-icons/go';
+import { HiClipboardDocumentList } from 'react-icons/hi2';
 
 import { ImAddressBook, ImBooks } from 'react-icons/im';
 import { IoApps, IoBook, IoAlbums, IoPeopleCircle } from 'react-icons/io5';
@@ -30,11 +32,6 @@ export const SideBarData = [
   },
 
   {
-    title: 'Học Viên',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Published',
-  },
-  {
     title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
@@ -82,6 +79,28 @@ export const SideBarData = [
         title: 'Chờ Duyệt',
         icon: GoVerified,
         path: '/admin/reviewProgram',
+      },
+    ],
+  },
+  {
+    title: 'Học Viên',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/Published',
+  },
+  {
+    title: 'Khảo sát',
+    icon: FaClipboard,
+    path: '/admin/Survey',
+    children: [
+      {
+        title: 'Khảo sát chung',
+        icon: FaClipboardList,
+        path: '/admin/Survey',
+      },
+      {
+        title: 'Khảo sát chương trình',
+        icon: HiClipboardDocumentList,
+        path: '/admin/CourseSurvey',
       },
     ],
   },
@@ -95,11 +114,6 @@ export const SideBarDataCT = [
   },
 
   {
-    title: 'Học Viên',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Published',
-  },
-  {
     title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
@@ -149,16 +163,16 @@ export const SideBarDataCT = [
         path: '/admin/reviewProgram',
       },
     ],
+  },
+  {
+    title: 'Học Viên',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/Published',
   },
 ];
 
 export const SideBarDataFacul = [
   {
-    title: 'Học Viên',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Published',
-  },
-  {
     title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
@@ -208,5 +222,10 @@ export const SideBarDataFacul = [
         path: '/admin/reviewProgram',
       },
     ],
+  },
+  {
+    title: 'Học Viên',
+    icon: BsFillPersonBadgeFill,
+    path: '/admin/Published',
   },
 ];

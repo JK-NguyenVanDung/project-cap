@@ -133,4 +133,13 @@ export const API_CONFIG = {
     REFUSE: (id: number) => `/api/Learners/Applications/${id}/Refuse`,
     APPROVE: (id: number) => `/api/Learners/Applications/${id}/Approve`,
   },
+  SURVEY: {
+    GETALL: '/api/Surveys',
+    CREATE_SURVEY: '/api/Surveys/CreateSurvey',
+    CREATE_QUESTION: '/api/Surveys/CreateQuestion',
+    UPDATE_SURVEY: (surveyId: number) =>
+      `/api/Surveys/UpdateSurvey/?idSurvey=${surveyId}`,
+    UPDATE_QUESTION: (questionId: number) =>
+      `/api/Surveys/UpdateQuestion/?idQuestion=${questionId}`,
+  },
 };

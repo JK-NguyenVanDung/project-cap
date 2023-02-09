@@ -71,7 +71,7 @@ export default function CustomButton({
       Icon = FaPencilAlt;
       color = 'blue';
       // variant = 'text'
-      variant = 'outlined';
+      // variant = 'outlined';
       tip = tip ? tip : 'Chỉnh sửa';
 
       break;
@@ -88,11 +88,11 @@ export default function CustomButton({
     case 'detail':
       defaultText = '';
       Icon = FaEye;
-      color = 'brown';
+      color = 'teal';
       tip = tip ? tip : 'Chi tiết';
 
       iconClass = 'mx-2 text-base ';
-      variant = 'outlined';
+      // variant = 'outlined';
 
       break;
 
@@ -103,7 +103,7 @@ export default function CustomButton({
       tip = tip ? tip : 'Quản lý nội dung';
 
       iconClass = 'mx-2 text-base ';
-      variant = 'outlined';
+      // variant = 'outlined';
 
       break;
     case 'auth':
@@ -111,7 +111,7 @@ export default function CustomButton({
       tip = tip ? tip : 'Phân quyền';
 
       Icon = BsFillPeopleFill;
-      variant = 'outlined';
+      // variant = 'outlined';
       break;
     case 'addReviewer':
       defaultText = '';
@@ -119,7 +119,7 @@ export default function CustomButton({
       iconClass = 'text-xl';
 
       Icon = MdGroupAdd;
-      variant = 'outlined';
+      // variant = 'outlined';
       break;
     default:
       defaultText = '';
