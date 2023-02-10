@@ -55,7 +55,7 @@ export default function TickAttendance({
       show={visible}
       handleOk={handelOk}
       setShow={setVisible}
-      // FormItem={<FormItem />}
+      FormItem={<FormItem />}
       form={form}
       header={'Điểm Danh'}
     />
