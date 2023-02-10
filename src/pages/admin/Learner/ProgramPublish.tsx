@@ -96,7 +96,7 @@ export default function ProgramPublish() {
             <CustomButton
               tip="Xem Danh Sách Điểm Danh"
               size="sm"
-              color="brown"
+              color="cyan"
               Icon={AiOutlineFileProtect}
               onClick={() => goAttendances(item)}
             />

@@ -44,7 +44,7 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
         setCheckComment(false);
       }
     };
-    if (event.key === 'Enter') {
+    if (event === 'Enter') {
       fetchSentComment();
       setTextComment('');
     }
@@ -70,7 +70,7 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
         <div className="w-full">
           <input
             value={textComment}
-            onKeyDown={(event) => handelComment(event)}
+            onKeyDown={(event) => handelComment(event.key)}
             onChange={(values) => setTextComment(values.target.value)}
             placeholder="Nhập Bình Luận"
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
@@ -98,7 +98,7 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
                     <div>
                       <div className="p-2 pr-20 rounded-lg  bg-gray-300 max-w-fit h-2/3">
                         <p className="font-extrabold text-black text-base pl-3">
-                          {item.account.fullName}
+                          {item.account.email}
                         </p>
                         <p className="text-gray-700 font-normal text-sm p-2 mt-1 pb-10">
                           {item.content}

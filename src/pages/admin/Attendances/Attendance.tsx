@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TableConfig from '../../../components/admin/Table/Table';
-import { Form, message, notification, DatePicker } from 'antd';
+import { Form, message, notification, DatePicker, Space } from 'antd';
 import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
 import CustomModal from '../../../components/admin/Modal/Modal';
@@ -10,7 +10,7 @@ import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
 import { ICategoryItem, IRoleItem } from '../../../Type';
 import PopOverAction from '../../../components/admin/PopOver';
 import { useAppSelector } from '../../../hook/useRedux';
-import { AiOutlineSwapRight } from 'react-icons/ai';
+import { AiOutlineSwapRight, AiOutlineFileProtect } from 'react-icons/ai';
 import moment from 'moment';
 
 const { RangePicker } = DatePicker;
@@ -75,18 +75,32 @@ export default function Attendance() {
       render: (item: any) => {
         return (
           <>
-            <PopOverAction
-              size="sm"
-              handleEdit={() => handleEdit(item)}
-              handleDelete={() => handleDelete(item)}
-              deleteItem={item.categoryName}
-            />
+            <Space>
+              <PopOverAction
+                size="sm"
+                handleEdit={() => handleEdit(item)}
+                handleDelete={() => handleDelete(item)}
+                handleShowDetail={() => handelDetail(item)}
+              />
+              <CustomButton
+                tip="Điểm Danh"
+                size="sm"
+                color="cyan"
+                Icon={AiOutlineFileProtect}
+                onClick={() => handelTick(item)}
+              />
+            </Space>
           </>
         );
       },
     },
   ];
-
+  const handelTick = (item: any) => {
+    console.log(item);
+  };
+  const handelDetail = (item: any) => {
+    console.log(item);
+  };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
@@ -130,6 +144,7 @@ export default function Attendance() {
 
   useEffect(() => {
     getData();
+    form.setFieldsValue(detail);
   }, [reload]);
   const handleOk = () => {
     form.validateFields().then(async (values) => {
@@ -137,8 +152,8 @@ export default function Attendance() {
       const params = {
         programId: item.programId,
         title: values.title,
-        startTime: dateTime[0],
-        endTime: dateTime[1],
+        startDate: moment(values.surveyTime[0]).toISOString(),
+        endDate: moment(values.surveyTime[1]).toISOString(),
       };
       if (detail) {
         try {
@@ -167,13 +182,6 @@ export default function Attendance() {
       }
     });
   };
-  function getDataFields() {
-    if (detail) {
-      return {
-        title: detail.title,
-      };
-    }
-  }
   const onChange = (value: any['value'] | any['value']) => {
     setDateTime(value);
   };
@@ -182,7 +190,7 @@ export default function Attendance() {
       <>
         <FormInput
           name="title"
-          label="Nhập Tiêu Đề"
+          label="Tiêu Đề"
           rules={[
             {
               required: true,
@@ -190,17 +198,29 @@ export default function Attendance() {
             },
           ]}
         />
-        <label className="text-start w-full mb-4 text-black font-bold font-customFont ">
-          Ngày Bắt Đầu <AiOutlineSwapRight className="inline mx-4" />
-          Ngày Kết Thúc
-        </label>
-        <Form.Item name="startDate">
-          <RangePicker
-            showTime={{ format: 'HH:mm' }}
-            format="YYYY-MM-DD HH:mm"
-            onChange={onChange}
-          />
-        </Form.Item>
+        <div className="w-full h-fit mb-3 z-1">
+          <label className="text-black font-bold font-customFont ">
+            {'Thời Gian Bắt Đầu - Kết Thúc'}
+          </label>
+          <Form.Item
+            className={'mt-4'}
+            name={'surveyTime'}
+            rules={[
+              {
+                required: true,
+                message: 'Vui lòng chọn thời gian bắt đầu - kết thúc',
+              },
+            ]}
+          >
+            <RangePicker
+              showTime={{ format: 'HH:mm' }}
+              format="YYYY-MM-DD HH:mm"
+              placeholder={['Ngày Bắt Đầu', 'Ngày Kết Thúc']}
+              className={`  font-customFont  font-bold  mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+              onBlur={() => {}}
+            />
+          </Form.Item>
+        </div>
       </>
     );
   };
@@ -229,7 +249,6 @@ export default function Attendance() {
         label={'Danh Mục'}
         name={detail}
         handleOk={handleOk}
-        dataFields={getDataFields()}
         FormItem={<FormItem />}
         form={form}
       />
