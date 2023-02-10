@@ -335,7 +335,7 @@ export default function Question() {
 
     if (currentQuestion.questionSurveyId) {
       let base = {
-        isChoice: currentQuestion?.isChoice ? 0 : 1,
+        isChoice: true,
         title: currentQuestion?.title,
       };
 
