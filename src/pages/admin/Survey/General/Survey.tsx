@@ -44,17 +44,16 @@ export default function Survey() {
   }, [confirmLoading, location]);
   async function handleDelete(item: any) {
     try {
-      await apiService.delProgram(item.surveyId);
+      await apiService.deleteSurvey(item.surveyId);
       setConfirmLoading(!confirmLoading);
       notification.success({ message: MESSAGE.SUCCESS.DELETE });
     } catch (err: any) {
       notification.error({
         message:
-          'Chương trình hiện tại đang có nội dung hoặc đã được duyệt, xin vui lòng xoá hết nội dung của chương trình này để xoá chương trình hoặc ẩn chương trình đi',
+          'Khảo sát hiện tại đang có nội dung hoặc đã được duyệt, xin vui lòng xoá hết nội dung của khảo sát này để xoá khảo sát hoặc ẩn khảo sát đi',
       });
     }
   }
-
   function handleShowDetail(item: any) {
     dispatch(actions.formActions.setProgramForm(item));
     dispatch(

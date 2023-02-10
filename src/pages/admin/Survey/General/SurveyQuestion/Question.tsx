@@ -10,6 +10,7 @@ import {
   IQuestionContent,
   ISurveyItem,
   ISurveyQuestion,
+  ISurveyQuestionContent,
 } from '../../../../../Type';
 import apiService from '../../../../../api/apiService';
 import HeaderAdmin from '../../../../../components/Header/HeaderAdmin';
@@ -20,6 +21,7 @@ import { errorText } from '../../../../../helper/constant';
 import { useAppSelector, useAppDispatch } from '../../../../../hook/useRedux';
 import Breadcrumb from '../../../../../components/sharedComponents/Breadcrumb';
 import AnswerOption from '../../../../../components/Survey/AnswerOption';
+import Loading from '../../../../../components/sharedComponents/Loading';
 
 interface IQuestionOption {
   value: number;
@@ -44,42 +46,38 @@ function getChar(c: number) {
 export default function Question() {
   const containerRef = useRef(null);
 
-  const testId = useAppSelector((state: any) => state.question.testId);
-
-  const chapter = useAppSelector((state: any) => state.question.chapter);
+  const chapter = useAppSelector((state: any) => state.survey.chapter);
 
   const currentQuestionIndex = useAppSelector(
-    (state: any) => state.question.currentQuestionIndex,
+    (state: any) => state.survey.currentQuestionIndex,
   );
-  const hasQuestion = useAppSelector(
-    (state: any) => state.question.hasQuestion,
-  );
+  const hasQuestion = useAppSelector((state: any) => state.survey.hasQuestion);
   const selectedSurvey: ISurveyItem = useAppSelector(
     (state: any) => state.survey.selectedSurvey,
   );
 
   const currentQuestion: ISurveyQuestion = useAppSelector(
-    (state: any) => state.question.currentQuestion,
+    (state: any) => state.survey.currentQuestion,
   );
-  const radioValue = useAppSelector((state: any) => state.question.radioValue);
+  const radioValue = useAppSelector((state: any) => state.survey.radioValue);
   const selectedOptions = useAppSelector(
-    (state: any) => state.question.selectedOptions,
+    (state: any) => state.survey.selectedOptions,
   );
   const selectedType = useAppSelector(
     (state: any) => state.survey.selectedType,
   );
   const questionTypeList = useAppSelector(
-    (state: any) => state.question.questionTypeList,
+    (state: any) => state.survey.questionTypeList,
   );
   const radioOptions = useAppSelector(
-    (state: any) => state.question.radioOptions,
+    (state: any) => state.survey.radioOptions,
   );
   const [resetOption, setResetOption] = useState(false);
 
   const defaultValueQuestion = useAppSelector(
-    (state: any) => state.question.detail,
+    (state: any) => state.survey.detail,
   );
-  const listAnswer = useAppSelector((state: any) => state.question.hasQuestion);
+  const listAnswer = useAppSelector((state: any) => state.survey.hasQuestion);
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [finish, setFinish] = useState(false);
@@ -107,35 +105,20 @@ export default function Question() {
   const handleChangeSelectedType = (e: any) => {
     dispatch(actions.surveyActions.setSelectedType(e));
 
-    // if (currentQuestion.typeId !== e && e === 2) {
-    //   dispatch(actions.questionActions.setSelectedOptions([0]));
+    // if (currentQuestion.isChoice !== e && e === 2) {
+    //   dispatch(actions.surveyActions.setSelectedOptions([0]));
     // }
   };
 
   function goBack() {
-    if (window.history.state && window.history.state.idx > 0) {
-      // navigate(-1);
-      navigate(
-        `/admin/Program/Chapter/${chapter ? chapter : 1}/Test?id=${
-          chapter ? chapter : 1
-        }`,
-        { replace: true },
-      );
-    } else {
-      navigate(
-        `/admin/Program/Chapter/${chapter ? chapter : 1}/Test?id=${
-          chapter ? chapter : 1
-        }`,
-        { replace: true },
-      );
-    }
+    navigate(-1);
   }
   function addMoreAnswer() {
     let last = radioOptions[radioOptions.length - 1];
     let next = getChar(last.value);
     if (next !== 'G') {
       dispatch(
-        actions.questionActions.setRadioOptions([
+        actions.surveyActions.setRadioOptions([
           ...radioOptions,
           { value: radioOptions.length + 1, text: '' },
         ]),
@@ -148,7 +131,7 @@ export default function Question() {
 
   async function handleDeleteAnswer(e: any) {
     let numb = Number(e);
-
+    setLoading(true);
     // else {
     let op = radioOptions.filter(
       (item: IQuestionOption) => item.value !== Number(e),
@@ -159,12 +142,12 @@ export default function Question() {
         value: index + 1,
       };
     });
-    dispatch(actions.questionActions.setRadioOptions(temp));
+    dispatch(actions.surveyActions.setRadioOptions(temp));
 
     if (currentQuestion.contentQuestions[numb - 1]) {
       try {
-        await apiService.removeAnswer(
-          currentQuestion.contentQuestions[numb - 1].questionSurveyId,
+        await apiService.deleteSurveyContent(
+          currentQuestion.contentQuestions[numb - 1].contentSurveyId,
         );
 
         if (currentQuestion.contentQuestions[numb - 1]) {
@@ -175,37 +158,41 @@ export default function Question() {
               count++;
             }
           }
-          if (count < 2) {
-            dispatch(actions.questionActions.setSelectedOptions([1]));
-            dispatch(actions.questionActions.setRadioValue(1));
-          }
         }
         setReload(!reload);
 
-        // let res: any = await apiService.getQuestions(testId);
+        // let res: any = await apiService.getQuestions(selectedSurvey.surveyId);
         // let cur = res.find(
         //   (e: IQuestion) => e.questionId === currentQuestion.questionId,
         // );
-        // dispatch(actions.questionActions.setCurrentQuestion(cur[0]));
+        // dispatch(actions.surveyActions.setCurrentQuestion(cur[0]));
         // dispatch(
-        //   actions.questionActions.setCurrentQuestionIndex(res.indexOf(cur[0])),
+        //   actions.surveyActions.setCurrentQuestionIndex(res.indexOf(cur[0])),
         // );
       } catch (err: any) {
         throw err.message;
       }
     } else {
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
 
     // }
   }
 
   async function handleDelete() {
     // goBack();
+    setLoading(true);
     if (currentQuestion.questionSurveyId) {
       try {
-        await apiService.removeQuestion(currentQuestion.questionSurveyId);
+        await apiService.deleteSurveyQuestions(
+          currentQuestion.questionSurveyId,
+        );
 
-        let res: any = await apiService.getQuestions(testId);
+        let res: any = await apiService.getSurveyQuestions(
+          selectedSurvey.surveyId,
+        );
 
         setShowConfirm(!showConfirm);
         if (res.length < 1 || !res) {
@@ -216,14 +203,14 @@ export default function Question() {
 
           if (nextQuestion) {
             dispatch(
-              actions.questionActions.setCurrentQuestionIndex(
+              actions.surveyActions.setCurrentQuestionIndex(
                 res.indexOf(nextQuestion),
               ),
             );
             setDataForm(nextQuestion);
           } else {
-            dispatch(actions.questionActions.setCurrentQuestionIndex(0));
-            dispatch(actions.questionActions.setCurrentQuestion(res[0]));
+            dispatch(actions.surveyActions.setCurrentQuestionIndex(0));
+            dispatch(actions.surveyActions.setCurrentQuestion(res[0]));
             setDataForm(res[0]);
           }
         }
@@ -231,6 +218,7 @@ export default function Question() {
         // }
         // return message.success(MESSAGE.SUCCESS.DELETE);
       } catch (err: any) {
+        navigate(-1);
         throw err.message;
       }
     } else {
@@ -240,20 +228,23 @@ export default function Question() {
         navigate(-1);
       } else {
         dispatch(
-          actions.questionActions.setCurrentQuestionIndex(data.length - 1),
+          actions.surveyActions.setCurrentQuestionIndex(data.length - 1),
         );
         dispatch(
-          actions.questionActions.setCurrentQuestion(data[data.length - 1]),
+          actions.surveyActions.setCurrentQuestion(data[data.length - 1]),
         );
       }
       setForm(data.length - 1);
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
   }
   const setDataForm = (data: any) => {
     let base = {
-      typeId: data.typeId,
+      isChoice: data.isChoice,
       score: data.score,
-      questionTitle: data.questionTitle,
+      title: data.title,
     };
     let content = {};
     let contents = data.contentQuestions;
@@ -287,22 +278,18 @@ export default function Question() {
     if (!contents) {
       dispatch(actions.surveyActions.setSelectedType(true));
     } else {
-      dispatch(actions.surveyActions.setSelectedType(data.typeId));
+      dispatch(actions.surveyActions.setSelectedType(data.isChoice));
     }
 
-    dispatch(actions.questionActions.setRadioOptions(radioOptions));
-
-    base.typeId === 2
-      ? dispatch(actions.questionActions.setSelectedOptions(defaultChecked))
-      : dispatch(actions.questionActions.setRadioValue(defaultChecked[0]));
+    dispatch(actions.surveyActions.setRadioOptions(radioOptions));
 
     form.setFieldsValue(content);
   };
   const setForm = (index: number) => {
     let base = {
-      typeId: data[index].isChoice,
+      isChoice: data[index].isChoice,
 
-      questionTitle: data[index].title,
+      title: data[index].title,
     };
     let content = {};
     let contents = data[index].contentQuestions;
@@ -339,7 +326,7 @@ export default function Question() {
       dispatch(actions.surveyActions.setSelectedType(data[index]?.isChoice));
     }
 
-    dispatch(actions.questionActions.setRadioOptions(radioOptions));
+    dispatch(actions.surveyActions.setRadioOptions(radioOptions));
 
     form.setFieldsValue(content);
   };
@@ -348,8 +335,8 @@ export default function Question() {
 
     if (currentQuestion.questionSurveyId) {
       let base = {
-        typeId: currentQuestion?.isChoice ? 0 : 1,
-        questionTitle: currentQuestion?.title,
+        isChoice: true,
+        title: currentQuestion?.title,
       };
 
       let content = {};
@@ -365,7 +352,7 @@ export default function Question() {
       contents?.map((item: IQuestionContent, index: number) => {
         if (index > 3) {
           dispatch(
-            actions.questionActions.setRadioOptions([
+            actions.surveyActions.setRadioOptions([
               ...radioOptions,
               {
                 value: index + 1,
@@ -373,13 +360,6 @@ export default function Question() {
             ]),
           );
           setHeight((item) => String(Number.parseInt(item) + 9));
-        }
-        if (item.isAnswer) {
-          if (currentQuestion?.isChoice) {
-            dispatch(actions.questionActions.setRadioValue(index + 1));
-          } else {
-            selected.push(index + 1);
-          }
         }
       });
 
@@ -389,21 +369,24 @@ export default function Question() {
   async function getData() {
     try {
       setLoading(true);
-      // let res: any = await apiService.getSurveys();
-      let res: any = [];
-      // setData(res);
+      let res: any = await apiService.getSurveyQuestions(
+        selectedSurvey.surveyId,
+      );
+
+      setData(res);
       // dispatch(
       //   actions.formActions.setNameMenu(
       //     `Chương trình ${res[0].ProgramName && res[0].ProgramName}`,
       //   ),
       // );
-      dispatch(actions.questionActions.setCurrentQuestionIndex(0));
+      dispatch(actions.surveyActions.setCurrentQuestionIndex(0));
 
       form.resetFields();
       const setDefault = () => {
         let base = {
-          typeId: res[0]?.typeId,
-          questionTitle: res[0]?.questionTitle,
+          surveyId: selectedSurvey.surveyId,
+          isChoice: res[0].isChoice,
+          title: res[0]?.title,
         };
 
         let content = {};
@@ -411,47 +394,44 @@ export default function Question() {
 
         content = {
           ...base,
-          ...contents?.map((item: IQuestionContent) => {
+          ...contents?.map((item: ISurveyQuestionContent) => {
             return item.content;
           }),
         };
         let selected: any = [];
-        contents?.map((item: IQuestionContent, index: number) => {
+        contents?.map((item: ISurveyQuestionContent, index: number) => {
           if (item.isAnswer) {
-            if (res[0]?.typeId === 1) {
-              dispatch(actions.questionActions.setRadioValue(index + 1));
-            } else if (res[0]?.typeId === 2) {
+            if (res[0]?.isChoice === 1) {
+            } else if (res[0]?.isChoice === 2) {
               selected.push(index + 1);
             }
           }
         });
-        selected.length > 0 &&
-          dispatch(actions.questionActions.setSelectedOptions(selected));
+
         form.setFieldsValue(content);
       };
 
-      if (res.length < 1) {
-        setData([
-          {
-            surveyId: selectedSurvey.surveyId,
-            isChoice: true,
-            title: '',
-          },
-        ]);
-
-        setDataForm({
-          surveyId: selectedSurvey.surveyId,
-          isChoice: true,
-          title: '',
-        });
-      } else {
-        dispatch(actions.questionActions.setCurrentQuestion(res[0]));
-        setDefault();
-        setDataForm(res[0]);
-      }
+      dispatch(actions.surveyActions.setCurrentQuestion(res[0]));
+      setDefault();
+      setDataForm(res[0]);
 
       setLoading(false);
     } catch (err: any) {
+      setData([
+        {
+          surveyId: selectedSurvey.surveyId,
+          isChoice: true,
+          title: '',
+        },
+      ]);
+
+      setDataForm({
+        surveyId: selectedSurvey.surveyId,
+        isChoice: true,
+        title: '',
+      });
+      setLoading(false);
+
       throw err.message;
     }
   }
@@ -464,29 +444,26 @@ export default function Question() {
         title: '',
       };
       // data.pop();
-
       setData([next]);
-      dispatch(actions.questionActions.setRadioOptions(defaultOptions));
-
-      dispatch(actions.questionActions.setSelectedOptions([1]));
-      dispatch(actions.questionActions.setRadioValue(1));
-      dispatch(actions.questionActions.setCurrentQuestionIndex(0));
-      dispatch(actions.questionActions.setCurrentQuestion(next));
+      dispatch(actions.surveyActions.setRadioOptions(defaultOptions));
+      dispatch(actions.surveyActions.setCurrentQuestionIndex(0));
+      dispatch(actions.surveyActions.setCurrentQuestion(next));
       form.setFieldValue('score', 1);
     };
   }, [reload]);
 
   async function handleSubmit(values: any) {
-    // let res: any = await apiService.getQuestions(testId);
-
+    // let res: any = await apiService.getQuestions(selectedSurvey.surveyId);
     let result = Object.keys(values).map((key) => [values[key]]);
     for (let i = 0; i < 2; i++) {
       result.pop();
     }
+    console.log(result);
+
     let outEdit = {
       surveyId: selectedSurvey.surveyId,
       isChoice: selectedType,
-      title: values.questionTitle,
+      title: values.title,
 
       contentQuestions: radioOptions.map(
         (item: IQuestionOption, index: number) => {
@@ -499,84 +476,82 @@ export default function Question() {
                 : null
               : null;
 
-          if (outQuestion === null) {
-            output =
-              currentQuestion && currentQuestion.questionSurveyId
-                ? {
-                    content: result[index][0],
-                  }
-                : {
-                    content: result[index][0],
-                  };
-          } else {
-            output =
-              currentQuestion && currentQuestion.questionSurveyId
-                ? {
-                    questionContentId: outQuestion,
-                    content: result[index][0],
-                  }
-                : {
-                    content: result[index][0],
-                  };
+          if (selectedType) {
+            if (outQuestion === null) {
+              output = {
+                content: result[index][0],
+              };
+            } else {
+              output =
+                currentQuestion && currentQuestion.questionSurveyId
+                  ? {
+                      contentSurveyId: outQuestion,
+                      content: result[index][0],
+                    }
+                  : {
+                      content: result[index][0],
+                    };
+            }
           }
 
           return output;
         },
       ),
     };
+
     let out = {
       surveyId: selectedSurvey.surveyId,
       isChoice: selectedType,
-      title: values.questionTitle,
-      contentQuestions: radioOptions.map(
-        (item: IQuestionOption, index: number) => {
-          let output =
-            currentQuestion && currentQuestion.questionSurveyId
-              ? {
-                  questionContentId: currentQuestion.contentQuestions[index]
-                    ?.contentSurveyId
-                    ? currentQuestion.contentQuestions[index]?.contentSurveyId
-                    : null,
-                  content: result[index][0],
-                  // isAnswer: isAnswer(item),
-                }
-              : {
-                  content: result[index][0],
-                  // isAnswer: isAnswer(item),
-                };
+      title: values.title,
+      contentQuestions: selectedType
+        ? radioOptions.map((item: IQuestionOption, index: number) => {
+            let output =
+              currentQuestion && currentQuestion.questionSurveyId
+                ? {
+                    contentSurveyId: currentQuestion.contentQuestions[index]
+                      ?.contentSurveyId
+                      ? currentQuestion.contentQuestions[index]?.contentSurveyId
+                      : null,
+                    content: result[index][0],
+                    // isAnswer: isAnswer(item),
+                  }
+                : {
+                    content: result[index][0],
+                    // isAnswer: isAnswer(item),
+                  };
 
-          return output;
-        },
-      ),
+            return output;
+          })
+        : null,
     };
-    console.log(outEdit);
-    console.log(out);
-    if (
-      currentQuestion.questionSurveyId &&
-      selectedOptions.length !== radioOptions.length
-    ) {
-      if (!finish) {
-        message.success('Lưu thành công');
+    try {
+      if (currentQuestion.questionSurveyId) {
+        await apiService.updateSurveyQuestion(
+          currentQuestion.questionSurveyId,
+          outEdit,
+        );
+        if (!finish) {
+          message.success('Lưu thành công');
+        }
+      } else {
+        await apiService.addSurveyQuestion(out);
+        if (!finish) {
+          message.success('Tạo thành công');
+        }
       }
-      // await apiService.updateSurveyQuestion(
-      //   currentQuestion.questionSurveyId,
-      //   outEdit,
-      // );
-    } else if (selectedOptions.length !== radioOptions.length) {
-      if (!finish) {
-        message.success('Tạo thành công');
-      }
-      // await apiService.addSurveyQuestion(out);
-    } else {
-      message.error('Phải có ít nhất 1 đáp án sai!');
+    } catch (err) {
+      message.error('Tạo không thành công');
+
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
     }
   }
   function handleMoveQuestion(index: number) {
-    dispatch(actions.questionActions.setCurrentQuestionIndex(index));
-    dispatch(actions.questionActions.setCurrentQuestion(data[index]));
+    dispatch(actions.surveyActions.setCurrentQuestionIndex(index));
+    dispatch(actions.surveyActions.setCurrentQuestion(data[index]));
 
     form.resetFields();
-    setHeight('100');
 
     if (data[index]) {
       setForm(index);
@@ -584,37 +559,39 @@ export default function Question() {
   }
 
   async function handleFinish(values: any) {
+    setLoading(true);
     await handleSubmit(values);
     message.success('Lưu lại thành công các câu hỏi');
+    setLoading(false);
 
     goBack();
   }
 
   async function handleNextQuestion(values: any) {
+    setLoading(true);
+
     await handleSubmit(values);
-    if (selectedOptions.length !== radioOptions.length) {
-      form.resetFields();
 
-      let next = {
-        testsId: testId,
-        typeId: 0,
-        questionTitle: '',
-        score: 1,
-      };
-      // data.pop();
-      setHeight('100');
-      let res: any = await apiService.getQuestions(testId);
-      res.push(next);
+    form.resetFields();
 
-      setData(res);
-      dispatch(actions.questionActions.setRadioOptions(defaultOptions));
-      dispatch(actions.surveyActions.setSelectedType(true));
-      dispatch(actions.questionActions.setSelectedOptions([1]));
-      dispatch(actions.questionActions.setRadioValue(1));
-      dispatch(actions.questionActions.setCurrentQuestionIndex(res.length - 1));
-      dispatch(actions.questionActions.setCurrentQuestion(res[res.length - 1]));
-      form.setFieldValue('score', 1);
-    }
+    let next = {
+      testsId: selectedSurvey.surveyId,
+      isChoice: true,
+      title: '',
+    };
+    // data.pop();
+    let res: any = await apiService.getSurveyQuestions(selectedSurvey.surveyId);
+    res.push(next);
+
+    setData(res);
+    dispatch(actions.surveyActions.setRadioOptions(defaultOptions));
+    dispatch(actions.surveyActions.setSelectedType(true));
+
+    dispatch(actions.surveyActions.setCurrentQuestionIndex(res.length - 1));
+    dispatch(actions.surveyActions.setCurrentQuestion(res[res.length - 1]));
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
   }
 
   const handleOk = async () => {
@@ -622,22 +599,26 @@ export default function Question() {
       .validateFields()
       .then(async (values) => {
         setLoading(true);
-
+        console.log(data);
         if (data) {
           // await apiService.editProgram({
           // });
           setLoading(false);
           if (onlySave) {
             await handleSubmit(values);
-            // let res: any = await apiService.getQuestions(testId);
+            let res: any = await apiService.getSurveyQuestions(
+              selectedSurvey.surveyId,
+            );
 
-            // setData(res);
-            // dispatch(actions.questionActions.setCurrentQuestionIndex(res.length - 1));
-            // dispatch(
-            //   actions.questionActions.setCurrentQuestion(
-            //     res[currentQuestionIndex],
-            //   ),
-            // );
+            setData(res);
+            dispatch(
+              actions.surveyActions.setCurrentQuestionIndex(res.length - 1),
+            );
+            dispatch(
+              actions.surveyActions.setCurrentQuestion(
+                res[currentQuestionIndex],
+              ),
+            );
 
             setOnlySave(false);
           } else if (finish) {
@@ -658,210 +639,216 @@ export default function Question() {
       });
   };
   return (
-    <div
-      ref={containerRef}
-      className="block overflow-auto  questionCont w-full mb-[10rem]  h-fit min-h-fit"
-      // style={{
-      //   height: height + 'vh',
-      // }}
-    >
-      <QuestionModal
-        open={showQuestionModal}
-        setOpen={(e: boolean) => setShowQuestionModal(e)}
+    <>
+      <Loading loading={loading} className="bg-opacity-20" />
+
+      <div
+        ref={containerRef}
+        className="block overflow-auto  questionCont w-full mb-[10rem]  h-fit min-h-fit"
+        // style={{
+        //   height: height + 'vh',
+        // }}
       >
-        <div className="flex flex-row flex-wrap justify-start ml-[0.3rem]">
-          {data.map((item: ISurveyQuestion, index: number) => {
-            return (
-              <QuestionButton
-                className="mb-5"
-                text={`Câu ${index + 1}`}
-                onClick={() => handleMoveQuestion(index)}
-                active={index === currentQuestionIndex ? true : false}
-              />
-            );
-          })}
-        </div>
-      </QuestionModal>
-
-      <Form form={form} onFinish={handleOk}>
-        <ConfirmModal
-          show={showConfirm}
-          setShow={setShowConfirm}
-          handler={() => handleDelete()}
-          title={`câu hỏi số ${currentQuestionIndex + 1}`}
+        <QuestionModal
+          open={showQuestionModal}
+          setOpen={(e: boolean) => setShowQuestionModal(e)}
         >
-          <p className="font-customFont text-xl font-[500]">
-            Xoá câu hỏi số {currentQuestionIndex + 1}
-          </p>
-        </ConfirmModal>
-        <div className="px-5 h-screen">
-          <div className="w-full h-14 flex items-center justify-between ">
-            <p className="text-black text-lg font-bold font-customFont">
-              Bài kiểm tra chương {chapter}
-            </p>
-            <HeaderAdmin />
+          <div className="flex flex-row flex-wrap justify-start ml-[0.3rem]">
+            {data.map((item: ISurveyQuestion, index: number) => {
+              return (
+                <QuestionButton
+                  className="mb-5"
+                  text={`Câu ${index + 1}`}
+                  onClick={() => handleMoveQuestion(index)}
+                  active={index === currentQuestionIndex ? true : false}
+                />
+              );
+            })}
           </div>
-          <div className="pl-[-2rem] pt-[-2rem]">
-            <Breadcrumb
-              router1={'/admin/Survey/'}
-              name={'Khảo sát'}
-              name2={data ? 'Sửa câu hỏi khảo sát' : 'Thêm câu hỏi khảo sát'}
-            />
-          </div>
-          <div className=" mr-0   font-customFont text-lg text-primary border flex flex-row items-center justify-between px-4 rounded-[10px] w-full border-border-gray h-12 my-4">
-            <p>CÂU HỎI SỐ {currentQuestionIndex + 1}</p>
-            {/* {currentQuestionIndex !== -1 && ( */}
-            <CustomButton
-              color="red"
-              Icon={TiDelete}
-              text="Xoá câu hỏi"
-              size="sm"
-              textClassName="pr -2"
-              variant="text"
-              onClick={() => setShowConfirm(!showConfirm)}
-            />
-            {/* )} */}
-          </div>
+        </QuestionModal>
 
-          <div className="flex flex-row ">
-            <div className="flex flex-col w-1/3 pr-8">
-              <div className="border w-full p-4 rounded-[10px] border-border-gray h-full">
+        <Form form={form} onFinish={handleOk}>
+          <ConfirmModal
+            show={showConfirm}
+            setShow={setShowConfirm}
+            handler={() => handleDelete()}
+            title={`câu hỏi số ${currentQuestionIndex + 1}`}
+          >
+            <p className="font-customFont text-xl font-[500]">
+              Xoá câu hỏi số {currentQuestionIndex + 1}
+            </p>
+          </ConfirmModal>
+          <div className="px-5 h-screen">
+            <div className="w-full h-14 flex items-center justify-between ">
+              <p className="text-black text-lg font-bold font-customFont">
+                Bài kiểm tra chương {chapter}
+              </p>
+              <HeaderAdmin />
+            </div>
+            <div className="pl-[-2rem] pt-[-2rem]">
+              <Breadcrumb
+                router1={'/admin/Survey/'}
+                name={'Khảo sát'}
+                name2={data ? 'Sửa câu hỏi khảo sát' : 'Thêm câu hỏi khảo sát'}
+              />
+            </div>
+            <div className=" mr-0   font-customFont text-lg text-primary border flex flex-row items-center justify-between px-4 rounded-[10px] w-full border-border-gray h-12 my-4">
+              <p>CÂU HỎI SỐ {currentQuestionIndex + 1}</p>
+              {/* {currentQuestionIndex !== -1 && ( */}
+              <CustomButton
+                color="red"
+                Icon={TiDelete}
+                text="Xoá câu hỏi"
+                size="sm"
+                textClassName="pr -2"
+                variant="text"
+                onClick={() => setShowConfirm(!showConfirm)}
+              />
+              {/* )} */}
+            </div>
+
+            <div className={`flex flex-row ${loading ? 'hidden' : 'visible'} `}>
+              <div className="flex flex-col w-1/3 pr-8">
+                <div className="border w-full p-4 rounded-[10px] border-border-gray h-full">
+                  <FormInput
+                    disabled={false}
+                    type="select"
+                    name="isChoice"
+                    label="Loại bài kiểm tra"
+                    rules={[]}
+                    defaultValue={selectedType}
+                    getSelectedValue={(e: number) =>
+                      handleChangeSelectedType(e)
+                    }
+                    options={typeOptions}
+                  />
+                </div>
+              </div>
+              <div className=" w-full ">
                 <FormInput
                   disabled={false}
-                  type="select"
-                  name="typeId"
-                  label="Loại bài kiểm tra"
-                  rules={[]}
-                  defaultValue={selectedType}
-                  getSelectedValue={(e: number) => handleChangeSelectedType(e)}
-                  options={typeOptions}
+                  type="textArea"
+                  name="title"
+                  label="Nhập câu hỏi "
+                  placeholder="Nhập câu hỏi"
+                  areaHeight={selectedType ? 3 : 18}
+                  rules={[
+                    {
+                      required: true,
+                      message: `Không được để trống câu hỏi`,
+                    },
+                    {
+                      pattern: new RegExp(/^(?!\s*$|\s).*$/),
+                      message: errorText.space,
+                    },
+                  ]}
                 />
-              </div>
-            </div>
-            <div className=" w-full ">
-              <FormInput
-                disabled={false}
-                type="textArea"
-                name="questionTitle"
-                label="Nhập câu hỏi "
-                placeholder="Nhập câu hỏi"
-                areaHeight={selectedType ? 3 : 18}
-                rules={[
-                  {
-                    required: true,
-                    message: `Không được để trống câu hỏi`,
-                  },
-                  {
-                    pattern: new RegExp(/^(?!\s*$|\s).*$/),
-                    message: errorText.space,
-                  },
-                ]}
-              />
 
-              {selectedType && (
-                <div className="w-full mb-2 ">
-                  <div className="w-full flex items-center">
-                    <label className="text-black font-bold font-customFont mr-3 ">
-                      Nhập các câu trả lời
-                    </label>
+                {selectedType && (
+                  <div className="w-full mb-2 ">
+                    <div className="w-full flex items-center">
+                      <label className="text-black font-bold font-customFont mr-3 ">
+                        Nhập các câu trả lời
+                      </label>
 
-                    <CustomButton
-                      text="Thêm đáp án"
-                      size="sm"
-                      textClassName="pr-4"
-                      onClick={() => addMoreAnswer()}
+                      <CustomButton
+                        text="Thêm đáp án"
+                        size="sm"
+                        textClassName="pr-4"
+                        onClick={() => addMoreAnswer()}
+                      />
+                    </div>
+                    <AnswerOption
+                      handleDelete={(e: string) => handleDeleteAnswer(e)}
+                      onChange={() => {}}
                     />
                   </div>
-                  <AnswerOption
-                    handleDelete={(e: string) => handleDeleteAnswer(e)}
-                    onChange={() => {}}
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="fixed bottom-0  bg-white w-full border-border-color  border-t flex flex-col items-end  ">
+            <div className="w-full my-2 mt-4 h-12  px-4 ">
+              {!showQuestionModal && (
+                <div className="w-full flex  border rounded-[12px] border-primary h-full">
+                  <div className="px-2 w-[96%] h-full  overflow-clip  flex justify-start items-center ">
+                    {data.map((item: ISurveyQuestion, index: number) => {
+                      return (
+                        <QuestionButton
+                          key={item.questionSurveyId + index}
+                          text={`Câu ${index + 1}`}
+                          onClick={() => handleMoveQuestion(index)}
+                          active={index === currentQuestionIndex ? true : false}
+                        />
+                      );
+                    })}
+                  </div>
+                  <CustomButton
+                    size="sm"
+                    variant="text"
+                    Icon={IoIosArrowUp}
+                    className="ml-2"
+                    onClick={() => setShowQuestionModal(!showQuestionModal)}
                   />
                 </div>
               )}
             </div>
-          </div>
-        </div>
-        <div className="fixed bottom-0  bg-white w-full border-border-color  border-t flex flex-col items-end  ">
-          <div className="w-full my-2 mt-4 h-12  px-4 ">
-            {!showQuestionModal && (
-              <div className="w-full flex  border rounded-[12px] border-primary h-full">
-                <div className="px-2 w-[96%] h-full  overflow-clip  flex justify-start items-center ">
-                  {data.map((item: ISurveyQuestion, index: number) => {
-                    return (
-                      <QuestionButton
-                        key={item.questionSurveyId + index}
-                        text={`Câu ${index + 1}`}
-                        onClick={() => handleMoveQuestion(index)}
-                        active={index === currentQuestionIndex ? true : false}
-                      />
-                    );
-                  })}
-                </div>
+
+            <Form.Item noStyle>
+              <div className="w-full h-fit flex items-center justify-end px-4 my-2 ">
                 <CustomButton
-                  size="sm"
-                  variant="text"
-                  Icon={IoIosArrowUp}
-                  className="ml-2"
-                  onClick={() => setShowQuestionModal(!showQuestionModal)}
+                  text="Phục hồi mặc định"
+                  size="md"
+                  variant="outlined"
+                  color="blue-gray"
+                  className=" mr-4"
+                  noIcon
+                  onClick={() => restoreDefault()}
                 />
+                <button
+                  type="submit"
+                  onClick={() => setOnlySave(true)}
+                  className=" mr-4 hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-cyan-500 hover:bg-cyan-500 text-white shadow-md shadow-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                  formNoValidate
+                >
+                  <p className="font-customFont  font-semibold">Lưu câu hỏi</p>
+                </button>
+                <button
+                  type="submit"
+                  className=" mr-4 hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-gray-500 hover:bg-blue-gray-500 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                  formNoValidate
+                  onClick={() => setFinish(false)}
+                >
+                  <p className="font-customFont  font-semibold">
+                    Lưu và thêm tiếp câu hỏi
+                  </p>
+                </button>
+
+                {hasQuestion ? (
+                  <button
+                    type="submit"
+                    onClick={() => setFinish(true)}
+                    className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                    formNoValidate
+                  >
+                    <p className="font-customFont  font-semibold">Quay lại</p>
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    onClick={() => setFinish(true)}
+                    className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                    formNoValidate
+                  >
+                    <p className="font-customFont  font-semibold">Hoàn thành</p>
+                  </button>
+                )}
               </div>
-            )}
+            </Form.Item>
           </div>
-
-          <Form.Item noStyle>
-            <div className="w-full h-fit flex items-center justify-end px-4 my-2 ">
-              <CustomButton
-                text="Phục hồi mặc định"
-                size="md"
-                variant="outlined"
-                color="blue-gray"
-                className=" mr-4"
-                noIcon
-                onClick={() => restoreDefault()}
-              />
-              <button
-                type="submit"
-                onClick={() => setOnlySave(true)}
-                className=" mr-4 hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-cyan-500 hover:bg-cyan-500 text-white shadow-md shadow-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
-                formNoValidate
-              >
-                <p className="font-customFont  font-semibold">Lưu câu hỏi</p>
-              </button>
-              <button
-                type="submit"
-                className=" mr-4 hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-gray-500 hover:bg-blue-gray-500 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
-                formNoValidate
-                onClick={() => setFinish(false)}
-              >
-                <p className="font-customFont  font-semibold">
-                  Lưu và thêm tiếp câu hỏi
-                </p>
-              </button>
-
-              {hasQuestion ? (
-                <button
-                  type="submit"
-                  onClick={() => setFinish(true)}
-                  className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
-                  formNoValidate
-                >
-                  <p className="font-customFont  font-semibold">Quay lại</p>
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  onClick={() => setFinish(true)}
-                  className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
-                  formNoValidate
-                >
-                  <p className="font-customFont  font-semibold">Hoàn thành</p>
-                </button>
-              )}
-            </div>
-          </Form.Item>
-        </div>
-      </Form>
-    </div>
+        </Form>
+      </div>
+    </>
   );
 }
 const QuestionButton = ({
