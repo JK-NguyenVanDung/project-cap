@@ -21,6 +21,7 @@ import { errorText } from '../../../../../helper/constant';
 import { useAppSelector, useAppDispatch } from '../../../../../hook/useRedux';
 import Breadcrumb from '../../../../../components/sharedComponents/Breadcrumb';
 import AnswerOption from '../../../../../components/Survey/AnswerOption';
+import Loading from '../../../../../components/sharedComponents/Loading';
 
 interface IQuestionOption {
   value: number;
@@ -110,22 +111,7 @@ export default function Question() {
   };
 
   function goBack() {
-    if (window.history.state && window.history.state.idx > 0) {
-      // navigate(-1);
-      navigate(
-        `/admin/Program/Chapter/${chapter ? chapter : 1}/Test?id=${
-          chapter ? chapter : 1
-        }`,
-        { replace: true },
-      );
-    } else {
-      navigate(
-        `/admin/Program/Chapter/${chapter ? chapter : 1}/Test?id=${
-          chapter ? chapter : 1
-        }`,
-        { replace: true },
-      );
-    }
+    navigate(-1);
   }
   function addMoreAnswer() {
     let last = radioOptions[radioOptions.length - 1];
@@ -145,7 +131,7 @@ export default function Question() {
 
   async function handleDeleteAnswer(e: any) {
     let numb = Number(e);
-
+    setLoading(true);
     // else {
     let op = radioOptions.filter(
       (item: IQuestionOption) => item.value !== Number(e),
@@ -188,12 +174,16 @@ export default function Question() {
       }
     } else {
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
 
     // }
   }
 
   async function handleDelete() {
     // goBack();
+    setLoading(true);
     if (currentQuestion.questionSurveyId) {
       try {
         await apiService.deleteSurveyQuestions(
@@ -246,6 +236,9 @@ export default function Question() {
       }
       setForm(data.length - 1);
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
   }
   const setDataForm = (data: any) => {
     let base = {
@@ -483,20 +476,22 @@ export default function Question() {
                 : null
               : null;
 
-          if (outQuestion === null) {
-            output = {
-              content: result[index][0],
-            };
-          } else {
-            output =
-              currentQuestion && currentQuestion.questionSurveyId
-                ? {
-                    questionContentId: outQuestion,
-                    content: result[index][0],
-                  }
-                : {
-                    content: result[index][0],
-                  };
+          if (selectedType) {
+            if (outQuestion === null) {
+              output = {
+                content: result[index][0],
+              };
+            } else {
+              output =
+                currentQuestion && currentQuestion.questionSurveyId
+                  ? {
+                      contentSurveyId: outQuestion,
+                      content: result[index][0],
+                    }
+                  : {
+                      content: result[index][0],
+                    };
+            }
           }
 
           return output;
@@ -508,44 +503,48 @@ export default function Question() {
       surveyId: selectedSurvey.surveyId,
       isChoice: selectedType,
       title: values.title,
-      contentQuestions: radioOptions.map(
-        (item: IQuestionOption, index: number) => {
-          let output =
-            currentQuestion && currentQuestion.questionSurveyId
-              ? {
-                  questionContentId: currentQuestion.contentQuestions[index]
-                    ?.contentSurveyId
-                    ? currentQuestion.contentQuestions[index]?.contentSurveyId
-                    : null,
-                  content: result[index][0],
-                  // isAnswer: isAnswer(item),
-                }
-              : {
-                  content: result[index][0],
-                  // isAnswer: isAnswer(item),
-                };
+      contentQuestions: selectedType
+        ? radioOptions.map((item: IQuestionOption, index: number) => {
+            let output =
+              currentQuestion && currentQuestion.questionSurveyId
+                ? {
+                    contentSurveyId: currentQuestion.contentQuestions[index]
+                      ?.contentSurveyId
+                      ? currentQuestion.contentQuestions[index]?.contentSurveyId
+                      : null,
+                    content: result[index][0],
+                    // isAnswer: isAnswer(item),
+                  }
+                : {
+                    content: result[index][0],
+                    // isAnswer: isAnswer(item),
+                  };
 
-          return output;
-        },
-      ),
+            return output;
+          })
+        : null,
     };
-    if (currentQuestion.questionSurveyId) {
-      if (!finish) {
-        message.success('Lưu thành công');
+    try {
+      if (currentQuestion.questionSurveyId) {
+        await apiService.updateSurveyQuestion(
+          currentQuestion.questionSurveyId,
+          outEdit,
+        );
+        if (!finish) {
+          message.success('Lưu thành công');
+        }
+      } else {
+        await apiService.addSurveyQuestion(out);
+        if (!finish) {
+          message.success('Tạo thành công');
+        }
       }
-      console.log(outEdit);
+    } catch (err) {
+      message.error('Tạo không thành công');
 
-      await apiService.updateSurveyQuestion(
-        currentQuestion.questionSurveyId,
-        outEdit,
-      );
-    } else {
-      if (!finish) {
-        message.success('Tạo thành công');
-      }
-      console.log(out);
-
-      await apiService.addSurveyQuestion(out);
+      setTimeout(() => {
+        setLoading(false);
+      }, 300);
     }
   }
   function handleMoveQuestion(index: number) {
@@ -560,20 +559,24 @@ export default function Question() {
   }
 
   async function handleFinish(values: any) {
+    setLoading(true);
     await handleSubmit(values);
     message.success('Lưu lại thành công các câu hỏi');
+    setLoading(false);
 
     goBack();
   }
 
   async function handleNextQuestion(values: any) {
+    setLoading(true);
+
     await handleSubmit(values);
 
     form.resetFields();
 
     let next = {
       testsId: selectedSurvey.surveyId,
-      isChoice: 0,
+      isChoice: true,
       title: '',
     };
     // data.pop();
@@ -586,7 +589,9 @@ export default function Question() {
 
     dispatch(actions.surveyActions.setCurrentQuestionIndex(res.length - 1));
     dispatch(actions.surveyActions.setCurrentQuestion(res[res.length - 1]));
-    form.setFieldValue('score', 1);
+    setTimeout(() => {
+      setLoading(false);
+    }, 300);
   }
 
   const handleOk = async () => {
@@ -634,210 +639,216 @@ export default function Question() {
       });
   };
   return (
-    <div
-      ref={containerRef}
-      className="block overflow-auto  questionCont w-full mb-[10rem]  h-fit min-h-fit"
-      // style={{
-      //   height: height + 'vh',
-      // }}
-    >
-      <QuestionModal
-        open={showQuestionModal}
-        setOpen={(e: boolean) => setShowQuestionModal(e)}
+    <>
+      <Loading loading={loading} className="bg-opacity-20" />
+
+      <div
+        ref={containerRef}
+        className="block overflow-auto  questionCont w-full mb-[10rem]  h-fit min-h-fit"
+        // style={{
+        //   height: height + 'vh',
+        // }}
       >
-        <div className="flex flex-row flex-wrap justify-start ml-[0.3rem]">
-          {data.map((item: ISurveyQuestion, index: number) => {
-            return (
-              <QuestionButton
-                className="mb-5"
-                text={`Câu ${index + 1}`}
-                onClick={() => handleMoveQuestion(index)}
-                active={index === currentQuestionIndex ? true : false}
-              />
-            );
-          })}
-        </div>
-      </QuestionModal>
-
-      <Form form={form} onFinish={handleOk}>
-        <ConfirmModal
-          show={showConfirm}
-          setShow={setShowConfirm}
-          handler={() => handleDelete()}
-          title={`câu hỏi số ${currentQuestionIndex + 1}`}
+        <QuestionModal
+          open={showQuestionModal}
+          setOpen={(e: boolean) => setShowQuestionModal(e)}
         >
-          <p className="font-customFont text-xl font-[500]">
-            Xoá câu hỏi số {currentQuestionIndex + 1}
-          </p>
-        </ConfirmModal>
-        <div className="px-5 h-screen">
-          <div className="w-full h-14 flex items-center justify-between ">
-            <p className="text-black text-lg font-bold font-customFont">
-              Bài kiểm tra chương {chapter}
-            </p>
-            <HeaderAdmin />
+          <div className="flex flex-row flex-wrap justify-start ml-[0.3rem]">
+            {data.map((item: ISurveyQuestion, index: number) => {
+              return (
+                <QuestionButton
+                  className="mb-5"
+                  text={`Câu ${index + 1}`}
+                  onClick={() => handleMoveQuestion(index)}
+                  active={index === currentQuestionIndex ? true : false}
+                />
+              );
+            })}
           </div>
-          <div className="pl-[-2rem] pt-[-2rem]">
-            <Breadcrumb
-              router1={'/admin/Survey/'}
-              name={'Khảo sát'}
-              name2={data ? 'Sửa câu hỏi khảo sát' : 'Thêm câu hỏi khảo sát'}
-            />
-          </div>
-          <div className=" mr-0   font-customFont text-lg text-primary border flex flex-row items-center justify-between px-4 rounded-[10px] w-full border-border-gray h-12 my-4">
-            <p>CÂU HỎI SỐ {currentQuestionIndex + 1}</p>
-            {/* {currentQuestionIndex !== -1 && ( */}
-            <CustomButton
-              color="red"
-              Icon={TiDelete}
-              text="Xoá câu hỏi"
-              size="sm"
-              textClassName="pr -2"
-              variant="text"
-              onClick={() => setShowConfirm(!showConfirm)}
-            />
-            {/* )} */}
-          </div>
+        </QuestionModal>
 
-          <div className="flex flex-row ">
-            <div className="flex flex-col w-1/3 pr-8">
-              <div className="border w-full p-4 rounded-[10px] border-border-gray h-full">
+        <Form form={form} onFinish={handleOk}>
+          <ConfirmModal
+            show={showConfirm}
+            setShow={setShowConfirm}
+            handler={() => handleDelete()}
+            title={`câu hỏi số ${currentQuestionIndex + 1}`}
+          >
+            <p className="font-customFont text-xl font-[500]">
+              Xoá câu hỏi số {currentQuestionIndex + 1}
+            </p>
+          </ConfirmModal>
+          <div className="px-5 h-screen">
+            <div className="w-full h-14 flex items-center justify-between ">
+              <p className="text-black text-lg font-bold font-customFont">
+                Bài kiểm tra chương {chapter}
+              </p>
+              <HeaderAdmin />
+            </div>
+            <div className="pl-[-2rem] pt-[-2rem]">
+              <Breadcrumb
+                router1={'/admin/Survey/'}
+                name={'Khảo sát'}
+                name2={data ? 'Sửa câu hỏi khảo sát' : 'Thêm câu hỏi khảo sát'}
+              />
+            </div>
+            <div className=" mr-0   font-customFont text-lg text-primary border flex flex-row items-center justify-between px-4 rounded-[10px] w-full border-border-gray h-12 my-4">
+              <p>CÂU HỎI SỐ {currentQuestionIndex + 1}</p>
+              {/* {currentQuestionIndex !== -1 && ( */}
+              <CustomButton
+                color="red"
+                Icon={TiDelete}
+                text="Xoá câu hỏi"
+                size="sm"
+                textClassName="pr -2"
+                variant="text"
+                onClick={() => setShowConfirm(!showConfirm)}
+              />
+              {/* )} */}
+            </div>
+
+            <div className={`flex flex-row ${loading ? 'hidden' : 'visible'} `}>
+              <div className="flex flex-col w-1/3 pr-8">
+                <div className="border w-full p-4 rounded-[10px] border-border-gray h-full">
+                  <FormInput
+                    disabled={false}
+                    type="select"
+                    name="isChoice"
+                    label="Loại bài kiểm tra"
+                    rules={[]}
+                    defaultValue={selectedType}
+                    getSelectedValue={(e: number) =>
+                      handleChangeSelectedType(e)
+                    }
+                    options={typeOptions}
+                  />
+                </div>
+              </div>
+              <div className=" w-full ">
                 <FormInput
                   disabled={false}
-                  type="select"
-                  name="isChoice"
-                  label="Loại bài kiểm tra"
-                  rules={[]}
-                  defaultValue={selectedType}
-                  getSelectedValue={(e: number) => handleChangeSelectedType(e)}
-                  options={typeOptions}
+                  type="textArea"
+                  name="title"
+                  label="Nhập câu hỏi "
+                  placeholder="Nhập câu hỏi"
+                  areaHeight={selectedType ? 3 : 18}
+                  rules={[
+                    {
+                      required: true,
+                      message: `Không được để trống câu hỏi`,
+                    },
+                    {
+                      pattern: new RegExp(/^(?!\s*$|\s).*$/),
+                      message: errorText.space,
+                    },
+                  ]}
                 />
-              </div>
-            </div>
-            <div className=" w-full ">
-              <FormInput
-                disabled={false}
-                type="textArea"
-                name="title"
-                label="Nhập câu hỏi "
-                placeholder="Nhập câu hỏi"
-                areaHeight={selectedType ? 3 : 18}
-                rules={[
-                  {
-                    required: true,
-                    message: `Không được để trống câu hỏi`,
-                  },
-                  {
-                    pattern: new RegExp(/^(?!\s*$|\s).*$/),
-                    message: errorText.space,
-                  },
-                ]}
-              />
 
-              {selectedType && (
-                <div className="w-full mb-2 ">
-                  <div className="w-full flex items-center">
-                    <label className="text-black font-bold font-customFont mr-3 ">
-                      Nhập các câu trả lời
-                    </label>
+                {selectedType && (
+                  <div className="w-full mb-2 ">
+                    <div className="w-full flex items-center">
+                      <label className="text-black font-bold font-customFont mr-3 ">
+                        Nhập các câu trả lời
+                      </label>
 
-                    <CustomButton
-                      text="Thêm đáp án"
-                      size="sm"
-                      textClassName="pr-4"
-                      onClick={() => addMoreAnswer()}
+                      <CustomButton
+                        text="Thêm đáp án"
+                        size="sm"
+                        textClassName="pr-4"
+                        onClick={() => addMoreAnswer()}
+                      />
+                    </div>
+                    <AnswerOption
+                      handleDelete={(e: string) => handleDeleteAnswer(e)}
+                      onChange={() => {}}
                     />
                   </div>
-                  <AnswerOption
-                    handleDelete={(e: string) => handleDeleteAnswer(e)}
-                    onChange={() => {}}
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="fixed bottom-0  bg-white w-full border-border-color  border-t flex flex-col items-end  ">
+            <div className="w-full my-2 mt-4 h-12  px-4 ">
+              {!showQuestionModal && (
+                <div className="w-full flex  border rounded-[12px] border-primary h-full">
+                  <div className="px-2 w-[96%] h-full  overflow-clip  flex justify-start items-center ">
+                    {data.map((item: ISurveyQuestion, index: number) => {
+                      return (
+                        <QuestionButton
+                          key={item.questionSurveyId + index}
+                          text={`Câu ${index + 1}`}
+                          onClick={() => handleMoveQuestion(index)}
+                          active={index === currentQuestionIndex ? true : false}
+                        />
+                      );
+                    })}
+                  </div>
+                  <CustomButton
+                    size="sm"
+                    variant="text"
+                    Icon={IoIosArrowUp}
+                    className="ml-2"
+                    onClick={() => setShowQuestionModal(!showQuestionModal)}
                   />
                 </div>
               )}
             </div>
-          </div>
-        </div>
-        <div className="fixed bottom-0  bg-white w-full border-border-color  border-t flex flex-col items-end  ">
-          <div className="w-full my-2 mt-4 h-12  px-4 ">
-            {!showQuestionModal && (
-              <div className="w-full flex  border rounded-[12px] border-primary h-full">
-                <div className="px-2 w-[96%] h-full  overflow-clip  flex justify-start items-center ">
-                  {data.map((item: ISurveyQuestion, index: number) => {
-                    return (
-                      <QuestionButton
-                        key={item.questionSurveyId + index}
-                        text={`Câu ${index + 1}`}
-                        onClick={() => handleMoveQuestion(index)}
-                        active={index === currentQuestionIndex ? true : false}
-                      />
-                    );
-                  })}
-                </div>
+
+            <Form.Item noStyle>
+              <div className="w-full h-fit flex items-center justify-end px-4 my-2 ">
                 <CustomButton
-                  size="sm"
-                  variant="text"
-                  Icon={IoIosArrowUp}
-                  className="ml-2"
-                  onClick={() => setShowQuestionModal(!showQuestionModal)}
+                  text="Phục hồi mặc định"
+                  size="md"
+                  variant="outlined"
+                  color="blue-gray"
+                  className=" mr-4"
+                  noIcon
+                  onClick={() => restoreDefault()}
                 />
+                <button
+                  type="submit"
+                  onClick={() => setOnlySave(true)}
+                  className=" mr-4 hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-cyan-500 hover:bg-cyan-500 text-white shadow-md shadow-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                  formNoValidate
+                >
+                  <p className="font-customFont  font-semibold">Lưu câu hỏi</p>
+                </button>
+                <button
+                  type="submit"
+                  className=" mr-4 hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-gray-500 hover:bg-blue-gray-500 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                  formNoValidate
+                  onClick={() => setFinish(false)}
+                >
+                  <p className="font-customFont  font-semibold">
+                    Lưu và thêm tiếp câu hỏi
+                  </p>
+                </button>
+
+                {hasQuestion ? (
+                  <button
+                    type="submit"
+                    onClick={() => setFinish(true)}
+                    className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                    formNoValidate
+                  >
+                    <p className="font-customFont  font-semibold">Quay lại</p>
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    onClick={() => setFinish(true)}
+                    className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                    formNoValidate
+                  >
+                    <p className="font-customFont  font-semibold">Hoàn thành</p>
+                  </button>
+                )}
               </div>
-            )}
+            </Form.Item>
           </div>
-
-          <Form.Item noStyle>
-            <div className="w-full h-fit flex items-center justify-end px-4 my-2 ">
-              <CustomButton
-                text="Phục hồi mặc định"
-                size="md"
-                variant="outlined"
-                color="blue-gray"
-                className=" mr-4"
-                noIcon
-                onClick={() => restoreDefault()}
-              />
-              <button
-                type="submit"
-                onClick={() => setOnlySave(true)}
-                className=" mr-4 hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-cyan-500 hover:bg-cyan-500 text-white shadow-md shadow-cyan-500/20 hover:shadow-lg hover:shadow-cyan-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
-                formNoValidate
-              >
-                <p className="font-customFont  font-semibold">Lưu câu hỏi</p>
-              </button>
-              <button
-                type="submit"
-                className=" mr-4 hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-blue-gray-500 hover:bg-blue-gray-500 text-white shadow-md shadow-blue-gray-500/20 hover:shadow-lg hover:shadow-blue-gray-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
-                formNoValidate
-                onClick={() => setFinish(false)}
-              >
-                <p className="font-customFont  font-semibold">
-                  Lưu và thêm tiếp câu hỏi
-                </p>
-              </button>
-
-              {hasQuestion ? (
-                <button
-                  type="submit"
-                  onClick={() => setFinish(true)}
-                  className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
-                  formNoValidate
-                >
-                  <p className="font-customFont  font-semibold">Quay lại</p>
-                </button>
-              ) : (
-                <button
-                  type="submit"
-                  onClick={() => setFinish(true)}
-                  className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
-                  formNoValidate
-                >
-                  <p className="font-customFont  font-semibold">Hoàn thành</p>
-                </button>
-              )}
-            </div>
-          </Form.Item>
-        </div>
-      </Form>
-    </div>
+        </Form>
+      </div>
+    </>
   );
 }
 const QuestionButton = ({

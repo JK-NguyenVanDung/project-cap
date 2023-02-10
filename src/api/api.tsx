@@ -153,7 +153,7 @@ export const API_CONFIG = {
     CREATE_SURVEY: '/api/Surveys/CreateSurvey',
     CREATE_QUESTION: '/api/Surveys/CreateQuestion',
     UPDATE_SURVEY: (surveyId: number) =>
-      `/api/Surveys/UpdateSurvey/?idSurvey=${surveyId}`,
+      `/api/Surveys/UpdateSurvey/${surveyId}`,
     UPDATE_QUESTION: (questionId: number) =>
       `/api/Surveys/UpdateQuestion/${questionId}`,
     DELETE_SURVEY: (surveyId: number) =>
