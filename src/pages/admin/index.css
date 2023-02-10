@@ -37,3 +37,8 @@
 #floating-ui-root div {
   z-index: 100;
 }
+
+.ant-picker-ranges .ant-btn-primary {
+  background-color: #3649f9 !important;
+  opacity: 0.8;
+}
