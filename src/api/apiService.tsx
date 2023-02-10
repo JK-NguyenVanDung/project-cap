@@ -315,6 +315,7 @@ export default {
     return axiosConfig.put(API_CONFIG.SURVEY.UPDATE_SURVEY(id), params);
   },
   updateSurveyQuestion: (id: number, params: any) => {
+    console.log(params);
     return axiosConfig.put(API_CONFIG.SURVEY.UPDATE_QUESTION(id), params);
   },
   deleteSurveyQuestions: (idQuestion: number) => {
