@@ -10,9 +10,35 @@ const slice = createSlice({
     selectedType: true,
     range: { base: 0, limit: 5 },
     isReviewing: false,
+    currentQuestionIndex: 0,
+
+    radioOptions: [
+      {
+        value: 1,
+      },
+      { value: 2 },
+      {
+        value: 3,
+      },
+      {
+        value: 4,
+      },
+    ],
+    currentQuestion: {},
+    detail: null,
   },
 
   reducers: {
+    setCurrentQuestionIndex(state, actions) {
+      state.currentQuestionIndex = actions.payload;
+    },
+    setCurrentQuestion(state, actions) {
+      state.currentQuestion = actions.payload;
+      state.detail = actions.payload;
+    },
+    setRadioOptions(state, actions) {
+      state.radioOptions = actions.payload;
+    },
     setIsReviewing(state, action) {
       state.isReviewing = action.payload;
     },

@@ -10,6 +10,7 @@ import {
   IQuestionContent,
   ISurveyItem,
   ISurveyQuestion,
+  ISurveyQuestionContent,
 } from '../../../../../Type';
 import apiService from '../../../../../api/apiService';
 import HeaderAdmin from '../../../../../components/Header/HeaderAdmin';
@@ -44,42 +45,38 @@ function getChar(c: number) {
 export default function Question() {
   const containerRef = useRef(null);
 
-  const testId = useAppSelector((state: any) => state.question.testId);
-
-  const chapter = useAppSelector((state: any) => state.question.chapter);
+  const chapter = useAppSelector((state: any) => state.survey.chapter);
 
   const currentQuestionIndex = useAppSelector(
-    (state: any) => state.question.currentQuestionIndex,
+    (state: any) => state.survey.currentQuestionIndex,
   );
-  const hasQuestion = useAppSelector(
-    (state: any) => state.question.hasQuestion,
-  );
+  const hasQuestion = useAppSelector((state: any) => state.survey.hasQuestion);
   const selectedSurvey: ISurveyItem = useAppSelector(
     (state: any) => state.survey.selectedSurvey,
   );
 
   const currentQuestion: ISurveyQuestion = useAppSelector(
-    (state: any) => state.question.currentQuestion,
+    (state: any) => state.survey.currentQuestion,
   );
-  const radioValue = useAppSelector((state: any) => state.question.radioValue);
+  const radioValue = useAppSelector((state: any) => state.survey.radioValue);
   const selectedOptions = useAppSelector(
-    (state: any) => state.question.selectedOptions,
+    (state: any) => state.survey.selectedOptions,
   );
   const selectedType = useAppSelector(
     (state: any) => state.survey.selectedType,
   );
   const questionTypeList = useAppSelector(
-    (state: any) => state.question.questionTypeList,
+    (state: any) => state.survey.questionTypeList,
   );
   const radioOptions = useAppSelector(
-    (state: any) => state.question.radioOptions,
+    (state: any) => state.survey.radioOptions,
   );
   const [resetOption, setResetOption] = useState(false);
 
   const defaultValueQuestion = useAppSelector(
-    (state: any) => state.question.detail,
+    (state: any) => state.survey.detail,
   );
-  const listAnswer = useAppSelector((state: any) => state.question.hasQuestion);
+  const listAnswer = useAppSelector((state: any) => state.survey.hasQuestion);
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [finish, setFinish] = useState(false);
@@ -107,8 +104,8 @@ export default function Question() {
   const handleChangeSelectedType = (e: any) => {
     dispatch(actions.surveyActions.setSelectedType(e));
 
-    // if (currentQuestion.typeId !== e && e === 2) {
-    //   dispatch(actions.questionActions.setSelectedOptions([0]));
+    // if (currentQuestion.isChoice !== e && e === 2) {
+    //   dispatch(actions.surveyActions.setSelectedOptions([0]));
     // }
   };
 
@@ -135,7 +132,7 @@ export default function Question() {
     let next = getChar(last.value);
     if (next !== 'G') {
       dispatch(
-        actions.questionActions.setRadioOptions([
+        actions.surveyActions.setRadioOptions([
           ...radioOptions,
           { value: radioOptions.length + 1, text: '' },
         ]),
@@ -159,12 +156,12 @@ export default function Question() {
         value: index + 1,
       };
     });
-    dispatch(actions.questionActions.setRadioOptions(temp));
+    dispatch(actions.surveyActions.setRadioOptions(temp));
 
     if (currentQuestion.contentQuestions[numb - 1]) {
       try {
-        await apiService.removeAnswer(
-          currentQuestion.contentQuestions[numb - 1].questionSurveyId,
+        await apiService.deleteSurveyContent(
+          currentQuestion.contentQuestions[numb - 1].contentSurveyId,
         );
 
         if (currentQuestion.contentQuestions[numb - 1]) {
@@ -175,20 +172,16 @@ export default function Question() {
               count++;
             }
           }
-          if (count < 2) {
-            dispatch(actions.questionActions.setSelectedOptions([1]));
-            dispatch(actions.questionActions.setRadioValue(1));
-          }
         }
         setReload(!reload);
 
-        // let res: any = await apiService.getQuestions(testId);
+        // let res: any = await apiService.getQuestions(selectedSurvey.surveyId);
         // let cur = res.find(
         //   (e: IQuestion) => e.questionId === currentQuestion.questionId,
         // );
-        // dispatch(actions.questionActions.setCurrentQuestion(cur[0]));
+        // dispatch(actions.surveyActions.setCurrentQuestion(cur[0]));
         // dispatch(
-        //   actions.questionActions.setCurrentQuestionIndex(res.indexOf(cur[0])),
+        //   actions.surveyActions.setCurrentQuestionIndex(res.indexOf(cur[0])),
         // );
       } catch (err: any) {
         throw err.message;
@@ -203,9 +196,13 @@ export default function Question() {
     // goBack();
     if (currentQuestion.questionSurveyId) {
       try {
-        await apiService.removeQuestion(currentQuestion.questionSurveyId);
+        await apiService.deleteSurveyQuestions(
+          currentQuestion.questionSurveyId,
+        );
 
-        let res: any = await apiService.getQuestions(testId);
+        let res: any = await apiService.getSurveyQuestions(
+          selectedSurvey.surveyId,
+        );
 
         setShowConfirm(!showConfirm);
         if (res.length < 1 || !res) {
@@ -216,14 +213,14 @@ export default function Question() {
 
           if (nextQuestion) {
             dispatch(
-              actions.questionActions.setCurrentQuestionIndex(
+              actions.surveyActions.setCurrentQuestionIndex(
                 res.indexOf(nextQuestion),
               ),
             );
             setDataForm(nextQuestion);
           } else {
-            dispatch(actions.questionActions.setCurrentQuestionIndex(0));
-            dispatch(actions.questionActions.setCurrentQuestion(res[0]));
+            dispatch(actions.surveyActions.setCurrentQuestionIndex(0));
+            dispatch(actions.surveyActions.setCurrentQuestion(res[0]));
             setDataForm(res[0]);
           }
         }
@@ -231,6 +228,7 @@ export default function Question() {
         // }
         // return message.success(MESSAGE.SUCCESS.DELETE);
       } catch (err: any) {
+        navigate(-1);
         throw err.message;
       }
     } else {
@@ -240,10 +238,10 @@ export default function Question() {
         navigate(-1);
       } else {
         dispatch(
-          actions.questionActions.setCurrentQuestionIndex(data.length - 1),
+          actions.surveyActions.setCurrentQuestionIndex(data.length - 1),
         );
         dispatch(
-          actions.questionActions.setCurrentQuestion(data[data.length - 1]),
+          actions.surveyActions.setCurrentQuestion(data[data.length - 1]),
         );
       }
       setForm(data.length - 1);
@@ -251,9 +249,9 @@ export default function Question() {
   }
   const setDataForm = (data: any) => {
     let base = {
-      typeId: data.typeId,
+      isChoice: data.isChoice,
       score: data.score,
-      questionTitle: data.questionTitle,
+      title: data.title,
     };
     let content = {};
     let contents = data.contentQuestions;
@@ -287,22 +285,18 @@ export default function Question() {
     if (!contents) {
       dispatch(actions.surveyActions.setSelectedType(true));
     } else {
-      dispatch(actions.surveyActions.setSelectedType(data.typeId));
+      dispatch(actions.surveyActions.setSelectedType(data.isChoice));
     }
 
-    dispatch(actions.questionActions.setRadioOptions(radioOptions));
-
-    base.typeId === 2
-      ? dispatch(actions.questionActions.setSelectedOptions(defaultChecked))
-      : dispatch(actions.questionActions.setRadioValue(defaultChecked[0]));
+    dispatch(actions.surveyActions.setRadioOptions(radioOptions));
 
     form.setFieldsValue(content);
   };
   const setForm = (index: number) => {
     let base = {
-      typeId: data[index].isChoice,
+      isChoice: data[index].isChoice,
 
-      questionTitle: data[index].title,
+      title: data[index].title,
     };
     let content = {};
     let contents = data[index].contentQuestions;
@@ -339,7 +333,7 @@ export default function Question() {
       dispatch(actions.surveyActions.setSelectedType(data[index]?.isChoice));
     }
 
-    dispatch(actions.questionActions.setRadioOptions(radioOptions));
+    dispatch(actions.surveyActions.setRadioOptions(radioOptions));
 
     form.setFieldsValue(content);
   };
@@ -348,8 +342,8 @@ export default function Question() {
 
     if (currentQuestion.questionSurveyId) {
       let base = {
-        typeId: currentQuestion?.isChoice ? 0 : 1,
-        questionTitle: currentQuestion?.title,
+        isChoice: currentQuestion?.isChoice ? 0 : 1,
+        title: currentQuestion?.title,
       };
 
       let content = {};
@@ -365,7 +359,7 @@ export default function Question() {
       contents?.map((item: IQuestionContent, index: number) => {
         if (index > 3) {
           dispatch(
-            actions.questionActions.setRadioOptions([
+            actions.surveyActions.setRadioOptions([
               ...radioOptions,
               {
                 value: index + 1,
@@ -373,13 +367,6 @@ export default function Question() {
             ]),
           );
           setHeight((item) => String(Number.parseInt(item) + 9));
-        }
-        if (item.isAnswer) {
-          if (currentQuestion?.isChoice) {
-            dispatch(actions.questionActions.setRadioValue(index + 1));
-          } else {
-            selected.push(index + 1);
-          }
         }
       });
 
@@ -389,21 +376,24 @@ export default function Question() {
   async function getData() {
     try {
       setLoading(true);
-      // let res: any = await apiService.getSurveys();
-      let res: any = [];
-      // setData(res);
+      let res: any = await apiService.getSurveyQuestions(
+        selectedSurvey.surveyId,
+      );
+
+      setData(res);
       // dispatch(
       //   actions.formActions.setNameMenu(
       //     `Chương trình ${res[0].ProgramName && res[0].ProgramName}`,
       //   ),
       // );
-      dispatch(actions.questionActions.setCurrentQuestionIndex(0));
+      dispatch(actions.surveyActions.setCurrentQuestionIndex(0));
 
       form.resetFields();
       const setDefault = () => {
         let base = {
-          typeId: res[0]?.typeId,
-          questionTitle: res[0]?.questionTitle,
+          surveyId: selectedSurvey.surveyId,
+          isChoice: res[0].isChoice,
+          title: res[0]?.title,
         };
 
         let content = {};
@@ -411,47 +401,44 @@ export default function Question() {
 
         content = {
           ...base,
-          ...contents?.map((item: IQuestionContent) => {
+          ...contents?.map((item: ISurveyQuestionContent) => {
             return item.content;
           }),
         };
         let selected: any = [];
-        contents?.map((item: IQuestionContent, index: number) => {
+        contents?.map((item: ISurveyQuestionContent, index: number) => {
           if (item.isAnswer) {
-            if (res[0]?.typeId === 1) {
-              dispatch(actions.questionActions.setRadioValue(index + 1));
-            } else if (res[0]?.typeId === 2) {
+            if (res[0]?.isChoice === 1) {
+            } else if (res[0]?.isChoice === 2) {
               selected.push(index + 1);
             }
           }
         });
-        selected.length > 0 &&
-          dispatch(actions.questionActions.setSelectedOptions(selected));
+
         form.setFieldsValue(content);
       };
 
-      if (res.length < 1) {
-        setData([
-          {
-            surveyId: selectedSurvey.surveyId,
-            isChoice: true,
-            title: '',
-          },
-        ]);
-
-        setDataForm({
-          surveyId: selectedSurvey.surveyId,
-          isChoice: true,
-          title: '',
-        });
-      } else {
-        dispatch(actions.questionActions.setCurrentQuestion(res[0]));
-        setDefault();
-        setDataForm(res[0]);
-      }
+      dispatch(actions.surveyActions.setCurrentQuestion(res[0]));
+      setDefault();
+      setDataForm(res[0]);
 
       setLoading(false);
     } catch (err: any) {
+      setData([
+        {
+          surveyId: selectedSurvey.surveyId,
+          isChoice: true,
+          title: '',
+        },
+      ]);
+
+      setDataForm({
+        surveyId: selectedSurvey.surveyId,
+        isChoice: true,
+        title: '',
+      });
+      setLoading(false);
+
       throw err.message;
     }
   }
@@ -464,29 +451,26 @@ export default function Question() {
         title: '',
       };
       // data.pop();
-
       setData([next]);
-      dispatch(actions.questionActions.setRadioOptions(defaultOptions));
-
-      dispatch(actions.questionActions.setSelectedOptions([1]));
-      dispatch(actions.questionActions.setRadioValue(1));
-      dispatch(actions.questionActions.setCurrentQuestionIndex(0));
-      dispatch(actions.questionActions.setCurrentQuestion(next));
+      dispatch(actions.surveyActions.setRadioOptions(defaultOptions));
+      dispatch(actions.surveyActions.setCurrentQuestionIndex(0));
+      dispatch(actions.surveyActions.setCurrentQuestion(next));
       form.setFieldValue('score', 1);
     };
   }, [reload]);
 
   async function handleSubmit(values: any) {
-    // let res: any = await apiService.getQuestions(testId);
-
+    // let res: any = await apiService.getQuestions(selectedSurvey.surveyId);
     let result = Object.keys(values).map((key) => [values[key]]);
     for (let i = 0; i < 2; i++) {
       result.pop();
     }
+    console.log(result);
+
     let outEdit = {
       surveyId: selectedSurvey.surveyId,
       isChoice: selectedType,
-      title: values.questionTitle,
+      title: values.title,
 
       contentQuestions: radioOptions.map(
         (item: IQuestionOption, index: number) => {
@@ -500,14 +484,9 @@ export default function Question() {
               : null;
 
           if (outQuestion === null) {
-            output =
-              currentQuestion && currentQuestion.questionSurveyId
-                ? {
-                    content: result[index][0],
-                  }
-                : {
-                    content: result[index][0],
-                  };
+            output = {
+              content: result[index][0],
+            };
           } else {
             output =
               currentQuestion && currentQuestion.questionSurveyId
@@ -524,10 +503,11 @@ export default function Question() {
         },
       ),
     };
+
     let out = {
       surveyId: selectedSurvey.surveyId,
       isChoice: selectedType,
-      title: values.questionTitle,
+      title: values.title,
       contentQuestions: radioOptions.map(
         (item: IQuestionOption, index: number) => {
           let output =
@@ -549,34 +529,30 @@ export default function Question() {
         },
       ),
     };
-    console.log(outEdit);
-    console.log(out);
-    if (
-      currentQuestion.questionSurveyId &&
-      selectedOptions.length !== radioOptions.length
-    ) {
+    if (currentQuestion.questionSurveyId) {
       if (!finish) {
         message.success('Lưu thành công');
       }
-      // await apiService.updateSurveyQuestion(
-      //   currentQuestion.questionSurveyId,
-      //   outEdit,
-      // );
-    } else if (selectedOptions.length !== radioOptions.length) {
+      console.log(outEdit);
+
+      await apiService.updateSurveyQuestion(
+        currentQuestion.questionSurveyId,
+        outEdit,
+      );
+    } else {
       if (!finish) {
         message.success('Tạo thành công');
       }
-      // await apiService.addSurveyQuestion(out);
-    } else {
-      message.error('Phải có ít nhất 1 đáp án sai!');
+      console.log(out);
+
+      await apiService.addSurveyQuestion(out);
     }
   }
   function handleMoveQuestion(index: number) {
-    dispatch(actions.questionActions.setCurrentQuestionIndex(index));
-    dispatch(actions.questionActions.setCurrentQuestion(data[index]));
+    dispatch(actions.surveyActions.setCurrentQuestionIndex(index));
+    dispatch(actions.surveyActions.setCurrentQuestion(data[index]));
 
     form.resetFields();
-    setHeight('100');
 
     if (data[index]) {
       setForm(index);
@@ -592,29 +568,25 @@ export default function Question() {
 
   async function handleNextQuestion(values: any) {
     await handleSubmit(values);
-    if (selectedOptions.length !== radioOptions.length) {
-      form.resetFields();
 
-      let next = {
-        testsId: testId,
-        typeId: 0,
-        questionTitle: '',
-        score: 1,
-      };
-      // data.pop();
-      setHeight('100');
-      let res: any = await apiService.getQuestions(testId);
-      res.push(next);
+    form.resetFields();
 
-      setData(res);
-      dispatch(actions.questionActions.setRadioOptions(defaultOptions));
-      dispatch(actions.surveyActions.setSelectedType(true));
-      dispatch(actions.questionActions.setSelectedOptions([1]));
-      dispatch(actions.questionActions.setRadioValue(1));
-      dispatch(actions.questionActions.setCurrentQuestionIndex(res.length - 1));
-      dispatch(actions.questionActions.setCurrentQuestion(res[res.length - 1]));
-      form.setFieldValue('score', 1);
-    }
+    let next = {
+      testsId: selectedSurvey.surveyId,
+      isChoice: 0,
+      title: '',
+    };
+    // data.pop();
+    let res: any = await apiService.getSurveyQuestions(selectedSurvey.surveyId);
+    res.push(next);
+
+    setData(res);
+    dispatch(actions.surveyActions.setRadioOptions(defaultOptions));
+    dispatch(actions.surveyActions.setSelectedType(true));
+
+    dispatch(actions.surveyActions.setCurrentQuestionIndex(res.length - 1));
+    dispatch(actions.surveyActions.setCurrentQuestion(res[res.length - 1]));
+    form.setFieldValue('score', 1);
   }
 
   const handleOk = async () => {
@@ -622,22 +594,26 @@ export default function Question() {
       .validateFields()
       .then(async (values) => {
         setLoading(true);
-
+        console.log(data);
         if (data) {
           // await apiService.editProgram({
           // });
           setLoading(false);
           if (onlySave) {
             await handleSubmit(values);
-            // let res: any = await apiService.getQuestions(testId);
+            let res: any = await apiService.getSurveyQuestions(
+              selectedSurvey.surveyId,
+            );
 
-            // setData(res);
-            // dispatch(actions.questionActions.setCurrentQuestionIndex(res.length - 1));
-            // dispatch(
-            //   actions.questionActions.setCurrentQuestion(
-            //     res[currentQuestionIndex],
-            //   ),
-            // );
+            setData(res);
+            dispatch(
+              actions.surveyActions.setCurrentQuestionIndex(res.length - 1),
+            );
+            dispatch(
+              actions.surveyActions.setCurrentQuestion(
+                res[currentQuestionIndex],
+              ),
+            );
 
             setOnlySave(false);
           } else if (finish) {
@@ -729,7 +705,7 @@ export default function Question() {
                 <FormInput
                   disabled={false}
                   type="select"
-                  name="typeId"
+                  name="isChoice"
                   label="Loại bài kiểm tra"
                   rules={[]}
                   defaultValue={selectedType}
@@ -742,7 +718,7 @@ export default function Question() {
               <FormInput
                 disabled={false}
                 type="textArea"
-                name="questionTitle"
+                name="title"
                 label="Nhập câu hỏi "
                 placeholder="Nhập câu hỏi"
                 areaHeight={selectedType ? 3 : 18}

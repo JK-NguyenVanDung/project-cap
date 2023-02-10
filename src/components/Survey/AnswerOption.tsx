@@ -34,12 +34,7 @@ const AnswerOption = ({
 
   handleDelete: Function;
 }) => {
-  const options = useAppSelector((state: any) => state.question.radioOptions);
-  const value = useAppSelector((state: any) => state.question.radioValue);
-  const values = useAppSelector((state: any) => state.question.selectedOptions);
-  const type: number = useAppSelector(
-    (state: any) => state.question.selectedType,
-  );
+  const options = useAppSelector((state: any) => state.survey.radioOptions);
 
   return (
     <ul className="w-full  mb-4 relative h-auto text-gray-500">

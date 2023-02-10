@@ -134,12 +134,20 @@ export const API_CONFIG = {
     APPROVE: (id: number) => `/api/Learners/Applications/${id}/Approve`,
   },
   SURVEY: {
-    GETALL: '/api/Surveys',
+    GETALL: '/api/Surveys/GetListSurvey',
+    GET_QUESTIONS: (idQuestion: number) =>
+      `/api/Surveys/GetListQuestion/${idQuestion}`,
     CREATE_SURVEY: '/api/Surveys/CreateSurvey',
     CREATE_QUESTION: '/api/Surveys/CreateQuestion',
     UPDATE_SURVEY: (surveyId: number) =>
       `/api/Surveys/UpdateSurvey/?idSurvey=${surveyId}`,
     UPDATE_QUESTION: (questionId: number) =>
-      `/api/Surveys/UpdateQuestion/?idQuestion=${questionId}`,
+      `/api/Surveys/UpdateQuestion/${questionId}`,
+    DELETE_SURVEY: (surveyId: number) =>
+      `/api/Surveys/DeleteSurvey/${surveyId}`,
+    DELETE_QUESTION: (questionId: number) =>
+      `/api/Surveys/DeleteQuestion/${questionId}`,
+    DELETE_CONTENT: (contentId: number) =>
+      `/api/Surveys/DeleteContent/${contentId}`,
   },
 };

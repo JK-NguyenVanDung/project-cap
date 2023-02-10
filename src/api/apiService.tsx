@@ -302,6 +302,9 @@ export default {
   getSurveys: () => {
     return axiosConfig.get(API_CONFIG.SURVEY.GETALL);
   },
+  getSurveyQuestions: (idSurvey: number) => {
+    return axiosConfig.get(API_CONFIG.SURVEY.GET_QUESTIONS(idSurvey));
+  },
   addSurvey: (params: ISurveyItem) => {
     return axiosConfig.post(API_CONFIG.SURVEY.CREATE_SURVEY, params);
   },
@@ -313,5 +316,14 @@ export default {
   },
   updateSurveyQuestion: (id: number, params: any) => {
     return axiosConfig.put(API_CONFIG.SURVEY.UPDATE_QUESTION(id), params);
+  },
+  deleteSurveyQuestions: (idQuestion: number) => {
+    return axiosConfig.delete(API_CONFIG.SURVEY.DELETE_QUESTION(idQuestion));
+  },
+  deleteSurveyContent: (idContent: number) => {
+    return axiosConfig.delete(API_CONFIG.SURVEY.DELETE_CONTENT(idContent));
+  },
+  deleteSurvey: (idSurvey: number) => {
+    return axiosConfig.delete(API_CONFIG.SURVEY.DELETE_SURVEY(idSurvey));
   },
 };
