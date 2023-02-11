@@ -25,7 +25,10 @@ export default function Attendance() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const handleEdit = (item: any) => {
-    setDetail(item);
+    setDetail({
+      ...item,
+      surveyTime: [moment(item.startDate), moment(item.endDate)],
+    });
     setShowModal(true);
   };
   async function handleDelete(item: any) {
@@ -181,6 +184,7 @@ export default function Attendance() {
         }
       }
     });
+    setLoading(false);
   };
   const onChange = (value: any['value'] | any['value']) => {
     setDateTime(value);
