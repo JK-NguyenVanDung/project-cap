@@ -1,6 +1,5 @@
 import CustomButton from '../../../components/admin/Button';
 import SurveyImage from '../../../assets/img/temp-bg-img.png';
-import Slider from 'react-slick';
 import { ISurveyItem } from '../../../Type';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
