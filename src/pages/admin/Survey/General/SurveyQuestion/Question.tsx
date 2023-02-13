@@ -680,8 +680,8 @@ export default function Question() {
           </ConfirmModal>
           <div className="px-5 h-screen">
             <div className="w-full h-14 flex items-center justify-between ">
-              <p className="text-black text-lg font-bold font-customFont">
-                Bài kiểm tra chương {chapter}
+              <p className="text-black text-lg ml-2 font-bold font-customFont">
+                Bài khảo sát: {selectedSurvey?.title}
               </p>
               <HeaderAdmin />
             </div>
@@ -714,7 +714,7 @@ export default function Question() {
                     disabled={false}
                     type="select"
                     name="isChoice"
-                    label="Loại bài kiểm tra"
+                    label="Loại câu hỏi"
                     rules={[]}
                     defaultValue={selectedType}
                     getSelectedValue={(e: number) =>

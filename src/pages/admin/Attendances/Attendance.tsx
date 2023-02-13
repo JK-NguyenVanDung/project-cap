@@ -29,7 +29,10 @@ export default function Attendance() {
   const [openAtt, setOpenAtt] = useState(false);
 
   const handleEdit = (item: any) => {
-    setDetail(item);
+    setDetail({
+      ...item,
+      surveyTime: [moment(item.startDate), moment(item.endDate)],
+    });
     setShowModal(true);
   };
   async function handleDelete(item: any) {
@@ -156,8 +159,8 @@ export default function Attendance() {
       const params = {
         programId: item.programId,
         title: values.title,
-        startDate: moment(values.surveyTime[0]).toISOString(),
-        endDate: moment(values.surveyTime[1]).toISOString(),
+        startTime: moment(values.surveyTime[0]).toISOString(),
+        endTime: moment(values.surveyTime[1]).toISOString(),
       };
       if (detail) {
         try {
@@ -185,6 +188,7 @@ export default function Attendance() {
         }
       }
     });
+    setLoading(false);
   };
   const onChange = (value: any['value'] | any['value']) => {
     setDateTime(value);

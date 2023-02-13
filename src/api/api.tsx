@@ -148,10 +148,23 @@ export const API_CONFIG = {
   },
   SURVEY: {
     GETALL: '/api/Surveys/GetListSurvey',
+    GET_PUBLIC: '/api/Surveys/GetListSurveyPublish',
+    GET_SURVEY: (idSurvey: number) => `/api/Surveys/GetSurvey/${idSurvey}`,
+    GET_MY_SURVEYS: (idAccount: number) =>
+      `/api/Surveys/GetListSurvey/${idAccount}`,
+    GET_LIST_ACCOUNT_SURVEY: (idSurvey: number) =>
+      `/api/Surveys/GetListAccountSurvey/${idSurvey}`,
+    GET_LIST_SURVEY_ANSWERS: (idSurvey: number, idAccount: number) =>
+      `/api/Surveys/GetListAnswers/?idSurvey=${idSurvey}&idAccount=${idAccount}`,
+
     GET_QUESTIONS: (idQuestion: number) =>
       `/api/Surveys/GetListQuestion/${idQuestion}`,
     CREATE_SURVEY: '/api/Surveys/CreateSurvey',
+    DO_SURVEY: '/api/Surveys/DoSurvey',
+
     CREATE_QUESTION: '/api/Surveys/CreateQuestion',
+    PUBLISH_SURVEY: (surveyId: number) =>
+      `/api/Surveys/PublishSurvey/${surveyId}`,
     UPDATE_SURVEY: (surveyId: number) =>
       `/api/Surveys/UpdateSurvey/${surveyId}`,
     UPDATE_QUESTION: (questionId: number) =>

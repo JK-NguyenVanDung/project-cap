@@ -26,7 +26,9 @@ export default function Survey() {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const location = useLocation();
   const [switchType, setSwitchType] = useState(true);
-
+  const selectedSurvey: ISurveyItem = useAppSelector(
+    (state: any) => state.survey.selectedSurvey,
+  );
   const dispatch = useAppDispatch();
   const [data, setData] = useState<Array<ISurveyItem>>([]);
   const [filterData, setFilterData] = useState([]);
@@ -70,7 +72,7 @@ export default function Survey() {
   async function handleAddQuestions(item: any) {
     dispatch(actions.surveyActions.reset());
 
-    await getSurveyData();
+    await getSurveyData(item);
 
     dispatch(
       actions.formActions.setNameMenu(
@@ -88,48 +90,13 @@ export default function Survey() {
     setDetail(item);
     setShowModal(true);
   };
-  async function getSurveyData() {
+  async function getSurveyData(item: any) {
     try {
-      // let res: any = await apiService.getQuestions(selectedTest.testId);
+      let res: any = await apiService.getAccountSurveyAnswers(
+        selectedSurvey.surveyId,
+        item.accountId,
+      );
 
-      // if (selectedTest.isRandom) {
-      //   res = shuffleArray(res);
-      // }
-      let res = [
-        {
-          questionSurveyId: 0,
-          surveyId: 12,
-          title: ' 222 ',
-          isChoice: true,
-          contentQuestions: [
-            {
-              contentSurveyId: 12,
-              questionSurveyId: 0,
-              content: ' 111 ',
-              isAnswer: true,
-            },
-            {
-              contentSurveyId: 1,
-              questionSurveyId: 0,
-              content: ' 222 ',
-              isAnswer: false,
-            },
-          ],
-        },
-        {
-          questionSurveyId: 1,
-          surveyId: 12,
-          title: ' 222 ',
-          isChoice: false,
-          contentQuestions: [
-            {
-              contentSurveyId: 22,
-              questionSurveyId: 0,
-              content: 'asdbcd',
-            },
-          ],
-        },
-      ];
       res = res.map((item: any, index: number) => {
         return { ...item, index: index + 1 };
       });
@@ -210,9 +177,7 @@ export default function Survey() {
       },
     },
   ];
-  const goApplication = (item: any) => {
-    return;
-  };
+
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
@@ -232,7 +197,9 @@ export default function Survey() {
   async function getData() {
     try {
       setLoading(true);
-      let res: any = await apiService.getSurveys();
+      let res: any = await apiService.getAccountSurveys(
+        selectedSurvey.surveyId,
+      );
       res = res.reverse();
       let temp;
       temp = res.map((v: any, index: number) => {
