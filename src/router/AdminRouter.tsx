@@ -46,7 +46,7 @@ import CourseSurvey from '../pages/admin/Survey/Program/ProgramSurvey';
 import CourseSurveyDetail from '../pages/admin/Survey/Program/ProgramSurveyDetail';
 
 import ClientSurvey from '../pages/client/Survey/Survey';
-
+import ProgramSurvey from '../pages/client/Survey/ProgramSurvey';
 export const RouterPages = [
   {
     path: '/admin',
@@ -407,6 +407,10 @@ export default function MakePagesRouter() {
             element={<UserReviewTest />}
           />
           <Route path="/Survey/:surveyId" element={<ClientSurvey />} />
+          <Route
+            path="/ProgramSurvey/:surveyName"
+            element={<ProgramSurvey />}
+          />
         </Routes>
       );
     }
@@ -435,6 +439,10 @@ export default function MakePagesRouter() {
             <Route path="/login" element={<Logined />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
+            <Route
+              path="/ProgramSurvey/:surveyName"
+              element={<ProgramSurvey />}
+            />
           </Routes>
         );
       } else {
@@ -458,6 +466,11 @@ export default function MakePagesRouter() {
 
             <Route path="/login" element={<Logined />} />
             <Route path="/" element={<LandingPage />} />
+            <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
+            <Route
+              path="/ProgramSurvey/:surveyName"
+              element={<ProgramSurvey />}
+            />
           </Routes>
         );
       }
