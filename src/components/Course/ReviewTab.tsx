@@ -37,8 +37,8 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
       programId: program.programId,
       content: textComment,
     };
-    setCheckComment(true);
     const fetchSentComment = async () => {
+      setCheckComment(true);
       const data = await apiService.sentComment(values);
       if (data) {
         setCheckComment(false);
@@ -54,8 +54,8 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
       programId: program.programId,
       content: textComment,
     };
-    setCheckComment(true);
     const fetchSentComment = async () => {
+      setCheckComment(true);
       const data = await apiService.sentComment(values);
       if (data) {
         setCheckComment(false);
