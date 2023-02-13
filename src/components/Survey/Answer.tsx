@@ -54,10 +54,12 @@ function getChar(c: number) {
 
 const OptionalAnswer = ({
   isChoice,
+  isAnswer,
   contentQuestions,
   questionSurveyId,
 }: {
   isChoice: boolean;
+  isAnswer?: boolean;
   contentQuestions: Array<ISurveyQuestionContent>;
   questionSurveyId: number;
 }) => {
@@ -88,7 +90,7 @@ const OptionalAnswer = ({
     item: ISurveyQuestionContent,
     answers: Array<ISurveyQuestionContent>,
   ) {
-    if (item.isAnswer) {
+    if (item.accountSurveys.length > 0) {
       return true;
     }
     let isAnswer = answers?.find(
@@ -107,18 +109,22 @@ const OptionalAnswer = ({
                 type="button"
                 formNoValidate
                 className={`w-[6rem]  mr-8 max-sm:mr-2 my-4  flex border rounded-[10px] ${
-                  getStyle(item, answers) ? 'border-primary' : 'border-gray-400'
+                  isAnswer || getStyle(item, answers)
+                    ? 'border-primary'
+                    : 'border-gray-400'
                 } min-h-[3rem] h-full justify-center items-center`}
                 onClick={() => chooseAnswer(item.contentSurveyId)}
               >
                 <p
                   className={`text-3xl font-bold ${
-                    getStyle(item, answers) ? 'text-primary' : 'text-gray-400'
+                    isAnswer || getStyle(item, answers)
+                      ? 'text-primary'
+                      : 'text-gray-400'
                   }`}
                 >
                   {getChar(index + 1)}
                 </p>
-                {getStyle(item, answers) ? (
+                {isAnswer || getStyle(item, answers) ? (
                   <FullCircle className="ml-4" />
                 ) : (
                   <UnselectedCircle className="ml-4" />
