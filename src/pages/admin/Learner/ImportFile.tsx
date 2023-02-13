@@ -166,18 +166,6 @@ export default function ImportFile({
   const FormItem = () => {
     return (
       <>
-        <p>
-          <span className="text-error">*</span> Email phải tồn tại trên hệ thống
-        </p>
-        <p>
-          <span className="text-error">*</span> Ví Dụ Cho Excel
-        </p>
-        <TableConfig
-          pagination={false}
-          search={false}
-          data={dataTable}
-          columns={column}
-        />
         <Input
           accept=".xlsx,.xls"
           type="file"

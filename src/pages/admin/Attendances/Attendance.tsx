@@ -12,6 +12,7 @@ import PopOverAction from '../../../components/admin/PopOver';
 import { useAppSelector } from '../../../hook/useRedux';
 import { AiOutlineSwapRight, AiOutlineFileProtect } from 'react-icons/ai';
 import moment from 'moment';
+import TickAttendance from './TickAttendance';
 
 const { RangePicker } = DatePicker;
 export default function Attendance() {
@@ -24,6 +25,9 @@ export default function Attendance() {
   const [dateTime, setDateTime] = useState([]);
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
+
+  const [openAtt, setOpenAtt] = useState(false);
+
   const handleEdit = (item: any) => {
     setDetail({
       ...item,
@@ -99,7 +103,7 @@ export default function Attendance() {
     },
   ];
   const handelTick = (item: any) => {
-    console.log(item);
+    setOpenAtt(true);
   };
   const handelDetail = (item: any) => {
     console.log(item);
@@ -256,6 +260,7 @@ export default function Attendance() {
         FormItem={<FormItem />}
         form={form}
       />
+      <TickAttendance visible={openAtt} setVisible={setOpenAtt} />
     </>
   );
 }
