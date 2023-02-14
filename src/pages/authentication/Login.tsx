@@ -13,7 +13,7 @@ import { actions } from '../../Redux';
 const DataLogin = [
   {
     id: '1',
-    title: 'CBGV & NV',
+    title: 'CBGVNV',
     Logo: Logo,
     description: 'Đăng Nhập Dành Cho Người Học',
   },

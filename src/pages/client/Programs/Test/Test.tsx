@@ -109,7 +109,7 @@ export default function UserTest(props: any) {
             <div className="w-full h-14 flex items-center justify-between ">
               <div className="flex flex-col justify-center items-start w-full">
                 <p className="ml-2 max-sm:text-[12px] max-sm:hidden  text-black text-lg font-bold font-customFont">
-                  Bài kiểm tra chương
+                  Bài kiểm tra chương {selectedTest.chapter}
                 </p>
                 <div className="w-full  bg-white ">
                   <Breadcrumb

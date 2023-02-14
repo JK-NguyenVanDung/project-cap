@@ -67,7 +67,7 @@ const slice = createSlice({
       console.log(state.answers);
 
       if (!out.isChoice) {
-        let isEmpty = out.text.trim() == '';
+        let isEmpty = out.content.trim() == '';
         let tempArr = isEmpty
           ? state.answers
               .slice()

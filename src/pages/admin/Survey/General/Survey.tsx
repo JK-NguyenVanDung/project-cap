@@ -14,8 +14,9 @@ import moment from 'moment';
 import { useLocation } from 'react-router-dom';
 import { useNavigateParams } from '../../../../hook/useNavigationParams';
 import AddSurvey from './AddSurvey';
-import { HiClipboardDocument } from 'react-icons/hi2';
+
 import PrivateSwitch from '../../../../components/Survey/PrivateSwitch';
+import { FaQuestion } from 'react-icons/fa';
 export default function Survey() {
   const [loading, setLoading] = useState(false);
   const [detail, setDetail] = useState(null);
@@ -33,6 +34,7 @@ export default function Survey() {
   let paths = location.pathname.split('/');
 
   useEffect(() => {
+    dispatch(actions.formActions.setNameMenu(`Quản lý Khảo sát chung`));
     getData();
     let out = setTimeout(() => {
       setLoading(false);
@@ -55,18 +57,16 @@ export default function Survey() {
     }
   }
   function handleShowDetail(item: any) {
-    dispatch(actions.formActions.setProgramForm(item));
+    dispatch(actions.surveyActions.setSelectedSurvey(item));
     dispatch(
-      actions.formActions.setNameMenu(
-        `Khảo sát ${item.programName && item.programName}`,
-      ),
+      actions.formActions.setNameMenu(`Khảo sát: ${item.title && item.title}`),
     );
     navigate(`/admin/Survey/Detail`);
   }
   function handleAddQuestions(item: any) {
     dispatch(actions.surveyActions.setSelectedSurvey(item));
     dispatch(
-      actions.formActions.setNameMenu(`Khảo sát ${item.title && item.title}`),
+      actions.formActions.setNameMenu(`Khảo sát: ${item.title && item.title}`),
     );
     navigate(`/admin/Survey/Question`);
   }
@@ -74,6 +74,7 @@ export default function Survey() {
     setDetail(null);
     setShowModal(true);
   }
+
   const handleEdit = (item: ISurveyItem) => {
     setDetail({
       title: item.title,
@@ -122,7 +123,9 @@ export default function Survey() {
 
       title: 'Trạng thái',
       render: (item: ISurveyItem) => {
-        return <PrivateSwitch state={item.isPublish} />;
+        return (
+          <PrivateSwitch state={item.isPublish} surveyId={item.surveyId} />
+        );
       },
     },
     {
@@ -140,7 +143,7 @@ export default function Survey() {
                   iconClass="mx-2 text-base "
                   size="sm"
                   color="deep-orange"
-                  Icon={HiClipboardDocument}
+                  Icon={FaQuestion}
                   onClick={() => handleAddQuestions(item)}
                 />
               </>
@@ -190,10 +193,6 @@ export default function Survey() {
     } catch (err: any) {
       throw err.message;
     }
-  }
-  function handelDataProgram(item?: any) {
-    dispatch(actions.formActions.setProgramForm(item));
-    navigate('/admin/FormProgram');
   }
 
   return (

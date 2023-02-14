@@ -5,6 +5,7 @@ import {
   IAccountItem,
   IProgramItem /* IQuestion, ITest  */,
   IQuestion,
+  ISurveyAnswer,
   ISurveyItem,
   ISurveyQuestion,
   ITest,
@@ -327,8 +328,29 @@ export default {
   getSurveyQuestions: (idSurvey: number) => {
     return axiosConfig.get(API_CONFIG.SURVEY.GET_QUESTIONS(idSurvey));
   },
+  getPublicSurveys: () => {
+    return axiosConfig.get(API_CONFIG.SURVEY.GET_PUBLIC);
+  },
+  getSurvey: (idSurvey: number) => {
+    return axiosConfig.get(API_CONFIG.SURVEY.GET_SURVEY(idSurvey));
+  },
+  getMySurveys: (idAccount: number) => {
+    return axiosConfig.get(API_CONFIG.SURVEY.GET_MY_SURVEYS(idAccount));
+  },
+  getAccountSurveys: (idSurvey: number) => {
+    return axiosConfig.get(API_CONFIG.SURVEY.GET_LIST_ACCOUNT_SURVEY(idSurvey));
+  },
+  getAccountSurveyAnswers: (idSurvey: number, idAccount: number) => {
+    return axiosConfig.get(
+      API_CONFIG.SURVEY.GET_LIST_SURVEY_ANSWERS(idSurvey, idAccount),
+    );
+  },
+
   addSurvey: (params: ISurveyItem) => {
     return axiosConfig.post(API_CONFIG.SURVEY.CREATE_SURVEY, params);
+  },
+  doSurvey: (params: ISurveyAnswer) => {
+    return axiosConfig.post(API_CONFIG.SURVEY.DO_SURVEY, params);
   },
   addSurveyQuestion: (params: ISurveyQuestion) => {
     return axiosConfig.post(API_CONFIG.SURVEY.CREATE_QUESTION, params);
@@ -336,6 +358,10 @@ export default {
   updateSurvey: (id: number, params: any) => {
     return axiosConfig.put(API_CONFIG.SURVEY.UPDATE_SURVEY(id), params);
   },
+  publishSurvey: (id: number) => {
+    return axiosConfig.put(API_CONFIG.SURVEY.PUBLISH_SURVEY(id));
+  },
+
   updateSurveyQuestion: (id: number, params: any) => {
     console.log(params);
     return axiosConfig.put(API_CONFIG.SURVEY.UPDATE_QUESTION(id), params);

@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { actions } from '../../Redux';
 import ChapterItem from './ChapterItem';
+import ActiveArrow from '../../assets/svg/ActiveArrow';
 
 interface Content {
   title: string;
@@ -26,6 +27,7 @@ const ChapterBar = (props: any) => {
   const selectedChapter: IChapterItem = useAppSelector(
     (state) => state.product.selectedChapter,
   );
+
   const initChapter: IChapterItem = useAppSelector(
     (state) => state.product.initChapter,
   );
@@ -83,6 +85,9 @@ const ChapterBar = (props: any) => {
     }
     return true;
   }
+  function navToSurvey() {
+    navigate(`/ProgramSurvey/${programNav.programName}`);
+  }
 
   return (
     <div className="overflow-y-scroll rounded-xl  w-fit max-w-xl text-black bg-white h-fit min-h-[85vh] m-4 p-2 px-8 border flex flex-col justify-start items-start">
@@ -98,8 +103,32 @@ const ChapterBar = (props: any) => {
           />
         );
       })}
+      <ProgramSurvey navToSurvey={navToSurvey} />
     </div>
   );
 };
 
+function ProgramSurvey({ navToSurvey }: { navToSurvey: Function }) {
+  return (
+    <>
+      <div
+        className={`flex justify-between  items-center pl-[1.4rem] pr-6 w-full rounded-xl 
+         bg-green-500  text-white
+          } min-h-[3.5rem]  h-fit  py-1 `}
+      >
+        <div className={`flex  w-full   h-fit  `}>
+          <button className={` pr-4`} onClick={() => navToSurvey()}>
+            <ActiveArrow />
+          </button>
+          <p
+            className={` text-sm hover: w-full eclipse-wrap pr-2 font-semibold cursor-pointer	`}
+            onClick={() => navToSurvey()}
+          >
+            Khảo sát chương trình
+          </p>
+        </div>
+      </div>
+    </>
+  );
+}
 export default ChapterBar;

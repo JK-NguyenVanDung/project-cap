@@ -115,6 +115,8 @@ const SurveyBar = (props: any) => {
   //     throw err.message;
   //   }
   // }
+  const info = useAppSelector((state) => state.auth.info);
+
   const isReviewing = useAppSelector((item) => item.survey.isReviewing);
   const isViewing = (index: number) => {
     let listQuestionLength = listQuestions.length;
@@ -128,22 +130,46 @@ const SurveyBar = (props: any) => {
     return false;
   };
 
-  function completeSurvey() {
-    // dispatch(
-    //   actions.testActions.setTime({
-    //     minutes: time.minutes,
-    //     seconds: time.seconds - 1,
-    //   }),
-    // );
-    // navigate(`/Test/Review/${selectedTest.testId}`);
-    // props.goForward();
+  async function completeSurvey() {
     if (!isReviewing) {
       let allAnswered = answers.length === listQuestions.length;
-      !allAnswered &&
+      if (!allAnswered) {
         notification.error({
           message: 'Xin vui lòng hoàn thành hết các câu hỏi',
           duration: 1,
         });
+      } else {
+        console.log({
+          surveyId: selectedSurvey.surveyId,
+          accountId: info.accountId,
+          contentAnswers: answers.map((item) => {
+            let out = item.isChoice
+              ? {
+                  ...item,
+                }
+              : {
+                  questionSurveyId: item.questionSurveyId,
+                  content: item.content,
+                };
+            return out;
+          }),
+        });
+        await apiService.doSurvey({
+          surveyId: selectedSurvey.surveyId,
+          accountId: info.accountId,
+          contentAnswers: answers.map((item) => {
+            let out = item.isChoice
+              ? {
+                  ...item,
+                }
+              : {
+                  questionSurveyId: item.questionSurveyId,
+                  content: item.content,
+                };
+            return out;
+          }),
+        });
+      }
     }
     navigate(-1);
   }

@@ -158,16 +158,26 @@ const SurveyQuestionContent = z.object({
   contentSurveyId: z.number(),
   questionSurveyId: z.number(),
   content: z.string(),
-  isAnswer: z.boolean(),
+  isChoice: z.boolean(),
+  accountSurveys: z.array(z.any()),
 });
 const SurveyQuestion = z.object({
+  accountSurveys: z.any(),
   questionSurveyId: z.number(),
   surveyId: z.number(),
   title: z.string(),
   isChoice: z.boolean(),
   contentQuestions: z.array(SurveyQuestionContent),
+
   index: z.number(),
 });
+const SurveyAnswer = z.object({
+  surveyId: z.number(),
+  accountId: z.number(),
+
+  contentAnswers: z.array(SurveyQuestionContent),
+});
+
 const AccountSurvey = z.object({
   accountSurveyId: z.number(),
   accountId: z.number(),
@@ -202,6 +212,7 @@ export type ISurveyQuestion = z.infer<typeof SurveyQuestion>;
 export type IAccountSurvey = z.infer<typeof AccountSurvey>;
 export type ISurveyProgram = z.infer<typeof SurveyProgram>;
 export type ISurveyQuestionContent = z.infer<typeof SurveyQuestionContent>;
+export type ISurveyAnswer = z.infer<typeof SurveyAnswer>;
 
 export interface IRouterObj {
   path?: string;

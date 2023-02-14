@@ -40,16 +40,14 @@ export default function (props: any) {
     (state) => state.survey.selectedSurvey,
   );
 
-  const questions: Array<IQuestion> = useAppSelector(
+  const questions: Array<ISurveyQuestion> = useAppSelector(
     (state) => state.survey.currentQuestions,
   );
-  const listAllQuestions: Array<IQuestion> = useAppSelector(
+  const listAllQuestions: Array<ISurveyQuestion> = useAppSelector(
     (state) => state.survey.listQuestions,
   );
   const range: any = useAppSelector((state) => state.survey.range);
-  const program: IProgramItem = useAppSelector(
-    (state) => state.form.setProgram,
-  );
+
   useEffect(() => {
     // executeScroll(0);
     // console.log(1);

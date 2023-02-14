@@ -393,7 +393,6 @@ export default function Question() {
               },
             ]),
           );
-          setHeight((item) => String(Number.parseInt(item) + 9));
         }
         if (item.isAnswer) {
           if (currentQuestion?.typeId === 1) {
