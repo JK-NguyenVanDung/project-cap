@@ -38,6 +38,11 @@ export default function Survey() {
   let paths = location.pathname.split('/');
 
   useEffect(() => {
+    dispatch(
+      actions.formActions.setNameMenu(
+        `Khảo sát: ${selectedSurvey.title && selectedSurvey.title}`,
+      ),
+    );
     getData();
     let out = setTimeout(() => {
       setLoading(false);
@@ -225,6 +230,15 @@ export default function Survey() {
         data={data}
         columns={columns}
         loading={loading || confirmLoading}
+        extra={
+          <CustomButton
+            text="Quay lại"
+            type="goBack"
+            noIcon
+            className="w-32"
+            onClick={() => navigate('/admin/Survey')}
+          />
+        }
       />
     </>
   );
