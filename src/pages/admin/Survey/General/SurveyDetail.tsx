@@ -183,7 +183,7 @@ export default function Survey() {
     let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
-        const emailMatch = removeVietnameseTones(record.programName).match(reg);
+        const emailMatch = removeVietnameseTones(record.email).match(reg);
 
         if (!emailMatch) {
           return null;
