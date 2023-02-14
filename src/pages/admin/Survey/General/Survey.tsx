@@ -34,6 +34,7 @@ export default function Survey() {
   let paths = location.pathname.split('/');
 
   useEffect(() => {
+    dispatch(actions.formActions.setNameMenu(`Quản lý Khảo sát chung`));
     getData();
     let out = setTimeout(() => {
       setLoading(false);
