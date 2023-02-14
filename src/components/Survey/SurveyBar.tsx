@@ -139,10 +139,35 @@ const SurveyBar = (props: any) => {
           duration: 1,
         });
       } else {
+        console.log({
+          surveyId: selectedSurvey.surveyId,
+          accountId: info.accountId,
+          contentAnswers: answers.map((item) => {
+            let out = item.isChoice
+              ? {
+                  ...item,
+                }
+              : {
+                  questionSurveyId: item.questionSurveyId,
+                  content: item.content,
+                };
+            return out;
+          }),
+        });
         await apiService.doSurvey({
           surveyId: selectedSurvey.surveyId,
           accountId: info.accountId,
-          contentAnswers: answers,
+          contentAnswers: answers.map((item) => {
+            let out = item.isChoice
+              ? {
+                  ...item,
+                }
+              : {
+                  questionSurveyId: item.questionSurveyId,
+                  content: item.content,
+                };
+            return out;
+          }),
         });
       }
     }

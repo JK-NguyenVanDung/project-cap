@@ -57,11 +57,13 @@ const OptionalAnswer = ({
   isAnswer,
   contentQuestions,
   questionSurveyId,
+  accountSurveys,
 }: {
   isChoice: boolean;
   isAnswer?: boolean;
   contentQuestions: Array<ISurveyQuestionContent>;
   questionSurveyId: number;
+  accountSurveys: any;
 }) => {
   const answers: Array<ISurveyQuestionContent> = useAppSelector(
     (state) => state.survey.answers,
@@ -80,7 +82,7 @@ const OptionalAnswer = ({
             questionSurveyId: questionSurveyId,
             contentSurveyId: contentSurveyId,
             isChoice: isChoice,
-            text: text,
+            content: text,
           }),
         );
     }
@@ -151,8 +153,8 @@ const OptionalAnswer = ({
               className={`z-[0] text-black h-14 font-customFont  font-bold min-w-[20rem] mt-4 bg-white border  text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500
                 border-border-gray `}
               placeholder={`Nhập Câu Trả Lời`}
-              defaultValue={contentQuestions[0]?.content}
-              disabled={contentQuestions[0]?.content ? true : false}
+              disabled={accountSurveys ? true : false}
+              defaultValue={accountSurveys ? accountSurveys[0]?.content : ''}
               onBlur={(item) =>
                 chooseAnswer(
                   contentQuestions[0]?.contentSurveyId,
