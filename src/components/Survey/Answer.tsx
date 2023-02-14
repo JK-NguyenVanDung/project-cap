@@ -54,12 +54,16 @@ function getChar(c: number) {
 
 const OptionalAnswer = ({
   isChoice,
+  isAnswer,
   contentQuestions,
   questionSurveyId,
+  accountSurveys,
 }: {
   isChoice: boolean;
+  isAnswer?: boolean;
   contentQuestions: Array<ISurveyQuestionContent>;
   questionSurveyId: number;
+  accountSurveys: any;
 }) => {
   const answers: Array<ISurveyQuestionContent> = useAppSelector(
     (state) => state.survey.answers,
@@ -78,7 +82,7 @@ const OptionalAnswer = ({
             questionSurveyId: questionSurveyId,
             contentSurveyId: contentSurveyId,
             isChoice: isChoice,
-            text: text,
+            content: text,
           }),
         );
     }
@@ -88,7 +92,7 @@ const OptionalAnswer = ({
     item: ISurveyQuestionContent,
     answers: Array<ISurveyQuestionContent>,
   ) {
-    if (item.isAnswer) {
+    if (item.accountSurveys.length > 0) {
       return true;
     }
     let isAnswer = answers?.find(
@@ -107,18 +111,22 @@ const OptionalAnswer = ({
                 type="button"
                 formNoValidate
                 className={`w-[6rem]  mr-8 max-sm:mr-2 my-4  flex border rounded-[10px] ${
-                  getStyle(item, answers) ? 'border-primary' : 'border-gray-400'
+                  isAnswer || getStyle(item, answers)
+                    ? 'border-primary'
+                    : 'border-gray-400'
                 } min-h-[3rem] h-full justify-center items-center`}
                 onClick={() => chooseAnswer(item.contentSurveyId)}
               >
                 <p
                   className={`text-3xl font-bold ${
-                    getStyle(item, answers) ? 'text-primary' : 'text-gray-400'
+                    isAnswer || getStyle(item, answers)
+                      ? 'text-primary'
+                      : 'text-gray-400'
                   }`}
                 >
                   {getChar(index + 1)}
                 </p>
-                {getStyle(item, answers) ? (
+                {isAnswer || getStyle(item, answers) ? (
                   <FullCircle className="ml-4" />
                 ) : (
                   <UnselectedCircle className="ml-4" />
@@ -145,8 +153,8 @@ const OptionalAnswer = ({
               className={`z-[0] text-black h-14 font-customFont  font-bold min-w-[20rem] mt-4 bg-white border  text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500
                 border-border-gray `}
               placeholder={`Nhập Câu Trả Lời`}
-              defaultValue={contentQuestions[0]?.content}
-              disabled={contentQuestions[0]?.content ? true : false}
+              disabled={accountSurveys ? true : false}
+              defaultValue={accountSurveys ? accountSurveys[0]?.content : ''}
               onBlur={(item) =>
                 chooseAnswer(
                   contentQuestions[0]?.contentSurveyId,

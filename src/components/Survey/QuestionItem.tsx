@@ -37,6 +37,7 @@ const QuestionItem = ({
             isChoice={question.isChoice}
             contentQuestions={question.contentQuestions}
             questionSurveyId={question.questionSurveyId}
+            accountSurveys={question.accountSurveys}
           />
         </>
       </div>

@@ -158,9 +158,11 @@ const SurveyQuestionContent = z.object({
   contentSurveyId: z.number(),
   questionSurveyId: z.number(),
   content: z.string(),
-  isAnswer: z.boolean(),
+  isChoice: z.boolean(),
+  accountSurveys: z.array(z.any()),
 });
 const SurveyQuestion = z.object({
+  accountSurveys: z.any(),
   questionSurveyId: z.number(),
   surveyId: z.number(),
   title: z.string(),

@@ -59,14 +59,14 @@ export default function Survey() {
   function handleShowDetail(item: any) {
     dispatch(actions.surveyActions.setSelectedSurvey(item));
     dispatch(
-      actions.formActions.setNameMenu(`Khảo sát ${item.title && item.title}`),
+      actions.formActions.setNameMenu(`Khảo sát: ${item.title && item.title}`),
     );
     navigate(`/admin/Survey/Detail`);
   }
   function handleAddQuestions(item: any) {
     dispatch(actions.surveyActions.setSelectedSurvey(item));
     dispatch(
-      actions.formActions.setNameMenu(`Khảo sát ${item.title && item.title}`),
+      actions.formActions.setNameMenu(`Khảo sát: ${item.title && item.title}`),
     );
     navigate(`/admin/Survey/Question`);
   }
