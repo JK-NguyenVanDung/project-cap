@@ -88,13 +88,7 @@ export default function Attendance() {
                 handleEdit={() => handleEdit(item)}
                 handleDelete={() => handleDelete(item)}
                 handleShowDetail={() => handelDetail(item)}
-              />
-              <CustomButton
-                tip="Điểm Danh"
-                size="sm"
-                color="cyan"
-                Icon={AiOutlineFileProtect}
-                onClick={() => handelTick(item)}
+                handleAtt={() => handelTick(item)}
               />
             </Space>
           </>
@@ -187,6 +181,8 @@ export default function Attendance() {
           console.log(error);
         }
       }
+      setReload(!reload);
+      setShowModal(!showModal);
     });
     setLoading(false);
   };
