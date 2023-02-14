@@ -55,7 +55,9 @@ export default function TickAttendance({
   }
   const handleOk = () => {
     form.validateFields().then(async (values) => {
-      console.log(values);
+      // if(values.email){
+      //   const data = await api
+      // }
     });
   };
   return (

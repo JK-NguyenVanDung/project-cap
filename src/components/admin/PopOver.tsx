@@ -8,7 +8,7 @@ import react, { useState } from 'react';
 import { IoTrashOutline } from 'react-icons/io5';
 import CustomButton from './Button';
 import { size } from '@material-tailwind/react/types/components/button';
-
+import { AiOutlineFileProtect } from 'react-icons/ai';
 export default function PopOverAction({
   size,
   handleDelete,
@@ -22,6 +22,7 @@ export default function PopOverAction({
   variant,
   detailType,
   disabled = false,
+  handleAtt,
 }: {
   size?: size;
   handleDelete?: Function;
@@ -35,6 +36,7 @@ export default function PopOverAction({
   authType?: string;
   detailType?: string;
   disabled?: boolean;
+  handleAtt?: Function;
 }) {
   const [openAction, setOpenAction] = useState(false);
 
@@ -101,7 +103,7 @@ export default function PopOverAction({
                 {/* <p className="font-serif">{'Xoá'}</p> */}
               </Button>
             </PopoverHandler>
-            <PopoverContent>
+            <PopoverContent className="z-20">
               <div className="flex w-max items-center flex-col gap-4">
                 <p className="font-customFont font-bold text-black">
                   Xác nhận xoá {deleteItem}?
@@ -123,6 +125,14 @@ export default function PopOverAction({
               </div>
             </PopoverContent>
           </Popover>
+        )}
+        {handleAtt && (
+          <CustomButton
+            tip="Điểm Danh"
+            size="sm"
+            color="cyan"
+            Icon={AiOutlineFileProtect}
+          />
         )}
       </div>
     </>

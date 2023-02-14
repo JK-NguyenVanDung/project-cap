@@ -7,12 +7,13 @@ import { Image } from 'antd';
 import * as XLSX from 'xlsx';
 import TableConfig from '../../../components/admin/Table/Table';
 import { IProgramItem } from '../../../Type';
-import Validate from '../../../config/Validate';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
 import { AiOutlineUp } from 'react-icons/ai';
 import { SideBarDataCT } from '../SidebarData';
 import Button from '../../../components/sharedComponents/Button';
+const regexEmail =
+  /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/;
 export default function ImportFile({
   showModal,
   setShowModal,
@@ -27,7 +28,7 @@ export default function ImportFile({
   program: IProgramItem;
 }) {
   const [form] = Form.useForm();
-  const [listEmail, setListEmail] = useState();
+  const [listEmail, setListEmail]: any = useState([]);
   const [file, setJustAddedFile] = useState('');
 
   const [emailError, setEmailError] = useState([]);
@@ -51,10 +52,14 @@ export default function ImportFile({
   const handleOk = async () => {
     form.validateFields().then(async () => {
       dispatch(actions.reloadActions.setReload());
-
+      const emailSuccess = listEmail?.filter((item: any) => {
+        if (regexEmail.test(item)) {
+          return item;
+        }
+      });
       const values = {
         programId: program.programId,
-        emails: listEmail,
+        emails: emailSuccess,
       };
       const data = apiService.importFileLearner({
         body: values,
@@ -107,14 +112,8 @@ export default function ImportFile({
         setEmailError(
           data.filter((item: any, index: number) => {
             const email: string = item.Email || item.email || item.EMAIL;
-            const checkEmail = email
-              .toString()
-              .trim()
-              .match(
-                /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
-              );
+            const checkEmail = email.toString().trim().match(regexEmail);
             if (!checkEmail) {
-              setCheckError(true);
               return email;
             }
           }),
@@ -126,34 +125,11 @@ export default function ImportFile({
       });
   };
 
-  const dataTable = [
-    {
-      key: '1',
-      email: 'demo@vanlanguni.com',
-    },
-    {
-      key: '2',
-      email: 'demo_2@vanlanguni.com',
-    },
-  ];
-  const column = [
-    {
-      title: 'STT',
-      dataIndex: 'key',
-      key: 'key',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
-    },
-  ];
   const handelShowEmailError = () => {
     setChangeArrow(!changeArrow);
     setShowDetailError(!showDetailError);
   };
   const handelShow = () => {
-    console.log('hello');
     setEmailError([]);
     setCheckError(false);
     setShowDetailError(false);
@@ -172,66 +148,21 @@ export default function ImportFile({
           onChange={(value: any) => handelReadFile(value)}
         />
         <p className="py-2">File vừa thêm vào: {file}</p>
-        {checkError && (
-          <>
-            <Button
-              className="bg-red-400 p-3 flex justify-between items-center cursor-pointer"
-              onClick={() => handelShowEmailError()}
-              children={
-                <>
-                  <p>Email Không hợp lệ</p>
-                  {changeArrow ? (
-                    <AiOutlineUp className="rotate-180" />
-                  ) : (
-                    <AiOutlineUp />
-                  )}
-                </>
-              }
-            />
-            {showDetailError && (
-              <div className="delay-75">
-                {emailError.map((item, index: number) => {
-                  return (
-                    <p key={index}>
-                      {index + 1}: Dòng {item.stt} - {item.email}
-                    </p>
-                  );
-                })}
-              </div>
-            )}
-          </>
-        )}
         {saveEmail && successList ? (
           <>
+            <div className="w-full h-[1px] bg-gray-500" />
+            <p className="text-lg font-bold py-4">Kết Quả</p>
             <Button
-              className="bg-yellow-400 p-3 flex justify-between items-center cursor-pointer"
+              className="bg-green-400 p-3 flex justify-between items-center cursor-pointer"
               onClick={() => setCheckEmailNew(!checkEmailNew)}
               children={
                 <>
-                  <p>Email chưa có trên hệ thống</p>
-                  <p>{successList.newEmail?.length ?? 0}</p>
-                </>
-              }
-            />
-            {checkEmailNew &&
-              successList.newEmail?.map((item: any, index: number) => {
-                return (
-                  <p key={index} className="p-1">
-                    {index + 1} - {item}
-                  </p>
-                );
-              })}
-            <Button
-              className="bg-green-400 p-3 flex justify-between items-center cursor-pointer"
-              onClick={() => setCheckEmail(!checkEmail)}
-              children={
-                <>
-                  <p>Email vừa được thêm vào khóa học</p>
+                  <p>Email Vừa Được Thêm Thành Công</p>
                   <p>{successList.totalEmail?.length ?? 0}</p>
                 </>
               }
             />
-            {checkEmail &&
+            {checkEmailNew &&
               successList.totalEmail?.map((item: any, index: number) => {
                 return (
                   <p key={index} className="p-1">
@@ -240,11 +171,33 @@ export default function ImportFile({
                 );
               })}
             <Button
+              className="bg-red-400 p-3 flex justify-between items-center cursor-pointer"
+              onClick={() => handelShowEmailError()}
+              children={
+                <>
+                  <p>Email Không Hợp Lệ</p>
+                  <p>{emailError?.length ?? 0}</p>
+                </>
+              }
+            />
+            {showDetailError && (
+              <div className="delay-75">
+                {emailError.map((item, index: number) => {
+                  return (
+                    <p key={index}>
+                      + Dòng {item.stt} - {item.email}
+                    </p>
+                  );
+                })}
+              </div>
+            )}
+
+            <Button
               className="bg-blue-500 p-3 flex justify-between items-center cursor-pointer"
               onClick={() => setCheckEmail(!checkEmail)}
               children={
                 <>
-                  <p>Email đã tồn tại trong khóa học</p>
+                  <p>Email Đã Tồn Tại Trong Khóa Học</p>
                   <p>{successList.exitsEmail?.length ?? 0}</p>
                 </>
               }
@@ -262,7 +215,7 @@ export default function ImportFile({
               onClick={() => setCheckEmailRegisted(!checkEmailRegisted)}
               children={
                 <>
-                  <p>Email đã đăng ký khóa học</p>
+                  <p>Email Đã Đăng Ký Khóa Học</p>
                   <p>{successList.registeredEmail?.length ?? 0}</p>
                 </>
               }
