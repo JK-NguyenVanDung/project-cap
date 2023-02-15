@@ -141,50 +141,66 @@ export default function ProgramDetail() {
     {
       label: `Thông tin chung`,
       key: 'ttc',
-      children: <SectionInfo selectedProgram={program} info={info} />,
+      children: (
+        <div className="mb-24">
+          <SectionInfo
+            selectedProgram={program}
+            info={info}
+            isReviewing={true}
+          />{' '}
+        </div>
+      ),
     },
     {
       label: `Về Giảng viên`,
       key: 'vgv',
       children: (
-        <SectionFive
-          selectedProgram={program}
-          columns={columns}
-          data={(section: any) => getSectionData(section)}
-          SurveyTable={getTable(sectionSixData)}
-        />
+        <div className="mb-4">
+          <SectionFive
+            selectedProgram={program}
+            columns={columns}
+            data={(section: any) => getSectionData(section)}
+            SurveyTable={getTable(sectionSixData)}
+          />{' '}
+        </div>
       ),
     },
     {
       label: `Về Nội dung chương trình`,
       key: 'ndct',
       children: (
-        <SectionSeven
-          columns={columns}
-          data={(section: any) => getSectionData(section)}
-          SurveyTable={getTable(sectionEightData)}
-        />
+        <div className="mb-4">
+          <SectionSeven
+            columns={columns}
+            data={(section: any) => getSectionData(section)}
+            SurveyTable={getTable(sectionEightData)}
+          />
+        </div>
       ),
     },
     {
       label: `Về Công tác tổ chức`,
       key: 'cttc',
       children: (
-        <SectionNine
-          columns={columns}
-          SurveyTable={getTable(sectionTenData)}
-          data={(section: any) => getSectionData(section)}
-        />
+        <div className="mb-4">
+          <SectionNine
+            columns={columns}
+            SurveyTable={getTable(sectionTenData)}
+            data={(section: any) => getSectionData(section)}
+          />{' '}
+        </div>
       ),
     },
     {
       label: `Nhận xét chung về Chương trình`,
       key: 'nxcvct',
       children: (
-        <SectionOther
-          SurveyTable={getTable(sectionElevenData)}
-          SurveyTableTwo={getTable(sectionTwelveData)}
-        />
+        <div className="mb-4">
+          <SectionOther
+            SurveyTable={getTable(sectionElevenData)}
+            SurveyTableTwo={getTable(sectionTwelveData)}
+          />
+        </div>
       ),
     },
   ];
