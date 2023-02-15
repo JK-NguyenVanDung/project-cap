@@ -12,7 +12,11 @@ import CustomButton from '../../../components/admin/Button';
 import { FiSend } from 'react-icons/fi';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import { errorText } from '../../../helper/constant';
-import { IProgramItem, ISurveyProgram } from '../../../Type';
+import {
+  IContentSurveyProgram,
+  IProgramItem,
+  ISurveyProgram,
+} from '../../../Type';
 import moment from 'moment';
 import apiService from '../../../api/apiService';
 export default function () {
@@ -235,49 +239,76 @@ export const SectionInfo = ({
     </>
   );
 };
-export const SectionOther = () => {
+export const SectionOther = ({
+  SurveyTable,
+  SurveyTableTwo,
+}: {
+  SurveyTable?: any;
+  SurveyTableTwo?: any;
+}) => {
   return (
     <>
       <p className="text-xl font-bold ">Nhận xét chung về Chương trình</p>
       <br className="my-2"></br>
-      <FormInput
-        label="11. Thầy/Cô, Anh/Chị vui lòng chia sẻ những điều tâm đắc về chương trình"
-        name="11"
-        placeholder="Nhập ý kiến"
-        rules={[
-          // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
+      {!SurveyTable ? (
+        <FormInput
+          label="11. Thầy/Cô, Anh/Chị vui lòng chia sẻ những điều tâm đắc về chương trình"
+          name="11"
+          placeholder="Nhập ý kiến"
+          rules={[
+            // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
 
-          {
-            pattern: new RegExp(/^(?!\s*$|\s).*$/),
-            message: errorText.space,
-          },
-          // {
-          //   pattern: new RegExp(/^.{1,50}$/),
-          //   message: 'Đạt tối đa số lượng ký tự cho phép',
-          // },
-        ]}
-      />
+            {
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
+              message: errorText.space,
+            },
+            // {
+            //   pattern: new RegExp(/^.{1,50}$/),
+            //   message: 'Đạt tối đa số lượng ký tự cho phép',
+            // },
+          ]}
+        />
+      ) : (
+        <>
+          <p className="mt-4">
+            11. Thầy/Cô, Anh/Chị vui lòng chia sẻ những điều tâm đắc về chương
+            trình
+          </p>
+          {SurveyTable}
+        </>
+      )}
 
       <br className="my-2"></br>
-      <FormInput
-        label="   12. Thầy/Cô, Anh/Chị vui lòng chia sẻ thêm các đề xuất để nâng cao chất
+      {!SurveyTable ? (
+        <FormInput
+          label="   12. Thầy/Cô, Anh/Chị vui lòng chia sẻ thêm các đề xuất để nâng cao chất
         lượng chương trình hoặc đề xuất về nội dung/ chương trình muốn tham dự
         tiếp theo"
-        name="12"
-        placeholder="Nhập ý kiến"
-        rules={[
-          // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
+          name="12"
+          placeholder="Nhập ý kiến"
+          rules={[
+            // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
 
-          {
-            pattern: new RegExp(/^(?!\s*$|\s).*$/),
-            message: errorText.space,
-          },
-          // {
-          //   pattern: new RegExp(/^.{1,50}$/),
-          //   message: 'Đạt tối đa số lượng ký tự cho phép',
-          // },
-        ]}
-      />
+            {
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
+              message: errorText.space,
+            },
+            // {
+            //   pattern: new RegExp(/^.{1,50}$/),
+            //   message: 'Đạt tối đa số lượng ký tự cho phép',
+            // },
+          ]}
+        />
+      ) : (
+        <>
+          <p className="mt-4">
+            12. Thầy/Cô, Anh/Chị vui lòng chia sẻ thêm các đề xuất để nâng cao
+            chất lượng chương trình hoặc đề xuất về nội dung/ chương trình muốn
+            tham dự tiếp theo
+          </p>
+          {SurveyTableTwo}
+        </>
+      )}
     </>
   );
 };
@@ -286,10 +317,12 @@ export const SectionFive = ({
   columns,
   selectedProgram,
   SurveyTable = null,
+  data,
 }: {
   columns: any;
   selectedProgram: IProgramItem;
   SurveyTable?: any;
+  data?: Function;
 }) => {
   const section5 = [
     {
@@ -331,7 +364,7 @@ export const SectionFive = ({
 
       <Table
         columns={columns}
-        dataSource={section5}
+        dataSource={data ? data(section5) : section5}
         size="large"
         bordered
         pagination={false}
@@ -358,13 +391,27 @@ export const SectionFive = ({
           ]}
         />
       ) : (
-        SurveyTable
+        <>
+          <p className="mt-4">
+            6. Thây/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp đến Giảng
+            viên
+          </p>
+          {SurveyTable}
+        </>
       )}
     </>
   );
 };
 
-export const SectionSeven = ({ columns }: { columns: any }) => {
+export const SectionSeven = ({
+  columns,
+  SurveyTable = null,
+  data,
+}: {
+  columns: any;
+  SurveyTable?: any;
+  data?: Function;
+}) => {
   const section7 = [
     {
       number: 7.1,
@@ -399,7 +446,7 @@ export const SectionSeven = ({ columns }: { columns: any }) => {
 
       <Table
         columns={columns}
-        dataSource={section7}
+        dataSource={data ? data(section7) : section7}
         size="large"
         bordered
         pagination={false}
@@ -407,29 +454,47 @@ export const SectionSeven = ({ columns }: { columns: any }) => {
 
       <br className="my-2"></br>
 
-      <FormInput
-        label=" 8. Thây/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp về nội dung
+      {!SurveyTable ? (
+        <FormInput
+          label=" 8. Thây/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp về nội dung
         Chương trình"
-        name="8"
-        placeholder="Nhập ý kiến"
-        rules={[
-          // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
+          name="8"
+          placeholder="Nhập ý kiến"
+          rules={[
+            // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
 
-          {
-            pattern: new RegExp(/^(?!\s*$|\s).*$/),
-            message: errorText.space,
-          },
-          // {
-          //   pattern: new RegExp(/^.{1,50}$/),
-          //   message: 'Đạt tối đa số lượng ký tự cho phép',
-          // },
-        ]}
-      />
+            {
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
+              message: errorText.space,
+            },
+            // {
+            //   pattern: new RegExp(/^.{1,50}$/),
+            //   message: 'Đạt tối đa số lượng ký tự cho phép',
+            // },
+          ]}
+        />
+      ) : (
+        <>
+          <p className="mt-4">
+            8. Thây/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp về nội
+            dung Chương trình
+          </p>
+          {SurveyTable}
+        </>
+      )}
     </>
   );
 };
 
-export const SectionNine = ({ columns }: { columns: any }) => {
+export const SectionNine = ({
+  columns,
+  SurveyTable = null,
+  data,
+}: {
+  columns: any;
+  SurveyTable?: any;
+  data?: Function;
+}) => {
   const section9 = [
     {
       number: 9.1,
@@ -459,7 +524,7 @@ export const SectionNine = ({ columns }: { columns: any }) => {
 
       <Table
         columns={columns}
-        dataSource={section9}
+        dataSource={data ? data(section9) : section9}
         size="large"
         bordered
         pagination={false}
@@ -467,24 +532,34 @@ export const SectionNine = ({ columns }: { columns: any }) => {
 
       <br className="my-2"></br>
 
-      <FormInput
-        label="10. Thầy/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp về công tác
+      {!SurveyTable ? (
+        <FormInput
+          label="10. Thầy/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp về công tác
         hậu cần"
-        name="10"
-        placeholder="Nhập ý kiến"
-        rules={[
-          // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
+          name="10"
+          placeholder="Nhập ý kiến"
+          rules={[
+            // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
 
-          {
-            pattern: new RegExp(/^(?!\s*$|\s).*$/),
-            message: errorText.space,
-          },
-          // {
-          //   pattern: new RegExp(/^.{1,50}$/),
-          //   message: 'Đạt tối đa số lượng ký tự cho phép',
-          // },
-        ]}
-      />
+            {
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
+              message: errorText.space,
+            },
+            // {
+            //   pattern: new RegExp(/^.{1,50}$/),
+            //   message: 'Đạt tối đa số lượng ký tự cho phép',
+            // },
+          ]}
+        />
+      ) : (
+        <>
+          <p className="mt-4">
+            10. Thầy/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp về công
+            tác hậu cần
+          </p>
+          {SurveyTable}
+        </>
+      )}
     </>
   );
 };

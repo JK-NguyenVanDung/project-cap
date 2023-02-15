@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, message, Image, Tooltip, Tabs } from 'antd';
+import { Form, message, Image, Tooltip, Tabs, Table } from 'antd';
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { Breadcrumb } from '../../../../components/sharedComponents';
@@ -21,30 +21,21 @@ import {
 import { HiChevronUpDown } from 'react-icons/hi2';
 
 import { actions } from '../../../../Redux';
-import {
-  PointerSensor,
-  useDraggable,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import { useSortable } from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { DndContext, closestCenter, DragOverlay } from '@dnd-kit/core';
-import {
-  arrayMove,
-  SortableContext,
-  verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { FaEdit, FaPencilAlt } from 'react-icons/fa';
-import { TiDelete } from 'react-icons/ti';
+import { IContentSurveyProgram } from '../../../../Type';
 
 export default function ProgramDetail() {
   const [form] = Form.useForm();
 
-  const [listContent, setListContent]: any = useState([{ title: '1' }]);
+  const [listContent, setListContent]: any = useState([]);
   const program = useAppSelector((state) => state.form.setProgram);
   const reload = useAppSelector((state) => state.form.reload);
   const info = useAppSelector((state) => state.auth.info);
+
+  const [sectionSixData, setSectionSixData] = useState([]);
+  const [sectionEightData, setSectionEightData] = useState([]);
+  const [sectionTenData, setSectionTenData] = useState([]);
+  const [sectionElevenData, setSectionElevenData] = useState([]);
+  const [sectionTwelveData, setSectionTwelveData] = useState([]);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -60,40 +51,44 @@ export default function ProgramDetail() {
       clearTimeout(t);
     };
   }, []);
-  useEffect(() => {
-    let t = setTimeout(() => {
-      fetchProgramContent();
-    }, 100);
-    return () => {
-      clearTimeout(t);
-    };
-  }, [reload]);
-  function handleDragEnd(event: any) {
-    const { active, over } = event;
 
-    if (active.id !== over.id) {
-      setListContent((items: any) => {
-        const activeIndex = items.indexOf(
-          items.find((e: any) => e.contentId === active.id),
-        );
-        const overIndex = items.indexOf(
-          items.find((e: any) => e.contentId === over.id),
-        );
-        return arrayMove(items, activeIndex, overIndex);
+  const fetchProgramContent = async () => {
+    const response: any = await apiService.getProgramStatistic(
+      program.programId,
+    );
+    if (response) {
+      setListContent(response);
+
+      response.map((item: IContentSurveyProgram) => {
+        if (item.number === 6) {
+          console.log(item.number);
+          setSectionSixData((data) => [
+            ...data,
+            { ...item, index: data.length + 1 },
+          ]);
+        } else if (item.number === 8) {
+          setSectionEightData((data) => [
+            ...data,
+            { ...item, index: data.length + 1 },
+          ]);
+        } else if (item.number === 10) {
+          setSectionTenData((data) => [
+            ...data,
+            { ...item, index: data.length + 1 },
+          ]);
+        } else if (item.number === 11) {
+          setSectionElevenData((data) => [
+            ...data,
+            { ...item, index: data.length + 1 },
+          ]);
+        } else if (item.number === 12) {
+          setSectionTwelveData((data) => [
+            ...data,
+            { ...item, index: data.length + 1 },
+          ]);
+        }
       });
     }
-  }
-  const addChapter = () => {
-    dispatch(actions.formActions.setChapter(null));
-    dispatch(actions.formActions.setProgramId(program.programId));
-
-    navigate(`/admin/Program/Chapter/${'AddContent'}`);
-  };
-  const fetchProgramContent = async () => {
-    // const response = await apiService.getContentProgram(program.programId);
-    // if (response) {
-    //   setListContent(response);
-    // }
   };
   const handelCancel = () => {
     navigate('/admin/Program');
@@ -104,13 +99,7 @@ export default function ProgramDetail() {
     navigate(-1);
     form.resetFields();
   };
-  const sensors = useSensors(
-    useSensor(PointerSensor, {
-      activationConstraint: {
-        distance: 4,
-      },
-    }),
-  );
+
   let columns = [];
   columns.push({
     title: 'Câu hỏi',
@@ -135,6 +124,19 @@ export default function ProgramDetail() {
       noIcon={true}
     />
   );
+  function getSectionData(section: Array<IContentSurveyProgram>) {
+    if (listContent.length > 0) {
+      let result: Array<IContentSurveyProgram> = [];
+
+      section.forEach(function (o) {
+        listContent.forEach(function (c: IContentSurveyProgram) {
+          if (o.number === c.number) result.push(Object.assign({}, o, c));
+        });
+      });
+      return result;
+    }
+  }
+
   const items = [
     {
       label: `Thông tin chung`,
@@ -144,7 +146,46 @@ export default function ProgramDetail() {
     {
       label: `Về Giảng viên`,
       key: 'vgv',
-      children: <SectionFive selectedProgram={program} columns={columns} />,
+      children: (
+        <SectionFive
+          selectedProgram={program}
+          columns={columns}
+          data={(section: any) => getSectionData(section)}
+          SurveyTable={getTable(sectionSixData)}
+        />
+      ),
+    },
+    {
+      label: `Về Nội dung chương trình`,
+      key: 'ndct',
+      children: (
+        <SectionSeven
+          columns={columns}
+          data={(section: any) => getSectionData(section)}
+          SurveyTable={getTable(sectionEightData)}
+        />
+      ),
+    },
+    {
+      label: `Về Công tác tổ chức`,
+      key: 'cttc',
+      children: (
+        <SectionNine
+          columns={columns}
+          SurveyTable={getTable(sectionTenData)}
+          data={(section: any) => getSectionData(section)}
+        />
+      ),
+    },
+    {
+      label: `Nhận xét chung về Chương trình`,
+      key: 'nxcvct',
+      children: (
+        <SectionOther
+          SurveyTable={getTable(sectionElevenData)}
+          SurveyTableTwo={getTable(sectionTwelveData)}
+        />
+      ),
     },
   ];
   return (
@@ -222,3 +263,28 @@ export default function ProgramDetail() {
 //     </div>
 //   );
 // };
+
+function getTable(data: any) {
+  console.log(data);
+  let columns = [
+    {
+      title: 'STT',
+      dataIndex: 'index',
+      key: 'index',
+      width: '5vw',
+      align: 'center' as AlignType,
+    },
+    {
+      title: 'Ý kiến',
+      dataIndex: 'answer',
+      key: 'answer',
+
+      align: 'center' as AlignType,
+    },
+  ];
+  return (
+    <>
+      <Table columns={columns} dataSource={data} size="large" bordered />
+    </>
+  );
+}

@@ -150,6 +150,8 @@ export const API_CONFIG = {
   },
   SURVEY: {
     GETALL: '/api/Surveys/GetListSurvey',
+    GET_LIST_PROGRAM: '/api/Surveys/GetListProgram',
+
     GET_PUBLIC: '/api/Surveys/GetListSurveyPublish',
     GET_SURVEY: (idSurvey: number) => `/api/Surveys/GetSurvey/${idSurvey}`,
     GET_MY_SURVEYS: (idAccount: number) =>
@@ -158,6 +160,8 @@ export const API_CONFIG = {
       `/api/Surveys/GetListAccountSurvey/${idSurvey}`,
     GET_LIST_SURVEY_ANSWERS: (idSurvey: number, idAccount: number) =>
       `/api/Surveys/GetListAnswers/?idSurvey=${idSurvey}&idAccount=${idAccount}`,
+    GET_PROGRAM_STATISTIC: (idProgram: number) =>
+      `/api/Surveys/GetStaticsProgram/${idProgram}`,
     CHECK_DONE_SURVEY: (idProgram: number, idAccount: number) =>
       `/api/Surveys/CheckSurvey/?idProgram=${idProgram}&idAccount=${idAccount}`,
 

@@ -191,6 +191,7 @@ const ContentSurveyPrograms = z.object({
   point: z.number(),
   number: z.number(),
   answer: z.string().max(200),
+  content: z.string(),
 });
 const SurveyProgram = z.object({
   programId: z.number(),
@@ -218,7 +219,7 @@ export type IAccountSurvey = z.infer<typeof AccountSurvey>;
 export type ISurveyProgram = z.infer<typeof SurveyProgram>;
 export type ISurveyQuestionContent = z.infer<typeof SurveyQuestionContent>;
 export type ISurveyAnswer = z.infer<typeof SurveyAnswer>;
-
+export type IContentSurveyProgram = z.infer<typeof ContentSurveyPrograms>;
 export interface IRouterObj {
   path?: string;
   index?: boolean;
