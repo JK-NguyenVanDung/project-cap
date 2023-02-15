@@ -3,19 +3,30 @@ import logo from '../../../assets/logo.svg';
 import { actions } from '../../../Redux';
 import HeaderClient from '../../../components/Header/HeaderClient';
 import Breadcrumb from '../../../components/sharedComponents/Breadcrumb';
-import { useAppDispatch } from '../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import RadioButton from 'antd/lib/radio/radioButton';
-import { Radio, Table } from 'antd';
+import { Form, Input, Radio, Table, notification } from 'antd';
 import { useState } from 'react';
 import { AlignType } from 'rc-table/lib/interface';
-
+import CustomButton from '../../../components/admin/Button';
+import { FiSend } from 'react-icons/fi';
+import FormInput from '../../../components/admin/Modal/FormInput';
+import { errorText } from '../../../helper/constant';
+import { IProgramItem, ISurveyProgram } from '../../../Type';
+import moment from 'moment';
+import apiService from '../../../api/apiService';
 export default function () {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [selectedValue, setSelectedValue] = useState(null);
+  const info = useAppSelector((state) => state.auth.info);
+
+  const selectedProgram: IProgramItem = useAppSelector(
+    (state) => state.form.setProgram,
+  );
   let options = [1, 2, 3, 4, 5];
   let columns = [];
-
+  const [form] = Form.useForm();
   columns.push({
     title: '',
     dataIndex: 'content',
@@ -26,20 +37,73 @@ export default function () {
   options.forEach((option, i) => {
     columns.push({
       title: option,
-      key: option,
+
       align: 'center' as AlignType,
 
-      render: (value: string) => {
+      render: (item: any) => {
         return (
           <>
-            <input type="radio" name="gender" value="male"></input>
+            <Form.Item
+              name={item.number}
+              rules={[{ required: true, message: 'Vui lòng chọn 1 đáp án' }]}
+            >
+              <Radio.Group
+                name={item.number}
+                className="flex justify-center items-center"
+              >
+                <Radio
+                  type="radio"
+                  name={item.number}
+                  value={option.toString()}
+                ></Radio>
+              </Radio.Group>
+            </Form.Item>
           </>
         );
       },
     });
   });
+  function goBack() {
+    navigate(-1);
+  }
+  function handleSubmit() {
+    form
+      .validateFields()
+      .then(async (values) => {
+        let result = [];
+
+        for (const [key, value] of Object.entries(values)) {
+          result.push({
+            number: Number(key),
+            point: isNaN(Number(value)) ? null : Number(value),
+            answer: value ? value.toString() : null,
+          });
+        }
+
+        let out: ISurveyProgram = {
+          accountId: info.accountId,
+          programId: selectedProgram.programId,
+          contentSurveyPrograms: result,
+        }; //       ...values,
+        console.log(out);
+        try {
+          await apiService.doProgramSurvey(out);
+          navigate(`/Programs/${selectedProgram.programId}/Chapters`);
+        } catch (err) {
+          notification.error({
+            message:
+              'Hiện tại không thể thực hiện khảo sát, xin vui lòng làm lại sau',
+          });
+        }
+      })
+      .catch(() => {
+        notification.error({
+          message: 'Vui lòng chọn hết các câu hỏi bắt buộc',
+        });
+      });
+  }
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 h-full">
       <div className="w-full h-24 py-4 bg-white flex items-center justify-between ">
         <div className="z-0 max-sm:hidden  overflow-hidden bg-white relative flex flex-col justify-center content-center items-center w-1/5">
           <a
@@ -74,14 +138,13 @@ export default function () {
           <HeaderClient />
         </div>
       </div>
-      <div className="mx-4  flex flex-col w-full h-screen items-center my-12 text-black">
-        <div className="flex h-[40vh] flex-col w-full justify-evenly  items-center">
+      <div className="px-24  flex flex-col w-full h-screen items-center my-12 text-black">
+        <div className="flex h-[50vh] flex-col w-full justify-evenly  items-center">
           <p className="font-semibold text-xl">
             Trung tâm Đào tạo và Phát triển (VLG)
           </p>
 
           <p className="font-bold text-2xl">ĐÁNH GIÁ CHẤT LƯỢNG CHƯƠNG TRÌNH</p>
-          <p className="font-semibold text-xl">Khoá học Mobile 2023-2024</p>
           <p className="text-base ">
             Những phản hồi, góp ý của Thầy/Cô, Anh/Chị rất quan trọng để Trung
             tâm ĐT&PT tiếp tục nâng cao chất lượng chương trình trong tương lai.
@@ -91,43 +154,143 @@ export default function () {
             Chân thành cảm ơn các ý kiến đóng góp của người học!
           </p>
         </div>
-        <div className="self-start	">
-          <p className="text-xl font-bold ">I. THÔNG TIN CHUNG</p>
-          <p className="">
-            1. Email người học (giảng viên/ nhân viên nhà trường)
-          </p>
-          <p className="">dung.197pm31141@vanlanguni.vn</p>
-          <p className="">II. NỘI DUNG KHẢO SÁT</p>
-          <p className="">III. Ý KIẾN KHÁC</p>
-          <p className="">10. Điều mà anh/chị hài lòng nhất về khoá học này?</p>
-        </div>
+        <SectionInfo selectedProgram={selectedProgram} info={info} />
         <div className="w-full  flex flex-col justify-evenly ">
-          <SectionFive columns={columns} />
-          <SectionSeven columns={columns} />
-          <SectionNine columns={columns} />
-          <SectionOther />
+          <Form form={form}>
+            <SectionFive columns={columns} selectedProgram={selectedProgram} />
+            <SectionSeven columns={columns} />
+            <SectionNine columns={columns} />
+            <SectionOther />
+          </Form>
+        </div>
+        <div className="flex w-full justify-end items-center ">
+          <CustomButton
+            className="w-32"
+            text="Quay lại"
+            type="goBack"
+            noIcon
+            onClick={goBack}
+          />
+
+          <CustomButton
+            onClick={handleSubmit}
+            className="mx-2 my-8"
+            text="Gửi Đánh Giá"
+            Icon={FiSend}
+          />
         </div>
       </div>
     </div>
   );
 }
-const SectionOther = () => {
+export const SectionInfo = ({
+  selectedProgram,
+  info,
+}: {
+  selectedProgram: IProgramItem;
+  info: any;
+}) => {
+  return (
+    <>
+      <div className="self-start w-full mb-4	">
+        <p className="text-xl font-bold ">THÔNG TIN CHUNG</p>
+        <p className="mt-4">
+          1. Tên chương trình Thây/Cô, Anh/Chị đã tham dự?
+          <span className="text-red-500"> * </span>
+        </p>
+
+        <Input
+          value={selectedProgram ? selectedProgram.programName : 'N/A'}
+          disabled={true}
+          type="text"
+          className={` font-customFont  font-bold  mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+        ></Input>
+
+        <p className="mt-4">
+          2. Thời hạn tham gia? <span className="text-red-500"> * </span>
+        </p>
+
+        <Input
+          value={
+            selectedProgram
+              ? moment(selectedProgram.startDate).format('DD/MM/YYYY') +
+                ' - ' +
+                moment(selectedProgram.endDate).format('DD/MM/YYYY')
+              : 'N/A'
+          }
+          disabled={true}
+          type="text"
+          className={` font-customFont  font-bold  mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+        ></Input>
+
+        <p className="mt-4">3. Email của Thầy/Cô, Anh/Chị</p>
+
+        <Input
+          value={info ? info.email : 'N/A'}
+          disabled={true}
+          type="text"
+          className={` font-customFont  font-bold  mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+        ></Input>
+      </div>
+    </>
+  );
+};
+export const SectionOther = () => {
   return (
     <>
       <p className="text-xl font-bold ">Nhận xét chung về Chương trình</p>
-      <p className="">
-        11. Thầy/Cô, Anh/Chị vui lòng chia sẻ những điều tâm đắc về chương trình
-      </p>
-      <p className="">
-        12. Thầy/Cô, Anh/Chị vui lòng chia sẻ thêm các đề xuất để nâng cao chất
+      <br className="my-2"></br>
+      <FormInput
+        label="11. Thầy/Cô, Anh/Chị vui lòng chia sẻ những điều tâm đắc về chương trình"
+        name="11"
+        placeholder="Nhập ý kiến"
+        rules={[
+          // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
+
+          {
+            pattern: new RegExp(/^(?!\s*$|\s).*$/),
+            message: errorText.space,
+          },
+          // {
+          //   pattern: new RegExp(/^.{1,50}$/),
+          //   message: 'Đạt tối đa số lượng ký tự cho phép',
+          // },
+        ]}
+      />
+
+      <br className="my-2"></br>
+      <FormInput
+        label="   12. Thầy/Cô, Anh/Chị vui lòng chia sẻ thêm các đề xuất để nâng cao chất
         lượng chương trình hoặc đề xuất về nội dung/ chương trình muốn tham dự
-        tiếp theo
-      </p>
+        tiếp theo"
+        name="12"
+        placeholder="Nhập ý kiến"
+        rules={[
+          // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
+
+          {
+            pattern: new RegExp(/^(?!\s*$|\s).*$/),
+            message: errorText.space,
+          },
+          // {
+          //   pattern: new RegExp(/^.{1,50}$/),
+          //   message: 'Đạt tối đa số lượng ký tự cho phép',
+          // },
+        ]}
+      />
     </>
   );
 };
 
-const SectionFive = ({ columns }: { columns: any }) => {
+export const SectionFive = ({
+  columns,
+  selectedProgram,
+  SurveyTable = null,
+}: {
+  columns: any;
+  selectedProgram: IProgramItem;
+  SurveyTable?: any;
+}) => {
   const section5 = [
     {
       number: 5.1,
@@ -142,12 +305,26 @@ const SectionFive = ({ columns }: { columns: any }) => {
   ];
   return (
     <>
-      <p className="text-xl font-bold ">Về Giảng viên?</p>
+      <p className="text-xl font-bold  ">Về Giảng viên</p>
 
-      <p className="">4. Họ & Tên Giảng viên phụ trách Chương trình? *</p>
-      <p className="">{`          5. Quy ước: (1) hoàn toàn KHÔNG đồng ý; (2) KHÔNG đồng ý; (3) Đồng ý một phần; (4) Đồng ý; (5) Hoàn toàn đồng ý *
-`}</p>
-      <p className="">
+      <p className="mt-4">
+        4. Họ & Tên Giảng viên phụ trách Chương trình?{' '}
+        <span className="text-red-500"> * </span>{' '}
+      </p>
+
+      <Input
+        value={selectedProgram ? selectedProgram.lecturers : 'N/A'}
+        disabled={true}
+        type="text"
+        className={` font-customFont  font-bold  mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+      ></Input>
+
+      <p className="my-4  ">
+        {`5. Quy ước: (1) hoàn toàn KHÔNG đồng ý; (2) KHÔNG đồng ý; (3) Đồng ý một phần; (4) Đồng ý; (5) Hoàn toàn đồng ý 
+`}
+        <span className="text-red-500"> * </span>{' '}
+      </p>
+      <p className="mb-2">
         Trường hợp có nội dung đánh giá từ 1-2 điểm, Thầy/Cô Anh/Chị vui lòng
         chia sẻ góp ý tại câu kế tiếp
       </p>
@@ -160,14 +337,34 @@ const SectionFive = ({ columns }: { columns: any }) => {
         pagination={false}
       />
 
-      <p className="">
-        6. Thây/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp đến Giảng viên
-      </p>
+      <br className="my-2"></br>
+      {!SurveyTable ? (
+        <FormInput
+          label="        6. Thây/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp đến Giảng viên
+        "
+          name="6"
+          placeholder="Nhập ý kiến"
+          rules={[
+            // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
+
+            {
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
+              message: errorText.space,
+            },
+            // {
+            //   pattern: new RegExp(/^.{1,50}$/),
+            //   message: 'Đạt tối đa số lượng ký tự cho phép',
+            // },
+          ]}
+        />
+      ) : (
+        SurveyTable
+      )}
     </>
   );
 };
 
-const SectionSeven = ({ columns }: { columns: any }) => {
+export const SectionSeven = ({ columns }: { columns: any }) => {
   const section7 = [
     {
       number: 7.1,
@@ -190,9 +387,12 @@ const SectionSeven = ({ columns }: { columns: any }) => {
     <>
       <p className="text-xl font-bold ">Về Nội dung chương trình</p>
 
-      <p className="">{`     7. Quy ước: (1) hoàn toàn KHÔNG đồng ý; (2) KHÔNG đồng ý; (3) Đồng ý một phần; (4) Đồng ý; (5) Hoàn toàn đồng ý *
-`}</p>
-      <p className="">
+      <p className="my-2">
+        {`     7. Quy ước: (1) hoàn toàn KHÔNG đồng ý; (2) KHÔNG đồng ý; (3) Đồng ý một phần; (4) Đồng ý; (5) Hoàn toàn đồng ý 
+`}
+        <span className="text-red-500"> * </span>{' '}
+      </p>
+      <p className="mb-2">
         Trường hợp có nội dung đánh giá từ 1-2 điểm, Thầy/Cô Anh/Chị vui lòng
         chia sẻ góp ý tại câu kế tiếp
       </p>
@@ -204,15 +404,32 @@ const SectionSeven = ({ columns }: { columns: any }) => {
         bordered
         pagination={false}
       />
-      <p className="">
-        8. Thây/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp về nội dung
-        Chương trình
-      </p>
+
+      <br className="my-2"></br>
+
+      <FormInput
+        label=" 8. Thây/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp về nội dung
+        Chương trình"
+        name="8"
+        placeholder="Nhập ý kiến"
+        rules={[
+          // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
+
+          {
+            pattern: new RegExp(/^(?!\s*$|\s).*$/),
+            message: errorText.space,
+          },
+          // {
+          //   pattern: new RegExp(/^.{1,50}$/),
+          //   message: 'Đạt tối đa số lượng ký tự cho phép',
+          // },
+        ]}
+      />
     </>
   );
 };
 
-const SectionNine = ({ columns }: { columns: any }) => {
+export const SectionNine = ({ columns }: { columns: any }) => {
   const section9 = [
     {
       number: 9.1,
@@ -229,10 +446,13 @@ const SectionNine = ({ columns }: { columns: any }) => {
     <>
       <p className="text-xl font-bold ">Về Công tác tổ chức</p>
 
-      <p className="">{`  
-9. Quy ước: (1) hoàn toàn KHÔNG đồng ý; (2) KHÔNG đồng ý; (3) Đồng ý một phần; (4) Đồng ý; (5) Hoàn toàn đồng ý *
-`}</p>
-      <p className="">
+      <p className="my-2">
+        {`  
+9. Quy ước: (1) hoàn toàn KHÔNG đồng ý; (2) KHÔNG đồng ý; (3) Đồng ý một phần; (4) Đồng ý; (5) Hoàn toàn đồng ý 
+`}
+        <span className="text-red-500"> * </span>{' '}
+      </p>
+      <p className="mb-2">
         Trường hợp có nội dung đánh giá từ 1-2 điểm, Thầy/Cô Anh/Chị vui lòng
         chia sẻ góp ý tại câu kế tiếp
       </p>
@@ -244,10 +464,27 @@ const SectionNine = ({ columns }: { columns: any }) => {
         bordered
         pagination={false}
       />
-      <p className="">
-        10. Thầy/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp về công tác
-        hậu cần
-      </p>
+
+      <br className="my-2"></br>
+
+      <FormInput
+        label="10. Thầy/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp về công tác
+        hậu cần"
+        name="10"
+        placeholder="Nhập ý kiến"
+        rules={[
+          // { required: true, message: 'Vui lòng nhập vào tên khảo sát' },
+
+          {
+            pattern: new RegExp(/^(?!\s*$|\s).*$/),
+            message: errorText.space,
+          },
+          // {
+          //   pattern: new RegExp(/^.{1,50}$/),
+          //   message: 'Đạt tối đa số lượng ký tự cho phép',
+          // },
+        ]}
+      />
     </>
   );
 };

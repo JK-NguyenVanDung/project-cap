@@ -139,21 +139,21 @@ const SurveyBar = (props: any) => {
           duration: 1,
         });
       } else {
-        console.log({
-          surveyId: selectedSurvey.surveyId,
-          accountId: info.accountId,
-          contentAnswers: answers.map((item) => {
-            let out = item.isChoice
-              ? {
-                  ...item,
-                }
-              : {
-                  questionSurveyId: item.questionSurveyId,
-                  content: item.content,
-                };
-            return out;
-          }),
-        });
+        // console.log({
+        //   surveyId: selectedSurvey.surveyId,
+        //   accountId: info.accountId,
+        //   contentAnswers: answers.map((item) => {
+        //     let out = item.isChoice
+        //       ? {
+        //           ...item,
+        //         }
+        //       : {
+        //           questionSurveyId: item.questionSurveyId,
+        //           content: item.content,
+        //         };
+        //     return out;
+        //   }),
+        // });
         await apiService.doSurvey({
           surveyId: selectedSurvey.surveyId,
           accountId: info.accountId,
@@ -169,9 +169,9 @@ const SurveyBar = (props: any) => {
             return out;
           }),
         });
+        navigate(-1);
       }
     }
-    navigate(-1);
   }
   function isSelected(questionId: number) {
     let isAnswer = answers?.find(

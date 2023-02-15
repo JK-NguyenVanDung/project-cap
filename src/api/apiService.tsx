@@ -7,6 +7,7 @@ import {
   IQuestion,
   ISurveyAnswer,
   ISurveyItem,
+  ISurveyProgram,
   ISurveyQuestion,
   ITest,
 } from '../Type';
@@ -345,12 +346,20 @@ export default {
       API_CONFIG.SURVEY.GET_LIST_SURVEY_ANSWERS(idSurvey, idAccount),
     );
   },
+  checkDoneSurvey: (idProgram: number, idAccount: number) => {
+    return axiosConfig.get(
+      API_CONFIG.SURVEY.CHECK_DONE_SURVEY(idProgram, idAccount),
+    );
+  },
 
   addSurvey: (params: ISurveyItem) => {
     return axiosConfig.post(API_CONFIG.SURVEY.CREATE_SURVEY, params);
   },
   doSurvey: (params: ISurveyAnswer) => {
     return axiosConfig.post(API_CONFIG.SURVEY.DO_SURVEY, params);
+  },
+  doProgramSurvey: (params: ISurveyProgram) => {
+    return axiosConfig.post(API_CONFIG.SURVEY.DO_PROGRAM_SURVEY, params);
   },
   addSurveyQuestion: (params: ISurveyQuestion) => {
     return axiosConfig.post(API_CONFIG.SURVEY.CREATE_QUESTION, params);

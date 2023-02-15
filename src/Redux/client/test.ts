@@ -51,13 +51,22 @@ const slice = createSlice({
         let tempArr = state.answers
           .slice()
           .filter((item) => item.questionContentId !== out.questionContentId);
+
+        let length = 0;
+
+        length = !state.answers.find(
+          (item) => item.questionId === out.questionId,
+        )
+          ? tempArr.length > 0
+            ? tempArr.length - 1
+            : 0
+          : state.answerLength;
+        if (tempArr.length === 0) {
+          length += -1;
+        }
         return {
           ...state,
-          answerLength: !state.answers.find(
-            (item) => item.questionId === out.questionId,
-          )
-            ? tempArr.length - 1
-            : state.answerLength,
+          answerLength: length,
           answers: tempArr,
         };
       }
