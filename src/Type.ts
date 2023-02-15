@@ -171,6 +171,7 @@ const SurveyQuestion = z.object({
 
   index: z.number(),
 });
+
 const SurveyAnswer = z.object({
   surveyId: z.number(),
   accountId: z.number(),
@@ -186,12 +187,16 @@ const AccountSurvey = z.object({
 
   content: z.string().max(200),
 });
-const SurveyProgram = z.object({
-  surveyProgramId: z.number(),
-  accountId: z.number(),
-  programId: z.number(),
+const ContentSurveyPrograms = z.object({
+  point: z.number(),
   number: z.number(),
   answer: z.string().max(200),
+});
+const SurveyProgram = z.object({
+  programId: z.number(),
+  accountId: z.number(),
+
+  contentSurveyPrograms: z.array(ContentSurveyPrograms),
 });
 
 export type IRoleItem = z.infer<typeof RoleItem>;

@@ -44,9 +44,11 @@ import SurveyDetail from '../pages/admin/Survey/General/SurveyDetail';
 import SurveyQuestion from '../pages/admin/Survey/General/SurveyQuestion/Question';
 import CourseSurvey from '../pages/admin/Survey/Program/ProgramSurvey';
 import CourseSurveyDetail from '../pages/admin/Survey/Program/ProgramSurveyDetail';
+import ProgramSurveyDetail from '../pages/admin/Survey/Program/ProgramSurveyDetail';
 
 import ClientSurvey from '../pages/client/Survey/Survey';
 import ProgramSurvey from '../pages/client/Survey/ProgramSurvey';
+
 export const RouterPages = [
   {
     path: '/admin',
@@ -147,7 +149,7 @@ export const RouterPages = [
   },
   {
     path: '/admin/CourseSurvey/Detail',
-    element: <CourseSurveyDetail />,
+    element: <ProgramSurveyDetail />,
   },
 ];
 

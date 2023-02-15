@@ -218,7 +218,8 @@ export default function Question() {
         // }
         // return message.success(MESSAGE.SUCCESS.DELETE);
       } catch (err: any) {
-        navigate(-1);
+        message.error('Không thể xoá câu hỏi đã được khảo sát');
+        setLoading(false);
         throw err.message;
       }
     } else {
@@ -398,15 +399,6 @@ export default function Question() {
             return item.content;
           }),
         };
-        let selected: any = [];
-        contents?.map((item: ISurveyQuestionContent, index: number) => {
-          if (item.isAnswer) {
-            if (res[0]?.isChoice === 1) {
-            } else if (res[0]?.isChoice === 2) {
-              selected.push(index + 1);
-            }
-          }
-        });
 
         form.setFieldsValue(content);
       };

@@ -158,11 +158,14 @@ export const API_CONFIG = {
       `/api/Surveys/GetListAccountSurvey/${idSurvey}`,
     GET_LIST_SURVEY_ANSWERS: (idSurvey: number, idAccount: number) =>
       `/api/Surveys/GetListAnswers/?idSurvey=${idSurvey}&idAccount=${idAccount}`,
+    CHECK_DONE_SURVEY: (idProgram: number, idAccount: number) =>
+      `/api/Surveys/CheckSurvey/?idProgram=${idProgram}&idAccount=${idAccount}`,
 
     GET_QUESTIONS: (idQuestion: number) =>
       `/api/Surveys/GetListQuestion/${idQuestion}`,
     CREATE_SURVEY: '/api/Surveys/CreateSurvey',
     DO_SURVEY: '/api/Surveys/DoSurvey',
+    DO_PROGRAM_SURVEY: '/api/Surveys/SurveyProgram',
 
     CREATE_QUESTION: '/api/Surveys/CreateQuestion',
     PUBLISH_SURVEY: (surveyId: number) =>
