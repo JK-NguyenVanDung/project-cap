@@ -132,6 +132,7 @@ export default function PopOverAction({
             size="sm"
             color="cyan"
             Icon={AiOutlineFileProtect}
+            onClick={() => handleAtt()}
           />
         )}
       </div>
