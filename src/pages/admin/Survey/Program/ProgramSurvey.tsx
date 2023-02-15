@@ -61,7 +61,7 @@ export default function Survey() {
         `Khóa Học ${item.programName && item.programName}`,
       ),
     );
-    navigate(`/admin/Program/showDetail`);
+    navigate(`/admin/CourseSurvey/Detail`);
   }
   function handleAddQuestions(item: any) {
     dispatch(actions.formActions.setProgramForm(item));
@@ -104,7 +104,7 @@ export default function Survey() {
     },
     {
       title: 'Người đã làm',
-      dataIndex: 'user',
+      dataIndex: 'countRespondents',
       width: '13%',
       render: (data: any) => <p>{data ? data : 0}</p>,
     },
@@ -165,7 +165,7 @@ export default function Survey() {
   async function getData() {
     try {
       setLoading(true);
-      let res: any = await apiService.getPrograms();
+      let res: any = await apiService.getSurveyPrograms();
       res = res.reverse();
       let temp;
       if (paths[paths.length - 1] === 'MyProgram') {

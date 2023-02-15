@@ -23,7 +23,7 @@ const ChapterBar = (props: any) => {
   const [program, setProgram] = useState<IProgramItem>();
   const [user, setUser] = useState<IAccountItem>(null);
   const [like, setLike]: any = useState();
-  const [chapters, setChapters] = useState(null);
+  const [chapters, setChapters] = useState([]);
   const selectedChapter: IChapterItem = useAppSelector(
     (state) => state.product.selectedChapter,
   );
@@ -79,6 +79,18 @@ const ChapterBar = (props: any) => {
       throw err.message;
     }
   }
+
+  async function checkDoneSurvey() {
+    try {
+      let res: any = await apiService.checkDoneSurvey(
+        programNav.programId,
+        info.accountId,
+      );
+      return res;
+    } catch (err: any) {
+      throw err.message;
+    }
+  }
   function hasDoneTest(prevChapter: IChapterItem) {
     if (prevChapter?.isDone) {
       return false;
@@ -86,7 +98,17 @@ const ChapterBar = (props: any) => {
     return true;
   }
   function navToSurvey() {
+    dispatch(actions.formActions.setProgramForm(programNav));
     navigate(`/ProgramSurvey/${programNav.programName}`);
+  }
+  function doingSurvey() {
+    if (checkDoneSurvey()) {
+      return false;
+    }
+    if (hasDoneTest(chapters[chapters?.length - 1])) {
+      return true;
+    }
+    return true;
   }
 
   return (
@@ -103,7 +125,9 @@ const ChapterBar = (props: any) => {
           />
         );
       })}
-      <ProgramSurvey navToSurvey={navToSurvey} />
+      {doingSurvey() === true ? (
+        <ProgramSurvey navToSurvey={navToSurvey} />
+      ) : null}
     </div>
   );
 };

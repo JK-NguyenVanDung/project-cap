@@ -105,29 +105,34 @@ const ChapterItem = ({
       let questionCount: any = await apiService.getQuestionCount(test?.testId);
 
       if (test) {
-        let getScore: any = await apiService.getScore({
-          testId: test?.testId,
-          accountId: info?.accountId,
-        });
-
-        getScore >= 0 && setViewedContent(true);
-
+        setTest(test);
         let count =
           questionCount?.data !== undefined
             ? questionCount?.data
             : questionCount;
-        setTest(test);
+
         dispatch(
           actions.testActions.setSelectedTest({
             ...test,
             questionCount: count,
           }),
         );
-
         setQuestionCount(count);
+
+        try {
+          let getScore: any = await apiService.getScore({
+            testId: test?.testId,
+            accountId: info?.accountId,
+          });
+          getScore >= 0 && setViewedContent(true);
+        } catch (err) {
+          // notification.error({
+          //   message: 'Không tìm thấy kết quả bài kiểm tra ',
+          // });
+        }
       }
     } catch (err: any) {
-      notification.error({ message: 'Không tìm thấy bài kiểm tra ' });
+      notification.error({ message: 'Không tìm thấy kết quả bài kiểm tra ' });
     }
   }
 
