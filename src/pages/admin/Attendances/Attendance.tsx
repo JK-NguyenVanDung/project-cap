@@ -28,6 +28,7 @@ export default function Attendance() {
 
   const [openAtt, setOpenAtt] = useState(false);
 
+  const [valueAtten, setValueAtten] = useState();
   const handleEdit = (item: any) => {
     setDetail({
       ...item,
@@ -82,22 +83,22 @@ export default function Attendance() {
       render: (item: any) => {
         return (
           <>
-            <Space>
-              <PopOverAction
-                size="sm"
-                handleEdit={() => handleEdit(item)}
-                handleDelete={() => handleDelete(item)}
-                handleShowDetail={() => handelDetail(item)}
-                handleAtt={() => handelTick(item)}
-              />
-            </Space>
+            <PopOverAction
+              size="sm"
+              handleEdit={() => handleEdit(item)}
+              handleDelete={() => handleDelete(item)}
+              handleShowDetail={() => handelDetail(item)}
+              handleAtt={() => handelTick(item)}
+            />
           </>
         );
       },
     },
   ];
   const handelTick = (item: any) => {
+    console.log('hshsh');
     setOpenAtt(true);
+    setValueAtten(item);
   };
   const handelDetail = (item: any) => {
     console.log(item);
@@ -256,7 +257,12 @@ export default function Attendance() {
         FormItem={<FormItem />}
         form={form}
       />
-      <TickAttendance visible={openAtt} setVisible={setOpenAtt} />
+      <TickAttendance
+        item={valueAtten}
+        setItem={setValueAtten}
+        visible={openAtt}
+        setVisible={setOpenAtt}
+      />
     </>
   );
 }

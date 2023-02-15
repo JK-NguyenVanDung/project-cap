@@ -320,6 +320,12 @@ export default {
   delAttendance: (id: number) => {
     return axiosConfig.delete(API_CONFIG.ATTENDANCES.DEL_ATTENDANCES(id));
   },
+  AttdendanceEmail: (params: any) => {
+    return axiosConfig.post(API_CONFIG.ATTENDANCES.ATTENDANCES_EMAIL, params);
+  },
+  AttdendanceCode: (params: any) => {
+    return axiosConfig.post(API_CONFIG.ATTENDANCES.ATTENDANCES_CODE, params);
+  },
   // SURVEY
 
   getSurveys: () => {

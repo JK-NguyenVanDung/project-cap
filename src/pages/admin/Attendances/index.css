@@ -1,3 +1,9 @@
 #video {
-    padding-top: 75%
+    border: 1px solid gray;
+    border-radius: 10px;
+    height: auto !important;
+}
+
+#rc-tabs-1-panel-Code section {
+    height: 23rem;
 }
