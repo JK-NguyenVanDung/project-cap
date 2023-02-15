@@ -370,6 +370,12 @@ export default {
   publishSurvey: (id: number) => {
     return axiosConfig.put(API_CONFIG.SURVEY.PUBLISH_SURVEY(id));
   },
+  getProgramStatistic: (programId: number) => {
+    return axiosConfig.get(API_CONFIG.SURVEY.GET_PROGRAM_STATISTIC(programId));
+  },
+  getSurveyPrograms: () => {
+    return axiosConfig.get(API_CONFIG.SURVEY.GET_LIST_PROGRAM);
+  },
 
   updateSurveyQuestion: (id: number, params: any) => {
     console.log(params);
