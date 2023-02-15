@@ -5,6 +5,8 @@ import { QrReader } from 'react-qr-reader';
 import { Tabs } from 'antd';
 import apiService from '../../../api/apiService';
 import './index.css';
+import CustomButton from '../../../components/admin/Button';
+
 export default function TickAttendance({
   item,
   setItem,
@@ -102,6 +104,28 @@ export default function TickAttendance({
       onOk={handleOk}
       onCancel={handelCancel}
       confirmLoading={confirmLoading}
+      footer={
+        <div className=" my-5 flex flex-row justify-evenly w-full">
+          <CustomButton
+            size="md"
+            fullWidth={true}
+            noIcon={true}
+            type="cancel"
+            color="blue-gray"
+            onClick={() => handelCancel()}
+            text="Hủy"
+          />
+          <CustomButton
+            size="md"
+            onClick={() => handleOk()}
+            fullWidth={true}
+            className="mx-2"
+            noIcon={true}
+            color="blue-gray"
+            text="Lưu"
+          />
+        </div>
+      }
     >
       <Tabs defaultActiveKey="Email" items={items} onChange={onChange} />
     </Modal>

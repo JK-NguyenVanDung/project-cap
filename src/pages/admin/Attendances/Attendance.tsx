@@ -13,6 +13,7 @@ import { useAppSelector } from '../../../hook/useRedux';
 import { AiOutlineSwapRight, AiOutlineFileProtect } from 'react-icons/ai';
 import moment from 'moment';
 import TickAttendance from './TickAttendance';
+import DetailAttendances from './DetailAttendances';
 
 const { RangePicker } = DatePicker;
 export default function Attendance() {
@@ -26,6 +27,7 @@ export default function Attendance() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
 
+  const [showDetail, setShowDetail] = useState(false);
   const [openAtt, setOpenAtt] = useState(false);
 
   const [valueAtten, setValueAtten] = useState();
@@ -101,16 +103,15 @@ export default function Attendance() {
     setValueAtten(item);
   };
   const handelDetail = (item: any) => {
-    console.log(item);
+    setShowDetail(true);
+    setDetail(item);
   };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
     const filteredData = temp
-      .map((record: ICategoryItem) => {
-        const emailMatch = removeVietnameseTones(record.categoryName).match(
-          reg,
-        );
+      .map((record: any) => {
+        const emailMatch = removeVietnameseTones(record.title).match(reg);
 
         if (!emailMatch) {
           return null;
@@ -251,7 +252,7 @@ export default function Attendance() {
         show={showModal}
         setShow={setShowModal}
         dataItem={detail}
-        label={'Danh Mục'}
+        label={'Điểm Danh'}
         name={detail}
         handleOk={handleOk}
         FormItem={<FormItem />}
@@ -262,6 +263,12 @@ export default function Attendance() {
         setItem={setValueAtten}
         visible={openAtt}
         setVisible={setOpenAtt}
+      />
+      <DetailAttendances
+        item={detail}
+        setItem={setDetail}
+        visible={showDetail}
+        setVisible={setShowDetail}
       />
     </>
   );
