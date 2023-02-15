@@ -1,22 +1,26 @@
 import React, { useState } from 'react';
-import { Form, Modal } from 'antd';
+import { Form, Modal, notification } from 'antd';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import { QrReader } from 'react-qr-reader';
 import { Tabs } from 'antd';
+import apiService from '../../../api/apiService';
 import './index.css';
+import CustomButton from '../../../components/admin/Button';
+
 export default function TickAttendance({
-  // item,
-  // setItem,
+  item,
+  setItem,
   visible,
   setVisible,
 }: {
-  // item: any;
-  // setItem: any;
+  item: any;
+  setItem: any;
   visible: boolean;
   setVisible: (visible: boolean) => void;
 }) {
   const [form] = Form.useForm();
-  const [data, setData]: any = useState('No result');
+  const [dataQrCode, setDataQrCode]: any = useState('No result');
+  const [confirmLoading, setConfirmLoading] = useState(false);
   const items: any['items'] = [
     {
       key: 'Email',
@@ -41,25 +45,88 @@ export default function TickAttendance({
   }
   function RenderCode() {
     return (
-      <QrReader
-        className="w-full"
-        onResult={(result: any, error: any) => {
-          if (!!result) {
-            console.log(result);
-            setData(result?.text);
-          }
-        }}
-        constraints={undefined}
-      />
+      <>
+        <QrReader
+          onResult={(result: any, error: any) => {
+            if (!!result) {
+              setDataQrCode(result?.text);
+            }
+          }}
+          constraints={undefined}
+        />
+        {dataQrCode ? <p>Kết Quả Mã QR: {dataQrCode}</p> : null}
+      </>
     );
   }
   const handleOk = () => {
     form.validateFields().then(async (values) => {
-      console.log(values);
+      try {
+        setConfirmLoading(true);
+        if (values.email) {
+          const params = {
+            email: values.email,
+            attendanceId: item.id,
+          };
+          await apiService.AttdendanceEmail(params);
+          notification.success({ message: 'Điểm Danh thành công' });
+        }
+        if (dataQrCode) {
+          const params = {
+            code: dataQrCode,
+            attendanceId: item.id,
+          };
+          await apiService.AttdendanceCode(params);
+          notification.success({ message: 'Điểm Danh thành công' });
+        }
+        setVisible(false);
+        setConfirmLoading(false);
+        setDataQrCode('');
+      } catch (error) {
+        setVisible(false);
+        setConfirmLoading(false);
+        setDataQrCode('');
+        notification.error({ message: 'Điểm Danh không thành công' });
+      }
+      form.resetFields();
     });
   };
+
+  const handelCancel = () => {
+    form.resetFields();
+    setVisible(false);
+    setConfirmLoading(false);
+    setDataQrCode('');
+  };
   return (
-    <Modal title="Điểm Danh" open={visible} onOk={handleOk}>
+    <Modal
+      title="Điểm Danh"
+      open={visible}
+      onOk={handleOk}
+      onCancel={handelCancel}
+      confirmLoading={confirmLoading}
+      footer={
+        <div className=" my-5 flex flex-row justify-evenly w-full">
+          <CustomButton
+            size="md"
+            fullWidth={true}
+            noIcon={true}
+            type="cancel"
+            color="blue-gray"
+            onClick={() => handelCancel()}
+            text="Hủy"
+          />
+          <CustomButton
+            size="md"
+            onClick={() => handleOk()}
+            fullWidth={true}
+            className="mx-2"
+            noIcon={true}
+            color="blue-gray"
+            text="Lưu"
+          />
+        </div>
+      }
+    >
       <Tabs defaultActiveKey="Email" items={items} onChange={onChange} />
     </Modal>
   );

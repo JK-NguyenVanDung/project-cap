@@ -3,9 +3,9 @@ import { Button } from '@material-tailwind/react';
 import { FaPencilAlt, FaTrashAlt, FaPlus, FaEye } from 'react-icons/fa';
 import { IconType } from 'react-icons/lib';
 import { HiOutlineTrash } from 'react-icons/hi';
+import { BsFillPeopleFill } from 'react-icons/bs';
 
 import { color, size } from '@material-tailwind/react/types/components/button';
-import { BsFillPeopleFill } from 'react-icons/bs';
 import { Tooltip } from 'antd';
 import { ImBook } from 'react-icons/im';
 import { MdGroupAdd } from 'react-icons/md';

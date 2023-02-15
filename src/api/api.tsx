@@ -145,6 +145,8 @@ export const API_CONFIG = {
     POST_ATTENDANCES: `/api/Attendances`,
     PUT_ATTENDANCES: (id: number) => `/api/Attendances/${id}`,
     DEL_ATTENDANCES: (id: number) => `/api/Attendances/${id}`,
+    ATTENDANCES_EMAIL: '/api/Attendances/Attendances/Email',
+    ATTENDANCES_CODE: '/api/Attendances/Attendances/Code',
   },
   SURVEY: {
     GETALL: '/api/Surveys/GetListSurvey',
