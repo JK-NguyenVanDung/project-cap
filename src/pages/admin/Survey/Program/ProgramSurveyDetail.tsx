@@ -106,7 +106,6 @@ export default function ProgramDetail() {
     dataIndex: 'content',
     key: 'content',
     width: '45vw',
-    align: 'center' as AlignType,
   });
   columns.push({
     title: 'Điểm trung bình',

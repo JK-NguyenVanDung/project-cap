@@ -90,10 +90,10 @@ function BannerItem({
           <div className="flex flex-col h-full w-full px-4 justify-end mb-4">
             <div className="flex my-4  font-bold flex-col text-white">
               <p className=" text-3xl">Khảo sát: {data.title}</p>
-              <p className="text-lg">
+              {/* <p className="text-lg">
                 {' '}
                 {data.countAccount ? data.countAccount : 0} người đã làm
-              </p>
+              </p> */}
             </div>
           </div>
         </div>

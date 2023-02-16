@@ -169,6 +169,11 @@ const SurveyBar = (props: any) => {
             return out;
           }),
         });
+        notification.success({
+          message:
+            'Khảo sát lưu thành công! Cảm ơn bạn vì đã thực hiện khảo sát',
+          duration: 1,
+        });
         navigate(-1);
       }
     }

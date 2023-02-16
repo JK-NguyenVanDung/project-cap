@@ -92,6 +92,11 @@ export default function () {
         console.log(out);
         try {
           await apiService.doProgramSurvey(out);
+          notification.success({
+            message:
+              'Khảo sát lưu thành công! Cảm ơn bạn vì đã thực hiện khảo sát',
+            duration: 1,
+          });
           navigate(`/Programs/${selectedProgram.programId}/Chapters`);
         } catch (err) {
           notification.error({
