@@ -22,7 +22,9 @@ const ChapterBar = (props: any) => {
   const navigate = useNavigate();
   const [program, setProgram] = useState<IProgramItem>();
   const [user, setUser] = useState<IAccountItem>(null);
-  const [like, setLike]: any = useState();
+  const [done, setHasDone] = useState(false);
+
+  const [doingSurvey, setDoingSurvey] = useState(false);
   const [chapters, setChapters] = useState([]);
   const selectedChapter: IChapterItem = useAppSelector(
     (state) => state.product.selectedChapter,
@@ -37,8 +39,6 @@ const ChapterBar = (props: any) => {
 
   useEffect(() => {
     getData();
-
-    setLike(program?.isLike);
   }, [programNav]);
 
   async function getData() {
@@ -48,6 +48,11 @@ const ChapterBar = (props: any) => {
         programId: programNav?.programId,
         accountId: info?.accountId,
       });
+      let isDone: any = await apiService.checkDoneSurvey(
+        programNav.programId,
+        info.accountId,
+      );
+
       if (content) {
         setChapters(content);
         dispatch(actions.productActions.setInitSelectedChapter(content[0]));
@@ -75,6 +80,28 @@ const ChapterBar = (props: any) => {
         );
         setUser(acc);
       }
+      let condition = !isDone;
+      let condition2 = false;
+      if (content[content?.length - 1]?.isDone) {
+        condition2 = true;
+      } else {
+        condition2 = false;
+      }
+
+      let finalCont = false;
+      if (condition2 === false) {
+        finalCont = false;
+      } else if (condition2 === true) {
+        if (condition === false) {
+          finalCont = false;
+        } else {
+          finalCont = true;
+        }
+      } else {
+        finalCont = false;
+      }
+
+      setDoingSurvey(finalCont);
     } catch (err: any) {
       throw err.message;
     }
@@ -86,6 +113,7 @@ const ChapterBar = (props: any) => {
         programNav.programId,
         info.accountId,
       );
+      console.log(res);
       return res;
     } catch (err: any) {
       throw err.message;
@@ -99,16 +127,7 @@ const ChapterBar = (props: any) => {
   }
   function navToSurvey() {
     dispatch(actions.formActions.setProgramForm(programNav));
-    navigate(`/ProgramSurvey/${programNav.programName}`);
-  }
-  function doingSurvey() {
-    if (checkDoneSurvey()) {
-      return false;
-    }
-    if (hasDoneTest(chapters[chapters?.length - 1])) {
-      return true;
-    }
-    return true;
+    navigate(`/ProgramSurvey/${programNav?.programName}`);
   }
 
   return (
@@ -125,7 +144,7 @@ const ChapterBar = (props: any) => {
           />
         );
       })}
-      {doingSurvey() === true ? (
+      {doingSurvey === true ? (
         <ProgramSurvey navToSurvey={navToSurvey} />
       ) : null}
     </div>
