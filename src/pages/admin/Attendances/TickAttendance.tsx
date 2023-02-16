@@ -6,6 +6,7 @@ import { Tabs } from 'antd';
 import apiService from '../../../api/apiService';
 import './index.css';
 import CustomButton from '../../../components/admin/Button';
+import { errorText } from '../../../helper/constant';
 
 export default function TickAttendance({
   item,
@@ -39,7 +40,37 @@ export default function TickAttendance({
   function RenderEmail() {
     return (
       <Form form={form}>
-        <FormInput name="email" placeholder="Nhập Email" />
+        <FormInput
+          name="email"
+          placeholder="Nhập Email"
+          rules={[
+            {
+              required: true,
+              message: 'Vui Lòng Nhập Vào Email',
+            },
+            {
+              pattern: new RegExp(
+                /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
+              ),
+              message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU',
+            },
+
+            {
+              pattern: new RegExp(
+                /^\w*[A-Za-z]+(?:([._]?\w+)*)\@[A-Za-z]\w*[-]?\w+\.[A-Za-z]{1,}?(\.?[A-Za-z]+)$/,
+              ),
+              message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU ',
+            },
+            {
+              pattern: new RegExp(/^\w/),
+              message: errorText.email,
+            },
+            {
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
+              message: errorText.space,
+            },
+          ]}
+        />
       </Form>
     );
   }
