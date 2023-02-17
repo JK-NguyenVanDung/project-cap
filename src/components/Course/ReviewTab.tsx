@@ -4,7 +4,7 @@ import { IProgramItem } from '../../Type';
 import Input from '../sharedComponents/Input';
 import Loading from '../sharedComponents/Loading';
 import { Image } from 'antd';
-import avatar from '../../assets/img/test.jpg';
+import avatar from '../../assets/img/default.png';
 import moment from 'moment';
 import { IoMdSend } from 'react-icons/io';
 

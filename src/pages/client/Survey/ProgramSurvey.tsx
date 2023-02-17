@@ -92,6 +92,11 @@ export default function () {
         console.log(out);
         try {
           await apiService.doProgramSurvey(out);
+          notification.success({
+            message:
+              'Khảo sát lưu thành công! Cảm ơn bạn vì đã thực hiện khảo sát',
+            duration: 1,
+          });
           navigate(`/Programs/${selectedProgram.programId}/Chapters`);
         } catch (err) {
           notification.error({
@@ -148,13 +153,15 @@ export default function () {
             Trung tâm Đào tạo và Phát triển (VLG)
           </p>
 
-          <p className="font-bold text-2xl">ĐÁNH GIÁ CHẤT LƯỢNG CHƯƠNG TRÌNH</p>
+          <p className="font-bold text-2xl mt-2 mb-12">
+            ĐÁNH GIÁ CHẤT LƯỢNG CHƯƠNG TRÌNH
+          </p>
           <p className="text-base ">
             Những phản hồi, góp ý của Thầy/Cô, Anh/Chị rất quan trọng để Trung
             tâm ĐT&PT tiếp tục nâng cao chất lượng chương trình trong tương lai.
             Xin cảm ơn các phản hồi từ Thầy/Cô, Anh/Chị!
           </p>
-          <p className="self-start ">
+          <p className="self-start my-2">
             Chân thành cảm ơn các ý kiến đóng góp của người học!
           </p>
         </div>
@@ -190,14 +197,16 @@ export default function () {
 export const SectionInfo = ({
   selectedProgram,
   info,
+  isReviewing = false,
 }: {
   selectedProgram: IProgramItem;
   info: any;
+  isReviewing?: boolean;
 }) => {
   return (
     <>
       <div className="self-start w-full mb-4	">
-        <p className="text-xl font-bold ">THÔNG TIN CHUNG</p>
+        <p className="text-xl font-bold ">Thông tin chung</p>
         <p className="mt-4">
           1. Tên chương trình Thây/Cô, Anh/Chị đã tham dự?
           <span className="text-red-500"> * </span>
@@ -226,15 +235,18 @@ export const SectionInfo = ({
           type="text"
           className={` font-customFont  font-bold  mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
         ></Input>
-
-        <p className="mt-4">3. Email của Thầy/Cô, Anh/Chị</p>
-
-        <Input
-          value={info ? info.email : 'N/A'}
-          disabled={true}
-          type="text"
-          className={` font-customFont  font-bold  mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
-        ></Input>
+        {!isReviewing && (
+          <>
+            {' '}
+            <p className="mt-4">3. Email của Thầy/Cô, Anh/Chị</p>
+            <Input
+              value={info ? info.email : 'N/A'}
+              disabled={true}
+              type="text"
+              className={` font-customFont  font-bold  mt-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+            ></Input>
+          </>
+        )}
       </div>
     </>
   );
@@ -270,7 +282,7 @@ export const SectionOther = ({
         />
       ) : (
         <>
-          <p className="mt-4">
+          <p className="my-4">
             11. Thầy/Cô, Anh/Chị vui lòng chia sẻ những điều tâm đắc về chương
             trình
           </p>
@@ -301,7 +313,7 @@ export const SectionOther = ({
         />
       ) : (
         <>
-          <p className="mt-4">
+          <p className="my-4">
             12. Thầy/Cô, Anh/Chị vui lòng chia sẻ thêm các đề xuất để nâng cao
             chất lượng chương trình hoặc đề xuất về nội dung/ chương trình muốn
             tham dự tiếp theo
@@ -392,7 +404,7 @@ export const SectionFive = ({
         />
       ) : (
         <>
-          <p className="mt-4">
+          <p className="my-4">
             6. Thây/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp đến Giảng
             viên
           </p>
@@ -475,7 +487,7 @@ export const SectionSeven = ({
         />
       ) : (
         <>
-          <p className="mt-4">
+          <p className="my-4">
             8. Thây/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp về nội
             dung Chương trình
           </p>
@@ -553,7 +565,7 @@ export const SectionNine = ({
         />
       ) : (
         <>
-          <p className="mt-4">
+          <p className="my-4">
             10. Thầy/Cô, Anh/Chị vui lòng chia sẻ thêm ý kiến đóng góp về công
             tác hậu cần
           </p>

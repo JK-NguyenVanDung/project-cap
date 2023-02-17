@@ -153,7 +153,7 @@ const OptionalAnswer = ({
               className={`z-[0] text-black h-14 font-customFont  font-bold min-w-[20rem] mt-4 bg-white border  text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500
                 border-border-gray `}
               placeholder={`Nhập Câu Trả Lời`}
-              disabled={accountSurveys ? true : false}
+              disabled={accountSurveys.length > 0 ? true : false}
               defaultValue={accountSurveys ? accountSurveys[0]?.content : ''}
               onBlur={(item) =>
                 chooseAnswer(

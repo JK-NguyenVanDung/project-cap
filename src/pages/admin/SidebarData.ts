@@ -6,7 +6,7 @@ import {
   BsFillPersonBadgeFill,
   BsHouseFill,
 } from 'react-icons/bs';
-import { FaClipboard, FaClipboardList } from 'react-icons/fa';
+import { FaClipboard, FaClipboardList, FaComments } from 'react-icons/fa';
 import { GoVerified } from 'react-icons/go';
 import { HiClipboardDocumentList } from 'react-icons/hi2';
 
@@ -103,6 +103,11 @@ export const SideBarData = [
         path: '/admin/CourseSurvey',
       },
     ],
+  },
+  {
+    title: 'Bình luận',
+    icon: FaComments,
+    path: '/admin/Comment',
   },
 ];
 

@@ -17,6 +17,7 @@ export const API_CONFIG = {
   ACCOUNT: {
     GET: '/api/Accounts',
     POST: '/api/Accounts',
+    DEL: (id: number) => `/api/Accounts/${id}`,
     PUT: (ID: number) => `/api/Accounts/${ID}`,
     PUT_FORM: '/api/Accounts/me',
   },
@@ -137,6 +138,7 @@ export const API_CONFIG = {
   COMMENT: {
     GET_COMMENT: (idProgram: number) => `/api/Comments/${idProgram}`,
     SENT_COMMENT: `/api/Comments`,
+    DELETE_COMMENT: (idComment: number) => `/api/Comments/${idComment}`,
   },
   ATTENDANCES: {
     GET_ATTENDANCES: (idProgram: number) =>

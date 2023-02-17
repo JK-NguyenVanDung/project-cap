@@ -43,11 +43,13 @@ import SurveyDetail from '../pages/admin/Survey/General/SurveyDetail';
 
 import SurveyQuestion from '../pages/admin/Survey/General/SurveyQuestion/Question';
 import CourseSurvey from '../pages/admin/Survey/Program/ProgramSurvey';
-import CourseSurveyDetail from '../pages/admin/Survey/Program/ProgramSurveyDetail';
 import ProgramSurveyDetail from '../pages/admin/Survey/Program/ProgramSurveyDetail';
 
 import ClientSurvey from '../pages/client/Survey/Survey';
 import ProgramSurvey from '../pages/client/Survey/ProgramSurvey';
+
+import CommentManagement from '../pages/admin/Comment/Comment';
+import CommentDetailManagement from '../pages/admin/Comment/CommentDetail';
 
 export const RouterPages = [
   {
@@ -150,6 +152,14 @@ export const RouterPages = [
   {
     path: '/admin/CourseSurvey/Detail',
     element: <ProgramSurveyDetail />,
+  },
+  {
+    path: '/admin/Comment',
+    element: <CommentManagement />,
+  },
+  {
+    path: '/admin/Comment/Detail',
+    element: <CommentDetailManagement />,
   },
 ];
 

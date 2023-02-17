@@ -107,7 +107,6 @@ export default function Attendance() {
     },
   ];
   const handelTick = (item: any) => {
-    console.log('hshsh');
     setOpenAtt(true);
     setValueAtten(item);
   };

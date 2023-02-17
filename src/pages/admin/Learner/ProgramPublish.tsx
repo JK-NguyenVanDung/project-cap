@@ -9,8 +9,9 @@ import { actions } from '../../../Redux';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { useNavigate } from 'react-router-dom';
 import { Space } from 'antd';
-import { BsPeopleFill } from 'react-icons/bs';
+import { BsFillPersonBadgeFill, BsPeopleFill } from 'react-icons/bs';
 import { AiFillIdcard, AiOutlineFileProtect } from 'react-icons/ai';
+import { IoPersonAdd } from 'react-icons/io5';
 export default function ProgramPublish() {
   const [data, setData] = useState([]);
 
@@ -55,7 +56,7 @@ export default function ProgramPublish() {
     {
       title: 'Tên chương trình',
       dataIndex: 'programName',
-      width: GIRD12.COL1,
+      width: GIRD12.COL2,
     },
     {
       title: 'Giảng Viên',
@@ -65,12 +66,12 @@ export default function ProgramPublish() {
     {
       title: 'Số Lượng Học Viên',
       dataIndex: 'countLearner',
-      width: GIRD12.COL1,
+      width: '12%',
     },
     {
       title: 'Đơn Đăng Ký Chờ Duyệt',
       dataIndex: 'countApplication',
-      width: GIRD12.COL1,
+      width: '12%',
     },
     {
       width: GIRD12.COL1,
@@ -90,14 +91,14 @@ export default function ProgramPublish() {
               tip="Xem Đơn Đăng Ký"
               size="sm"
               color="brown"
-              Icon={AiFillIdcard}
+              Icon={IoPersonAdd}
               onClick={() => goApplication(item)}
             />
             <CustomButton
               tip="Xem Danh Sách Điểm Danh"
               size="sm"
               color="cyan"
-              Icon={AiOutlineFileProtect}
+              Icon={BsFillPersonBadgeFill}
               onClick={() => goAttendances(item)}
             />
           </Space>

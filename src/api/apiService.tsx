@@ -47,6 +47,9 @@ export default {
       ...props,
     });
   },
+  deleteAccount: (accountId: number) => {
+    return axiosConfig.delete(API_CONFIG.ACCOUNT.DEL(accountId));
+  },
   infoAccount: (params: any) => {
     return axiosConfig.put(API_CONFIG.ACCOUNT.PUT_FORM, params);
   },
@@ -298,6 +301,7 @@ export default {
   approveApplication: (id: number) => {
     return axiosConfig.put(API_CONFIG.LEARNER.APPROVE(id));
   },
+  //COMMENT
 
   getComment: (idProgram: number) => {
     return axiosConfig.get(API_CONFIG.COMMENT.GET_COMMENT(idProgram));
@@ -305,7 +309,10 @@ export default {
   sentComment: (params: any) => {
     return axiosConfig.post(API_CONFIG.COMMENT.SENT_COMMENT, params);
   },
-
+  deleteComment: (idComment: number) => {
+    return axiosConfig.delete(API_CONFIG.COMMENT.DELETE_COMMENT(idComment));
+  },
+  // Attendance
   getAttendance: (id: number) => {
     return axiosConfig.get(API_CONFIG.ATTENDANCES.GET_ATTENDANCES(id));
   },

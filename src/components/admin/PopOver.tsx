@@ -5,7 +5,7 @@ import {
   PopoverHandler,
 } from '@material-tailwind/react';
 import react, { useState } from 'react';
-import { IoTrashOutline } from 'react-icons/io5';
+import { IoQrCode, IoTrashOutline } from 'react-icons/io5';
 import CustomButton from './Button';
 import { size } from '@material-tailwind/react/types/components/button';
 import { AiOutlineFileProtect } from 'react-icons/ai';
@@ -131,7 +131,7 @@ export default function PopOverAction({
             tip="Điểm Danh"
             size="sm"
             color="cyan"
-            Icon={AiOutlineFileProtect}
+            Icon={IoQrCode}
             onClick={() => handleAtt()}
           />
         )}

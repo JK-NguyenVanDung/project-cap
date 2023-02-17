@@ -169,6 +169,11 @@ const SurveyBar = (props: any) => {
             return out;
           }),
         });
+        notification.success({
+          message:
+            'Khảo sát lưu thành công! Cảm ơn bạn vì đã thực hiện khảo sát',
+          duration: 1,
+        });
         navigate(-1);
       }
     }
@@ -206,7 +211,9 @@ const SurveyBar = (props: any) => {
           );
         })}
       </div>
-      <p className="text-red-500 mt-4">* Mọi câu hỏi đều bắt buộc</p>
+      {!props.isSurvey && (
+        <p className="text-red-500 my-4">* Mọi câu hỏi đều bắt buộc</p>
+      )}
       <div
         className={`flex flex-col w-full h-full ${
           props.isSurvey && 'mt-[20%]'

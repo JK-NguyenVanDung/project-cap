@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TableConfig from '../../../components/admin/Table/Table';
-import { Form, message, Space } from 'antd';
+import { Form, message, notification, Space } from 'antd';
 import { BiEditAlt } from 'react-icons/bi';
 import { RiDeleteBinLine } from 'react-icons/ri';
 // import Button from '../../../components/sharedComponents/Button'
@@ -64,6 +64,19 @@ export default function Account() {
       new Date(date).toLocaleDateString()
     );
   }
+  async function handleDelete(item: any) {
+    try {
+      setReload(true);
+
+      await apiService.deleteAccount(item.accountId);
+    } catch (err: any) {
+      notification.error({
+        message: 'Không thể xoá tài khoản đã tham gia vào hệ thống!',
+      });
+    }
+
+    setReload(false);
+  }
   const columns = [
     {
       title: 'STT',
@@ -124,6 +137,7 @@ export default function Account() {
           size="sm"
           handleAuth={() => handleEdit(data)}
           handleShowDetail={() => handleShowDetail(data)}
+          handleDelete={() => handleDelete(data)}
         />
       ),
     },
@@ -324,6 +338,7 @@ export default function Account() {
         onSearch={onChangeSearch}
         search={true}
         data={data}
+        loading={reload}
         columns={columns}
         extra={[
           <CustomButton

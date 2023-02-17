@@ -91,9 +91,9 @@ export default function ProgramDetail() {
     }
   };
   const handelCancel = () => {
-    navigate('/admin/Program');
+    navigate('/admin/CourseSurvey');
     form.resetFields();
-    dispatch(actions.formActions.setNameMenu('Quản Lý Chương Trình'));
+    dispatch(actions.formActions.setNameMenu('Khảo sát chương trình'));
   };
   const handelOk = () => {
     navigate(-1);
@@ -106,7 +106,6 @@ export default function ProgramDetail() {
     dataIndex: 'content',
     key: 'content',
     width: '45vw',
-    align: 'center' as AlignType,
   });
   columns.push({
     title: 'Điểm trung bình',
@@ -141,50 +140,66 @@ export default function ProgramDetail() {
     {
       label: `Thông tin chung`,
       key: 'ttc',
-      children: <SectionInfo selectedProgram={program} info={info} />,
+      children: (
+        <div className="mb-24">
+          <SectionInfo
+            selectedProgram={program}
+            info={info}
+            isReviewing={true}
+          />{' '}
+        </div>
+      ),
     },
     {
       label: `Về Giảng viên`,
       key: 'vgv',
       children: (
-        <SectionFive
-          selectedProgram={program}
-          columns={columns}
-          data={(section: any) => getSectionData(section)}
-          SurveyTable={getTable(sectionSixData)}
-        />
+        <div className="mb-4">
+          <SectionFive
+            selectedProgram={program}
+            columns={columns}
+            data={(section: any) => getSectionData(section)}
+            SurveyTable={getTable(sectionSixData)}
+          />{' '}
+        </div>
       ),
     },
     {
       label: `Về Nội dung chương trình`,
       key: 'ndct',
       children: (
-        <SectionSeven
-          columns={columns}
-          data={(section: any) => getSectionData(section)}
-          SurveyTable={getTable(sectionEightData)}
-        />
+        <div className="mb-4">
+          <SectionSeven
+            columns={columns}
+            data={(section: any) => getSectionData(section)}
+            SurveyTable={getTable(sectionEightData)}
+          />
+        </div>
       ),
     },
     {
       label: `Về Công tác tổ chức`,
       key: 'cttc',
       children: (
-        <SectionNine
-          columns={columns}
-          SurveyTable={getTable(sectionTenData)}
-          data={(section: any) => getSectionData(section)}
-        />
+        <div className="mb-4">
+          <SectionNine
+            columns={columns}
+            SurveyTable={getTable(sectionTenData)}
+            data={(section: any) => getSectionData(section)}
+          />{' '}
+        </div>
       ),
     },
     {
       label: `Nhận xét chung về Chương trình`,
       key: 'nxcvct',
       children: (
-        <SectionOther
-          SurveyTable={getTable(sectionElevenData)}
-          SurveyTableTwo={getTable(sectionTwelveData)}
-        />
+        <div className="mb-4">
+          <SectionOther
+            SurveyTable={getTable(sectionElevenData)}
+            SurveyTableTwo={getTable(sectionTwelveData)}
+          />
+        </div>
       ),
     },
   ];
@@ -192,9 +207,9 @@ export default function ProgramDetail() {
     <div className="w-full h-full relative">
       <div className="ml-[-10px]">
         <Breadcrumb
-          router1={'/admin/Program'}
-          name={'Chương Trình'}
-          name2={`Chuyên Đề`}
+          router1={'/admin/CourseSurvey'}
+          name={'Khảo sát chương trình'}
+          name2={`${program?.programName}`}
         />
       </div>
       <div className="text-xl my-4">NỘI DUNG KHẢO SÁT</div>
