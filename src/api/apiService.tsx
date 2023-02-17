@@ -327,6 +327,9 @@ export default {
   AttdendanceCode: (params: any) => {
     return axiosConfig.post(API_CONFIG.ATTENDANCES.ATTENDANCES_CODE, params);
   },
+  getNotAttendance: (id: number) => {
+    return axiosConfig.get(API_CONFIG.ATTENDANCES.NOT_ATTENDANCE(id));
+  },
   // SURVEY
 
   getSurveys: () => {
