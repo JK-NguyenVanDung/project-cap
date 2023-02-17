@@ -36,6 +36,7 @@ export default function Program() {
   let paths = location.pathname.split('/');
 
   useEffect(() => {
+    dispatch(actions.formActions.setNameMenu(`Quản Lý chương trình`));
     getData();
     let out = setTimeout(() => {
       setLoading(false);

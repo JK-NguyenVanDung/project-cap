@@ -46,6 +46,7 @@ export default function ImportFile({
   const [checkEmailRegisted, setCheckEmailRegisted] = useState(false);
   const [checkEmailNew, setCheckEmailNew] = useState(false);
   const [checkEmail, setCheckEmail] = useState(false);
+  // const [localLoading, setLocalLoading] = useState(false);
 
   const info = useAppSelector((state) => state.auth.info);
 
@@ -100,6 +101,7 @@ export default function ImportFile({
       fileReader.onerror = (error) => {
         reject(error);
       };
+      // setLocalLoading(false);
     });
     readFileExcel
       .then((data: any) => {
@@ -235,17 +237,19 @@ export default function ImportFile({
   };
 
   return (
-    <CustomModal
-      show={showModal}
-      handleOk={handleOk}
-      handleShow={handelShow}
-      setShow={setShowModal}
-      label={'Bằng Tập Tin'}
-      FormItem={<FormItem />}
-      form={form}
-      header={'Xuất Tập Tin'}
-      confirmLoading={loading}
-      textCancel="Ẩn"
-    />
+    <div className="w-full">
+      <CustomModal
+        show={showModal}
+        handleOk={handleOk}
+        handleShow={handelShow}
+        setShow={setShowModal}
+        label={'Bằng Tập Tin'}
+        FormItem={<FormItem />}
+        form={form}
+        header={'Xuất Tập Tin'}
+        confirmLoading={loading}
+        textCancel="Ẩn"
+      />
+    </div>
   );
 }

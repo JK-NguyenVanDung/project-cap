@@ -31,12 +31,12 @@ const defaultOptions = [
     value: 1,
   },
   { value: 2 },
-  {
-    value: 3,
-  },
-  {
-    value: 4,
-  },
+  // {
+  //   value: 3,
+  // },
+  // {
+  //   value: 4,
+  // },
 ];
 function getChar(c: number) {
   let n = (c + 9).toString(36).toUpperCase();

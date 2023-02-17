@@ -16,9 +16,9 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
   useEffect(() => {
     const fetchComment = async () => {
       try {
-        const dataComment = await apiService.getComment(program.programId);
+        const dataComment: any = await apiService.getComment(program.programId);
         if (dataComment) {
-          setToDoList(dataComment);
+          setToDoList(dataComment.reverse());
           setCheckData(true);
           // const dataAccount = await apiService.getAccount
         }
@@ -66,9 +66,11 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
   };
   return (
     <>
-      <div className="flex justify-between my-3">
+      <div className="flex justify-between items-center my-3">
         <div className="w-full">
-          <input
+          <textarea
+            rows={5}
+            cols={5}
             value={textComment}
             onKeyDown={(event) => handelComment(event.key)}
             onChange={(values) => setTextComment(values.target.value)}
@@ -76,7 +78,7 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
-        <div className="my-1" onClick={() => handelClickComment()}>
+        <div className="pl-4 mb-4" onClick={() => handelClickComment()}>
           <IoMdSend className="text-primary cursor-pointer" size={30} />
         </div>
       </div>
@@ -86,8 +88,8 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
         : toDoList.map((item: any, index: number) => {
             return (
               <>
-                <div key={index} className="m-3">
-                  <div className="flex">
+                <div key={index} className="m-3 w-full">
+                  <div className="flex w-full">
                     <Image
                       preview={false}
                       className="rounded-full p-1 "
@@ -95,18 +97,18 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
                       height={50}
                       src={avatar}
                     />
-                    <div>
-                      <div className="p-2 pr-20 rounded-lg  bg-gray-300 max-w-fit h-2/3">
+                    <div className="w-full pr-16">
+                      <div className="p-2 pr-20 rounded-lg w-full bg-gray-200 h-2/3">
                         <p className="font-extrabold text-black text-base pl-3">
                           {item.account.email}
                         </p>
-                        <p className="text-gray-700 font-normal text-sm p-2 mt-1 pb-10">
+                        <p className="text-black font-normal text-sm p-2 mt-1 pb-10 w-full">
                           {item.content}
                         </p>
                       </div>
                       <p className="p-0 m-0 text-xs text-gray-600 text-end">
                         <span>Thời Gian: </span>
-                        {moment(item.createdAt).format('DD-MM-YYYY')}
+                        {moment(item.createdAt).format('HH:SS - DD-MM-YYYY')}
                       </p>
                     </div>
                   </div>

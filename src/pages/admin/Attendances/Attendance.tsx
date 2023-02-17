@@ -82,7 +82,7 @@ export default function Attendance() {
       key: 'countLearner',
     },
     {
-      title: 'Người Đăng Ký',
+      title: 'Người Chưa Điểm Danh',
       dataIndex: 'countAttendance',
       key: 'countAttendance',
     },
@@ -171,7 +171,10 @@ export default function Attendance() {
       };
       if (detail) {
         try {
-          const data = await apiService.putAttendance(params, detail.id);
+          const data = await apiService.putAttendance(
+            params,
+            detail.attendance?.id,
+          );
           setLoading(true);
           if (data) {
             setLoading(false);
@@ -263,7 +266,7 @@ export default function Attendance() {
         show={showModal}
         setShow={setShowModal}
         dataItem={detail}
-        label={'Điểm Danh'}
+        label={'Buổi Điểm Danh'}
         name={detail}
         handleOk={handleOk}
         FormItem={<FormItem />}

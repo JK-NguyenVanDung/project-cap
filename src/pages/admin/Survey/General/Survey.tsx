@@ -51,8 +51,7 @@ export default function Survey() {
       notification.success({ message: MESSAGE.SUCCESS.DELETE });
     } catch (err: any) {
       notification.error({
-        message:
-          'Khảo sát hiện tại đang có nội dung hoặc đã được duyệt, xin vui lòng xoá hết nội dung của khảo sát này để xoá khảo sát hoặc ẩn khảo sát đi',
+        message: 'Khảo sát hiện tại đã có người thực hiện',
       });
     }
   }
