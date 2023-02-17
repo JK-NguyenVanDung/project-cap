@@ -47,6 +47,9 @@ export default {
       ...props,
     });
   },
+  deleteAccount: (accountId: number) => {
+    return axiosConfig.delete(API_CONFIG.ACCOUNT.DEL(accountId));
+  },
   infoAccount: (params: any) => {
     return axiosConfig.put(API_CONFIG.ACCOUNT.PUT_FORM, params);
   },

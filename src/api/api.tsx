@@ -17,6 +17,7 @@ export const API_CONFIG = {
   ACCOUNT: {
     GET: '/api/Accounts',
     POST: '/api/Accounts',
+    DEL: (id: number) => `/api/Accounts/${id}`,
     PUT: (ID: number) => `/api/Accounts/${ID}`,
     PUT_FORM: '/api/Accounts/me',
   },
