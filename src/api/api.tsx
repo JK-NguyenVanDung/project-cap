@@ -137,6 +137,7 @@ export const API_CONFIG = {
   COMMENT: {
     GET_COMMENT: (idProgram: number) => `/api/Comments/${idProgram}`,
     SENT_COMMENT: `/api/Comments`,
+    DELETE_COMMENT: (idComment: number) => `/api/Comments/${idComment}`,
   },
   ATTENDANCES: {
     GET_ATTENDANCES: (idProgram: number) =>

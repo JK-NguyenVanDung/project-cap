@@ -1,6 +1,12 @@
 import React, { useEffect, useState, FC } from 'react';
 import { Button } from '@material-tailwind/react';
-import { FaPencilAlt, FaTrashAlt, FaPlus, FaEye } from 'react-icons/fa';
+import {
+  FaPencilAlt,
+  FaTrashAlt,
+  FaPlus,
+  FaEye,
+  FaComments,
+} from 'react-icons/fa';
 import { IconType } from 'react-icons/lib';
 import { HiOutlineTrash } from 'react-icons/hi';
 import { BsFillPeopleFill } from 'react-icons/bs';
@@ -59,6 +65,7 @@ export default function CustomButton({
     case 'goBack':
       defaultText = 'Quay lại';
       variant = 'outlined';
+      color = 'blue';
       tip = tip ? tip : 'Quay lại';
       break;
     case 'cancel':
@@ -106,6 +113,17 @@ export default function CustomButton({
       // variant = 'outlined';
 
       break;
+    case 'comment':
+      defaultText = '';
+      Icon = FaComments;
+      color = 'orange';
+      tip = tip ? tip : 'Quản lý bình luận';
+
+      iconClass = 'mx-2 text-base ';
+      // variant = 'outlined';
+
+      break;
+
     case 'auth':
       defaultText = '';
       tip = tip ? tip : 'Phân quyền';

@@ -91,9 +91,9 @@ export default function ProgramDetail() {
     }
   };
   const handelCancel = () => {
-    navigate('/admin/Program');
+    navigate('/admin/CourseSurvey');
     form.resetFields();
-    dispatch(actions.formActions.setNameMenu('Quản Lý Chương Trình'));
+    dispatch(actions.formActions.setNameMenu('Khảo sát chương trình'));
   };
   const handelOk = () => {
     navigate(-1);
@@ -207,9 +207,9 @@ export default function ProgramDetail() {
     <div className="w-full h-full relative">
       <div className="ml-[-10px]">
         <Breadcrumb
-          router1={'/admin/Program'}
-          name={'Chương Trình'}
-          name2={`Chuyên Đề`}
+          router1={'/admin/CourseSurvey'}
+          name={'Khảo sát chương trình'}
+          name2={`${program?.programName}`}
         />
       </div>
       <div className="text-xl my-4">NỘI DUNG KHẢO SÁT</div>
