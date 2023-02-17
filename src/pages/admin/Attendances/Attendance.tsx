@@ -9,11 +9,12 @@ import apiService from '../../../api/apiService';
 import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
 import { ICategoryItem, IRoleItem } from '../../../Type';
 import PopOverAction from '../../../components/admin/PopOver';
-import { useAppSelector } from '../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { AiOutlineSwapRight, AiOutlineFileProtect } from 'react-icons/ai';
 import moment from 'moment';
 import TickAttendance from './TickAttendance';
 import DetailAttendances from './DetailAttendances';
+import { actions } from '../../../Redux';
 
 const { RangePicker } = DatePicker;
 export default function Attendance() {
@@ -29,6 +30,7 @@ export default function Attendance() {
 
   const [showDetail, setShowDetail] = useState(false);
   const [openAtt, setOpenAtt] = useState(false);
+  const dispatch = useAppDispatch();
 
   const [valueAtten, setValueAtten] = useState();
   const handleEdit = (item: any) => {
@@ -47,7 +49,7 @@ export default function Attendance() {
     } catch (err: any) {
       notification.error({
         message:
-          'Nhóm chương trình này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn nhóm chương trình khá trong chương trình đó để xoá nhóm chương trình này',
+          'Nhóm chương trình này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn nhóm chương trình khác trong chương trình đó để xoá nhóm chương trình này',
       });
     }
   }
@@ -111,8 +113,8 @@ export default function Attendance() {
     setValueAtten(item);
   };
   const handelDetail = (item: any) => {
-    setShowDetail(true);
     setDetail(item);
+    setShowDetail(true);
   };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
@@ -153,6 +155,11 @@ export default function Attendance() {
     setDetail(null);
   }
   useEffect(() => {
+    // dispatch(
+    //   actions.formActions.setNameMenu(
+    //     `Khóa Học ${item.programName && item.programName}`,
+    //   ),
+    // );
     getData();
     form.setFieldsValue(detail?.attendance);
   }, [reload]);
@@ -271,12 +278,14 @@ export default function Attendance() {
         visible={openAtt}
         setVisible={setOpenAtt}
       />
-      <DetailAttendances
-        item={detail}
-        setItem={setDetail}
-        visible={showDetail}
-        setVisible={setShowDetail}
-      />
+      {showDetail && (
+        <DetailAttendances
+          item={detail}
+          setItem={setDetail}
+          visible={showDetail}
+          setVisible={setShowDetail}
+        />
+      )}
     </>
   );
 }
