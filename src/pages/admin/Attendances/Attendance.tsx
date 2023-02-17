@@ -59,7 +59,6 @@ export default function Attendance() {
       render: (data: any) => <p>{data && data.index ? data.index : 0}</p>,
       width: GIRD12.COL1,
     },
-
     {
       title: 'Tiêu Đề',
       render: (data: any) => <span>{data.attendance?.title}</span>,

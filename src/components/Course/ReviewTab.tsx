@@ -92,7 +92,7 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
                   <div className="flex w-full">
                     <Image
                       preview={false}
-                      className="rounded-full p-1 "
+                      className="rounded-full"
                       width={50}
                       height={50}
                       src={avatar}

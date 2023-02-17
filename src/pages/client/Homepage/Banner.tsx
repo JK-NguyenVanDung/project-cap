@@ -15,6 +15,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 import { useState } from 'react';
 import Loading from '../../../components/sharedComponents/Loading';
+import moment from 'moment';
 export default function ({ data }: { data: any }) {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -84,7 +85,7 @@ function BannerItem({
         <div
           className="w-[70%] shadow-xl bg-no-repeat bg-cover	 rounded-xl"
           style={{
-            backgroundImage: `url(${SurveyImage})`,
+            backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.4) 10%, rgba(255,255,255,0) 90%),url(${SurveyImage})`,
           }}
         >
           <div className="flex flex-col h-full w-full px-4 justify-end mb-4">
@@ -97,15 +98,19 @@ function BannerItem({
             </div>
           </div>
         </div>
-        <div className="ml-4 p-4 px-6  flex justify-between  flex-col">
+        <div className="ml-4 p-6 px-8 max-w-[50%]  flex justify-between  flex-col">
           <div className="">
             <h1 className="text-3xl font-bold">Khảo sát: {data?.title}</h1>
-            <p className="mt-4">
-              Tham gia khảo sát để trợ giúp cho việc cải thiện trải nghiệm tham
-              gia các khoá học
+            <p className="mt-4 text-2xl">
+              Bạn hãy cung cấp cho chúng tôi một nhu cầu hiện nay mà bạn mong
+              muốn khi tham gia các khoá học
             </p>
           </div>
-          <p className="text-xs italic">
+          <p className="text-base italic font-bold">
+            Hạn làm khảo sát:{' '}
+            {moment(data?.endDate).format('HH:MM - DD/MM/YYYY ')}
+          </p>
+          <p className="text-sm italic">
             *Các khảo sát sẽ được ghi nhớ thời gian làm. Khi hoàn thành khảo
             sát, học viên sẽ được ghi nhận đã hoàn thành khảo sát.
           </p>

@@ -207,8 +207,7 @@ export default function RegisteredPrograms() {
         </p>
       </ConfirmModal>
       <div
-        className={`bg-white py-4 pb-8 flex max-sm:flex-wrap  w-full  items-center justify-between
-${loading ? 'hidden' : 'visible'}`}
+        className={`bg-white py-4 pb-8 flex max-sm:flex-wrap  w-full  items-center justify-between`}
       >
         <div className="w-fit mx-4">
           <SearchBar
