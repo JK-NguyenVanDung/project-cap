@@ -51,7 +51,6 @@ export default function Attendance() {
       });
     }
   }
-
   const columns = [
     {
       title: 'STT',
@@ -60,15 +59,16 @@ export default function Attendance() {
     },
     {
       title: 'Chương Trình',
-      render: (data: any) => <span>{data.program.programName}</span>,
+      render: (data: any) => (
+        <span>{data.attendance?.program?.programName}</span>
+      ),
     },
     {
       title: 'Tiêu Đề',
-      dataIndex: 'title',
+      render: (data: any) => <span>{data.attendance?.title}</span>,
     },
     {
       title: `Ngày Bắt Đầu => Ngày Kết Thúc`,
-      width: GIRD12.COL10,
       render: (data: any) => (
         <span>
           {moment(data.startTime).format('DD-MM-YYYY hh:mm')}
@@ -79,7 +79,16 @@ export default function Attendance() {
         </span>
       ),
     },
-
+    {
+      title: 'Người Học',
+      dataIndex: 'countLearner',
+      key: 'countLearner',
+    },
+    {
+      title: 'Người Đăng Ký',
+      dataIndex: 'countAttendance',
+      key: 'countAttendance',
+    },
     {
       title: 'Thao tác',
       render: (item: any) => {
