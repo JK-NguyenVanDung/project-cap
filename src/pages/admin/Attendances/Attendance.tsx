@@ -162,7 +162,7 @@ export default function Attendance() {
     // );
     getData();
     form.setFieldsValue(detail?.attendance);
-  }, [reload]);
+  }, [reload, detail]);
   const handleOk = () => {
     form.validateFields().then(async (values) => {
       setLoading(true);
