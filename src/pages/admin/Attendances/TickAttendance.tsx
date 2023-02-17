@@ -20,7 +20,7 @@ export default function TickAttendance({
   setVisible: (visible: boolean) => void;
 }) {
   const [form] = Form.useForm();
-  const [dataQrCode, setDataQrCode]: any = useState('No result');
+  const [dataQrCode, setDataQrCode]: any = useState('Chưa có kết quả');
   const [confirmLoading, setConfirmLoading] = useState(false);
   const items: any['items'] = [
     {

@@ -92,6 +92,11 @@ export default function () {
         console.log(out);
         try {
           await apiService.doProgramSurvey(out);
+          notification.success({
+            message:
+              'Khảo sát lưu thành công! Cảm ơn bạn vì đã thực hiện khảo sát',
+            duration: 1,
+          });
           navigate(`/Programs/${selectedProgram.programId}/Chapters`);
         } catch (err) {
           notification.error({
@@ -201,7 +206,7 @@ export const SectionInfo = ({
   return (
     <>
       <div className="self-start w-full mb-4	">
-        <p className="text-xl font-bold ">THÔNG TIN CHUNG</p>
+        <p className="text-xl font-bold ">Thông tin chung</p>
         <p className="mt-4">
           1. Tên chương trình Thây/Cô, Anh/Chị đã tham dự?
           <span className="text-red-500"> * </span>

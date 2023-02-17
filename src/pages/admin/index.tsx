@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IconBase, IconType } from 'react-icons';
 import { useNavigate, useNavigation, useLocation } from 'react-router-dom';
 import { AiOutlineAlignLeft } from 'react-icons/ai';
@@ -20,6 +20,7 @@ import { useMsal } from '@azure/msal-react';
 import { loginRequest } from '../authentication/loginconfig';
 import ItemMenu from './ItemMenu';
 import MenuDropdown from './MenuDropdown';
+
 export default function SideBar({ content }: { content: any }) {
   let location = useLocation();
   const navigation = useNavigate();
@@ -39,6 +40,7 @@ export default function SideBar({ content }: { content: any }) {
       );
   }, []);
   const dispatch = useAppDispatch();
+
   return (
     <>
       <div className="flex relative max-w-full h-screen">

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { actions } from '../../Redux';
@@ -6,13 +6,21 @@ import { notification } from 'antd';
 import { ISidebar } from './SidebarData';
 import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import ItemMenu from './ItemMenu';
+import autoAnimate from '@formkit/auto-animate';
+
 export default function MenuDropdown({ params }: { params: any }) {
   const [dropDown, setDropDown] = React.useState(false);
   const navigation = useNavigate();
   let location = useLocation();
   const dispatch = useAppDispatch();
+
+  const parent = useRef(null);
+
+  useEffect(() => {
+    parent.current && autoAnimate(parent.current);
+  }, [parent]);
   return (
-    <>
+    <div ref={parent}>
       <li
         className={`${
           location.pathname.includes(params.path) ||
@@ -25,7 +33,7 @@ export default function MenuDropdown({ params }: { params: any }) {
           location.pathname.includes(params.path)
             ? ' text-primary'
             : 'text-primary'
-        }hover:bg-white hover:text-white py-4 my-1 mx-1 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
+        }hover:bg-white hover:text-white dropdown-label py-4 my-1 mx-1 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
         onClick={() => {
           navigation(params.path);
           setDropDown(!dropDown);
@@ -55,7 +63,7 @@ export default function MenuDropdown({ params }: { params: any }) {
         </div>
       </li>
       {dropDown && (
-        <div className="  ml-6  ">
+        <div className="  ml-6 dropdown-content  ">
           {params.children.map((item: any) => {
             return (
               <ItemMenu
@@ -69,6 +77,6 @@ export default function MenuDropdown({ params }: { params: any }) {
           })}
         </div>
       )}
-    </>
+    </div>
   );
 }

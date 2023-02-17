@@ -8,7 +8,7 @@ import {
   MenuItem,
   Button,
 } from '@material-tailwind/react';
-import avatar from '../../assets/img/test.jpg';
+import avatar from '../../assets/img/default.png';
 import Color from '../constant/Color';
 import { IoNotifications, IoNotificationsOutline } from 'react-icons/io5';
 import { useMsal } from '@azure/msal-react';

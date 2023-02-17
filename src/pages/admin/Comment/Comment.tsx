@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import TableConfig from '../../../../components/admin/Table/Table';
+import TableConfig from '../../../components/admin/Table/Table';
 import { notification } from 'antd';
-import uniqueId, { removeVietnameseTones } from '../../../../utils/uinqueId';
-import CustomButton from '../../../../components/admin/Button';
-import apiService from '../../../../api/apiService';
-import { GIRD12, MESSAGE } from '../../../../helper/constant';
-import { IProgramItem } from '../../../../Type';
-import PopOverAction from '../../../../components/admin/PopOver';
-import { useNavigate } from 'react-router-dom';
-import { actions } from '../../../../Redux';
-import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
+import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
+import apiService from '../../../api/apiService';
+import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
+import { IProgramItem, IRoleItem } from '../../../Type';
+import PopOverAction from '../../../components/admin/PopOver';
+import { Route, Routes, useNavigate, useParams } from 'react-router-dom';
+import { actions } from '../../../Redux';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import moment from 'moment';
+import { AlignType } from 'rc-table/lib/interface';
+
 import { useLocation } from 'react-router-dom';
-import { useNavigateParams } from '../../../../hook/useNavigationParams';
-import { HiClipboardDocument } from 'react-icons/hi2';
-export default function Survey() {
+import { useNavigateParams } from '../../../hook/useNavigationParams';
+
+export default function () {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
-  const [detail, setDetail] = useState(null);
-
-  const [showModal, setShowModal] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const location = useLocation();
 
@@ -32,6 +30,7 @@ export default function Survey() {
   let paths = location.pathname.split('/');
 
   useEffect(() => {
+    dispatch(actions.formActions.setNameMenu(`Quản lý Bình luận`));
     getData();
     let out = setTimeout(() => {
       setLoading(false);
@@ -58,24 +57,12 @@ export default function Survey() {
     dispatch(actions.formActions.setProgramForm(item));
     dispatch(
       actions.formActions.setNameMenu(
-        `Khóa Học: ${item.programName && item.programName}`,
-      ),
-    );
-    navigate(`/admin/CourseSurvey/Detail`);
-  }
-  function handleAddQuestions(item: any) {
-    dispatch(actions.formActions.setProgramForm(item));
-    dispatch(
-      actions.formActions.setNameMenu(
         `Khóa Học ${item.programName && item.programName}`,
       ),
     );
-    navigate(`/admin/Program/showDetail`);
+    navigate('/admin/Comment/Detail');
   }
-  function openModal() {
-    setDetail(null);
-    setShowModal(true);
-  }
+
   const columns = [
     {
       title: 'STT',
@@ -84,59 +71,60 @@ export default function Survey() {
     },
 
     {
-      title: 'Tên khảo sát',
+      title: 'Tên chương trình',
       dataIndex: 'programName',
-      width: GIRD12.COL4,
+      width: GIRD12.COL3,
     },
     {
-      title: 'Ngày bắt đầu',
+      title: 'Ngày BĐĐK',
       dataIndex: 'startDate',
       render: (item: any) => {
         return <p>{moment(item).format('DD-MM-YYYY')}</p>;
       },
     },
     {
-      title: 'Ngày kết thúc',
+      title: 'Ngày KTĐK',
       dataIndex: 'endDate',
       render: (item: any) => {
         return <p>{moment(item).format('DD-MM-YYYY')}</p>;
       },
     },
     {
-      title: 'Người đã làm',
-      dataIndex: 'countRespondents',
+      title: 'Giờ đào tạo',
+      dataIndex: 'trainingHours',
       width: '13%',
       render: (data: any) => <p>{data ? data : 0}</p>,
     },
 
-    // {
-    //   title: 'Trạng thái',
-    //   key: 'status',
-    //   render: (data: any) => {
-    //     return data.status == 'approved' ? (
-    //       <h5 className="text-bold text-primary">Đã Duyệt</h5>
-    //     ) : data.status == 'denied' ? (
-    //       <h5 className="text-bold text-red-500">Từ Chối</h5>
-    //     ) : data.status == 'save' ? (
-    //       <h5 className="text-bold text-yellow-800">Lưu nháp</h5>
-    //     ) : data.status == 'public' ? (
-    //       <h5 className="text-bold text-green-500">Công Khai</h5>
-    //     ) : data.status == 'hide' ? (
-    //       <h5 className="text-bold text-purple-500">Riêng tư</h5>
-    //     ) : (
-    //       <h5 className="text-bold text-orange-500">Chờ Duyệt</h5>
-    //     );
-    //   },
-    // },
+    {
+      title: 'Trạng thái',
+      key: 'status',
+      render: (data: any) => {
+        return data.status == 'approved' ? (
+          <h5 className="text-bold text-primary">Đã Duyệt</h5>
+        ) : data.status == 'denied' ? (
+          <h5 className="text-bold text-red-500">Từ Chối</h5>
+        ) : data.status == 'save' ? (
+          <h5 className="text-bold text-yellow-800">Lưu nháp</h5>
+        ) : data.status == 'public' ? (
+          <h5 className="text-bold text-green-500">Công Khai</h5>
+        ) : data.status == 'hide' ? (
+          <h5 className="text-bold text-purple-500">Riêng tư</h5>
+        ) : (
+          <h5 className="text-bold text-orange-500">Chờ Duyệt</h5>
+        );
+      },
+    },
 
     {
-      width: GIRD12.COL1,
+      width: '10%',
 
       title: 'Thao tác',
       render: (item: IProgramItem) => {
         return (
           <PopOverAction
             size="sm"
+            detailType="comment"
             handleShowDetail={() => handleShowDetail(item)}
           />
         );
@@ -165,7 +153,7 @@ export default function Survey() {
   async function getData() {
     try {
       setLoading(true);
-      let res: any = await apiService.getSurveyPrograms();
+      let res: any = await apiService.getPrograms();
       res = res.reverse();
       let temp;
       if (paths[paths.length - 1] === 'MyProgram') {
@@ -193,10 +181,14 @@ export default function Survey() {
       throw err.message;
     }
   }
-  function handelDataProgram(item?: any) {
-    dispatch(actions.formActions.setProgramForm(item));
-    navigate('/admin/FormProgram');
-  }
+
+  // function temp() {
+  //   dispatch(actions.formActions.setChapter(1));
+  //   dispatch(actions.formActions.setContentId(22));
+  //   navigateParams(`/admin/Program/Chapter/${1}/Test`, {
+  //     id: 22,
+  //   });
+  // }
 
   return (
     //22
