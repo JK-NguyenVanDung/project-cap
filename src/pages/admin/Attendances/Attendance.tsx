@@ -59,12 +59,7 @@ export default function Attendance() {
       render: (data: any) => <p>{data && data.index ? data.index : 0}</p>,
       width: GIRD12.COL1,
     },
-    {
-      title: 'Chương Trình',
-      render: (data: any) => (
-        <span>{data.attendance?.program?.programName}</span>
-      ),
-    },
+
     {
       title: 'Tiêu Đề',
       render: (data: any) => <span>{data.attendance?.title}</span>,
@@ -121,7 +116,9 @@ export default function Attendance() {
     let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
-        const emailMatch = removeVietnameseTones(record.title).match(reg);
+        const emailMatch = removeVietnameseTones(
+          record.attendance?.title,
+        ).match(reg);
 
         if (!emailMatch) {
           return null;
@@ -156,11 +153,11 @@ export default function Attendance() {
   }
 
   useEffect(() => {
-    // dispatch(
-    //   actions.formActions.setNameMenu(
-    //     `Khóa Học ${item.programName && item.programName}`,
-    //   ),
-    // );
+    dispatch(
+      actions.formActions.setNameMenu(
+        `Điểm danh: Khóa Học ${item.programName && item.programName}`,
+      ),
+    );
     getData();
     form.setFieldsValue(detail);
   }, [reload]);

@@ -65,15 +65,6 @@ export default function Survey() {
     }
   }
 
-  function handleShowDetail(item: any) {
-    dispatch(actions.formActions.setProgramForm(item));
-    dispatch(
-      actions.formActions.setNameMenu(
-        `Khảo sát ${item.programName && item.programName}`,
-      ),
-    );
-    navigate(`/admin/Survey/Detail`);
-  }
   async function handleAddQuestions(item: any) {
     dispatch(actions.surveyActions.reset());
 
@@ -85,7 +76,7 @@ export default function Survey() {
       ),
     );
     dispatch(actions.surveyActions.setIsReviewing(true));
-    navigate(`/admin/Survey/${item.surveyId}`);
+    navigate(`/admin/Survey/${selectedSurvey.surveyId}`);
   }
   function openModal() {
     setDetail(null);
