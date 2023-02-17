@@ -96,7 +96,7 @@ export default function TickAttendance({
         if (values.email) {
           const params = {
             email: values.email,
-            attendanceId: item.id,
+            attendanceId: item.attendance.id,
           };
           await apiService.AttdendanceEmail(params);
           notification.success({ message: 'Điểm Danh thành công' });
@@ -104,7 +104,7 @@ export default function TickAttendance({
         if (dataQrCode) {
           const params = {
             code: dataQrCode,
-            attendanceId: item.id,
+            attendanceId: item.attendance.id,
           };
           await apiService.AttdendanceCode(params);
           notification.success({ message: 'Điểm Danh thành công' });

@@ -40,7 +40,7 @@ export default function Attendance() {
   };
   async function handleDelete(item: any) {
     try {
-      await apiService.delAttendance(item.id);
+      await apiService.delAttendance(item.attendance.id);
 
       setReload(!reload);
       message.success(MESSAGE.SUCCESS.DELETE);
@@ -152,10 +152,9 @@ export default function Attendance() {
     setShowModal(true);
     setDetail(null);
   }
-
   useEffect(() => {
     getData();
-    form.setFieldsValue(detail);
+    form.setFieldsValue(detail?.attendance);
   }, [reload]);
   const handleOk = () => {
     form.validateFields().then(async (values) => {

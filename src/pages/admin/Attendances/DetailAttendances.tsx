@@ -15,19 +15,19 @@ export default function DetailAttendances({
   item: any;
   setItem: any;
 }) {
-  useEffect(() => {
-    const fetchNotAtt = async () => {
-      const response: any = await apiService.getNotAttendance(
-        item?.attendance.id,
-      );
-    };
+  // useEffect(() => {
+  //   const fetchNotAtt = async () => {
+  //     const response: any = await apiService.getNotAttendance(
+  //       item?.attendance.id,
+  //     );
+  //   };
 
-    const fetchDetailAtt = async () => {
-      const res: any = await apiService.getAttendanceId(item?.attendance?.id);
-    };
-    fetchDetailAtt();
-    fetchNotAtt();
-  }, [item]);
+  //   const fetchDetailAtt = async () => {
+  //     const res: any = await apiService.getAttendanceId(item?.attendance?.id);
+  //   };
+  //   fetchDetailAtt();
+  //   fetchNotAtt();
+  // }, [item]);
   const Columns = [
     {
       title: 'STT',
