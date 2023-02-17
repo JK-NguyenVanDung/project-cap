@@ -176,6 +176,8 @@ const SurveyBar = (props: any) => {
         });
         navigate(-1);
       }
+    } else {
+      navigate(-1);
     }
   }
   function isSelected(questionId: number) {
@@ -249,7 +251,7 @@ const SurveyBar = (props: any) => {
         />
         <CustomButton
           noIcon
-          text={isReviewing ? 'Hoàn thành' : 'Gửi đáp án'}
+          text={isReviewing ? 'Quay lại trang trước' : 'Gửi đáp án'}
           className="mx-10 py-3 mb-4"
           onClick={completeSurvey}
         />
