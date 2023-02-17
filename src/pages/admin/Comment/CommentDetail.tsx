@@ -80,7 +80,7 @@ export default function () {
     },
 
     {
-      title: 'Bình luận',
+      title: 'Nội dung',
 
       dataIndex: 'content',
     },
@@ -96,9 +96,7 @@ export default function () {
       },
     },
   ];
-  const goApplication = (item: any) => {
-    return;
-  };
+
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
@@ -131,25 +129,12 @@ export default function () {
         };
       });
 
-      // dispatch(actions.ProgramActions.setListAll(res))
-      // dispatch(actions.ProgramActions.changeLoad(!loadData))
       setData(temp);
       setFilterData(temp);
     } catch (err: any) {
       throw err.message;
     }
   }
-  function handelDataProgram(item?: any) {
-    dispatch(actions.formActions.setProgramForm(item));
-    navigate('/admin/FormProgram');
-  }
-  // function temp() {
-  //   dispatch(actions.formActions.setChapter(1));
-  //   dispatch(actions.formActions.setContentId(22));
-  //   navigateParams(`/admin/Program/Chapter/${1}/Test`, {
-  //     id: 22,
-  //   });
-  // }
 
   return (
     //22
