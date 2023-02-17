@@ -115,11 +115,9 @@ export default function MyProgram() {
   };
   return (
     <>
-      <Loading loading={loading} />
-
       <div
         className={`bg-white py-4  pb-8 flex max-sm:flex-wrap  w-full  items-center justify-between
-   ${loading ? 'hidden' : 'visible'}`}
+  `}
       >
         <div className="w-fit mx-4 ">
           <SearchBar
@@ -141,6 +139,8 @@ export default function MyProgram() {
           </div>
         </div>
       </div>
+      <Loading loading={loading} />
+
       <div
         className={`w-full flex justify-center ${
           loading ? 'hidden' : 'visible'

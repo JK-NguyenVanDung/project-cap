@@ -60,7 +60,7 @@ export default function Attendance() {
     },
     {
       title: 'Chương Trình',
-      render: (data: any) => <span>{data.program.programName}</span>,
+      render: (data: any) => <span>{data.program?.programName}</span>,
     },
     {
       title: 'Tiêu Đề',
