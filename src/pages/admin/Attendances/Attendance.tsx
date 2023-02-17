@@ -9,11 +9,12 @@ import apiService from '../../../api/apiService';
 import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
 import { ICategoryItem, IRoleItem } from '../../../Type';
 import PopOverAction from '../../../components/admin/PopOver';
-import { useAppSelector } from '../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { AiOutlineSwapRight, AiOutlineFileProtect } from 'react-icons/ai';
 import moment from 'moment';
 import TickAttendance from './TickAttendance';
 import DetailAttendances from './DetailAttendances';
+import { actions } from '../../../Redux';
 
 const { RangePicker } = DatePicker;
 export default function Attendance() {
@@ -29,6 +30,7 @@ export default function Attendance() {
 
   const [showDetail, setShowDetail] = useState(false);
   const [openAtt, setOpenAtt] = useState(false);
+  const dispatch = useAppDispatch();
 
   const [valueAtten, setValueAtten] = useState();
   const handleEdit = (item: any) => {
@@ -40,35 +42,30 @@ export default function Attendance() {
   };
   async function handleDelete(item: any) {
     try {
-      await apiService.delAttendance(item.id);
+      await apiService.delAttendance(item.attendance.id);
 
       setReload(!reload);
       message.success(MESSAGE.SUCCESS.DELETE);
     } catch (err: any) {
       notification.error({
         message:
-          'Nhóm chương trình này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn nhóm chương trình khá trong chương trình đó để xoá nhóm chương trình này',
+          'Nhóm chương trình này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn nhóm chương trình khác trong chương trình đó để xoá nhóm chương trình này',
       });
     }
   }
-
   const columns = [
     {
       title: 'STT',
       render: (data: any) => <p>{data && data.index ? data.index : 0}</p>,
       width: GIRD12.COL1,
     },
-    {
-      title: 'Chương Trình',
-      render: (data: any) => <span>{data.program?.programName}</span>,
-    },
+  
     {
       title: 'Tiêu Đề',
-      dataIndex: 'title',
+      render: (data: any) => <span>{data.attendance?.title}</span>,
     },
     {
       title: `Ngày Bắt Đầu => Ngày Kết Thúc`,
-      width: GIRD12.COL10,
       render: (data: any) => (
         <span>
           {moment(data.startTime).format('DD-MM-YYYY hh:mm')}
@@ -79,7 +76,16 @@ export default function Attendance() {
         </span>
       ),
     },
-
+    {
+      title: 'Người Học',
+      dataIndex: 'countLearner',
+      key: 'countLearner',
+    },
+    {
+      title: 'Người Đăng Ký',
+      dataIndex: 'countAttendance',
+      key: 'countAttendance',
+    },
     {
       title: 'Thao tác',
       render: (item: any) => {
@@ -102,8 +108,8 @@ export default function Attendance() {
     setValueAtten(item);
   };
   const handelDetail = (item: any) => {
-    setShowDetail(true);
     setDetail(item);
+    setShowDetail(true);
   };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
@@ -143,11 +149,15 @@ export default function Attendance() {
     setShowModal(true);
     setDetail(null);
   }
-
   useEffect(() => {
+    // dispatch(
+    //   actions.formActions.setNameMenu(
+    //     `Khóa Học ${item.programName && item.programName}`,
+    //   ),
+    // );
     getData();
-    form.setFieldsValue(detail);
-  }, [reload]);
+    form.setFieldsValue(detail?.attendance);
+  }, [reload, detail]);
   const handleOk = () => {
     form.validateFields().then(async (values) => {
       setLoading(true);
@@ -263,12 +273,14 @@ export default function Attendance() {
         visible={openAtt}
         setVisible={setOpenAtt}
       />
-      <DetailAttendances
-        item={detail}
-        setItem={setDetail}
-        visible={showDetail}
-        setVisible={setShowDetail}
-      />
+      {showDetail && (
+        <DetailAttendances
+          item={detail}
+          setItem={setDetail}
+          visible={showDetail}
+          setVisible={setShowDetail}
+        />
+      )}
     </>
   );
 }

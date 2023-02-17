@@ -149,6 +149,7 @@ export const API_CONFIG = {
     DEL_ATTENDANCES: (id: number) => `/api/Attendances/${id}`,
     ATTENDANCES_EMAIL: '/api/Attendances/Attendances/Email',
     ATTENDANCES_CODE: '/api/Attendances/Attendances/Code',
+    NOT_ATTENDANCE: (id: number) => `/api/Attendances/NotAttendance/${id}`,
   },
   SURVEY: {
     GETALL: '/api/Surveys/GetListSurvey',
