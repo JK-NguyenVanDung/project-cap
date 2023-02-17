@@ -76,8 +76,8 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
           />
         </div>
-        <div className="my-1" onClick={() => handelClickComment()}>
-          <IoMdSend className="text-primary cursor-pointer" size={30} />
+        <div className="ml-5" onClick={() => handelClickComment()}>
+          <IoMdSend className="text-primary cursor-pointer" size={35} />
         </div>
       </div>
       <Loading loading={checkData} className="h-fit mt-10" />
@@ -90,13 +90,13 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
                   <div className="flex">
                     <Image
                       preview={false}
-                      className="rounded-full p-1 "
+                      className="rounded-full"
                       width={50}
                       height={50}
                       src={avatar}
                     />
-                    <div>
-                      <div className="p-2 pr-20 rounded-lg  bg-gray-300 max-w-fit h-2/3">
+                    <div className="w-full ml-3">
+                      <div className="p-2 pr-20 rounded-lg  bg-gray-300  h-2/3">
                         <p className="font-extrabold text-black text-base pl-3">
                           {item.account.email}
                         </p>
