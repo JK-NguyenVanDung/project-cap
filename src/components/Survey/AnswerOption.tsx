@@ -3,6 +3,8 @@ import React, { FC, useEffect, useState } from 'react';
 import { errorText } from '../../helper/constant';
 import { useAppSelector } from '../../hook/useRedux';
 import PopOverAction from '../admin/PopOver';
+import { Button } from '@material-tailwind/react';
+import { IoTrashOutline } from 'react-icons/io5';
 
 const UnselectedCircle = (props: any) => {
   return (
@@ -72,13 +74,19 @@ const AnswerOption = ({
                   border-gray-500 `}
                   placeholder={`Nhập đáp án ${getChar(item.value)}`}
                   suffix={
-                    index > 3 && (
-                      <PopOverAction
-                        variant="text"
-                        handleDelete={() => handleDelete(item.value)}
-                        deleteItem={'câu ' + getChar(item.value)}
+                    index > 1 && (
+                      <Button
                         size="sm"
-                      />
+                        className={`flex flex-row justify-center items-center ${
+                          'sm' && 'px-1/2'
+                        }`}
+                        color="red"
+                        variant={'outlined'}
+                        onClick={() => handleDelete(item.value)}
+                      >
+                        <IoTrashOutline className="mx-2 text-base " />
+                        {/* <p className="font-serif">{'Xoá'}</p> */}
+                      </Button>
                     )
                   }
                 />

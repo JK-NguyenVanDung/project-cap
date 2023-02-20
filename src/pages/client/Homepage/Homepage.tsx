@@ -7,6 +7,7 @@ import CustomButton from '../../../components/admin/Button';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
 import Banner from './Banner';
+import { useMsal } from '@azure/msal-react';
 
 export default function Homepage() {
   const [data, setData] = useState([]);
@@ -17,6 +18,7 @@ export default function Homepage() {
   const [positons, setPositons]: any = useState([]);
   const [visible, setVisible] = useState(false);
   const dispatch = useAppDispatch();
+  const { instance, accounts } = useMsal();
 
   useEffect(() => {
     getPositions();
@@ -57,6 +59,12 @@ export default function Homepage() {
     });
   };
   useEffect(() => {
+    dispatch(
+      actions.formActions.setNameMenu(
+        `${`Xin Chào \n
+             ${accounts[0]?.name.split('-')[1]}`}`,
+      ),
+    );
     const fetchData = async () => {
       try {
         const data: any = await apiService.getMySurveys(info.accountId);

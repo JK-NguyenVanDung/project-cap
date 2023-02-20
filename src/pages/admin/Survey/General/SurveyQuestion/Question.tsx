@@ -77,7 +77,6 @@ export default function Question() {
   const defaultValueQuestion = useAppSelector(
     (state: any) => state.survey.detail,
   );
-  const listAnswer = useAppSelector((state: any) => state.survey.hasQuestion);
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [finish, setFinish] = useState(false);
@@ -143,8 +142,11 @@ export default function Question() {
       };
     });
     dispatch(actions.surveyActions.setRadioOptions(temp));
-
-    if (currentQuestion.contentQuestions[numb - 1]) {
+    console.log(currentQuestion.contentQuestions);
+    if (
+      currentQuestion?.contentQuestions &&
+      currentQuestion?.contentQuestions[numb - 1] != null
+    ) {
       try {
         await apiService.deleteSurveyContent(
           currentQuestion.contentQuestions[numb - 1].contentSurveyId,
@@ -173,6 +175,7 @@ export default function Question() {
         throw err.message;
       }
     } else {
+      setLoading(false);
     }
     setTimeout(() => {
       setLoading(false);
@@ -659,7 +662,11 @@ export default function Question() {
           </div>
         </QuestionModal>
 
-        <Form form={form} onFinish={handleOk}>
+        <Form
+          form={form}
+          onFinish={handleOk}
+          className={`${loading ? 'collapse' : 'visible'}`}
+        >
           <ConfirmModal
             show={showConfirm}
             setShow={setShowConfirm}
@@ -670,7 +677,7 @@ export default function Question() {
               Xoá câu hỏi số {currentQuestionIndex + 1}
             </p>
           </ConfirmModal>
-          <div className="px-5 h-screen">
+          <div className="px-5 h-fit">
             <div className="w-full h-14 flex items-center justify-between ">
               <p className="text-black text-lg ml-2 font-bold font-customFont">
                 Bài khảo sát: {selectedSurvey?.title}
@@ -699,7 +706,9 @@ export default function Question() {
               {/* )} */}
             </div>
 
-            <div className={`flex flex-row ${loading ? 'hidden' : 'visible'} `}>
+            <div
+              className={`flex flex-row ${loading ? 'collapse' : 'visible'} `}
+            >
               <div className="flex flex-col w-1/3 pr-8">
                 <div className="border w-full p-4 rounded-[10px] border-border-gray h-full">
                   <FormInput
