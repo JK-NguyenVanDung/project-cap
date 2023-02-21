@@ -3,7 +3,6 @@ import { Form, message, Modal } from 'antd';
 
 import { actions } from '../../../../../Redux';
 import { useNavigate } from 'react-router-dom';
-import { IoTimeOutline } from 'react-icons/io5';
 import { IoIosArrowUp } from 'react-icons/io';
 import { TiDelete } from 'react-icons/ti';
 import {
@@ -46,8 +45,6 @@ function getChar(c: number) {
 export default function Question() {
   const containerRef = useRef(null);
 
-  const chapter = useAppSelector((state: any) => state.survey.chapter);
-
   const currentQuestionIndex = useAppSelector(
     (state: any) => state.survey.currentQuestionIndex,
   );
@@ -59,24 +56,15 @@ export default function Question() {
   const currentQuestion: ISurveyQuestion = useAppSelector(
     (state: any) => state.survey.currentQuestion,
   );
-  const radioValue = useAppSelector((state: any) => state.survey.radioValue);
-  const selectedOptions = useAppSelector(
-    (state: any) => state.survey.selectedOptions,
-  );
+
   const selectedType = useAppSelector(
     (state: any) => state.survey.selectedType,
   );
-  const questionTypeList = useAppSelector(
-    (state: any) => state.survey.questionTypeList,
-  );
+
   const radioOptions = useAppSelector(
     (state: any) => state.survey.radioOptions,
   );
-  const [resetOption, setResetOption] = useState(false);
 
-  const defaultValueQuestion = useAppSelector(
-    (state: any) => state.survey.detail,
-  );
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [finish, setFinish] = useState(false);

@@ -92,10 +92,10 @@ const CourseContent = ({
   }
   return (
     <>
-      <div className="cardCont border border-gray-400 min-w-[7rem] h-fit  min-h-[54vh] max-h-[29rem] w-[18rem] rounded-[20px] font-customFont ">
+      <div className="cardCont border  mb-32  min-w-[7rem] h-full    max-h-[40vh] w-[18rem] rounded-[20px] font-customFont ">
         <div
-          className="card hover:border-primary flex
-          overflow-hidden flex-col  w-full rounded-[20px] justify-end hover:border-[2px]  " //border-[2px] border-color-[#c3c6ce]
+          className="card border-[2px] border-gray-300 hover:border-primary flex
+          overflow-hidden flex-col  w-full rounded-[20px] justify-end hover:border-[3px]  " //border-[2px] border-color-[#c3c6ce]
         >
           <div className="max-h-[40vh] h-[25vh]  w-full">
             {!isRegistered && (

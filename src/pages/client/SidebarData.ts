@@ -40,7 +40,7 @@ export const SideBarData = [
   // },
 
   {
-    title: 'Chương Trình',
+    title: 'Khóa học',
     icon: IoBook,
     path: '/Programs',
   },
