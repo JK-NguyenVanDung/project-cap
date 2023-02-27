@@ -38,6 +38,7 @@ export default function ProgramDetail() {
   const [isPublish, setIsPublish]: any = useState();
   const [category, setCategory]: any = useState();
   const [listContent, setListContent]: any = useState([]);
+  const [viewMore, setViewMore] = useState(false);
   const item = useAppSelector((state) => state.form.setProgram);
   const reload = useAppSelector((state) => state.form.reload);
 
@@ -113,6 +114,10 @@ export default function ProgramDetail() {
       },
     }),
   );
+
+  function handelViewMore() {
+    setViewMore(!viewMore);
+  }
   return (
     <div className="w-full h-full relative">
       <div className="ml-[10px]">
@@ -182,6 +187,17 @@ export default function ProgramDetail() {
               />
             </div>
           </div>
+        </div>
+        <div className="w-full flex justify-center">
+          <CustomButton
+            type="cancel"
+            text={viewMore ? `Xem Thêm` : 'Ẩn Bớt'}
+            noIcon={true}
+            color={viewMore ? `blue` : 'gray'}
+            variant="outlined"
+            className="w-1/5 my-3 mx-2 h-10 "
+            onClick={handelViewMore}
+          />
         </div>
         <div
           className="w-full bg-gray-400 my-10"

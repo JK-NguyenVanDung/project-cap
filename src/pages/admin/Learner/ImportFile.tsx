@@ -12,8 +12,13 @@ import { actions } from '../../../Redux';
 import { AiOutlineUp } from 'react-icons/ai';
 import { SideBarDataCT } from '../SidebarData';
 import Button from '../../../components/sharedComponents/Button';
-const regexEmail =
+const emailVlu =
   /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/;
+const emailValid =
+  /^\w*[A-Za-z]+(?:([._]?\w+)*)\@[A-Za-z]\w*[-]?\w+\.[A-Za-z]{1,}?(\.?[A-Za-z]+)$/;
+const emailNotW = /^\w/;
+const emailSpace = /^(?!\s*$|\s).*$/;
+
 export default function ImportFile({
   showModal,
   setShowModal,
@@ -53,7 +58,12 @@ export default function ImportFile({
     form.validateFields().then(async () => {
       dispatch(actions.reloadActions.setReload());
       const emailSuccess = listEmail?.filter((item: any) => {
-        if (regexEmail.test(item)) {
+        if (
+          emailVlu.test(item) ||
+          emailValid.test(item) ||
+          emailNotW.test(item) ||
+          emailSpace.test(item)
+        ) {
           return item;
         }
       });
@@ -112,8 +122,12 @@ export default function ImportFile({
         setEmailError(
           data.filter((item: any, index: number) => {
             const email: string = item.Email || item.email || item.EMAIL;
-            const checkEmail = email.toString().trim().match(regexEmail);
-            if (!checkEmail) {
+            if (
+              !emailVlu.test(item) ||
+              !emailValid.test(item) ||
+              !emailNotW.test(item) ||
+              !emailSpace.test(item)
+            ) {
               return email;
             }
           }),
@@ -185,7 +199,8 @@ export default function ImportFile({
                 {emailError.map((item, index: number) => {
                   return (
                     <p key={index}>
-                      + Dòng {item.stt} - {item.email}
+                      + Dòng {item.__rowNum__} -
+                      {item.email || item.Email || item.EMAIL}
                     </p>
                   );
                 })}
