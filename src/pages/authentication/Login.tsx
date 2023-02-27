@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useRef } from 'react';
+import React, { useCallback, useState, useRef, useEffect } from 'react';
 import { useMsal } from '@azure/msal-react';
 
 import Logo from '../../assets/logo.svg';
@@ -34,7 +34,9 @@ export default function Login() {
     dispatch(actions.authActions.setInfo(''));
   }
   const videoRef = useRef(null);
-
+  useEffect(() => {
+    dispatch(actions.authActions.setInfo(''));
+  }, []);
   const setPlayBack = () => {
     videoRef.current.playbackRate = 0.8;
   };

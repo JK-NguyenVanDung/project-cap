@@ -66,15 +66,14 @@ export default function Account() {
   async function handleDelete(item: any) {
     try {
       setReload(true);
-
       await apiService.deleteAccount(item.accountId);
     } catch (err: any) {
       notification.error({
         message: 'Không thể xoá tài khoản đã tham gia vào hệ thống!',
       });
+    } finally {
+      setReload(false);
     }
-
-    setReload(false);
   }
   const columns = [
     {
