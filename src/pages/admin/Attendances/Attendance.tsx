@@ -60,12 +60,6 @@ export default function Attendance() {
       width: GIRD12.COL1,
     },
     {
-      title: 'Chương Trình',
-      render: (data: any) => (
-        <span>{data.attendance?.program?.programName}</span>
-      ),
-    },
-    {
       title: 'Tiêu Đề',
       render: (data: any) => <span>{data.attendance?.title}</span>,
     },
@@ -87,7 +81,7 @@ export default function Attendance() {
       key: 'countLearner',
     },
     {
-      title: 'Người Đăng Ký',
+      title: 'Người Chưa Điểm Danh',
       dataIndex: 'countAttendance',
       key: 'countAttendance',
     },
@@ -121,7 +115,9 @@ export default function Attendance() {
     let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
-        const emailMatch = removeVietnameseTones(record.title).match(reg);
+        const emailMatch = removeVietnameseTones(
+          record.attendance?.title,
+        ).match(reg);
 
         if (!emailMatch) {
           return null;
@@ -155,11 +151,11 @@ export default function Attendance() {
     setDetail(null);
   }
   useEffect(() => {
-    // dispatch(
-    //   actions.formActions.setNameMenu(
-    //     `Khóa Học ${item.programName && item.programName}`,
-    //   ),
-    // );
+    dispatch(
+      actions.formActions.setNameMenu(
+        `Điểm danh: Khóa Học ${item.programName && item.programName}`,
+      ),
+    );
     getData();
     form.setFieldsValue(detail?.attendance);
   }, [reload, detail]);
@@ -174,7 +170,10 @@ export default function Attendance() {
       };
       if (detail) {
         try {
-          const data = await apiService.putAttendance(params, detail.id);
+          const data = await apiService.putAttendance(
+            params,
+            detail.attendance?.id,
+          );
           setLoading(true);
           if (data) {
             setLoading(false);
@@ -266,7 +265,7 @@ export default function Attendance() {
         show={showModal}
         setShow={setShowModal}
         dataItem={detail}
-        label={'Điểm Danh'}
+        label={'Buổi Điểm Danh'}
         name={detail}
         handleOk={handleOk}
         FormItem={<FormItem />}

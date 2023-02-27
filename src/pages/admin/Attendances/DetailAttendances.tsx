@@ -93,7 +93,13 @@ export default function DetailAttendances({
 
       width: '22%',
       render: (data: any) => (
-        <p>{data && data.isAttending ? 'Đã điểm danh' : 'Chưa điểm danh'}</p>
+        <p>
+          {data && data.isAttending ? (
+            <p className="font-bold text-green-500">Đã điểm danh</p>
+          ) : (
+            <p className="font-bold text-red-500">Chưa điểm danh</p>
+          )}
+        </p>
       ),
     },
   ];

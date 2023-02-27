@@ -44,6 +44,7 @@ export default function ProgramPublish() {
         console.log(error);
       }
     }
+    dispatch(actions.formActions.setNameMenu(`Quản Lý Học Viên`));
     getProgramPublish();
   }, [loading, confirmLoading]);
   const columns = [

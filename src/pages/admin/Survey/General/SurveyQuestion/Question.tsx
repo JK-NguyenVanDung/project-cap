@@ -3,7 +3,6 @@ import { Form, message, Modal } from 'antd';
 
 import { actions } from '../../../../../Redux';
 import { useNavigate } from 'react-router-dom';
-import { IoTimeOutline } from 'react-icons/io5';
 import { IoIosArrowUp } from 'react-icons/io';
 import { TiDelete } from 'react-icons/ti';
 import {
@@ -31,12 +30,12 @@ const defaultOptions = [
     value: 1,
   },
   { value: 2 },
-  {
-    value: 3,
-  },
-  {
-    value: 4,
-  },
+  // {
+  //   value: 3,
+  // },
+  // {
+  //   value: 4,
+  // },
 ];
 function getChar(c: number) {
   let n = (c + 9).toString(36).toUpperCase();
@@ -45,8 +44,6 @@ function getChar(c: number) {
 
 export default function Question() {
   const containerRef = useRef(null);
-
-  const chapter = useAppSelector((state: any) => state.survey.chapter);
 
   const currentQuestionIndex = useAppSelector(
     (state: any) => state.survey.currentQuestionIndex,
@@ -59,25 +56,15 @@ export default function Question() {
   const currentQuestion: ISurveyQuestion = useAppSelector(
     (state: any) => state.survey.currentQuestion,
   );
-  const radioValue = useAppSelector((state: any) => state.survey.radioValue);
-  const selectedOptions = useAppSelector(
-    (state: any) => state.survey.selectedOptions,
-  );
+
   const selectedType = useAppSelector(
     (state: any) => state.survey.selectedType,
   );
-  const questionTypeList = useAppSelector(
-    (state: any) => state.survey.questionTypeList,
-  );
+
   const radioOptions = useAppSelector(
     (state: any) => state.survey.radioOptions,
   );
-  const [resetOption, setResetOption] = useState(false);
 
-  const defaultValueQuestion = useAppSelector(
-    (state: any) => state.survey.detail,
-  );
-  const listAnswer = useAppSelector((state: any) => state.survey.hasQuestion);
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const [finish, setFinish] = useState(false);
@@ -143,8 +130,11 @@ export default function Question() {
       };
     });
     dispatch(actions.surveyActions.setRadioOptions(temp));
-
-    if (currentQuestion.contentQuestions[numb - 1]) {
+    console.log(currentQuestion.contentQuestions);
+    if (
+      currentQuestion?.contentQuestions &&
+      currentQuestion?.contentQuestions[numb - 1] != null
+    ) {
       try {
         await apiService.deleteSurveyContent(
           currentQuestion.contentQuestions[numb - 1].contentSurveyId,
@@ -173,6 +163,7 @@ export default function Question() {
         throw err.message;
       }
     } else {
+      setLoading(false);
     }
     setTimeout(() => {
       setLoading(false);
@@ -659,7 +650,11 @@ export default function Question() {
           </div>
         </QuestionModal>
 
-        <Form form={form} onFinish={handleOk}>
+        <Form
+          form={form}
+          onFinish={handleOk}
+          className={`${loading ? 'collapse' : 'visible'}`}
+        >
           <ConfirmModal
             show={showConfirm}
             setShow={setShowConfirm}
@@ -670,7 +665,7 @@ export default function Question() {
               Xoá câu hỏi số {currentQuestionIndex + 1}
             </p>
           </ConfirmModal>
-          <div className="px-5 h-screen">
+          <div className="px-5 h-fit">
             <div className="w-full h-14 flex items-center justify-between ">
               <p className="text-black text-lg ml-2 font-bold font-customFont">
                 Bài khảo sát: {selectedSurvey?.title}
@@ -699,7 +694,9 @@ export default function Question() {
               {/* )} */}
             </div>
 
-            <div className={`flex flex-row ${loading ? 'hidden' : 'visible'} `}>
+            <div
+              className={`flex flex-row ${loading ? 'collapse' : 'visible'} `}
+            >
               <div className="flex flex-col w-1/3 pr-8">
                 <div className="border w-full p-4 rounded-[10px] border-border-gray h-full">
                   <FormInput

@@ -26,7 +26,6 @@ import DetailAccount from './DetailAccount';
 export default function Account() {
   const [showModal, setShowModal] = useState(false);
   const [detail, setDetail] = useState<IAccountItem>();
-  const [loading, setLoading] = useState(false);
   const [role, setRole] = useState<Array<IRoleItem>>();
   const [positions, setPositions] = useState<Array<any>>();
 
@@ -160,7 +159,7 @@ export default function Account() {
 
   async function getData() {
     try {
-      setLoading(true);
+      setReload(true);
       let res: any = await apiService.getAccounts();
       res = res.reverse();
 
@@ -174,10 +173,11 @@ export default function Account() {
       setData(temp);
       setFilterData(temp);
 
-      setLoading(false);
+      setReload(false);
     } catch (err: any) {
       throw err.message;
     }
+    setReload(false);
   }
   function openAdd() {
     setShowModal(true);
@@ -205,7 +205,7 @@ export default function Account() {
     form
       .validateFields()
       .then(async (values) => {
-        setLoading(true);
+        setReload(true);
         if (detail) {
           await apiService.editAccount({
             accountId: detail.accountId,
@@ -216,7 +216,7 @@ export default function Account() {
           message.success('Thay đổi thành công');
           setReload(!reload);
 
-          setLoading(false);
+          setReload(false);
           form.resetFields();
         } else {
           let exist = checkAccountExist(values.email);
@@ -229,7 +229,7 @@ export default function Account() {
             setReload(!reload);
             message.success('Thêm thành công');
 
-            setLoading(false);
+            setReload(false);
             form.resetFields();
           } else {
             message.error('Email trên đã tồn tại trên hệ thống');
@@ -240,8 +240,9 @@ export default function Account() {
       .catch((info) => {
         // dispatch(actions.formActions.showError())
 
-        setLoading(false);
+        setReload(false);
       });
+    setReload(false);
   };
 
   function getOptions() {
