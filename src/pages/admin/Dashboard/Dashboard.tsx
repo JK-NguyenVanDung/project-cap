@@ -5,16 +5,27 @@ import videoBackground from '../../../assets/video/background.mp4';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomButton from '../../../components/admin/Button';
+import { useAppSelector } from '../../../hook/useRedux';
 export default function Dashboard() {
   const [form] = Form.useForm();
   const navigate = useNavigate();
+  const info = useAppSelector((state) => state.auth.info);
+
   const [dataFct, setDataFct]: any = useState([]);
   const [positons, setPositons]: any = useState([]);
   const [visible, setVisible] = useState(false);
   useEffect(() => {
     getPositions();
     getFacuties();
-    fetchInfo();
+    const roleId = info.roleId;
+    const code = info.code;
+    if (!code) {
+      setVisible(true);
+    }
+    if (roleId == 1) {
+      navigate('/home');
+      notification.error({ message: 'Đăng Nhập Không Thành Công' });
+    }
   }, []);
   const getPositions = async () => {
     const reponse = await apiService.getPositions();
@@ -26,18 +37,6 @@ export default function Dashboard() {
     const reponse = await apiService.getFaculties();
     if (reponse) {
       setDataFct(reponse);
-    }
-  };
-  const fetchInfo = async () => {
-    const response: any = await apiService.getProfile();
-    const { roleId } = response;
-    const { code } = response;
-    if (!code) {
-      setVisible(true);
-    }
-    if (roleId == 1) {
-      navigate('/home');
-      notification.error({ message: 'Đăng Nhập Không Thành Công' });
     }
   };
   const handelOk = () => {

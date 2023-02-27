@@ -24,6 +24,8 @@ export default function Logined() {
   const alert = useAppSelector((state) => state.auth.notification);
   const fetchInfo = async () => {
     const response: any = await apiService.getProfile();
+    dispatch(actions.authActions.setInfo(response));
+
     if (response.roleId == 2 || response.roleId == 3 || response.roleId == 4) {
       navigate('/admin');
     } else {
