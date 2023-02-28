@@ -188,4 +188,8 @@ export const API_CONFIG = {
     DELETE_CONTENT: (contentId: number) =>
       `/api/Surveys/DeleteContent/${contentId}`,
   },
+  STATISTIC: {
+    GET_PROGRAM_RESULT: (programId: number) =>
+      `/api/ProgramResults/${programId}`,
+  },
 };
