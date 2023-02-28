@@ -406,4 +406,9 @@ export default {
   deleteSurvey: (idSurvey: number) => {
     return axiosConfig.delete(API_CONFIG.SURVEY.DELETE_SURVEY(idSurvey));
   },
+
+  //STATISTIC
+  getProgramResult: (programId: number) => {
+    return axiosConfig.get(API_CONFIG.STATISTIC.GET_PROGRAM_RESULT(programId));
+  },
 };

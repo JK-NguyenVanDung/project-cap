@@ -21,6 +21,7 @@ import { useNavigateParams } from '../../../hook/useNavigationParams';
 import Color from '../../../components/constant/Color';
 import { BsPeopleFill } from 'react-icons/bs';
 import { AiFillIdcard } from 'react-icons/ai';
+import { IoStatsChart } from 'react-icons/io5';
 export default function Program() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
@@ -67,6 +68,15 @@ export default function Program() {
       ),
     );
     navigate(`/admin/Program/showDetail`);
+  }
+  function handleResult(item: any) {
+    dispatch(actions.formActions.setProgramForm(item));
+    dispatch(
+      actions.formActions.setNameMenu(
+        `Kết quả: Khóa Học ${item.programName && item.programName}`,
+      ),
+    );
+    navigate(`/admin/Program/Result`);
   }
 
   const columns = [
@@ -139,6 +149,16 @@ export default function Program() {
             handleEdit={() => handelDataProgram(item)}
             handleDelete={() => handleDelete(item)}
             handleShowDetail={() => handleShowDetail(item)}
+            ExtraButton={
+              <CustomButton
+                text=""
+                Icon={IoStatsChart}
+                size="sm"
+                color="blue-gray"
+                tip="Thống kê khóa học"
+                onClick={() => handleResult(item)}
+              />
+            }
           />
         );
       },

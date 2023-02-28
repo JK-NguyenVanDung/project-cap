@@ -199,6 +199,27 @@ const SurveyProgram = z.object({
 
   contentSurveyPrograms: z.array(ContentSurveyPrograms),
 });
+const ResultTests = z.object({
+  testTitle: z.string(),
+  averageTestScore: z.number(),
+});
+const ResultAttendances = z.object({
+  titleAttendance: z.string(),
+  countLearnerAttendance: z.number(),
+});
+
+const ProgramResults = z.object({
+  countLearners: z.number(),
+  countApplications: z.number(),
+  countLearnerStopParticipating: z.number(),
+  countLearnerIncomplete: z.number(),
+  countLearnerComplete: z.number(),
+  countLike: z.number(),
+  countComment: z.number(),
+  countContent: z.number(),
+  resultTests: z.array(ResultTests),
+  resultAttendances: z.array(ResultAttendances),
+});
 
 export type IRoleItem = z.infer<typeof RoleItem>;
 export type IAnswer = z.infer<typeof Answer>;
@@ -220,6 +241,8 @@ export type ISurveyProgram = z.infer<typeof SurveyProgram>;
 export type ISurveyQuestionContent = z.infer<typeof SurveyQuestionContent>;
 export type ISurveyAnswer = z.infer<typeof SurveyAnswer>;
 export type IContentSurveyProgram = z.infer<typeof ContentSurveyPrograms>;
+export type IProgramResults = z.infer<typeof ProgramResults>;
+
 export interface IRouterObj {
   path?: string;
   index?: boolean;
