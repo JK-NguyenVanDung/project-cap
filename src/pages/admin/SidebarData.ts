@@ -2,11 +2,17 @@ import { IconType } from 'react-icons';
 import { BiClipboard } from 'react-icons/bi';
 import {
   BsCalendar2DateFill,
+  BsFillBarChartFill,
   BsFillHouseFill,
   BsFillPersonBadgeFill,
   BsHouseFill,
 } from 'react-icons/bs';
-import { FaClipboard, FaClipboardList, FaComments } from 'react-icons/fa';
+import {
+  FaChartBar,
+  FaClipboard,
+  FaClipboardList,
+  FaComments,
+} from 'react-icons/fa';
 import { GoVerified } from 'react-icons/go';
 import { HiClipboardDocumentList } from 'react-icons/hi2';
 
@@ -25,6 +31,19 @@ export const SideBarData = [
     icon: IoApps,
     path: '/admin',
   },
+  {
+    title: 'Thống kê',
+    icon: BsFillBarChartFill,
+    path: '/admin/Statistic/Faculty',
+    children: [
+      {
+        title: 'Thống kê theo khoa',
+        icon: FaChartBar,
+        path: '/admin/Statistic/Faculty',
+      },
+    ],
+  },
+
   {
     title: 'Tài Khoản',
     icon: IoPeopleCircle,

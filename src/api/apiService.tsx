@@ -411,4 +411,9 @@ export default {
   getProgramResult: (programId: number) => {
     return axiosConfig.get(API_CONFIG.STATISTIC.GET_PROGRAM_RESULT(programId));
   },
+  getFacultyStatistic: (facultyId: number, academicYearId: number) => {
+    return axiosConfig.get(
+      API_CONFIG.STATISTIC.GET_FACULTY_STATISTIC(facultyId, academicYearId),
+    );
+  },
 };

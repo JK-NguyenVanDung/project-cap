@@ -51,7 +51,7 @@ import ProgramSurvey from '../pages/client/Survey/ProgramSurvey';
 import CommentManagement from '../pages/admin/Comment/Comment';
 import CommentDetailManagement from '../pages/admin/Comment/CommentDetail';
 import ProgramResult from '../pages/admin/ProgramResult/ProgramResult';
-
+import StatisticFaculty from '../pages/admin/Statistics/StatisticFaculty';
 export const RouterPages = [
   {
     path: '/admin',
@@ -165,6 +165,10 @@ export const RouterPages = [
   {
     path: '/admin/Program/Result',
     element: <ProgramResult />,
+  },
+  {
+    path: '/admin/Statistic/Faculty',
+    element: <StatisticFaculty />,
   },
 ];
 

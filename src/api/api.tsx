@@ -191,5 +191,7 @@ export const API_CONFIG = {
   STATISTIC: {
     GET_PROGRAM_RESULT: (programId: number) =>
       `/api/ProgramResults/${programId}`,
+    GET_FACULTY_STATISTIC: (facultyId: number, academicYearId: number) =>
+      `/api/Statistics?FacultyId=${facultyId}&AcademicYearId=${academicYearId}`,
   },
 };

@@ -53,7 +53,7 @@ export default function FormInput({
             disabled={disabled}
             dropdownStyle={{ zIndex: 20000 }}
             defaultValue={defaultValue ? defaultValue : options[0]?.value}
-            className="text-black font-customFont h-10 font-bold min-w-[20rem] mt-4"
+            className={`text-black font-customFont h-10 font-bold min-w-[20rem] mt-4 ${className}`}
             options={options}
             onSelect={(e: any) => (getSelectedValue ? getSelectedValue(e) : {})}
           ></Select>
