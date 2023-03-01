@@ -50,6 +50,7 @@ import ProgramSurvey from '../pages/client/Survey/ProgramSurvey';
 
 import CommentManagement from '../pages/admin/Comment/Comment';
 import CommentDetailManagement from '../pages/admin/Comment/CommentDetail';
+import ResultProgram from '../pages/client/Programs/ResultProgram';
 
 export const RouterPages = [
   {
@@ -370,6 +371,10 @@ const Learner = [
     path: '/MyCourses/:programName/Chapters',
     element: <UserChapters />,
   },
+  {
+    path: '/ResultProgram/:programId',
+    element: <ResultProgram />,
+  },
 ];
 export default function MakePagesRouter() {
   const LoginParmas = useAppSelector((state) => state.auth.LoginId);
@@ -423,6 +428,10 @@ export default function MakePagesRouter() {
             path="/ProgramSurvey/:surveyName"
             element={<ProgramSurvey />}
           />
+          <Route
+            path="/ProgramSurvey/:surveyName"
+            element={<ResultProgram />}
+          />
         </Routes>
       );
     }
@@ -451,10 +460,6 @@ export default function MakePagesRouter() {
             <Route path="/login" element={<Logined />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
-            <Route
-              path="/ProgramSurvey/:surveyName"
-              element={<ProgramSurvey />}
-            />
           </Routes>
         );
       } else {

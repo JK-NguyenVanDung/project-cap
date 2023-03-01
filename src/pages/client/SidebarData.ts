@@ -54,7 +54,6 @@ export const SideBarData = [
     icon: MdCollectionsBookmark,
     path: '/MyCourses',
   },
-
   // {
   //   title: 'Học Viên',
   //   icon: BsFillPersonBadgeFill,
