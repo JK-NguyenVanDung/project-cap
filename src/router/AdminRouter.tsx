@@ -51,6 +51,8 @@ import ProgramSurvey from '../pages/client/Survey/ProgramSurvey';
 import CommentManagement from '../pages/admin/Comment/Comment';
 import CommentDetailManagement from '../pages/admin/Comment/CommentDetail';
 import ResultProgram from '../pages/client/Programs/ResultProgram';
+import ProgramResult from '../pages/admin/ProgramResult/ProgramResult';
+import Badge from '../pages/client/Badge';
 
 export const RouterPages = [
   {
@@ -162,6 +164,10 @@ export const RouterPages = [
     path: '/admin/Comment/Detail',
     element: <CommentDetailManagement />,
   },
+  {
+    path: '/admin/Program/Result',
+    element: <ProgramResult />,
+  },
 ];
 
 export const RouterCenter = [
@@ -246,6 +252,27 @@ export const RouterCenter = [
   {
     path: '/admin/Application',
     element: <Application />,
+  },
+
+  {
+    path: '/admin/Attendance',
+    element: <Attendance />,
+  },
+  {
+    path: '/admin/Survey',
+    element: <Survey />,
+  },
+  {
+    path: '/admin/Survey/Detail',
+    element: <SurveyDetail />,
+  },
+  {
+    path: '/admin/CourseSurvey',
+    element: <CourseSurvey />,
+  },
+  {
+    path: '/admin/CourseSurvey/Detail',
+    element: <ProgramSurveyDetail />,
   },
 ];
 export const RouterFaculty = [
@@ -374,6 +401,30 @@ const Learner = [
   {
     path: '/ResultProgram/:programId',
     element: <ResultProgram />,
+  },
+  {
+    path: '/admin/Attendance',
+    element: <Attendance />,
+  },
+  {
+    path: '/admin/Survey',
+    element: <Survey />,
+  },
+  {
+    path: '/admin/Survey/Detail',
+    element: <SurveyDetail />,
+  },
+  {
+    path: '/Badge',
+    element: <Badge />,
+  },
+  {
+    path: '/admin/CourseSurvey',
+    element: <CourseSurvey />,
+  },
+  {
+    path: '/admin/CourseSurvey/Detail',
+    element: <ProgramSurveyDetail />,
   },
 ];
 export default function MakePagesRouter() {

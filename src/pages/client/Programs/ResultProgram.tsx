@@ -10,6 +10,22 @@ import logo from '../../../assets/logo.svg';
 import { Image, Input } from 'antd';
 
 const { TextArea } = Input;
+export const Space = ({
+  size,
+  sizeWidth,
+}: {
+  size?: number;
+  sizeWidth?: number;
+}) => {
+  return (
+    <div
+      style={{
+        height: size ?? 0,
+        width: sizeWidth ?? '100%',
+      }}
+    />
+  );
+};
 export default function ResultProgram() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -18,22 +34,6 @@ export default function ResultProgram() {
   const program: IProgramItem = useAppSelector(
     (state: any) => state.form.setProgram,
   );
-  const Space = ({
-    size,
-    sizeWidth,
-  }: {
-    size?: number;
-    sizeWidth?: number;
-  }) => {
-    return (
-      <div
-        style={{
-          height: size ?? 0,
-          width: sizeWidth ?? '100%',
-        }}
-      />
-    );
-  };
   return (
     <>
       <Space size={5} />
@@ -49,7 +49,7 @@ export default function ResultProgram() {
           <div className="flex">
             <div className="max-h-[60vh] w-[50vw] ">
               <img
-                className="rounded-lg object-fill h-full w-full"
+                className="rounded-lg object-cover h-full w-full"
                 src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png"
               />
             </div>
@@ -66,13 +66,13 @@ export default function ResultProgram() {
                 <Space size={10} />
               </div>
               <div className="ml-4">
-                <h3 className="font-bold text-gray-600">Giỏi </h3>
+                <h3 className=" text-black">Giỏi </h3>
                 <Space size={10} />
-                <h3 className="font-bold text-gray-600">8,5 Điểm</h3>
+                <h3 className=" text-black">8,5 Điểm</h3>
                 <Space size={10} />
-                <h3 className="font-bold text-gray-600">10/24</h3>
+                <h3 className=" text-black">10/24</h3>
                 <Space size={10} />
-                <h3 className="font-bold text-gray-600">2000 Giờ</h3>
+                <h3 className=" text-black">2000 Giờ</h3>
                 <Space size={10} />
               </div>
             </div>
@@ -82,6 +82,7 @@ export default function ResultProgram() {
             rows={6}
             placeholder="Nhận xét của giảng viên"
             className="rounded-md"
+            disabled
           />
           <Space size={15} />
         </div>

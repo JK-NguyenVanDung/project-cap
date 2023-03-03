@@ -44,6 +44,10 @@ export const API_CONFIG = {
 
     MY_APPLICATIONS: '/api/Learners/MyApplications',
     GETPROGRAMPUBLISH: '/api/Learners/GetListProgram',
+    LIST_MY_FINISH_PROGRAM: (idAccount: number) =>
+      `/api/MyPrograms/GetListMyFinishProgram?idAccount=${idAccount}`,
+    PROGRAM_RESULT: (idAccount: number, idProgram: number) =>
+      `/api/MyPrograms/GetProgramResult?idAccount=${idAccount}&idProgram=${idProgram}`,
   },
   FACULTIES: {
     GET: '/api/Faculties',
@@ -187,5 +191,9 @@ export const API_CONFIG = {
       `/api/Surveys/DeleteQuestion/${questionId}`,
     DELETE_CONTENT: (contentId: number) =>
       `/api/Surveys/DeleteContent/${contentId}`,
+  },
+  STATISTIC: {
+    GET_PROGRAM_RESULT: (programId: number) =>
+      `/api/ProgramResults/${programId}`,
   },
 };
