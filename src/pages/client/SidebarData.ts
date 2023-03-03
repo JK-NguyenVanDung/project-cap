@@ -14,6 +14,7 @@ import {
   IoPeopleCircle,
   IoNewspaper,
 } from 'react-icons/io5';
+import { SlBadge } from 'react-icons/sl';
 import { MdCollectionsBookmark } from 'react-icons/md';
 
 export interface ISidebar {
@@ -54,7 +55,11 @@ export const SideBarData = [
     icon: MdCollectionsBookmark,
     path: '/MyCourses',
   },
-
+  {
+    title: 'Chứng Chỉ',
+    icon: SlBadge,
+    path: '/Badge',
+  },
   // {
   //   title: 'Học Viên',
   //   icon: BsFillPersonBadgeFill,

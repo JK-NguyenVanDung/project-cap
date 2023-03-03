@@ -50,7 +50,9 @@ import ProgramSurvey from '../pages/client/Survey/ProgramSurvey';
 
 import CommentManagement from '../pages/admin/Comment/Comment';
 import CommentDetailManagement from '../pages/admin/Comment/CommentDetail';
+import ResultProgram from '../pages/client/Programs/ResultProgram';
 import ProgramResult from '../pages/admin/ProgramResult/ProgramResult';
+import Badge from '../pages/client/Badge';
 
 export const RouterPages = [
   {
@@ -396,7 +398,10 @@ const Learner = [
     path: '/MyCourses/:programName/Chapters',
     element: <UserChapters />,
   },
-
+  {
+    path: '/ResultProgram/:programId',
+    element: <ResultProgram />,
+  },
   {
     path: '/admin/Attendance',
     element: <Attendance />,
@@ -408,6 +413,10 @@ const Learner = [
   {
     path: '/admin/Survey/Detail',
     element: <SurveyDetail />,
+  },
+  {
+    path: '/Badge',
+    element: <Badge />,
   },
   {
     path: '/admin/CourseSurvey',
@@ -470,6 +479,10 @@ export default function MakePagesRouter() {
             path="/ProgramSurvey/:surveyName"
             element={<ProgramSurvey />}
           />
+          <Route
+            path="/ProgramSurvey/:surveyName"
+            element={<ResultProgram />}
+          />
         </Routes>
       );
     }
@@ -498,10 +511,6 @@ export default function MakePagesRouter() {
             <Route path="/login" element={<Logined />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
-            <Route
-              path="/ProgramSurvey/:surveyName"
-              element={<ProgramSurvey />}
-            />
           </Routes>
         );
       } else {
