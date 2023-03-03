@@ -24,7 +24,7 @@ export const ExportCSV = ({
   return (
     <CustomButton
       color="green"
-      className="min-w-[6rem] py-3"
+      className="min-w-[6rem] py-3 mt-2"
       noIcon
       onClick={(e) => exportToCSV(csvData, fileName)}
       text="Xuất file "

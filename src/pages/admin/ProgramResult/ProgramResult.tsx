@@ -48,14 +48,12 @@ export default function () {
               header={'SỐ LƯỢT THÍCH'}
               number={result?.countLike}
               color="blue"
-              imgSrc="https://ouch-cdn2.icons8.com/CnURUztFpXYPWbI5AnKPFW00eEU6_2ooZkc1ZKHNyek/rs:fit:256:367/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTc4/Lzk2NWMyYTUwLTFi/YWYtNDI3MS04ZWE3/LWZkMTI5YmUyZTE1/Ni5wbmc.png"
             />
             <SmallProgramResultCard
               className="mt-5 bg-[#CB36FF]"
               header={'SỐ BÌNH LUẬN'}
               number={result?.countComment}
               color="purple"
-              imgSrc="https://ouch-cdn2.icons8.com/CnURUztFpXYPWbI5AnKPFW00eEU6_2ooZkc1ZKHNyek/rs:fit:256:367/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTc4/Lzk2NWMyYTUwLTFi/YWYtNDI3MS04ZWE3/LWZkMTI5YmUyZTE1/Ni5wbmc.png"
             />
           </div>
           <div className=" flex flex-col h-full justify-between ">
@@ -63,14 +61,12 @@ export default function () {
               header={'SỐ CHƯƠNG'}
               number={result?.countContent}
               color="green"
-              imgSrc="https://ouch-cdn2.icons8.com/CnURUztFpXYPWbI5AnKPFW00eEU6_2ooZkc1ZKHNyek/rs:fit:256:367/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTc4/Lzk2NWMyYTUwLTFi/YWYtNDI3MS04ZWE3/LWZkMTI5YmUyZTE1/Ni5wbmc.png"
             />
             <SmallProgramResultCard
               className="mt-5"
               header={'SỐ BÀI KIỂM TRA'}
               number={result?.countContent}
               color="red"
-              imgSrc="https://ouch-cdn2.icons8.com/CnURUztFpXYPWbI5AnKPFW00eEU6_2ooZkc1ZKHNyek/rs:fit:256:367/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTc4/Lzk2NWMyYTUwLTFi/YWYtNDI3MS04ZWE3/LWZkMTI5YmUyZTE1/Ni5wbmc.png"
             />
           </div>
           <AttendanceRateCard data={result ? result : {}} />

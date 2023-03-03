@@ -15,6 +15,7 @@ import {
 } from 'react-icons/fa';
 import { GoVerified } from 'react-icons/go';
 import { HiClipboardDocumentList } from 'react-icons/hi2';
+import { RiDashboardFill } from 'react-icons/ri';
 
 import { ImAddressBook, ImBooks } from 'react-icons/im';
 import { IoApps, IoBook, IoAlbums, IoPeopleCircle } from 'react-icons/io5';
@@ -30,6 +31,11 @@ export const SideBarData = [
     title: 'Trang Chủ',
     icon: IoApps,
     path: '/admin',
+  },
+  {
+    title: 'Dashboard',
+    icon: RiDashboardFill,
+    path: '/admin/Dashboard',
   },
   {
     title: 'Thống kê',

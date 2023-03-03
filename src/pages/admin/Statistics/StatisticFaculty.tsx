@@ -111,7 +111,7 @@ export default function () {
   }, []);
   useEffect(() => {
     getData();
-  }, [faculties]);
+  }, [faculties, years]);
   return (
     <>
       <div className="">
@@ -141,7 +141,7 @@ export default function () {
                   </div>
                   <div className="ml-12 w-fit">
                     <FormInput
-                      className="min-w-[6rem]"
+                      className="min-w-[4rem]"
                       label="Năm học"
                       type="select"
                       name="yearId"

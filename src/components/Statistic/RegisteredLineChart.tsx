@@ -27,7 +27,7 @@ const MyResponsiveLine = ({
     enableArea={true}
     curve="monotoneX"
     enableGridX={false}
-    margin={{ top: 50, right: 60, bottom: 100, left: 60 }}
+    margin={{ top: 50, right: 20, bottom: 30, left: 40 }}
     colors={['#4169E1']}
     tooltip={(e) => {
       return (
@@ -54,28 +54,12 @@ const MyResponsiveLine = ({
     yScale={{
       type: 'linear',
       min: 0,
-      max: hasData ? 'auto' : 100,
+      max: hasData ? 'auto' : 10,
       stacked: true,
       reverse: false,
     }}
     areaOpacity={0.1}
     yFormat=" >-.2f"
-    axisBottom={{
-      tickSize: 5,
-      tickPadding: 5,
-      tickRotation: 0,
-      legend: 'Quiz',
-      legendOffset: 36,
-      legendPosition: 'middle',
-    }}
-    axisLeft={{
-      tickSize: 5,
-      tickPadding: 5,
-      tickRotation: 0,
-      legend: 'Người học',
-      legendOffset: -40,
-      legendPosition: 'middle',
-    }}
     pointSize={10}
     pointColor={{ theme: 'background' }}
     pointBorderWidth={2}
@@ -87,8 +71,8 @@ const MyResponsiveLine = ({
         anchor: 'bottom',
         direction: 'column',
         justify: false,
-        translateX: 0,
-        translateY: 66,
+        translateX: 200,
+        translateY: -220,
         itemWidth: 100,
         itemHeight: 20,
         itemsSpacing: 4,
@@ -111,9 +95,9 @@ const MyResponsiveLine = ({
 );
 export default function ({ data }: { data: any }) {
   return (
-    <div className="w-full h-[80vh] mt-20   bg-white shadow-2xl rounded-xl ">
+    <div className="w-full min-h-[40vh]   bg-white shadow-2xl rounded-xl ">
       <h1 className="px-8 pt-8 text-xl">Tỉ lệ điểm danh của khóa học</h1>
-      <div className="h-[70vh]">
+      <div className="h-[39vh]">
         <MyResponsiveLine
           data={[
             {
