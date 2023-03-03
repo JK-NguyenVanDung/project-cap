@@ -8,6 +8,7 @@ import { IProgramItem } from '../../../Type';
 import logo from '../../../assets/logo.svg';
 
 import { Image, Input } from 'antd';
+import ResultProgramChart from '../../../components/Chart/ResultProgramChart';
 
 const { TextArea } = Input;
 export const Space = ({
@@ -86,6 +87,7 @@ export default function ResultProgram() {
           />
           <Space size={15} />
         </div>
+        <ResultProgramChart data={[]} />
       </div>
     </>
   );
