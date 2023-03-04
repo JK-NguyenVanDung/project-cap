@@ -31,36 +31,34 @@ import {
 export default function ProgramDetail() {
   const [form] = Form.useForm();
   const [image, setImage] = useState();
-  const [startDate, setStartDate]: any = useState();
-  const [endDate, setEndDate]: any = useState();
-  const [academicYear, setAcademicYear]: any = useState();
-  const [faculty, setFaculty]: any = useState();
-  const [isPublish, setIsPublish]: any = useState();
-  const [category, setCategory]: any = useState();
   const [listContent, setListContent]: any = useState([]);
+  const [viewMore, setViewMore] = useState(false);
   const item = useAppSelector((state) => state.form.setProgram);
   const reload = useAppSelector((state) => state.form.reload);
-
+  console.log(item);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useEffect(() => {
-    let t = setTimeout(() => {
-      Object.keys(item).forEach((key: any) => {
-        form.setFieldValue(key, item[key]);
-      });
-      setImage(item.image);
-      setStartDate(moment(item.startDate).format('DD-MM-YYYY'));
-      setEndDate(moment(item.endDate).format('DD-MM-YYYY'));
-      setAcademicYear(item.academicYear?.year ? item.academicYear?.year : '');
-      setFaculty(item.faculty.facultyName);
-      setCategory(item.category.categoryName);
-      4;
-      setIsPublish(item.isPublish);
-      fetchProgramContent();
-    }, 100);
-    return () => {
-      clearTimeout(t);
-    };
+    item
+      ? form.setFieldsValue({
+          acedemicYearName: item.academicYear.year ?? '',
+          programName: item.programName ?? '',
+          descriptions: item.descriptions ?? '',
+          categoryName: item.categoryName ?? '',
+          TrainingHours: item.trainingHours ?? '',
+          semester: item.semester ?? '',
+          MaxLearner: item.maxLearner ?? '',
+          coin: item.coin ?? '',
+          startDate: moment(item.startDate).format('DD-MM-YYYY mm:hh') ?? '',
+          endDate: moment(item.endDate).format('DD-MM-YYYY mm:hh') ?? '',
+          facultyName: item.faculty.facultyName ?? '',
+          image: item.image ?? '',
+          lecturers: item.lecturers ?? '',
+          registrationEndDate: item.registrationEndDate ?? '',
+          registrationStartDate: item.registrationStartDate ?? '',
+        })
+      : null;
+    fetchProgramContent();
   }, []);
   useEffect(() => {
     let t = setTimeout(() => {
@@ -78,7 +76,7 @@ export default function ProgramDetail() {
         const activeIndex = items.indexOf(
           items.find((e: any) => e.contentId === active.id),
         );
-        const overIndex = items.indexOf(
+        const overIndex: any = items.indexOf(
           items.find((e: any) => e.contentId === over.id),
         );
         return arrayMove(items, activeIndex, overIndex);
@@ -113,6 +111,10 @@ export default function ProgramDetail() {
       },
     }),
   );
+
+  function handelViewMore() {
+    setViewMore(!viewMore);
+  }
   return (
     <div className="w-full h-full relative">
       <div className="ml-[10px]">
@@ -123,8 +125,8 @@ export default function ProgramDetail() {
         />
       </div>
       <Form form={form} className="formCategory w-full px-5 mb-10">
-        <div className="flex justify-between">
-          <div>
+        <div className=" flex justify-between">
+          <div className="w-2/5">
             <FormInput
               label="Tên Chương Trình"
               name="programName"
@@ -136,24 +138,52 @@ export default function ProgramDetail() {
               name="descriptions"
               disabled={true}
             />
+
+            {viewMore && (
+              <>
+                <FormInput
+                  className="mt-2"
+                  label="Phòng/Khoa"
+                  name="facultyName"
+                  disabled={true}
+                />
+                <FormInput
+                  label="Danh Mục"
+                  name="categoryName"
+                  disabled={true}
+                />
+              </>
+            )}
+          </div>
+          <div className="w-2/5 pr-12 pl-12">
             <FormInput
-              className="mt-2"
-              label="Phòng/Khoa"
-              value={faculty}
+              label="Số Giờ Đào Tạo"
+              name="TrainingHours"
               disabled={true}
             />
+            <FormInput label="Coin" name="coin" disabled={true} />
+            <FormInput
+              label="Số Lượng Học Viên Tối Đa"
+              name="MaxLearner"
+              disabled={true}
+            />
+            {viewMore && (
+              <>
+                <FormInput label="Điểm Đạt Được" name="coin" disabled={true} />
+                <FormInput
+                  label="Ngày Bắt Đầu"
+                  name="startDate"
+                  disabled={true}
+                />
+                <FormInput
+                  label="Ngày Kết thúc"
+                  name="endDate"
+                  disabled={true}
+                />
+              </>
+            )}
           </div>
-          <div>
-            <FormInput label="Điểm Đạt Được" name="coin" disabled={true} />
-            <FormInput label="Ngày Bắt Đầu" value={startDate} disabled={true} />
-            <FormInput label="Ngày Kết thúc" value={endDate} disabled={true} />
-            <FormInput label="Danh Mục" value={category} disabled={true} />
-          </div>
-          <div
-            style={{
-              width: '20%',
-            }}
-          >
+          <div className="w-2/5">
             <label className="text-black font-bold font-customFont  mb-4">
               Ảnh giới thiệu
             </label>
@@ -168,20 +198,25 @@ export default function ProgramDetail() {
               src={`${API_URL}/images/${image}`}
             />
             <div className="mt-10">
+              <FormInput label="Học Kì" name="semester" disabled={true} />
               <FormInput
-                className="min-w-[12rem]"
-                label="Học Kì"
-                name="semester"
-                disabled={true}
-              />
-              <FormInput
-                className="min-w-[12rem]"
                 label="Năm Học"
-                value={academicYear}
+                name="acedemicYearName"
                 disabled={true}
               />
             </div>
           </div>
+        </div>
+        <div className="w-full flex justify-center">
+          <CustomButton
+            type="cancel"
+            text={viewMore ? 'Ẩn Bớt' : `Xem Thêm`}
+            noIcon={true}
+            color={viewMore ? 'gray' : `blue`}
+            variant="outlined"
+            className="w-1/5 my-3 mx-2 h-10 "
+            onClick={handelViewMore}
+          />
         </div>
         <div
           className="w-full bg-gray-400 my-10"

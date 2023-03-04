@@ -98,6 +98,10 @@ const RightSection = (props: any) => {
     };
     fetchRegister();
   };
+  const goResultProgram = (item: IProgramItem) => {
+    dispatch(actions.formActions.setProgramForm(item));
+    navigate(`/ResultProgram/${item.programId}`);
+  };
   return (
     <>
       <ConfirmModal
@@ -186,6 +190,13 @@ const RightSection = (props: any) => {
         />
 
         <div className="flex my-8 flex-col w-full items-center justify-center">
+          <CustomButton
+            noIcon
+            color={'green'}
+            text={'Xem Kết Quả Học Tập'}
+            className=" w-[90%] my-2  h-10"
+            onClick={() => goResultProgram(programId)}
+          />
           {props.isApproved === true ? (
             <CustomButton
               noIcon

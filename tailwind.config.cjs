@@ -45,6 +45,7 @@ module.exports = withMT({
       fontFamily: {
         customFont: ['"Quicksand"', 'sans-serif'],
       },
+
       backgroundColor: {
         'dark-blue': '#252B42',
         'dark-red': '#4A1111',
@@ -78,10 +79,33 @@ module.exports = withMT({
 
         'dark-pink': '#FCC0AD',
         'dark-gray': '#BFC0C1',
+        success: '#28a745',
         error: '#E10011',
       },
       boxShadow: {
         'md-2': '0 6px 8px -2px rgba(0, 0, 0, 0.1)',
+      },
+      fontWeight: {
+        thin: '100',
+        hairline: '100',
+        extralight: '200',
+        light: '300',
+        normal: '400',
+        medium: '500',
+        semibold: '600',
+        bold: '700',
+        extrabold: '800',
+        'extra-bold': '800',
+        black: '900',
+      },
+      fontSize: {
+        sm: '0.8rem',
+        base: '1rem',
+        xl: '1.25rem',
+        '2xl': '1.563rem',
+        '3xl': '1.953rem',
+        '4xl': '2.441rem',
+        '5xl': '3.052rem',
       },
     },
     variants: {
