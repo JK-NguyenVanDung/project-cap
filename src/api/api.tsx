@@ -193,5 +193,6 @@ export const API_CONFIG = {
       `/api/ProgramResults/${programId}`,
     GET_FACULTY_STATISTIC: (facultyId: number, academicYearId: number) =>
       `/api/Statistics?FacultyId=${facultyId}&AcademicYearId=${academicYearId}`,
+    GET_DASHBOARD: `/api/Dashboard`,
   },
 };

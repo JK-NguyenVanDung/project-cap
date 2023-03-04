@@ -17,7 +17,7 @@ const MyResponsiveBar = ({
 }) => (
   <ResponsiveBar
     data={data}
-    keys={['averageTestScore']}
+    keys={['ProgramCount']}
     indexBy="testTitle"
     margin={{ top: 50, right: 30, bottom: 100, left: 60 }}
     padding={0.3}
@@ -60,8 +60,10 @@ const MyResponsiveBar = ({
             color: 'black',
           }}
         >
-          {e?.data?.testTitle}:{' '}
-          {e.data?.averageTestScore ? e.data.averageTestScore : 'No data'}
+          {'Tháng ' + e?.data?.testTitle}:{' '}
+          {e.data?.ProgramCount
+            ? e.data.ProgramCount + ' Chương Trình'
+            : 'No data'}
         </div>
       );
     }}
@@ -100,7 +102,7 @@ const MyResponsiveBar = ({
     }}
     legends={[
       {
-        dataFrom: 'indexes',
+        dataFrom: 'keys',
         anchor: 'bottom',
         direction: 'row',
         justify: false,
@@ -157,8 +159,8 @@ export default function ({ data }: { data: any }) {
           data={data.map((item: any) => {
             return {
               id: 'Điểm trung bình',
-              testTitle: item.testTitle,
-              averageTestScore: item.averageTestScore,
+              testTitle: item.month,
+              ProgramCount: item.programs,
               color: 'hsl(360, 70%, 50%)',
             };
           })}

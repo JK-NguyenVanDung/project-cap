@@ -16,6 +16,8 @@ import { loginRequest } from '../authentication/loginconfig';
 import ItemMenu from './ItemMenu';
 import SearchBar from '../../components/admin/ToolBar/ToolBar';
 import { BsFilter } from 'react-icons/bs';
+import { notification } from 'antd';
+import { IoLogOut } from 'react-icons/io5';
 // import MenuDropdown from './MenuDropdown';
 
 // Hook
@@ -52,7 +54,14 @@ export default function ClientSideBar({ content }: { content: any }) {
   const { instance, accounts } = useMsal();
   const [open, setOpen] = useState(true);
   const windowDimensions = useWindowSize();
-
+  const logoutUser = () => {
+    instance.logoutPopup({
+      postLogoutRedirectUri: '/',
+      mainWindowRedirectUri: '/',
+    });
+    notification.success({ message: 'Đăng Xuất Thành Công' });
+    dispatch(actions.authActions.logout());
+  };
   const info = useAppSelector((state) => state.auth.info);
   useEffect(() => {
     if (windowDimensions.width >= 768) {
@@ -121,6 +130,20 @@ export default function ClientSideBar({ content }: { content: any }) {
                     </div>
                   );
                 })}
+                <li
+                  className={`
+          ml-4
+         rounded-lg mx-2 text-light-purple
+       hover:bg-primary hover:opacity-40 hover:text-white py-4 my-2 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
+                  onClick={() => logoutUser()}
+                >
+                  <div id="icon">
+                    <IoLogOut />
+                  </div>{' '}
+                  <div id="title" className="flex  ">
+                    <p className={`font-semibold `}>Đăng xuất</p>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>

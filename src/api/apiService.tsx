@@ -416,4 +416,7 @@ export default {
       API_CONFIG.STATISTIC.GET_FACULTY_STATISTIC(facultyId, academicYearId),
     );
   },
+  getDashboard: () => {
+    return axiosConfig.get(API_CONFIG.STATISTIC.GET_DASHBOARD);
+  },
 };

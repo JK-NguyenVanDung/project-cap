@@ -58,6 +58,7 @@ export const RouterPages = [
   {
     path: '/admin',
     element: <HomePage />,
+    noHeader: true,
   },
   {
     path: '/admin/Dashboard',
@@ -186,6 +187,7 @@ export const RouterCenter = [
   {
     path: '/admin',
     element: <HomePage />,
+    noHeader: true,
   },
   {
     path: '*',
@@ -295,6 +297,7 @@ export const RouterFaculty = [
   {
     path: '/admin',
     element: <HomePage />,
+    noHeader: true,
   },
   {
     path: '*',
@@ -493,7 +496,12 @@ export default function MakePagesRouter() {
                 <Route
                   key={index}
                   path={router.path}
-                  element={<SideBar content={router.element} />}
+                  element={
+                    <SideBar
+                      content={router.element}
+                      noHeader={router.noHeader ? router.noHeader : false}
+                    />
+                  }
                 />
               );
             })}
@@ -522,7 +530,12 @@ export default function MakePagesRouter() {
                 <Route
                   key={index}
                   path={router.path}
-                  element={<SideBar content={router.element} />}
+                  element={
+                    <SideBar
+                      content={router.element}
+                      noHeader={router.noHeader ? router.noHeader : false}
+                    />
+                  }
                 />
               );
             })}
