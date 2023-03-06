@@ -8,6 +8,7 @@ import {
   BsHouseFill,
 } from 'react-icons/bs';
 import {
+  FaChartArea,
   FaChartBar,
   FaClipboard,
   FaClipboardList,
@@ -43,9 +44,14 @@ export const SideBarData = [
     path: '/admin/Statistic/Faculty',
     children: [
       {
-        title: 'Thống kê theo khoa',
+        title: 'Thống kê khoa/ban',
         icon: FaChartBar,
         path: '/admin/Statistic/Faculty',
+      },
+      {
+        title: 'Thống kê theo nhóm  ',
+        icon: FaChartArea,
+        path: '/admin/Statistic/Category',
       },
     ],
   },
