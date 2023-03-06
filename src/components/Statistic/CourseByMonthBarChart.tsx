@@ -122,12 +122,12 @@ function getYears() {
 }
 export default function ({ data }: { data: any }) {
   return (
-    <div className="w-full h-fit bg-white rounded-xl mx-2 ">
+    <div className="w-full h-fit bg-white rounded-xl mx-2 shadow-xl">
       <div className="flex justify-between items-center w-full  pt-8">
         <h1 className="px-4 text-xl">Số lượng khóa học theo năm học</h1>
         <div className="flex px-2 items-center border border-black rounded mr-4">
-          <IoCalendarNumberOutline className="mr-4" />
-          {getYears()}
+          <IoCalendarNumberOutline className="mr-4 text-lg" />
+          <p className="text-lg"> {getYears()}</p>
         </div>
       </div>
       <div className="h-[80vh]">

@@ -10,8 +10,8 @@ export default function ({
 }) {
   return (
     <>
-      <div className="flex flex-col w-[50%]  h-fit ml-12">
-        <p className="text-2xl font-bold">Top thành tích</p>
+      <div className="flex flex-col w-[50%]  h-fit ml-12 ">
+        <p className="text-2xl font-bold mb-2">Top thành tích</p>
         {data.map((item) => {
           return (
             <Learner
@@ -39,7 +39,7 @@ function Learner({
 }) {
   return (
     <>
-      <div className="flex justify-between border-b p-2 my-4 pb-6 text-base">
+      <div className="flex justify-between border-b p-2 my-4 pb-4 text-base">
         <div className="w-fit h-fit flex">
           <img
             className="object-contain	w-[15%]  mr-4"

@@ -38,23 +38,6 @@ export const SideBarData = [
     icon: RiDashboardFill,
     path: '/admin/Dashboard',
   },
-  {
-    title: 'Thống kê',
-    icon: BsFillBarChartFill,
-    path: '/admin/Statistic/Faculty',
-    children: [
-      {
-        title: 'Thống kê khoa/ban',
-        icon: FaChartBar,
-        path: '/admin/Statistic/Faculty',
-      },
-      {
-        title: 'Thống kê theo nhóm  ',
-        icon: FaChartArea,
-        path: '/admin/Statistic/Category',
-      },
-    ],
-  },
 
   {
     title: 'Tài Khoản',
@@ -139,6 +122,23 @@ export const SideBarData = [
     title: 'Bình luận',
     icon: FaComments,
     path: '/admin/Comment',
+  },
+  {
+    title: 'Thống kê',
+    icon: BsFillBarChartFill,
+    path: '/admin/Statistic/Faculty',
+    children: [
+      {
+        title: 'Thống kê khoa/ban',
+        icon: FaChartBar,
+        path: '/admin/Statistic/Faculty',
+      },
+      {
+        title: 'Thống kê theo nhóm  ',
+        icon: FaChartArea,
+        path: '/admin/Statistic/Category',
+      },
+    ],
   },
 ];
 

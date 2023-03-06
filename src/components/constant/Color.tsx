@@ -101,4 +101,5 @@ export default {
   warning: '#EEF155',
   error: '#E11F1F',
   theme,
+  gray4: '#DCDCDC',
 };
