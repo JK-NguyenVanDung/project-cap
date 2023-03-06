@@ -24,7 +24,7 @@ const MyResponsiveBar = ({
     groupMode="grouped"
     valueScale={{ type: 'linear' }}
     indexScale={{ type: 'band', round: true }}
-    colors={{ scheme: 'nivo' }}
+    colors={({ id, data }: any) => data[`Color`]}
     defs={[
       {
         id: 'dots',
@@ -60,7 +60,7 @@ const MyResponsiveBar = ({
             color: 'black',
           }}
         >
-          {'Tháng ' + e?.data?.testTitle}:{' '}
+          {e?.data?.testTitle}:{' '}
           {e.data?.ProgramCount
             ? e.data.ProgramCount + ' Chương Trình'
             : 'No data'}
@@ -100,30 +100,6 @@ const MyResponsiveBar = ({
     barAriaLabel={function (e) {
       return e.id + ': ' + e.formattedValue + ' in country: ' + e.indexValue;
     }}
-    legends={[
-      {
-        dataFrom: 'keys',
-        anchor: 'bottom',
-        direction: 'row',
-        justify: false,
-        translateX: 14,
-        translateY: 63,
-        itemsSpacing: 2,
-        itemWidth: 240,
-        itemHeight: 0,
-        itemDirection: 'left-to-right',
-        itemOpacity: 0.85,
-        symbolSize: 20,
-        effects: [
-          {
-            on: 'hover',
-            style: {
-              itemOpacity: 1,
-            },
-          },
-        ],
-      },
-    ]}
   />
 );
 function getYears() {
@@ -146,27 +122,39 @@ function getYears() {
 }
 export default function ({ data }: { data: any }) {
   return (
-    <div className="w-full h-[60vh] bg-white rounded-xl mx-2 ">
+    <div className="w-full h-fit bg-white rounded-xl mx-2 ">
       <div className="flex justify-between items-center w-full  pt-8">
-        <h1 className="px-4 text-xl">Số lượng khóa học</h1>
+        <h1 className="px-4 text-xl">Số lượng khóa học theo năm học</h1>
         <div className="flex px-2 items-center border border-black rounded mr-4">
           <IoCalendarNumberOutline className="mr-4" />
           {getYears()}
         </div>
       </div>
-      <div className="h-[58vh]">
+      <div className="h-[80vh]">
         <MyResponsiveBar
           data={data.map((item: any) => {
             return {
               id: 'Điểm trung bình',
-              testTitle: item.month,
+              testTitle: 'Tháng ' + item.month,
               ProgramCount: item.programs,
-              color: 'hsl(360, 70%, 50%)',
+              Color: getColor(),
             };
           })}
           hasData={data.length > 0 ? true : false}
         />
       </div>
     </div>
+  );
+}
+
+function getColor() {
+  return (
+    'hsl(' +
+    360 * Math.random() +
+    ',' +
+    (25 + 70 * Math.random()) +
+    '%,' +
+    (85 + 10 * Math.random()) +
+    '%)'
   );
 }

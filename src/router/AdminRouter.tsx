@@ -53,6 +53,8 @@ import CommentDetailManagement from '../pages/admin/Comment/CommentDetail';
 import ResultProgram from '../pages/client/Programs/ResultProgram';
 import ProgramResult from '../pages/admin/ProgramResult/ProgramResult';
 import StatisticFaculty from '../pages/admin/Statistics/StatisticFaculty';
+import StatisticCategory from '../pages/admin/Statistics/StatisticCategory';
+
 import Dashboard from '../pages/admin/Dashboard/Dashboard';
 import Badge from '../pages/client/Badge';
 
@@ -178,6 +180,10 @@ export const RouterPages = [
   {
     path: '/admin/Statistic/Faculty',
     element: <StatisticFaculty />,
+  },
+  {
+    path: '/admin/Statistic/Category',
+    element: <StatisticCategory />,
   },
 ];
 

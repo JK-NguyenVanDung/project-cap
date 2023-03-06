@@ -29,6 +29,7 @@ export default function FormInput({
   getSelectedValue,
   defaultValue,
   value,
+  labelLeft,
 }: {
   label?: string;
   name?: any;
@@ -43,6 +44,7 @@ export default function FormInput({
   getSelectedValue?: Function;
   defaultValue?: any;
   value?: any;
+  labelLeft?: boolean;
 }) {
   const FormComponent = () => {
     let cp;
@@ -111,8 +113,18 @@ export default function FormInput({
     );
   };
   return (
-    <div className="w-full mb-3 z-1">
-      <label className="text-black font-bold font-customFont ">{label}</label>
+    <div
+      className={`w-full mb-3 z-1 ${
+        labelLeft && 'flex justify-center items-center mt-8 min-w-[15rem]'
+      }`}
+    >
+      <label
+        className={`text-black font-bold font-customFont ${
+          labelLeft && 'mr-4'
+        } `}
+      >
+        {label}
+      </label>
       <FormComponent />
     </div>
   );

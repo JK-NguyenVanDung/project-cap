@@ -6,30 +6,36 @@ export default function ({
   icon1,
   icon2,
   longHeader,
+  color,
 }: {
   title: string;
   number: number | string;
   icon1?: any;
   icon2?: any;
   longHeader?: boolean;
+  color?: string;
 }) {
   return (
     <>
-      <div className="flex flex-col w-fit mx-2 justify-between min-w-[16rem]  border border-[#C7D0FF] rounded-xl p-8">
+      <div
+        className={`flex flex-col w-fit mx-2 justify-between min-w-[16rem]  border border-${[
+          color ? color : '#C7D0FF',
+        ]} rounded-xl p-8 shadow-xl`}
+      >
         <div className="flex w-full items-center">
           <p className="font-semibold text-base mr-4">{title}</p>{' '}
           {!longHeader && (icon1 ? icon1 : <Increasing />)}
         </div>
         {!longHeader ? (
-          <p className="font-bold text-2xl my-2">{number}</p>
+          <p className="font-bold text-4xl my-2">{number}</p>
         ) : (
           <div className="flex w-full items-center justify-between">
-            <p className="font-bold text-2xl my-2 mr-4">{number}</p>
+            <p className="font-bold text-4xl my-2 mr-4">{number}</p>
             {icon1 ? icon1 : <Increasing />}
           </div>
         )}
         <div className="flex justify-between">
-          {icon2 ? icon2 : <IncreaseIcon />}
+          {/* {icon2 ? icon2 : <IncreaseIcon />} */}
           <p className="font-semibold ">2022 - {moment().year()}</p>
         </div>
       </div>

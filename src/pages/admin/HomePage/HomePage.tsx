@@ -7,6 +7,18 @@ import logo from '../../../assets/img/VLU_Full_Logo.png';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomButton from '../../../components/admin/Button';
+
+const kindWords = [
+  'Không phát hiện ra sai lầm thì sẽ mãi chìm đắm trong sai lầm và đi lạc phương hướng chẳng thể chạm đến quang vinh.',
+  'Có sự tin tưởng là bạn đã chính là người thắng lợi, người có niềm tin sẽ làm những việc nhỏ bé trở thành vĩ đại, khiến những điều tầm thường trở thành kỳ tích.',
+  'Thành công sẽ không bao giờ từ chối những con người dám nghĩ dám làm. Tôi tin bạn sẽ làm được tốt hơn thế.',
+  'Đủ nghị lực thành công sẽ đến. Đủ mạnh mẽ để bước tới tương lai tươi sáng đang rộng mở chào đón bạn đấy.',
+  ' Người thành công là người luôn tự tin đi tìm kiếm cơ hội cho mình, cơ hội này mất đi thì hãy mạnh mẽ đứng dậy bước tiếp.',
+  'Ý chí sinh ra nghị lực, nghị lực sinh ra sức mạnh, sức mạnh làm nên thành công. Bạn hãy vững tin vào bản thân và mọi chuyện rồi sẽ tốt đẹp.',
+  'Hạnh phúc không tùy thuộc bạn là ai, bạn được làm gì mà tùy thuộc bạn suy nghĩ như thế nào.',
+  ' Đừng nên oán giận hay căm phẫn những chuyện không vui hay buồn phiền lại ập đến với mình, đến một lúc nào đó bạn sẽ thấy biết ơn và trân trọng chúng.',
+];
+
 export default function Dashboard() {
   const [form] = Form.useForm();
   const navigate = useNavigate();
@@ -210,11 +222,10 @@ export function Welcome() {
       <main className="fixed max-sm:relative w-full h-full top-0 place-content-center items-center flex flex-col">
         <h1 className="text-[#fff] uppercase font-bold text-center max-sm:text-3xl text-5xl mb-10 mt-10">
           <img src={logo} />
-          <p className="mt-8 ">VLU Training</p>
+          <p className="mt-8 ">VLG Training</p>
         </h1>
         <p className="mt-4 text-2xl max-w-[50%] text-center">
-          Thành công đến từ 90% năng lực và 10% may mắn, chúc bạn tôi nắm bắt
-          tốt cơ hội để thành đạt.
+          {kindWords[getRandomArbitrary(0, kindWords.length - 1)]}
         </p>
         <div className="flex justify-center max-sm:flex-col w-full max-sm:items-center"></div>
         <div className=" container mx-auto px-6">
@@ -229,4 +240,8 @@ export function Welcome() {
       </main>
     </div>
   );
+}
+
+function getRandomArbitrary(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1) + min);
 }

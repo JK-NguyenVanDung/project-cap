@@ -11,17 +11,17 @@ export default function ({
 }) {
   return (
     <>
-      <div className="  flex flex-col w-fit justify-between min-w-[28rem] ml-4 min-h-[40vh] h-fit bg-dark-blue shadow-2xl rounded-xl p-8">
+      <div className="  flex flex-col w-fit justify-between min-w-[28rem] ml-4 min-h-[40vh]  bg-dark-blue shadow-2xl rounded-xl p-8">
         <div className="flex w-full items-center">
           <div className="">
             <p className="font-semibold text-lg mr-6 text-white  ">
-              Tổng số học viên:
+              Học viên đã hoàn thành:
             </p>
-            <p className="font-semibold text-5xl mr-6 text-white  ">
+            <p className="font-semibold text-5xl mr-6 my-4 text-white  ">
               {percentage}%
             </p>
             <p className="font-semibold text-lg mr-6 text-white  ">
-              Đã hoàn thành khóa học
+              Tổng các khóa học
             </p>
           </div>
           <div className="w-[36%]">
@@ -34,17 +34,17 @@ export default function ({
         <div className="flex justify-between items-center">
           <div className="">
             <p className="font-semibold text-lg mr-6 text-white  ">
-              Tổng số học viên:
+              Tổng học viên đã làm:
             </p>
             <p className="font-bold text-4xl my-2 text-white ">{number}</p>
             <div className="flex justify-between w-fit">
               <p className="font-semibold text-lg mr-2 text-white  ">
-                bài kiểm tra
+                Bài kiểm tra
               </p>
               <IncreaseIcon />
             </div>
           </div>
-          <div className="mr-12">
+          <div className="mr-4">
             <ChartLine />
           </div>
         </div>

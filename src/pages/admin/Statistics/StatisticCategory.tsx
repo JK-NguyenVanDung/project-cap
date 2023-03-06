@@ -71,7 +71,7 @@ export default function () {
     setSelectedYear(years[years.length - 1].year);
 
     try {
-      let response: any = await apiService.getFacultyStatistic(
+      let response: any = await apiService.getCategoryStatistic(
         yearId ? yearId : years[years.length - 1].id,
       );
       response = response.statistics.reverse();
@@ -94,7 +94,9 @@ export default function () {
     });
   }
   useEffect(() => {
-    dispatch(actions.formActions.setNameMenu(`Thống kê theo khoa`));
+    dispatch(
+      actions.formActions.setNameMenu(`Thống kê theo nhóm chương trình`),
+    );
     getAcademicYear();
   }, []);
   useEffect(() => {

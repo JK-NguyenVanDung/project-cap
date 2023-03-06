@@ -36,6 +36,7 @@ export default function SideBar({
     state.form.nameMenu ? state.form.nameMenu : 'Trang Chủ',
   );
   const { instance, accounts } = useMsal();
+  const dispatch = useAppDispatch();
 
   const logoutAdmin = () => {
     instance.logoutPopup({
@@ -57,7 +58,6 @@ export default function SideBar({
         ),
       );
   }, []);
-  const dispatch = useAppDispatch();
 
   return (
     <>

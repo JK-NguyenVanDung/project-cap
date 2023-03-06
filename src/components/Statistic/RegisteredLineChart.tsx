@@ -44,9 +44,9 @@ const MyResponsiveLine = ({
             color: 'black',
           }}
         >
-          {'Buổi học: ' + e.point?.data?.x + ', '}
-          {'Số học viên điểm danh: '}
-          {e.point.data.y ? e.point.data.y.toString() : 'No data'}
+          {e.point?.data?.x + ', '}
+          {'Tỉ lệ điểm danh: '}
+          {e.point.data.y ? e.point.data.y.toString() : '0'}
         </div>
       );
     }}
@@ -104,13 +104,9 @@ export default function ({ data }: { data: any }) {
               id: 'Số học viên điểm danh',
               color: 'hsl(352, 70%, 50%)',
               data: data.map((item: any) => {
-                console.log({
-                  x: item?.titleAttendance,
-                  y: item?.countLearnerAttendance,
-                });
                 return {
-                  x: item?.titleAttendance,
-                  y: item?.countLearnerAttendance,
+                  x: 'Tháng ' + item?.month,
+                  y: item?.countLearner,
                 };
               }),
             },

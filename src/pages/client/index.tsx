@@ -130,7 +130,7 @@ export default function ClientSideBar({ content }: { content: any }) {
                     </div>
                   );
                 })}
-                <li
+                {/* <li
                   className={`
           ml-4
          rounded-lg mx-2 text-light-purple
@@ -143,7 +143,7 @@ export default function ClientSideBar({ content }: { content: any }) {
                   <div id="title" className="flex  ">
                     <p className={`font-semibold `}>Đăng xuất</p>
                   </div>
-                </li>
+                </li> */}
               </ul>
             </div>
           </div>
