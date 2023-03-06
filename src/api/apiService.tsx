@@ -411,4 +411,18 @@ export default {
   getProgramResult: (programId: number) => {
     return axiosConfig.get(API_CONFIG.STATISTIC.GET_PROGRAM_RESULT(programId));
   },
+  getFacultyStatistic: (academicYearId: number) => {
+    return axiosConfig.get(
+      API_CONFIG.STATISTIC.GET_FACULTY_STATISTIC(academicYearId),
+    );
+  },
+  getCategoryStatistic: (academicYearId: number) => {
+    return axiosConfig.get(
+      API_CONFIG.STATISTIC.GET_CATEGORY_STATISTIC(academicYearId),
+    );
+  },
+
+  getDashboard: () => {
+    return axiosConfig.get(API_CONFIG.STATISTIC.GET_DASHBOARD);
+  },
 };

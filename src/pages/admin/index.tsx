@@ -20,13 +20,32 @@ import { useMsal } from '@azure/msal-react';
 import { loginRequest } from '../authentication/loginconfig';
 import ItemMenu from './ItemMenu';
 import MenuDropdown from './MenuDropdown';
+import { IoLogOut } from 'react-icons/io5';
+import { notification } from 'antd';
 
-export default function SideBar({ content }: { content: any }) {
+export default function SideBar({
+  content,
+  noHeader,
+}: {
+  content: any;
+  noHeader?: boolean;
+}) {
   let location = useLocation();
   const navigation = useNavigate();
   const nameMenu = useAppSelector((state: any) =>
     state.form.nameMenu ? state.form.nameMenu : 'Trang Chủ',
   );
+  const { instance, accounts } = useMsal();
+  const dispatch = useAppDispatch();
+
+  const logoutAdmin = () => {
+    instance.logoutPopup({
+      postLogoutRedirectUri: '/',
+      mainWindowRedirectUri: '/',
+    });
+    notification.success({ message: 'Đăng Xuất Thành Công' });
+    dispatch(actions.authActions.logout());
+  };
   const info = useAppSelector((state) => state.auth.info);
   useEffect(() => {
     let temp = SideBarData.filter(
@@ -39,12 +58,11 @@ export default function SideBar({ content }: { content: any }) {
         ),
       );
   }, []);
-  const dispatch = useAppDispatch();
 
   return (
     <>
       <div className="flex relative max-w-full h-screen">
-        <div className="fixed w-[79%] z-1 ">
+        <div className="fixed w-[79%] z-[1] ">
           <div
             className="z-0  overflow-hidden bg-img-bar relative sidebar flex flex-col content-center items-center w-1/5"
             style={{
@@ -102,18 +120,37 @@ export default function SideBar({ content }: { content: any }) {
                     );
                   })
                 : null}
+              <>
+                <li
+                  className={`ml-2 py-4 my-0 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
+                  onClick={() => logoutAdmin()}
+                >
+                  <div id="icon">
+                    <IoLogOut />
+                  </div>{' '}
+                  <div id="title" className="flex  ">
+                    <p className={`font-semibold `}>Đăng xuất</p>
+                  </div>
+                </li>
+              </>
             </ul>
           </div>
         </div>
-        <div className="z-[2] Layout ml-[16.1%] w-full  ">
-          <header className="header bg-gray-50 px-4 shadow-md-2">
-            <div className="w-full flex items-center justify-between ">
-              <h1 className="font-semibold text-xl">{nameMenu}</h1>
+        <div
+          className={`${!noHeader ? 'z-[2]' : 'z-[0]'} Layout${
+            !noHeader ? ' ml-[16.1%]' : 'ml-[10%] '
+          } w-full  `}
+        >
+          {!noHeader && (
+            <header className="header bg-gray-50 px-4 shadow-md-2">
+              <div className="w-full flex items-center justify-between ">
+                <h1 className="font-semibold text-xl">{nameMenu}</h1>
 
-              <HeaderAdmin />
-            </div>
-          </header>
-          <main className="mx-4">{content}</main>
+                <HeaderAdmin />
+              </div>
+            </header>
+          )}
+          <main className={!noHeader && 'mx-4'}>{content}</main>
         </div>
       </div>
     </>

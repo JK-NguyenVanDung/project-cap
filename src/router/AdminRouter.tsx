@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import SideBar from '../pages/admin';
-import Dashboard from '../pages/admin/Dashboard/Dashboard';
+import HomePage from '../pages/admin/HomePage/HomePage';
 import Login from '../pages/authentication/Login';
 import LandingPage from '../pages/landing page/LandingPage';
 import Category from '../pages/admin/Category/Category';
@@ -52,12 +52,21 @@ import CommentManagement from '../pages/admin/Comment/Comment';
 import CommentDetailManagement from '../pages/admin/Comment/CommentDetail';
 import ResultProgram from '../pages/client/Programs/ResultProgram';
 import ProgramResult from '../pages/admin/ProgramResult/ProgramResult';
+import StatisticFaculty from '../pages/admin/Statistics/StatisticFaculty';
+import StatisticCategory from '../pages/admin/Statistics/StatisticCategory';
+
+import Dashboard from '../pages/admin/Dashboard/Dashboard';
 import Badge from '../pages/client/Badge';
 import DetailBade from '../pages/client/Badge/DetailBade';
 
 export const RouterPages = [
   {
     path: '/admin',
+    element: <HomePage />,
+    noHeader: true,
+  },
+  {
+    path: '/admin/Dashboard',
     element: <Dashboard />,
   },
   {
@@ -169,6 +178,14 @@ export const RouterPages = [
     path: '/admin/Program/Result',
     element: <ProgramResult />,
   },
+  {
+    path: '/admin/Statistic/Faculty',
+    element: <StatisticFaculty />,
+  },
+  {
+    path: '/admin/Statistic/Category',
+    element: <StatisticCategory />,
+  },
 ];
 
 export const RouterCenter = [
@@ -178,7 +195,8 @@ export const RouterCenter = [
   },
   {
     path: '/admin',
-    element: <Dashboard />,
+    element: <HomePage />,
+    noHeader: true,
   },
   {
     path: '*',
@@ -287,7 +305,8 @@ export const RouterFaculty = [
   },
   {
     path: '/admin',
-    element: <Dashboard />,
+    element: <HomePage />,
+    noHeader: true,
   },
   {
     path: '*',
@@ -501,7 +520,12 @@ export default function MakePagesRouter() {
                 <Route
                   key={index}
                   path={router.path}
-                  element={<SideBar content={router.element} />}
+                  element={
+                    <SideBar
+                      content={router.element}
+                      noHeader={router.noHeader ? router.noHeader : false}
+                    />
+                  }
                 />
               );
             })}
@@ -526,7 +550,12 @@ export default function MakePagesRouter() {
                 <Route
                   key={index}
                   path={router.path}
-                  element={<SideBar content={router.element} />}
+                  element={
+                    <SideBar
+                      content={router.element}
+                      noHeader={router.noHeader ? router.noHeader : false}
+                    />
+                  }
                 />
               );
             })}

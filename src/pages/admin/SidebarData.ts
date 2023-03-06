@@ -2,13 +2,21 @@ import { IconType } from 'react-icons';
 import { BiClipboard } from 'react-icons/bi';
 import {
   BsCalendar2DateFill,
+  BsFillBarChartFill,
   BsFillHouseFill,
   BsFillPersonBadgeFill,
   BsHouseFill,
 } from 'react-icons/bs';
-import { FaClipboard, FaClipboardList, FaComments } from 'react-icons/fa';
+import {
+  FaChartArea,
+  FaChartBar,
+  FaClipboard,
+  FaClipboardList,
+  FaComments,
+} from 'react-icons/fa';
 import { GoVerified } from 'react-icons/go';
 import { HiClipboardDocumentList } from 'react-icons/hi2';
+import { RiDashboardFill } from 'react-icons/ri';
 
 import { ImAddressBook, ImBooks } from 'react-icons/im';
 import { IoApps, IoBook, IoAlbums, IoPeopleCircle } from 'react-icons/io5';
@@ -25,6 +33,12 @@ export const SideBarData = [
     icon: IoApps,
     path: '/admin',
   },
+  {
+    title: 'Dashboard',
+    icon: RiDashboardFill,
+    path: '/admin/Dashboard',
+  },
+
   {
     title: 'Tài Khoản',
     icon: IoPeopleCircle,
@@ -108,6 +122,23 @@ export const SideBarData = [
     title: 'Bình luận',
     icon: FaComments,
     path: '/admin/Comment',
+  },
+  {
+    title: 'Thống kê',
+    icon: BsFillBarChartFill,
+    path: '/admin/Statistic/Faculty',
+    children: [
+      {
+        title: 'Thống kê khoa/ban',
+        icon: FaChartBar,
+        path: '/admin/Statistic/Faculty',
+      },
+      {
+        title: 'Thống kê theo nhóm  ',
+        icon: FaChartArea,
+        path: '/admin/Statistic/Category',
+      },
+    ],
   },
 ];
 

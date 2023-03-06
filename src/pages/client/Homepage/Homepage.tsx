@@ -10,6 +10,7 @@ import Banner from './Banner';
 import { useMsal } from '@azure/msal-react';
 import FormFirstTime from './FormFirstTime';
 import Loading from '../../../components/sharedComponents/Loading';
+import CourseCarousel from './CourseCarousel';
 
 export default function Homepage() {
   const { instance, accounts } = useMsal();
@@ -59,6 +60,7 @@ export default function Homepage() {
             <Banner data={data} />
           </div>
         </div>
+        <CourseCarousel data={data} title="Khoá học mới nhất" />
         <FormFirstTime />
       </div>
     </>

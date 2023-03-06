@@ -25,7 +25,10 @@ export default function (props: any) {
   );
 }
 
-const HomeContent = () => {
+export const SmallCourseCard = (props: {
+  data: any;
+  navToSurvey: Function;
+}) => {
   return (
     <>
       <div className="flex flex-col bg-white h-1/2 border-white border-4 py-2 px-4">

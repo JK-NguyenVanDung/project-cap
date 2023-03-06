@@ -23,7 +23,7 @@ const Home = React.forwardRef((props, ref: any) => {
           <h4 className="mb-6 text-xl  font-bold tracking-tight text-white">
             Đào tạo nội bộ cùng ĐH Văn Lang
           </h4>
-          <h1 className="mb-6 text-5xl  font-bold tracking-tight text-white ">
+          <h1 className="mb-6 text-5xl   font-bold tracking-tight text-white leading-[4rem]">
             Cơ hội đào tạo tốt nhất
           </h1>
           <h3 className="mb-6 text-xl  font-bold tracking-tight text-white">

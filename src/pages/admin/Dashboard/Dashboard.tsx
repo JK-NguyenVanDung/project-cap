@@ -1,176 +1,98 @@
-import React, { useEffect, useState } from 'react';
-import apiService from '../../../api/apiService';
-import { Form, notification, Select, Modal } from 'antd';
-import videoBackground from '../../../assets/video/background.mp4';
-import { useNavigate } from 'react-router-dom';
-import FormInput from '../../../components/admin/Modal/FormInput';
-import CustomButton from '../../../components/admin/Button';
-import { useAppSelector } from '../../../hook/useRedux';
-export default function Dashboard() {
-  const [form] = Form.useForm();
-  const navigate = useNavigate();
-  const info = useAppSelector((state) => state.auth.info);
+import { FaAward, FaBook, FaClipboardList, FaCoins } from 'react-icons/fa';
+import { FcSurvey } from 'react-icons/fc';
+import { BsClipboardCheck, BsFillPersonCheckFill } from 'react-icons/bs';
 
-  const [dataFct, setDataFct]: any = useState([]);
-  const [positons, setPositons]: any = useState([]);
-  const [visible, setVisible] = useState(false);
+import apiService from '../../../api/apiService';
+import CourseByMonthBarChart from '../../../components/Statistic/CourseByMonthBarChart';
+import DataBox from '../../../components/Statistic/DataBox';
+import LearnerBox from '../../../components/Statistic/LearnerBox';
+import RegisteredLineChart from '../../../components/Statistic/RegisteredLineChart';
+import TopLearners from '../../../components/Statistic/TopLearners';
+import { useEffect, useState } from 'react';
+import { GrCertificate } from 'react-icons/gr';
+import { BsPeopleFill } from 'react-icons/bs';
+import { MdBookmarkAdded } from 'react-icons/md';
+
+export default function () {
+  const [data, setData] = useState<any>({});
+  async function getData() {
+    try {
+      let res: any = await apiService.getDashboard();
+      setData(res);
+    } catch (err: any) {}
+  }
   useEffect(() => {
-    getPositions();
-    getFacuties();
-    const roleId = info.roleId;
-    const code = info.code;
-    if (!code) {
-      setVisible(true);
-    }
-    if (roleId == 1) {
-      navigate('/home');
-      notification.error({ message: 'Đăng Nhập Không Thành Công' });
-    }
+    getData();
   }, []);
-  const getPositions = async () => {
-    const reponse = await apiService.getPositions();
-    if (reponse) {
-      setPositons(reponse);
-    }
-  };
-  const getFacuties = async () => {
-    const reponse = await apiService.getFaculties();
-    if (reponse) {
-      setDataFct(reponse);
-    }
-  };
-  const handelOk = () => {
-    form.validateFields().then(async (values) => {
-      try {
-        const data: any = await apiService.infoAccount(values);
-        if (data) {
-          setVisible(false);
-          notification.success({ message: 'Cập Nhật Thông Tin Thành Công' });
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    });
-  };
   return (
-    <Modal
-      open={visible}
-      title="Cập Nhật Thông tin Người Dùng"
-      footer={
-        <div className=" my-5 flex flex-row justify-evenly w-full">
-          <CustomButton
-            size="md"
-            fullWidth={true}
-            noIcon={true}
-            type="add"
-            color="blue-gray"
-            onClick={() => handelOk()}
-            text="Lưu"
+    <>
+      <div className="w-full h-screen ">
+        <div className="flex w-full h-fit justify-between my-12">
+          <DataBox
+            title="Tổng số khoá học"
+            number={data?.countPrograms ? data?.countPrograms : 0}
+            icon1={<FaBook className="text-2xl text-green-600" />}
+          />
+          <DataBox
+            title="Tổng số coin đã gửi"
+            number={data?.countCoins ? data?.countCoins : 0 + ' $'}
+            icon1={<FaCoins className="text-2xl text-yellow-700" />}
+          />
+          <DataBox
+            title="Tổng chứng chỉ"
+            number={data?.countCertificates ? data?.countCertificates : 0}
+            icon1={<FaAward className="text-2xl text-blue-700" />}
+          />
+          <DataBox
+            title="Số lượng học viên"
+            number={data?.countLearners ? data?.countLearners : 0}
+            icon1={<BsPeopleFill className="text-2xl text-purple-800" />}
           />
         </div>
-      }
-    >
-      <Form
-        form={form}
-        initialValues={{
-          midifier: 'public',
-        }}
-      >
-        <div className="w-full bg-white rounded-3xl px-4 flex flex-col justify-center items-center">
-          <h1 className="text-center font-bold text-2xl mb-10">
-            Thông Tin Của Bạn
-          </h1>
-          <FormInput
-            className="w-full"
-            name="address"
-            label="Địa Chỉ"
-            rules={[
-              {
-                required: true,
-                message: 'Vui Lòng Nhập Vào Chức Vụ',
-              },
-            ]}
+        <div className="flex">
+          <RegisteredLineChart
+            data={data.monthlyAttendances ? data.monthlyAttendances : []}
           />
-          <FormInput
-            className="w-full"
-            name="phoneNumber"
-            label="Số Điện Thoại"
-            rules={[
-              {
-                required: true,
-                message: 'Vui Lòng Nhập Vào Số Điện Thoại',
-              },
-            ]}
+          <LearnerBox
+            percentage={
+              data.countLearnersComplete ? data.countLearnersComplete : 0
+            }
+            number={data.countResultTest ? data.countResultTest : 0}
           />
-          <FormInput
-            className="w-full"
-            name="code"
-            label="Mã Số Sinh Viên"
-            rules={[
-              {
-                required: true,
-                message: 'Vui Lòng Nhập Vào Mã Số Sinh Viên',
-              },
-            ]}
-          />
-          <label className="text-start w-full mb-4 text-black font-bold font-customFont ">
-            Chức Vụ Của Bạn
-          </label>
-          <Form.Item
-            className="w-full "
-            name="positionId"
-            rules={[
-              {
-                required: true,
-                message: 'Vui Lòng Nhập Vào Chức Vụ',
-              },
-            ]}
-          >
-            <Select
-              showSearch
-              placeholder="Chọn Chức Vụ"
-              optionFilterProp="children"
-              filterOption={(input: any, option: any) =>
-                (option?.label ?? '')
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
-              options={positons.map((item: any) => ({
-                value: item.positionId,
-                label: item.positionName,
-              }))}
-            />
-          </Form.Item>
-          <label className="text-start w-full mb-4 text-black font-bold font-customFont">
-            Phòng/Khoa
-          </label>
-          <Form.Item
-            className="w-full "
-            name="facultyId"
-            rules={[
-              {
-                required: true,
-                message: 'Vui Lòng Nhập Vào Phòng/Khoa',
-              },
-            ]}
-          >
-            <Select
-              showSearch
-              placeholder="Chọn Phòng/Khoa"
-              optionFilterProp="children"
-              filterOption={(input: any, option: any) =>
-                (option?.label ?? '')
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
-              options={dataFct.map((item: any) => ({
-                value: item.facultyId,
-                label: item.facultyName,
-              }))}
-            />
-          </Form.Item>
         </div>
-      </Form>
-    </Modal>
+        <div className="flex w-full justify-between my-12 min-h-[5rem] h-fit ">
+          <DataBox
+            title="Tổng số khảo sát"
+            number={data?.countSurveys ? data?.countSurveys : 0}
+            icon1={<FcSurvey className="text-3xl " />}
+          />
+          <DataBox
+            title="Tổng số bài kiểm tra"
+            number={data?.countTests ? data?.countTests : 0}
+            icon1={<MdBookmarkAdded className="text-2xl text-orange-600" />}
+          />
+          <DataBox
+            title="Tổng số đơn đăng ký"
+            number={data?.countApplications ? data?.countApplications : 0}
+            icon1={<FaClipboardList className="text-2xl text-indigo-600" />}
+          />
+          <DataBox
+            title="Tổng số người đã làm khảo sát"
+            number={data?.countSurveyTakers ? data?.countSurveyTakers : 0}
+            longHeader
+            icon1={<BsFillPersonCheckFill className="text-2xl text-red-600" />}
+          />
+        </div>
+        <div className="flex w-full h-fit justify-between my-12">
+          <CourseByMonthBarChart
+            data={data.monthlyPrograms ? data.monthlyPrograms : []}
+          />
+          <TopLearners
+            data={data.accountRankings ? data.accountRankings : []}
+          />
+        </div>
+      </div>
+      <div className="h-[30vh] mt-12"></div>
+    </>
   );
 }

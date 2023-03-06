@@ -29,20 +29,18 @@ export default function DetailAcademicYear({
   const FormItem = () => {
     return (
       <div className="flex justify-around">
-        <div>
-          <FormInput
-            label="Năm Học"
-            name="year"
-            placeholder="Năm Học"
-            rules={[
-              { required: true, message: 'Vui lòng nhập vào năm học' },
-              {
-                pattern: new RegExp(/^(?:[0-9]{4}-[0-9]{4}:?)$/),
-                message: 'Xin vui lòng nhập đúng định dạng',
-              },
-            ]}
-          />
-        </div>
+        <FormInput
+          label="Năm Học"
+          name="year"
+          placeholder="Năm Học"
+          rules={[
+            { required: true, message: 'Vui lòng nhập vào năm học' },
+            {
+              pattern: new RegExp(/^(?:[0-9]{4}-[0-9]{4}:?)$/),
+              message: 'Xin vui lòng nhập đúng định dạng',
+            },
+          ]}
+        />
       </div>
     );
   };
@@ -68,7 +66,7 @@ export default function DetailAcademicYear({
       show={visible}
       handleOk={handelok}
       setShow={setVisible}
-      header={showDetail ? 'Thêm' : 'Sửa'}
+      header={showDetail ? 'Thêm' : 'Sửa Năm Học'}
       label={'Năm học'}
       dataItem={item}
       name={item}
