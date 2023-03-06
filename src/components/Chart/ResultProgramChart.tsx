@@ -1,6 +1,7 @@
 // install (please make sure versions match peerDependencies)
 // yarn add @nivo/core @nivo/bar
-import { ResponsiveBar } from '@nivo/bar';
+import { ResponsiveBar, DataProps } from '@nivo/bar';
+import Color from '../constant/Color';
 
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
@@ -11,7 +12,7 @@ const MyResponsiveBar = ({
   data,
   hasData,
 }: {
-  data: any;
+  data: DataProps[];
   hasData: boolean;
 }) => (
   <ResponsiveBar
@@ -134,7 +135,7 @@ export default function ({ data }: { data: any }) {
               id: 'Điểm bài tập',
               testTitle: item.testTitle,
               averageTestScore: item.averageTestScore,
-              color: 'hsl(360, 70%, 50%)', // màu giữ lại, còn mấy cái data khác là tuỳ m truyền, nói chung cần 2 data là theo cột và theo hàng, id thì đổi cho đúng tên
+              color: `${Color.theme.TORY_BLUE}`,
             };
           })}
           hasData={data.length > 0 ? true : false}

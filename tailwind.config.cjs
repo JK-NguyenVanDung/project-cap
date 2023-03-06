@@ -44,6 +44,7 @@ module.exports = withMT({
       },
       fontFamily: {
         customFont: ['"Quicksand"', 'sans-serif'],
+        serif: ['"Source Serif Pro"', 'serif'],
       },
 
       backgroundColor: {

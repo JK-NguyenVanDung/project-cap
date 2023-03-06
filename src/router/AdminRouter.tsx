@@ -53,6 +53,7 @@ import CommentDetailManagement from '../pages/admin/Comment/CommentDetail';
 import ResultProgram from '../pages/client/Programs/ResultProgram';
 import ProgramResult from '../pages/admin/ProgramResult/ProgramResult';
 import Badge from '../pages/client/Badge';
+import DetailBade from '../pages/client/Badge/DetailBade';
 
 export const RouterPages = [
   {
@@ -417,6 +418,10 @@ const Learner = [
   {
     path: '/Badge',
     element: <Badge />,
+  },
+  {
+    path: '/detailBadge',
+    element: <DetailBade />,
   },
   {
     path: '/admin/CourseSurvey',
