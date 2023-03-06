@@ -11,6 +11,25 @@ import { Image, Input } from 'antd';
 import ResultProgramChart from '../../../components/Chart/ResultProgramChart';
 
 const { TextArea } = Input;
+
+const DataChart = [
+  {
+    testTitle: 'abc',
+    averageTestScore: 10,
+  },
+  {
+    testTitle: 'ab2',
+    averageTestScore: 25,
+  },
+  {
+    testTitle: 'ab3',
+    averageTestScore: 30,
+  },
+  {
+    testTitle: 'ab4',
+    averageTestScore: 50,
+  },
+];
 export const Space = ({
   size,
   sizeWidth,
@@ -87,7 +106,7 @@ export default function ResultProgram() {
           />
           <Space size={15} />
         </div>
-        <ResultProgramChart data={[]} />
+        <ResultProgramChart data={DataChart} />
       </div>
     </>
   );

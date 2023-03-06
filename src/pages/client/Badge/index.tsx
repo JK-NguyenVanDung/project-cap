@@ -9,6 +9,9 @@ import Color from '../../../components/constant/Color';
 import { useNavigate } from 'react-router-dom';
 import ItemChart from './Share/ItemStatic';
 import BadgeItem from './Share/BadgeItem';
+import { Popover } from 'antd';
+import ContentPopover from './Share/ContentPopover';
+import ProfileClient from './Component/ProfileClient';
 export default function () {
   const navigate = useNavigate();
   const onChangeSearch = () => {
@@ -19,6 +22,10 @@ export default function () {
     <>
       <Space size={5} />
       <div className="m-5">
+        <div className="bg-white rounded-lg shadow-lg p-5">
+          <ProfileClient />
+        </div>
+        <Space size={30} />
         <div className="bg-white rounded-lg shadow-lg p-5">
           <div className="flex  justify-between items-center ">
             <div className="flex items-center">
@@ -51,6 +58,7 @@ export default function () {
           <ItemChart />
           <Space size={30} />
         </div>
+        <Space size={30} />
       </div>
     </>
   );
