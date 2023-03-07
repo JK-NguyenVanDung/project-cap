@@ -142,11 +142,12 @@ export default function () {
                     csvData={data.map((item) => {
                       return {
                         STT: item.index,
-                        TenNhomChuongTrinh: item.categoryName,
+                        TenNhomChuongTrinh: item.name,
                         SoChuongTrinh: item.countProgram,
+                        s: { fill: { fgColor: { rgb: 'E9E9E9' } } },
                       };
                     })}
-                    fileName={`Thống kê theo khoa - ${selectedYear}-${selectedFaculty}`}
+                    fileName={`Thống kê theo nhóm chương trình - ${selectedYear}-${selectedFaculty}`}
                   />
                 </div>
               </Form>

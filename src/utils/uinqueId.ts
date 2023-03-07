@@ -39,3 +39,32 @@ export function removeVietnameseTones(str: string) {
   );
   return str;
 }
+export function getYears() {
+  var year = new Date().getFullYear();
+  var lastyear = new Date().getFullYear() - 1;
+  var range = [];
+  var lastrange = [];
+  var academicYear = [];
+  lastrange.push(lastyear);
+  range.push(year);
+  for (var i = 1; i < 2; i++) {
+    lastrange.push(lastyear + i);
+    range.push(year + i);
+    academicYear.push(
+      lastrange[i - 1] + '-' + lastrange[i].toString().slice(-2),
+    );
+    var fullyear = lastrange.concat(range);
+  }
+  return academicYear;
+}
+export function getColor() {
+  return (
+    'hsl(' +
+    360 * Math.random() +
+    ',' +
+    (25 + 70 * Math.random()) +
+    '%,' +
+    (85 + 10 * Math.random()) +
+    '%)'
+  );
+}

@@ -71,7 +71,7 @@ const MyResponsivePie = ({ data }: { data: any }) => (
     fill={[
       {
         match: {
-          id: 'ruby',
+          id: 'Đã nghỉ học',
         },
         id: 'dots',
       },
@@ -83,7 +83,7 @@ const MyResponsivePie = ({ data }: { data: any }) => (
       },
       {
         match: {
-          id: 'go',
+          id: 'Chưa hoàn thành',
         },
         id: 'dots',
       },
@@ -113,7 +113,7 @@ const MyResponsivePie = ({ data }: { data: any }) => (
       },
       {
         match: {
-          id: 'javascript',
+          id: 'Đã hoàn thành',
         },
         id: 'lines',
       },
@@ -121,11 +121,11 @@ const MyResponsivePie = ({ data }: { data: any }) => (
     legends={[
       {
         anchor: 'bottom',
-        direction: 'row',
+        direction: 'column',
         justify: false,
-        translateX: 0,
+        translateX: 150,
         translateY: 56,
-        itemsSpacing: 0,
+        itemsSpacing: 10,
         itemWidth: 130,
         itemHeight: 18,
         itemTextColor: '#fff',
@@ -152,14 +152,18 @@ export default function ({ data }: { data: IProgramResults }) {
         className={` hover:scale-105 w-full  ml-10   rounded-xl opacity-90 shadow-2xl pl-4 py-4  flex bg-gradient-to-b from-pink-100    to-blue-300`}
       >
         <div className="flex w-full flex-col h-full justify-between text-white">
-          <p className="text-xl font-bold">Tỉ lệ tham gia khóa học</p>
+          <p className="text-xl font-bold">Tỉ lệ học viên tham gia khóa học</p>
           <MyResponsivePie
             data={[
               {
                 id: 'Đã nghỉ học',
                 label: 'Đã nghỉ học',
                 value: data?.countLearnerStopParticipating,
-                color: 'hsl(81, 70%, 50%)',
+              },
+              {
+                id: 'Đang tham gia',
+                label: 'Đang tham gia',
+                value: data?.countLearnerComplete,
               },
               {
                 id: 'Chưa hoàn thành',
@@ -167,13 +171,11 @@ export default function ({ data }: { data: IProgramResults }) {
                 value: data?.countLearnerIncomplete
                   ? data?.countLearnerIncomplete
                   : 100,
-                color: 'hsl(171, 70%, 50%)',
               },
               {
                 id: 'Đã hoàn thành',
                 label: 'Đã hoàn thành',
                 value: data?.countLearnerComplete,
-                color: 'hsl(269, 70%, 50%)',
               },
             ]}
           />

@@ -55,7 +55,11 @@ export default function () {
           />
           <LearnerBox
             percentage={
-              data.countLearnersComplete ? data.countLearnersComplete : 0
+              data.countLearnersComplete
+                ? Math.round(
+                    (data.countLearnersComplete / data.countLearners) * 100,
+                  )
+                : 0
             }
             number={data.countResultTest ? data.countResultTest : 0}
           />

@@ -25,28 +25,55 @@ export default function (props: any) {
   );
 }
 
-export const SmallCourseCard = (props: {
-  data: any;
+export const SmallCourseCard = ({
+  data,
+  navToSurvey,
+}: {
+  data: IProgramItem;
   navToSurvey: Function;
 }) => {
   return (
     <>
-      <div className="flex flex-col bg-white h-1/2 border-white border-4 py-2 px-4">
+      <div className="w-fit min-w-[17rem]   flex flex-col bg-white h-1/2 border-white border-4 py-2 px-4 rounded-xl shadow-lg m-4">
+        <div className="max-h-[40vh] h-[25vh]  w-full">
+          {/* {!data.isRegistered && (
+            <div className="absolute  tag bg-green-500 px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-[-4px]">
+              <div className="relative bg-green-500">
+                <p>{getStatus(data?.status)}</p>
+              </div>
+            </div>
+          )} */}
+          <img
+            className="rounded-lg object-cover	h-full w-full"
+            src={`${API_URL}/images/${data.image}`}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null; // prevents looping
+              currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+              // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
+            }}
+            alt=""
+          />
+        </div>
         <div className="flex w-full justify-between items-center">
-          <p className="text-xl font-semibold">Khoá học CNTT</p>
+          <p className="text-lg my-2 eclipse-text  max-w-fit 	font-semibold cursor-pointer hover:text-primary">
+            {data.programName}
+          </p>
           <IconButton variant="text">
             <AiFillHeart className="text-lg text-gray-400" />
           </IconButton>
         </div>
-        <p className="text-body"> HK1 - 2022-2023</p>
+        <p className="text-body">
+          {' '}
+          {`HK${data?.semester} - ${data?.academicYear?.year}`}{' '}
+        </p>
         <div className="flex w-[88%] justify-between items-center my-4">
           <div className="flex   items-center">
             <IoPerson className="text-lg mr-2 text-gray-400" />
-            Thầy Minh
+            {data.lecturers}
           </div>
           <div className="flex   items-center">
             <RiTimerFill className="text-lg mr-2 text-gray-400" />
-            23 tiếng
+            {data.trainingHours}h
           </div>
         </div>
       </div>

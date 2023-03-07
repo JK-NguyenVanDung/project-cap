@@ -12,9 +12,30 @@ export const ExportCSV = ({
   const fileType =
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
   const fileExtension = '.xlsx';
+  let row = [
+    { v: 'Courier: 24', t: 's', s: { font: { name: 'Courier', sz: 24 } } },
+    {
+      v: 'bold & color',
+      t: 's',
+      s: { font: { bold: true, color: { rgb: 'FF0000' } } },
+    },
+    { v: 'fill: color', t: 's', s: { fill: { fgColor: { rgb: 'E9E9E9' } } } },
+    { v: 'line\nbreak', t: 's', s: { alignment: { wrapText: true } } },
+  ];
 
   const exportToCSV = (csvData: any, fileName: string) => {
+    // const ws = XLSX.utils.json_to_sheet(csvData);
     const ws = XLSX.utils.json_to_sheet(csvData);
+    // console.log(ws);
+    // ws['A2'].s = {
+    //   font: {
+    //     name: 'Calibri',
+    //     sz: 24,
+    //     bold: true,
+    //     color: { rgb: 'FFFFAA00' },
+    //   },
+    //   fill: { fgColor: { rgb: 'E9E9E9' } },
+    // };
     const wb = { Sheets: { data: ws }, SheetNames: ['data'] };
     const excelBuffer = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
     const data = new Blob([excelBuffer], { type: fileType });

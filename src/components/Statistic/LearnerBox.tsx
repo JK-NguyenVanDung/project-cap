@@ -34,7 +34,7 @@ export default function ({
         <div className="flex justify-between items-center">
           <div className="">
             <p className="font-semibold text-lg mr-6 text-white  ">
-              Tổng học viên đã làm:
+              Học viên đã làm tổng cộng:
             </p>
             <p className="font-bold text-4xl my-2 text-white ">{number}</p>
             <div className="flex justify-between w-fit">
