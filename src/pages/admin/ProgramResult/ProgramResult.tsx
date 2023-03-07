@@ -8,9 +8,7 @@ import AveragePointChart from '../../../components/Chart/AveragePointChart';
 import AttendanceRateChart from '../../../components/Chart/AttendanceRateChart';
 import { useEffect, useState } from 'react';
 import apiService from '../../../api/apiService';
-import { MdThumbUp } from 'react-icons/md';
-import { FaThumbsUp } from 'react-icons/fa';
-import { FcLike } from 'react-icons/fc';
+
 export default function () {
   let program: IProgramItem = useAppSelector((state) => state.form.setProgram);
   const [result, setResult] = useState<IProgramResults>(null);

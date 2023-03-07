@@ -60,14 +60,14 @@ const MyResponsiveLine = ({
     }}
     areaOpacity={0.1}
     yFormat=" >-.2f"
-    axisBottom={{
-      tickSize: 5,
-      tickPadding: 5,
-      tickRotation: 0,
-      legend: 'Quiz',
-      legendOffset: 36,
-      legendPosition: 'middle',
-    }}
+    // axisBottom={{
+    //   tickSize: 5,
+    //   tickPadding: 5,
+    //   tickRotation: 0,
+    //   legend: 'Quiz',
+    //   legendOffset: 36,
+    //   legendPosition: 'middle',
+    // }}
     axisLeft={{
       tickSize: 5,
       tickPadding: 5,
@@ -112,7 +112,7 @@ const MyResponsiveLine = ({
 export default function ({ data }: { data: any }) {
   return (
     <div className="w-full h-[80vh] mt-20   bg-white shadow-2xl rounded-xl ">
-      <h1 className="px-8 pt-8 text-xl">Tỉ lệ điểm danh của khóa học</h1>
+      <h1 className="px-8 pt-8 text-xl">Số người điểm danh của khóa học</h1>
       <div className="h-[70vh]">
         <MyResponsiveLine
           data={[

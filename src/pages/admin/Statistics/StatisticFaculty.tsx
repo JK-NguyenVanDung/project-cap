@@ -140,7 +140,7 @@ export default function () {
                     csvData={data.map((item) => {
                       return {
                         STT: item.index,
-                        TenNhomChuongTrinh: item.categoryName,
+                        TenKhoaBan: item.name,
                         SoChuongTrinh: item.countProgram,
                       };
                     })}
