@@ -33,8 +33,8 @@ import ReviewHistory from '../../../components/admin/Review/ReviewHistory';
 export default function FormProgram() {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [dataFct, setDataFct]: any = useState([]);
-  const [acedemic, setAcedemic]: any = useState([]);
-  const [positons, setpositons]: any = useState([]);
+  const [academic, setAcademic]: any = useState([]);
+  const [positions, setPositions]: any = useState([]);
   const [dataCategory, setDataCategory]: any = useState([]);
   const [checkOption, setCheckOption] = useState(false);
   const [form] = Form.useForm();
@@ -114,19 +114,19 @@ export default function FormProgram() {
   const getAcademicYear = async () => {
     const reponse: AxiosResponse<any, any> = await apiService.getAcademicYear();
     if (reponse) {
-      setAcedemic(reponse);
+      setAcademic(reponse);
       setCheckOption(true);
     }
   };
   const getPositions = async () => {
     const reponse: AxiosResponse<any, any> = await apiService.getPositions();
     if (reponse) {
-      setpositons(reponse);
+      setPositions(reponse);
       setCheckOption(true);
     }
   };
   const optionPosition = checkOption
-    ? positons.map((item: any) => {
+    ? positions.map((item: any) => {
         return (
           <Option value={item.positionId} key={item.positionId}>
             {item.positionName}
@@ -464,7 +464,7 @@ export default function FormProgram() {
                             .toLowerCase()
                             .includes(input.toLowerCase())
                         }
-                        options={acedemic.map((item: any) => ({
+                        options={academic.map((item: any) => ({
                           value: item.id,
                           label: item.year,
                         }))}

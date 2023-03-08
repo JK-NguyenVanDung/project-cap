@@ -215,6 +215,7 @@ const ProgramResults = z.object({
   countLearnerStopParticipating: z.number(),
   countLearnerIncomplete: z.number(),
   countLearnerComplete: z.number(),
+  countLearnerAttending: z.number(),
   countLike: z.number(),
   countComment: z.number(),
   countContent: z.number(),

@@ -230,7 +230,7 @@ export default function RegisteredPrograms() {
           </div>
         </div>
       </div>
-      <p className="bg-white mx-4 pb-4">
+      <p className="bg-white px-4 pb-4">
         Lưu ý: Nếu khoá học đã được duyệt và muốn hủy đăng ký, thì vui lòng gửi
         email tới trung tâm để được huỷ.
       </p>

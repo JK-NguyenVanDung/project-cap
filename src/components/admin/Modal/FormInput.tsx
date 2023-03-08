@@ -29,6 +29,7 @@ export default function FormInput({
   getSelectedValue,
   defaultValue,
   value,
+  labelLeft,
 }: {
   label?: string;
   name?: any;
@@ -43,6 +44,7 @@ export default function FormInput({
   getSelectedValue?: Function;
   defaultValue?: any;
   value?: any;
+  labelLeft?: boolean;
 }) {
   const FormComponent = () => {
     let cp;
@@ -53,7 +55,7 @@ export default function FormInput({
             disabled={disabled}
             dropdownStyle={{ zIndex: 20000 }}
             defaultValue={defaultValue ? defaultValue : options[0]?.value}
-            className="text-black font-customFont h-10 font-bold min-w-[20rem] mt-4"
+            className={`text-black font-customFont h-10 font-bold min-w-[20rem] mt-4 ${className}`}
             options={options}
             onSelect={(e: any) => (getSelectedValue ? getSelectedValue(e) : {})}
           ></Select>
@@ -111,8 +113,18 @@ export default function FormInput({
     );
   };
   return (
-    <div className="w-full mb-3 z-1">
-      <label className="text-black font-bold font-customFont ">{label}</label>
+    <div
+      className={`w-full mb-3 z-1 ${
+        labelLeft && 'flex justify-center items-center mt-8 min-w-[15rem]'
+      }`}
+    >
+      <label
+        className={`text-black font-bold font-customFont ${
+          labelLeft && 'mr-4'
+        } `}
+      >
+        {label}
+      </label>
       <FormComponent />
     </div>
   );

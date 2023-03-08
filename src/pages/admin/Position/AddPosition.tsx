@@ -30,28 +30,26 @@ export default function AddPosition({
   const FormItem = () => {
     return (
       <div className="flex justify-around">
-        <div>
-          <FormInput
-            label="Chức Vụ"
-            name="positionName"
-            placeholder="Chức Vụ"
-            rules={[
-              { required: true, message: 'Vui lòng nhập vào Chức Vụ' },
-              {
-                pattern: new RegExp(/^([^0-9]*)$/),
-                message: 'Chỉ cho phép nhập chữ',
-              },
-              {
-                pattern: new RegExp(/^(?!\s*$|\s).*$/),
-                message: errorText.space,
-              },
-              {
-                pattern: new RegExp(/^.{1,50}$/),
-                message: 'Đạt tối đa số lượng ký tự cho phép',
-              },
-            ]}
-          />
-        </div>
+        <FormInput
+          label="Chức Vụ"
+          name="positionName"
+          placeholder="Chức Vụ"
+          rules={[
+            { required: true, message: 'Vui lòng nhập vào Chức Vụ' },
+            {
+              pattern: new RegExp(/^([^0-9]*)$/),
+              message: 'Chỉ cho phép nhập chữ',
+            },
+            {
+              pattern: new RegExp(/^(?!\s*$|\s).*$/),
+              message: errorText.space,
+            },
+            {
+              pattern: new RegExp(/^.{1,50}$/),
+              message: 'Đạt tối đa số lượng ký tự cho phép',
+            },
+          ]}
+        />
       </div>
     );
   };
@@ -84,7 +82,7 @@ export default function AddPosition({
       name={item}
       FormItem={<FormItem />}
       form={form}
-      header={showDetail ? 'Thêm' : 'Sửa'}
+      header={showDetail ? 'Thêm' : 'Sửa Chức Vụ'}
       showDetail={showDetail}
       setShowDetail={setShowDetail}
     />

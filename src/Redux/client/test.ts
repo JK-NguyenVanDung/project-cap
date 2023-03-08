@@ -10,6 +10,7 @@ const slice = createSlice({
     range: { base: 0, limit: 5 },
     time: { minutes: 0, seconds: 0 },
     answerLength: 0,
+    seen: [],
     isTest: false,
   },
 
@@ -80,6 +81,7 @@ const slice = createSlice({
         answers: [...state.answers, out],
       };
     },
+
     setRange(state, action) {
       state.range = action.payload;
     },

@@ -52,7 +52,7 @@ export default function Faculties() {
     } catch (err: any) {
       notification.error({
         message:
-          'Khoa ban này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn khoa ban khá trong chương trình đó để xoá khoa ban này',
+          'Khoa ban này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn khoa ban khác trong chương trình đó để xoá khoa ban này',
       });
     }
   }

@@ -9,7 +9,7 @@ import { IProgramResults } from '../../Type';
 const MyResponsivePie = ({ data }: { data: any }) => (
   <ResponsivePie
     data={data}
-    margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+    margin={{ top: 40, right: 20, bottom: 20, left: 20 }}
     innerRadius={0.5}
     padAngle={0.7}
     cornerRadius={3}
@@ -71,7 +71,7 @@ const MyResponsivePie = ({ data }: { data: any }) => (
     fill={[
       {
         match: {
-          id: 'ruby',
+          id: 'Đã nghỉ học',
         },
         id: 'dots',
       },
@@ -83,9 +83,9 @@ const MyResponsivePie = ({ data }: { data: any }) => (
       },
       {
         match: {
-          id: 'go',
+          id: 'Chưa hoàn thành',
         },
-        id: 'dots',
+        id: 'lines',
       },
       {
         match: {
@@ -113,36 +113,36 @@ const MyResponsivePie = ({ data }: { data: any }) => (
       },
       {
         match: {
-          id: 'javascript',
+          id: 'Đã hoàn thành',
         },
-        id: 'lines',
+        id: 'dots',
       },
     ]}
-    legends={[
-      {
-        anchor: 'bottom',
-        direction: 'row',
-        justify: false,
-        translateX: 0,
-        translateY: 56,
-        itemsSpacing: 0,
-        itemWidth: 130,
-        itemHeight: 18,
-        itemTextColor: '#fff',
-        itemDirection: 'left-to-right',
-        itemOpacity: 1,
-        symbolSize: 18,
-        symbolShape: 'circle',
-        effects: [
-          {
-            on: 'hover',
-            style: {
-              itemTextColor: '#111',
-            },
-          },
-        ],
-      },
-    ]}
+    // legends={[
+    //   {
+    //     anchor: 'bottom',
+    //     direction: 'column',
+    //     justify: false,
+    //     translateX: 150,
+    //     translateY: 56,
+    //     itemsSpacing: 10,
+    //     itemWidth: 130,
+    //     itemHeight: 18,
+    //     itemTextColor: '#fff',
+    //     itemDirection: 'left-to-right',
+    //     itemOpacity: 1,
+    //     symbolSize: 18,
+    //     symbolShape: 'circle',
+    //     effects: [
+    //       {
+    //         on: 'hover',
+    //         style: {
+    //           itemTextColor: '#111',
+    //         },
+    //       },
+    //     ],
+    //   },
+    // ]}
   />
 );
 export default function ({ data }: { data: IProgramResults }) {
@@ -152,28 +152,31 @@ export default function ({ data }: { data: IProgramResults }) {
         className={` hover:scale-105 w-full  ml-10   rounded-xl opacity-90 shadow-2xl pl-4 py-4  flex bg-gradient-to-b from-pink-100    to-blue-300`}
       >
         <div className="flex w-full flex-col h-full justify-between text-white">
-          <p className="text-xl font-bold">Tỉ lệ tham gia khóa học</p>
+          <p className="text-xl font-bold">Tỉ lệ học viên tham gia khóa học</p>
           <MyResponsivePie
             data={[
-              {
-                id: 'Đã nghỉ học',
-                label: 'Đã nghỉ học',
-                value: data?.countLearnerStopParticipating,
-                color: 'hsl(81, 70%, 50%)',
-              },
               {
                 id: 'Chưa hoàn thành',
                 label: 'Chưa hoàn thành',
                 value: data?.countLearnerIncomplete
                   ? data?.countLearnerIncomplete
                   : 100,
-                color: 'hsl(171, 70%, 50%)',
               },
+              {
+                id: 'Đã nghỉ học',
+                label: 'Đã nghỉ học',
+                value: data?.countLearnerStopParticipating,
+              },
+              {
+                id: 'Đang tham gia',
+                label: 'Đang tham gia',
+                value: data?.countLearnerAttending,
+              },
+
               {
                 id: 'Đã hoàn thành',
                 label: 'Đã hoàn thành',
                 value: data?.countLearnerComplete,
-                color: 'hsl(269, 70%, 50%)',
               },
             ]}
           />

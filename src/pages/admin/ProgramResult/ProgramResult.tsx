@@ -8,6 +8,7 @@ import AveragePointChart from '../../../components/Chart/AveragePointChart';
 import AttendanceRateChart from '../../../components/Chart/AttendanceRateChart';
 import { useEffect, useState } from 'react';
 import apiService from '../../../api/apiService';
+
 export default function () {
   let program: IProgramItem = useAppSelector((state) => state.form.setProgram);
   const [result, setResult] = useState<IProgramResults>(null);
@@ -43,19 +44,25 @@ export default function () {
               imgSrc="https://ouch-cdn2.icons8.com/CnURUztFpXYPWbI5AnKPFW00eEU6_2ooZkc1ZKHNyek/rs:fit:256:367/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTc4/Lzk2NWMyYTUwLTFi/YWYtNDI3MS04ZWE3/LWZkMTI5YmUyZTE1/Ni5wbmc.png"
             />
           </div>
-          <div className="mx-12 flex flex-col h-full justify-between ">
+          <div className="mx-12 flex flex-col h-full justify-between items-center ">
             <SmallProgramResultCard
               header={'SỐ LƯỢT THÍCH'}
               number={result?.countLike}
               color="blue"
-              imgSrc="https://ouch-cdn2.icons8.com/CnURUztFpXYPWbI5AnKPFW00eEU6_2ooZkc1ZKHNyek/rs:fit:256:367/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTc4/Lzk2NWMyYTUwLTFi/YWYtNDI3MS04ZWE3/LWZkMTI5YmUyZTE1/Ni5wbmc.png"
+              imgSrc={
+                'https://ouch-cdn2.icons8.com/XRdNlEWuNrUtT9j_4ITmCtDhbzvZqVSc29Zgm2YPyTk/rs:fit:256:207/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNDUy/L2JiYWVjMmRkLTg5/YTEtNDA4Yy04YTBk/LTc1YWFkZjI2MWQw/NC5wbmc.png'
+              }
+              imgClassName={'w-[32%]'}
             />
             <SmallProgramResultCard
               className="mt-5 bg-[#CB36FF]"
               header={'SỐ BÌNH LUẬN'}
               number={result?.countComment}
               color="purple"
-              imgSrc="https://ouch-cdn2.icons8.com/CnURUztFpXYPWbI5AnKPFW00eEU6_2ooZkc1ZKHNyek/rs:fit:256:367/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTc4/Lzk2NWMyYTUwLTFi/YWYtNDI3MS04ZWE3/LWZkMTI5YmUyZTE1/Ni5wbmc.png"
+              imgSrc={
+                'https://ouch-cdn2.icons8.com/wIO0q4i-rhS4_CqIBaaGThi3i4EeHAxKSO_fCdn7zng/rs:fit:256:264/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvODU5/LzM5MGQ5NWFlLWIz/NGItNGQ3Yy1hNmIw/LWFmMmIwZmFmNzU4/YS5wbmc.png'
+              }
+              imgClassName="w-[100%]"
             />
           </div>
           <div className=" flex flex-col h-full justify-between ">
@@ -63,14 +70,19 @@ export default function () {
               header={'SỐ CHƯƠNG'}
               number={result?.countContent}
               color="green"
-              imgSrc="https://ouch-cdn2.icons8.com/CnURUztFpXYPWbI5AnKPFW00eEU6_2ooZkc1ZKHNyek/rs:fit:256:367/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTc4/Lzk2NWMyYTUwLTFi/YWYtNDI3MS04ZWE3/LWZkMTI5YmUyZTE1/Ni5wbmc.png"
+              imgSrc={
+                'https://ouch-cdn2.icons8.com/YTg-3nEloZ4ai-FGIYWZ5vyyT0QYYpRR4hL0B_K76y4/rs:fit:256:192/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvMTQz/LzMwZDk2YWEyLWE5/MTgtNGEzOC1hOTMw/LTQ2OTY0ZGRiMmNl/Ny5wbmc.png'
+              }
+              imgClassName="w-[60%]"
             />
             <SmallProgramResultCard
               className="mt-5"
               header={'SỐ BÀI KIỂM TRA'}
               number={result?.countContent}
               color="red"
-              imgSrc="https://ouch-cdn2.icons8.com/CnURUztFpXYPWbI5AnKPFW00eEU6_2ooZkc1ZKHNyek/rs:fit:256:367/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNTc4/Lzk2NWMyYTUwLTFi/YWYtNDI3MS04ZWE3/LWZkMTI5YmUyZTE1/Ni5wbmc.png"
+              imgSrc={
+                'https://ouch-cdn2.icons8.com/oaZ6u_NdjONKx9iYFdqkbajZgZZQVGHKE4MsnVopgl0/rs:fit:256:256/czM6Ly9pY29uczgu/b3VjaC1wcm9kLmFz/c2V0cy9wbmcvNzU3/LzQyMjcyNmEzLTE4/MzktNDA2Ny1hNGY5/LTI3ODk1NGZjYmRm/ZC5wbmc.png'
+              }
             />
           </div>
           <AttendanceRateCard data={result ? result : {}} />

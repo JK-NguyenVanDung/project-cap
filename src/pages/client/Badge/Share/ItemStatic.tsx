@@ -1,6 +1,10 @@
 import React from 'react';
 import { Space } from '../../Programs/ResultProgram';
-import { BsFillHexagonFill, BsArrowDownLeft } from 'react-icons/bs';
+import {
+  BsFillHexagonFill,
+  BsArrowDownLeft,
+  BsCalendar3,
+} from 'react-icons/bs';
 import { SlBadge } from 'react-icons/sl';
 import { TfiAlarmClock } from 'react-icons/tfi';
 import { AiOutlineLineChart } from 'react-icons/ai';
@@ -13,18 +17,14 @@ export default function ItemStatic() {
       <div className="border-solid w-[fit-content] border-[1px] border-gray-400 rounded-xl p-3">
         <div className="flex ">
           <div>
-            <h1 className="font-bold text-sm text-gray-600">
-              Số Giờ Tham Gia Học
-            </h1>
-            <h1 className="font-bold text-lg text-black">2.000 Giờ</h1>
+            <h1 className="font-bold text-sm text-gray-600">Số Giờ Đào Tạo</h1>
+            <h1 className="font-bold text-2xl text-black py-2">20 Giờ</h1>
             <h1 className="flex items-center">
-              <div className="rounded-full bg-[#BAFCCC] p-1 m-1">
-                <BsArrowDownLeft
-                  color={Color.theme.GREEN_DARK}
-                  fontWeight={700}
-                />
+              <div className=" py-1 pr-1 m-1">
+                <BsCalendar3 fontWeight={700} />
               </div>
-              <span className="text-[#51CC5D] font-bold">-3,5%</span>
+              {/* <span className="text-[#51CC5D] font-bold">-3,5%</span> */}
+              <h1 className="font-bold text-sm text-black">2022-23</h1>
             </h1>
           </div>
           <Space sizeWidth={30} />
@@ -32,7 +32,7 @@ export default function ItemStatic() {
             <TfiAlarmClock size={30} color={Color.theme.GREEN_DARK} />
             <Space size={30} />
             <span className="text-primary underline underline-offset-2 cursor-pointer font-bold">
-              xem thêm
+              Xem thêm
             </span>
           </div>
         </div>

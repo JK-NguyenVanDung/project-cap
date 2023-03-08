@@ -25,25 +25,84 @@ export default function (props: any) {
   );
 }
 
-const HomeContent = () => {
+export const SmallCourseCard = ({
+  data,
+  navToSurvey,
+}: {
+  data: IProgramItem;
+  navToSurvey: Function;
+}) => {
+  const [like, setLike] = useState(data?.isLike);
+  const [totalLike, setTotalLike] = useState(data?.totalLike);
+
+  const [colorHeart, setColorHeart]: any = useState(Color.gray4);
+  const handelLove = (itemProgram?: IProgramItem) => {
+    setLike(!like);
+    like === false ? setColorHeart(Color.gray4) : setColorHeart(Color.error);
+    const fetchLike = async () => {
+      const response = await apiService.likeProgram(
+        itemProgram?.programId,
+        like,
+      );
+      const res: any = await apiService.getProgram(itemProgram?.programId);
+      setTotalLike(res.totalLike);
+    };
+    fetchLike();
+  };
+  useEffect(() => {
+    handelLove();
+  }, []);
   return (
     <>
-      <div className="flex flex-col bg-white h-1/2 border-white border-4 py-2 px-4">
-        <div className="flex w-full justify-between items-center">
-          <p className="text-xl font-semibold">Khoá học CNTT</p>
-          <IconButton variant="text">
-            <AiFillHeart className="text-lg text-gray-400" />
-          </IconButton>
+      <div className="w-fit min-w-[17rem] max-w-[17rem]   flex flex-col bg-white h-1/2 border-white  border-opacity-50 border-4 rounded-xl shadow-lg m-4">
+        <div className="max-h-[40vh] h-[25vh]  w-full">
+          {/* {!data.isRegistered && (
+            <div className="absolute  tag bg-green-500 px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-[-4px]">
+              <div className="relative bg-green-500">
+                <p>{getStatus(data?.status)}</p>
+              </div>
+            </div>
+          )} */}
+          <img
+            className="rounded-lg object-cover	h-full w-full"
+            src={`${API_URL}/images/${data.image}`}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null; // prevents looping
+              currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+              // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
+            }}
+            alt=""
+          />
         </div>
-        <p className="text-body"> HK1 - 2022-2023</p>
-        <div className="flex w-[88%] justify-between items-center my-4">
-          <div className="flex   items-center">
-            <IoPerson className="text-lg mr-2 text-gray-400" />
-            Thầy Minh
+        <div className="py-2 px-4 ">
+          <div className="flex w-full justify-between items-center ">
+            <p className="text-lg my-2 eclipse-text  max-w-fit w-fit font-semibold cursor-pointer hover:text-primary">
+              {data.programName}
+            </p>
+            <div className="flex items-center">
+              <span className="text-body text-bold">
+                {data ? totalLike : data?.totalLike}
+              </span>
+              <AiFillHeart
+                onClick={() => handelLove(data)}
+                color={colorHeart}
+                className="ml-2 text-xl cursor-pointer"
+              />
+            </div>
           </div>
-          <div className="flex   items-center">
-            <RiTimerFill className="text-lg mr-2 text-gray-400" />
-            23 tiếng
+          <p className="text-body">
+            {' '}
+            {`HK${data?.semester} - ${data?.academicYear?.year}`}{' '}
+          </p>
+          <div className="flex w-[88%] justify-between items-center my-4">
+            <div className="flex   items-center">
+              <IoPerson className="text-lg mr-2 text-gray-400" />
+              {data.lecturers}
+            </div>
+            <div className="flex   items-center">
+              <RiTimerFill className="text-lg mr-2 text-gray-400" />
+              {data.trainingHours}h
+            </div>
           </div>
         </div>
       </div>
@@ -92,9 +151,9 @@ const CourseContent = ({
   }
   return (
     <>
-      <div className="cardCont border  mb-32  min-w-[7rem] h-full    max-h-[40vh] w-[18rem] rounded-[20px] font-customFont ">
+      <div className="cardCont  mb-32  min-w-[7rem] h-full    max-h-[40vh] w-[18rem] rounded-[20px] font-customFont ">
         <div
-          className="card border-[2px] border-gray-300 hover:border-primary flex
+          className="card shadow-lg  border-[2px] border-white hover:border-primary flex
           overflow-hidden flex-col  w-full rounded-[20px] justify-end hover:border-[3px]  " //border-[2px] border-color-[#c3c6ce]
         >
           <div className="max-h-[40vh] h-[25vh]  w-full">

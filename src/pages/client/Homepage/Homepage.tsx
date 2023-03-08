@@ -10,11 +10,14 @@ import Banner from './Banner';
 import { useMsal } from '@azure/msal-react';
 import FormFirstTime from './FormFirstTime';
 import Loading from '../../../components/sharedComponents/Loading';
+import CourseCarousel from './CourseCarousel';
 
 export default function Homepage() {
   const { instance, accounts } = useMsal();
   const dispatch = useAppDispatch();
-  const [data, setData] = useState([]);
+  const [bannerData, setBannerData] = useState([]);
+  const [programs, setPrograms] = useState([]);
+
   const [loading, setLoading] = useState(false);
 
   const info = useAppSelector((state) => state.auth.info);
@@ -30,7 +33,9 @@ export default function Homepage() {
       setLoading(true);
       try {
         const data: any = await apiService.getMySurveys(info.accountId);
-        setData(data);
+        setBannerData(data);
+        const res: any = await apiService.getPrograms();
+        setPrograms(res);
       } catch (error) {
         console.log(error);
       }
@@ -46,20 +51,29 @@ export default function Homepage() {
 
   return (
     <>
-      <div className="relative">
-        <div className="absolute w-full h-screen">
-          <Loading loading={loading} />
-        </div>
-        <div
-          className={`flex w-full items-center justify-center ${
-            loading ? 'hidden' : 'visible'
-          }`}
-        >
-          <div className="w-[84vw]">
-            <Banner data={data} />
+      <div className="">
+        <div className="relative">
+          <div className="absolute w-full h-fit">
+            <Loading loading={loading} />
           </div>
+          <div
+            className={`flex w-full items-center  ${
+              loading ? 'hidden' : 'visible'
+            }`}
+          >
+            <div className="w-[84vw]">
+              <Banner data={[...bannerData, ...bannerData]} />
+            </div>
+          </div>
+
+          <FormFirstTime />
         </div>
-        <FormFirstTime />
+        <div className="my-12 w-[90vw]">
+          <CourseCarousel data={programs} title="Khoá học mới nhất" />
+        </div>
+        <div className="my-12 w-[90vw]">
+          <CourseCarousel data={programs} title="Khoá học nổi tiếng" />
+        </div>
       </div>
     </>
   );

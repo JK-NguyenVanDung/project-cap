@@ -35,7 +35,7 @@ export default function Category() {
     } catch (err: any) {
       notification.error({
         message:
-          'Nhóm chương trình này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn nhóm chương trình khá trong chương trình đó để xoá nhóm chương trình này',
+          'Nhóm chương trình này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn nhóm chương trình khác trong chương trình đó để xoá nhóm chương trình này',
       });
     }
   }

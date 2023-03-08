@@ -1,7 +1,8 @@
 // install (please make sure versions match peerDependencies)
 // yarn add @nivo/core @nivo/bar
 import { ResponsiveBar } from '@nivo/bar';
-import { getColor } from '../../utils/uinqueId';
+import { IoCalendarNumberOutline } from 'react-icons/io5';
+import { getColor, getYears } from '../../utils/uinqueId';
 
 // make sure parent container have a defined height when using
 // responsive component, otherwise height will be 0 and
@@ -17,14 +18,14 @@ const MyResponsiveBar = ({
 }) => (
   <ResponsiveBar
     data={data}
-    keys={['averageTestScore']}
+    keys={['ProgramCount']}
     indexBy="testTitle"
-    margin={{ top: 50, right: 130, bottom: 60, left: 60 }}
+    margin={{ top: 50, right: 30, bottom: 100, left: 60 }}
     padding={0.3}
     groupMode="grouped"
     valueScale={{ type: 'linear' }}
     indexScale={{ type: 'band', round: true }}
-    colors={() => '#A9A4F6'}
+    colors={({ id, data }: any) => data[`Color`]}
     defs={[
       {
         id: 'dots',
@@ -61,7 +62,9 @@ const MyResponsiveBar = ({
           }}
         >
           {e?.data?.testTitle}:{' '}
-          {e.data?.averageTestScore ? e.data.averageTestScore : 'No data'}
+          {e.data?.ProgramCount
+            ? e.data.ProgramCount + ' Chương Trình'
+            : 'No data'}
         </div>
       );
     }}
@@ -87,23 +90,6 @@ const MyResponsiveBar = ({
     axisRight={null}
     minValue={0}
     maxValue={hasData ? 'auto' : 10}
-    // axisBottom={{
-    //   tickSize: 5,
-    //   tickPadding: 5,
-    //   tickRotation: 0,
-    //   legend: 'Tên khoá học',
-    //   legendPosition: 'middle',
-    //   legendOffset: 32,
-    // }}
-    axisLeft={{
-      tickSize: 5,
-      tickPadding: 5,
-      tickRotation: 0,
-
-      legend: 'Điểm trung bình',
-      legendPosition: 'middle',
-      legendOffset: -40,
-    }}
     labelSkipWidth={12}
     labelSkipHeight={12}
     labelTextColor={{
@@ -115,43 +101,26 @@ const MyResponsiveBar = ({
     barAriaLabel={function (e) {
       return e.id + ': ' + e.formattedValue + ' in country: ' + e.indexValue;
     }}
-    // legends={[
-    //   {
-    //     dataFrom: 'indexes',
-    //     anchor: 'bottom',
-    //     direction: 'row',
-    //     justify: false,
-    //     translateX: 14,
-    //     translateY: 63,
-    //     itemsSpacing: 2,
-    //     itemWidth: 240,
-    //     itemHeight: 0,
-    //     itemDirection: 'left-to-right',
-    //     itemOpacity: 0.85,
-    //     symbolSize: 20,
-    //     effects: [
-    //       {
-    //         on: 'hover',
-    //         style: {
-    //           itemOpacity: 1,
-    //         },
-    //       },
-    //     ],
-    //   },
-    // ]}
   />
 );
+
 export default function ({ data }: { data: any }) {
   return (
-    <div className="w-full h-[80vh] bg-gray-200 rounded-xl shadow-2xl">
-      <h1 className="px-8 pt-8 text-xl">Điểm trung bình qua các chương</h1>
-      <div className="h-[70vh]">
+    <div className="w-full h-fit bg-white rounded-xl mx-2 shadow-xl">
+      <div className="flex justify-between items-center w-full  pt-8">
+        <h1 className="px-4 text-xl">Số lượng khóa học theo năm học</h1>
+        <div className="flex px-2 items-center border border-black rounded mr-4">
+          <IoCalendarNumberOutline className="mr-4 text-lg" />
+          <p className="text-lg"> {getYears()}</p>
+        </div>
+      </div>
+      <div className="h-[80vh]">
         <MyResponsiveBar
           data={data.map((item: any) => {
             return {
               id: 'Điểm trung bình',
-              testTitle: item.testTitle,
-              averageTestScore: item.averageTestScore,
+              testTitle: 'Tháng ' + item.month,
+              ProgramCount: item.programs,
               Color: getColor(),
             };
           })}
