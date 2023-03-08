@@ -45,7 +45,6 @@ export default function ReviewTest(props: any) {
   const listAllQuestions: Array<IQuestion> = useAppSelector(
     (state) => state.test.listQuestions,
   );
-  const seen: any = useAppSelector((state) => state.test.seen);
   const selectedChapter: IChapterItem = useAppSelector(
     (state) => state.product.selectedChapter,
   );
@@ -110,6 +109,15 @@ export default function ReviewTest(props: any) {
   //     );
   //   };
   // }, []);
+  function getValues() {
+    let map = new Set();
+    for (let i = 0; i < answers.length; i++) {
+      if (!map.has(answers[i].questionId)) {
+        map.add(answers[i].questionId);
+      }
+    }
+    return map.size;
+  }
   const content = [
     {
       title: 'Tổng thời gian làm bài:',
@@ -121,7 +129,7 @@ export default function ReviewTest(props: any) {
     },
     {
       title: 'Tổng số câu trả lời:',
-      value: `${seen?.length} / ${selectedTest.questionCount} câu`, //moment(program?.endDate).format('DD/MM/YYYY').toString(),
+      value: `${getValues()} / ${selectedTest.questionCount} câu`, //moment(program?.endDate).format('DD/MM/YYYY').toString(),
     },
   ];
   return (

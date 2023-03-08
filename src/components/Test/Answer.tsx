@@ -120,7 +120,7 @@ const OptionalAnswer = ({
         isMultiple: isMultiple,
       }),
     );
-    dispatch(actions.testActions.addLength(questionContentId));
+    // dispatch(actions.testActions.addLength(questionContentId));
   }
 
   function getStyle(contentId: any, answers: Array<IAnswer>) {
