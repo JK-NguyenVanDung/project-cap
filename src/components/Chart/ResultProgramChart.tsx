@@ -12,7 +12,7 @@ const MyResponsiveBar = ({
   data,
   hasData,
 }: {
-  data: DataProps[];
+  data: any;
   hasData: boolean;
 }) => (
   <ResponsiveBar
