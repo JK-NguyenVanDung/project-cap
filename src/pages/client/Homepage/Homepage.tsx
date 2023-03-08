@@ -68,10 +68,10 @@ export default function Homepage() {
 
           <FormFirstTime />
         </div>
-        <div className="my-12 w-[80vw]">
+        <div className="my-12 w-[90vw]">
           <CourseCarousel data={programs} title="Khoá học mới nhất" />
         </div>
-        <div className="my-12 w-[80vw]">
+        <div className="my-12 w-[90vw]">
           <CourseCarousel data={programs} title="Khoá học nổi tiếng" />
         </div>
       </div>

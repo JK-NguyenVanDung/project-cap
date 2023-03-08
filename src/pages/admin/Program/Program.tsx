@@ -117,17 +117,19 @@ export default function Program() {
       key: 'status',
       render: (data: any) => {
         return data.status == 'approved' ? (
-          <h5 className="text-bold text-primary">Đã Duyệt</h5>
+          <h5 className="font-semibold text-primary">Đã Duyệt</h5>
         ) : data.status == 'denied' ? (
-          <h5 className="text-bold text-red-500">Từ Chối</h5>
+          <h5 className="font-semibold text-red-500">Từ Chối</h5>
         ) : data.status == 'save' ? (
-          <h5 className="text-bold text-yellow-800">Lưu nháp</h5>
+          <h5 className="font-semibold text-yellow-800">Lưu Nháp</h5>
         ) : data.status == 'public' ? (
-          <h5 className="text-bold text-green-500">Công Khai</h5>
+          <h5 className="font-semibold text-green-500">Công Khai</h5>
         ) : data.status == 'hide' ? (
-          <h5 className="text-bold text-purple-500">Riêng tư</h5>
+          <h5 className="font-semibold text-purple-500">Riêng Tư</h5>
+        ) : data.status == 'end' ? (
+          <h5 className=" text-black font-bold">Kết Thúc</h5>
         ) : (
-          <h5 className="text-bold text-orange-500">Chờ Duyệt</h5>
+          <h5 className="font-semibold text-orange-500">Chờ Duyệt</h5>
         );
       },
     },

@@ -150,7 +150,7 @@ export default function ClientSideBar({ content }: { content: any }) {
         </div>
         <div className="z-[2]  ml-[16%] max-sm:ml-0 w-full  ">
           <header className="header bg-white px-4 ">
-            <div className="w-full flex items-center justify-between ">
+            <div className="w-[80vw] flex items-center justify-between ">
               <button
                 data-collapse-toggle="navbar-cta"
                 type="button"

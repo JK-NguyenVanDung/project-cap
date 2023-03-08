@@ -85,7 +85,7 @@ const MyResponsivePie = ({ data }: { data: any }) => (
         match: {
           id: 'Chưa hoàn thành',
         },
-        id: 'dots',
+        id: 'lines',
       },
       {
         match: {
@@ -115,7 +115,7 @@ const MyResponsivePie = ({ data }: { data: any }) => (
         match: {
           id: 'Đã hoàn thành',
         },
-        id: 'lines',
+        id: 'dots',
       },
     ]}
     // legends={[
