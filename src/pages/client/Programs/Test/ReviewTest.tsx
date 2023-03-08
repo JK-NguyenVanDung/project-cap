@@ -45,9 +45,7 @@ export default function ReviewTest(props: any) {
   const listAllQuestions: Array<IQuestion> = useAppSelector(
     (state) => state.test.listQuestions,
   );
-  const answerLength: number = useAppSelector(
-    (state) => state.test.answerLength,
-  );
+  const seen: any = useAppSelector((state) => state.test.seen);
   const selectedChapter: IChapterItem = useAppSelector(
     (state) => state.product.selectedChapter,
   );
@@ -123,7 +121,7 @@ export default function ReviewTest(props: any) {
     },
     {
       title: 'Tổng số câu trả lời:',
-      value: `${answerLength} / ${selectedTest.questionCount} câu`, //moment(program?.endDate).format('DD/MM/YYYY').toString(),
+      value: `${seen?.length} / ${selectedTest.questionCount} câu`, //moment(program?.endDate).format('DD/MM/YYYY').toString(),
     },
   ];
   return (

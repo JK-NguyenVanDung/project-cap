@@ -18,7 +18,6 @@ export default function () {
   const [data, setData] = useState([]);
 
   const [selectedYear, setSelectedYear] = useState('');
-  const [selectedFaculty, setSelectedFaculty] = useState('');
 
   const [filterData, setFilterData] = useState([]);
 
@@ -63,12 +62,12 @@ export default function () {
     const res: any = await apiService.getAcademicYear();
     if (res) {
       setYears(res);
+      getData(res[res.length - 1]?.id);
     }
   };
 
   async function getData(yearId?: number) {
     setLoading(true);
-    setSelectedYear(years[years.length - 1].year);
 
     try {
       let response: any = await apiService.getCategoryStatistic(
@@ -99,9 +98,11 @@ export default function () {
     );
     getAcademicYear();
   }, []);
-  useEffect(() => {
-    getData();
-  }, [years]);
+
+  function getSelectedValue(a: any) {
+    let value = years.find((e) => e.id == a);
+    setSelectedYear(value.year);
+  }
   return (
     <>
       <div className="">
@@ -126,7 +127,8 @@ export default function () {
                         value: item.id,
                         label: item.year,
                       }))}
-                      getSelectedValue={(e: any) => setSelectedYear(e.year)}
+                      defaultValue={years[years.length - 1]?.id}
+                      getSelectedValue={(e: any) => getSelectedValue(e)}
                     />
                   </div>
                   <div className="ml-12 mt-2">
@@ -147,7 +149,7 @@ export default function () {
                         s: { fill: { fgColor: { rgb: 'E9E9E9' } } },
                       };
                     })}
-                    fileName={`Thống kê theo nhóm chương trình - ${selectedYear}-${selectedFaculty}`}
+                    fileName={`Thống kê theo nhóm chương trình - ${selectedYear}`}
                   />
                 </div>
               </Form>

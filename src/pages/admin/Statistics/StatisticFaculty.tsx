@@ -63,12 +63,13 @@ export default function () {
     const res: any = await apiService.getAcademicYear();
     if (res) {
       setYears(res);
+      setSelectedYear(res[res.length - 1]?.year);
+      getData(res[res.length - 1]?.id);
     }
   };
 
   async function getData(yearId?: number) {
     setLoading(true);
-    setSelectedYear(years[years.length - 1].year);
 
     try {
       let response: any = await apiService.getFacultyStatistic(
@@ -93,13 +94,15 @@ export default function () {
       getData(data.yearId);
     });
   }
+  function getSelectedValue(a: any) {
+    let value = years.find((e) => e.id == a);
+    setSelectedYear(value.year);
+  }
   useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`Thống kê theo khoa`));
     getAcademicYear();
   }, []);
-  useEffect(() => {
-    getData();
-  }, [years]);
+
   return (
     <>
       <div className="">
@@ -124,7 +127,8 @@ export default function () {
                         value: item.id,
                         label: item.year,
                       }))}
-                      getSelectedValue={(e: any) => setSelectedYear(e.year)}
+                      defaultValue={years[years.length - 1]?.id}
+                      getSelectedValue={(e: any) => getSelectedValue(e)}
                     />
                   </div>
                   <div className="ml-12 mt-2">
@@ -144,7 +148,7 @@ export default function () {
                         SoChuongTrinh: item.countProgram,
                       };
                     })}
-                    fileName={`Thống kê theo khoa - ${selectedYear}-${selectedFaculty}`}
+                    fileName={`Thống kê theo khoa - ${selectedYear}`}
                   />
                 </div>
               </Form>
