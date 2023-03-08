@@ -9,7 +9,7 @@ import { IProgramResults } from '../../Type';
 const MyResponsivePie = ({ data }: { data: any }) => (
   <ResponsivePie
     data={data}
-    margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+    margin={{ top: 40, right: 20, bottom: 20, left: 20 }}
     innerRadius={0.5}
     padAngle={0.7}
     cornerRadius={3}
@@ -118,31 +118,31 @@ const MyResponsivePie = ({ data }: { data: any }) => (
         id: 'lines',
       },
     ]}
-    legends={[
-      {
-        anchor: 'bottom',
-        direction: 'column',
-        justify: false,
-        translateX: 150,
-        translateY: 56,
-        itemsSpacing: 10,
-        itemWidth: 130,
-        itemHeight: 18,
-        itemTextColor: '#fff',
-        itemDirection: 'left-to-right',
-        itemOpacity: 1,
-        symbolSize: 18,
-        symbolShape: 'circle',
-        effects: [
-          {
-            on: 'hover',
-            style: {
-              itemTextColor: '#111',
-            },
-          },
-        ],
-      },
-    ]}
+    // legends={[
+    //   {
+    //     anchor: 'bottom',
+    //     direction: 'column',
+    //     justify: false,
+    //     translateX: 150,
+    //     translateY: 56,
+    //     itemsSpacing: 10,
+    //     itemWidth: 130,
+    //     itemHeight: 18,
+    //     itemTextColor: '#fff',
+    //     itemDirection: 'left-to-right',
+    //     itemOpacity: 1,
+    //     symbolSize: 18,
+    //     symbolShape: 'circle',
+    //     effects: [
+    //       {
+    //         on: 'hover',
+    //         style: {
+    //           itemTextColor: '#111',
+    //         },
+    //       },
+    //     ],
+    //   },
+    // ]}
   />
 );
 export default function ({ data }: { data: IProgramResults }) {
@@ -156,6 +156,13 @@ export default function ({ data }: { data: IProgramResults }) {
           <MyResponsivePie
             data={[
               {
+                id: 'Chưa hoàn thành',
+                label: 'Chưa hoàn thành',
+                value: data?.countLearnerIncomplete
+                  ? data?.countLearnerIncomplete
+                  : 100,
+              },
+              {
                 id: 'Đã nghỉ học',
                 label: 'Đã nghỉ học',
                 value: data?.countLearnerStopParticipating,
@@ -163,15 +170,9 @@ export default function ({ data }: { data: IProgramResults }) {
               {
                 id: 'Đang tham gia',
                 label: 'Đang tham gia',
-                value: data?.countLearnerComplete,
+                value: data?.countLearnerAttending,
               },
-              {
-                id: 'Chưa hoàn thành',
-                label: 'Chưa hoàn thành',
-                value: data?.countLearnerIncomplete
-                  ? data?.countLearnerIncomplete
-                  : 100,
-              },
+
               {
                 id: 'Đã hoàn thành',
                 label: 'Đã hoàn thành',
