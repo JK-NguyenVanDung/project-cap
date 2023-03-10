@@ -41,7 +41,7 @@ export default function MenuDropdown({ params }: { params: any }) {
           dispatch(
             actions.formActions.setNameMenu(
               `${
-                params.title == 'Trang Chủ'
+                params.title == 'Trang Chủ' || params.title == 'Dashboard'
                   ? params.title
                   : 'Quản Lý ' + params.title
               }`,

@@ -115,7 +115,7 @@ const RightSection = (props: any) => {
           Huỷ đăng ký chương trình {program?.programName}
         </p>
       </ConfirmModal>
-      <div className=" rounded-xl w-fit text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
+      <div className="lg:min-w-[21rem] rounded-xl w-fit text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
         <p className="mt-6 text-xl font-light text-gray-900 text-center  flex w-full justify-center items-center">
           THÔNG TIN KHOÁ HỌC
         </p>
@@ -197,7 +197,15 @@ const RightSection = (props: any) => {
             className=" w-[90%] my-2  h-10"
             onClick={() => goResultProgram(programId)}
           />
-          {props.isApproved === true ? (
+          {program?.status === 'end' ? (
+            <CustomButton
+              noIcon
+              color={'gray'}
+              text={'Đã kết thúc'}
+              disabled
+              className=" w-[90%] my-2  h-10"
+            />
+          ) : props.isApproved === true ? (
             <CustomButton
               noIcon
               color={'green'}
