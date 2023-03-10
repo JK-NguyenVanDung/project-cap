@@ -147,7 +147,6 @@ export default function () {
                         STT: item.index,
                         TenNhomChuongTrinh: item.name,
                         SoChuongTrinh: item.countProgram,
-                        s: { fill: { fgColor: { rgb: 'E9E9E9' } } },
                       };
                     })}
                     fileName={`Thống kê theo nhóm chương trình - ${selectedYear}`}
