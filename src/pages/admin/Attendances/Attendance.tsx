@@ -39,7 +39,7 @@ export default function Attendance() {
       ...item,
       surveyTime: [
         moment(item?.attendance?.startTime),
-        moment(item?.attendance?.endTime``),
+        moment(item?.attendance?.endTime),
       ],
     });
     setShowModal(true);
