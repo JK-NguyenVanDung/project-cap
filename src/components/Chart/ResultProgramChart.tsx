@@ -154,7 +154,7 @@ export default function ({ data }: { data: any }) {
             return {
               id: 'Điểm bài tập',
               testTitle: item.testTitle,
-              averageTestScore: item.averageTestScore,
+              averageTestScore: item.score,
               color: `${Color.theme.TORY_BLUE}`,
             };
           })}

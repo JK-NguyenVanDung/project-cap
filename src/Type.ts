@@ -104,6 +104,7 @@ const ProgramItem = z.object({
   trainingHours: z.string(),
   totalLike: z.number(),
   registerStatus: z.string(),
+  isComplete: z.boolean()
 });
 
 const ChapterItem = z.object({
