@@ -22,13 +22,20 @@ export default function MyProgram() {
     setLoading(true);
     const fetch = async () => {
       try {
-        const data: any = await apiService.getMyPrograms(myAccount.accountId);
-        let temp = data.filter(
+        const data: any = await apiService.getMyPrograms(info.accountId);
+        let tempA = data.filter(
           (item: IProgramItem) => item.status === 'public',
         );
-        temp = data.reverse();
-        setData(temp);
-        setFilterData(temp);
+        let tempB = data.filter(
+          (item: IProgramItem) =>
+            item.status === 'public' || item.status === 'end',
+        );
+        tempA = tempA.reverse();
+        tempB = tempB.reverse();
+
+        // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
+        setData(tempA);
+        setFilterData(tempB);
       } catch (error) {
         console.log(error);
       }
@@ -46,11 +53,11 @@ export default function MyProgram() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(false);
 
-  const [filter, setFilter] = useState('Chưa đăng ký');
+  const [filter, setFilter] = useState('Đang tham gia');
   const items: MenuProps['items'] = [
     {
       key: '1',
-      label: <a onClick={() => setFilter('Chưa đăng ký')}>Chưa đăng ký</a>,
+      label: <a onClick={() => setFilter('Đang tham gia')}>Đang tham gia</a>,
     },
     {
       key: '2',
@@ -68,14 +75,16 @@ export default function MyProgram() {
   useEffect(() => {
     const filtering = () => {
       setLoading(true);
-      setData(filterData);
-
-      // if (filter === 'Hoàn thành') {
-      //   setData(filterData);
-      // }
-      // if (filter === 'Cũ nhất') {
-      //   setData(filterData.slice().reverse());
-      // }
+      if (filter === 'Đang tham gia') {
+        setData(
+          filterData?.filter((item: IProgramItem) => item.status === 'public'),
+        );
+      }
+      if (filter === 'Hết hạn') {
+        setData(
+          filterData?.filter((item: IProgramItem) => item.status === 'end'),
+        );
+      }
     };
     filtering();
     let timer = setTimeout(() => {

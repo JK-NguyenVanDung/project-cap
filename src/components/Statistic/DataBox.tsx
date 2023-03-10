@@ -20,7 +20,7 @@ export default function ({
       <div
         className={`flex flex-col w-fit mx-2 justify-between min-w-[16rem]  border border-${[
           color ? color : '#C7D0FF',
-        ]} rounded-xl p-8 shadow-xl`}
+        ]} rounded-xl p-8 shadow-xl bg-${color} bg-opacity-30`}
       >
         <div className="flex w-full items-center">
           <p className="font-semibold text-base mr-4">{title}</p>{' '}

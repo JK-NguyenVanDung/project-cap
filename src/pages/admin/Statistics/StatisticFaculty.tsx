@@ -75,7 +75,6 @@ export default function () {
       let response: any = await apiService.getFacultyStatistic(
         yearId ? yearId : years[years.length - 1].id,
       );
-      response = response.statistics.reverse();
       response = response.map((v: any, index: number) => {
         return {
           ...v,
@@ -88,6 +87,7 @@ export default function () {
         setLoading(false);
       }, 1000);
     } catch (error) {}
+    setLoading(false);
   }
   async function submit() {
     form.validateFields().then(async (data: any) => {

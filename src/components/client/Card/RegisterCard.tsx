@@ -67,7 +67,7 @@ const CourseContent = (props: {
     <>
       <div className="cardCont border min-w-[7rem] h-fit  min-h-[28vh] max-h-[29rem] w-[18rem] rounded-[20px] font-customFont ">
         <div
-          className={`card ${getColor()} flex overflow-hidden flex-col  w-full rounded-[20px] justify-end border-[2px] border-gray-200 `} //border-[2px] border-color-[#c3c6ce]
+          className={`card ${getColor()} flex overflow-hidden flex-col  w-full rounded-[20px] justify-end border-[2px] border-gray-200  hover:border-primary hover:transition-colors	hover:ease-in-out`} //border-[2px] border-color-[#c3c6ce]
         >
           <div className="h-[30vh]  w-full">
             <img

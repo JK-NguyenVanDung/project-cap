@@ -63,7 +63,12 @@ const Position = {
     positionName: z.string(),
   }),
 };
-
+const Learner = z.object({
+  status: z.string(),
+  registerStatus: z.string(),
+  reasonRefusal: z.string(),
+  timeFinsih: z.string(),
+});
 const ProgramItem = z.object({
   isRegister: z.boolean(),
   isLike: z.boolean(),
@@ -91,6 +96,7 @@ const ProgramItem = z.object({
     categoryId: z.number(),
     categoryName: z.string(),
   }),
+  learners: z.array(Learner),
   maxLearner: z.number() || z.string(),
   faculty: z.object(Faculty),
   programPositions: z.array(z.object(Position)),

@@ -23,7 +23,7 @@ export default function ItemMenu({ params }: { params: any }) {
           dispatch(
             actions.formActions.setNameMenu(
               `${
-                params.title == 'Trang Chủ'
+                params.title == 'Trang Chủ' || params.title == 'Dashboard'
                   ? params.title
                   : params.headTitle &&
                     params.headTitle.includes('Chương Trình')
