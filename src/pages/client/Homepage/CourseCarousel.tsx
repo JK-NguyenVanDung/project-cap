@@ -32,27 +32,9 @@ export default function ({
   const dispatch = useAppDispatch();
   const range: any = useAppSelector((state) => state.survey.range);
 
-  async function navToSurvey(item: ISurveyItem) {
-    setLoading(true);
-    dispatch(actions.surveyActions.setSelectedSurvey(item));
-    try {
-      let res: any = await apiService.getSurveyQuestions(item.surveyId);
-      res = res.map((item: any, index: number) => {
-        return { ...item, index: index + 1 };
-      });
-      dispatch(
-        actions.surveyActions.setListCurrentQuestions(
-          res.slice(range.base, range.limit),
-        ),
-      );
-
-      dispatch(actions.surveyActions.setListQuestions(res));
-
-      navigate(`/Survey/Question`);
-    } catch (err: any) {
-      throw err.message;
-    }
-    setLoading(false);
+  async function navToProgram(item: IProgramItem) {
+    dispatch(actions.formActions.setProgramForm(item));
+    navigate(`/Programs/${item.programId}`);
   }
   return (
     <>
@@ -78,7 +60,10 @@ export default function ({
               return (
                 <SwiperSlide>
                   <div className="w-fit">
-                    <SmallCourseCard data={item} navToSurvey={navToSurvey} />
+                    <SmallCourseCard
+                      data={item}
+                      onClick={() => navToProgram(item)}
+                    />
                   </div>
                 </SwiperSlide>
               );

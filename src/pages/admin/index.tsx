@@ -54,7 +54,11 @@ export default function SideBar({
     temp &&
       dispatch(
         actions.formActions.setNameMenu(
-          `${temp == 'Trang Chủ' ? temp : 'Quản Lý ' + temp}`,
+          `${
+            temp == 'Trang Chủ' || temp == 'Dashboard'
+              ? temp
+              : 'Quản Lý ' + temp
+          }`,
         ),
       );
   }, []);

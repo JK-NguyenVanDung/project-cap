@@ -22,13 +22,19 @@ export default function Programs() {
     const fetch = async () => {
       try {
         const data: any = await apiService.getPrograms();
-        let temp = data.filter(
+        let tempA = data.filter(
           (item: IProgramItem) => item.status === 'public',
         );
-        temp = temp.reverse();
+        let tempB = data.filter(
+          (item: IProgramItem) =>
+            item.status === 'public' || item.status === 'end',
+        );
+        tempA = tempA.reverse();
+        tempB = tempB.reverse();
+
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
-        setData(temp);
-        setFilterData(temp);
+        setData(tempA);
+        setFilterData(tempB);
       } catch (error) {
         console.log(error);
       }
@@ -55,10 +61,10 @@ export default function Programs() {
       key: '2',
       label: <a onClick={() => setFilter('Hết hạn')}>Hết hạn</a>,
     },
-    {
-      key: '3',
-      label: <a onClick={() => setFilter('Hoàn thành')}>Hoàn thành</a>,
-    },
+    // {
+    //   key: '3',
+    //   label: <a onClick={() => setFilter('Hoàn thành')}>Hoàn thành</a>,
+    // },
     // {
     //   key: '3',
     //   label: <a onClick={() => setFilter('Từ A-Z')}>Từ A-Z</a>,
@@ -67,14 +73,18 @@ export default function Programs() {
   useEffect(() => {
     const filtering = () => {
       setLoading(true);
-      setData(filterData);
+      // setData(filterData);
 
-      // if (filter === 'Hoàn thành') {
-      //   setData(filterData);
-      // }
-      // if (filter === 'Cũ nhất') {
-      //   setData(filterData.slice().reverse());
-      // }
+      if (filter === 'Chưa đăng ký') {
+        setData(
+          filterData?.filter((item: IProgramItem) => item.status === 'public'),
+        );
+      }
+      if (filter === 'Hết hạn') {
+        setData(
+          filterData?.filter((item: IProgramItem) => item.status === 'end'),
+        );
+      }
     };
     filtering();
     let timer = setTimeout(() => {

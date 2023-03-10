@@ -151,7 +151,7 @@ export default function ({ data }: { data: any }) {
             return {
               id: 'Điểm trung bình',
               testTitle: item.testTitle,
-              averageTestScore: item.averageTestScore,
+              averageTestScore: Math.round(item.averageTestScore),
               Color: getColor(),
             };
           })}
