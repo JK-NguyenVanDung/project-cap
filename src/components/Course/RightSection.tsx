@@ -33,7 +33,6 @@ const RightSection = (props: any) => {
   const [showConfirm, setShowConfirm] = useState(false);
   useAppDispatch;
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     getData();
   }, []);
@@ -190,20 +189,25 @@ const RightSection = (props: any) => {
         />
 
         <div className="flex my-8 flex-col w-full items-center justify-center">
-          <CustomButton
-            noIcon
-            color={'green'}
-            text={'Xem Kết Quả Học Tập'}
-            className=" w-[90%] my-2  h-10"
-            onClick={() => goResultProgram(programId)}
-          />
-          {props.isApproved === true ? (
+          {program?.isComplete === true ? (
             <CustomButton
               noIcon
               color={'green'}
-              text={'Đã đăng ký'}
+              text={'Xem Kết Quả Học Tập'}
               className=" w-[90%] my-2  h-10"
+              onClick={() => goResultProgram(programId)}
             />
+          ) : null}
+
+          {props.isApproved === true ? (
+            program?.isComplete === false ? (
+              <CustomButton
+                noIcon
+                color={'green'}
+                text={'Đã đăng ký'}
+                className=" w-[90%] my-2  h-10"
+              />
+            ) : null
           ) : (
             <CustomButton
               onClick={() =>

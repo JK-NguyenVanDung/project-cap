@@ -7,18 +7,32 @@ import logo from '../../../../assets/logo.svg';
 import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
 import { useMsal } from '@azure/msal-react';
+import { IProgramItem } from '../../../../Type';
+import apiService from '../../../../api/apiService';
 
 export default function () {
   const [form] = Form.useForm();
   const { accounts } = useMsal();
   const nameMenu = useAppSelector((state: any) => state.form.nameMenu);
   const dispatch = useAppDispatch();
-
+  const program = useAppSelector((state: any) => state.form.programId);
+  const info = useAppSelector((state) => state.auth.info);
   const [fullName, setFullName] = useState({ value: nameMenu });
+  const [detailBadge, setDetailBadge]: any = useState();
   useEffect(() => {
     dispatch(
       actions.formActions.setNameMenu(`${accounts[0]?.name.split('-')[1]}`),
     );
+  }, []);
+  useEffect(() => {
+    const fetchDetailBadge = async () => {
+      const response: any = await apiService.getCertificate(
+        info.accountId,
+        program.programId,
+      );
+      setDetailBadge(response);
+    };
+    fetchDetailBadge();
   }, []);
   const handelChangeText = (event: any) => {
     setFullName((prev) => ({ ...prev, value: event.target.value }));
@@ -45,8 +59,8 @@ export default function () {
                 {fullName.value}
               </p>
               <Space size={20} />
-              <p className="text-[16px] font-thin w-[350px] text-center text-black font-serif">
-                đã đạt chứng chỉ chương trình đào tạo Anh Văn Chuyên Ngành
+              <p className="text-[16px] font-thin w-[350px] text-center text-black font-serif capitalize">
+                đã đạt được chứng chỉ chương trình {detailBadge?.programName}
               </p>
             </div>
           </div>
@@ -82,6 +96,7 @@ export default function () {
                 ]}
               >
                 <Input
+                  disabled
                   className={`font-customFont  font-bold bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                   onChange={handelChangeText}
                   defaultValue={nameMenu}
@@ -91,7 +106,7 @@ export default function () {
               <FormInput
                 className="w-full"
                 name="phoneNumber"
-                label="Chương Trình"
+                placeholder={`${program.programName}`}
                 disabled
               />
             </div>

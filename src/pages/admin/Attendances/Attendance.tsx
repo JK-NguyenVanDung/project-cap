@@ -34,9 +34,13 @@ export default function Attendance() {
 
   const [valueAtten, setValueAtten] = useState();
   const handleEdit = (item: any) => {
+    console.log('edit>>>', item);
     setDetail({
       ...item,
-      surveyTime: [moment(item.startDate), moment(item.endDate)],
+      surveyTime: [
+        moment(item?.attendance?.startTime),
+        moment(item?.attendance?.endTime``),
+      ],
     });
     setShowModal(true);
   };
@@ -65,15 +69,17 @@ export default function Attendance() {
     },
     {
       title: `Ngày Bắt Đầu => Ngày Kết Thúc`,
-      render: (data: any) => (
-        <span>
-          {moment(data.startTime).format('DD-MM-YYYY hh:mm')}
+      render: (data: any) => {
+        return (
           <span>
-            <AiOutlineSwapRight className="inline mx-4" />
+            {moment(data.attendance.startTime).format('DD-MM-YYYY hh:mm')}
+            <span>
+              <AiOutlineSwapRight className="inline mx-4" />
+            </span>
+            {moment(data.attendance.endTime).format('DD-MM-YYYY hh:mm')}
           </span>
-          {moment(data.endTime).format('DD-MM-YYYY hh:mm')}
-        </span>
-      ),
+        );
+      },
     },
     {
       title: 'Người Học',
