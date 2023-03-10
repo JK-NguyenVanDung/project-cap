@@ -22,7 +22,7 @@ export default function MyProgram() {
     setLoading(true);
     const fetch = async () => {
       try {
-        const data: any = await apiService.getMyPrograms(info.accountId);
+        const data: any = await apiService.getMyPrograms(myAccount.accountId);
         let tempA = data.filter(
           (item: IProgramItem) => item.status === 'public',
         );
