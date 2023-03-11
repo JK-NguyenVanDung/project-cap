@@ -45,6 +45,8 @@ module.exports = withMT({
       fontFamily: {
         customFont: ['"Quicksand"', 'sans-serif'],
         serif: ['"Source Serif Pro"', 'serif'],
+        fontName: ["'Dancing Script'", 'cursive'],
+        fontSecons: ['"Great Vibes"', 'cursive'],
       },
 
       backgroundColor: {

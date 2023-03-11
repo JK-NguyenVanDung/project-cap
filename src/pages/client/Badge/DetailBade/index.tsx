@@ -1,14 +1,15 @@
 import { Form, Input } from 'antd';
 import React, { useState, useEffect } from 'react';
-import imageDetailBader from '../../../../assets/svg/detailBage.svg';
+import imageDetailBader from '../../../../assets/svg/detailBage.jpg';
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import { Space } from '../../Programs/ResultProgram';
-import logo from '../../../../assets/logo.svg';
+import logo from '../../../../assets/img/VLU_Logo_Final_VLU_logo-ngang_Eng.png';
 import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
 import { useMsal } from '@azure/msal-react';
 import { IProgramItem } from '../../../../Type';
 import apiService from '../../../../api/apiService';
+import moment from 'moment';
 
 export default function () {
   const [form] = Form.useForm();
@@ -45,28 +46,57 @@ export default function () {
           <div className=" relative flex flex-col items-center justify-center">
             <img src={imageDetailBader} className="w-full" />
             <div className="absolute top-10 flex flex-col justify-center items-center">
-              <img src={logo} className="w-[80px]" />
               <Space size={20} />
-              <h1 className="text-xl font-bold text-[#E7BC37] font-serif uppercase">
-                Chứng Nhận Thành Tính
-              </h1>
-              <Space size={10} />
-              <h1 className="text-xl font-bold text-black font-serif">
-                Đào Tạo Nội Bộ Văn Lang
+              <img src={logo} className="w-[175px]" />
+              <Space size={30} />
+              <h1 className="text-[35px] font-bold text-[#D5202A] font-serif uppercase">
+                Giấy Chứng Nhận
               </h1>
               <Space size={25} />
-              <p className="text-[50px] font-normal text-[#E7BC37] font-serif">
+              <h1 className="text-2xl font-bold text-black font-serif">
+                Trung Tâm Đào Tạo & Phát Triển VLG khen tặng
+              </h1>
+              <Space size={35} />
+              <p className="text-[50px] text-[#D5202A] font-fontSecons">
                 {fullName.value}
               </p>
-              <Space size={20} />
-              <p className="text-[16px] font-thin w-[350px] text-center text-black font-serif capitalize">
-                đã đạt được chứng chỉ chương trình {detailBadge?.programName}
+              <Space size={25} />
+              <p className="text-[18px] font-semibold w-full text-center text-black font-serif italic ">
+                Đã hoàn thành khóa học
+              </p>
+              <Space size={10} />
+
+              <p className="text-[18px] font-semibold w-full text-center text-black font-serif uppercase ">
+                {detailBadge?.programName}
+              </p>
+            </div>
+            <div className="absolute bottom-[23%] left-[12%] text-center">
+              <span className="uppercase text=[16px] font-bold leading-loose">
+                ISBN:
+              </span>
+              <span className="uppercase text=[16px] font-bold ml-3">
+                2023000{info?.accountId}
+              </span>
+              <Space size={10} />
+              <p className="text=[16px] font-bold ml-3">
+                Thời Gian Hoàn Thành:{' '}
+                {moment(detailBadge?.timeFinish).format('DD/MM/YYYY')}
+              </p>
+            </div>
+            <div className="absolute bottom-[19%] right-[19%] text-center">
+              <p className="uppercase text-[25px]  font-fontSecons intent">
+                Viên
+              </p>
+              <Space size={10} />
+              <p className="uppercase text=[16px] font-bold ">Cao Kỳ Viên</p>
+              <p className="text=[13px] font-bold leading-loose">
+                Giám Đốc Trung Tâm
               </p>
             </div>
           </div>
         </div>
         <Space sizeWidth={15} />
-        <div className="bg-white rounded-lg shadow-lg p-5 w-2/6">
+        {/* <div className="bg-white rounded-lg shadow-lg p-5 w-2/6">
           <Form
             form={form}
             initialValues={{
@@ -103,7 +133,9 @@ export default function () {
                   placeholder="Nhập Vào Tên Của Bạn"
                 />
               </Form.Item>
+              
               <FormInput
+                label="Tên Chương Trình"
                 className="w-full"
                 name="phoneNumber"
                 placeholder={`${program.programName}`}
@@ -111,7 +143,7 @@ export default function () {
               />
             </div>
           </Form>
-        </div>
+        </div> */}
       </div>
     </div>
   );

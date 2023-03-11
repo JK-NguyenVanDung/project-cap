@@ -19,7 +19,7 @@ import Loading from '../../../components/sharedComponents/Loading';
 export enum typeStatic {
   programComplete = 'programComplete',
   trainingHours = 'trainingHours',
-  attendance = 'attendance',
+  coid = 'coid',
 }
 export default function () {
   const navigate = useNavigate();
@@ -148,10 +148,7 @@ export default function () {
               params={listStatics?.trainingHours}
               type={typeStatic.trainingHours}
             />
-            <ItemChart
-              params={listStatics?.attendance}
-              type={typeStatic.attendance}
-            />
+            <ItemChart params={listStatics?.coin} type={typeStatic.coid} />
           </div>
           <Space size={30} />
         </div>
