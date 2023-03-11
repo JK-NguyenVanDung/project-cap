@@ -77,6 +77,10 @@ export default {
   putProgram: (id: number, params: any) => {
     return configFormData.put(API_CONFIG.PROGRAM.PUT(id), params);
   },
+  sortProgram: (params: any) => {
+    console.log(params);
+    return axiosConfig.put(API_CONFIG.PROGRAM.SORT_CHAPTER, params);
+  },
   //Faculties
   getFaculties: () => {
     return axiosConfig.get(API_CONFIG.FACULTIES.GET);
