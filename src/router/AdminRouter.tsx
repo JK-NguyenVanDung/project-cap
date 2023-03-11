@@ -57,6 +57,7 @@ import StatisticCategory from '../pages/admin/Statistics/StatisticCategory';
 
 import Dashboard from '../pages/admin/Dashboard/Dashboard';
 import Badge from '../pages/client/Badge';
+import DetailBade from '../pages/client/Badge/DetailBade';
 
 export const RouterPages = [
   {
@@ -436,6 +437,10 @@ const Learner = [
   {
     path: '/Badge',
     element: <Badge />,
+  },
+  {
+    path: '/detailBadge',
+    element: <DetailBade />,
   },
   {
     path: '/admin/CourseSurvey',

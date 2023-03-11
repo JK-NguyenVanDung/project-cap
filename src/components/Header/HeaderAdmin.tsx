@@ -30,6 +30,7 @@ export default function () {
     notification.success({ message: 'Đăng Xuất Thành Công' });
     dispatch(actions.authActions.logout());
   };
+
   return (
     <div className="flex items-center justify-center max-w-full mr-2 ">
       <Menu>

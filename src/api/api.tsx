@@ -49,6 +49,10 @@ export const API_CONFIG = {
     PROGRAM_RESULT: (idAccount: number, idProgram: number) =>
       `/api/MyPrograms/GetProgramResult?idAccount=${idAccount}&idProgram=${idProgram}`,
     SORT_CHAPTER: '/api/Programs/Chapter',
+    GET_CERTIFICATE: (idAccount: number, idProgram: number) =>
+      `/api/MyPrograms/GetCertificate?idAccount=${idAccount}&idProgram=${idProgram}`,
+    GET_PROGRAM_COMPLETE: (idAccount: number) =>
+      `/api/MyPrograms/GetListMyCompleteProgram?idAccount=${idAccount}`,
   },
   FACULTIES: {
     GET: '/api/Faculties',
@@ -201,5 +205,7 @@ export const API_CONFIG = {
     GET_CATEGORY_STATISTIC: (academicYearId: number) =>
       `/api/Statistics/StatisticsOfCategory/${academicYearId}`,
     GET_DASHBOARD: `/api/Dashboard`,
+    GET_MY_STATISTIC: (accountId: number) =>
+      `/api/Statistics/GetMyStatistics?accId=${accountId}`,
   },
 };

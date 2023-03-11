@@ -286,7 +286,19 @@ export default {
       param.body,
     );
   },
-
+  getResultProgram: (accountId: number, programId: number) => {
+    return axiosConfig.get(
+      API_CONFIG.PROGRAM.PROGRAM_RESULT(accountId, programId),
+    );
+  },
+  getProgramComplete: (accountId: number) => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.GET_PROGRAM_COMPLETE(accountId));
+  },
+  getCertificate: (accountId: number, programId: number) => {
+    return axiosConfig.get(
+      API_CONFIG.PROGRAM.GET_CERTIFICATE(accountId, programId),
+    );
+  },
   getMyPrograms: (accountId: number) => {
     return axiosConfig.get(API_CONFIG.PROGRAM.MY_PROGRAMS(accountId));
   },
@@ -305,6 +317,7 @@ export default {
   approveApplication: (id: number) => {
     return axiosConfig.put(API_CONFIG.LEARNER.APPROVE(id));
   },
+
   //COMMENT
 
   getComment: (idProgram: number) => {
@@ -428,5 +441,8 @@ export default {
 
   getDashboard: () => {
     return axiosConfig.get(API_CONFIG.STATISTIC.GET_DASHBOARD);
+  },
+  getMyStatics: (accountId: number) => {
+    return axiosConfig.get(API_CONFIG.STATISTIC.GET_MY_STATISTIC(accountId));
   },
 };
