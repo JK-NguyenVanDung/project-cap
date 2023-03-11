@@ -27,6 +27,7 @@ import {
   SortableContext,
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { IProgramItem } from '../../../Type';
 
 export default function ProgramDetail() {
   const [form] = Form.useForm();
@@ -79,9 +80,22 @@ export default function ProgramDetail() {
         const overIndex: any = items.indexOf(
           items.find((e: any) => e.contentId === over.id),
         );
+        sortData(arrayMove(items, activeIndex, overIndex));
         return arrayMove(items, activeIndex, overIndex);
       });
     }
+  }
+  async function sortData(newArr: any) {
+    try {
+      await apiService.sortProgram({
+        contents: newArr.map((item: any, index: number) => {
+          return {
+            contentId: item.contentId,
+            chapter: index + 1,
+          };
+        }),
+      });
+    } catch (err) {}
   }
   const addChapter = () => {
     dispatch(actions.formActions.setChapter(null));
