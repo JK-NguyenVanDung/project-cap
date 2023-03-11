@@ -48,6 +48,7 @@ export const API_CONFIG = {
       `/api/MyPrograms/GetListMyFinishProgram?idAccount=${idAccount}`,
     PROGRAM_RESULT: (idAccount: number, idProgram: number) =>
       `/api/MyPrograms/GetProgramResult?idAccount=${idAccount}&idProgram=${idProgram}`,
+    SORT_CHAPTER: '/api/Programs/Chapter',
   },
   FACULTIES: {
     GET: '/api/Faculties',
