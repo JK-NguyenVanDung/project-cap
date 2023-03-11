@@ -103,12 +103,12 @@ export default function MyProgram() {
       .map((record: IProgramItem) => {
         const nameMatch = removeVietnameseTones(record.programName).match(reg);
 
-        const descMatch = removeVietnameseTones(record.descriptions).match(reg);
-        const cateMatch = removeVietnameseTones(
-          record.category.categoryName,
-        ).match(reg);
-
-        if (!nameMatch && !descMatch && !cateMatch) {
+        // const descMatch = removeVietnameseTones(record.descriptions).match(reg);
+        // const cateMatch = removeVietnameseTones(
+        //   record.category.categoryName,
+        // ).match(reg);
+        //&& !descMatch && !cateMatch
+        if (!nameMatch) {
           return null;
         }
         return record;
