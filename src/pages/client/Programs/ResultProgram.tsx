@@ -81,12 +81,13 @@ export default function ResultProgram() {
           <div className="flex">
             <div className="max-h-[60vh] w-[50vw] ">
               <img
-                className="rounded-lg object-cover h-full w-full"
-                src={
-                  program.image
-                    ? `${API_URL}/images/${program.image}`
-                    : 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png'
-                }
+                className="rounded-lg object-cover	h-full w-full"
+                src={`${API_URL}/images/${program.image}`}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+                }}
+                alt=""
               />
             </div>
             <Space sizeWidth={10} />
@@ -106,20 +107,19 @@ export default function ResultProgram() {
                 </h3>
               </div>
               <Space size={10} />
+              <TextArea
+                rows={4}
+                className="rounded-md font-bold"
+                value={
+                  dataResultProgram?.comment
+                    ? `Nhận Xét Của Giảng Viên: ${dataResultProgram?.comment} `
+                    : 'Nhận Xét Của Giảng Viên: . . .'
+                }
+                disabled
+              />
             </div>
           </div>
           <Space size={15} />
-          <TextArea
-            rows={6}
-            className="rounded-md font-bold"
-            size="large"
-            value={
-              dataResultProgram?.comment
-                ? `Nhận Xét Của Giảng Viên: ${dataResultProgram?.comment} `
-                : 'Nhận Xét Của Giảng Viên: . . .'
-            }
-            disabled
-          />
         </div>
         <Space size={20} />
         <ResultProgramChart data={dataChart} />
