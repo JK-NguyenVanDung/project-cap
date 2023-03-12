@@ -48,6 +48,7 @@ export default function ({
           </div>
 
           <Swiper
+            pagination={{ clickable: true }}
             className="w-full"
             modules={[Pagination]}
             spaceBetween={0}
@@ -58,7 +59,7 @@ export default function ({
           >
             {data.map((item: IProgramItem) => {
               return (
-                <SwiperSlide>
+                <SwiperSlide className="pb-6">
                   <div className="w-fit">
                     <SmallCourseCard
                       data={item}

@@ -18,6 +18,7 @@ import SearchBar from '../../components/admin/ToolBar/ToolBar';
 import { BsFilter } from 'react-icons/bs';
 import { notification } from 'antd';
 import { IoLogOut } from 'react-icons/io5';
+import SmallTopLearners from '../../components/Statistic/SmallTopLearners';
 // import MenuDropdown from './MenuDropdown';
 
 // Hook
@@ -145,6 +146,9 @@ export default function ClientSideBar({ content }: { content: any }) {
                   </div>
                 </li> */}
               </ul>
+              <div className="my-12  px-2	">
+                <SmallTopLearners />
+              </div>
             </div>
           </div>
         </div>

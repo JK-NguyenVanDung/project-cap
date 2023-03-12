@@ -59,7 +59,7 @@ export default function ({ data }: { data: any }) {
         >
           {data.map((item: any) => {
             return (
-              <SwiperSlide>
+              <SwiperSlide className="pb-8">
                 <div className="">
                   <BannerItem data={item} navToSurvey={navToSurvey} />
                 </div>

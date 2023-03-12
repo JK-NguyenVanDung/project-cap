@@ -32,7 +32,7 @@ export default function () {
     },
 
     {
-      title: 'Tên khoa/ban',
+      title: 'Tên nhóm chương trình',
       dataIndex: 'name',
       width: GIRD12.COL2,
     },
@@ -115,8 +115,8 @@ export default function () {
           loading={loading}
           extra={
             <div className="">
-              <Form form={form} className="formCategory w-full px-5 mb-10">
-                <div className="flex mt-6 justify-between items-center  w-1/4 ">
+              <Form form={form} className="formCategory w-full px-5 ">
+                <div className="flex justify-between items-center  w-1/4 ">
                   <div className="ml-12 w-fit">
                     <FormInput
                       labelLeft={true}
