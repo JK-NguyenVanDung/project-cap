@@ -10,10 +10,13 @@ import { useMsal } from '@azure/msal-react';
 import { IProgramItem } from '../../../../Type';
 import apiService from '../../../../api/apiService';
 import moment from 'moment';
+import CustomButton from '../../../../components/admin/Button';
+import { useNavigate } from 'react-router-dom';
 
 export default function () {
   const [form] = Form.useForm();
   const { accounts } = useMsal();
+  const navigate = useNavigate();
   const nameMenu = useAppSelector((state: any) => state.form.nameMenu);
   const dispatch = useAppDispatch();
   const program = useAppSelector((state: any) => state.form.programId);
@@ -96,7 +99,7 @@ export default function () {
           </div>
         </div>
         <Space sizeWidth={15} />
-        {/* <div className="bg-white rounded-lg shadow-lg p-5 w-2/6">
+        <div className="bg-white rounded-lg shadow-lg p-5 w-2/6">
           <Form
             form={form}
             initialValues={{
@@ -133,7 +136,7 @@ export default function () {
                   placeholder="Nhập Vào Tên Của Bạn"
                 />
               </Form.Item>
-              
+
               <FormInput
                 label="Tên Chương Trình"
                 className="w-full"
@@ -143,7 +146,26 @@ export default function () {
               />
             </div>
           </Form>
-        </div> */}
+          <div className="flex justify-between items-end">
+            <CustomButton
+              text="Quay Lại"
+              size="lg"
+              noIcon
+              color="red"
+              className="w-full mr-3"
+              tip="Thống kê khóa học"
+              onClick={() => navigate(-1)}
+            />
+            <CustomButton
+              text="Xuất PDF"
+              size="lg"
+              noIcon
+              className="w-full ml-3"
+              color="blue-gray"
+              tip="Thống kê khóa học"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
