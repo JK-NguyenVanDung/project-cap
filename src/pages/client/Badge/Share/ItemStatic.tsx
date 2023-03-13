@@ -1,18 +1,10 @@
 import React from 'react';
 import { Space } from '../../Programs/ResultProgram';
-import {
-  BsFillHexagonFill,
-  BsArrowDownLeft,
-  BsCalendar3,
-} from 'react-icons/bs';
-import { SlBadge } from 'react-icons/sl';
-import { GiWhiteBook } from 'react-icons/gi';
+import { BsCalendar3 } from 'react-icons/bs';
+import { GiTwoCoins } from 'react-icons/gi';
 import { HiClock } from 'react-icons/hi';
 import { FaBookReader } from 'react-icons/fa';
-import { IoMdBookmarks } from 'react-icons/io';
-import SearchBar from '../../../../components/admin/ToolBar/ToolBar';
 import Color from '../../../../components/constant/Color';
-import { useNavigate } from 'react-router-dom';
 import { typeStatic } from '../index';
 
 export default function ItemStatic({
@@ -32,14 +24,14 @@ export default function ItemStatic({
                 ? 'Khóa Học Đã Hoàn Thành'
                 : type === typeStatic.trainingHours
                 ? 'Thời Gian Đào Tạo'
-                : 'Khóa Học Tham Gia'}
+                : 'Số Coin Đã Đạt Được'}
             </h1>
             <h1 className="font-bold text-2xl text-black py-2">
               {type === typeStatic.programComplete
                 ? `${params} Khóa Học`
                 : type === typeStatic.trainingHours
                 ? `${params} Giờ`
-                : `${params} Khóa Học`}
+                : `${params ?? 0} Coin`}
             </h1>
             <Space size={5} />
 
@@ -56,9 +48,9 @@ export default function ItemStatic({
             {type === typeStatic.programComplete ? (
               <FaBookReader size={30} color={Color.theme.GREEN_DARK} />
             ) : type === typeStatic.trainingHours ? (
-              <HiClock size={30} color={Color.theme.YELLOW} />
+              <HiClock size={30} color={Color.theme.CARNATION} />
             ) : (
-              <IoMdBookmarks size={30} color={Color.theme.CARNATION} />
+              <GiTwoCoins size={30} color={Color.theme.YELLOW} />
             )}
             <Space size={40} />
           </div>

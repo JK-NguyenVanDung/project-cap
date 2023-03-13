@@ -12,12 +12,13 @@ import HeaderClient from '../../../../components/Header/HeaderClient';
 export default function ProfileClient() {
   const dispatch = useAppDispatch();
   const { accounts } = useMsal();
+  const info = useAppSelector((state: any) => state.auth.info);
   const nameMenu = useAppSelector((state: any) => state.form.nameMenu);
   useEffect(() => {
     dispatch(
       actions.formActions.setNameMenu(`${accounts[0]?.name.split('-')[1]}`),
     );
-  }, []);
+  }, [info]);
 
   return (
     <>
@@ -31,9 +32,35 @@ export default function ProfileClient() {
           <div>
             <h1 className="font-bold text-2xl text-gray-600">{nameMenu}</h1>
             <Space size={10} />
-            <p className="font-thin italic">Bonus booster 24lv</p>
+            <p className="font-normar italic">
+              <span className="text-gray-700 font-bold text-sm">Email:</span>{' '}
+              {info?.email ?? ''}
+            </p>
+            <Space size={5} />
+            <p className="font-normar italic">
+              <span className="text-gray-700 font-bold text-sm">
+                Mã Số Sinh Viên:
+              </span>{' '}
+              {info?.code ?? ''}
+            </p>
+            <Space size={5} />
+
+            <p className="font-normar italic">
+              <span className="text-gray-700 font-bold text-sm">
+                Số Điện Thoại:
+              </span>{' '}
+              {info?.phoneNumber ?? ''}
+            </p>
+            <Space size={5} />
+
+            <p className="font-normar italic">
+              <span className="text-gray-700 font-bold text-sm">
+                Thuộc Khoa:
+              </span>{' '}
+              {info?.faculty?.facultyName ?? ''}
+            </p>
           </div>
-          <Space size={20} />
+          {/* <Space size={20} />
           <Progress
             percent={50}
             status="active"
@@ -71,7 +98,7 @@ export default function ProfileClient() {
                 <p>quiz passed</p>
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </>
