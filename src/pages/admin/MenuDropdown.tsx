@@ -15,7 +15,9 @@ export default function MenuDropdown({ params }: { params: any }) {
   const dispatch = useAppDispatch();
 
   const parent = useRef(null);
-
+  useEffect(() => {
+    location.pathname !== params.path ? setDropDown(false) : setDropDown(true);
+  }, [location]);
   useEffect(() => {
     parent.current && autoAnimate(parent.current);
   }, [parent]);

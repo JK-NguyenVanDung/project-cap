@@ -11,6 +11,7 @@ import { useMsal } from '@azure/msal-react';
 import FormFirstTime from './FormFirstTime';
 import Loading from '../../../components/sharedComponents/Loading';
 import CourseCarousel from './CourseCarousel';
+import { IProgramItem } from '../../../Type';
 
 export default function Homepage() {
   const { instance, accounts } = useMsal();
@@ -35,7 +36,8 @@ export default function Homepage() {
         const data: any = await apiService.getMySurveys(info.accountId);
         setBannerData(data);
         const res: any = await apiService.getPrograms();
-        setPrograms(res);
+        let temp = res.filter((item: IProgramItem) => item.status === 'public');
+        setPrograms(temp);
       } catch (error) {
         console.log(error);
       }
@@ -72,7 +74,10 @@ export default function Homepage() {
           <CourseCarousel data={programs} title="Khoá học mới nhất" />
         </div>
         <div className="my-12 w-[90vw]">
-          <CourseCarousel data={programs} title="Khoá học nổi tiếng" />
+          <CourseCarousel
+            data={programs?.reverse()}
+            title="Khoá học nổi tiếng"
+          />
         </div>
       </div>
     </>

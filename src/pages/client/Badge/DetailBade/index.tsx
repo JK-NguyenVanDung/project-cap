@@ -19,7 +19,9 @@ export default function () {
   const navigate = useNavigate();
   const nameMenu = useAppSelector((state: any) => state.form.nameMenu);
   const dispatch = useAppDispatch();
-  const program = useAppSelector((state: any) => state.form.programId);
+  const program: IProgramItem = useAppSelector(
+    (state: any) => state.form.programId,
+  );
   const info = useAppSelector((state) => state.auth.info);
   const [fullName, setFullName] = useState({ value: nameMenu });
   const [detailBadge, setDetailBadge]: any = useState();
@@ -70,7 +72,9 @@ export default function () {
               <Space size={10} />
 
               <p className="text-[18px] font-semibold w-full text-center text-black font-serif uppercase ">
-                {detailBadge?.programName}
+                {detailBadge?.programName
+                  ? detailBadge?.programName
+                  : program.programName}
               </p>
             </div>
             <div className="absolute bottom-[23%] left-[12%] text-center">
@@ -141,7 +145,11 @@ export default function () {
                 label="Tên Chương Trình"
                 className="w-full"
                 name="phoneNumber"
-                placeholder={`${program.programName}`}
+                placeholder={`${
+                  detailBadge?.programName
+                    ? detailBadge?.programName
+                    : program.programName
+                }`}
                 disabled
               />
             </div>

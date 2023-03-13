@@ -11,6 +11,7 @@ import { Image, Input } from 'antd';
 import ResultProgramChart from '../../../components/Chart/ResultProgramChart';
 import apiService from '../../../api/apiService';
 import { API_URL } from '../../../api/api';
+import CustomButton from '../../../components/admin/Button';
 
 const { TextArea } = Input;
 
@@ -66,6 +67,10 @@ export default function ResultProgram() {
     };
     fetchResultProgram();
   }, []);
+  const goDetailBadge = () => {
+    navigate('/detailBadge');
+    dispatch(actions.formActions.setProgramId(program));
+  };
   return (
     <>
       <Space size={5} />
@@ -90,7 +95,7 @@ export default function ResultProgram() {
                 alt=""
               />
             </div>
-            <Space sizeWidth={10} />
+            <Space sizeWidth={30} />
             <div className="w-2/6">
               <div className="flex justify-between">
                 <h3 className="font-bold text-gray-600">Số Buổi Tham Dự: </h3>
@@ -99,14 +104,14 @@ export default function ResultProgram() {
                   {dataResultProgram?.totalAttendance ?? 0}
                 </h3>
               </div>
-              <Space size={10} />
+              <Space size={30} />
               <div className="flex justify-between">
                 <h3 className="font-bold text-gray-600">Thời Gian Tham Dự: </h3>
                 <h3 className=" text-black">
                   {dataResultProgram?.trainingHours ?? 0} Giờ
                 </h3>
               </div>
-              <Space size={10} />
+              <Space size={30} />
               <TextArea
                 rows={4}
                 className="rounded-md font-bold"
@@ -116,6 +121,13 @@ export default function ResultProgram() {
                     : 'Nhận Xét Của Giảng Viên: . . .'
                 }
                 disabled
+              />
+              <Space size={30} />
+              <CustomButton
+                size="md"
+                noIcon
+                text="Xem chứng chỉ"
+                onClick={goDetailBadge}
               />
             </div>
           </div>
