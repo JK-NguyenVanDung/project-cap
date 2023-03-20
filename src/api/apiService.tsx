@@ -3,6 +3,7 @@ import axiosConfig, { configFormData } from './axiosConfig';
 import { ICategory, IChapter } from './apiInterface';
 import {
   IAccountItem,
+  IExchangeCoin,
   IProgramItem /* IQuestion, ITest  */,
   IQuestion,
   ISurveyAnswer,
@@ -59,6 +60,10 @@ export default {
   },
 
   //PROGRAMS
+
+  getPublicPrograms: () => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.GETPUBLICPROGRAMS);
+  },
   getPrograms: () => {
     return axiosConfig.get(API_CONFIG.PROGRAM.GET);
   },
@@ -444,5 +449,27 @@ export default {
   },
   getMyStatics: (accountId: number) => {
     return axiosConfig.get(API_CONFIG.STATISTIC.GET_MY_STATISTIC(accountId));
+  },
+
+  //EXCHANGE COIN
+
+  getExchanges: () => {
+    return axiosConfig.get(API_CONFIG.EXCHANGE.GET);
+  },
+
+  getDetailExchange: (idExchange: number) => {
+    return axiosConfig.get(API_CONFIG.EXCHANGE.GET_DETAIL(idExchange));
+  },
+  postExchange: (params: IExchangeCoin) => {
+    return axiosConfig.post(API_CONFIG.EXCHANGE.POST, params);
+  },
+  putExchange: (idExchange: number, params: IExchangeCoin) => {
+    return axiosConfig.put(API_CONFIG.EXCHANGE.PUT(idExchange), params);
+  },
+  deleteExchange: (idExchange: number) => {
+    return axiosConfig.delete(API_CONFIG.EXCHANGE.DELETE(idExchange));
+  },
+  postImage: (params: any) => {
+    return axiosConfig.post(API_CONFIG.EXCHANGE.ADD_IMG, params);
   },
 };

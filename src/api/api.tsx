@@ -54,6 +54,8 @@ export const API_CONFIG = {
       `/api/MyPrograms/GetCertificate?idAccount=${idAccount}&idProgram=${idProgram}`,
     GET_PROGRAM_COMPLETE: (idAccount: number) =>
       `/api/MyPrograms/GetListMyCompleteProgram?idAccount=${idAccount}`,
+
+    GETPUBLICPROGRAMS: '/api/Programs/Public',
   },
   FACULTIES: {
     GET: '/api/Faculties',
@@ -208,5 +210,15 @@ export const API_CONFIG = {
     GET_DASHBOARD: `/api/Dashboard`,
     GET_MY_STATISTIC: (accountId: number) =>
       `/api/Statistics/GetMyStatistics?accId=${accountId}`,
+  },
+  EXCHANGE: {
+    GET: `/api/Exchanges/GetListExchanges`,
+    POST: `/api/Exchanges/CreateExchange`,
+    PUT: (exChangeId: number) => `/api/Exchanges/UpdateExchange/${exChangeId}`,
+    DELETE: (exChangeId: number) =>
+      `/api/Exchanges/DeleteExchange/${exChangeId}`,
+    GET_DETAIL: (exChangeId: number) =>
+      `/api/Exchanges/GetDetailExchange/${exChangeId}`,
+    ADD_IMG: `/api/Exchanges/AddPhoto`,
   },
 };

@@ -21,23 +21,18 @@ export default function Programs() {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const data: any = await apiService.getPrograms();
-
-        let temp = data.filter(
-          (item: IProgramItem) =>
-            item.status === 'public' || item.status === 'end',
-        );
+        const data: any = await apiService.getPublicPrograms();
 
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
-        setData(temp);
-        setFilterData(temp);
+        setData(data);
+        setFilterData(data);
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
       } catch (error) {
         console.log(error);
       }
     };
     fetch();
-    dispatch(actions.formActions.setNameMenu(`${'Chương trình'}`));
+    dispatch(actions.formActions.setNameMenu(`${'Khóa học'}`));
   }, []);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

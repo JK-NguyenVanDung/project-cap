@@ -35,16 +35,16 @@ export default function BadgeItem({ params }: { params: any }) {
                     title="Thông Tin Chứng Chỉ"
                   >
                     <BsFillHexagonFill
-                      className="rotate-90"
+                      className="rotate-90 text-red-500"
                       size={200}
-                      color={Color.theme.CORNFLOWER_BLUE}
+                      // color={Color.theme.CORNFLOWER_BLUE}
                     />
 
                     <div className="absolute w-full top-0 flex flex-col items-center text-center">
                       <Space size={30} />
-                      <SlBadge size={30} />
+                      <SlBadge size={30} className="text-white" />
                       <Space size={10} />
-                      <h1 className="font-bold text-lg w-4/6 text-black">
+                      <h1 className="font-bold text-lg w-4/6 text-white">
                         {item.category.categoryName}
                       </h1>
                       <Space size={10} />

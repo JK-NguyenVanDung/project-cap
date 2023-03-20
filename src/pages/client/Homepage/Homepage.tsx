@@ -26,8 +26,7 @@ export default function Homepage() {
   useEffect(() => {
     dispatch(
       actions.formActions.setNameMenu(
-        `${`Xin Chào \n
-             ${accounts[0]?.name.split('-')[1]}`}`,
+        `© 2022 - Bản Quyền Thuộc Trường Đại học Văn Lang`,
       ),
     );
     const fetchData = async () => {
@@ -64,7 +63,7 @@ export default function Homepage() {
             }`}
           >
             <div className="w-[84vw]">
-              <Banner data={[...bannerData, ...bannerData]} />
+              <Banner data={[...bannerData]} />
             </div>
           </div>
 

@@ -17,9 +17,9 @@ export default function () {
   return (
     <>
       {data && (
-        <div className=" py-4 my-2 relative  flex flex-col max-w-full justify-center text-center items-center  w-fit  h-fit  border-[6px] border-brown-500 rounded-xl ">
+        <div className="my-2 relative  flex flex-col max-w-full justify-center text-center items-center  w-fit  h-fit  border-[6px] border-brown-500 rounded-xl ">
           <div className="absolute w-20 h-6 border-[#C0C0C0	] border-2 bg-[#ececec] rounded top-[-4%]"></div>
-          <p className="text-base font-bold mb-2">Top thành tích</p>
+          <p className="text-base font-bold py-2">Top thành tích</p>
           <div className="p-4">
             {data?.accountRankings?.map(
               (item: {

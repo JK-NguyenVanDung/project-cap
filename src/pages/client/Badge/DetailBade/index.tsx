@@ -12,6 +12,7 @@ import apiService from '../../../../api/apiService';
 import moment from 'moment';
 import CustomButton from '../../../../components/admin/Button';
 import { useNavigate } from 'react-router-dom';
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 export default function () {
   const [form] = Form.useForm();
@@ -29,6 +30,7 @@ export default function () {
     dispatch(
       actions.formActions.setNameMenu(`${accounts[0]?.name.split('-')[1]}`),
     );
+    setFullName({ value: accounts[0]?.name?.split('-')[1] });
   }, []);
   useEffect(() => {
     const fetchDetailBadge = async () => {
@@ -95,7 +97,7 @@ export default function () {
                 Viên
               </p>
               <Space size={10} />
-              <p className="uppercase text=[16px] font-bold ">Cao Kỳ Viên</p>
+              <p className="uppercase text=[16px] font-bold ">Nguyễn Kỳ Viên</p>
               <p className="text=[13px] font-bold leading-loose">
                 Giám Đốc Trung Tâm
               </p>
@@ -164,17 +166,25 @@ export default function () {
               tip="Thống kê khóa học"
               onClick={() => navigate(-1)}
             />
-            <CustomButton
+            {/* <CustomButton
               text="Xuất PDF"
               size="lg"
               noIcon
               className="w-full ml-3"
               color="blue-gray"
               tip="Thống kê khóa học"
-            />
+            /> */}
           </div>
         </div>
       </div>
     </div>
   );
 }
+// function PDF() {}
+// const MyDocument = (props: any) => (
+//   <Document>
+//     <Page size="A4">
+//       <View>{props}</View>
+//     </Page>
+//   </Document>
+// );

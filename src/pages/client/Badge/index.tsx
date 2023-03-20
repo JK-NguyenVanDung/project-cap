@@ -67,6 +67,7 @@ export default function () {
       clearTimeout(timer);
     };
   }, [filterData]);
+
   useEffect(() => {
     const fetchBadge = async () => {
       try {
@@ -83,14 +84,13 @@ export default function () {
         console.log(error);
       }
     };
-    fetchBadge();
-  }, []);
-
-  useEffect(() => {
     const fetchStatics = async () => {
       try {
-        const data: any = await apiService.getMyStatics(account.accountId);
         setLoading(true);
+
+        const data: any = await apiService.getMyStatics(account.accountId);
+        await fetchBadge();
+
         if (data) {
           setLoading(false);
           setListStatics(data);

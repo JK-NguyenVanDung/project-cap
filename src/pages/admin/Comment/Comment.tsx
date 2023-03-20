@@ -119,7 +119,7 @@ export default function () {
     {
       width: '10%',
 
-      title: 'Thao tác',
+      title: '',
       render: (item: IProgramItem) => {
         return (
           <PopOverAction

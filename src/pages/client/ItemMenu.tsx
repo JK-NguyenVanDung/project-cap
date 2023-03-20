@@ -33,7 +33,7 @@ export default function ItemMenu({
             actions.formActions.setNameMenu(
               `${
                 params.title == 'Trang Chủ'
-                  ? params.title
+                  ? '© 2022 - Bản Quyền Thuộc Trường Đại học Văn Lang'
                   : params.headTitle &&
                     params.headTitle.includes('Chương Trình')
                   ? params.headTitle

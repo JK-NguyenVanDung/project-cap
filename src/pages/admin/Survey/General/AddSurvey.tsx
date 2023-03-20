@@ -88,8 +88,8 @@ export default function AddSurvey({
         await apiService.updateSurvey(item.surveyId, {
           accountIdCreate: info?.accountId,
           title: values.title,
-          startDate: moment(values.surveyTime[0]).toISOString(),
-          endDate: moment(values.surveyTime[1]).toISOString(),
+          startDate: moment(values.surveyTime[0]).toISOString(true),
+          endDate: moment(values.surveyTime[1]).toISOString(true),
         });
         setVisible(false);
         notification.success({ message: 'Thay đổi thành công' });
@@ -99,8 +99,8 @@ export default function AddSurvey({
         await apiService.addSurvey({
           accountIdCreate: info?.accountId,
           title: values.title,
-          startDate: moment(values.surveyTime[0]).toISOString(),
-          endDate: moment(values.surveyTime[1]).toISOString(),
+          startDate: moment(values.surveyTime[0]).toISOString(true),
+          endDate: moment(values.surveyTime[1]).toISOString(true),
         });
         setVisible(false);
         notification.success({ message: 'Thêm thành công' });

@@ -43,7 +43,10 @@ export default function (props: any) {
   async function getDetail() {
     try {
       let res: any = await apiService.getProgram(program.programId);
-      dispatch(actions.formActions.setProgramForm(res));
+      let like = res?.totalLike;
+      dispatch(
+        actions.formActions.setProgramForm({ ...program, totalLike: like }),
+      );
     } catch (err) {}
   }
   async function getData() {
@@ -123,7 +126,8 @@ export default function (props: any) {
               <div className="flex items-center mr-4  font-light">
                 <img src={View} className="  mr-2 font-bold  " />
                 <span>
-                  {props.learnerCount ? props.learnerCount : 0} Người tham gia
+                  {program?.countLearner ? program?.countLearner : 0} Người tham
+                  gia
                 </span>
               </div>
               <div className="flex items-center font-light ">

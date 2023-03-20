@@ -91,6 +91,8 @@ const ProgramItem = z.object({
   academicYear: z.object(AcademicYear),
   accountPrograms: z.array(null),
   accountIdCreatorNavigation: null,
+  countLearner: z.number(),
+
   learnerCount: z.number(),
   category: z.object({
     categoryId: z.number(),
@@ -104,7 +106,7 @@ const ProgramItem = z.object({
   trainingHours: z.string(),
   totalLike: z.number(),
   registerStatus: z.string(),
-  isComplete: z.boolean()
+  isComplete: z.boolean(),
 });
 
 const ChapterItem = z.object({
@@ -228,6 +230,22 @@ const ProgramResults = z.object({
   resultTests: z.array(ResultTests),
   resultAttendances: z.array(ResultAttendances),
 });
+const ExchangeCoin = z.object({
+  exchangeId: z.number(),
+  creatorId: z.number(),
+  title: z.string(),
+  description: z.string(),
+  coin: z.number(),
+  endDate: z.date(),
+});
+const Certification = z.object({
+  exchangeId: z.number(),
+  creatorId: z.number(),
+  title: z.string(),
+  description: z.string(),
+  coin: z.number(),
+  endDate: z.date(),
+});
 
 export type IRoleItem = z.infer<typeof RoleItem>;
 export type IAnswer = z.infer<typeof Answer>;
@@ -250,6 +268,10 @@ export type ISurveyQuestionContent = z.infer<typeof SurveyQuestionContent>;
 export type ISurveyAnswer = z.infer<typeof SurveyAnswer>;
 export type IContentSurveyProgram = z.infer<typeof ContentSurveyPrograms>;
 export type IProgramResults = z.infer<typeof ProgramResults>;
+
+export type IExchangeCoin = z.infer<typeof ExchangeCoin>;
+
+export type ICertification = z.infer<typeof Certification>;
 
 export interface IRouterObj {
   path?: string;

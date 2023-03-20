@@ -10,13 +10,18 @@ import autoAnimate from '@formkit/auto-animate';
 
 export default function MenuDropdown({ params }: { params: any }) {
   const [dropDown, setDropDown] = React.useState(false);
+  const [close, setClose] = React.useState(false);
+
   const navigation = useNavigate();
   let location = useLocation();
   const dispatch = useAppDispatch();
 
   const parent = useRef(null);
   useEffect(() => {
-    location.pathname !== params.path ? setDropDown(false) : setDropDown(true);
+    location.pathname.includes(params.path) ||
+    params.children.find((item: any) => location.pathname.includes(item.path))
+      ? {}
+      : setDropDown(false);
   }, [location]);
   useEffect(() => {
     parent.current && autoAnimate(parent.current);
@@ -38,6 +43,8 @@ export default function MenuDropdown({ params }: { params: any }) {
         }hover:bg-white hover:text-white dropdown-label py-4 my-1 mx-1 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
         onClick={() => {
           navigation(params.path);
+          setClose(!dropDown);
+
           setDropDown(!dropDown);
 
           dispatch(

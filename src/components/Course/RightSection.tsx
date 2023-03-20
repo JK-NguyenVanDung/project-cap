@@ -79,20 +79,22 @@ const RightSection = (props: any) => {
 
   const handelRegister = (item: IProgramItem) => {
     const fetchRegister = async () => {
-      const value = {
-        programId: item.programId,
-        isRegister: !item.isRegister,
-      };
-      const data: any = await apiService.registerOrUn(value);
-      if (data) {
-        const response: any = await apiService.getProgram(programId.programId);
+      try {
+        const value = {
+          programId: item.programId,
+          isRegister: !item.isRegister,
+        };
+        const data: any = await apiService.registerOrUn(value);
 
+        const response: any = await apiService.getProgram(programId.programId);
         setLoading(true);
         setProgram(response);
         setRegister(response.isRegister);
         !response.isRegister
           ? notification.error({ message: 'Huỷ đăng ký thành công' })
           : notification.success({ message: 'Đăng ký thành công' });
+      } catch (err) {
+        console.log(err);
       }
     };
     fetchRegister();
@@ -204,7 +206,10 @@ const RightSection = (props: any) => {
               <CustomButton
                 noIcon
                 color={'green'}
-                text={'Đã đăng ký'}
+                text={program?.status === 'end' ? 'Đã kết thúc' : 'Đã đăng ký'}
+                disabled={
+                  program?.status === 'end' ? true : props.enable ? false : true
+                }
                 className=" w-[90%] my-2  h-10"
               />
             ) : null
@@ -215,10 +220,18 @@ const RightSection = (props: any) => {
                   ? setShowConfirm(!showConfirm)
                   : handelRegister(program)
               }
-              disabled={props.enable ? false : true}
+              disabled={
+                program?.status === 'end' ? true : props.enable ? false : true
+              }
               noIcon
               color={register ? 'red' : 'blue'}
-              text={register ? ' Hủy Đăng Ký' : 'Đăng Ký'}
+              text={
+                program?.status === 'end'
+                  ? 'Đã kết thúc'
+                  : register
+                  ? ' Hủy Đăng Ký'
+                  : 'Đăng Ký'
+              }
               className=" w-[90%] my-2  h-10"
             />
           )}
