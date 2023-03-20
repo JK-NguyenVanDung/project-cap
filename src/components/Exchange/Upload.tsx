@@ -19,27 +19,26 @@ const props: UploadProps = {
   },
 };
 
-const UploadImage = ({
-  text,
-  onUpload,
-  setFile,
-  onChange,
-  fileList,
-}: {
-  text?: string;
-  onUpload?: any;
-  setFile: any;
-  fileList: any;
-  onChange: any;
-}) => (
+const UploadImage = ({ text, onUpload }: { text?: string; onUpload?: any }) => (
   <Dragger
     maxCount={1}
     {...props}
     className="min-h-[25vh] rounded-2xl p-6  "
     action={(e) => onUpload(e)}
     accept="image/png, image/jpeg"
-    fileList={fileList}
-    onChange={onChange}
+    onChange={(info) => {
+      {
+        const { status } = info.file;
+        if (status !== 'uploading') {
+          console.log(info.file, info.fileList);
+        }
+        if (status === 'done') {
+          message.success(`${info.file.name} file uploaded successfully.`);
+        } else if (status === 'error') {
+          //   message.error(`${info.file.name} file upload failed.`);
+        }
+      }
+    }}
   >
     <MdCloudUpload className="w-full text-center text-6xl text-primary " />
 

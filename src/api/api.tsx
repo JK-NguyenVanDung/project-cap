@@ -220,5 +220,7 @@ export const API_CONFIG = {
     GET_DETAIL: (exChangeId: number) =>
       `/api/Exchanges/GetDetailExchange/${exChangeId}`,
     ADD_IMG: `/api/Exchanges/AddPhoto`,
+    GET_CERTIFICATIONS: (exChangeId: number) =>
+      `/api/Exchanges/GetCertificatePhotos/${exChangeId}`,
   },
 };

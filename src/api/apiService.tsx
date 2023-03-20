@@ -470,6 +470,10 @@ export default {
     return axiosConfig.delete(API_CONFIG.EXCHANGE.DELETE(idExchange));
   },
   postImage: (params: any) => {
-    return axiosConfig.post(API_CONFIG.EXCHANGE.ADD_IMG, params);
+    return configFormData.post(API_CONFIG.EXCHANGE.ADD_IMG, params);
+  },
+
+  getCertifications: (idExchange: number) => {
+    return axiosConfig.get(API_CONFIG.EXCHANGE.GET_CERTIFICATIONS(idExchange));
   },
 };

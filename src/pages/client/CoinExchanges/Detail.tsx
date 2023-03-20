@@ -1,4 +1,4 @@
-import { Form, Input, UploadProps, notification } from 'antd';
+import { Form, Input, notification } from 'antd';
 import React, { useState, useEffect } from 'react';
 import imageDetailBader from '../../../assets/svg/detailBage.jpg';
 
@@ -30,33 +30,13 @@ export default function () {
   const program: IProgramItem = useAppSelector(
     (state: any) => state.form.programId,
   );
-  const handleChange: UploadProps['onChange'] = (info) => {
-    let newFileList = [...info.fileList];
 
-    // 1. Limit the number of uploaded files
-    // Only to show two recent uploaded files, and old ones will be replaced by the new
-    newFileList = newFileList.slice(-2);
-
-    // 2. Read from response and show file link
-    newFileList = newFileList.map((file) => {
-      if (file.response) {
-        // Component will show file.url as link
-        file.url = file.response.url;
-      }
-      return file;
-    });
-    console.log(1);
-
-    setFile(newFileList);
-  };
   const info = useAppSelector((state) => state.auth.info);
   const [fullName, setFullName] = useState({ value: nameMenu });
   const [detailExchange, setDetailExchange] = useState<IExchangeCoin>(null);
 
   const [previewImage, setPreviewImage] = useState<any>(null);
-  const [file, setFile] = useState<any>(null);
-  const [files, setFiles] = useState<any>(null);
-
+  const [file, setFile] = useState<File>(null);
   const [previewText, setPreviewText] = useState<string>(
     '  * Đây là ảnh mẫu ví dụ 1 giấy chứng nhận hợp lệ  ',
   );
@@ -64,14 +44,8 @@ export default function () {
   const frmData: any = new FormData();
 
   // const [hover, setH] = useState<any>(null);
-  const toBase64 = (file: File) =>
-    new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  async function onUploadPreview(e: any) {
+
+  function onUploadPreview(e: any) {
     if (e) {
       setPreviewText(
         'Ảnh bạn đã gửi vào lúc ' +
@@ -79,10 +53,8 @@ export default function () {
       );
       console.log(e);
       setPreviewImage(URL.createObjectURL(e));
-      let reader = new FileReader();
-      reader.readAsDataURL(e);
-      let a: any = await toBase64(e);
-      setFiles(a.split(',')[2].toString());
+
+      setFile(e);
       return new Promise(
         () => 'https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/',
       );
@@ -95,8 +67,8 @@ export default function () {
   async function onOK() {
     frmData.append('AccountId', info.accountId);
     frmData.append('ExchangeId', exchangeId);
-
-    frmData.append('Image', files);
+    console.log(file);
+    frmData.append('Image', file);
     if (false) {
       // const data = await apiService.putProgram(item.programId, frmData);
       // if (data) {
@@ -115,14 +87,11 @@ export default function () {
       }
     }
   }
-  useEffect(() => {
-    // dispatch(
-    //   actions.formActions.setNameMenu(`${accounts[0]?.name.split('-')[1]}`),
-    // );
-  }, []);
+
   useEffect(() => {
     const getData = async () => {
       const response: any = await apiService.getDetailExchange(exchangeId);
+      dispatch(actions.formActions.setNameMenu('Đổi Coin: ' + response.title));
       setDetailExchange(response);
     };
     getData();
@@ -134,12 +103,9 @@ export default function () {
     <>
       <div className="w-full  px-4 pb-2 bg-white">
         <Breadcrumb
-          router1={`/${location.pathname.split('/')[1]}/`}
-          router2={`/${location.pathname.split('/')[1]}/${
-            program ? program?.programName : 'N/A'
-          }`}
+          router1={`/CoinExchanges`}
           name={'Đổi Coin'}
-          name2={program ? program?.programName : 'N/A'}
+          name3={detailExchange?.title}
         />
       </div>
       <div className="mb-5 mx-5 ">
@@ -224,26 +190,7 @@ export default function () {
               Gửi ảnh chứng chỉ nhận được coin thưởng
             </h1>
             <div className="p-4">
-              {/* <Form form={form}>
-                <Form.Item
-                  style={{ marginTop: 10 }}
-                  className="mt-4 "
-                  name="Image"
-                  rules={[
-                    {
-                      required: previewImage ? false : true,
-                      message: 'Vui Lòng Chọn Ảnh Banner ',
-                    },
-                  ]}
-                > */}
-              <UploadImage
-                fileList={file}
-                onUpload={(e: any) => onUploadPreview(e)}
-                setFile={setFile}
-                onChange={handleChange}
-              />
-              {/* </Form.Item>
-              </Form> */}
+              <UploadImage onUpload={(e: any) => onUploadPreview(e)} />
               {previewImage && (
                 <CustomButton
                   text="Xóa ảnh"

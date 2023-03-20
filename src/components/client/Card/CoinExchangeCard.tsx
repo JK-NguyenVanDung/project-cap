@@ -59,8 +59,9 @@ export default function ({
               </span>
             </p>
 
-            <div className="flex w-full justify-between items-center my-4">
-              <div className="flex items-center font-semibold text-gray-700">
+            <div className="flex w-full  items-center my-4">
+              Số coin:
+              <div className="ml-4 flex items-center font-semibold text-gray-700">
                 <FaCoins className="text-lg mr-2 text-gray-400" />
                 {item?.coin} Coin
               </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { notification } from 'antd';
+import { notification, Image } from 'antd';
 import { Form, Space } from 'antd';
 import { FaEye } from 'react-icons/fa';
 
@@ -19,6 +19,8 @@ import ShowDetail from './ShowDetail';
 import { actions } from '../../../../Redux';
 import Breadcrumb from '../../../../components/sharedComponents/Breadcrumb';
 import { useLocation } from 'react-router-dom';
+import { API_URL } from '../../../../api/api';
+import moment from 'moment';
 export default function () {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
@@ -32,12 +34,15 @@ export default function () {
   const [dataDetail, setDataDetail]: any = useState();
   const [showDetail, setShowDetail] = useState(false);
   let location = useLocation();
-  let exchangeId = location.pathname.split('/')[2]?.toString()
-    ? Number(location.pathname.split('/')[2]?.toString())
+  let exchangeId = location.pathname.split('/')[3]?.toString()
+    ? Number(location.pathname.split('/')[3]?.toString())
     : 0;
   async function getApplication() {
     try {
-      let response: any = await apiService.getDetailExchange(exchangeId);
+      let response: any = await apiService.getCertifications(exchangeId);
+      let accounts: any = await apiService.getAccounts();
+
+      accounts && setAccounts(accounts);
 
       response = response.reverse();
       let res = response.map((item: any, index: number) => {
@@ -76,16 +81,45 @@ export default function () {
         <>
           {
             accounts.find(
-              (item: IAccountItem) => item.accountId === data.accountIdLearner,
+              (item: IAccountItem) => item.accountId === data.creatorId,
             )?.email
           }
         </>
       ),
     },
     {
-      title: 'Quà tặng',
-      dataIndex: 'registerStatus',
-      key: 'registerStatus',
+      title: 'Ảnh',
+      dataIndex: 'image',
+      key: 'image',
+      width: '2%',
+      render: (data: any) => {
+        return (
+          <>
+            <Image width={50} src={`${API_URL}/images/${data}`} />
+          </>
+        );
+      },
+    },
+    {
+      title: 'Thời gian gửi',
+      dataIndex: 'sentDate',
+      key: 'sentDate',
+      width: '12%',
+      render: (data: any) => {
+        return <>{moment(data).format('HH:mm - DD/MM/YYYY').toString()}</>;
+      },
+    },
+    {
+      title: 'Người duyệt',
+      dataIndex: 'reviewerAccount',
+      key: 'reviewerAccount',
+      width: '15%',
+      render: (data: any) => <>{data ? data.email : 'Chưa có người duyệt'}</>,
+    },
+    {
+      title: 'Trạng thái',
+      dataIndex: 'status',
+      key: 'status',
       width: GIRD12.COL2,
 
       render: (item: string) => {
@@ -94,7 +128,7 @@ export default function () {
             <p>
               {item == 'Approved' ? (
                 <p className="text-green-600">Đã Được Duyệt</p>
-              ) : item == 'UnApproved' ? (
+              ) : item == 'pending' ? (
                 <p className="text-yellow-800">Chưa Được Duyệt</p>
               ) : (
                 <p className="text-error">Bị Từ Chối</p>
@@ -104,11 +138,7 @@ export default function () {
         );
       },
     },
-    {
-      title: 'Lý do từ chối',
-      key: 'reasonRefusal',
-      dataIndex: 'reasonRefusal',
-    },
+
     {
       title: 'Thao tác',
       key: 'action',
