@@ -456,9 +456,14 @@ export default {
   getExchanges: () => {
     return axiosConfig.get(API_CONFIG.EXCHANGE.GET);
   },
+  getLearnerExchanges: (idAccount: number) => {
+    return axiosConfig.get(API_CONFIG.EXCHANGE.GET_LEARNER(idAccount));
+  },
 
-  getDetailExchange: (idExchange: number) => {
-    return axiosConfig.get(API_CONFIG.EXCHANGE.GET_DETAIL(idExchange));
+  getDetailExchange: (idExchange: number, idAccount: number) => {
+    return axiosConfig.get(
+      API_CONFIG.EXCHANGE.GET_DETAIL(idExchange, idAccount),
+    );
   },
   postExchange: (params: IExchangeCoin) => {
     return axiosConfig.post(API_CONFIG.EXCHANGE.POST, params);
@@ -469,11 +474,25 @@ export default {
   deleteExchange: (idExchange: number) => {
     return axiosConfig.delete(API_CONFIG.EXCHANGE.DELETE(idExchange));
   },
-  postImage: (params: any) => {
+  postCertificationImage: (params: any) => {
     return configFormData.post(API_CONFIG.EXCHANGE.ADD_IMG, params);
+  },
+
+  updateCertificationImage: (id: number, params: any) => {
+    return configFormData.put(API_CONFIG.EXCHANGE.UPDATE_IMG(id), params);
   },
 
   getCertifications: (idExchange: number) => {
     return axiosConfig.get(API_CONFIG.EXCHANGE.GET_CERTIFICATIONS(idExchange));
+  },
+  denyExchange: (params: {
+    id: number;
+    reviewerId: number;
+    comment: string;
+  }) => {
+    return axiosConfig.put(API_CONFIG.EXCHANGE.DENY, params);
+  },
+  approveExchange: (params: { id: number; reviewerId: number }) => {
+    return axiosConfig.put(API_CONFIG.EXCHANGE.APPROVE, params);
   },
 };

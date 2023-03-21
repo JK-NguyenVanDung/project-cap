@@ -86,6 +86,16 @@ export default function () {
     },
     {
       title: 'Quà tặng',
+      key: 'gift',
+      dataIndex: 'gift',
+    },
+    {
+      title: 'Ngày đặt',
+      key: 'date',
+      dataIndex: 'date',
+    },
+    {
+      title: 'Trạng thái',
       dataIndex: 'registerStatus',
       key: 'registerStatus',
       width: GIRD12.COL2,
@@ -105,11 +115,6 @@ export default function () {
           </>
         );
       },
-    },
-    {
-      title: 'Lý do từ chối',
-      key: 'reasonRefusal',
-      dataIndex: 'reasonRefusal',
     },
     {
       title: 'Thao tác',

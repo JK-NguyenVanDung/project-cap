@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import apiService from '../../../api/apiService';
 import CourseCard from '../../../components/client/Card/CourseCard';
 import Input from '../../../components/sharedComponents/Input';
-import { useAppDispatch } from '../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
 import { IExchangeCoin, IProgramItem } from '../../../Type';
 import { BsFilter } from 'react-icons/bs';
@@ -18,15 +18,16 @@ import CoinExchangeCard from '../../../components/client/Card/CoinExchangeCard';
 export default function () {
   const [data, setData] = useState<Array<IProgramItem>>(null);
   const [filterData, setFilterData] = useState<Array<IProgramItem>>(null);
+  const info = useAppSelector((state) => state.auth.info);
 
   useEffect(() => {
     const fetch = async () => {
       try {
-        const data: any = await apiService.getExchanges();
+        const data: any = await apiService.getLearnerExchanges(info.accountId);
 
-        // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
-        setData(data);
-        setFilterData(data);
+        let temp = data;
+        setData(temp);
+        setFilterData(temp);
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
       } catch (error) {
         console.log(error);
@@ -93,12 +94,16 @@ export default function () {
       >
         <ul className=" px-2 grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  grid-cols-3 md:grid-cols-2 sm:grid-cols-1  max-sm:grid-cols-1	">
           {data?.length > 0 ? (
-            data?.map((item: IProgramItem) => {
+            data?.map((item: IExchangeCoin) => {
               return (
                 <li className="m-8 inline-block ">
                   <CoinExchangeCard
                     onClick={() => handelDataProgram(item)}
                     item={item}
+                    status={
+                      item.certificatePhotos[item.certificatePhotos.length - 1]
+                        ?.status
+                    }
                     isRegistered={false}
                   />
                 </li>

@@ -213,14 +213,20 @@ export const API_CONFIG = {
   },
   EXCHANGE: {
     GET: `/api/Exchanges/GetListExchanges`,
+    GET_LEARNER: (AccountId: number) =>
+      `/api/Exchanges/GetListExchangesInLearner?AccountId=${AccountId}`,
     POST: `/api/Exchanges/CreateExchange`,
     PUT: (exChangeId: number) => `/api/Exchanges/UpdateExchange/${exChangeId}`,
     DELETE: (exChangeId: number) =>
       `/api/Exchanges/DeleteExchange/${exChangeId}`,
-    GET_DETAIL: (exChangeId: number) =>
-      `/api/Exchanges/GetDetailExchange/${exChangeId}`,
+    GET_DETAIL: (exChangeId: number, accountId: number) =>
+      `/api/Exchanges/GetDetailExchange?AccountId=${accountId}&ExchangeId=${exChangeId}`,
     ADD_IMG: `/api/Exchanges/AddPhoto`,
+
+    UPDATE_IMG: (id: number) => `/api/Exchanges/UpdatePhoto?Id=${id}`,
     GET_CERTIFICATIONS: (exChangeId: number) =>
       `/api/Exchanges/GetCertificatePhotos/${exChangeId}`,
+    DENY: `/api/Exchanges/RefuseCertificatePhoto`,
+    APPROVE: `/api/Exchanges/ApproveCertificatePhoto`,
   },
 };

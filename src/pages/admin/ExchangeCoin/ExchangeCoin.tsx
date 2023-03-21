@@ -54,7 +54,7 @@ export default function () {
     }
   }
   useEffect(() => {
-    dispatch(actions.formActions.setNameMenu(`${'Quản Lý đổi quà'}`));
+    dispatch(actions.formActions.setNameMenu(`${'Quản Lý Đổi Quà'}`));
   }, []);
 
   useEffect(() => {
