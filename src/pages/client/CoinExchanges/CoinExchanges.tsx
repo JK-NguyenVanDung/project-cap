@@ -25,7 +25,7 @@ export default function () {
       try {
         const data: any = await apiService.getLearnerExchanges(info.accountId);
 
-        let temp = data;
+        let temp = data.filter((item: any) => item.ended !== true);
         setData(temp);
         setFilterData(temp);
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
