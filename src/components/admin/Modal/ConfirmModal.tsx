@@ -14,7 +14,7 @@ const ConfirmModal = ({
   handler: () => void;
 
   children: any;
-  title?: string;
+  title: string;
   type?: string;
 }) => {
   const handleOk = () => {
@@ -45,7 +45,7 @@ const ConfirmModal = ({
             <CustomButton
               text="Quay lại"
               size="md"
-              color={type === 'delete' || 'cancel' ? 'red' : 'green'}
+              color={type === 'delete' || type === 'cancel' ? 'red' : 'green'}
               variant="outlined"
               className="w-32 mr-4"
               noIcon
@@ -56,7 +56,7 @@ const ConfirmModal = ({
               <CustomButton
                 text="Xác nhận"
                 size="md"
-                color={type === 'delete' || 'cancel' ? 'red' : 'green'}
+                color={type === 'delete' || type === 'cancel' ? 'red' : 'green'}
                 className="w-32 mr-4"
                 key="submit"
                 noIcon

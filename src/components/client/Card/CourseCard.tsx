@@ -182,12 +182,12 @@ const CourseContent = ({
             {!isRegistered ? (
               <div
                 className={`absolute  tag ${
-                  item?.status === 'public' ? 'bg-green-500' : 'bg-red-500'
+                  item?.status === 'public' ? 'bg-green-600' : 'bg-red-600'
                 } px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-[-4px]`}
               >
                 <div
                   className={`relative ${
-                    item?.status === 'public' ? 'bg-green-500' : 'bg-red-500'
+                    item?.status === 'public' ? 'bg-green-600' : 'bg-red-600'
                   } `}
                 >
                   <p>{getStatus(item?.status)}</p>
@@ -197,15 +197,15 @@ const CourseContent = ({
               <div
                 className={`absolute  tag ${
                   item?.learners[0]?.status === 'Attending'
-                    ? 'bg-blue-500'
-                    : 'bg-cyan-500'
+                    ? 'bg-blue-600'
+                    : 'bg-cyan-600'
                 } px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-[-4px]`}
               >
                 <div
                   className={`relative ${
                     item?.learners[0]?.status === 'Attending'
-                      ? 'bg-blue-500'
-                      : 'bg-cyan-500'
+                      ? 'bg-blue-600'
+                      : 'bg-cyan-600'
                   } `}
                 >
                   <p>{getAttendanceStatus(item?.learners[0]?.status)}</p>
@@ -252,7 +252,9 @@ const CourseContent = ({
               {`HK${item?.semester} - ${item?.academicYear?.year}`}{' '}
             </p>
             <div className="h-22 ">
-              <p className="text-semibold ">{getListLearnerType(item)}</p>
+              <p className="text-semibold eclipse-text">
+                {getListLearnerType(item)}
+              </p>
               <p className="text-body eclipse min-h-[3rem]">
                 {item?.descriptions}
               </p>

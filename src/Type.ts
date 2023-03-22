@@ -91,6 +91,8 @@ const ProgramItem = z.object({
   academicYear: z.object(AcademicYear),
   accountPrograms: z.array(null),
   accountIdCreatorNavigation: null,
+  countLearner: z.number(),
+
   learnerCount: z.number(),
   category: z.object({
     categoryId: z.number(),
@@ -104,7 +106,7 @@ const ProgramItem = z.object({
   trainingHours: z.string(),
   totalLike: z.number(),
   registerStatus: z.string(),
-  isComplete: z.boolean()
+  isComplete: z.boolean(),
 });
 
 const ChapterItem = z.object({
@@ -228,6 +230,43 @@ const ProgramResults = z.object({
   resultTests: z.array(ResultTests),
   resultAttendances: z.array(ResultAttendances),
 });
+const CertificatePhoto = z.object({
+  comment: z.string(),
+  creatorAccount: z.number(),
+  creatorId: z.number(),
+  exchange: z.string(),
+  exchangeId: z.number(),
+  id: z.number(),
+  image: z.string(),
+  reviewDate: z.number(),
+  reviewerAccount: z.number(),
+  reviewerId: z.number(),
+  sentDate: z.date(),
+  status: z.string(),
+});
+const ExchangeCoin = z.object({
+  certificatePhotos: z.array(CertificatePhoto),
+  exchangeId: z.number(),
+  creatorId: z.number(),
+  title: z.string(),
+  description: z.string(),
+  coin: z.number(),
+  endDate: z.date(),
+  creatorAccount:
+    AccountItem &&
+    z.object({
+      creatorCertificatePhoto: z.array(CertificatePhoto),
+    }),
+});
+const Certification = z.object({
+  id: z.number(),
+  exchangeId: z.number(),
+  creatorId: z.number(),
+  title: z.string(),
+  description: z.string(),
+  coin: z.number(),
+  endDate: z.date(),
+});
 
 export type IRoleItem = z.infer<typeof RoleItem>;
 export type IAnswer = z.infer<typeof Answer>;
@@ -250,6 +289,11 @@ export type ISurveyQuestionContent = z.infer<typeof SurveyQuestionContent>;
 export type ISurveyAnswer = z.infer<typeof SurveyAnswer>;
 export type IContentSurveyProgram = z.infer<typeof ContentSurveyPrograms>;
 export type IProgramResults = z.infer<typeof ProgramResults>;
+
+export type IExchangeCoin = z.infer<typeof ExchangeCoin>;
+
+export type ICertification = z.infer<typeof Certification>;
+export type ICertificatePhoto = z.infer<typeof CertificatePhoto>;
 
 export interface IRouterObj {
   path?: string;

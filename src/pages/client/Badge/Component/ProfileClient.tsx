@@ -75,14 +75,14 @@ export default function ProfileClient() {
               <span className="text-gray-700 font-bold text-sm">Email:</span>{' '}
               {info?.email ?? ''}
             </p>
-            <Space size={5} />
+            <Space size={15} />
             <p className="font-normar italic">
               <span className="text-gray-700 font-bold text-sm">
                 Mã Số Sinh Viên:
               </span>{' '}
               {info?.code ?? ''}
             </p>
-            <Space size={5} />
+            <Space size={15} />
 
             <p className="font-normar italic">
               <span className="text-gray-700 font-bold text-sm">
@@ -90,7 +90,7 @@ export default function ProfileClient() {
               </span>{' '}
               {info?.phoneNumber ?? ''}
             </p>
-            <Space size={5} />
+            <Space size={15} />
 
             <p className="font-normar italic">
               <span className="text-gray-700 font-bold text-sm">

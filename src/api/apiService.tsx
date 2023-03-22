@@ -9,6 +9,7 @@ import {
 } from './apiInterface';
 import {
   IAccountItem,
+  IExchangeCoin,
   IProgramItem /* IQuestion, ITest  */,
   IQuestion,
   ISurveyAnswer,
@@ -65,6 +66,10 @@ export default {
   },
 
   //PROGRAMS
+
+  getPublicPrograms: () => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.GETPUBLICPROGRAMS);
+  },
   getPrograms: () => {
     return axiosConfig.get(API_CONFIG.PROGRAM.GET);
   },
@@ -476,5 +481,48 @@ export default {
   },
   addGiftExchange: (params: IADDEXCHANGE) => {
     return axiosConfig.post(API_CONFIG.GIFT.POST_EXCHANGE);
+  },
+  //EXCHANGE COIN
+  getExchanges: () => {
+    return axiosConfig.get(API_CONFIG.EXCHANGE.GET);
+  },
+  getLearnerExchanges: (idAccount: number) => {
+    return axiosConfig.get(API_CONFIG.EXCHANGE.GET_LEARNER(idAccount));
+  },
+
+  getDetailExchange: (idExchange: number, idAccount: number) => {
+    return axiosConfig.get(
+      API_CONFIG.EXCHANGE.GET_DETAIL(idExchange, idAccount),
+    );
+  },
+  postExchange: (params: IExchangeCoin) => {
+    return axiosConfig.post(API_CONFIG.EXCHANGE.POST, params);
+  },
+  putExchange: (idExchange: number, params: IExchangeCoin) => {
+    return axiosConfig.put(API_CONFIG.EXCHANGE.PUT(idExchange), params);
+  },
+  deleteExchange: (idExchange: number) => {
+    return axiosConfig.delete(API_CONFIG.EXCHANGE.DELETE(idExchange));
+  },
+  postCertificationImage: (params: any) => {
+    return configFormData.post(API_CONFIG.EXCHANGE.ADD_IMG, params);
+  },
+
+  updateCertificationImage: (id: number, params: any) => {
+    return configFormData.put(API_CONFIG.EXCHANGE.UPDATE_IMG(id), params);
+  },
+
+  getCertifications: (idExchange: number) => {
+    return axiosConfig.get(API_CONFIG.EXCHANGE.GET_CERTIFICATIONS(idExchange));
+  },
+  denyExchange: (params: {
+    id: number;
+    reviewerId: number;
+    comment: string;
+  }) => {
+    return axiosConfig.put(API_CONFIG.EXCHANGE.DENY, params);
+  },
+  approveExchange: (params: { id: number; reviewerId: number }) => {
+    return axiosConfig.put(API_CONFIG.EXCHANGE.APPROVE, params);
   },
 };

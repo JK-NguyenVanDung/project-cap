@@ -145,7 +145,12 @@ const ChapterBar = (props: any) => {
         );
       })}
       {doingSurvey === true ? (
-        <ProgramSurvey navToSurvey={navToSurvey} />
+        <>
+          <ProgramSurvey navToSurvey={navToSurvey} />
+          <i className="font-light  	italic">
+            Vui lòng làm khảo sát để nhận được Coin
+          </i>
+        </>
       ) : null}
     </div>
   );

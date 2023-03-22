@@ -21,26 +21,18 @@ export default function Programs() {
   useEffect(() => {
     const fetch = async () => {
       try {
-        const data: any = await apiService.getPrograms();
-        let tempA = data.filter(
-          (item: IProgramItem) => item.status === 'public',
-        );
-        let tempB = data.filter(
-          (item: IProgramItem) =>
-            item.status === 'public' || item.status === 'end',
-        );
-        tempA = tempA.reverse();
-        tempB = tempB.reverse();
+        const data: any = await apiService.getPublicPrograms();
 
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
-        setData(tempA);
-        setFilterData(tempB);
+        setData(data);
+        setFilterData(data);
+        // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
       } catch (error) {
         console.log(error);
       }
     };
     fetch();
-    dispatch(actions.formActions.setNameMenu(`${'Chương trình'}`));
+    dispatch(actions.formActions.setNameMenu(`${'Khóa học'}`));
   }, []);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -51,8 +43,12 @@ export default function Programs() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(false);
 
-  const [filter, setFilter] = useState('Chưa đăng ký');
+  const [filter, setFilter] = useState('Tất cả');
   const items: MenuProps['items'] = [
+    {
+      key: '0',
+      label: <a onClick={() => setFilter('Tất cả')}>Tất cả</a>,
+    },
     {
       key: '1',
       label: <a onClick={() => setFilter('Chưa đăng ký')}>Chưa đăng ký</a>,
@@ -74,7 +70,9 @@ export default function Programs() {
     const filtering = () => {
       setLoading(true);
       // setData(filterData);
-
+      if (filter === 'Tất cả') {
+        setData(filterData);
+      }
       if (filter === 'Chưa đăng ký') {
         setData(
           filterData?.filter((item: IProgramItem) => item.status === 'public'),

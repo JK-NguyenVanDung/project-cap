@@ -23,19 +23,15 @@ export default function MyProgram() {
     const fetch = async () => {
       try {
         const data: any = await apiService.getMyPrograms(myAccount.accountId);
-        let tempA = data.filter(
-          (item: IProgramItem) => item.status === 'public',
-        );
-        let tempB = data.filter(
+
+        let temp = data.filter(
           (item: IProgramItem) =>
             item.status === 'public' || item.status === 'end',
         );
-        tempA = tempA.reverse();
-        tempB = tempB.reverse();
 
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
-        setData(tempA);
-        setFilterData(tempB);
+        setData(temp);
+        setFilterData(temp);
       } catch (error) {
         console.log(error);
       }
@@ -53,8 +49,12 @@ export default function MyProgram() {
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState(false);
 
-  const [filter, setFilter] = useState('Đang tham gia');
+  const [filter, setFilter] = useState('Tất cả');
   const items: MenuProps['items'] = [
+    {
+      key: '0',
+      label: <a onClick={() => setFilter('Tất cả')}>Tất cả</a>,
+    },
     {
       key: '1',
       label: <a onClick={() => setFilter('Đang tham gia')}>Đang tham gia</a>,
@@ -75,14 +75,26 @@ export default function MyProgram() {
   useEffect(() => {
     const filtering = () => {
       setLoading(true);
+      if (filter === 'Tất cả') {
+        setData(filterData);
+      }
       if (filter === 'Đang tham gia') {
         setData(
-          filterData?.filter((item: IProgramItem) => item.status === 'public'),
+          filterData?.filter(
+            (item: IProgramItem) => item?.learners[0]?.status === 'Attending',
+          ),
         );
       }
       if (filter === 'Hết hạn') {
         setData(
           filterData?.filter((item: IProgramItem) => item.status === 'end'),
+        );
+      }
+      if (filter === 'Hoàn thành') {
+        setData(
+          filterData?.filter(
+            (item: IProgramItem) => item?.learners[0]?.status === 'Complete',
+          ),
         );
       }
     };

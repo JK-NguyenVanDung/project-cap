@@ -61,7 +61,7 @@ export default function Login() {
       <main className="fixed max-sm:relative w-full h-full top-0 place-content-center items-center flex flex-col">
         <h1 className="text-[#fff] uppercase font-bold text-center max-sm:text-3xl text-5xl mb-10 mt-10">
           <p className="my-4"> Đăng Nhập </p>
-          <p className="mt-4 ">VLU Training</p>
+          <p className="mt-8 ">VLU Training</p>
         </h1>
         <div className="flex justify-center max-sm:flex-col w-full max-sm:items-center">
           {DataLogin.map((item, index) => {

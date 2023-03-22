@@ -12,6 +12,7 @@ import apiService from '../../../../api/apiService';
 import moment from 'moment';
 import CustomButton from '../../../../components/admin/Button';
 import { useNavigate } from 'react-router-dom';
+import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 export default function () {
   const [form] = Form.useForm();
@@ -19,7 +20,9 @@ export default function () {
   const navigate = useNavigate();
   const nameMenu = useAppSelector((state: any) => state.form.nameMenu);
   const dispatch = useAppDispatch();
-  const program = useAppSelector((state: any) => state.form.programId);
+  const program: IProgramItem = useAppSelector(
+    (state: any) => state.form.programId,
+  );
   const info = useAppSelector((state) => state.auth.info);
   const [fullName, setFullName] = useState({ value: nameMenu });
   const [detailBadge, setDetailBadge]: any = useState();
@@ -27,6 +30,7 @@ export default function () {
     dispatch(
       actions.formActions.setNameMenu(`${accounts[0]?.name.split('-')[1]}`),
     );
+    setFullName({ value: accounts[0]?.name?.split('-')[1] });
   }, []);
   useEffect(() => {
     const fetchDetailBadge = async () => {
@@ -70,7 +74,9 @@ export default function () {
               <Space size={10} />
 
               <p className="text-[18px] font-semibold w-full text-center text-black font-serif uppercase ">
-                {detailBadge?.programName}
+                {detailBadge?.programName
+                  ? detailBadge?.programName
+                  : program.programName}
               </p>
             </div>
             <div className="absolute bottom-[23%] left-[12%] text-center">
@@ -91,7 +97,7 @@ export default function () {
                 Viên
               </p>
               <Space size={10} />
-              <p className="uppercase text=[16px] font-bold ">Cao Kỳ Viên</p>
+              <p className="uppercase text=[16px] font-bold ">Nguyễn Kỳ Viên</p>
               <p className="text=[13px] font-bold leading-loose">
                 Giám Đốc Trung Tâm
               </p>
@@ -141,7 +147,11 @@ export default function () {
                 label="Tên Chương Trình"
                 className="w-full"
                 name="phoneNumber"
-                placeholder={`${program.programName}`}
+                placeholder={`${
+                  detailBadge?.programName
+                    ? detailBadge?.programName
+                    : program.programName
+                }`}
                 disabled
               />
             </div>
@@ -156,17 +166,25 @@ export default function () {
               tip="Thống kê khóa học"
               onClick={() => navigate(-1)}
             />
-            <CustomButton
+            {/* <CustomButton
               text="Xuất PDF"
               size="lg"
               noIcon
               className="w-full ml-3"
               color="blue-gray"
               tip="Thống kê khóa học"
-            />
+            /> */}
           </div>
         </div>
       </div>
     </div>
   );
 }
+// function PDF() {}
+// const MyDocument = (props: any) => (
+//   <Document>
+//     <Page size="A4">
+//       <View>{props}</View>
+//     </Page>
+//   </Document>
+// );

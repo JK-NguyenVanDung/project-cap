@@ -18,7 +18,6 @@ import Test from '../pages/admin/Program/Test/Test';
 import ReviewDetail from '../pages/admin/ReviewProgram/ReviewDetail';
 import UserTest from '../pages/client/Programs/Test/Test';
 import UserReviewTest from '../pages/client/Programs/Test/ReviewTest';
-
 import apiService from '../api/apiService';
 
 import ClientSideBar from '../pages/client/';
@@ -60,6 +59,14 @@ import Badge from '../pages/client/Badge';
 import DetailBade from '../pages/client/Badge/DetailBade';
 import ManagerGiftScreen from '../pages/admin/ManagerGift/ManagerGiftScreen';
 import GiftSreen from '../pages/client/Gift';
+
+import ExchangeGift from '../pages/admin/ExchangeGift/ExchangeGift';
+import ExchangeCoin from '../pages/admin/ExchangeCoin/ExchangeCoin';
+import ReviewCertification from '../pages/admin/ExchangeCoin/Detail/ReviewCertification';
+
+import CoinExchanges from '../pages/client/CoinExchanges/CoinExchanges';
+import CoinExchangesDetail from '../pages/client/CoinExchanges/Detail';
+
 export const RouterPages = [
   {
     path: '/admin',
@@ -194,6 +201,16 @@ export const RouterPages = [
   {
     path: '/Badge',
     element: <Badge />,
+    path: '/admin/ExchangeGift',
+    element: <ExchangeGift />,
+  },
+  {
+    path: '/admin/ExchangeCoin',
+    element: <ExchangeCoin />,
+  },
+  {
+    path: '/admin/ExchangeCoin/:id/ReviewCertification',
+    element: <ReviewCertification />,
   },
 ];
 
@@ -467,13 +484,14 @@ const Learner = [
     path: '/detailBadge',
     element: <DetailBade />,
   },
+
   {
-    path: '/admin/CourseSurvey',
-    element: <CourseSurvey />,
+    path: '/CoinExchanges/',
+    element: <CoinExchanges />,
   },
   {
-    path: '/admin/CourseSurvey/Detail',
-    element: <ProgramSurveyDetail />,
+    path: '/CoinExchanges/:id',
+    element: <CoinExchangesDetail />,
   },
   {
     path: '/Gift',

@@ -171,8 +171,8 @@ export default function Attendance() {
       const params = {
         programId: item.programId,
         title: values.title,
-        startTime: moment(values.surveyTime[0]).toISOString(),
-        endTime: moment(values.surveyTime[1]).toISOString(),
+        startTime: moment(values.surveyTime[0]).toISOString(true),
+        endTime: moment(values.surveyTime[1]).toISOString(true),
       };
       if (detail) {
         try {

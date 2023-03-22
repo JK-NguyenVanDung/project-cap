@@ -1,5 +1,6 @@
 import { IGift, ISignUp } from './apiInterface';
-export const API_URL = 'https://localhost:7206';
+import { apiPath } from '../onBuild';
+export const API_URL = apiPath;
 //https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17
 //https://localhost:7206'
 export const API_CONFIG = {
@@ -53,6 +54,8 @@ export const API_CONFIG = {
       `/api/MyPrograms/GetCertificate?idAccount=${idAccount}&idProgram=${idProgram}`,
     GET_PROGRAM_COMPLETE: (idAccount: number) =>
       `/api/MyPrograms/GetListMyCompleteProgram?idAccount=${idAccount}`,
+
+    GETPUBLICPROGRAMS: '/api/Programs/Public',
   },
   FACULTIES: {
     GET: '/api/Faculties',
@@ -217,5 +220,23 @@ export const API_CONFIG = {
     GET_EXCHANGE: `/api/Gifts/GetExchange`,
     CHANGE_STATUS: `/api/Gifts/ChangeStatus`,
     POST_EXCHANGE: '/api/Gifts/Exchange',
+  }
+  EXCHANGE: {
+    GET: `/api/Exchanges/GetListExchanges`,
+    GET_LEARNER: (AccountId: number) =>
+      `/api/Exchanges/GetListExchangesInLearner?AccountId=${AccountId}`,
+    POST: `/api/Exchanges/CreateExchange`,
+    PUT: (exChangeId: number) => `/api/Exchanges/UpdateExchange/${exChangeId}`,
+    DELETE: (exChangeId: number) =>
+      `/api/Exchanges/DeleteExchange/${exChangeId}`,
+    GET_DETAIL: (exChangeId: number, accountId: number) =>
+      `/api/Exchanges/GetDetailExchange?AccountId=${accountId}&ExchangeId=${exChangeId}`,
+    ADD_IMG: `/api/Exchanges/AddPhoto`,
+
+    UPDATE_IMG: (id: number) => `/api/Exchanges/UpdatePhoto?Id=${id}`,
+    GET_CERTIFICATIONS: (exChangeId: number) =>
+      `/api/Exchanges/GetCertificatePhotos/${exChangeId}`,
+    DENY: `/api/Exchanges/RefuseCertificatePhoto`,
+    APPROVE: `/api/Exchanges/ApproveCertificatePhoto`,
   },
 };

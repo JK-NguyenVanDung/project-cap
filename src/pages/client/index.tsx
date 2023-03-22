@@ -18,6 +18,7 @@ import SearchBar from '../../components/admin/ToolBar/ToolBar';
 import { BsFilter } from 'react-icons/bs';
 import { notification } from 'antd';
 import { IoLogOut } from 'react-icons/io5';
+import SmallTopLearners from '../../components/Statistic/SmallTopLearners';
 // import MenuDropdown from './MenuDropdown';
 
 // Hook
@@ -77,8 +78,7 @@ export default function ClientSideBar({ content }: { content: any }) {
         actions.formActions.setNameMenu(
           `${
             temp == 'Trang Chủ'
-              ? `Xin Chào \n
-               ${accounts[0]?.name.split('-')[1]}`
+              ? '© 2022 - Bản Quyền Thuộc Trường Đại học Văn Lang'
               : temp
           }`,
         ),
@@ -145,12 +145,15 @@ export default function ClientSideBar({ content }: { content: any }) {
                   </div>
                 </li> */}
               </ul>
+              <div className="my-12  px-2	">
+                <SmallTopLearners />
+              </div>
             </div>
           </div>
         </div>
         <div className="z-[2]  ml-[16%] max-sm:ml-0 w-full  ">
           <header className="header bg-white px-4 ">
-            <div className="w-[80vw] flex items-center justify-between ">
+            <div className="w-[82vw] flex items-center justify-between ">
               <button
                 data-collapse-toggle="navbar-cta"
                 type="button"

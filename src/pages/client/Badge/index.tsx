@@ -67,6 +67,7 @@ export default function () {
       clearTimeout(timer);
     };
   }, [filterData]);
+
   useEffect(() => {
     const fetchBadge = async () => {
       try {
@@ -83,14 +84,13 @@ export default function () {
         console.log(error);
       }
     };
-    fetchBadge();
-  }, []);
-
-  useEffect(() => {
     const fetchStatics = async () => {
       try {
-        const data: any = await apiService.getMyStatics(account.accountId);
         setLoading(true);
+
+        const data: any = await apiService.getMyStatics(account.accountId);
+        await fetchBadge();
+
         if (data) {
           setLoading(false);
           setListStatics(data);
@@ -108,26 +108,6 @@ export default function () {
       <div className="m-5">
         <div className="bg-white rounded-lg shadow-lg p-5">
           <ProfileClient />
-        </div>
-        <Space size={30} />
-        <div className="bg-white rounded-lg shadow-lg p-5">
-          <div className="flex  justify-between items-center ">
-            <div className="flex items-center">
-              <SlBadge size={24} />
-              <Space sizeWidth={10} />
-              <h1 className="font-bold text-lg text-gray-600">CHỨNG CHỈ</h1>
-            </div>
-            <SearchBar
-              onSearch={onChangeSearch}
-              className="
-            max-sm:min-w-[21rem]
-            box-border	shadow-none min-w-[22rem] h-[2.8rem] border-2 rounded-[14px] border-[#F5F5F7]"
-              prefix
-            />
-          </div>
-          <Space size={50} />
-          <BadgeItem params={todoList ?? []} />
-          <Space size={30} />
         </div>
         <Space size={30} />
         <div className="bg-white rounded-lg shadow-lg p-5">
@@ -152,6 +132,27 @@ export default function () {
           </div>
           <Space size={30} />
         </div>
+        <Space size={30} />
+        <div className="bg-white rounded-lg shadow-lg p-5">
+          <div className="flex  justify-between items-center ">
+            <div className="flex items-center">
+              <SlBadge size={24} />
+              <Space sizeWidth={10} />
+              <h1 className="font-bold text-lg text-gray-600">CHỨNG CHỈ</h1>
+            </div>
+            <SearchBar
+              onSearch={onChangeSearch}
+              className="
+            max-sm:min-w-[21rem]
+            box-border	shadow-none min-w-[22rem] h-[2.8rem] border-2 rounded-[14px] border-[#F5F5F7]"
+              prefix
+            />
+          </div>
+          <Space size={50} />
+          <BadgeItem params={todoList ?? []} />
+          <Space size={30} />
+        </div>
+
         <Space size={30} />
       </div>
     </>

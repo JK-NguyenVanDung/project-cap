@@ -50,9 +50,8 @@ export default function () {
         >
           <IoNotificationsOutline className="text-xl" />
         </IconButton>
+        <span className="mr-1">Xin Chào {accounts[0].name}</span>
 
-        <span className="mr-1"> </span>
-        <span> </span>
         <MenuHandler>
           <button className="rounded-[12rem] mx-2 bg-white shadow-none hover:shadow-none p-0 ">
             <Avatar size="sm" src={avatar} alt="avatar" variant="circular" />

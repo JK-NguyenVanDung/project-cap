@@ -34,25 +34,25 @@ export default function () {
       <div className="w-full h-screen ">
         <div className="flex w-full h-fit justify-between my-12">
           <DataBox
-            color={'blue-100'}
+            color={'bg-blue-100'}
             title="Tổng số khoá học"
             number={data?.countPrograms ? data?.countPrograms : 0}
             icon1={<FaBook className="text-2xl text-green-600" />}
           />
           <DataBox
-            color={'green-100'}
+            color={'bg-green-100'}
             title="Tổng số coin đã gửi"
             number={data?.countCoins ? data?.countCoins : 0 + ' $'}
             icon1={<FaCoins className="text-2xl text-yellow-700" />}
           />
           <DataBox
-            color={'orange-100'}
+            color={'bg-orange-100'}
             title="Tổng chứng chỉ"
             number={data?.countCertificates ? data?.countCertificates : 0}
             icon1={<FaAward className="text-2xl text-blue-700" />}
           />
           <DataBox
-            color={'red-100'}
+            color={'bg-red-100'}
             title="Số lượng học viên"
             number={data?.countLearners ? data?.countLearners : 0}
             icon1={<BsPeopleFill className="text-2xl text-purple-800" />}
@@ -75,25 +75,25 @@ export default function () {
         </div>
         <div className="flex w-full justify-between my-12 min-h-[5rem] h-fit ">
           <DataBox
-            color={'green-100'}
+            color={'bg-green-100'}
             title="Tổng số khảo sát"
             number={data?.countSurveys ? data?.countSurveys : 0}
             icon1={<FcSurvey className="text-3xl " />}
           />
           <DataBox
-            color={'blue-100'}
+            color={'bg-blue-100'}
             title="Tổng số bài kiểm tra"
             number={data?.countTests ? data?.countTests : 0}
             icon1={<MdBookmarkAdded className="text-2xl text-orange-600" />}
           />
           <DataBox
-            color={'red-100'}
+            color={'bg-red-100'}
             title="Tổng số đơn đăng ký"
             number={data?.countApplications ? data?.countApplications : 0}
             icon1={<FaClipboardList className="text-2xl text-indigo-600" />}
           />
           <DataBox
-            color={'orange-100'}
+            color={'bg-orange-100'}
             title="Tổng số người đã làm khảo sát"
             number={data?.countSurveyTakers ? data?.countSurveyTakers : 0}
             longHeader

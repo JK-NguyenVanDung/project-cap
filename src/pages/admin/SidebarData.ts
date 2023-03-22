@@ -5,14 +5,18 @@ import {
   BsFillBarChartFill,
   BsFillHouseFill,
   BsFillPersonBadgeFill,
+  BsGiftFill,
   BsHouseFill,
 } from 'react-icons/bs';
+import { RiExchangeDollarFill } from 'react-icons/ri';
+
 import {
   FaChartArea,
   FaChartBar,
   FaClipboard,
   FaClipboardList,
   FaComments,
+  FaGifts,
 } from 'react-icons/fa';
 import { GoVerified } from 'react-icons/go';
 import { HiClipboardDocumentList } from 'react-icons/hi2';
@@ -122,6 +126,28 @@ export const SideBarData = [
     title: 'Bình luận',
     icon: FaComments,
     path: '/admin/Comment',
+  },
+  {
+    title: 'Đổi Coin',
+    icon: RiExchangeDollarFill,
+    path: '/admin/ExchangeCoin',
+  },
+  {
+    title: 'Quà Tặng',
+    icon: BsGiftFill,
+    path: '/admin/ExchangeGift',
+    children: [
+      {
+        title: 'Thống kê theo nhóm  ',
+        icon: BsGiftFill,
+        path: '/admin/ExchangeGift',
+      },
+      {
+        title: 'Đổi Quà',
+        icon: FaGifts,
+        path: '/admin/ExchangeGift',
+      },
+    ],
   },
   {
     title: 'Thống kê',

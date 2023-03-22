@@ -68,31 +68,6 @@ const MyResponsiveLine = ({
     pointBorderColor={{ from: 'serieColor' }}
     pointLabelYOffset={-12}
     useMesh={true}
-    legends={[
-      {
-        anchor: 'bottom',
-        direction: 'column',
-        justify: false,
-        translateX: 200,
-        translateY: -200,
-        itemWidth: 100,
-        itemHeight: 20,
-        itemsSpacing: 4,
-        symbolSize: 20,
-        symbolShape: 'circle',
-        itemDirection: 'left-to-right',
-        itemTextColor: '#777',
-        effects: [
-          {
-            on: 'hover',
-            style: {
-              itemBackground: 'rgba(0, 0, 0, .03)',
-              itemOpacity: 1,
-            },
-          },
-        ],
-      },
-    ]}
   />
 );
 export default function ({ data }: { data: any }) {

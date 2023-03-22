@@ -65,4 +65,9 @@ export const SideBarData = [
   //   icon: BsFillPersonBadgeFill,
   //   path: '/admin/Learner',
   // },
+  {
+    title: 'Đổi Coin',
+    icon: BsFillPersonBadgeFill,
+    path: '/CoinExchanges',
+  },
 ];
