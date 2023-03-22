@@ -201,6 +201,8 @@ export const RouterPages = [
   {
     path: '/Badge',
     element: <Badge />,
+  },
+  {
     path: '/admin/ExchangeGift',
     element: <ExchangeGift />,
   },
