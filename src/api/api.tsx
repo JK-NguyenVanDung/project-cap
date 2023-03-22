@@ -1,5 +1,5 @@
+import { IGift, ISignUp } from './apiInterface';
 import { apiPath } from '../onBuild';
-import { ISignUp } from './apiInterface';
 export const API_URL = apiPath;
 //https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17
 //https://localhost:7206'
@@ -211,6 +211,16 @@ export const API_CONFIG = {
     GET_MY_STATISTIC: (accountId: number) =>
       `/api/Statistics/GetMyStatistics?accId=${accountId}`,
   },
+  GIFT: {
+    GET_ALL_GIFTS: '/api/Gifts',
+    POST_GIFT: `/api/Gifts`,
+    GET_GIFT: (idGift: number) => `/api/Gifts/${idGift}`,
+    UPDATE_GIFT: (idGift: number) => `/api/Gifts/${idGift}`,
+    DELETE_GIFT: (idGift: number) => `/api/Gifts/${idGift}`,
+    GET_EXCHANGE: `/api/Gifts/GetExchange`,
+    CHANGE_STATUS: `/api/Gifts/ChangeStatus`,
+    POST_EXCHANGE: '/api/Gifts/Exchange',
+  }
   EXCHANGE: {
     GET: `/api/Exchanges/GetListExchanges`,
     GET_LEARNER: (AccountId: number) =>
