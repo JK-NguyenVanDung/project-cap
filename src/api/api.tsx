@@ -220,7 +220,7 @@ export const API_CONFIG = {
     GET_EXCHANGE: `/api/Gifts/GetExchange`,
     CHANGE_STATUS: `/api/Gifts/ChangeStatus`,
     POST_EXCHANGE: '/api/Gifts/Exchange',
-  }
+  },
   EXCHANGE: {
     GET: `/api/Exchanges/GetListExchanges`,
     GET_LEARNER: (AccountId: number) =>
