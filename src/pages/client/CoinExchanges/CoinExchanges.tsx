@@ -25,9 +25,8 @@ export default function () {
       try {
         const data: any = await apiService.getLearnerExchanges(info.accountId);
 
-        let temp = data.filter((item: any) => item.ended !== true);
-        setData(temp);
-        setFilterData(temp);
+        setData(data);
+        setFilterData(data);
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
       } catch (error) {
         console.log(error);
@@ -101,7 +100,7 @@ export default function () {
                     onClick={() => handelDataProgram(item)}
                     item={item}
                     status={
-                      item.certificatePhotos[item.certificatePhotos.length - 1]
+                      item.ended? "ended" :  item.certificatePhotos[item.certificatePhotos.length - 1]
                         ?.status
                     }
                     isRegistered={false}

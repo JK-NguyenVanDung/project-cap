@@ -16,6 +16,9 @@ import Image from '../../../assets/img/dazzle-signing-a-financial-contract.gif';
 import { getColor } from '../../../utils/uinqueId';
 function getStatusColor(status: string) {
   switch (status) {
+    case 'ended':
+      return 'bg-black';
+
     case 'pending':
       return 'bg-primary';
     case 'approved':
@@ -30,6 +33,8 @@ function getStatusColor(status: string) {
 }
 function getStatus(status: string) {
   switch (status) {
+    case 'ended':
+      return 'Hết hạn';
     case 'pending':
       return 'Đang duyệt';
 

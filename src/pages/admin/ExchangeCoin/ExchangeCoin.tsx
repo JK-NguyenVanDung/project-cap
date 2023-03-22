@@ -54,7 +54,7 @@ export default function () {
     }
   }
   useEffect(() => {
-    dispatch(actions.formActions.setNameMenu(`${'Quản Lý Đổi Quà'}`));
+    dispatch(actions.formActions.setNameMenu(`${'Quản Lý Đổi Coin'}`));
   }, []);
 
   useEffect(() => {
@@ -95,7 +95,7 @@ export default function () {
       width: GIRD12.COL2,
       render: (data: any) => (
         <>
-          {data ? moment(data).format('HH:MM - DD/MM/YYYY').toString() : 'N/A'}
+          {data ? moment(data).format('HH:mm - DD/MM/YYYY').toString() : 'N/A'}
         </>
       ),
     },

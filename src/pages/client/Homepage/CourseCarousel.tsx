@@ -56,6 +56,37 @@ export default function ({
             // pagination={{ clickable: true }}
             // onSwiper={(swiper) => console.log(swiper)}
             // onSlideChange={() => console.log('slide change')}
+            breakpoints={{
+              // when window width is >= 320px
+
+              480: {
+                slidesPerView: 2,
+                spaceBetween: 80,
+              },
+
+              // when window width is >= 640px
+              640: {
+                slidesPerView: 2,
+                spaceBetween: 40,
+              },
+              900: {
+                slidesPerView: 3,
+                spaceBetween: 40,
+              },
+              1240: {
+                slidesPerView: 4,
+                spaceBetween: 40,
+              },
+
+              1540: {
+                slidesPerView: 5,
+                spaceBetween: 40,
+              },
+              1840: {
+                slidesPerView: 6,
+                spaceBetween: 40,
+              },
+            }}
           >
             {data.map((item: IProgramItem) => {
               return (

@@ -35,19 +35,14 @@ export default function ShowDetail({
   }
   useEffect(() => {
     form.setFieldsValue({
-      item,
-      commentAndReason: getComment(item),
-      programName: item?.program.programName,
-      statusProgram:
-        item?.program?.status == 'public' ? 'Đang Công Khai' : 'Riêng Tư',
-      emailLearner: item?.accountIdLearnerNavigation?.email,
-      fullName: item?.accountIdLearnerNavigation?.fullName,
-      statusLearner:
-        item?.registerStatus == 'Approved'
+      ...item,
+
+      status:
+        item?.status == 'Approved'
           ? 'Đã Được Duyệt'
-          : item?.registerStatus == 'UnApproved'
+          : item?.status == 'UnApproved'
           ? 'Chưa Được Duyệt'
-          : item?.registerStatus == 'Refuse'
+          : item?.status == 'Refuse'
           ? 'Bị Từ Chối'
           : 'Chưa Có Trạng Thái',
     });
@@ -62,43 +57,50 @@ export default function ShowDetail({
       <div className="flex justify-around">
         <div className="w-full p-6">
           <FormInput
-            placeholder="Chương Trình"
+            placeholder="Người Đổi"
             disabled
-            label="Tên Chương Trình"
-            name="programName"
+            label="Tên Người Đổi"
+            name="exchanger"
           />
           <FormInput
-            placeholder="Trạng Thái Chương Trình"
+            placeholder="Quà muốn đổi"
             disabled
-            label="Trạng Thái Chương Trình"
-            name="statusProgram"
+            label="Quà muốn đổi"
+            name="gift"
           />
+          <div className="flex w-full justify-between items-center ">
+            <div className="flex justify-start  items-center">
+              <FormInput
+                placeholder="Số lượng quà còn lại"
+                disabled
+                label="Số lượng quà còn lại"
+                name="coin"
+              />
+            </div>
+            <div className="flex justify-start  items-center">
+              <FormInput
+                placeholder="Trạng Thái"
+                disabled
+                label="Trạng Thái"
+                name="status"
+              />
+            </div>
+          </div>
+        </div>
+        <div className="w-full p-6">
+          <FormInput
+            placeholder="Số Điện Thoại"
+            disabled
+            label="Số Điện Thoại"
+            name="phone"
+          />
+
           <FormInput
             placeholder="Nhận xét"
             disabled
             label="Nhận Xét"
             name="commentAndReason"
             type="textArea"
-          />
-        </div>
-        <div className="w-full p-6">
-          <FormInput
-            placeholder="Email"
-            disabled
-            label="Email"
-            name="emailLearner"
-          />
-          <FormInput
-            placeholder="Họ Và Tên"
-            disabled
-            label="Họ Và Tên"
-            name="fullName"
-          />
-          <FormInput
-            placeholder="Trạng Thái Đơn Đăng Ký"
-            disabled
-            label="Trạng Thái"
-            name="statusLearner"
           />
         </div>
       </div>
@@ -108,9 +110,10 @@ export default function ShowDetail({
     <CustomModal
       show={visible}
       setShow={setVisible}
-      header={'Xem Chi Tiết Đơn Đăng Ký'}
-      label={'Đơn Đăng Ký'}
+      header={'Xem Chi Tiết Đơn Đổi Quà'}
+      label={'Xem Chi Tiết Đơn Đổi Quà'}
       dataItem={item}
+      notAdd
       name={item}
       FormItem={<FormItem />}
       form={form}

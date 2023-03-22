@@ -62,17 +62,17 @@ export default function Homepage() {
               loading ? 'hidden' : 'visible'
             }`}
           >
-            <div className="w-[84vw]">
+            <div className="w-[84vw] max-sm:w-[96vw] mt-4">
               <Banner data={[...bannerData]} />
             </div>
           </div>
 
           <FormFirstTime />
         </div>
-        <div className="my-12 w-[90vw]">
+        <div className="my-12 w-[90vw] max-sm:w-[100vw]">
           <CourseCarousel data={programs} title="Khoá học mới nhất" />
         </div>
-        <div className="my-12 w-[90vw]">
+        <div className="my-12 w-[90vw] max-sm:w-[100vw]">
           <CourseCarousel
             data={programs?.reverse()}
             title="Khoá học nổi tiếng"

@@ -161,8 +161,8 @@ export default function () {
       </div>
       <div className="mb-5 mx-5 ">
         <Space size={30} />
-        <div className="flex">
-          <div className="w-4/6">
+        <div className="flex max-sm:flex-col">
+          <div className="w-4/6 max-sm:w-full">
             <div className=" relative flex flex-col items-center justify-center">
               {certification?.image && !previewImage ? (
                 <>
@@ -253,7 +253,7 @@ export default function () {
             </p>
           </div>
           <Space sizeWidth={15} />
-          <div className="bg-white rounded-lg shadow-lg p-5 w-2/6">
+          <div className="bg-white rounded-lg shadow-lg p-5 w-2/6 max-sm:w-full">
             <h1 className="text-center font-bold text-base text-gray-600">
               Gửi ảnh chứng chỉ nhận được coin thưởng
             </h1>

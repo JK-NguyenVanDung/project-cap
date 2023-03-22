@@ -31,7 +31,7 @@ export default function () {
     dispatch(actions.authActions.logout());
   };
   return (
-    <div className="flex items-center justify-center max-w-full mr-2 ">
+    <div className="flex items-center justify-center max-w-full mr-2 max-sm:mr-0 max-sm:justify-around  max-sm:w-fit">
       <Menu>
         <IconButton
           variant="text"
@@ -50,10 +50,13 @@ export default function () {
         >
           <IoNotificationsOutline className="text-xl" />
         </IconButton>
-        <span className="mr-1">Xin Chào {accounts[0].name}</span>
+        <span className="mr-1 max-sm:text-xs max-sm:w-[30%] ">
+          Xin Chào{' '}
+          {accounts[0].name?.split(' - ') && accounts[0].name?.split(' - ')[1]}
+        </span>
 
         <MenuHandler>
-          <button className="rounded-[12rem] mx-2 bg-white shadow-none hover:shadow-none p-0 ">
+          <button className="rounded-[12rem] mx-2 bg-white shadow-none hover:shadow-none p-0  ">
             <Avatar size="sm" src={avatar} alt="avatar" variant="circular" />
           </button>
         </MenuHandler>

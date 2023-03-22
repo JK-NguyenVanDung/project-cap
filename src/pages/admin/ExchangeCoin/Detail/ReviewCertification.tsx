@@ -57,7 +57,7 @@ export default function () {
       response = response.reverse();
       dispatch(
         actions.formActions.setNameMenu(
-          `${'Quản Lý Đổi Quà: ' + exchange?.title}`,
+          `${'Quản Lý Đổi Coin: ' + exchange?.title}`,
         ),
       );
 
@@ -166,6 +166,7 @@ export default function () {
             tip="Từ chối đăng ký"
             size="sm"
             color="red"
+            disabled={data.status === 'approved'}
             Icon={MdRemoveCircle}
             onClick={() => handelRefusal(data)}
           />
@@ -173,6 +174,7 @@ export default function () {
             tip="Duyệt đơn đăng ký"
             size="sm"
             color="green"
+            disabled={data.status === 'approved'}
             Icon={AiFillCheckCircle}
             onClick={() => handelApprove(data)}
           />
@@ -351,7 +353,7 @@ export default function () {
         {dataDetail && (
           <>
             <p>
-              Cấp {exchange.coin} Coins cho{' '}
+              Cấp {exchange?.coin} Coins cho{' '}
               {
                 accounts.find(
                   (acc: IAccountItem) => acc.accountId === dataDetail.creatorId,
