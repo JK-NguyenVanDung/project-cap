@@ -1,37 +1,77 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Progress } from 'antd';
 import avatarSqDefault from '../../../../assets/img/avatarSq.png';
 import { Space } from '../../Programs/ResultProgram';
 import Color from '../../../../components/constant/Color';
-import { AiFillFlag } from 'react-icons/ai';
+import { BiEdit } from 'react-icons/bi';
 import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
 import { useMsal } from '@azure/msal-react';
 import HeaderClient from '../../../../components/Header/HeaderClient';
-
+import ModalProfile from './Share/ModalProfile';
+import Loading from '../../../../components/sharedComponents/Loading';
+import { API_URL } from '../../../../api/api';
+import apiService from '../../../../api/apiService';
 export default function ProfileClient() {
   const dispatch = useAppDispatch();
   const { accounts } = useMsal();
-  const info = useAppSelector((state: any) => state.auth.info);
-  const nameMenu = useAppSelector((state: any) => state.form.nameMenu);
+  const [info, setInfo]: any = useState();
+  const [loading, setLoading] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   useEffect(() => {
     dispatch(
       actions.formActions.setNameMenu(`${accounts[0]?.name.split('-')[1]}`),
     );
-  }, [info]);
-
+  }, []);
+  useEffect(() => {
+    getMyAccount();
+  }, []);
+  const getMyAccount = async () => {
+    try {
+      const data: any = await apiService.getProfile();
+      setLoading(true);
+      if (data) {
+        setLoading(false);
+        setInfo(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const handelEdit = () => {
+    setOpenEdit(true);
+  };
   return (
     <>
+      <Loading loading={loading} />
       <div className="flex ">
         <div>
-          <img className=" rounded-lg" src={avatarSqDefault} />
+          <img
+            className=" rounded-lg"
+            src={
+              info?.avatar
+                ? `${API_URL}/images/${info?.avatar}`
+                : avatarSqDefault
+            }
+          />
         </div>
         <Space sizeWidth={50} />
-        <div className="w-3/5">
+        <div className="w-full p-5">
           <Space size={10} />
           <div>
-            <h1 className="font-bold text-2xl text-gray-600">{nameMenu}</h1>
-            <Space size={20} />
+            <div className="flex justify-between">
+              <h1 className="font-bold text-2xl text-gray-600">
+                {info?.fullName ?? 'No Name'}
+              </h1>
+              <BiEdit
+                className="cursor-pointer"
+                onClick={() => handelEdit()}
+                size={30}
+                color={Color.theme.DOVE_GRAY}
+              />
+            </div>
+
+            <Space size={10} />
             <p className="font-normar italic">
               <span className="text-gray-700 font-bold text-sm">Email:</span>{' '}
               {info?.email ?? ''}
@@ -60,7 +100,20 @@ export default function ProfileClient() {
               {info?.faculty?.facultyName ?? ''}
             </p>
           </div>
-          {/* <Space size={20} />
+          <ModalProfile
+            loadingConfirm={loading}
+            setLoadingConfirm={setLoading}
+            open={openEdit}
+            setOpen={setOpenEdit}
+          />
+        </div>
+      </div>
+    </>
+  );
+}
+
+{
+  /* <Space size={20} />
           <Progress
             percent={50}
             status="active"
@@ -98,9 +151,5 @@ export default function ProfileClient() {
                 <p>quiz passed</p>
               </div>
             </div>
-          </div> */}
-        </div>
-      </div>
-    </>
-  );
+          </div> */
 }
