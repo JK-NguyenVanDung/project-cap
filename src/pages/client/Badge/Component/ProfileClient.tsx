@@ -64,6 +64,7 @@ export default function ProfileClient() {
                 {info?.fullName ?? 'No Name'}
               </h1>
               <BiEdit
+                className="cursor-pointer"
                 onClick={() => handelEdit()}
                 size={30}
                 color={Color.theme.DOVE_GRAY}
