@@ -58,7 +58,8 @@ import StatisticCategory from '../pages/admin/Statistics/StatisticCategory';
 import Dashboard from '../pages/admin/Dashboard/Dashboard';
 import Badge from '../pages/client/Badge';
 import DetailBade from '../pages/client/Badge/DetailBade';
-
+import ManagerGiftScreen from '../pages/admin/ManagerGift/ManagerGiftScreen';
+import GiftSreen from '../pages/client/Gift';
 export const RouterPages = [
   {
     path: '/admin',
@@ -186,6 +187,14 @@ export const RouterPages = [
     path: '/admin/Statistic/Category',
     element: <StatisticCategory />,
   },
+  {
+    path: '/admin/Gift',
+    element: <ManagerGiftScreen />,
+  },
+  {
+    path: '/Badge',
+    element: <Badge />,
+  },
 ];
 
 export const RouterCenter = [
@@ -293,6 +302,14 @@ export const RouterCenter = [
     path: '/admin/CourseSurvey/Detail',
     element: <ProgramSurveyDetail />,
   },
+  {
+    path: '/admin/Gift',
+    element: <ManagerGiftScreen />,
+  },
+  {
+    path: '/Badge',
+    element: <Badge />,
+  },
 ];
 export const RouterFaculty = [
   {
@@ -379,6 +396,14 @@ export const RouterFaculty = [
     path: '/admin/Published',
     element: <Published />,
   },
+  {
+    path: '/admin/Gift',
+    element: <ManagerGiftScreen />,
+  },
+  {
+    path: '/Badge',
+    element: <Badge />,
+  },
 ];
 const Learner = [
   {
@@ -449,6 +474,10 @@ const Learner = [
   {
     path: '/admin/CourseSurvey/Detail',
     element: <ProgramSurveyDetail />,
+  },
+  {
+    path: '/Gift',
+    element: <GiftSreen />,
   },
 ];
 export default function MakePagesRouter() {

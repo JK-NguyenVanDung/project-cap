@@ -1,9 +1,11 @@
 import React, { useEffect, useRef, useState } from 'react';
 import apiService from '../../../api/apiService';
-import { Form, notification, Select, Modal } from 'antd';
+import { Form, notification, Select, Modal, Upload, message } from 'antd';
 import videoBackground from '../../../assets/video/background.mp4';
 import logo from '../../../assets/img/VLU_Full_Logo.png';
-
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import type { UploadChangeParam } from 'antd/es/upload';
+import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomButton from '../../../components/admin/Button';
@@ -18,18 +20,60 @@ const kindWords = [
   'Hạnh phúc không tùy thuộc bạn là ai, bạn được làm gì mà tùy thuộc bạn suy nghĩ như thế nào.',
   ' Đừng nên oán giận hay căm phẫn những chuyện không vui hay buồn phiền lại ập đến với mình, đến một lúc nào đó bạn sẽ thấy biết ơn và trân trọng chúng.',
 ];
+const getBase64 = (img: RcFile, callback: (url: string) => void) => {
+  const reader = new FileReader();
+  reader.addEventListener('load', () => callback(reader.result as string));
+  reader.readAsDataURL(img);
+};
 
+const beforeUpload = (file: RcFile) => {
+  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+  if (!isJpgOrPng) {
+    message.error('You can only upload JPG/PNG file!');
+  }
+  const isLt2M = file.size / 1024 / 1024 < 2;
+  if (!isLt2M) {
+    message.error('Image must smaller than 2MB!');
+  }
+  return isJpgOrPng && isLt2M;
+};
 export default function Dashboard() {
   const [form] = Form.useForm();
   const navigate = useNavigate();
   const [dataFct, setDataFct]: any = useState([]);
   const [positons, setPositons]: any = useState([]);
   const [visible, setVisible] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState<string>();
+  const formData = new FormData();
   useEffect(() => {
     getPositions();
     getFacuties();
     fetchInfo();
   }, []);
+
+  const handleChange: UploadProps['onChange'] = (
+    info: UploadChangeParam<UploadFile>,
+  ) => {
+    if (info.file.status === 'uploading') {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === 'done') {
+      getBase64(info.file.originFileObj as RcFile, (url) => {
+        setLoading(false);
+        setImageUrl(url);
+      });
+    }
+  };
+
+  const uploadButton = (
+    <div>
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div style={{ marginTop: 8 }}>Tải Ảnh Lên</div>
+    </div>
+  );
+
   const getPositions = async () => {
     const reponse = await apiService.getPositions();
     if (reponse) {
@@ -56,8 +100,19 @@ export default function Dashboard() {
   };
   const handelOk = () => {
     form.validateFields().then(async (values) => {
+      formData.append('address', values.address ? values.address : '');
+      formData.append(
+        'phoneNumber',
+        values.phoneNumber ? values.phoneNumber : '',
+      );
+      formData.append('code', values.code ? values.code : '');
+      formData.append('positionId', values.positionId ? values.positionId : '');
+      formData.append('facultyId', values.facultyId ? values.facultyId : '');
+      formData.append('fullName', values.fullName ? values.fullName : '');
+      formData.append('avatar', values.avartar ? values.avartar.file : '');
+
       try {
-        const data: any = await apiService.infoAccount(values);
+        const data: any = await apiService.infoAccount(formData);
         if (data) {
           setVisible(false);
           notification.success({ message: 'Cập Nhật Thông Tin Thành Công' });
@@ -96,6 +151,43 @@ export default function Dashboard() {
             <h1 className="text-center font-bold text-2xl mb-10">
               Thông Tin Của Bạn
             </h1>
+            <Form.Item
+              name="avatar"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng chọn Avatar',
+                },
+              ]}
+            >
+              <Upload
+                name="avatar"
+                listType="picture-card"
+                className="avatar-uploader w-full"
+                showUploadList={false}
+                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                beforeUpload={beforeUpload}
+                onChange={handleChange}
+                accept="image/*"
+              >
+                {imageUrl ? (
+                  <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
+                ) : (
+                  uploadButton
+                )}
+              </Upload>
+            </Form.Item>
+            <FormInput
+              className="w-full"
+              name="fullName"
+              label="Họ Và Tên"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Họ Và Tên',
+                },
+              ]}
+            />
             <FormInput
               className="w-full"
               name="address"
@@ -103,7 +195,7 @@ export default function Dashboard() {
               rules={[
                 {
                   required: true,
-                  message: 'Vui Lòng Nhập Vào Chức Vụ',
+                  message: 'Vui Lòng Nhập Vào Địa Chỉ',
                 },
               ]}
             />

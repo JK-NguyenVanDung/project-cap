@@ -1,4 +1,4 @@
-import { ISignUp } from './apiInterface';
+import { IGift, ISignUp } from './apiInterface';
 export const API_URL = 'https://localhost:7206';
 //https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17
 //https://localhost:7206'
@@ -207,5 +207,15 @@ export const API_CONFIG = {
     GET_DASHBOARD: `/api/Dashboard`,
     GET_MY_STATISTIC: (accountId: number) =>
       `/api/Statistics/GetMyStatistics?accId=${accountId}`,
+  },
+  GIFT: {
+    GET_ALL_GIFTS: '/api/Gifts',
+    POST_GIFT: `/api/Gifts`,
+    GET_GIFT: (idGift: number) => `/api/Gifts/${idGift}`,
+    UPDATE_GIFT: (idGift: number) => `/api/Gifts/${idGift}`,
+    DELETE_GIFT: (idGift: number) => `/api/Gifts/${idGift}`,
+    GET_EXCHANGE: `/api/Gifts/GetExchange`,
+    CHANGE_STATUS: `/api/Gifts/ChangeStatus`,
+    POST_EXCHANGE: '/api/Gifts/Exchange',
   },
 };

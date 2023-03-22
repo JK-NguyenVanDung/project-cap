@@ -140,6 +140,11 @@ export const SideBarData = [
       },
     ],
   },
+  {
+    title: 'Quà Tặng',
+    icon: IoPeopleCircle,
+    path: '/admin/Gift',
+  },
 ];
 
 export const SideBarDataCT = [
@@ -205,6 +210,11 @@ export const SideBarDataCT = [
     icon: BsFillPersonBadgeFill,
     path: '/admin/Published',
   },
+  {
+    title: 'Quà Tặng',
+    icon: IoPeopleCircle,
+    path: '/admin/Gift',
+  },
 ];
 
 export const SideBarDataFacul = [
@@ -263,5 +273,10 @@ export const SideBarDataFacul = [
     title: 'Học Viên',
     icon: BsFillPersonBadgeFill,
     path: '/admin/Published',
+  },
+  {
+    title: 'Quà Tặng',
+    icon: IoPeopleCircle,
+    path: '/admin/Gift',
   },
 ];

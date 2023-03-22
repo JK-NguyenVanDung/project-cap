@@ -52,7 +52,12 @@ export default function () {
           </button>
         </MenuHandler>
         <MenuList>
-          <MenuItem className="font-customFont">Trang Cá Nhân</MenuItem>
+          <MenuItem
+            onClick={() => navigate('/Badge')}
+            className="font-customFont"
+          >
+            Trang Cá Nhân
+          </MenuItem>
 
           <MenuItem className="font-customFont" onClick={() => logoutAdmin()}>
             Đăng Xuất

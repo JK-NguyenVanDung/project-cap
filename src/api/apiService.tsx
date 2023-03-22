@@ -1,6 +1,12 @@
 import { API_CONFIG } from './api';
 import axiosConfig, { configFormData } from './axiosConfig';
-import { ICategory, IChapter } from './apiInterface';
+import {
+  IADDEXCHANGE,
+  ICategory,
+  IChapter,
+  IGift,
+  IGIFTSTATUS,
+} from './apiInterface';
 import {
   IAccountItem,
   IProgramItem /* IQuestion, ITest  */,
@@ -51,7 +57,7 @@ export default {
     return axiosConfig.delete(API_CONFIG.ACCOUNT.DEL(accountId));
   },
   infoAccount: (params: any) => {
-    return axiosConfig.put(API_CONFIG.ACCOUNT.PUT_FORM, params);
+    return configFormData.put(API_CONFIG.ACCOUNT.PUT_FORM, params);
   },
   //ROLES
   getRoles: () => {
@@ -444,5 +450,31 @@ export default {
   },
   getMyStatics: (accountId: number) => {
     return axiosConfig.get(API_CONFIG.STATISTIC.GET_MY_STATISTIC(accountId));
+  },
+
+  //gift
+  getAllGift: () => {
+    return axiosConfig.get(API_CONFIG.GIFT.GET_ALL_GIFTS);
+  },
+  addGift: (params: any) => {
+    return configFormData.post(API_CONFIG.GIFT.POST_GIFT, params);
+  },
+  getGiftId: (idGift: number) => {
+    return axiosConfig.get(API_CONFIG.GIFT.GET_GIFT(idGift));
+  },
+  deleteGift: (idGift: number) => {
+    return axiosConfig.delete(API_CONFIG.GIFT.DELETE_GIFT(idGift));
+  },
+  updateGift: (idGift: number, params: any) => {
+    return configFormData.put(API_CONFIG.GIFT.UPDATE_GIFT(idGift), params);
+  },
+  getExchange: () => {
+    return axiosConfig.get(API_CONFIG.GIFT.GET_EXCHANGE);
+  },
+  changeStatus: (params: IGIFTSTATUS) => {
+    return axiosConfig.put(API_CONFIG.GIFT.CHANGE_STATUS, params);
+  },
+  addGiftExchange: (params: IADDEXCHANGE) => {
+    return axiosConfig.post(API_CONFIG.GIFT.POST_EXCHANGE);
   },
 };

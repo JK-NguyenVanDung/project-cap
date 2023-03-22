@@ -22,6 +22,7 @@ import { IoTrashOutline } from 'react-icons/io5';
 import { IAccountItem, IRoleItem } from '../../../Type';
 import PopOverAction from '../../../components/admin/PopOver';
 import DetailAccount from './DetailAccount';
+import GiveCoid from './GiveCoid';
 
 export default function Account() {
   const [showModal, setShowModal] = useState(false);
@@ -31,7 +32,7 @@ export default function Account() {
 
   const [reload, setReload] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
-
+  const [showGiveCoin, setShowGiveCoin] = useState(false);
   const [form] = Form.useForm();
 
   const [data, setData] = useState<Array<IAccountItem>>([]);
@@ -331,7 +332,9 @@ export default function Account() {
       };
     }
   }
-
+  function giveCoin() {
+    setShowGiveCoin(true);
+  }
   return (
     <>
       <TableConfig
@@ -341,12 +344,22 @@ export default function Account() {
         loading={reload}
         columns={columns}
         extra={[
-          <CustomButton
-            type="add"
-            size="md"
-            key={`${uniqueId()}`}
-            onClick={() => openAdd()}
-          />,
+          <div className="flex">
+            <CustomButton
+              color="yellow"
+              size="md"
+              text={'Tặng Coin'}
+              key={`${uniqueId()}`}
+              onClick={() => giveCoin()}
+            />
+            <CustomButton
+              className="mx-5"
+              type="add"
+              size="md"
+              key={`${uniqueId()}`}
+              onClick={() => openAdd()}
+            />
+          </div>,
         ]}
       />
       <CustomModal
@@ -371,6 +384,8 @@ export default function Account() {
           setVisible={setShowDetail}
         />
       ) : null}
+
+      <GiveCoid showModal={showGiveCoin} setShowModal={setShowGiveCoin} />
     </>
   );
 }
