@@ -41,7 +41,7 @@ export default function Login() {
     videoRef.current.playbackRate = 0.8;
   };
   return (
-    <div className="bg-slate-500 max-sm:bg-gray-900 max-sm:w-fit ">
+    <div className="bg-slate-500 max-sm:bg-gray-900 sm:bg-gray-900 md:bg-gray-900 max-sm:w-full max-sm:px-12 ">
       <div className="overlay" />
       <video
         style={{

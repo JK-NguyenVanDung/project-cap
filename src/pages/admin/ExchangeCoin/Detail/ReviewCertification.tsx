@@ -127,10 +127,20 @@ export default function () {
     },
     {
       title: 'Người duyệt',
-      dataIndex: 'reviewerAccount',
       key: 'reviewerAccount',
       width: '15%',
-      render: (data: any) => <>{data ? data.email : 'Chưa có người duyệt'}</>,
+      render: (data: any) => (
+        <>
+          {' '}
+          {accounts.find(
+            (item: IAccountItem) => item.accountId === data.reviewerId,
+          )?.email
+            ? accounts.find(
+                (item: IAccountItem) => item.accountId === data.reviewerId,
+              )?.email
+            : 'Chưa có người duyệt'}
+        </>
+      ),
     },
     {
       title: 'Trạng thái',
@@ -174,7 +184,7 @@ export default function () {
             tip="Duyệt đơn đăng ký"
             size="sm"
             color="green"
-            disabled={data.status === 'approved'}
+            disabled={data.status === 'approved' || data.status === 'denied'}
             Icon={AiFillCheckCircle}
             onClick={() => handelApprove(data)}
           />
@@ -199,6 +209,13 @@ export default function () {
       exchanger: accounts.find(
         (acc: IAccountItem) => acc.accountId === item.creatorId,
       )?.email,
+      reviewer: accounts.find(
+        (acc: IAccountItem) => acc.accountId === item.reviewerId,
+      )
+        ? accounts.find(
+            (acc: IAccountItem) => acc.accountId === item.reviewerId,
+          )?.email
+        : null,
     });
   };
   const FormApplicationRef = () => {

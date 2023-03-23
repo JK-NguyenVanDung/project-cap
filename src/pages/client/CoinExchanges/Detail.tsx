@@ -128,22 +128,30 @@ export default function () {
         ...response.certificatePhotos[response.certificatePhotos.length - 1],
       });
       let temp =
-        response.certificatePhotos[response.certificatePhotos.length - 1];
+        response?.certificatePhotos[response.certificatePhotos.length - 1];
+      console.log(response);
+
       setPreviewText(
-        temp.reviewDate
+        temp?.reviewDate
           ? `Ảnh bạn đã được ${
               temp.status === 'denied' ? 'xem xét' : 'duyệt'
             } vào lúc 
-        ${moment(temp.reviewDate).local().format('HH:mm - DD/MM/YYYY')}
+        ${moment(temp?.reviewDate).local().format('HH:mm - DD/MM/YYYY')}
 
       `
           : `Ảnh bạn đã gửi vào lúc 
-        ${moment(temp.sentDate).local().format('HH:mm - DD/MM/YYYY')}
+        ${moment(temp?.sentDate).local().format('HH:mm - DD/MM/YYYY')}
 
       `,
       );
-      dispatch(actions.formActions.setNameMenu('Đổi Coin: ' + response.title));
-      setDetailExchange(response);
+      dispatch(actions.formActions.setNameMenu('Đổi Coin: ' + response?.title));
+      setDetailExchange({
+        ...response,
+        status: response.ended
+          ? 'ended'
+          : response.certificatePhotos[response.certificatePhotos.length - 1]
+              ?.status,
+      });
     };
     getData();
   }, []);

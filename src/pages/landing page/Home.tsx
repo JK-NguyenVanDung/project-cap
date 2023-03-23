@@ -1,13 +1,26 @@
 import Hero from '../../assets/landingPage/hero-cover-1.png';
 import Chart from '../../assets/landingPage/chart_line.svg';
 import Button from '../../components/sharedComponents/Button';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { actions } from '../../Redux';
 import { notification } from 'antd';
+import apiService from '../../api/apiService';
 const Home = React.forwardRef((props, ref: any) => {
   const navigate = useNavigate();
+  const [data, setData] = useState<any>({});
+  async function getData() {
+    try {
+      let res: any = await apiService.getDashboard();
+      setData(res);
+    } catch (err: any) {}
+  }
+
+  useEffect(() => {
+    dispatch(actions.formActions.setNameMenu(`Dashboard`));
+    getData();
+  }, []);
   const dispatch = useAppDispatch();
   function Login() {
     navigate('/login');
@@ -53,7 +66,10 @@ const Home = React.forwardRef((props, ref: any) => {
             <div className=" relative flex w-1/2 max-sm:w-4/5  items-center bg-white rounded-lg border shadow-md   ">
               <div className="relative z-10 flex  flex-col justify-between p-4 w-fit leading-normal">
                 <h5 className="mb-2 text-[3rem]  max-md:text-[1rem] max-sm:text-[2rem]   font-bold tracking-tight text-gray-900 dark:text-white">
-                  529+
+                  {data?.countLearnersComplete
+                    ? Math.round(data?.countLearnersComplete)
+                    : '100'}
+                  +
                 </h5>
               </div>
               <div className="  z-10 relative flex   flex-col justify-between p-4 w-full leading-normal">

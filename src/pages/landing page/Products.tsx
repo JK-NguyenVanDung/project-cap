@@ -16,8 +16,8 @@ const Product = React.forwardRef((props, ref: any) => {
 
   async function getData() {
     try {
-      let res: any = await apiService.getPrograms();
-      setPrograms(res);
+      let res: any = await apiService.getPublicPrograms();
+      setPrograms(res.reverse());
     } catch (err: any) {
       throw err.message;
     }
@@ -54,18 +54,18 @@ const Product = React.forwardRef((props, ref: any) => {
             image={programs && programs[0]?.image}
           />
           <ProductCard
-            program={programs && programs[6]}
-            title={programs && programs[6]?.programName}
-            view={programs && programs[6]?.maxLearner + ' Học viên'}
-            hour={programs && programs[6]?.trainingHours + ' buổi'}
-            image={programs && programs[6]?.image}
-          />
-          <ProductCard
             program={programs && programs[1]}
             title={programs && programs[1]?.programName}
             view={programs && programs[1]?.maxLearner + ' Học viên'}
             hour={programs && programs[1]?.trainingHours + ' buổi'}
             image={programs && programs[1]?.image}
+          />
+          <ProductCard
+            program={programs && programs[2]}
+            title={programs && programs[2]?.programName}
+            view={programs && programs[2]?.maxLearner + ' Học viên'}
+            hour={programs && programs[2]?.trainingHours + ' buổi'}
+            image={programs && programs[2]?.image}
           />
         </div>
       </div>
