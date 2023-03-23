@@ -246,6 +246,7 @@ const CertificatePhoto = z.object({
 });
 const ExchangeCoin = z.object({
   certificatePhotos: z.array(CertificatePhoto),
+  ended: z.boolean(),
   exchangeId: z.number(),
   creatorId: z.number(),
   title: z.string(),

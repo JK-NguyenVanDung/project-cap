@@ -1,44 +1,66 @@
 import React, { useEffect, useState } from 'react';
 
-import { notification } from 'antd';
+import { notification, Image } from 'antd';
 import { Form, Space } from 'antd';
 import { FaEye } from 'react-icons/fa';
 
 import { MdRemoveCircle } from 'react-icons/md';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
-import { IAccountItem } from '../../../Type';
+import { IAccountItem, ICertification } from '../../../Type';
 import apiService from '../../../api/apiService';
 import CustomButton from '../../../components/admin/Button';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import TableConfig from '../../../components/admin/Table/Table';
 import { GIRD12 } from '../../../helper/constant';
-import { removeVietnameseTones } from '../../../utils/uinqueId';
+import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import ShowDetail from './ShowDetail';
 import { actions } from '../../../Redux';
 import Breadcrumb from '../../../components/sharedComponents/Breadcrumb';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { API_URL } from '../../../api/api';
+import moment from 'moment';
+import ConfirmModal from '../../../components/admin/Modal/ConfirmModal';
 export default function () {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
   const [accounts, setAccounts] = useState([]);
 
   const [loading, setLoading] = useState(false);
-  const [detail, setDetail] = useState();
+  const [detail, setDetail] = useState<ICertification>(null);
   const item = useAppSelector((state) => state.form.setProgram);
   const [form] = Form.useForm();
   const [showModal, setShowModal] = useState(false);
-  const [dataDetail, setDataDetail]: any = useState();
-  const [showDetail, setShowDetail] = useState(false);
+  const [dataDetail, setDataDetail] = useState<ICertification>();
 
+  const [showDetail, setShowDetail] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [exchange, setExchange] = useState<ICertification>(null);
+
+  let location = useLocation();
+  let exchangeId = location.pathname.split('/')[3]?.toString()
+    ? Number(location.pathname.split('/')[3]?.toString())
+    : 0;
   async function getApplication() {
     try {
-      let response: any = await apiService.getApplication_program(
-        item.programId,
-      );
+      let response: any = await apiService.getExchanges();
       let accounts: any = await apiService.getAccounts();
-      accounts && setAccounts(accounts);
+      // let exchange: any = await apiService.getDetailExchange(
+      //   exchangeId,
+      //   info.accountId,
+      // );
+      // exchange && setExchange(exchange);
+
+      // accounts && setAccounts(accounts);
+
       response = response.reverse();
+      dispatch(
+        actions.formActions.setNameMenu(
+          `${'Quản Lý Đổi Quà: ' + exchange?.title}`,
+        ),
+      );
+
       let res = response.map((item: any, index: number) => {
         return {
           ...item,
@@ -55,9 +77,6 @@ export default function () {
       console.log(error);
     }
   }
-  useEffect(() => {
-    dispatch(actions.formActions.setNameMenu(`${'Quản Lý đổi quà'}`));
-  }, []);
 
   useEffect(() => {
     getApplication();
@@ -128,7 +147,7 @@ export default function () {
             size="sm"
             color="red"
             Icon={MdRemoveCircle}
-            onClick={() => handelRefulse(data)}
+            onClick={() => handelRefusal(data)}
           />
           <CustomButton
             tip="Duyệt đơn đăng ký"
@@ -148,20 +167,29 @@ export default function () {
       ),
     },
   ];
+
   const handelShowDetail = (item: any) => {
     setShowDetail(true);
-    setDetail(item);
+    setDetail({
+      ...item,
+
+      ...exchange,
+      program: exchange.title,
+      exchanger: accounts.find(
+        (acc: IAccountItem) => acc.accountId === item.creatorId,
+      )?.email,
+    });
   };
   const FormApplicationRef = () => {
     return (
       <FormInput
         type="textArea"
-        label="Lý Do Hủy Đơn"
-        name="reasonRefusal"
+        label="Lý Do Từ Chối Đơn"
+        name="comment"
         rules={[
           {
             required: true,
-            message: 'Vui Lòng Nhập Lý Do Huỷ Đơn',
+            message: 'Vui Lòng Nhập Lý Do Từ Chối Đơn',
           },
         ]}
       />
@@ -176,18 +204,23 @@ export default function () {
         try {
           dispatch(actions.reloadActions.setReload());
 
-          const data = apiService.refulseApplication(
-            dataDetail.learnerId,
-            values,
-          );
+          const data = apiService.denyExchange({
+            id: dataDetail.id,
+            reviewerId: info.accountId,
+            comment: values.comment,
+          });
           setLoading(true);
           if (data) {
-            notification.success({ message: 'Hủy Đơn Thành Công' });
+            notification.success({
+              message: 'Từ Chối Đơn Đổi Coin Thành Công',
+            });
           }
           setShowModal(false);
           form.resetFields();
         } catch (error) {
-          notification.error({ message: 'Hủy Đơn Không Thành Công' });
+          notification.error({
+            message: 'Từ Chối Đơn Đổi Coin Không Thành Công',
+          });
         }
         let timeout = setTimeout(() => {
           setLoading(false);
@@ -200,28 +233,36 @@ export default function () {
         // dispatch(actions.formActions.showError())
       });
   };
-  const handelRefulse = (item: any) => {
+  const navigate = useNavigate();
+
+  const handelRefusal = (item: any) => {
     setShowModal(true);
     setDataDetail(item);
   };
   const handelApprove = (item: any) => {
-    const approveApplication = async () => {
-      try {
-        setLoading(true);
-        const data = await apiService.approveApplication(item.learnerId);
-        setLoading(true);
-        if (data) {
-          setLoading(false);
-          notification.success({ message: 'Đăng Ký Thành Công' });
-        }
-      } catch (error) {
-        notification.error({ message: 'Đăng Ký Không Thành Công' });
-      }
-      let timeOut = setTimeout(() => {
+    setShowConfirmModal(true);
+    setDataDetail(item);
+  };
+  const info = useAppSelector((state) => state.auth.info);
+
+  const approveApplication = async () => {
+    try {
+      setLoading(true);
+      const data = await apiService.approveExchange({
+        id: dataDetail.id,
+        reviewerId: info.accountId,
+      });
+      setLoading(true);
+      if (data) {
         setLoading(false);
-      }, 1000);
-    };
-    approveApplication();
+        notification.success({ message: 'Chấp Thuận Thành Công' });
+      }
+    } catch (error) {
+      notification.error({ message: 'Chấp Thuận Không Thành Công' });
+    }
+    let timeOut = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
@@ -229,7 +270,9 @@ export default function () {
     const filteredData = temp
       .map((record: any) => {
         const emailMatch = removeVietnameseTones(
-          record.accountIdLearnerNavigation?.email,
+          accounts.find(
+            (acc: IAccountItem) => acc.accountId === record.creatorId,
+          )?.email,
         ).match(reg);
 
         if (!emailMatch) {
@@ -253,6 +296,20 @@ export default function () {
         data={data}
         columns={Columns}
         loading={loading}
+        extra={[
+          <CustomButton
+            noIcon
+            size="md"
+            variant="outlined"
+            className="w-32 "
+            text="Quay lại"
+            key={`${uniqueId()}`}
+            onClick={() => {
+              navigate(-1);
+              dispatch(actions.formActions.setProgramForm(null));
+            }}
+          />,
+        ]}
       />
       <CustomModal
         show={showModal}
@@ -265,6 +322,26 @@ export default function () {
         notAdd={true}
         confirmLoading={loading}
       />
+      <ConfirmModal
+        show={showConfirmModal}
+        setShow={setShowConfirmModal}
+        handler={approveApplication}
+        type="approve"
+        title="duyệt chứng chỉ"
+      >
+        {dataDetail && (
+          <>
+            <p>
+              Cấp {exchange?.coin} Coins cho{' '}
+              {
+                accounts.find(
+                  (acc: IAccountItem) => acc.accountId === dataDetail.creatorId,
+                )?.email
+              }{' '}
+            </p>
+          </>
+        )}
+      </ConfirmModal>
       <ShowDetail
         item={detail}
         setItem={setDetail}

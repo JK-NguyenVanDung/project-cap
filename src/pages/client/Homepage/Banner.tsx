@@ -81,14 +81,14 @@ function BannerItem({
 }) {
   return (
     <>
-      <div className="flex  min-h-[23rem] m-8  bg-white shadow-md rounded-xl">
+      <div className="flex  min-h-[23rem]  max-sm:flex-col m-8 max-sm:m-0 max-sm:ml-4  bg-white shadow-md rounded-xl">
         <div
-          className="w-[70%] shadow-xl bg-no-repeat bg-cover	 rounded-xl"
+          className="w-[70%] max-sm:w-full max-sm:min-h-[30vh] shadow-xl bg-no-repeat bg-cover  rounded-xl"
           style={{
             backgroundImage: `linear-gradient(0deg, rgba(0,0,0,0.4) 10%, rgba(255,255,255,0) 90%),url(${SurveyImage})`,
           }}
         >
-          <div className="flex flex-col h-full w-full px-4 justify-end mb-4">
+          <div className="flex flex-col h-full w-full px-4 justify-end max-sm:min-h-[30vh] mb-4">
             <div className="flex my-4  font-bold flex-col text-white">
               <p className=" text-3xl">Khảo sát: {data.title}</p>
               {/* <p className="text-lg">
@@ -98,10 +98,12 @@ function BannerItem({
             </div>
           </div>
         </div>
-        <div className="ml-4 p-6 px-8 max-w-[50%]  flex justify-between  flex-col">
-          <div className="">
-            <h1 className="text-3xl font-bold">Khảo sát: {data?.title}</h1>
-            <p className="mt-4 text-2xl">
+        <div className="ml-4 p-6 px-8 max-w-[50%] max-sm:px-1   max-sm:max-w-full flex justify-between  flex-col ">
+          <div className="max-sm:min-w-full  max-sm:h-fit">
+            <h1 className="text-3xl max-sm:text-lg font-bold">
+              Khảo sát: {data?.title}
+            </h1>
+            <p className="mt-4 text-2xl max-sm:text-base">
               Bạn hãy cung cấp cho chúng tôi một nhu cầu hiện nay mà bạn mong
               muốn khi tham gia các khoá học
             </p>

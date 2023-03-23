@@ -40,9 +40,9 @@ export default function ShowDetail({
       ...item,
 
       status:
-        item?.registerStatus == 'approved'
+        item?.status == 'approved'
           ? 'Đã Được Duyệt'
-          : item?.registerStatus == 'pending'
+          : item?.status == 'pending'
           ? 'Chưa Được Duyệt'
           : 'Bị Từ Chối',
     });
