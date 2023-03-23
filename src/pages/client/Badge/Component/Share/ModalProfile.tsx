@@ -32,11 +32,11 @@ export default function ModalProfile({
   const [dataFct, setDataFct]: any = useState([]);
   const [positons, setPositons]: any = useState([]);
   const [loading, setLoading] = useState(false);
+  const formData = new FormData();
+  const dispatch = useAppDispatch();
   const [infoImage, setInfoImage] = useState(null);
   const inputRef = useRef(null);
-  const formData = new FormData();
   const [URLImage, setURLImage] = useState(null);
-  const dispatch = useAppDispatch();
   const handleChange = (info: any) => {
     const file = info.target.files[0];
     setLoading(true);
