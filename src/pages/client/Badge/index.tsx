@@ -23,12 +23,11 @@ export enum typeStatic {
 }
 export default function () {
   const navigate = useNavigate();
-  const account = useAppSelector((state) => state.auth.info);
   const [todoList, setTodoList]: any = useState([]);
   const [listStatics, setListStatics]: any = useState();
   const [loading, setLoading] = useState(false);
   const [filterData, setFilterData]: any = useState(null);
-
+  const [info, setInfo]: any = useState();
   const onChangeSearch = async (value: string) => {
     setLoading(true);
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
@@ -69,38 +68,45 @@ export default function () {
   }, [filterData]);
 
   useEffect(() => {
-    const fetchBadge = async () => {
-      try {
-        const data: any = await apiService.getProgramComplete(
-          account.accountId,
-        );
-        setLoading(true);
-        if (data) {
-          setLoading(false);
-          setFilterData(data);
-          setTodoList(data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    const fetchStatics = async () => {
-      try {
-        setLoading(true);
-
-        const data: any = await apiService.getMyStatics(account.accountId);
-        await fetchBadge();
-
-        if (data) {
-          setLoading(false);
-          setListStatics(data);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchStatics();
+    getMyAccount();
   }, []);
+  const fetchBadge = async (params: any) => {
+    try {
+      setLoading(true);
+      const data: any = await apiService.getProgramComplete(params.accountId);
+      if (data) {
+        setFilterData(data);
+        setTodoList(data);
+      }
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchStatics = async (params: any) => {
+    try {
+      const data: any = await apiService.getMyStatics(params.accountId);
+      fetchBadge(params);
+      if (data) {
+        setListStatics(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getMyAccount = async () => {
+    try {
+      const data: any = await apiService.getProfile();
+      if (data) {
+        setInfo(data);
+        fetchStatics(data);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <Loading loading={loading} />

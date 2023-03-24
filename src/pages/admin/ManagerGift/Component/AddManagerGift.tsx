@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import CustomModal from '../../../../components/admin/Modal/Modal';
 import { Form, Upload, notification } from 'antd';
 import FormInput from '../../../../components/admin/Modal/FormInput';
@@ -9,13 +9,6 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { IGift } from '../../../../api/apiInterface';
 import apiService from '../../../../api/apiService';
 
-const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
 export default function AddManagerGift({
   showModal,
   setShowModal,
@@ -26,40 +19,22 @@ export default function AddManagerGift({
   detail: IGift;
 }) {
   const [form] = Form.useForm();
-  const [infoImage, setInfoImage] =
-    useState<UploadChangeParam<UploadFile>>(null);
   const formData = new FormData();
-  const [previewImage, setPreviewImage] = useState('');
   const [loading, setLoading] = useState(false);
-  const uploadButton = (
-    <div className="mt-20">
-      <img
-        src={`${API_URL}/images/${detail?.image}`}
-        className="object-cover"
-      />
-      {loading ? <LoadingOutlined /> : <PlusOutlined />}
-      <div style={{ marginTop: 20 }}>Tải Ảnh Lên</div>
-    </div>
-  );
-
-  const handleChange: UploadProps['onChange'] = (
-    info: UploadChangeParam<UploadFile>,
-  ) => {
-    setLoading(false);
-    setInfoImage(info);
-  };
-  const handlePreview = async (file: UploadFile) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj as RcFile);
+  const [infoImage, setInfoImage] = useState(null);
+  const inputRef = useRef(null);
+  const [URLImage, setURLImage] = useState(null);
+  const handleChange = (info: any) => {
+    const file = info.target.files[0];
+    setLoading(true);
+    if (file) {
+      setURLImage(URL.createObjectURL(file));
+      setInfoImage(file);
     }
-    setPreviewImage(file.url || (file.preview as string));
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
-  console.log(detail);
-  useEffect(() => {
-    if (detail) {
-      form.setFieldsValue(detail);
-    }
-  }, []);
 
   const handleOk = async () => {
     form
@@ -114,34 +89,49 @@ export default function AddManagerGift({
     return (
       <>
         <div className="flex justify-between content-center">
-          <Form.Item
-            name="image"
-            rules={[
-              {
-                required: true,
-                message: 'Vui Lòng chọn hình ảnh',
-              },
-            ]}
+          <div
+            onClick={() => inputRef.current.click()}
+            className=" cursor-pointer "
           >
-            <Upload
-              name="Image"
-              listType="picture-card"
-              className="avatar-uploader w-full"
-              showUploadList={false}
-              onChange={handleChange}
-              accept="image/*"
-              onPreview={handlePreview}
-            >
-              {infoImage ? (
-                <div className="flex flex-col">
-                  <img src={previewImage} style={{ width: '100%' }} />
-                  <p>{infoImage.file.name}</p>
+            {URLImage ? (
+              <>
+                <div className="w-[300px] flex flex-col items-center">
+                  <img
+                    src={URLImage}
+                    alt="avatar"
+                    className="object-cover w-[300px] h-[300px] rounded-lg"
+                  />
+
+                  <div style={{ marginTop: 20 }} className="flex items-center ">
+                    {loading ? <LoadingOutlined /> : <PlusOutlined />}{' '}
+                    <span className="ml-2">Tải Ảnh Lên </span>
+                  </div>
                 </div>
-              ) : (
-                uploadButton
-              )}
-            </Upload>
-          </Form.Item>
+              </>
+            ) : (
+              <div className="w-[300px] flex flex-col items-center">
+                <img
+                  src={`${API_URL}/images/${detail.image}`}
+                  alt="avatar"
+                  className="object-cover w-[300px] h-[300px] rounded-lg"
+                />
+
+                <div style={{ marginTop: 20 }} className="flex items-center ">
+                  {loading ? <LoadingOutlined /> : <PlusOutlined />}{' '}
+                  <span className="ml-2">Tải Ảnh Lên </span>
+                </div>
+              </div>
+            )}
+          </div>
+          <input
+            ref={inputRef}
+            style={{
+              display: 'none',
+            }}
+            type="file"
+            onChange={handleChange}
+            accept="image/*"
+          />
 
           <div className="w-full pr-10 pl-10">
             <FormInput

@@ -18,6 +18,7 @@ export default function ProfileClient() {
   const [info, setInfo]: any = useState();
   const [loading, setLoading] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [editInfo, setEditInfo] = useState();
   useEffect(() => {
     dispatch(
       actions.formActions.setNameMenu(`${accounts[0]?.name.split('-')[1]}`),
@@ -25,12 +26,13 @@ export default function ProfileClient() {
   }, []);
   useEffect(() => {
     getMyAccount();
-  }, []);
+  }, [openEdit]);
   const getMyAccount = async () => {
     try {
       const data: any = await apiService.getProfile();
       setLoading(true);
       if (data) {
+        setEditInfo(data);
         setLoading(false);
         setInfo(data);
       }
@@ -38,16 +40,17 @@ export default function ProfileClient() {
       console.log(error);
     }
   };
-  const handelEdit = () => {
+  const handelEdit = (info: any) => {
     setOpenEdit(true);
+    setEditInfo(info);
   };
   return (
     <>
       <Loading loading={loading} />
-      <div className="flex ">
-        <div>
+      <div className="flex items-center">
+        <div className="w-[300px] ">
           <img
-            className=" rounded-lg"
+            className=" object-cover rounded-lg w-[300px] h-[300px]"
             src={
               info?.avatar
                 ? `${API_URL}/images/${info?.avatar}`
@@ -65,7 +68,7 @@ export default function ProfileClient() {
               </h1>
               <BiEdit
                 className="cursor-pointer"
-                onClick={() => handelEdit()}
+                onClick={() => handelEdit(info)}
                 size={30}
                 color={Color.theme.DOVE_GRAY}
               />
@@ -105,6 +108,8 @@ export default function ProfileClient() {
             setLoadingConfirm={setLoading}
             open={openEdit}
             setOpen={setOpenEdit}
+            item={editInfo}
+            setItem={setEditInfo}
           />
         </div>
       </div>
