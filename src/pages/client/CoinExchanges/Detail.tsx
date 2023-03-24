@@ -295,7 +295,7 @@ export default function () {
                 </div>
               ) : (
                 <UploadImage
-                  disabled={certification?.status === 'denied'}
+                  disabled={certification?.status === 'ended'}
                   onUpload={(e: any) => onUploadPreview(e)}
                 />
               )}
