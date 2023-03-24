@@ -295,7 +295,7 @@ export default function () {
                 </div>
               ) : (
                 <UploadImage
-                  disabled={certification?.status === 'ended'}
+                  disabled={detailExchange?.status === 'ended'}
                   onUpload={(e: any) => onUploadPreview(e)}
                 />
               )}
@@ -360,7 +360,8 @@ export default function () {
                 disabled={
                   !previewImage ||
                   certification?.status === 'pending' ||
-                  certification?.status === 'approve'
+                  certification?.status === 'approve' ||
+                  detailExchange?.status === 'ended'
                 }
                 noIcon
                 className="w-full mt-4"

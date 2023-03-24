@@ -253,6 +253,7 @@ const ExchangeCoin = z.object({
   description: z.string(),
   coin: z.number(),
   endDate: z.date(),
+  status: z.string(),
   creatorAccount:
     AccountItem &&
     z.object({
