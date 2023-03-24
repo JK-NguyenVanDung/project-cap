@@ -7,7 +7,7 @@ import { FaEye } from 'react-icons/fa';
 import { MdRemoveCircle } from 'react-icons/md';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
-import { IAccountItem, ICertification } from '../../../Type';
+import { IAccountItem, IGiftExchange } from '../../../Type';
 import apiService from '../../../api/apiService';
 import CustomButton from '../../../components/admin/Button';
 import FormInput from '../../../components/admin/Modal/FormInput';
@@ -29,15 +29,15 @@ export default function () {
   const [accounts, setAccounts] = useState([]);
 
   const [loading, setLoading] = useState(false);
-  const [detail, setDetail] = useState<ICertification>(null);
+  const [detail, setDetail] = useState<IGiftExchange>(null);
   const item = useAppSelector((state) => state.form.setProgram);
   const [form] = Form.useForm();
   const [showModal, setShowModal] = useState(false);
-  const [dataDetail, setDataDetail] = useState<ICertification>();
+  const [dataDetail, setDataDetail] = useState<IGiftExchange>();
 
   const [showDetail, setShowDetail] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [exchange, setExchange] = useState<ICertification>(null);
+  const [exchange, setExchange] = useState<IGiftExchange>(null);
 
   let location = useLocation();
   let exchangeId = location.pathname.split('/')[3]?.toString()
@@ -47,6 +47,7 @@ export default function () {
     try {
       let response: any = await apiService.getExchange();
       let accounts: any = await apiService.getAccounts();
+
       // let exchange: any = await apiService.getDetailExchange(
       //   exchangeId,
       //   info.accountId,
@@ -207,10 +208,10 @@ export default function () {
         try {
           dispatch(actions.reloadActions.setReload());
 
-          const data = apiService.denyExchange({
-            id: dataDetail.id,
-            reviewerId: info.accountId,
-            comment: values.comment,
+          const data = apiService.changeGiftStatus({
+            accountGiftId: dataDetail.id,
+            status: 'Denied',
+            reason: values.comment,
           });
           setLoading(true);
           if (data) {
@@ -250,23 +251,32 @@ export default function () {
 
   const approveApplication = async () => {
     try {
-      setLoading(true);
-      const data = await apiService.approveExchange({
-        id: dataDetail.id,
-        reviewerId: info.accountId,
+      dispatch(actions.reloadActions.setReload());
+
+      const data = apiService.changeGiftStatus({
+        accountGiftId: dataDetail.id,
+        status: 'Approved',
       });
       setLoading(true);
       if (data) {
-        setLoading(false);
-        notification.success({ message: 'Chấp Thuận Thành Công' });
+        notification.success({
+          message: 'Chấp Thuận Đơn Đổi Coin Thành Công',
+        });
       }
+      setShowModal(false);
+      form.resetFields();
     } catch (error) {
-      notification.error({ message: 'Chấp Thuận Không Thành Công' });
+      notification.error({
+        message: 'Chấp Thuận Đơn Đổi Coin Không Thành Công',
+      });
     }
-    let timeOut = setTimeout(() => {
+    let timeout = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+      dispatch(actions.reloadActions.setReload());
+    }, 500);
+    clearTimeout(timeout);
   };
+
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
@@ -287,9 +297,6 @@ export default function () {
     setData(value.trim() !== '' ? filteredData : filterData);
   };
 
-  function handelAdd() {
-    setDetail(null);
-  }
   function handelImport() {}
   return (
     <>
@@ -316,15 +323,15 @@ export default function () {
         setShow={setShowConfirmModal}
         handler={approveApplication}
         type="approve"
-        title="duyệt chứng chỉ"
+        title="gửi quà"
       >
         {dataDetail && (
           <>
             <p>
-              Cấp {exchange?.coin} Coins cho{' '}
+              Cấp món quà {dataDetail?.gift?.name} cho{' '}
               {
                 accounts.find(
-                  (acc: IAccountItem) => acc.accountId === dataDetail.creatorId,
+                  (acc: IAccountItem) => acc.accountId === dataDetail.accountId,
                 )?.email
               }{' '}
             </p>

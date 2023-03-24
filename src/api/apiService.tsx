@@ -476,7 +476,7 @@ export default {
   getExchange: () => {
     return axiosConfig.get(API_CONFIG.GIFT.GET_EXCHANGE);
   },
-  changeStatus: (params: IGIFTSTATUS) => {
+  changeGiftStatus: (params: IGIFTSTATUS) => {
     return axiosConfig.put(API_CONFIG.GIFT.CHANGE_STATUS, params);
   },
   addGiftExchange: (params: IADDEXCHANGE) => {

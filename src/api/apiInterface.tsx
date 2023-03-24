@@ -17,6 +17,7 @@ export interface IGift {
 }
 export interface IGIFTSTATUS {
   accountGiftId: number;
+  reason?: string;
   status: string;
 }
 export interface IADDEXCHANGE {

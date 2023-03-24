@@ -40,9 +40,9 @@ export default function ShowDetail({
       status:
         item?.status == 'Approved'
           ? 'Đã Được Duyệt'
-          : item?.status == 'UnApproved'
+          : item?.status == 'Pending'
           ? 'Chưa Được Duyệt'
-          : item?.status == 'Refuse'
+          : item?.status == 'Denied'
           ? 'Bị Từ Chối'
           : 'Chưa Có Trạng Thái',
     });
@@ -99,7 +99,7 @@ export default function ShowDetail({
             placeholder="Nhận xét"
             disabled
             label="Nhận Xét"
-            name="commentAndReason"
+            name="reason"
             type="textArea"
           />
         </div>
