@@ -90,10 +90,10 @@ export default function ShowDetail({
             <p className="text-base font-thin">
               {!item.reviewDate
                 ? `*Ảnh gửi vào lúc ` +
-                  moment(item.sentDate).zone(10).format('HH:mm -  DD/MM/YYYY ')
+                  moment(item.sentDate).local().format('HH:mm -  DD/MM/YYYY ')
                 : `*Ảnh được xem xét vào lúc ` +
                   moment(item.reviewDate)
-                    .zone(10)
+                    .local()
                     .format('HH:mm -  DD/MM/YYYY ') +
                   ' bởi ' +
                   item?.reviewer}
