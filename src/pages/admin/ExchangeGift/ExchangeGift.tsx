@@ -22,6 +22,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../../api/api';
 import moment from 'moment';
 import ConfirmModal from '../../../components/admin/Modal/ConfirmModal';
+import { IGift } from '../../../api/apiInterface';
 export default function () {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
@@ -44,7 +45,7 @@ export default function () {
     : 0;
   async function getApplication() {
     try {
-      let response: any = await apiService.getExchanges();
+      let response: any = await apiService.getExchange();
       let accounts: any = await apiService.getAccounts();
       // let exchange: any = await apiService.getDetailExchange(
       //   exchangeId,
@@ -52,19 +53,16 @@ export default function () {
       // );
       // exchange && setExchange(exchange);
 
-      // accounts && setAccounts(accounts);
+      accounts && setAccounts(accounts);
 
       response = response.reverse();
-      dispatch(
-        actions.formActions.setNameMenu(
-          `${'Quản Lý Đổi Quà: ' + exchange?.title}`,
-        ),
-      );
+      dispatch(actions.formActions.setNameMenu(`${'Quản Lý Đổi Quà'}`));
 
       let res = response.map((item: any, index: number) => {
         return {
           ...item,
           index: index + 1,
+          email: item?.account?.email,
         };
       });
       setData(res);
@@ -91,32 +89,39 @@ export default function () {
     },
     {
       title: 'Email đổi quà',
-
+      dataIndex: 'email',
+      key: 'email',
       width: '12%',
-      render: (data: any) => (
-        <>
-          {
-            accounts.find(
-              (item: IAccountItem) => item.accountId === data.accountIdLearner,
-            )?.email
-          }
-        </>
-      ),
     },
     {
       title: 'Quà tặng',
       key: 'gift',
       dataIndex: 'gift',
+
+      render: (item: IGift) => {
+        return (
+          <>
+            <div className="flex">
+              <Image width={50} src={`${API_URL}/images/${item?.image}`} />
+              <p className="ml-4 font-semibold">{item?.name}</p>
+            </div>
+          </>
+        );
+      },
     },
     {
       title: 'Ngày đặt',
-      key: 'date',
-      dataIndex: 'date',
+      key: 'createdAt',
+      dataIndex: 'createdAt',
+      render: (item: any) => {
+        return <>{moment(item).format('HH:mm - DD/MM/YYYY')}</>;
+      },
+      width: '16%',
     },
     {
       title: 'Trạng thái',
-      dataIndex: 'registerStatus',
-      key: 'registerStatus',
+      dataIndex: 'status',
+      key: 'status',
       width: GIRD12.COL2,
 
       render: (item: string) => {
@@ -125,7 +130,7 @@ export default function () {
             <p>
               {item == 'Approved' ? (
                 <p className="text-green-600">Đã Được Duyệt</p>
-              ) : item == 'UnApproved' ? (
+              ) : item == 'Pending' ? (
                 <p className="text-yellow-800">Chưa Được Duyệt</p>
               ) : (
                 <p className="text-error">Bị Từ Chối</p>
@@ -172,12 +177,10 @@ export default function () {
     setShowDetail(true);
     setDetail({
       ...item,
-
-      ...exchange,
-      program: exchange.title,
-      exchanger: accounts.find(
-        (acc: IAccountItem) => acc.accountId === item.creatorId,
-      )?.email,
+      gift: item.gift?.name,
+      quantity: item.gift?.quantity,
+      exchanger: item.account?.email,
+      phone: item.account?.phoneNumber,
     });
   };
   const FormApplicationRef = () => {
@@ -271,9 +274,9 @@ export default function () {
       .map((record: any) => {
         const emailMatch = removeVietnameseTones(
           accounts.find(
-            (acc: IAccountItem) => acc.accountId === record.creatorId,
+            (acc: IAccountItem) => acc.accountId === record.account.accountId,
           )?.email,
-        ).match(reg);
+        )?.match(reg);
 
         if (!emailMatch) {
           return null;
@@ -296,20 +299,6 @@ export default function () {
         data={data}
         columns={Columns}
         loading={loading}
-        extra={[
-          <CustomButton
-            noIcon
-            size="md"
-            variant="outlined"
-            className="w-32 "
-            text="Quay lại"
-            key={`${uniqueId()}`}
-            onClick={() => {
-              navigate(-1);
-              dispatch(actions.formActions.setProgramForm(null));
-            }}
-          />,
-        ]}
       />
       <CustomModal
         show={showModal}

@@ -19,13 +19,22 @@ const props: UploadProps = {
   },
 };
 
-const UploadImage = ({ text, onUpload }: { text?: string; onUpload?: any }) => (
+const UploadImage = ({
+  disabled,
+  text,
+  onUpload,
+}: {
+  disabled?: boolean;
+  text?: string;
+  onUpload?: any;
+}) => (
   <Dragger
     maxCount={1}
     {...props}
     className="min-h-[25vh] rounded-2xl p-6  "
     action={(e) => onUpload(e)}
     accept="image/png, image/jpeg"
+    disabled={disabled}
     onChange={(info) => {
       {
         const { status } = info.file;

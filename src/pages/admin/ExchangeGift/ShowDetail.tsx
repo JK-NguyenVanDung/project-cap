@@ -74,7 +74,7 @@ export default function ShowDetail({
                 placeholder="Số lượng quà còn lại"
                 disabled
                 label="Số lượng quà còn lại"
-                name="coin"
+                name="quantity"
               />
             </div>
             <div className="flex justify-start  items-center">

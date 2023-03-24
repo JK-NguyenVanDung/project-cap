@@ -16,7 +16,7 @@ const ManagerGiftScreen = () => {
   const [reload, setReload] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
 
-  const [data, setData] = useState<IGift>([]);
+  const [data, setData] = useState<Array<IGift>>([]);
   const [filterData, setFilterData] = useState([]);
   useEffect(() => {
     const fetchAllGift = async () => {
@@ -24,7 +24,7 @@ const ManagerGiftScreen = () => {
       try {
         setReload(false);
 
-        const response = await apiService.getAllGift();
+        const response: any = await apiService.getAllGift();
         console.log(response);
         const temp = response.map((v: IGift, index: number) => ({
           ...v,

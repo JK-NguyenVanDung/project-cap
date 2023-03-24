@@ -135,12 +135,12 @@ export const SideBarData = [
   {
     title: 'Quà Tặng',
     icon: BsGiftFill,
-    path: '/admin/ExchangeGift',
+    path: '/admin/Gift',
     children: [
       {
-        title: 'Thống kê theo nhóm  ',
+        title: 'Quà Tặng',
         icon: BsGiftFill,
-        path: '/admin/ExchangeGift',
+        path: '/admin/Gift',
       },
       {
         title: 'Đổi Quà',
@@ -165,11 +165,6 @@ export const SideBarData = [
         path: '/admin/Statistic/Category',
       },
     ],
-  },
-  {
-    title: 'Quà Tặng',
-    icon: IoPeopleCircle,
-    path: '/admin/Gift',
   },
 ];
 
