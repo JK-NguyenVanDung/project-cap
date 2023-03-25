@@ -18,21 +18,7 @@ export default function ShowDetail({
 
   const [showDetail, setShowDetail] = useState(false);
   const [loading, setLoading] = useState(false);
-  function getComment(item: any) {
-    let text = '';
-    if (!item) {
-      return 'Chưa có nhận xét';
-    }
-    if (item.reasonRefusal) {
-      text += 'Lý do từ chối: ';
-      text += item.reasonRefusal;
-      text += `\n`;
-    }
-    if (item.comment) {
-      text += item.comment;
-    }
-    return text;
-  }
+
   useEffect(() => {
     form.setFieldsValue({
       ...item,

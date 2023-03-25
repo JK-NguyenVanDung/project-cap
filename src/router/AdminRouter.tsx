@@ -65,7 +65,7 @@ import ExchangeCoin from '../pages/admin/ExchangeCoin/ExchangeCoin';
 import ReviewCertification from '../pages/admin/ExchangeCoin/Detail/ReviewCertification';
 
 import CoinExchanges from '../pages/client/CoinExchanges/CoinExchanges';
-import CoinExchangesDetail from '../pages/client/CoinExchanges/Detail';
+import CoinExchangesDetail from '../pages/client/CoinExchanges/CoinExchangesDetail';
 
 export const RouterPages = [
   {

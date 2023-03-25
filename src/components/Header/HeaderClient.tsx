@@ -31,7 +31,7 @@ export default function () {
     dispatch(actions.authActions.logout());
   };
   return (
-    <div className="flex items-center justify-center max-w-full mr-2 max-sm:mr-0 max-sm:justify-around  max-sm:w-fit">
+    <div className="flex items-center justify-center max-w-full mr-2 max-sm:mr-0 max-sm:justify-center  max-sm:w-fit">
       <Menu>
         <IconButton
           variant="text"

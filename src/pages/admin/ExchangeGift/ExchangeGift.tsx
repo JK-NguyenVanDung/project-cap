@@ -15,7 +15,7 @@ import CustomModal from '../../../components/admin/Modal/Modal';
 import TableConfig from '../../../components/admin/Table/Table';
 import { GIRD12 } from '../../../helper/constant';
 import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
-import ShowDetail from './ShowDetail';
+import ShowDetail from './ExchangeGiftDetail';
 import { actions } from '../../../Redux';
 import Breadcrumb from '../../../components/sharedComponents/Breadcrumb';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -152,6 +152,7 @@ export default function () {
             tip="Từ chối đăng ký"
             size="sm"
             color="red"
+            disabled={data?.status === 'Approved'}
             Icon={MdRemoveCircle}
             onClick={() => handelRefusal(data)}
           />
@@ -159,6 +160,7 @@ export default function () {
             tip="Duyệt đơn đăng ký"
             size="sm"
             color="green"
+            disabled={data?.status === 'Approved'}
             Icon={AiFillCheckCircle}
             onClick={() => handelApprove(data)}
           />
@@ -226,16 +228,16 @@ export default function () {
             message: 'Từ Chối Đơn Đổi Coin Không Thành Công',
           });
         }
-        let timeout = setTimeout(() => {
-          setLoading(false);
-          dispatch(actions.reloadActions.setReload());
-        }, 500);
-        clearTimeout(timeout);
       })
 
       .catch((info) => {
         // dispatch(actions.formActions.showError())
       });
+    let timeout = setTimeout(() => {
+      setLoading(false);
+      dispatch(actions.reloadActions.setReload());
+    }, 500);
+    clearTimeout(timeout);
   };
   const navigate = useNavigate();
 
