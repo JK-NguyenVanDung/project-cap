@@ -9,7 +9,7 @@ import { actions } from '../../../Redux';
 import { IProgramItem } from '../../../Type';
 import { BsFilter } from 'react-icons/bs';
 import SearchBar from '../../../components/admin/ToolBar/ToolBar';
-import { MenuProps, Spin } from 'antd';
+import { MenuProps, Select, Spin } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import Loading from '../../../components/sharedComponents/Loading';
 import { removeVietnameseTones } from '../../../utils/uinqueId';
@@ -18,12 +18,48 @@ export default function MyProgram() {
   const [data, setData] = useState<Array<IProgramItem>>(null);
   const [filterData, setFilterData] = useState<Array<IProgramItem>>(null);
   const myAccount = useAppSelector((state) => state.auth.info);
+
+  const [options, setOptions] = useState([
+    {
+      value: 'Tất cả',
+      label: 'Tất cả',
+    },
+    {
+      value: 'Chưa đăng ký',
+      label: 'Chưa đăng ký',
+    },
+    {
+      value: 'Hết hạn',
+      label: 'Hết hạn',
+    },
+  ]);
   useEffect(() => {
     setLoading(true);
     const fetch = async () => {
       try {
         const data: any = await apiService.getMyPrograms(myAccount.accountId);
-
+        const cate: any = await apiService.getCategories();
+        cate &&
+          setOptions([
+            {
+              value: 'Tất cả',
+              label: 'Tất cả',
+            },
+            {
+              value: 'Chưa đăng ký',
+              label: 'Chưa đăng ký',
+            },
+            {
+              value: 'Hết hạn',
+              label: 'Hết hạn',
+            },
+            ...cate.map((item: any) => {
+              return {
+                value: item.categoryId,
+                label: item.categoryName,
+              };
+            }),
+          ]);
         let temp = data.filter(
           (item: IProgramItem) =>
             item.status === 'public' || item.status === 'end',
@@ -47,65 +83,28 @@ export default function MyProgram() {
     navigate(`/MyCourses/${item.programId}`);
   }
   const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState(false);
+  const filtering = (e: any) => {
+    setLoading(true);
+    console.log(e);
+    // setData(filterData);
+    if (e === 'Tất cả') {
+      setData(filterData);
+    } else if (e === 'Chưa đăng ký') {
+      setData(
+        filterData?.filter((item: IProgramItem) => item.status === 'public'),
+      );
+    } else if (e === 'Hết hạn') {
+      setData(
+        filterData?.filter((item: IProgramItem) => item.status === 'end'),
+      );
+    } else {
+      setData(
+        filterData?.filter((item: IProgramItem) => item.categoryId === e),
+      );
+    }
+    setLoading(false);
+  };
 
-  const [filter, setFilter] = useState('Tất cả');
-  const items: MenuProps['items'] = [
-    {
-      key: '0',
-      label: <a onClick={() => setFilter('Tất cả')}>Tất cả</a>,
-    },
-    {
-      key: '1',
-      label: <a onClick={() => setFilter('Đang tham gia')}>Đang tham gia</a>,
-    },
-    {
-      key: '2',
-      label: <a onClick={() => setFilter('Hết hạn')}>Hết hạn</a>,
-    },
-    {
-      key: '3',
-      label: <a onClick={() => setFilter('Hoàn thành')}>Hoàn thành</a>,
-    },
-    // {
-    //   key: '3',
-    //   label: <a onClick={() => setFilter('Từ A-Z')}>Từ A-Z</a>,
-    // },
-  ];
-  useEffect(() => {
-    const filtering = () => {
-      setLoading(true);
-      if (filter === 'Tất cả') {
-        setData(filterData);
-      }
-      if (filter === 'Đang tham gia') {
-        setData(
-          filterData?.filter(
-            (item: IProgramItem) => item?.learners[0]?.status === 'Attending',
-          ),
-        );
-      }
-      if (filter === 'Hết hạn') {
-        setData(
-          filterData?.filter((item: IProgramItem) => item.status === 'end'),
-        );
-      }
-      if (filter === 'Hoàn thành') {
-        setData(
-          filterData?.filter(
-            (item: IProgramItem) => item?.learners[0]?.status === 'Complete',
-          ),
-        );
-      }
-    };
-    filtering();
-    let timer = setTimeout(() => {
-      setLoading(false);
-    }, 500);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [filter]);
   const onChangeSearch = async (value: string) => {
     setLoading(true);
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
@@ -150,14 +149,12 @@ export default function MyProgram() {
           />
         </div>
         <div className="w-fit mx-4 cursor-pointer	max-sm:mt-4">
-          <div className="  shadow-none border flex items-center p-2 rounded-lg border-[#F5F5F7]">
-            <Dropdown menu={{ items }} placement="bottomRight">
-              <button className="flex justify-center items-center">
-                <BsFilter className="text-xl mx-2" />
-                <div className="pr-2">Lọc bởi: {filter}</div>
-              </button>
-            </Dropdown>
-          </div>
+          <Select
+            defaultValue="Tất cả"
+            className={'min-w-[16rem]'}
+            onChange={(e) => filtering(e)}
+            options={options}
+          />
         </div>
       </div>
       <Loading loading={loading} />

@@ -453,6 +453,11 @@ export default {
   getDashboard: () => {
     return axiosConfig.get(API_CONFIG.STATISTIC.GET_DASHBOARD);
   },
+
+  getDashboardByYear: (yearId: number) => {
+    return axiosConfig.get(API_CONFIG.STATISTIC.GET_DASHBOARD_BY_YEAR(yearId));
+  },
+
   getMyStatics: (accountId: number) => {
     return axiosConfig.get(API_CONFIG.STATISTIC.GET_MY_STATISTIC(accountId));
   },
@@ -524,5 +529,13 @@ export default {
   },
   approveExchange: (params: { id: number; reviewerId: number }) => {
     return axiosConfig.put(API_CONFIG.EXCHANGE.APPROVE, params);
+  },
+
+  //HOME
+  getPopularPrograms: () => {
+    return axiosConfig.get(API_CONFIG.HOME.GET_POPULAR);
+  },
+  getNewPrograms: () => {
+    return axiosConfig.get(API_CONFIG.HOME.GET_NEW);
   },
 };

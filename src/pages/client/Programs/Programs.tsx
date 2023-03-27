@@ -25,9 +25,7 @@ export default function Programs() {
     navigate(`/Programs/${item.programId}`);
   }
   const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
 
-  const [filter, setFilter] = useState('Tất cả');
   const [options, setOptions] = useState([
     {
       value: 'Tất cả',
@@ -48,7 +46,7 @@ export default function Programs() {
       try {
         const data: any = await apiService.getPublicPrograms();
         const cate: any = await apiService.getCategories();
-        setCategories(cate);
+
         cate &&
           setOptions([
             {
