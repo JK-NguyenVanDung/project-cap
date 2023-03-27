@@ -14,12 +14,23 @@ import { BsPeopleFill } from 'react-icons/bs';
 import { MdBookmarkAdded } from 'react-icons/md';
 import { useAppDispatch } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
+import { Form, message } from 'antd';
+import FormInput from '../../../components/admin/Modal/FormInput';
 
 export default function () {
   const [data, setData] = useState<any>({});
+  const [years, setYears] = useState<any>([]);
+  const [selectedYears, setSelectedYears] = useState<any>([]);
+
+  const [formDate] = Form.useForm();
   async function getData() {
     try {
-      let res: any = await apiService.getDashboard();
+      let years: any = await apiService.getAcademicYear();
+      setSelectedYears(years[years?.length - 1]);
+      setYears(years);
+      let res: any = await apiService.getDashboardByYear(
+        years[years?.length - 1].id,
+      );
       setData(res);
     } catch (err: any) {}
   }
@@ -29,8 +40,50 @@ export default function () {
     dispatch(actions.formActions.setNameMenu(`Dashboard`));
     getData();
   }, []);
+
+  function selectRegistered() {
+    formDate
+      .validateFields()
+      .then(async (values) => {
+        try {
+          let newYear = years.filter((year: any) => year.id == values.yearId);
+          setSelectedYears(newYear[0]);
+          let res: any = await apiService.getDashboardByYear(values.yearId);
+          console.log(res);
+
+          setData(res);
+        } catch (err: any) {
+          console.log(err?.message);
+        }
+      })
+      .catch((err) => {
+        {
+          throw err?.message;
+        }
+      });
+  }
   return (
     <>
+      <Form
+        form={formDate}
+        className="formCategory w-full mx-20  absolute top-[-41px]"
+      >
+        <div className="flex justify-between items-center  w-1/4 ">
+          <FormInput
+            labelLeft={true}
+            className="min-w-[10rem]"
+            label="Năm học"
+            type="select"
+            name="yearId"
+            options={years?.map((item: any) => ({
+              value: item.id,
+              label: item.year,
+            }))}
+            defaultValue={years[years.length - 1]?.id}
+            getSelectedValue={selectRegistered}
+          />
+        </div>
+      </Form>
       <div className="w-full h-screen ">
         <div className="flex w-full h-fit justify-between my-12">
           <DataBox
@@ -60,6 +113,7 @@ export default function () {
         </div>
         <div className="flex">
           <RegisteredLineChart
+            selectedYears={selectedYears}
             data={data.monthlyAttendances ? data.monthlyAttendances : []}
           />
           <LearnerBox
@@ -103,6 +157,7 @@ export default function () {
         <div className="flex w-full h-fit justify-between my-12">
           <CourseByMonthBarChart
             data={data.monthlyPrograms ? data.monthlyPrograms : []}
+            selectedYears={selectedYears}
           />
           <TopLearners
             data={data.accountRankings ? data.accountRankings : []}

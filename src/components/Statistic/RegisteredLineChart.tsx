@@ -56,7 +56,7 @@ const MyResponsiveLine = ({
     yScale={{
       type: 'linear',
       min: 0,
-      max: hasData ? 'auto' : 10,
+      max: hasData ? 'auto' : 100,
       stacked: true,
       reverse: false,
     }}
@@ -70,14 +70,27 @@ const MyResponsiveLine = ({
     useMesh={true}
   />
 );
-export default function ({ data }: { data: any }) {
+export default function ({
+  data,
+  selectedYears,
+}: {
+  data: any;
+  selectedYears: any;
+}) {
+  function hasData() {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].countLearner !== 0) {
+        return true;
+      }
+    }
+    return false;
+  }
   return (
     <div className="w-full min-h-[40vh]   bg-white shadow-2xl rounded-xl ">
       <div className="flex pt-8 justify-between mr-6">
         <h1 className="px-8  text-xl">Tỉ lệ điểm danh của khóa học</h1>
         <div className="flex px-2 items-center border border-black rounded mr-4">
-          <IoCalendarNumberOutline className="mr-4 text-lg" />
-          <p className="text-lg"> {getYears()}</p>
+          <p className="text-lg"> {selectedYears.year}</p>
         </div>
       </div>
       <div className="h-[39vh]">
@@ -86,7 +99,7 @@ export default function ({ data }: { data: any }) {
             {
               id: 'Số học viên điểm danh',
               color: 'hsl(352, 70%, 50%)',
-              data: data.map((item: any) => {
+              data: data?.map((item: any) => {
                 return {
                   x: 'Tháng ' + item?.month,
                   y: item?.countLearner,
@@ -94,7 +107,7 @@ export default function ({ data }: { data: any }) {
               }),
             },
           ]}
-          hasData={data.length > 0 ? true : false}
+          hasData={hasData() ? true : false}
         />
       </div>
     </div>

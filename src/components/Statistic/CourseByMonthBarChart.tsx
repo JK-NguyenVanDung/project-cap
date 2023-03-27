@@ -104,14 +104,27 @@ const MyResponsiveBar = ({
   />
 );
 
-export default function ({ data }: { data: any }) {
+export default function ({
+  data,
+  selectedYears,
+}: {
+  data: any;
+  selectedYears: any;
+}) {
+  function hasData() {
+    for (let i = 0; i < data.length; i++) {
+      if (data[i].programs !== 0) {
+        return true;
+      }
+    }
+    return false;
+  }
   return (
     <div className="w-full h-fit bg-white rounded-xl mx-2 shadow-xl">
       <div className="flex justify-between items-center w-full  pt-8">
         <h1 className="px-4 text-xl">Số lượng khóa học theo năm học</h1>
         <div className="flex px-2 items-center border border-black rounded mr-4">
-          <IoCalendarNumberOutline className="mr-4 text-lg" />
-          <p className="text-lg"> {getYears()}</p>
+          <p className="text-lg">{selectedYears?.year}</p>
         </div>
       </div>
       <div className="h-[80vh]">
@@ -124,7 +137,7 @@ export default function ({ data }: { data: any }) {
               Color: getColor(),
             };
           })}
-          hasData={data.length > 0 ? true : false}
+          hasData={hasData() ? true : false}
         />
       </div>
     </div>
