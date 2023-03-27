@@ -16,9 +16,19 @@ export default function ModalGift({
     setShow(false);
   };
 
-  const handleOnchange = (value: number) => {};
-
   const FormItem = () => {
+    const [coin, setCoin] = useState(data.coin ? data.coin : 0);
+    const [left, setLeft] = useState(
+      data.coinSelf && data.coin ? data.coinSelf - data.coin : 0,
+    );
+    const [change, setChange] = useState(1);
+
+    const handleOnchange = (value: number) => {
+      setCoin(data.coin * Number(value));
+      let newCoin = data.coin * Number(value);
+      setLeft(data.coinSelf - newCoin);
+      setChange(value);
+    };
     return (
       <>
         <div className="flex justify-around ">
@@ -49,23 +59,21 @@ export default function ModalGift({
             <Space size={5} />
             <div className="flex justify-between ">
               <h1>Giá Sản Phẩm: </h1>
-              <p className="text-start">{data.coin ?? 0} coin</p>
+              <p className="text-start">{coin ?? 0} coin</p>
             </div>
             <Space size={5} />
             <div className="w-full h-[1px] bg-gray-700" />
             <Space size={5} />
             <div className="flex justify-between ">
               <h1>Coin còn lại: </h1>
-              <p className="text-start">
-                {data.coinSelf - data.coin ?? 0} coin
-              </p>
+              <p className="text-start">{left ?? 0} coin</p>
             </div>
             <Space size={5} />
             <FormInput
               maxNumber={data.quantity}
               label="Số lượng muốn đổi: "
               type="inputNumber"
-              defaultValue={1}
+              defaultValue={change}
               onChangeNumber={(value: number) => handleOnchange(value)}
               rules={[
                 {
