@@ -473,7 +473,7 @@ export default {
   updateGift: (idGift: number, params: any) => {
     return configFormData.put(API_CONFIG.GIFT.UPDATE_GIFT(idGift), params);
   },
-  getExchange: () => {
+  getGiftExchange: () => {
     return axiosConfig.get(API_CONFIG.GIFT.GET_EXCHANGE);
   },
   changeStatus: (params: IGIFTSTATUS) => {
