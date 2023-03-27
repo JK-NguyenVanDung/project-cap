@@ -220,8 +220,10 @@ export const API_CONFIG = {
     UPDATE_GIFT: (idGift: number) => `/api/Gifts/${idGift}`,
     DELETE_GIFT: (idGift: number) => `/api/Gifts/${idGift}`,
     GET_EXCHANGE: `/api/Gifts/GetExchange`,
+    GET_MY_EXCHANGE: `/api/Gifts/MyExchange`,
     CHANGE_STATUS: `/api/Gifts/ChangeStatus`,
     POST_EXCHANGE: '/api/Gifts/Exchange',
+    GIVE_COIN: `/api/Gifts/GiveCoin`,
   },
   EXCHANGE: {
     GET: `/api/Exchanges/GetListExchanges`,

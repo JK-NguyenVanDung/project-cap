@@ -478,14 +478,17 @@ export default {
   updateGift: (idGift: number, params: any) => {
     return configFormData.put(API_CONFIG.GIFT.UPDATE_GIFT(idGift), params);
   },
-  getExchange: () => {
+  getGiftExchange: () => {
     return axiosConfig.get(API_CONFIG.GIFT.GET_EXCHANGE);
+  },
+  getGiftMyExchange: () => {
+    return axiosConfig.get(API_CONFIG.GIFT.GET_MY_EXCHANGE);
   },
   changeGiftStatus: (params: IGIFTSTATUS) => {
     return axiosConfig.put(API_CONFIG.GIFT.CHANGE_STATUS, params);
   },
-  addGiftExchange: (params: IADDEXCHANGE) => {
-    return axiosConfig.post(API_CONFIG.GIFT.POST_EXCHANGE);
+  ExchangeGift: (params: IADDEXCHANGE) => {
+    return axiosConfig.post(API_CONFIG.GIFT.POST_EXCHANGE, params);
   },
   //EXCHANGE COIN
   getExchanges: () => {
@@ -537,5 +540,8 @@ export default {
   },
   getNewPrograms: () => {
     return axiosConfig.get(API_CONFIG.HOME.GET_NEW);
+  },
+  giveCoin: (params: any) => {
+    return axiosConfig.post(API_CONFIG.GIFT.GIVE_COIN, params);
   },
 };

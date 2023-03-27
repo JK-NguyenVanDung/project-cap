@@ -22,7 +22,7 @@ export interface IGIFTSTATUS {
 }
 export interface IADDEXCHANGE {
   giftId: number;
-  accountId: number;
+  quantity: number;
 }
 export interface ICategory {
   name: string;

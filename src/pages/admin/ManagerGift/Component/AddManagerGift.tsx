@@ -111,7 +111,9 @@ export default function AddManagerGift({
             ) : (
               <div className="w-[300px] flex flex-col items-center">
                 <img
-                  src={`${API_URL}/images/${detail.image}`}
+                  src={
+                    detail?.image ? `${API_URL}/images/${detail?.image}` : ''
+                  }
                   alt="avatar"
                   className="object-cover w-[300px] h-[300px] rounded-lg"
                 />

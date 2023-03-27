@@ -65,15 +65,16 @@ export default function SideBar({
 
   return (
     <>
-      <div className="flex relative max-w-full h-screen">
-        <div className="fixed w-[79%] z-[1] ">
+      <div className="flex relative max-w-full h-screen ">
+        <div className="fixed h-full  w-[79%] z-[1] " style={{}}>
           <div
-            className="z-0  overflow-hidden bg-img-bar relative sidebar flex flex-col content-center items-center w-1/5"
+            className="z-0 overflow-hidden bg-img-bar h-full relative sidebar flex flex-col content-center items-center w-[25%]"
             style={{
               backgroundImage: `url(${MenuBackground})`,
+              overflowY: 'scroll',
             }}
           >
-            <div className=" absolute w-full h-full opacity-70 bg-dark-red	" />
+            <div className=" absolute w-full h-[150vh] opacity-70 bg-dark-red	" />
             <a
               onClick={() => {
                 navigation('/admin');
@@ -84,7 +85,7 @@ export default function SideBar({
               <img className="w-1/5 h-fit mb-2" src={logo} />
               <p className="text-lg text-center mb-2 mx-2"> VLG TRAINING</p>
             </a>
-            <ul className="relative list-none w-full text-center">
+            <ul className="relative list-none w-full text-center ">
               {info?.roleId == 2
                 ? SideBarData.map((value, index) => {
                     return (
@@ -142,7 +143,7 @@ export default function SideBar({
         </div>
         <div
           className={`${!noHeader ? 'z-[2]' : 'z-[0]'} Layout${
-            !noHeader ? ' ml-[16.1%]' : 'ml-[10%] '
+            !noHeader ? ' ml-[18.6%]' : 'ml-[10%] '
           } w-full  `}
         >
           {!noHeader && (
