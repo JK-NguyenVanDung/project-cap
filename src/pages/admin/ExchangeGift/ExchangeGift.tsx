@@ -45,7 +45,7 @@ export default function () {
     : 0;
   async function getApplication() {
     try {
-      let response: any = await apiService.getExchanges();
+      let response: any = await apiService.getGiftExchange();
       let accounts: any = await apiService.getAccounts();
 
       // let exchange: any = await apiService.getDetailExchange(
