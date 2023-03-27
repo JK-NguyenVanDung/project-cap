@@ -18,21 +18,7 @@ export default function ShowDetail({
 
   const [showDetail, setShowDetail] = useState(false);
   const [loading, setLoading] = useState(false);
-  function getComment(item: any) {
-    let text = '';
-    if (!item) {
-      return 'Chưa có nhận xét';
-    }
-    if (item.reasonRefusal) {
-      text += 'Lý do từ chối: ';
-      text += item.reasonRefusal;
-      text += `\n`;
-    }
-    if (item.comment) {
-      text += item.comment;
-    }
-    return text;
-  }
+
   useEffect(() => {
     form.setFieldsValue({
       ...item,
@@ -40,9 +26,9 @@ export default function ShowDetail({
       status:
         item?.status == 'Approved'
           ? 'Đã Được Duyệt'
-          : item?.status == 'UnApproved'
+          : item?.status == 'Pending'
           ? 'Chưa Được Duyệt'
-          : item?.status == 'Refuse'
+          : item?.status == 'Denied'
           ? 'Bị Từ Chối'
           : 'Chưa Có Trạng Thái',
     });
@@ -74,7 +60,7 @@ export default function ShowDetail({
                 placeholder="Số lượng quà còn lại"
                 disabled
                 label="Số lượng quà còn lại"
-                name="coin"
+                name="quantity"
               />
             </div>
             <div className="flex justify-start  items-center">
@@ -99,7 +85,7 @@ export default function ShowDetail({
             placeholder="Nhận xét"
             disabled
             label="Nhận Xét"
-            name="commentAndReason"
+            name="reason"
             type="textArea"
           />
         </div>

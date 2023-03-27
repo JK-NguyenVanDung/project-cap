@@ -50,7 +50,7 @@ export default function FormInput({
   defaultValue?: any;
   value?: any;
   labelLeft?: boolean;
-  onChangeNumber: any;
+  onChangeNumber?: any;
 }) {
   const FormComponent = () => {
     let cp;

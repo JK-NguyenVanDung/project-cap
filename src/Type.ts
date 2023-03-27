@@ -253,6 +253,7 @@ const ExchangeCoin = z.object({
   description: z.string(),
   coin: z.number(),
   endDate: z.date(),
+  status: z.string(),
   creatorAccount:
     AccountItem &&
     z.object({
@@ -267,6 +268,22 @@ const Certification = z.object({
   description: z.string(),
   coin: z.number(),
   endDate: z.date(),
+});
+const Gift = z.object({
+  coin: z.number(),
+  description: z.string(),
+  giftId: z.number(),
+  image: z.string(),
+  name: z.string(),
+  quantity: z.number(),
+});
+const GiftExchange = z.object({
+  id: z.number(),
+  accountId: z.number(),
+  account: AccountItem,
+  reason: z.string(),
+  gift: Gift,
+  createdAt: z.date(),
 });
 
 export type IRoleItem = z.infer<typeof RoleItem>;
@@ -295,6 +312,8 @@ export type IExchangeCoin = z.infer<typeof ExchangeCoin>;
 
 export type ICertification = z.infer<typeof Certification>;
 export type ICertificatePhoto = z.infer<typeof CertificatePhoto>;
+
+export type IGiftExchange = z.infer<typeof GiftExchange>;
 
 export interface IRouterObj {
   path?: string;

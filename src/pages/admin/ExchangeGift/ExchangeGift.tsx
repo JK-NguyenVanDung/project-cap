@@ -7,7 +7,7 @@ import { FaEye } from 'react-icons/fa';
 import { MdRemoveCircle } from 'react-icons/md';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
-import { IAccountItem, ICertification } from '../../../Type';
+import { IAccountItem, IGiftExchange } from '../../../Type';
 import apiService from '../../../api/apiService';
 import CustomButton from '../../../components/admin/Button';
 import FormInput from '../../../components/admin/Modal/FormInput';
@@ -15,28 +15,29 @@ import CustomModal from '../../../components/admin/Modal/Modal';
 import TableConfig from '../../../components/admin/Table/Table';
 import { GIRD12 } from '../../../helper/constant';
 import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
-import ShowDetail from './ShowDetail';
+import ShowDetail from './ExchangeGiftDetail';
 import { actions } from '../../../Redux';
 import Breadcrumb from '../../../components/sharedComponents/Breadcrumb';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { API_URL } from '../../../api/api';
 import moment from 'moment';
 import ConfirmModal from '../../../components/admin/Modal/ConfirmModal';
+import { IGift } from '../../../api/apiInterface';
 export default function () {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
   const [accounts, setAccounts] = useState([]);
 
   const [loading, setLoading] = useState(false);
-  const [detail, setDetail] = useState<ICertification>(null);
+  const [detail, setDetail] = useState<IGiftExchange>(null);
   const item = useAppSelector((state) => state.form.setProgram);
   const [form] = Form.useForm();
   const [showModal, setShowModal] = useState(false);
-  const [dataDetail, setDataDetail] = useState<ICertification>();
+  const [dataDetail, setDataDetail] = useState<IGiftExchange>();
 
   const [showDetail, setShowDetail] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [exchange, setExchange] = useState<ICertification>(null);
+  const [exchange, setExchange] = useState<IGiftExchange>(null);
 
   let location = useLocation();
   let exchangeId = location.pathname.split('/')[3]?.toString()
@@ -44,27 +45,25 @@ export default function () {
     : 0;
   async function getApplication() {
     try {
-      let response: any = await apiService.getExchanges();
+      let response: any = await apiService.getExchange();
       let accounts: any = await apiService.getAccounts();
+
       // let exchange: any = await apiService.getDetailExchange(
       //   exchangeId,
       //   info.accountId,
       // );
       // exchange && setExchange(exchange);
 
-      // accounts && setAccounts(accounts);
+      accounts && setAccounts(accounts);
 
       response = response.reverse();
-      dispatch(
-        actions.formActions.setNameMenu(
-          `${'Quản Lý Đổi Quà: ' + exchange?.title}`,
-        ),
-      );
+      dispatch(actions.formActions.setNameMenu(`${'Quản Lý Đổi Quà'}`));
 
       let res = response.map((item: any, index: number) => {
         return {
           ...item,
           index: index + 1,
+          email: item?.account?.email,
         };
       });
       setData(res);
@@ -91,32 +90,39 @@ export default function () {
     },
     {
       title: 'Email đổi quà',
-
+      dataIndex: 'email',
+      key: 'email',
       width: '12%',
-      render: (data: any) => (
-        <>
-          {
-            accounts.find(
-              (item: IAccountItem) => item.accountId === data.accountIdLearner,
-            )?.email
-          }
-        </>
-      ),
     },
     {
       title: 'Quà tặng',
       key: 'gift',
       dataIndex: 'gift',
+
+      render: (item: IGift) => {
+        return (
+          <>
+            <div className="flex">
+              <Image width={50} src={`${API_URL}/images/${item?.image}`} />
+              <p className="ml-4 font-semibold">{item?.name}</p>
+            </div>
+          </>
+        );
+      },
     },
     {
       title: 'Ngày đặt',
-      key: 'date',
-      dataIndex: 'date',
+      key: 'createdAt',
+      dataIndex: 'createdAt',
+      render: (item: any) => {
+        return <>{moment(item).format('HH:mm - DD/MM/YYYY')}</>;
+      },
+      width: '16%',
     },
     {
       title: 'Trạng thái',
-      dataIndex: 'registerStatus',
-      key: 'registerStatus',
+      dataIndex: 'status',
+      key: 'status',
       width: GIRD12.COL2,
 
       render: (item: string) => {
@@ -125,7 +131,7 @@ export default function () {
             <p>
               {item == 'Approved' ? (
                 <p className="text-green-600">Đã Được Duyệt</p>
-              ) : item == 'UnApproved' ? (
+              ) : item == 'Pending' ? (
                 <p className="text-yellow-800">Chưa Được Duyệt</p>
               ) : (
                 <p className="text-error">Bị Từ Chối</p>
@@ -146,6 +152,7 @@ export default function () {
             tip="Từ chối đăng ký"
             size="sm"
             color="red"
+            disabled={data?.status === 'Approved'}
             Icon={MdRemoveCircle}
             onClick={() => handelRefusal(data)}
           />
@@ -153,6 +160,7 @@ export default function () {
             tip="Duyệt đơn đăng ký"
             size="sm"
             color="green"
+            disabled={data?.status === 'Approved'}
             Icon={AiFillCheckCircle}
             onClick={() => handelApprove(data)}
           />
@@ -172,12 +180,10 @@ export default function () {
     setShowDetail(true);
     setDetail({
       ...item,
-
-      ...exchange,
-      program: exchange.title,
-      exchanger: accounts.find(
-        (acc: IAccountItem) => acc.accountId === item.creatorId,
-      )?.email,
+      gift: item.gift?.name,
+      quantity: item.gift?.quantity,
+      exchanger: item.account?.email,
+      phone: item.account?.phoneNumber,
     });
   };
   const FormApplicationRef = () => {
@@ -204,10 +210,10 @@ export default function () {
         try {
           dispatch(actions.reloadActions.setReload());
 
-          const data = apiService.denyExchange({
-            id: dataDetail.id,
-            reviewerId: info.accountId,
-            comment: values.comment,
+          const data = apiService.changeGiftStatus({
+            accountGiftId: dataDetail.id,
+            status: 'Denied',
+            reason: values.comment,
           });
           setLoading(true);
           if (data) {
@@ -222,16 +228,16 @@ export default function () {
             message: 'Từ Chối Đơn Đổi Coin Không Thành Công',
           });
         }
-        let timeout = setTimeout(() => {
-          setLoading(false);
-          dispatch(actions.reloadActions.setReload());
-        }, 500);
-        clearTimeout(timeout);
       })
 
       .catch((info) => {
         // dispatch(actions.formActions.showError())
       });
+    let timeout = setTimeout(() => {
+      setLoading(false);
+      dispatch(actions.reloadActions.setReload());
+    }, 500);
+    clearTimeout(timeout);
   };
   const navigate = useNavigate();
 
@@ -247,23 +253,32 @@ export default function () {
 
   const approveApplication = async () => {
     try {
-      setLoading(true);
-      const data = await apiService.approveExchange({
-        id: dataDetail.id,
-        reviewerId: info.accountId,
+      dispatch(actions.reloadActions.setReload());
+
+      const data = apiService.changeGiftStatus({
+        accountGiftId: dataDetail.id,
+        status: 'Approved',
       });
       setLoading(true);
       if (data) {
-        setLoading(false);
-        notification.success({ message: 'Chấp Thuận Thành Công' });
+        notification.success({
+          message: 'Chấp Thuận Đơn Đổi Coin Thành Công',
+        });
       }
+      setShowModal(false);
+      form.resetFields();
     } catch (error) {
-      notification.error({ message: 'Chấp Thuận Không Thành Công' });
+      notification.error({
+        message: 'Chấp Thuận Đơn Đổi Coin Không Thành Công',
+      });
     }
-    let timeOut = setTimeout(() => {
+    let timeout = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+      dispatch(actions.reloadActions.setReload());
+    }, 500);
+    clearTimeout(timeout);
   };
+
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
@@ -271,9 +286,9 @@ export default function () {
       .map((record: any) => {
         const emailMatch = removeVietnameseTones(
           accounts.find(
-            (acc: IAccountItem) => acc.accountId === record.creatorId,
+            (acc: IAccountItem) => acc.accountId === record.account.accountId,
           )?.email,
-        ).match(reg);
+        )?.match(reg);
 
         if (!emailMatch) {
           return null;
@@ -284,9 +299,6 @@ export default function () {
     setData(value.trim() !== '' ? filteredData : filterData);
   };
 
-  function handelAdd() {
-    setDetail(null);
-  }
   function handelImport() {}
   return (
     <>
@@ -296,20 +308,6 @@ export default function () {
         data={data}
         columns={Columns}
         loading={loading}
-        extra={[
-          <CustomButton
-            noIcon
-            size="md"
-            variant="outlined"
-            className="w-32 "
-            text="Quay lại"
-            key={`${uniqueId()}`}
-            onClick={() => {
-              navigate(-1);
-              dispatch(actions.formActions.setProgramForm(null));
-            }}
-          />,
-        ]}
       />
       <CustomModal
         show={showModal}
@@ -327,15 +325,15 @@ export default function () {
         setShow={setShowConfirmModal}
         handler={approveApplication}
         type="approve"
-        title="duyệt chứng chỉ"
+        title="gửi quà"
       >
         {dataDetail && (
           <>
             <p>
-              Cấp {exchange?.coin} Coins cho{' '}
+              Cấp món quà {dataDetail?.gift?.name} cho{' '}
               {
                 accounts.find(
-                  (acc: IAccountItem) => acc.accountId === dataDetail.creatorId,
+                  (acc: IAccountItem) => acc.accountId === dataDetail.accountId,
                 )?.email
               }{' '}
             </p>

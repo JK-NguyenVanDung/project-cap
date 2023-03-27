@@ -88,8 +88,15 @@ export default function ShowDetail({
               </div>
             </div>
             <p className="text-base font-thin">
-              *Ảnh gửi vào lúc{' '}
-              {moment(item.sentDate).zone(10).format('HH:mm -  DD/MM/YYYY ')}
+              {!item.reviewDate
+                ? `*Ảnh gửi vào lúc ` +
+                  moment(item.sentDate).local().format('HH:mm -  DD/MM/YYYY ')
+                : `*Ảnh được xem xét vào lúc ` +
+                  moment(item.reviewDate)
+                    .local()
+                    .format('HH:mm -  DD/MM/YYYY ') +
+                  ' bởi ' +
+                  item?.reviewer}
             </p>
           </div>
           <div className="w-full p-6">

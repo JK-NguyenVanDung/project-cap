@@ -476,11 +476,14 @@ export default {
   getGiftExchange: () => {
     return axiosConfig.get(API_CONFIG.GIFT.GET_EXCHANGE);
   },
+  getGiftMyExchange: () => {
+    return axiosConfig.get(API_CONFIG.GIFT.GET_MY_EXCHANGE);
+  },
   changeStatus: (params: IGIFTSTATUS) => {
     return axiosConfig.put(API_CONFIG.GIFT.CHANGE_STATUS, params);
   },
-  addGiftExchange: (params: IADDEXCHANGE) => {
-    return axiosConfig.post(API_CONFIG.GIFT.POST_EXCHANGE);
+  ExchangeGift: (params: IADDEXCHANGE) => {
+    return axiosConfig.post(API_CONFIG.GIFT.POST_EXCHANGE, params);
   },
   //EXCHANGE COIN
   getExchanges: () => {
@@ -524,5 +527,8 @@ export default {
   },
   approveExchange: (params: { id: number; reviewerId: number }) => {
     return axiosConfig.put(API_CONFIG.EXCHANGE.APPROVE, params);
+  },
+  giveCoin: (params: any) => {
+    return axiosConfig.post(API_CONFIG.GIFT.GIVE_COIN, params);
   },
 };

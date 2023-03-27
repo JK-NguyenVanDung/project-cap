@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Select } from 'antd';
+import { Form, Select, message, notification } from 'antd';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import apiService from '../../../api/apiService';
 import FormInput from '../../../components/admin/Modal/FormInput';
+import { errorText } from '../../../helper/constant';
 export default function GiveCoid({ showModal, setShowModal }: any) {
   const [form] = Form.useForm();
   const [listAccount, setListAccount] = useState([]);
@@ -18,7 +19,22 @@ export default function GiveCoid({ showModal, setShowModal }: any) {
     getAllAccount();
   }, []);
   const handleOk = () => {
-    console.log('ok');
+    form
+      .validateFields()
+      .then(async (values) => {
+        console.log(values);
+        const response = await apiService.giveCoin(values);
+        if (response) {
+          setShowModal(false);
+          message.success('Tặng Coin thành công');
+        }
+        setShowModal(false);
+        form.resetFields();
+      })
+
+      .catch((info) => {
+        // dispatch(actions.formActions.showError())
+      });
   };
   const FormItem = () => {
     return (
@@ -28,11 +44,11 @@ export default function GiveCoid({ showModal, setShowModal }: any) {
         </label>
         <Form.Item
           className="w-full "
-          name="positionId"
+          name="email"
           rules={[
             {
               required: true,
-              message: 'Vui Lòng Nhập Vào Email Người Nhận',
+              message: 'Vui Lòng Nhập Vào Email',
             },
           ]}
         >
@@ -44,7 +60,7 @@ export default function GiveCoid({ showModal, setShowModal }: any) {
               (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
             }
             options={listAccount.map((item: any) => ({
-              value: item.accountId,
+              value: item.email,
               label: item.email,
             }))}
           />
@@ -52,7 +68,7 @@ export default function GiveCoid({ showModal, setShowModal }: any) {
         <FormInput
           type="inputNumber"
           label="Sô Coin"
-          name="Coin"
+          name="coin"
           rules={[
             {
               required: true,
@@ -68,11 +84,11 @@ export default function GiveCoid({ showModal, setShowModal }: any) {
       centered={true}
       show={showModal}
       setShow={setShowModal}
-      label={'Tài Khoản'}
+      label={'Tặng Coin'}
       handleOk={handleOk}
       FormItem={<FormItem />}
       form={form}
-      header={'Tặng Coid'}
+      header={'Tặng Coin'}
     />
   );
 }

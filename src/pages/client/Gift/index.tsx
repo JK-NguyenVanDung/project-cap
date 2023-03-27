@@ -12,12 +12,15 @@ function GiftSreen() {
   const [itemExchange, setItemExchange] = useState({});
   const [listGiftExchange, setListGiftExchange]: any = useState([]);
   const [coinSelf, setCoinSelf] = useState(0);
+  const reload = useAppSelector((state: any) => state.reload.reload);
+
   const handelGiftExchange = (item: any) => {
     setOpenExchange(true);
     setItemExchange({ ...item, coinSelf });
   };
 
   useEffect(() => {
+    setLoading(true);
     const fetchListGift = async () => {
       const data: any = await apiService.getGiftExchange();
       if (data) {
@@ -36,7 +39,7 @@ function GiftSreen() {
     setTimeout(() => {
       setLoading(false);
     }, 3000);
-  }, []);
+  }, [reload]);
   return (
     <>
       <Loading loading={loading} />
@@ -59,6 +62,8 @@ function GiftSreen() {
         data={itemExchange}
         show={openExchange}
         setShow={setOpenExchange}
+        loading={reload}
+        setLoading={setLoading}
       />
     </>
   );

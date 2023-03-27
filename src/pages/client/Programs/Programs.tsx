@@ -9,7 +9,7 @@ import { actions } from '../../../Redux';
 import { IProgramItem } from '../../../Type';
 import { BsFilter } from 'react-icons/bs';
 import SearchBar from '../../../components/admin/ToolBar/ToolBar';
-import { MenuProps, Spin } from 'antd';
+import { MenuProps, Select, Spin } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import Loading from '../../../components/sharedComponents/Loading';
 import { removeVietnameseTones } from '../../../utils/uinqueId';
@@ -18,11 +18,58 @@ export default function Programs() {
   const [data, setData] = useState<Array<IProgramItem>>(null);
   const [filterData, setFilterData] = useState<Array<IProgramItem>>(null);
 
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  function handelDataProgram(item: IProgramItem) {
+    dispatch(actions.formActions.setProgramForm(item));
+    navigate(`/Programs/${item.programId}`);
+  }
+  const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
+
+  const [filter, setFilter] = useState('Tất cả');
+  const [options, setOptions] = useState([
+    {
+      value: 'Tất cả',
+      label: 'Tất cả',
+    },
+    {
+      value: 'Chưa đăng ký',
+      label: 'Chưa đăng ký',
+    },
+    {
+      value: 'Hết hạn',
+      label: 'Hết hạn',
+    },
+  ]);
+
   useEffect(() => {
     const fetch = async () => {
       try {
         const data: any = await apiService.getPublicPrograms();
-
+        const cate: any = await apiService.getCategories();
+        setCategories(cate);
+        cate &&
+          setOptions([
+            {
+              value: 'Tất cả',
+              label: 'Tất cả',
+            },
+            {
+              value: 'Chưa đăng ký',
+              label: 'Chưa đăng ký',
+            },
+            {
+              value: 'Hết hạn',
+              label: 'Hết hạn',
+            },
+            ...cate.map((item: any) => {
+              return {
+                value: item.categoryId,
+                label: item.categoryName,
+              };
+            }),
+          ]);
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
         setData(data);
         setFilterData(data);
@@ -34,64 +81,37 @@ export default function Programs() {
     fetch();
     dispatch(actions.formActions.setNameMenu(`${'Khóa học'}`));
   }, []);
-  const navigate = useNavigate();
-  const dispatch = useAppDispatch();
-  function handelDataProgram(item: IProgramItem) {
-    dispatch(actions.formActions.setProgramForm(item));
-    navigate(`/Programs/${item.programId}`);
-  }
-  const [loading, setLoading] = useState(false);
-  const [search, setSearch] = useState(false);
+  // useEffect(() => {
 
-  const [filter, setFilter] = useState('Tất cả');
-  const items: MenuProps['items'] = [
-    {
-      key: '0',
-      label: <a onClick={() => setFilter('Tất cả')}>Tất cả</a>,
-    },
-    {
-      key: '1',
-      label: <a onClick={() => setFilter('Chưa đăng ký')}>Chưa đăng ký</a>,
-    },
-    {
-      key: '2',
-      label: <a onClick={() => setFilter('Hết hạn')}>Hết hạn</a>,
-    },
-    // {
-    //   key: '3',
-    //   label: <a onClick={() => setFilter('Hoàn thành')}>Hoàn thành</a>,
-    // },
-    // {
-    //   key: '3',
-    //   label: <a onClick={() => setFilter('Từ A-Z')}>Từ A-Z</a>,
-    // },
-  ];
-  useEffect(() => {
-    const filtering = () => {
-      setLoading(true);
-      // setData(filterData);
-      if (filter === 'Tất cả') {
-        setData(filterData);
-      }
-      if (filter === 'Chưa đăng ký') {
-        setData(
-          filterData?.filter((item: IProgramItem) => item.status === 'public'),
-        );
-      }
-      if (filter === 'Hết hạn') {
-        setData(
-          filterData?.filter((item: IProgramItem) => item.status === 'end'),
-        );
-      }
-    };
-    filtering();
-    let timer = setTimeout(() => {
-      setLoading(false);
-    }, 500);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [filter]);
+  //   filtering();
+  //   let timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 500);
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, [filter]);
+  const filtering = (e: any) => {
+    setLoading(true);
+    console.log(e);
+    // setData(filterData);
+    if (e === 'Tất cả') {
+      setData(filterData);
+    } else if (e === 'Chưa đăng ký') {
+      setData(
+        filterData?.filter((item: IProgramItem) => item.status === 'public'),
+      );
+    } else if (e === 'Hết hạn') {
+      setData(
+        filterData?.filter((item: IProgramItem) => item.status === 'end'),
+      );
+    } else {
+      setData(
+        filterData?.filter((item: IProgramItem) => item.categoryId === e),
+      );
+    }
+    setLoading(false);
+  };
   const onChangeSearch = async (value: string) => {
     setLoading(true);
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
@@ -135,13 +155,13 @@ export default function Programs() {
           />
         </div>
         <div className="w-fit mx-4 cursor-pointer	max-sm:mt-4">
-          <div className="  shadow-none border flex items-center p-2 rounded-lg border-[#F5F5F7]">
-            <Dropdown menu={{ items }} placement="bottomRight">
-              <button className="flex justify-center items-center">
-                <BsFilter className="text-xl mx-2" />
-                <div className="pr-2">Lọc bởi: {filter}</div>
-              </button>
-            </Dropdown>
+          <div className=" ">
+            <Select
+              defaultValue="Tất cả"
+              className={'min-w-[16rem]'}
+              onChange={(e) => filtering(e)}
+              options={options}
+            ></Select>
           </div>
         </div>
       </div>

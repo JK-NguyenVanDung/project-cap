@@ -17,11 +17,12 @@ export interface IGift {
 }
 export interface IGIFTSTATUS {
   accountGiftId: number;
+  reason?: string;
   status: string;
 }
 export interface IADDEXCHANGE {
   giftId: number;
-  accountId: number;
+  quantity: number;
 }
 export interface ICategory {
   name: string;

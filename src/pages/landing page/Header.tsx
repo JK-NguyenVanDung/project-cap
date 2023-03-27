@@ -59,7 +59,7 @@ const Header = (props: any) => {
         <div className="flex md:order-2 sm:order-2 ">
           <button
             type="button"
-            className={`btn btn-primary`}
+            className={`btn btn-primary max-sm:min-w-[120px] max-sm:p-0 max-sm:h-fit`}
             onClick={() => Login()}
           >
             Đăng nhập
