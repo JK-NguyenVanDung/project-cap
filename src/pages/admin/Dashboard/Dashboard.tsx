@@ -66,7 +66,7 @@ export default function () {
     <>
       <Form
         form={formDate}
-        className="formCategory w-full mx-20  absolute top-[-41px]"
+        className="formCategory w-fit ml-20  absolute top-[-41px]"
       >
         <div className="flex justify-between items-center  w-1/4 ">
           <FormInput
