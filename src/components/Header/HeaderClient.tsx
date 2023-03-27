@@ -67,7 +67,12 @@ export default function () {
           >
             Trang Cá Nhân
           </MenuItem>
-
+          <MenuItem
+            onClick={() => navigate('/historyRedeem')}
+            className="font-customFont"
+          >
+            Lịch Sử Nhận Quà
+          </MenuItem>
           <MenuItem className="font-customFont" onClick={() => logoutAdmin()}>
             Đăng Xuất
           </MenuItem>

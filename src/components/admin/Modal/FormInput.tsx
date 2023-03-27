@@ -30,8 +30,13 @@ export default function FormInput({
   defaultValue,
   value,
   labelLeft,
+  maxNumber,
+  minNumber,
+  onChangeNumber,
 }: {
   label?: string;
+  maxNumber?: number;
+  minNumber?: number;
   name?: any;
   rules?: any;
   type?: string;
@@ -45,6 +50,7 @@ export default function FormInput({
   defaultValue?: any;
   value?: any;
   labelLeft?: boolean;
+  onChangeNumber?: any;
 }) {
   const FormComponent = () => {
     let cp;
@@ -72,11 +78,14 @@ export default function FormInput({
         cp = (
           <InputNumber
             className="mt-4 h-11 rounded-lg font-bold text-black font-customFont"
-            min="1"
+            min={minNumber ?? 1}
+            max={maxNumber}
+            defaultValue={defaultValue}
             placeholder={`${placeholder ? placeholder : 'Nhập ' + label}`}
             style={{
               width: '100%',
             }}
+            onChange={onChangeNumber}
           />
         );
         break;
