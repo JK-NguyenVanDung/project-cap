@@ -61,6 +61,18 @@ export default function ModalGift({
   };
 
   const FormItem = () => {
+    const [coin, setCoin] = useState(data.coin ? data.coin : 0);
+    const [left, setLeft] = useState(
+      data.coinSelf && data.coin ? data.coinSelf - data.coin : 0,
+    );
+    const [change, setChange] = useState(1);
+
+    const handleOnchange = (value: number) => {
+      setCoin(data.coin * Number(value));
+      let newCoin = data.coin * Number(value);
+      setLeft(data.coinSelf - newCoin);
+      setChange(value);
+    };
     return (
       <>
         <div className="flex justify-around ">
