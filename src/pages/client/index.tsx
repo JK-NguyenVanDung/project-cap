@@ -150,7 +150,7 @@ export default function ClientSideBar({ content }: { content: any }) {
                   </div>
                 </li> */}
               </ul>
-              <div className="my-12  px-2	">
+              <div className="mt-4  px-4	">
                 <SmallTopLearners />
               </div>
             </div>

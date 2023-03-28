@@ -22,6 +22,7 @@ import Breadcrumb from '../../../components/sharedComponents/Breadcrumb';
 import { API_URL } from '../../../api/api';
 import { HiDocumentMagnifyingGlass } from 'react-icons/hi2';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
+import Loading from '../../../components/sharedComponents/Loading';
 export default function () {
   const [form] = Form.useForm();
   const { accounts } = useMsal();
@@ -35,7 +36,8 @@ export default function () {
   );
 
   const info = useAppSelector((state) => state.auth.info);
-  const [fullName, setFullName] = useState({ value: nameMenu });
+  const [loading, setLoading] = useState(true);
+
   const [detailExchange, setDetailExchange] = useState<IExchangeCoin>(null);
 
   const [previewImage, setPreviewImage] = useState<any>(null);
@@ -118,6 +120,7 @@ export default function () {
   }
 
   useEffect(() => {
+    setLoading(true);
     const getData = async () => {
       const response: any = await apiService.getDetailExchange(
         exchangeId,
@@ -154,12 +157,17 @@ export default function () {
       });
     };
     getData();
+    let timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
-  const handelChangeText = (event: any) => {
-    setFullName((prev) => ({ ...prev, value: event.target.value }));
-  };
+
   return (
     <>
+      <Loading loading={loading} />
       <div className="w-full  px-4 pb-2 bg-white">
         <Breadcrumb
           router1={`/CoinExchanges`}

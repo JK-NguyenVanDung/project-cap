@@ -59,30 +59,32 @@ export default function Homepage() {
           <div className="absolute w-full h-fit">
             <Loading loading={loading} />
           </div>
-          <div
-            className={`flex w-full items-center  ${
-              loading ? 'hidden' : 'visible'
-            }`}
-          >
-            <div className="w-[84vw] max-sm:w-[96vw] mt-4">
-              <Banner data={[...bannerData]} />
+          {bannerData && bannerData.length > 0 && (
+            <div className={`flex w-full items-center`}>
+              <div className="w-[84vw] max-sm:w-[96vw] mt-4">
+                <Banner data={[...bannerData]} />
+              </div>
             </div>
-          </div>
+          )}
 
           <FormFirstTime />
         </div>
-        <div className="my-12 w-[90vw] max-sm:w-[100vw]">
-          <CourseCarousel
-            data={programs?.reverse()}
-            title="Khoá học mới nhất"
-          />
-        </div>
-        <div className="my-12 w-[90vw] max-sm:w-[100vw]">
-          <CourseCarousel
-            data={popularPrograms?.reverse()}
-            title="Khoá học nổi tiếng"
-          />
-        </div>
+        {programs && programs?.length > 0 && (
+          <div className="my-12 w-[90vw] max-sm:w-[100vw]">
+            <CourseCarousel
+              data={programs?.reverse()}
+              title="Khoá học mới nhất"
+            />
+          </div>
+        )}
+        {popularPrograms && popularPrograms?.length > 0 && (
+          <div className="my-12 w-[90vw] max-sm:w-[100vw]">
+            <CourseCarousel
+              data={popularPrograms?.reverse()}
+              title="Khoá học nổi tiếng"
+            />
+          </div>
+        )}
       </div>
     </>
   );

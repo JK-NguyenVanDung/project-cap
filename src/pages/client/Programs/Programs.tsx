@@ -42,6 +42,7 @@ export default function Programs() {
   ]);
 
   useEffect(() => {
+    setLoading(true);
     const fetch = async () => {
       try {
         const data: any = await apiService.getPublicPrograms();
@@ -75,6 +76,7 @@ export default function Programs() {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
     fetch();
     dispatch(actions.formActions.setNameMenu(`${'Khóa học'}`));
@@ -171,10 +173,10 @@ export default function Programs() {
         }`}
       >
         <ul className=" px-2 grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  grid-cols-3 md:grid-cols-2 sm:grid-cols-1  max-sm:grid-cols-1	">
-          {data?.length > 0 ? (
+          {data && data?.length > 0 ? (
             data?.map((item: IProgramItem) => {
               return (
-                <li className="m-8 inline-block ">
+                <li className="m-8 inline-block " key={item.programId}>
                   <CourseCard
                     onClick={() => handelDataProgram(item)}
                     item={item}

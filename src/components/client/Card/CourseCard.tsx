@@ -45,24 +45,22 @@ export const SmallCourseCard = ({
   const [like, setLike] = useState(data?.isLike);
   const [totalLike, setTotalLike] = useState(data?.totalLike);
 
-  const [colorHeart, setColorHeart]: any = useState(Color.gray4);
   const handelLove = (itemProgram?: IProgramItem) => {
-    setLike(!like);
-    like === false ? setColorHeart(Color.gray4) : setColorHeart(Color.error);
+    setTotalLike((lastTotal) => (!like ? lastTotal + 1 : lastTotal - 1));
+    setLike((like) => !like);
     const fetchLike = async () => {
       await apiService.likeProgram(itemProgram?.programId, like);
-      const res: any = await apiService.getProgram(itemProgram?.programId);
-      setTotalLike(res.totalLike);
     };
-    try {
-      fetchLike();
-    } catch (err: any) {
-      throw err.message;
+
+    if (itemProgram?.programId) {
+      try {
+        fetchLike();
+      } catch (err: any) {
+        throw err.message;
+      }
     }
   };
-  useEffect(() => {
-    handelLove();
-  }, []);
+
   return (
     <>
       <div className="cardCont w-fit min-w-[17rem] max-w-[17rem] rounded-[20px] bg-white  flex flex-col h-1/2  my-8">
@@ -100,7 +98,7 @@ export const SmallCourseCard = ({
                 </span>
                 <AiFillHeart
                   onClick={() => handelLove(data)}
-                  color={colorHeart}
+                  color={!like ? Color.gray4 : Color.error}
                   className="ml-2 text-xl cursor-pointer"
                 />
               </div>
@@ -141,26 +139,26 @@ const CourseContent = ({
   item: IProgramItem;
   isRegistered: boolean;
 }) => {
-  const [like, setLike] = useState(item.isLike);
-  const [colorHeart, setColorHeart]: any = useState(Color.gray4);
-  const [program, setProgram]: any = useState(null);
+  const [like, setLike] = useState(item?.isLike);
+  const [totalLike, setTotalLike] = useState(item?.totalLike);
+
+  // const [colorHeart, setColorHeart]: any = useState(Color.gray4);
 
   const handelLove = (itemProgram?: IProgramItem) => {
-    setLike(!like);
-    like === false ? setColorHeart(Color.gray4) : setColorHeart(Color.error);
+    setTotalLike((lastTotal) => (!like ? lastTotal + 1 : lastTotal - 1));
+    setLike((like) => !like);
     const fetchLike = async () => {
-      const response = await apiService.likeProgram(
-        itemProgram?.programId,
-        like,
-      );
-      const res = await apiService.getProgram(itemProgram?.programId);
-      setProgram(res);
+      await apiService.likeProgram(itemProgram?.programId, like);
     };
-    fetchLike();
+
+    if (itemProgram?.programId) {
+      try {
+        fetchLike();
+      } catch (err: any) {
+        throw err.message;
+      }
+    }
   };
-  useEffect(() => {
-    handelLove();
-  }, []);
   function getListLearnerType(item: IProgramItem) {
     let out = 'Dành cho: ';
     item?.programPositions.map((e, index) => {
@@ -233,11 +231,11 @@ const CourseContent = ({
               </div>
               <div className="flex items-center">
                 <span className="text-body text-bold">
-                  {program ? program.totalLike : item?.totalLike}
+                  {totalLike ?? totalLike}
                 </span>
                 <AiFillHeart
                   onClick={() => handelLove(item)}
-                  color={colorHeart}
+                  color={!like ? Color.gray4 : Color.error}
                   className="ml-2 text-xl cursor-pointer"
                 />
               </div>

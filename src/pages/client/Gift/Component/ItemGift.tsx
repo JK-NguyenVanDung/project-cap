@@ -34,7 +34,7 @@ export default function ItemGift({
             {data?.name}
           </p>
           <p className="text-body eclipse min-h-[3rem]">{data?.description}</p>
-          <div className="flex justify-between">
+          <div className="flex justify-between pb-4">
             <p>
               <span className="font-bold">Số Lượng:</span> {data?.quantity ?? 0}
             </p>

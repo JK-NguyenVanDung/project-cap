@@ -60,10 +60,7 @@ export default function MyProgram() {
               };
             }),
           ]);
-        let temp = data.filter(
-          (item: IProgramItem) =>
-            item.status === 'public' || item.status === 'end',
-        );
+        let temp = data.reverse();
 
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
         setData(temp);
@@ -71,8 +68,10 @@ export default function MyProgram() {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
     fetch();
+
     dispatch(actions.formActions.setNameMenu(`${'Khóa Học Của Tôi'}`));
   }, []);
 
@@ -164,7 +163,7 @@ export default function MyProgram() {
           loading ? 'hidden' : 'visible'
         }`}
       >
-        {data?.length > 0 ? (
+        {data && data?.length > 0 ? (
           <ul className=" px-2 grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  grid-cols-3 md:grid-cols-2 sm:grid-cols-1  max-sm:grid-cols-1	">
             {data?.map((item: IProgramItem) => {
               return (

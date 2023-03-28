@@ -36,26 +36,30 @@ function GiftSreen() {
       }
     };
     fetchAccount();
-    setTimeout(() => {
+    let timer = setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [reload]);
   return (
     <>
       <Loading loading={loading} />
       <div className="p-3 pl-5 pr-5">
         <div className="grid grid-cols-3 ">
-          {listGiftExchange.map((item: any, index: number) => {
-            return (
-              <div className="mx-8">
-                <ItemGift
-                  data={item}
-                  index={index}
-                  onClick={() => handelGiftExchange(item)}
-                />
-              </div>
-            );
-          })}
+          {listGiftExchange &&
+            listGiftExchange.map((item: any, index: number) => {
+              return (
+                <div className="mx-8">
+                  <ItemGift
+                    data={item}
+                    index={index}
+                    onClick={() => handelGiftExchange(item)}
+                  />
+                </div>
+              );
+            })}
         </div>
       </div>
       <ModalGift

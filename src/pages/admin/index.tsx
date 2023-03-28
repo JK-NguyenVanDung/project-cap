@@ -66,7 +66,7 @@ export default function SideBar({
   return (
     <>
       <div className="flex relative max-w-full h-screen ">
-        <div className="fixed h-full  w-[79%] z-[1] " style={{}}>
+        <div className="fixed h-full  w-[74%] z-[1] " style={{}}>
           <div
             className="z-0 overflow-hidden bg-img-bar h-full relative sidebar flex flex-col content-center items-center w-[25%]"
             style={{
@@ -74,7 +74,7 @@ export default function SideBar({
               overflowY: 'scroll',
             }}
           >
-            <div className=" absolute w-full h-[150vh] opacity-70 bg-dark-red	" />
+            <div className=" absolute w-full h-[120vh] opacity-70 bg-dark-red	" />
             <a
               onClick={() => {
                 navigation('/admin');
