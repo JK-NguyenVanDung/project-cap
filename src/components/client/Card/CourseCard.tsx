@@ -48,15 +48,13 @@ export default memo(function ({
     setTotalLike((lastTotal) => (!like ? lastTotal + 1 : lastTotal - 1));
     setLike((like) => !like);
     const fetchLike = async () => {
-      await apiService.likeProgram(itemProgram?.programId, like);
+      await apiService.likeProgram(itemProgram?.programId, !like);
     };
 
-    if (itemProgram?.programId) {
-      try {
-        fetchLike();
-      } catch (err: any) {
-        throw err.message;
-      }
+    try {
+      fetchLike();
+    } catch (err: any) {
+      throw err.message;
     }
   };
   function getListLearnerType(item: IProgramItem) {
@@ -136,7 +134,7 @@ export default memo(function ({
                   {totalLike ?? totalLike}
                 </span>
                 <AiFillHeart
-                  onClick={() => handelLove(item)}
+                  onClick={() => handelLove(memoItem)}
                   color={!like ? Color.gray4 : Color.error}
                   className="ml-2 text-xl cursor-pointer"
                 />

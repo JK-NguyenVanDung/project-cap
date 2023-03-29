@@ -59,6 +59,9 @@ const LeftSection = () => {
     setTimeout(() => {
       navigate(-1);
     }, 500);
+    notification.error({
+      message: 'Từ chối thành công',
+    });
   };
 
   const goBack = () => {
@@ -95,10 +98,10 @@ const LeftSection = () => {
             approvalDate: moment().local(),
           });
           setShowDeclinedModal(false);
-          !approved &&
-            notification.success({
-              message: 'Thêm thành công',
-            });
+          // !approved &&
+          //   notification.success({
+          //     message: 'Thêm thành công',
+          //   });
           form.resetFields();
         } else {
           setShowDeclinedModal(false);

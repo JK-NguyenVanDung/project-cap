@@ -45,7 +45,7 @@ export default function ProgramDetail() {
           acedemicYearName: item.academicYear.year ?? '',
           programName: item.programName ?? '',
           descriptions: item.descriptions ?? '',
-          categoryName: item.categoryName ?? '',
+          categoryName: item.category?.categoryName ?? '',
           TrainingHours: item.trainingHours ?? '',
           semester: item.semester ?? '',
           MaxLearner: item.maxLearner ?? '',

@@ -72,9 +72,8 @@ export default function Account() {
       notification.error({
         message: 'Không thể xoá tài khoản đã tham gia vào hệ thống!',
       });
-    } finally {
-      setReload(false);
     }
+    setReload(false);
   }
   const columns = [
     {
@@ -215,7 +214,6 @@ export default function Account() {
           setShowModal(false);
           // dispatch(actions.categoryActions.changeLoad(!loadData))
           message.success('Thay đổi thành công');
-          setReload(!reload);
 
           setReload(false);
           form.resetFields();
@@ -230,7 +228,6 @@ export default function Account() {
             setReload(!reload);
             message.success('Thêm thành công');
 
-            setReload(false);
             form.resetFields();
           } else {
             message.error('Email trên đã tồn tại trên hệ thống');
