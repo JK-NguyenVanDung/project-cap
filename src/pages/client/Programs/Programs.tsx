@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import apiService from '../../../api/apiService';
@@ -20,10 +20,10 @@ export default function Programs() {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  function handelDataProgram(item: IProgramItem) {
+  const callBack = useCallback(function handelDataProgram(item: IProgramItem) {
     dispatch(actions.formActions.setProgramForm(item));
     navigate(`/Programs/${item.programId}`);
-  }
+  }, []);
   const [loading, setLoading] = useState(false);
 
   const [options, setOptions] = useState([
@@ -177,10 +177,7 @@ export default function Programs() {
             data?.map((item: IProgramItem) => {
               return (
                 <li className="m-8 inline-block " key={item.programId}>
-                  <CourseCard
-                    onClick={() => handelDataProgram(item)}
-                    item={item}
-                  />
+                  <CourseCard onClick={callBack} item={item} />
                 </li>
               );
             })

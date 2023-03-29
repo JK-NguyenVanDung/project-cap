@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import apiService from '../../../api/apiService';
@@ -33,6 +33,7 @@ export default function MyProgram() {
       label: 'Hết hạn',
     },
   ]);
+
   useEffect(() => {
     setLoading(true);
     const fetch = async () => {
@@ -46,8 +47,12 @@ export default function MyProgram() {
               label: 'Tất cả',
             },
             {
-              value: 'Chưa đăng ký',
-              label: 'Chưa đăng ký',
+              value: 'Đang tham gia',
+              label: 'Đang tham gia',
+            },
+            {
+              value: 'Đã hoàn thành',
+              label: 'Đã hoàn thành',
             },
             {
               value: 'Hết hạn',
@@ -82,23 +87,33 @@ export default function MyProgram() {
     navigate(`/MyCourses/${item.programId}`);
   }
   const [loading, setLoading] = useState(false);
-  const filtering = (e: any) => {
+  const callBack = useCallback(function handelDataProgram(item: IProgramItem) {
+    dispatch(actions.formActions.setProgramForm(item));
+    navigate(`/MyCourses/${item.programId}`);
+  }, []);
+  const filtering = (filter: any) => {
     setLoading(true);
-    console.log(e);
-    // setData(filterData);
-    if (e === 'Tất cả') {
+    if (filter === 'Tất cả') {
       setData(filterData);
-    } else if (e === 'Chưa đăng ký') {
+    } else if (filter === 'Đang tham gia') {
       setData(
-        filterData?.filter((item: IProgramItem) => item.status === 'public'),
+        filterData?.filter(
+          (item: IProgramItem) => item.status === 'public' && !item.isComplete,
+        ),
       );
-    } else if (e === 'Hết hạn') {
+    } else if (filter === 'Đã hoàn thành') {
+      setData(
+        filterData?.filter(
+          (item: IProgramItem) => item.status === 'public' && item.isComplete,
+        ),
+      );
+    } else if (filter === 'Hết hạn') {
       setData(
         filterData?.filter((item: IProgramItem) => item.status === 'end'),
       );
     } else {
       setData(
-        filterData?.filter((item: IProgramItem) => item.categoryId === e),
+        filterData?.filter((item: IProgramItem) => item.categoryId === filter),
       );
     }
     setLoading(false);
@@ -167,9 +182,9 @@ export default function MyProgram() {
           <ul className=" px-2 grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  grid-cols-3 md:grid-cols-2 sm:grid-cols-1  max-sm:grid-cols-1	">
             {data?.map((item: IProgramItem) => {
               return (
-                <li className="m-8 inline-block ">
+                <li className="m-8 inline-block " key={item.programId}>
                   <CourseCard
-                    onClick={() => handelDataProgram(item)}
+                    onClick={callBack}
                     item={item}
                     isRegistered={true}
                   />
