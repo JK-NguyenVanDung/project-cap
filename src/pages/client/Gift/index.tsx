@@ -22,9 +22,9 @@ function GiftSreen() {
   useEffect(() => {
     setLoading(true);
     const fetchListGift = async () => {
-      const data: any = await apiService.getGiftExchange();
+      const data: any = await apiService.getAllGift();
       if (data) {
-        setListGiftExchange(data.map((item: any) => item.gift));
+        setListGiftExchange(data.map((item: any) => item));
       }
     };
     fetchListGift();
