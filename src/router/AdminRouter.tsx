@@ -441,6 +441,10 @@ const Learner = [
     element: <UserProgram />,
   },
   {
+    path: '/Programs/Like',
+    element: <UserProgram />,
+  },
+  {
     path: '/Programs/:programName',
     element: <UserProgramDetail />,
   },

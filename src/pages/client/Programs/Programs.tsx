@@ -25,7 +25,7 @@ export default function Programs() {
     navigate(`/Programs/${item.programId}`);
   }, []);
   const [loading, setLoading] = useState(false);
-
+  let isLike = location.pathname.includes('Like');
   const [options, setOptions] = useState([
     {
       value: 'Tất cả',
@@ -45,7 +45,7 @@ export default function Programs() {
     setLoading(true);
     const fetch = async () => {
       try {
-        const data: any = await apiService.getPublicPrograms();
+        const res: any = await apiService.getPublicPrograms();
         const cate: any = await apiService.getCategories();
 
         cate &&
@@ -69,9 +69,13 @@ export default function Programs() {
               };
             }),
           ]);
-        // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
-        setData(data);
-        setFilterData(data);
+        let temp = res.reverse();
+        temp = isLike
+          ? res.filter((item: IProgramItem) => item.isLike === true)
+          : res.reverse();
+        setData(temp);
+        console.log(temp);
+        setFilterData(temp);
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
       } catch (error) {
         console.log(error);
@@ -79,8 +83,12 @@ export default function Programs() {
       setLoading(false);
     };
     fetch();
-    dispatch(actions.formActions.setNameMenu(`${'Khóa học'}`));
-  }, []);
+    dispatch(
+      actions.formActions.setNameMenu(
+        `${!isLike ? 'Khóa học' : `Khoá Học Yêu Thích`}`,
+      ),
+    );
+  }, [isLike]);
   // useEffect(() => {
 
   //   filtering();
