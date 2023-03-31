@@ -45,7 +45,6 @@ function GiftSreen() {
   }, [reload]);
   return (
     <>
-<<<<<<< HEAD
       {loading ? (
         <Loading loading={loading} />
       ) : (
@@ -74,32 +73,6 @@ function GiftSreen() {
           />
         </>
       )}
-=======
-      <Loading loading={loading} />
-      <div className="p-3 pl-5 pr-5">
-        <div className="grid grid-cols-3 ">
-          {listGiftExchange &&
-            listGiftExchange.map((item: any, index: number) => {
-              return (
-                <div className="mx-8">
-                  <ItemGift
-                    data={item}
-                    index={index}
-                    onClick={() => handelGiftExchange(item)}
-                  />
-                </div>
-              );
-            })}
-        </div>
-      </div>
-      <ModalGift
-        data={itemExchange}
-        show={openExchange}
-        setShow={setOpenExchange}
-        loading={reload}
-        setLoading={setLoading}
-      />
->>>>>>> 02375dea1242f9d9e8b98f1cd6bad12bdb465f2f
     </>
   );
 }

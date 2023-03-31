@@ -34,28 +34,23 @@ export default function ModalGift({
     form
       .validateFields()
       .then(async () => {
-        if (change >= 0 || left >= 0) {
-          const params = {
-            giftId: data.giftId,
-            quantity: change,
-          };
-          setLoading(true);
-          try {
-            dispatch(actions.reloadActions.setReload());
-            const response = apiService.ExchangeGift(params);
-            console.log(response.then());
-            if (response) {
-              setShow(false);
-              setLoading(false);
-              setChange(0);
-              notification.success({ message: 'Đổi quà thành công' });
-              form.resetFields();
-            }
-          } catch (error) {
-            notification.error({ message: 'Đổi quà không thành công' });
+        const params = {
+          giftId: data.giftId,
+          quantity: change,
+        };
+        setLoading(true);
+        try {
+          dispatch(actions.reloadActions.setReload());
+          const response = apiService.ExchangeGift(params);
+          console.log(response.then());
+          if (response) {
+            setShow(false);
+            setLoading(false);
+            setChange(0);
+            notification.success({ message: 'Đổi quà thành công' });
+            form.resetFields();
           }
-        } else {
-          form.resetFields();
+        } catch (error) {
           notification.error({ message: 'Đổi quà không thành công' });
         }
       })
@@ -70,19 +65,6 @@ export default function ModalGift({
     setLeft(0);
   };
   const FormItem = () => {
-<<<<<<< HEAD
-    const handleOnchange = (value: number) => {
-      setCoin(data.coin * Number(value));
-      let newCoin = data.coin * Number(value);
-      setLeft(data.coinSelf - newCoin);
-      setChange(value);
-      if (left < 0) {
-        setDisable(true);
-      } else {
-        setDisable(false);
-      }
-    };
-=======
     const [change, setChange] = useState(1);
     const coinMemo = useMemo(() => {
       return data.coin * change;
@@ -90,8 +72,9 @@ export default function ModalGift({
     const leftMemo = useMemo(() => {
       return data.coinSelf - coinMemo;
     }, [coinMemo]);
->>>>>>> 02375dea1242f9d9e8b98f1cd6bad12bdb465f2f
-
+    if (leftMemo <= 0) {
+      setDisable(true);
+    }
     return (
       <>
         <div className="flex justify-around ">
@@ -133,20 +116,12 @@ export default function ModalGift({
             </div>
             <Space size={5} />
             <FormInput
-<<<<<<< HEAD
-              maxNumber={data.quantity ?? 0}
-              label="Số lượng muốn đổi: "
-              type="inputNumber"
-              defaultValue={change}
-              disabled={disable}
-              onChangeNumber={(value: number) => handleOnchange(value)}
-=======
               maxNumber={data.quantity + 10}
               label="Số lượng muốn đổi: "
               type="inputNumber"
               defaultValue={change}
+              disabled={disable}
               onChangeNumber={(value: number) => setChange(value)}
->>>>>>> 02375dea1242f9d9e8b98f1cd6bad12bdb465f2f
               rules={[
                 {
                   required: true,
