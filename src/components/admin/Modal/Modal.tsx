@@ -69,6 +69,7 @@ export default function CustomModal({
   handleShow = () => {
     setShowDetail && setShowDetail(false);
     setShow(!show);
+    form?.resetFields();
   };
   useEffect(() => {
     form?.resetFields();

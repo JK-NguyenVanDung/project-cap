@@ -3,7 +3,7 @@ import CustomModal from '../../../../components/admin/Modal/Modal';
 import defaultAVT from '../../../../assets/img/avatarSq.png';
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import { Space } from '../../Programs/ResultProgram';
-import { Form } from 'antd';
+import { Form, notification } from 'antd';
 import apiService from '../../../../api/apiService';
 import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
@@ -24,20 +24,16 @@ export default function ModalGift({
   const [left, setLeft] = useState(
     data.coinSelf && data.coin ? data.coinSelf - data.coin : 0,
   );
-  const [change, setChange] = useState(0);
+  const [disable, setDisable] = useState(false);
+  const [change, setChange] = useState(1);
 
   const dispatch = useAppDispatch();
-  const handleOnchange = (value: number) => {
-    setCoin(data.coin * Number(value));
-    let newCoin = data.coin * Number(value);
-    setLeft(data.coinSelf - newCoin);
-    setChange(value);
-  };
+
   const [form] = Form.useForm();
   const handleOk = () => {
     form
       .validateFields()
-      .then(async (values) => {
+      .then(async () => {
         const params = {
           giftId: data.giftId,
           quantity: change,
@@ -46,20 +42,28 @@ export default function ModalGift({
         try {
           dispatch(actions.reloadActions.setReload());
           const response = apiService.ExchangeGift(params);
+          console.log(response.then());
           if (response) {
             setShow(false);
             setLoading(false);
             setChange(0);
+            notification.success({ message: 'Đổi quà thành công' });
             form.resetFields();
           }
-        } catch (error) {}
+        } catch (error) {
+          notification.error({ message: 'Đổi quà không thành công' });
+        }
       })
 
       .catch((info) => {
         console.log(info);
       });
   };
-
+  const handelReset = () => {
+    setChange(1);
+    setDisable(false);
+    setLeft(0);
+  };
   const FormItem = () => {
     const [change, setChange] = useState(1);
     const coinMemo = useMemo(() => {
@@ -68,7 +72,9 @@ export default function ModalGift({
     const leftMemo = useMemo(() => {
       return data.coinSelf - coinMemo;
     }, [coinMemo]);
-
+    if (leftMemo <= 0) {
+      setDisable(true);
+    }
     return (
       <>
         <div className="flex justify-around ">
@@ -81,7 +87,7 @@ export default function ModalGift({
                 <p>{data.quantity ?? 0}</p>
               </div>
               <Space size={5} />
-              <p>{data.description ?? ''}</p>
+              <p className="w-[220px]">{data.description ?? ''}</p>
             </div>
           </div>
           <Space sizeWidth={20} />
@@ -114,6 +120,7 @@ export default function ModalGift({
               label="Số lượng muốn đổi: "
               type="inputNumber"
               defaultValue={change}
+              disabled={disable}
               onChangeNumber={(value: number) => setChange(value)}
               rules={[
                 {
@@ -122,6 +129,15 @@ export default function ModalGift({
                 },
               ]}
             />
+            {disable == true ? (
+              <div
+                className="flex justify-between cursor-pointer"
+                onClick={() => handelReset()}
+              >
+                <p className="text-error">Bạn không có đủ coin</p>
+                <p className="text-primary ">làm mới</p>
+              </div>
+            ) : null}
           </div>
         </div>
       </>
@@ -138,6 +154,7 @@ export default function ModalGift({
       label={'Quy Đổi Quà'}
       notAdd
       width={700}
+      buttonText="Nhận"
     />
   );
 }
