@@ -42,29 +42,34 @@ function GiftSreen() {
   }, [reload]);
   return (
     <>
-      <Loading loading={loading} />
-      <div className="p-3 pl-5 pr-5">
-        <div className="grid grid-cols-3 ">
-          {listGiftExchange.map((item: any, index: number) => {
-            return (
-              <div className="mx-8">
-                <ItemGift
-                  data={item}
-                  index={index}
-                  onClick={() => handelGiftExchange(item)}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div>
-      <ModalGift
-        data={itemExchange}
-        show={openExchange}
-        setShow={setOpenExchange}
-        loading={reload}
-        setLoading={setLoading}
-      />
+      {loading ? (
+        <Loading loading={loading} />
+      ) : (
+        <>
+          <div className="p-3 pl-5 pr-5">
+            <ul className="px-2 grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  grid-cols-3 md:grid-cols-2 sm:grid-cols-1  max-sm:grid-cols-1	">
+              {listGiftExchange.map((item: any, index: number) => {
+                return (
+                  <li className="m-8 inline-block ">
+                    <ItemGift
+                      data={item}
+                      index={index}
+                      onClick={() => handelGiftExchange(item)}
+                    />
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+          <ModalGift
+            data={itemExchange}
+            show={openExchange}
+            setShow={setOpenExchange}
+            loading={reload}
+            setLoading={setLoading}
+          />
+        </>
+      )}
     </>
   );
 }

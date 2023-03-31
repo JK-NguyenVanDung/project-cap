@@ -82,6 +82,7 @@ export default function FormInput({
             max={maxNumber}
             defaultValue={defaultValue}
             placeholder={`${placeholder ? placeholder : 'Nhập ' + label}`}
+            disabled={disabled}
             style={{
               width: '100%',
             }}

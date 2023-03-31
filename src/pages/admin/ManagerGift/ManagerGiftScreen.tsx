@@ -8,6 +8,7 @@ import AddManagerGift from './Component/AddManagerGift';
 import DetailManagerGift from './Component/DetailManagerGift';
 import apiService from '../../../api/apiService';
 import { IGift } from '../../../api/apiInterface';
+import { API_URL } from '../../../api/api';
 
 const ManagerGiftScreen = () => {
   const [showModal, setShowModal] = useState(false);
@@ -20,12 +21,8 @@ const ManagerGiftScreen = () => {
   const [filterData, setFilterData] = useState([]);
   useEffect(() => {
     const fetchAllGift = async () => {
-      setReload(true);
       try {
-        setReload(false);
-
         const response: any = await apiService.getAllGift();
-        console.log(response);
         const temp = response.map((v: IGift, index: number) => ({
           ...v,
           index: index + 1,
@@ -35,10 +32,15 @@ const ManagerGiftScreen = () => {
       } catch (err: any) {
         throw err.message;
       }
-      setReload(false);
     };
     fetchAllGift();
-  }, []);
+  }, [reload]);
+  useEffect(() => {
+    setReload(true);
+    setTimeout(() => {
+      setReload(false);
+    }, 3000);
+  }, [showModal, detail]);
   const columns = [
     {
       title: 'STT',
@@ -48,6 +50,19 @@ const ManagerGiftScreen = () => {
       title: 'Hình Ảnh',
       dataIndex: 'image',
       key: 'image',
+      render: (data: any) => {
+        return (
+          <img
+            className=" object-cover rounded-lg w-[300px] h-[180px]"
+            src={`${API_URL}/images/${data}`}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null; // prevents looping
+              currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+              // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
+            }}
+          />
+        );
+      },
     },
     {
       title: 'Tên Quà Tặng',
@@ -88,14 +103,14 @@ const ManagerGiftScreen = () => {
     setDetail(data);
   };
   const handleDelete = async (item: IGift) => {
+    setReload(true);
     try {
       await apiService.deleteGift(item.giftId);
-      setReload(true);
+      setReload(false);
     } catch (err: any) {
       notification.error({
         message: 'xóa không thành công',
       });
-    } finally {
       setReload(false);
     }
   };
@@ -143,12 +158,13 @@ const ManagerGiftScreen = () => {
         showModal={showModal}
         setShowModal={setShowModal}
         detail={detail}
+        loading={reload}
+        setLoading={setReload}
       />
       <DetailManagerGift
         showModal={showDetail}
         setShowModal={setShowDetail}
         detail={detail}
-        setDetail={setDetail}
       />
     </>
   );

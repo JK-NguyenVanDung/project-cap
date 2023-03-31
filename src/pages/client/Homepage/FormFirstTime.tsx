@@ -36,7 +36,13 @@ export default function () {
     const response: any = await apiService.getProfile();
     const { roleId } = response;
     const { code } = response;
-    if (!code) {
+    if (
+      !code ||
+      !response.fullName ||
+      !response.address ||
+      !response.email ||
+      !response.phoneNumber
+    ) {
       setVisible(true);
     }
   };

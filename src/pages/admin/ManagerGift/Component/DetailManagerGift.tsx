@@ -4,24 +4,16 @@ import { Form, Upload } from 'antd';
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { IGift } from '../../../../api/apiInterface';
-import avatarSq from '../../../../assets/img/avatarSq.png';
-const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+import { API_URL } from '../../../../api/api';
+
 export default function DetailManagerGift({
   showModal,
   setShowModal,
   detail,
-  setDetail,
 }: {
   showModal: boolean;
   setShowModal: any;
   detail: IGift;
-  setDetail: any;
 }) {
   const [form] = Form.useForm();
   useEffect(() => {
@@ -33,10 +25,16 @@ export default function DetailManagerGift({
     return (
       <>
         <div className="flex justify-between content-center">
-          <div>
-            <img src={detail.image ? detail.image : avatarSq} />
-          </div>
-
+          <img
+            src={`${API_URL}/images/${detail?.image}`}
+            alt="ảnh quà tặng"
+            className="object-cover w-[300px] h-[300px] rounded-lg"
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null; // prevents looping
+              currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+              // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
+            }}
+          />
           <div className="w-full pr-10 pl-10">
             <FormInput
               className="w-full"
@@ -47,6 +45,7 @@ export default function DetailManagerGift({
             <FormInput
               className="w-full"
               name="description"
+              type="textArea"
               label="Mô Tả"
               disabled
             />
@@ -75,7 +74,7 @@ export default function DetailManagerGift({
       dataItem={detail}
       name={detail}
       showButton={true}
-      label={'Năm học'}
+      header={'Xem Chi Tiết Quà Tặng'}
       FormItem={<FormItem />}
       form={form}
       width={900}

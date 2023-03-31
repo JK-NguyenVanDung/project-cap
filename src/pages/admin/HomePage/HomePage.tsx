@@ -9,6 +9,7 @@ import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { useNavigate } from 'react-router-dom';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import CustomButton from '../../../components/admin/Button';
+import { API_URL } from '../../../api/api';
 
 const kindWords = [
   'Không phát hiện ra sai lầm thì sẽ mãi chìm đắm trong sai lầm và đi lạc phương hướng chẳng thể chạm đến quang vinh.',
@@ -44,28 +45,27 @@ export default function Dashboard() {
   const [positons, setPositons]: any = useState([]);
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>();
+  const [avatar, setAvatar] = useState('');
+  const [infoImage, setInfoImage] = useState(null);
+  const inputRef = useRef(null);
+  const [URLImage, setURLImage] = useState(null);
+  const changeAvarta = (info: any) => {
+    const file = info.target.files[0];
+    setLoading(true);
+    if (file) {
+      setURLImage(URL.createObjectURL(file));
+      setInfoImage(file);
+    }
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  };
   const formData = new FormData();
   useEffect(() => {
     getPositions();
     getFacuties();
     fetchInfo();
   }, []);
-
-  const handleChange: UploadProps['onChange'] = (
-    info: UploadChangeParam<UploadFile>,
-  ) => {
-    if (info.file.status === 'uploading') {
-      setLoading(true);
-      return;
-    }
-    if (info.file.status === 'done') {
-      getBase64(info.file.originFileObj as RcFile, (url) => {
-        setLoading(false);
-        setImageUrl(url);
-      });
-    }
-  };
 
   const uploadButton = (
     <div>
@@ -88,9 +88,15 @@ export default function Dashboard() {
   };
   const fetchInfo = async () => {
     const response: any = await apiService.getProfile();
-    const { roleId } = response;
-    const { code } = response;
-    if (!code) {
+    const { roleId, code, avatar } = response;
+    setAvatar(avatar);
+    if (
+      !code ||
+      !response.fullName ||
+      !response.address ||
+      !response.email ||
+      !response.phoneNumber
+    ) {
       setVisible(true);
     }
     if (roleId == 1) {
@@ -98,6 +104,7 @@ export default function Dashboard() {
       notification.error({ message: 'Đăng Nhập Không Thành Công' });
     }
   };
+
   const handelOk = () => {
     form.validateFields().then(async (values) => {
       formData.append('address', values.address ? values.address : '');
@@ -109,7 +116,10 @@ export default function Dashboard() {
       formData.append('positionId', values.positionId ? values.positionId : '');
       formData.append('facultyId', values.facultyId ? values.facultyId : '');
       formData.append('fullName', values.fullName ? values.fullName : '');
-      formData.append('avatar', values.avartar ? values.avartar.file : '');
+      formData.append(
+        'avatar',
+        infoImage ? infoImage : `${API_URL}/images/${avatar}`,
+      );
 
       try {
         const data: any = await apiService.infoAccount(formData);
@@ -151,32 +161,57 @@ export default function Dashboard() {
             <h1 className="text-center font-bold text-2xl mb-10">
               Thông Tin Của Bạn
             </h1>
-            <Form.Item
-              name="avatar"
-              rules={[
-                {
-                  required: true,
-                  message: 'Vui Lòng chọn Avatar',
-                },
-              ]}
+            <div
+              onClick={() => inputRef.current.click()}
+              className=" cursor-pointer "
             >
-              <Upload
-                name="avatar"
-                listType="picture-card"
-                className="avatar-uploader w-full"
-                showUploadList={false}
-                action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-                beforeUpload={beforeUpload}
-                onChange={handleChange}
-                accept="image/*"
-              >
-                {imageUrl ? (
-                  <img src={imageUrl} alt="avatar" style={{ width: '100%' }} />
-                ) : (
-                  uploadButton
-                )}
-              </Upload>
-            </Form.Item>
+              {URLImage ? (
+                <>
+                  <div className="w-[300px] flex flex-col items-center">
+                    <img
+                      src={URLImage}
+                      alt="avatar"
+                      className="object-cover w-[300px] h-[300px] rounded-lg"
+                    />
+
+                    <div
+                      style={{ marginTop: 20 }}
+                      className="flex items-center "
+                    >
+                      {loading ? <LoadingOutlined /> : <PlusOutlined />}{' '}
+                      <span className="ml-2">Tải Ảnh Lên </span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="w-[300px] flex flex-col items-center">
+                  <img
+                    src={`${API_URL}/images/${avatar}`}
+                    alt="avatar"
+                    className="object-cover w-[300px] h-[300px] rounded-lg"
+                    onError={({ currentTarget }) => {
+                      currentTarget.onerror = null; // prevents looping
+                      currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+                      // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
+                    }}
+                  />
+
+                  <div style={{ marginTop: 20 }} className="flex items-center ">
+                    {loading ? <LoadingOutlined /> : <PlusOutlined />}{' '}
+                    <span className="ml-2">Tải Ảnh Lên </span>
+                  </div>
+                </div>
+              )}
+            </div>
+            <input
+              ref={inputRef}
+              style={{
+                display: 'none',
+              }}
+              type="file"
+              onChange={changeAvarta}
+              accept="image/*"
+            />
             <FormInput
               className="w-full"
               name="fullName"
