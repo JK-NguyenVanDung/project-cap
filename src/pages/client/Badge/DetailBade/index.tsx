@@ -48,64 +48,69 @@ export default function () {
   return (
     <div className="m-5">
       <Space size={30} />
-      <div className="flex">
-        <div className="w-4/6">
+      <div className="flex max-sm:flex-col max-md:flex-col">
+        <div className="w-4/6 max-sm:w-full mb-4">
           <div className=" relative flex flex-col items-center justify-center">
             <img src={imageDetailBader} className="w-full" />
-            <div className="absolute top-10 flex flex-col justify-center items-center">
-              <Space size={20} />
-              <img src={logo} className="w-[175px]" />
-              <Space size={30} />
-              <h1 className="text-[35px] font-bold text-[#D5202A] font-serif uppercase">
-                Giấy Chứng Nhận
-              </h1>
-              <Space size={25} />
-              <h1 className="text-2xl font-bold text-black font-serif">
-                Trung Tâm Đào Tạo & Phát Triển VLG khen tặng
-              </h1>
-              <Space size={35} />
-              <p className="text-[50px] text-[#D5202A] font-fontSecons">
-                {fullName.value}
-              </p>
-              <Space size={25} />
-              <p className="text-[18px] font-semibold w-full text-center text-black font-serif italic ">
-                Đã hoàn thành khóa học
-              </p>
-              <Space size={10} />
+            <div className=" max-sm:text-xs max-md:text-xs   absolute top-10 flex flex-col justify-center items-center">
+              <div className="relative flex flex-col justify-start items-center w-full  ">
+                <img
+                  src={logo}
+                  className="lg:mt-4 w-[30%] max-sm:w-[20%]  h-fit"
+                />
 
-              <p className="text-[18px] font-semibold w-full text-center text-black font-serif uppercase ">
-                {detailBadge?.programName
-                  ? detailBadge?.programName
-                  : program.programName}
-              </p>
+                <h1 className="lg:mt-4 max-sm:text-xs max-md:text-xs text-3xl font-bold text-[#D5202A] font-serif uppercase">
+                  Giấy Chứng Nhận
+                </h1>
+
+                <h1 className="lg:mt-4 max-sm:text-xs max-md:text-xs text-2xl font-bold text-black font-serif">
+                  Trung Tâm Đào Tạo & Phát Triển VLG khen tặng
+                </h1>
+
+                <p className="max-sm:py-2  max-md:py-2 lg:mt-4 max-sm:text-base  max-md:text-base  text-6xl text-[#D5202A] font-fontSecons">
+                  {fullName.value}
+                </p>
+
+                <p className="lg:mt-4 max-sm:text-xs max-md:text-xs text-lg font-semibold w-full text-center text-black font-serif italic ">
+                  Đã hoàn thành khóa học
+                </p>
+
+                <p className="lg:mt-4 max-sm:text-base  max-md:text-base text-lg font-semibold w-full text-center text-black font-serif uppercase ">
+                  {detailBadge?.programName
+                    ? detailBadge?.programName
+                    : program.programName}
+                </p>
+              </div>
             </div>
-            <div className="absolute bottom-[23%] left-[12%] text-center">
-              <span className="uppercase text=[16px] font-bold leading-loose">
-                ISBN:
-              </span>
-              <span className="uppercase text=[16px] font-bold ml-3">
-                2023000{info?.accountId}
-              </span>
-              <Space size={10} />
-              <p className="text=[16px] font-bold ml-3">
-                Thời Gian Hoàn Thành:{' '}
-                {moment(detailBadge?.timeFinish).format('DD/MM/YYYY')}
-              </p>
+            <div className="absolute bottom-[23%] left-[12%] max-sm:left-[10%] max-sm:bottom-[20%] text-center">
+              <div className="relative max-sm:text-[0.5rem] max-md:text-[0.5rem]">
+                <span className="max-sm:text-[0.5rem] max-md:text-[0.5rem] uppercase text-lg font-bold leading-loose">
+                  ISBN:
+                </span>
+                <span className="max-sm:text-[0.5rem] max-md:text-[0.5rem]  uppercase  text-lg font-bold ml-3">
+                  2023000{info?.accountId}
+                </span>
+                <p className=" max-sm:text-[0.4rem]  max-md:text-[0.4rem] text-sm font-bold ml-3">
+                  Thời Gian Hoàn Thành: {moment().format('DD/MM/YYYY')}
+                </p>
+              </div>
             </div>
-            <div className="absolute bottom-[19%] right-[19%] text-center">
-              <p className="uppercase text-[25px]  font-fontSecons intent">
+            <div className=" max-sm:text-[0.5rem] max-md:text-[0.5rem] max-sm:b absolute bottom-[19%] right-[19%] max-sm:bottom-[20%] max-md:bottom-[21%] text-center">
+              <p className="lg:mb-2 max-sm:text-[0.5rem] max-md:text-[0.5rem] uppercase text-lg  font-fontSecons intent">
                 Viên
               </p>
-              <Space size={10} />
-              <p className="uppercase text=[16px] font-bold ">Nguyễn Kỳ Viên</p>
-              <p className="text=[13px] font-bold leading-loose">
+
+              <p className="max-sm:text-[0.5rem] max-md:text-[0.5rem] uppercase text-base font-bold ">
+                Nguyễn Kỳ Viên
+              </p>
+              <p className="max-sm:text-[0.5rem] max-md:text-[0.5rem] text-sm font-bold leading-loose max-sm:leading-[0] max-md:leading-[0]">
                 Giám Đốc Trung Tâm
               </p>
             </div>
           </div>
         </div>
         <Space sizeWidth={15} />
-        <div className="bg-white rounded-lg shadow-lg p-5 w-2/6">
+        <div className="bg-white rounded-lg shadow-lg p-5 w-2/6 max-sm:w-full max-md:w-full">
           <Form
             form={form}
             initialValues={{

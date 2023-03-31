@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import CustomModal from '../../../../components/admin/Modal/Modal';
 import defaultAVT from '../../../../assets/img/avatarSq.png';
 import FormInput from '../../../../components/admin/Modal/FormInput';
@@ -70,6 +70,7 @@ export default function ModalGift({
     setLeft(0);
   };
   const FormItem = () => {
+<<<<<<< HEAD
     const handleOnchange = (value: number) => {
       setCoin(data.coin * Number(value));
       let newCoin = data.coin * Number(value);
@@ -81,6 +82,15 @@ export default function ModalGift({
         setDisable(false);
       }
     };
+=======
+    const [change, setChange] = useState(1);
+    const coinMemo = useMemo(() => {
+      return data.coin * change;
+    }, [change]);
+    const leftMemo = useMemo(() => {
+      return data.coinSelf - coinMemo;
+    }, [coinMemo]);
+>>>>>>> 02375dea1242f9d9e8b98f1cd6bad12bdb465f2f
 
     return (
       <>
@@ -112,23 +122,31 @@ export default function ModalGift({
             <Space size={5} />
             <div className="flex justify-between ">
               <h1>Giá Sản Phẩm: </h1>
-              <p className="text-start">{coin ?? 0} coin</p>
+              <p className="text-start">{coinMemo ?? 0} coin</p>
             </div>
             <Space size={5} />
             <div className="w-full h-[1px] bg-gray-700" />
             <Space size={5} />
             <div className="flex justify-between ">
               <h1>Coin còn lại: </h1>
-              <p className="text-start">{left ?? 0} coin</p>
+              <p className="text-start">{leftMemo ?? 0} coin</p>
             </div>
             <Space size={5} />
             <FormInput
+<<<<<<< HEAD
               maxNumber={data.quantity ?? 0}
               label="Số lượng muốn đổi: "
               type="inputNumber"
               defaultValue={change}
               disabled={disable}
               onChangeNumber={(value: number) => handleOnchange(value)}
+=======
+              maxNumber={data.quantity + 10}
+              label="Số lượng muốn đổi: "
+              type="inputNumber"
+              defaultValue={change}
+              onChangeNumber={(value: number) => setChange(value)}
+>>>>>>> 02375dea1242f9d9e8b98f1cd6bad12bdb465f2f
               rules={[
                 {
                   required: true,

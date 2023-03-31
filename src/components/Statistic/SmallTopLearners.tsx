@@ -18,9 +18,9 @@ export default function () {
     <>
       {data && (
         <div className="my-2 relative  flex flex-col max-w-full justify-center text-center items-center  w-fit  h-fit  border-[6px] border-brown-500 rounded-xl ">
-          <div className="absolute w-20 h-6 border-[#C0C0C0	] border-2 bg-[#ececec] rounded top-[-4%]"></div>
-          <p className="text-base font-bold py-2">Top thành tích</p>
-          <div className="p-4">
+          <div className="absolute w-20 h-4 border-[#C0C0C0	] border-2 bg-[#ececec] rounded top-[-4%]"></div>
+          <p className="text-base font-bold pt-2">Top thành tích</p>
+          <div className="pb-2 ">
             {data?.accountRankings?.map(
               (item: {
                 email: string;
@@ -56,7 +56,7 @@ function Learner({
 }) {
   return (
     <>
-      <div className="flex justify-between border-b p-1 text-xs ">
+      <div className="flex justify-between border-b p-1 text-xs ml-2 ">
         <div className="w-fit h-fit flex">
           <img
             className="object-contain	w-[10%]  mr-1"

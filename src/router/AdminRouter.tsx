@@ -67,6 +67,7 @@ import ReviewCertification from '../pages/admin/ExchangeCoin/Detail/ReviewCertif
 import CoinExchanges from '../pages/client/CoinExchanges/CoinExchanges';
 import HistoryRedeem from '../pages/client/Gift/Component/HistoryRedeem';
 import CoinExchangesDetail from '../pages/client/CoinExchanges/CoinExchangesDetail';
+import NotFoundPage from '../NotFoundPage';
 
 export const RouterPages = [
   {
@@ -440,6 +441,10 @@ const Learner = [
     element: <UserProgram />,
   },
   {
+    path: '/Programs/Like',
+    element: <UserProgram />,
+  },
+  {
     path: '/Programs/:programName',
     element: <UserProgramDetail />,
   },
@@ -561,6 +566,7 @@ export default function MakePagesRouter() {
             path="/ProgramSurvey/:surveyName"
             element={<ResultProgram />}
           />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       );
     }
@@ -593,6 +599,7 @@ export default function MakePagesRouter() {
 
             <Route path="/login" element={<Logined />} />
             <Route path="/" element={<LandingPage />} />
+            <Route path="*" element={<NotFoundPage reRoute={'/admin'} />} />
             <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
           </Routes>
         );
@@ -617,9 +624,7 @@ export default function MakePagesRouter() {
               path="/admin/Program/Chapter/:number/Test/Question"
               element={<Question />}
             />
-
             <Route path="/admin/reviewDetail" element={<ReviewDetail />} />
-
             <Route path="/login" element={<Logined />} />
             <Route path="/" element={<LandingPage />} />
             <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
@@ -627,6 +632,7 @@ export default function MakePagesRouter() {
               path="/ProgramSurvey/:surveyName"
               element={<ProgramSurvey />}
             />
+            <Route path="*" element={<NotFoundPage reRoute={'/admin'} />} />{' '}
           </Routes>
         );
       }

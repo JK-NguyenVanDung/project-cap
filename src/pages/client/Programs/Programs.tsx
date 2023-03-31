@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import apiService from '../../../api/apiService';
@@ -20,14 +20,12 @@ export default function Programs() {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  function handelDataProgram(item: IProgramItem) {
+  const callBack = useCallback(function handelDataProgram(item: IProgramItem) {
     dispatch(actions.formActions.setProgramForm(item));
     navigate(`/Programs/${item.programId}`);
-  }
+  }, []);
   const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
-
-  const [filter, setFilter] = useState('Tất cả');
+  let isLike = location.pathname.includes('Like');
   const [options, setOptions] = useState([
     {
       value: 'Tất cả',
@@ -44,11 +42,12 @@ export default function Programs() {
   ]);
 
   useEffect(() => {
+    setLoading(true);
     const fetch = async () => {
       try {
-        const data: any = await apiService.getPublicPrograms();
+        const res: any = await apiService.getPublicPrograms();
         const cate: any = await apiService.getCategories();
-        setCategories(cate);
+
         cate &&
           setOptions([
             {
@@ -70,17 +69,26 @@ export default function Programs() {
               };
             }),
           ]);
-        // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
-        setData(data);
-        setFilterData(data);
+        let temp = res.reverse();
+        temp = isLike
+          ? res.filter((item: IProgramItem) => item.isLike === true)
+          : res.reverse();
+        setData(temp);
+        console.log(temp);
+        setFilterData(temp);
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
     fetch();
-    dispatch(actions.formActions.setNameMenu(`${'Khóa học'}`));
-  }, []);
+    dispatch(
+      actions.formActions.setNameMenu(
+        `${!isLike ? 'Khóa học' : `Khoá Học Yêu Thích`}`,
+      ),
+    );
+  }, [isLike]);
   // useEffect(() => {
 
   //   filtering();
@@ -173,14 +181,11 @@ export default function Programs() {
         }`}
       >
         <ul className=" px-2 grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  grid-cols-3 md:grid-cols-2 sm:grid-cols-1  max-sm:grid-cols-1	">
-          {data?.length > 0 ? (
+          {data && data?.length > 0 ? (
             data?.map((item: IProgramItem) => {
               return (
-                <li className="m-8 inline-block ">
-                  <CourseCard
-                    onClick={() => handelDataProgram(item)}
-                    item={item}
-                  />
+                <li className="m-8 inline-block " key={item.programId}>
+                  <CourseCard onClick={callBack} item={item} />
                 </li>
               );
             })

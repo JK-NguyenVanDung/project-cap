@@ -72,9 +72,8 @@ export default function Account() {
       notification.error({
         message: 'Không thể xoá tài khoản đã tham gia vào hệ thống!',
       });
-    } finally {
-      setReload(false);
     }
+    setReload(false);
   }
   const columns = [
     {

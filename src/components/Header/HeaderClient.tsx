@@ -38,6 +38,7 @@ export default function () {
           className="text-dark-blue"
           color="gray"
           size="md"
+          onClick={() => navigate('/Programs/Like')}
         >
           <AiOutlineHeart className="text-xl " />
         </IconButton>

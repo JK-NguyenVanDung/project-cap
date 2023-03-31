@@ -91,7 +91,7 @@ export default function ClientSideBar({ content }: { content: any }) {
         <div
           className={`fixed  w-[80%] z-1 ${
             open ? 'max-sm:z-[100]' : 'max-sm:z-0'
-          }`}
+          }        ${open === true ? '' : 'hidden'}`}
         >
           <div className="z-0 max-sm:z-100  overflow-hidden bg-white relative sidebar flex flex-col content-center items-center w-1/5 max-sm:w-full">
             <a
@@ -107,7 +107,11 @@ export default function ClientSideBar({ content }: { content: any }) {
                 }`}
                 src={logo}
               />
-              <p className="text-lg font-bold text-center mb-2 mx-2">
+              <p
+                className={`${
+                  open === true ? '' : 'hidden'
+                }] text-lg font-bold text-center mb-2 mx-2`}
+              >
                 VLG TRAINING
               </p>
             </a>
@@ -150,7 +154,7 @@ export default function ClientSideBar({ content }: { content: any }) {
                   </div>
                 </li> */}
               </ul>
-              <div className="my-12  px-2	">
+              <div className="mt-4  px-4	">
                 <SmallTopLearners />
               </div>
             </div>

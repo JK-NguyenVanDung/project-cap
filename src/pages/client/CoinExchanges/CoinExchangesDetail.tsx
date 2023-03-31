@@ -22,6 +22,7 @@ import Breadcrumb from '../../../components/sharedComponents/Breadcrumb';
 import { API_URL } from '../../../api/api';
 import { HiDocumentMagnifyingGlass } from 'react-icons/hi2';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
+import Loading from '../../../components/sharedComponents/Loading';
 export default function () {
   const [form] = Form.useForm();
   const { accounts } = useMsal();
@@ -35,7 +36,8 @@ export default function () {
   );
 
   const info = useAppSelector((state) => state.auth.info);
-  const [fullName, setFullName] = useState({ value: nameMenu });
+  const [loading, setLoading] = useState(true);
+
   const [detailExchange, setDetailExchange] = useState<IExchangeCoin>(null);
 
   const [previewImage, setPreviewImage] = useState<any>(null);
@@ -118,6 +120,7 @@ export default function () {
   }
 
   useEffect(() => {
+    setLoading(true);
     const getData = async () => {
       const response: any = await apiService.getDetailExchange(
         exchangeId,
@@ -154,12 +157,17 @@ export default function () {
       });
     };
     getData();
+    let timer = setTimeout(() => {
+      setLoading(false);
+    }, 500);
+    return () => {
+      clearTimeout(timer);
+    };
   }, []);
-  const handelChangeText = (event: any) => {
-    setFullName((prev) => ({ ...prev, value: event.target.value }));
-  };
+
   return (
     <>
+      <Loading loading={loading} />
       <div className="w-full  px-4 pb-2 bg-white">
         <Breadcrumb
           router1={`/CoinExchanges`}
@@ -169,7 +177,7 @@ export default function () {
       </div>
       <div className="mb-5 mx-5 ">
         <Space size={30} />
-        <div className="flex max-sm:flex-col">
+        <div className="flex max-sm:flex-col max-md:flex-col">
           <div className="w-4/6 max-sm:w-full">
             <div className=" relative flex flex-col items-center justify-center">
               {certification?.image && !previewImage ? (
@@ -184,52 +192,56 @@ export default function () {
               ) : !previewImage ? (
                 <>
                   <img src={imageDetailBader} className="w-full" />
-                  <div className="absolute top-10 flex flex-col justify-center items-center">
-                    <Space size={20} />
-                    <img src={logo} className="w-[175px]" />
-                    <Space size={30} />
-                    <h1 className="text-[35px] font-bold text-[#D5202A] font-serif uppercase">
-                      Giấy Chứng Nhận
-                    </h1>
-                    <Space size={25} />
-                    <h1 className="text-2xl font-bold text-black font-serif">
-                      Trung Tâm Đào Tạo & Phát Triển VLG khen tặng
-                    </h1>
-                    <Space size={35} />
-                    <p className="text-[50px] text-[#D5202A] font-fontSecons">
-                      {'Tên Người Nhận'}
-                    </p>
-                    <Space size={25} />
-                    <p className="text-[18px] font-semibold w-full text-center text-black font-serif italic ">
-                      Đã hoàn thành khóa học
-                    </p>
-                    <Space size={10} />
+                  <div className=" max-sm:text-xs max-md:text-xs   absolute top-10 flex flex-col justify-center items-center">
+                    <div className="relative flex flex-col justify-start items-center w-full  ">
+                      <img
+                        src={logo}
+                        className="lg:mt-4 w-[30%] max-sm:w-[20%]  h-fit"
+                      />
 
-                    <p className="text-[18px] font-semibold w-full text-center text-black font-serif uppercase ">
-                      TÊN KHOÁ HỌC MẪU
-                    </p>
+                      <h1 className="lg:mt-4 max-sm:text-xs max-md:text-xs text-3xl font-bold text-[#D5202A] font-serif uppercase">
+                        Giấy Chứng Nhận
+                      </h1>
+
+                      <h1 className="lg:mt-4 max-sm:text-xs max-md:text-xs text-2xl font-bold text-black font-serif">
+                        Trung Tâm Đào Tạo & Phát Triển VLG khen tặng
+                      </h1>
+
+                      <p className="max-sm:py-2  max-md:py-2 lg:mt-4 max-sm:text-base  max-md:text-base  text-6xl text-[#D5202A] font-fontSecons">
+                        {'Tên Người Nhận'}
+                      </p>
+
+                      <p className="lg:mt-4 max-sm:text-xs max-md:text-xs text-lg font-semibold w-full text-center text-black font-serif italic ">
+                        Đã hoàn thành khóa học
+                      </p>
+
+                      <p className="lg:mt-4 max-sm:text-base  max-md:text-base text-lg font-semibold w-full text-center text-black font-serif uppercase ">
+                        TÊN KHOÁ HỌC MẪU
+                      </p>
+                    </div>
                   </div>
-                  <div className="absolute bottom-[23%] left-[12%] text-center">
-                    <span className="uppercase text=[16px] font-bold leading-loose">
-                      ISBN:
-                    </span>
-                    <span className="uppercase text=[16px] font-bold ml-3">
-                      2023000{info?.accountId}
-                    </span>
-                    <Space size={10} />
-                    <p className="text=[16px] font-bold ml-3">
-                      Thời Gian Hoàn Thành: {moment().format('DD/MM/YYYY')}
-                    </p>
+                  <div className="absolute bottom-[23%] left-[12%] max-sm:left-[10%] max-sm:bottom-[20%] text-center">
+                    <div className="relative max-sm:text-[0.5rem] max-md:text-[0.5rem]">
+                      <span className="max-sm:text-[0.5rem] max-md:text-[0.5rem] uppercase text-lg font-bold leading-loose">
+                        ISBN:
+                      </span>
+                      <span className="max-sm:text-[0.5rem] max-md:text-[0.5rem]  uppercase  text-lg font-bold ml-3">
+                        2023000{info?.accountId}
+                      </span>
+                      <p className=" max-sm:text-[0.4rem]  max-md:text-[0.4rem] text-sm font-bold ml-3">
+                        Thời Gian Hoàn Thành: {moment().format('DD/MM/YYYY')}
+                      </p>
+                    </div>
                   </div>
-                  <div className="absolute bottom-[19%] right-[19%] text-center">
-                    <p className="uppercase text-[25px]  font-fontSecons intent">
+                  <div className=" max-sm:text-[0.5rem] max-md:text-[0.5rem] max-sm:b absolute bottom-[19%] right-[19%] max-sm:bottom-[20%] max-md:bottom-[21%] text-center">
+                    <p className="lg:mb-2 max-sm:text-[0.5rem] max-md:text-[0.5rem] uppercase text-lg  font-fontSecons intent">
                       Viên
                     </p>
-                    <Space size={10} />
-                    <p className="uppercase text=[16px] font-bold ">
+
+                    <p className="max-sm:text-[0.5rem] max-md:text-[0.5rem] uppercase text-base font-bold ">
                       Nguyễn Kỳ Viên
                     </p>
-                    <p className="text=[13px] font-bold leading-loose">
+                    <p className="max-sm:text-[0.5rem] max-md:text-[0.5rem] text-sm font-bold leading-loose max-sm:leading-[0] max-md:leading-[0]">
                       Giám Đốc Trung Tâm
                     </p>
                   </div>
@@ -261,8 +273,8 @@ export default function () {
             </p>
           </div>
           <Space sizeWidth={15} />
-          <div className="bg-white rounded-lg shadow-lg p-5 w-2/6 max-sm:w-full">
-            <h1 className="text-center font-bold text-base text-gray-600">
+          <div className="bg-white rounded-lg shadow-lg p-5 w-2/6 max-sm:w-full max-md:w-full">
+            <h1 className=" max-sm:text-xs max-md:text-xs text-center font-bold text-base text-gray-600">
               Gửi ảnh chứng chỉ nhận được coin thưởng
             </h1>
             <div className="p-4">

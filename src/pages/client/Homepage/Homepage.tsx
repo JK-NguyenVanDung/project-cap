@@ -18,6 +18,7 @@ export default function Homepage() {
   const dispatch = useAppDispatch();
   const [bannerData, setBannerData] = useState([]);
   const [programs, setPrograms] = useState([]);
+  const [popularPrograms, setPopularPrograms] = useState([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -34,9 +35,10 @@ export default function Homepage() {
       try {
         const data: any = await apiService.getMySurveys(info.accountId);
         setBannerData(data);
-        const res: any = await apiService.getPrograms();
-        let temp = res.filter((item: IProgramItem) => item.status === 'public');
-        setPrograms(temp);
+        const pop: any = await apiService.getPopularPrograms();
+        const res: any = await apiService.getNewPrograms();
+        setPopularPrograms(pop);
+        setPrograms(res);
       } catch (error) {
         console.log(error);
       }
@@ -57,27 +59,32 @@ export default function Homepage() {
           <div className="absolute w-full h-fit">
             <Loading loading={loading} />
           </div>
-          <div
-            className={`flex w-full items-center  ${
-              loading ? 'hidden' : 'visible'
-            }`}
-          >
-            <div className="w-[84vw] max-sm:w-[96vw] mt-4">
-              <Banner data={[...bannerData]} />
+          {bannerData && bannerData.length > 0 && (
+            <div className={`flex w-full items-center`}>
+              <div className="w-[84vw] max-sm:w-[96vw] mt-4">
+                <Banner data={[...bannerData]} />
+              </div>
             </div>
-          </div>
+          )}
 
           <FormFirstTime />
         </div>
-        <div className="my-12 w-[90vw] max-sm:w-[100vw]">
-          <CourseCarousel data={programs} title="Khoá học mới nhất" />
-        </div>
-        <div className="my-12 w-[90vw] max-sm:w-[100vw]">
-          <CourseCarousel
-            data={programs?.reverse()}
-            title="Khoá học nổi tiếng"
-          />
-        </div>
+        {programs && programs?.length > 0 && (
+          <div className="my-12 w-[90vw] max-sm:w-[100vw]">
+            <CourseCarousel
+              data={programs?.reverse()}
+              title="Khoá học mới nhất"
+            />
+          </div>
+        )}
+        {popularPrograms && popularPrograms?.length > 0 && (
+          <div className="my-12 w-[90vw] max-sm:w-[100vw]">
+            <CourseCarousel
+              data={popularPrograms?.reverse()}
+              title="Khoá học nổi tiếng"
+            />
+          </div>
+        )}
       </div>
     </>
   );
