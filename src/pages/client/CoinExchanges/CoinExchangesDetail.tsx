@@ -178,8 +178,8 @@ export default function () {
       <div className="mb-5 mx-5 ">
         <Space size={30} />
         <div className="flex max-sm:flex-col max-md:flex-col">
-          <div className="w-4/6 max-sm:w-full">
-            <div className=" relative flex flex-col items-center justify-center">
+          <div className="w-4/6 max-sm:w-full max-md:ml-[20%] max-sm:ml-0">
+            <div className=" relative flex flex-col items-center justify-center  w-fit">
               {certification?.image && !previewImage ? (
                 <>
                   <div className="w-fit h-fit">

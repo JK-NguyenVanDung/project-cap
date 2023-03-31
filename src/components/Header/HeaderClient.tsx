@@ -31,7 +31,7 @@ export default function () {
     dispatch(actions.authActions.logout());
   };
   return (
-    <div className="flex items-center justify-center max-w-full mr-2 max-sm:mr-0 max-sm:justify-center  max-sm:w-fit">
+    <div className="flex items-center justify-center max-w-full mr-2 max-sm:mr-0 max-sm:justify-center  max-sm:w-fit max-md:mr-0 max-md:justify-center  max-md:w-fit ">
       <Menu>
         <IconButton
           variant="text"
@@ -51,7 +51,7 @@ export default function () {
         >
           <IoNotificationsOutline className="text-xl" />
         </IconButton>
-        <span className="mr-1 max-sm:text-xs max-sm:w-[30%] ">
+        <span className="mr-1 max-sm:text-xs max-sm:w-[30%] w-fit text-black ">
           Xin Chào{' '}
           {accounts[0].name?.split(' - ') && accounts[0].name?.split(' - ')[1]}
         </span>

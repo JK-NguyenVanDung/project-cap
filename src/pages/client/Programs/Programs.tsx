@@ -15,8 +15,8 @@ import Loading from '../../../components/sharedComponents/Loading';
 import { removeVietnameseTones } from '../../../utils/uinqueId';
 
 export default function Programs() {
-  const [data, setData] = useState<Array<IProgramItem>>(null);
-  const [filterData, setFilterData] = useState<Array<IProgramItem>>(null);
+  const [data, setData] = useState<Array<IProgramItem>>([]);
+  const [filterData, setFilterData] = useState<Array<IProgramItem>>([]);
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -46,6 +46,14 @@ export default function Programs() {
     const fetch = async () => {
       try {
         const res: any = await apiService.getPublicPrograms();
+
+        let temp = res.reverse();
+        temp = isLike
+          ? res.filter((item: IProgramItem) => item.isLike === true)
+          : res.reverse();
+        setData(temp);
+        console.log(temp);
+        setFilterData(temp);
         const cate: any = await apiService.getCategories();
 
         cate &&
@@ -69,13 +77,6 @@ export default function Programs() {
               };
             }),
           ]);
-        let temp = res.reverse();
-        temp = isLike
-          ? res.filter((item: IProgramItem) => item.isLike === true)
-          : res.reverse();
-        setData(temp);
-        console.log(temp);
-        setFilterData(temp);
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
       } catch (error) {
         console.log(error);
@@ -90,15 +91,17 @@ export default function Programs() {
     );
   }, [isLike]);
   // useEffect(() => {
+  console.count('re-0');
 
-  //   filtering();
-  //   let timer = setTimeout(() => {
-  //     setLoading(false);
-  //   }, 500);
-  //   return () => {
-  //     clearTimeout(timer);
-  //   };
-  // }, [filter]);
+  function NoData() {
+    return (
+      <>
+        <div className="w-full ml-[80%] max-sm:ml-0 max-md:ml-0 h-[60vh] grid content-center text-xl font-bold">
+          Không có dữ liệu
+        </div>
+      </>
+    );
+  }
   const filtering = (e: any) => {
     setLoading(true);
     console.log(e);
@@ -190,9 +193,7 @@ export default function Programs() {
               );
             })
           ) : (
-            <div className="w-full ml-[80%] h-[60vh] grid content-center text-xl font-bold">
-              Không có dữ liệu
-            </div>
+            <>{<NoData />}</>
           )}
         </ul>
       </div>
