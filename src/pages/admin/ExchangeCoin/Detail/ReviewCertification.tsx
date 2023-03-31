@@ -240,6 +240,8 @@ export default function () {
       .validateFields()
       .then(async (values) => {
         try {
+          setLoading(true);
+
           dispatch(actions.reloadActions.setReload());
 
           const data = apiService.denyExchange({
@@ -247,7 +249,6 @@ export default function () {
             reviewerId: info.accountId,
             comment: values.comment,
           });
-          setLoading(true);
           if (data) {
             notification.success({
               message: 'Từ Chối Đơn Đổi Coin Thành Công',
@@ -284,23 +285,23 @@ export default function () {
   const info = useAppSelector((state) => state.auth.info);
 
   const approveApplication = async () => {
+    dispatch(actions.reloadActions.setReload());
+    setLoading(true);
     try {
-      setLoading(true);
       const data = await apiService.approveExchange({
         id: dataDetail.id,
         reviewerId: info.accountId,
       });
-      setLoading(true);
       if (data) {
-        setLoading(false);
         notification.success({ message: 'Chấp Thuận Thành Công' });
       }
     } catch (error) {
       notification.error({ message: 'Chấp Thuận Không Thành Công' });
     }
-    let timeOut = setTimeout(() => {
+    let timeout = setTimeout(() => {
       setLoading(false);
-    }, 1000);
+      dispatch(actions.reloadActions.setReload());
+    }, 500);
   };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
@@ -322,10 +323,6 @@ export default function () {
     setData(value.trim() !== '' ? filteredData : filterData);
   };
 
-  function handelAdd() {
-    setDetail(null);
-  }
-  function handelImport() {}
   return (
     <>
       <TableConfig

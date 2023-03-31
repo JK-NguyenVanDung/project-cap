@@ -253,13 +253,14 @@ export default function () {
 
   const approveApplication = async () => {
     try {
+      setLoading(true);
       dispatch(actions.reloadActions.setReload());
 
       const data = apiService.changeGiftStatus({
         accountGiftId: dataDetail.id,
         status: 'Approved',
       });
-      setLoading(true);
+
       if (data) {
         notification.success({
           message: 'Chấp Thuận Đơn Đổi Coin Thành Công',

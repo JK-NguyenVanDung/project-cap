@@ -65,7 +65,7 @@ export default function ModalGift({
     setLeft(0);
   };
   const FormItem = () => {
-    const [change, setChange] = useState(1);
+    // const [change, setChange] = useState(1);
     const coinMemo = useMemo(() => {
       return data.coin * change;
     }, [change]);
@@ -135,7 +135,7 @@ export default function ModalGift({
                 onClick={() => handelReset()}
               >
                 <p className="text-error">Bạn không có đủ coin</p>
-                <p className="text-primary ">làm mới</p>
+                <p className="text-primary ">Làm mới</p>
               </div>
             ) : null}
           </div>
