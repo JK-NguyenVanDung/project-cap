@@ -13,14 +13,17 @@ export default function AddManagerGift({
   showModal,
   setShowModal,
   detail,
+  loading,
+  setLoading,
 }: {
   showModal: boolean;
   setShowModal: any;
   detail: IGift;
+  loading: any;
+  setLoading: any;
 }) {
   const [form] = Form.useForm();
   const formData = new FormData();
-  const [loading, setLoading] = useState(false);
   const [infoImage, setInfoImage] = useState(null);
   const inputRef = useRef(null);
   const [URLImage, setURLImage] = useState(null);
@@ -42,10 +45,7 @@ export default function AddManagerGift({
       .then(async (values) => {
         console.log(values);
         formData.append('Name', values.name ? values.name : detail?.name);
-        formData.append(
-          'Image',
-          values.image ? values.image.file : detail?.image,
-        );
+        formData.append('Image', infoImage ? infoImage : detail?.image);
         formData.append(
           'Description',
           values.description ? values.description : detail?.description,
@@ -98,7 +98,7 @@ export default function AddManagerGift({
                 <div className="w-[300px] flex flex-col items-center">
                   <img
                     src={URLImage}
-                    alt="avatar"
+                    alt="ảnh quà tặng"
                     className="object-cover w-[300px] h-[300px] rounded-lg"
                   />
 
@@ -111,11 +111,14 @@ export default function AddManagerGift({
             ) : (
               <div className="w-[300px] flex flex-col items-center">
                 <img
-                  src={
-                    detail?.image ? `${API_URL}/images/${detail?.image}` : ''
-                  }
-                  alt="avatar"
+                  src={`${API_URL}/images/${detail?.image}`}
+                  alt="ảnh quà tặng"
                   className="object-cover w-[300px] h-[300px] rounded-lg"
+                  onError={({ currentTarget }) => {
+                    currentTarget.onerror = null; // prevents looping
+                    currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+                    // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
+                  }}
                 />
 
                 <div style={{ marginTop: 20 }} className="flex items-center ">
@@ -194,12 +197,11 @@ export default function AddManagerGift({
       show={showModal}
       setShow={setShowModal}
       dataItem={detail}
-      label={'Tài Khoản'}
       name={detail}
       handleOk={handleOk}
       FormItem={<FormItem />}
       form={form}
-      header={'Phân Quyền'}
+      header={'Chỉnh Sửa Quà Tặng'}
       width={900}
     />
   );

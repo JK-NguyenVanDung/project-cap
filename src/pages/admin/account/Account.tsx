@@ -193,9 +193,12 @@ export default function Account() {
   }
 
   useEffect(() => {
-    getRoles();
     getData();
   }, [reload]);
+  useEffect(() => {
+    getRoles();
+    setReload(false);
+  }, []);
   async function checkAccountExist(email: string) {
     let res: any = await apiService.getAccounts();
     let obj = res.find((e: IAccountItem) => e.email === email);
@@ -214,8 +217,6 @@ export default function Account() {
           setShowModal(false);
           // dispatch(actions.categoryActions.changeLoad(!loadData))
           message.success('Thay đổi thành công');
-
-          setReload(false);
           form.resetFields();
         } else {
           let exist = checkAccountExist(values.email);
@@ -225,9 +226,7 @@ export default function Account() {
               roleId: values.roleId,
             });
             setShowModal(false);
-            setReload(!reload);
             message.success('Thêm thành công');
-
             form.resetFields();
           } else {
             message.error('Email trên đã tồn tại trên hệ thống');

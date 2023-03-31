@@ -56,6 +56,11 @@ export default function ProfileClient() {
                 ? `${API_URL}/images/${info?.avatar}`
                 : avatarSqDefault
             }
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null; // prevents looping
+              currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+              // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
+            }}
           />
         </div>
         <Space sizeWidth={50} />
