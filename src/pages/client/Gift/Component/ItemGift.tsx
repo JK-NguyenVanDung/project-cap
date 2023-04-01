@@ -16,8 +16,10 @@ export default function ItemGift({
       className="cardCont  rounded-[20px] bg-white  flex flex-col w-full  my-8"
     >
       <div
-        className="card shadow-lg  border-[2px] border-white hover:border-primary hover:transition-colors	 hover:ease-in-out flex 
-          overflow-hidden flex-col  w-full rounded-[20px] justify-end hover:border-[3px]  "
+        className={`card shadow-lg  border-[2px] border-white hover:border-primary ${
+          data?.quantity === 0 ? 'hover:border-red-500' : 'hover:border-primary'
+        } hover:transition-colors	 hover:ease-in-out flex 
+          overflow-hidden flex-col  w-full rounded-[20px] justify-end hover:border-[3px] `}
       >
         <div className="max-h-[40vh] h-[25vh]  w-full">
           <img
@@ -44,10 +46,12 @@ export default function ItemGift({
           </div>
         </div>
         <button
-          className=" outline-none card-button bg-primary"
-          onClick={() => onClick(data)}
+          className={` outline-none card-button ${
+            data?.quantity === 0 ? 'bg-red-500' : 'bg-primary'
+          }`}
+          onClick={() => (data?.quantity !== 0 ? onClick(data) : null)}
         >
-          Nhận
+          {data?.quantity !== 0 ? 'Nhận' : 'Đã Hết Quà'}
         </button>
       </div>
     </div>

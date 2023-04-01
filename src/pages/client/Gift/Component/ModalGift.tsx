@@ -68,11 +68,11 @@ export default function ModalGift({
     // const [change, setChange] = useState(1);
     const coinMemo = useMemo(() => {
       return data.coin * change;
-    }, [change]);
+    }, [change, data.coin]);
     const leftMemo = useMemo(() => {
       return data.coinSelf - coinMemo;
-    }, [coinMemo]);
-    if (leftMemo <= 0) {
+    }, [coinMemo, data.coinSelf]);
+    if (data.coinSelf - data.coin * change <= 0) {
       setDisable(true);
     }
     return (
@@ -132,10 +132,10 @@ export default function ModalGift({
             {disable == true ? (
               <div
                 className="flex justify-between cursor-pointer"
-                onClick={() => handelReset()}
+                // onClick={() => handelReset()}
               >
                 <p className="text-error">Bạn không có đủ coin</p>
-                <p className="text-primary ">Làm mới</p>
+                {/* <p className="text-primary ">Làm mới</p> */}
               </div>
             ) : null}
           </div>
@@ -154,6 +154,8 @@ export default function ModalGift({
       label={'Quy Đổi Quà'}
       notAdd
       width={700}
+      disabled={disable}
+      dataItem={{}}
       buttonText="Nhận"
     />
   );

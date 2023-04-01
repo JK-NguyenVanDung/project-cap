@@ -37,6 +37,7 @@ export default function CustomModal({
   notAdd,
   textCancel,
   handleShow,
+  disabled,
 }: {
   handleOk?: any;
   handleShow?: any;
@@ -62,6 +63,7 @@ export default function CustomModal({
   formProps?: FormProps;
   notAdd?: boolean;
   textCancel?: string;
+  disabled?: boolean;
 }) {
   const dismiss: dismissType = {
     outsidePointerDown: !isFocused,
@@ -120,6 +122,7 @@ export default function CustomModal({
                 fullWidth={true}
                 className="mx-2"
                 noIcon={true}
+                disabled={disabled}
                 color="blue-gray"
                 text={
                   !dataItem
