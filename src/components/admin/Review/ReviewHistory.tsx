@@ -21,12 +21,8 @@ const ReviewHistory = ({
   const [accounts, setAccounts] = useState(null);
   const [form] = Form.useForm();
   useEffect(() => {
-    let time = setTimeout(async () => {
-      await getData();
-    }, 100);
-    return () => {
-      clearTimeout(time);
-    };
+    setLoading(true);
+    getData().finally(() => setLoading(false));
   }, [programId]);
   async function getData() {
     try {

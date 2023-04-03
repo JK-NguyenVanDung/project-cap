@@ -18,6 +18,7 @@ export default function MyProgram() {
   const [data, setData] = useState<Array<IProgramItem>>(null);
   const [filterData, setFilterData] = useState<Array<IProgramItem>>(null);
   const myAccount = useAppSelector((state) => state.auth.info);
+  const [loading, setLoading] = useState(true);
 
   const [options, setOptions] = useState([
     {
@@ -35,7 +36,6 @@ export default function MyProgram() {
   ]);
 
   useEffect(() => {
-    setLoading(true);
     const fetch = async () => {
       try {
         const data: any = await apiService.getMyPrograms(myAccount.accountId);
@@ -73,9 +73,8 @@ export default function MyProgram() {
       } catch (error) {
         console.log(error);
       }
-      setLoading(false);
     };
-    fetch();
+    fetch().finally(() => setLoading(false));
 
     dispatch(actions.formActions.setNameMenu(`${'Khóa Học Của Tôi'}`));
   }, []);
@@ -86,7 +85,6 @@ export default function MyProgram() {
     dispatch(actions.formActions.setProgramForm(item));
     navigate(`/MyCourses/${item.programId}`);
   }
-  const [loading, setLoading] = useState(false);
   const callBack = useCallback(function handelDataProgram(item: IProgramItem) {
     dispatch(actions.formActions.setProgramForm(item));
     navigate(`/MyCourses/${item.programId}`);

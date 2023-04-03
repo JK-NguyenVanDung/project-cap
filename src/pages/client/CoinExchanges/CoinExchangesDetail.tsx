@@ -19,10 +19,11 @@ import UploadImage from '../../../components/Exchange/Upload';
 import { TiDelete } from 'react-icons/ti';
 import { FaCoins } from 'react-icons/fa';
 import Breadcrumb from '../../../components/sharedComponents/Breadcrumb';
-import { API_URL } from '../../../api/api';
+('../../../api/api');
 import { HiDocumentMagnifyingGlass } from 'react-icons/hi2';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import Loading from '../../../components/sharedComponents/Loading';
+import { API_URL } from '../../../api/api';
 export default function () {
   const [form] = Form.useForm();
   const { accounts } = useMsal();
@@ -62,9 +63,7 @@ export default function () {
       setPreviewImage(URL.createObjectURL(e));
 
       setFile(e);
-      return new Promise(
-        () => 'https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/',
-      );
+      return new Promise(() => {});
     }
   }
   function removeFile() {
@@ -120,7 +119,6 @@ export default function () {
   }
 
   useEffect(() => {
-    setLoading(true);
     const getData = async () => {
       const response: any = await apiService.getDetailExchange(
         exchangeId,
@@ -134,19 +132,20 @@ export default function () {
         response?.certificatePhotos[response.certificatePhotos.length - 1];
       console.log(response);
 
-      setPreviewText(
-        temp?.reviewDate
-          ? `Ảnh bạn đã được ${
-              temp.status === 'denied' ? 'xem xét' : 'duyệt'
-            } vào lúc 
+      response.certificatePhotos[response.certificatePhotos.length - 1] &&
+        setPreviewText(
+          temp?.reviewDate
+            ? `Ảnh bạn đã được ${
+                temp.status === 'denied' ? 'xem xét' : 'duyệt'
+              } vào lúc 
         ${moment(temp?.reviewDate).local().format('HH:mm - DD/MM/YYYY')}
 
       `
-          : `Ảnh bạn đã gửi vào lúc 
+            : `Ảnh bạn đã gửi vào lúc 
         ${moment(temp?.sentDate).local().format('HH:mm - DD/MM/YYYY')}
 
       `,
-      );
+        );
       dispatch(actions.formActions.setNameMenu('Đổi Coin: ' + response?.title));
       setDetailExchange({
         ...response,
@@ -156,13 +155,7 @@ export default function () {
               ?.status,
       });
     };
-    getData();
-    let timer = setTimeout(() => {
-      setLoading(false);
-    }, 500);
-    return () => {
-      clearTimeout(timer);
-    };
+    getData().finally(() => setLoading(false));
   }, []);
 
   return (
@@ -181,13 +174,19 @@ export default function () {
           <Space size={30} />
           <div className="flex max-sm:flex-col max-md:flex-col">
             <div className="w-4/6 max-sm:w-full max-md:ml-[20%] max-sm:ml-0">
-              <div className=" relative flex flex-col items-center justify-center  w-fit">
+              <div className=" relative flex flex-col items-center justify-center  w-full">
                 {certification?.image && !previewImage ? (
                   <>
-                    <div className="w-fit h-fit">
+                    <div className="w-full h-fit">
                       <img
                         src={`${API_URL}/images/${certification?.image}`}
-                        className="max-h-[80vh]  w-full cover object-cover	"
+                        className="max-h-[85vh] min-h-[50vh] w-full cover object-cover	"
+                        onError={({ currentTarget }) => {
+                          currentTarget.onerror = null; // prevents looping
+                          currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+                          // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${props.item.image}
+                        }}
+                        alt=""
                       />
                     </div>
                   </>
@@ -277,7 +276,7 @@ export default function () {
             <Space sizeWidth={15} />
             <div className="bg-white rounded-lg shadow-lg p-5 w-2/6 max-sm:w-full max-md:w-full">
               <h1 className=" max-sm:text-xs max-md:text-xs text-center font-bold text-base text-gray-600">
-                Gửi ảnh chứng chỉ nhận được coin thưởng
+                Hãy upload chứng chỉ để nhận được coin
               </h1>
               <div className="p-4">
                 {certification?.status === 'pending' ||
@@ -327,7 +326,7 @@ export default function () {
               <Space size={10} />
               <div className="w-full px-4">
                 <div className="">
-                  <p className="text-xl my-2 eclipse-text  max-w-fit 	font-semibold  text-primary">
+                  <p className="text-xl my-2   max-w-fit 	font-semibold  text-primary">
                     {detailExchange?.title}
                   </p>
                   <p className="text-body flex  justify-between py-4">

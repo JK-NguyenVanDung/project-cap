@@ -24,7 +24,7 @@ export default function Programs() {
     dispatch(actions.formActions.setProgramForm(item));
     navigate(`/Programs/${item.programId}`);
   }, []);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   let isLike = location.pathname.includes('Like');
   const [options, setOptions] = useState([
     {
@@ -42,7 +42,6 @@ export default function Programs() {
   ]);
 
   useEffect(() => {
-    setLoading(true);
     const fetch = async () => {
       try {
         const res: any = await apiService.getPublicPrograms();
@@ -81,9 +80,8 @@ export default function Programs() {
       } catch (error) {
         console.log(error);
       }
-      setLoading(false);
     };
-    fetch();
+    fetch().finally(() => setLoading(false));
     dispatch(
       actions.formActions.setNameMenu(
         `${!isLike ? 'Khóa học' : `Khoá Học Yêu Thích`}`,

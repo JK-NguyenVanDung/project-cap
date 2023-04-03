@@ -32,14 +32,14 @@ export default function () {
         console.log(error);
       }
     };
-    fetch();
+    fetch().finally(() => setLoading(false));
   }, []);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   function handelDataProgram(item: IExchangeCoin) {
     navigate(`/CoinExchanges/${item.exchangeId}`);
   }
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const onChangeSearch = async (value: string) => {
     setLoading(true);
@@ -113,7 +113,7 @@ export default function () {
             })
           ) : (
             <div className="w-full ml-[80%] h-[60vh] grid content-center text-xl font-bold">
-              Không có dữ liệu
+              {!loading && 'Không có dữ liệu'}
             </div>
           )}
         </ul>
