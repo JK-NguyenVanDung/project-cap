@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import apiService from '../../api/apiService';
 import Default from '../../assets/img/default.png';
-export default function () {
+export default memo(function () {
   const [data, setData] = useState<any>(null);
   async function getData() {
     try {
@@ -13,7 +13,6 @@ export default function () {
   useEffect(() => {
     getData();
   }, []);
-
   return (
     <>
       {data && (
@@ -41,7 +40,7 @@ export default function () {
       )}
     </>
   );
-}
+});
 
 function Learner({
   image,
