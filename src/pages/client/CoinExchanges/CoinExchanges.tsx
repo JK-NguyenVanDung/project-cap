@@ -32,14 +32,14 @@ export default function () {
         console.log(error);
       }
     };
-    fetch();
+    fetch().finally(() => setLoading(false));
   }, []);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   function handelDataProgram(item: IExchangeCoin) {
     navigate(`/CoinExchanges/${item.exchangeId}`);
   }
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const onChangeSearch = async (value: string) => {
     setLoading(true);
@@ -92,7 +92,7 @@ export default function () {
         }`}
       >
         <ul className=" px-2 grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  grid-cols-3 md:grid-cols-2 sm:grid-cols-1  max-sm:grid-cols-1	">
-          {data?.length > 0 ? (
+          {data && data?.length > 0 ? (
             data?.map((item: IExchangeCoin) => {
               return (
                 <li className="m-8 inline-block ">
@@ -100,8 +100,11 @@ export default function () {
                     onClick={() => handelDataProgram(item)}
                     item={item}
                     status={
-                      item.ended? "ended" :  item.certificatePhotos[item.certificatePhotos.length - 1]
-                        ?.status
+                      item.ended
+                        ? 'ended'
+                        : item.certificatePhotos[
+                            item.certificatePhotos.length - 1
+                          ]?.status
                     }
                     isRegistered={false}
                   />
@@ -110,7 +113,7 @@ export default function () {
             })
           ) : (
             <div className="w-full ml-[80%] h-[60vh] grid content-center text-xl font-bold">
-              Không có dữ liệu
+              {!loading && 'Không có dữ liệu'}
             </div>
           )}
         </ul>

@@ -55,20 +55,13 @@ export default function ClientSideBar({ content }: { content: any }) {
   const { instance, accounts } = useMsal();
   const [open, setOpen] = useState(true);
   const windowDimensions = useWindowSize();
-  const logoutUser = () => {
-    instance.logoutPopup({
-      postLogoutRedirectUri: '/',
-      mainWindowRedirectUri: '/',
-    });
-    notification.success({ message: 'Đăng Xuất Thành Công' });
-    dispatch(actions.authActions.logout());
-  };
+
   const info = useAppSelector((state) => state.auth.info);
   useEffect(() => {
     if (windowDimensions.width >= 768) {
       setOpen(true);
     }
-  }, [windowDimensions]);
+  }, [windowDimensions.width]);
   useEffect(() => {
     let temp = SideBarData.filter(
       (item: ISidebar) => item.path === location.pathname,
@@ -87,7 +80,7 @@ export default function ClientSideBar({ content }: { content: any }) {
   const dispatch = useAppDispatch();
   return (
     <>
-      <div className="flex relative max-w-full h-screen text-black">
+      <div className="flex relative max-w-full h-screen text-black ">
         <div
           className={`fixed  w-[80%] z-1 ${
             open ? 'max-sm:z-[100]' : 'max-sm:z-0'
@@ -160,13 +153,13 @@ export default function ClientSideBar({ content }: { content: any }) {
             </div>
           </div>
         </div>
-        <div className="z-[2]  ml-[16%] max-sm:ml-0 w-full  ">
+        <div className="z-[2]  ml-[16%] max-sm:ml-0 max-md:ml-0 w-full  ">
           <header className="header bg-white px-4 ">
-            <div className="w-full flex items-center justify-between  max-w-[80vw] max-sm:max-w-[100vw]">
+            <div className="w-full flex items-center justify-between  max-w-[80vw] max-sm:max-w-[100vw] max-md:max-w-[100vw]">
               <button
                 data-collapse-toggle="navbar-cta"
                 type="button"
-                className="max-sm:inline-flex z-[120] items-center  text-sm text-gray-500 rounded-lg hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                className="max-md:inline-flex max-sm:inline-flex z-[120] items-center  text-sm text-gray-500 rounded-lg hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                 aria-controls="navbar-cta"
                 aria-expanded="false"
                 onClick={() => setOpen(!open)}
@@ -195,7 +188,9 @@ export default function ClientSideBar({ content }: { content: any }) {
 
           <main
             className="min-h-screen bg-gray-50 "
-            onClick={() => (windowDimensions.width < 768 ? setOpen(false) : {})}
+            onClick={() =>
+              windowDimensions.width <= 768 ? setOpen(false) : {}
+            }
           >
             {content}
           </main>

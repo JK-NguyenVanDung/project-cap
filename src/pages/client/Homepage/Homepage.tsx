@@ -33,11 +33,12 @@ export default function Homepage() {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const data: any = await apiService.getMySurveys(info.accountId);
+        const data: any = await apiService.getMySurveys(info?.accountId);
         setBannerData(data);
         const pop: any = await apiService.getPopularPrograms();
-        const res: any = await apiService.getNewPrograms();
         setPopularPrograms(pop);
+
+        const res: any = await apiService.getNewPrograms();
         setPrograms(res);
       } catch (error) {
         console.log(error);
@@ -46,7 +47,7 @@ export default function Homepage() {
     fetchData();
     let timer = setTimeout(() => {
       setLoading(false);
-    }, 700);
+    }, 300);
     return () => {
       clearTimeout(timer);
     };

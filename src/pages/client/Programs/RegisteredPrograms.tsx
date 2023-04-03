@@ -41,9 +41,9 @@ export default function RegisteredPrograms() {
   const [filterData, setFilterData] = useState<Array<MyCourse>>(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [filterError, setFilterError] = useState(null);
-
+  const [loading, setLoading] = useState(true);
+  let [nowView, setNoView] = useState('');
   const [showReason, setReason] = useState(false);
-  const [reload, setReload] = useState(false);
   const [unRegisterProgram, setUnRegisterProgram] =
     useState<IProgramItem>(null);
   const [refusalProgram, setRefusalProgram] = useState<any>(null);
@@ -71,6 +71,7 @@ export default function RegisteredPrograms() {
     //   label: <a onClick={() => setFilter('Từ A-Z')}>Từ A-Z</a>,
     // },
   ];
+
   function handleFilter(filter: string) {
     switch (filter) {
       case 'All':
@@ -104,9 +105,7 @@ export default function RegisteredPrograms() {
         break;
     }
   }
-  useEffect(() => {
-    dispatch(actions.formActions.setNameMenu(`${'Khóa Học Đã Đăng Ký '}`));
-  }, []);
+
   useEffect(() => {
     const fetchMyProgram = async () => {
       const data: any = await apiService.getMyApplications();
@@ -115,10 +114,13 @@ export default function RegisteredPrograms() {
       temp = temp.reverse();
       setFilterData(temp);
     };
+    dispatch(actions.formActions.setNameMenu(`${'Khóa Học Đã Đăng Ký '}`));
 
-    fetchMyProgram();
-  }, [reload]);
-  const [loading, setLoading] = useState(false);
+    fetchMyProgram().then(() => {
+      setLoading(false),
+        setNoView('Bạn đang không đăng ký chương trình nào cả.');
+    });
+  }, []);
 
   function handelDataProgram(item: IProgramItem) {
     setUnRegisterProgram(item);
@@ -164,13 +166,9 @@ export default function RegisteredPrograms() {
       const data: any = await apiService.registerOrUn(value);
       if (data) {
         setLoading(true);
-        setReload(!reload);
       }
     };
-    fetchRegister();
-    setTimeout(() => {
-      setLoading(false);
-    }, 900);
+    fetchRegister().finally(() => setLoading(false));
   };
 
   async function navToDetail(programId: number, status: string) {
@@ -242,7 +240,7 @@ export default function RegisteredPrograms() {
           loading ? 'hidden' : 'visible'
         }`}
       >
-        {toDoList?.length > 0 ? (
+        {toDoList && toDoList?.length > 0 ? (
           <>
             <ul className="grid lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5  grid-cols-3 md:grid-cols-2 sm:grid-cols-1  max-sm:grid-cols-1	">
               {toDoList?.map((item) => {
@@ -266,9 +264,7 @@ export default function RegisteredPrograms() {
         ) : (
           <div className="flex items-center justify-center">
             <div className="w-full h-[60vh] flex justify-center items-center text-xl font-bold">
-              {filterError !== null
-                ? ' Bạn đang không đăng ký chương trình nào cả.'
-                : filterError}
+              {filterError !== null ? nowView : filterError}
             </div>
           </div>
         )}

@@ -12,7 +12,7 @@ import { message } from 'antd';
 import { API_URL } from '../../../api/api';
 import { FaCoins } from 'react-icons/fa';
 import moment from 'moment';
-import Image from '../../../assets/img/dazzle-signing-a-financial-contract.gif';
+import Image from '../../../assets/img/Office.jpeg';
 import { getColor } from '../../../utils/uinqueId';
 function getStatusColor(status: string) {
   switch (status) {

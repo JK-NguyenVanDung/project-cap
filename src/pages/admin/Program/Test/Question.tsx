@@ -547,7 +547,7 @@ export default function Question() {
     return arr;
   }
   async function handleSubmit(values: any) {
-    let res: any = await apiService.getQuestions(testId);
+    // let res: any = await apiService.getQuestions(testId);
 
     let result = Object.keys(values).map((key) => [values[key]]);
     for (let i = 0; i < 2; i++) {

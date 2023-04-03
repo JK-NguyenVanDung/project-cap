@@ -82,14 +82,14 @@ export default function ModalGift({
     form.resetFields();
   };
   const FormItem = () => {
-    const [change, setChange] = useState(1);
+    // const [change, setChange] = useState(1);
     const coinMemo = useMemo(() => {
       return data.coin * change;
-    }, [change]);
+    }, [change, data.coin]);
     const leftMemo = useMemo(() => {
       return data.coinSelf - coinMemo;
-    }, [coinMemo]);
-    if (leftMemo <= 0) {
+    }, [coinMemo, data.coinSelf]);
+    if (data.coinSelf - data.coin * change <= 0) {
       setDisable(true);
     } else {
       setDisable(false);
