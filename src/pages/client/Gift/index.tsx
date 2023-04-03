@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import apiService from '../../../api/apiService';
+import SearchBar from '../../../components/admin/ToolBar/ToolBar';
 import Loading from '../../../components/sharedComponents/Loading';
 import { useAppSelector } from '../../../hook/useRedux';
+import { removeVietnameseTones } from '../../../utils/uinqueId';
 import { Space } from '../Programs/ResultProgram';
 import ItemGift from './Component/ItemGift';
 import ModalGift from './Component/ModalGift';
-import { removeVietnameseTones } from '../../../utils/uinqueId';
-import SearchBar from '../../../components/admin/ToolBar/ToolBar';
 
 function GiftSreen() {
   const [openExchange, setOpenExchange] = useState(false);
@@ -30,12 +30,6 @@ function GiftSreen() {
     const filteredData = temp
       .map((record: any) => {
         const nameMatch = removeVietnameseTones(record.name).match(reg);
-
-        // const descMatch = removeVietnameseTones(record.descriptions).match(reg);
-        // const cateMatch = removeVietnameseTones(
-        //   record.category.categoryName,
-        // ).match(reg);
-        // && !descMatch && !cateMatch
         if (!nameMatch) {
           return null;
         }
@@ -55,9 +49,8 @@ function GiftSreen() {
     const fetchListGift = async () => {
       const data: any = await apiService.getAllGift();
       if (data) {
-        // setListGiftExchange(data.map((item: any) => item));
-        setListGiftExchange(data);
         setFilterData(data);
+        setListGiftExchange(data.map((item: any) => item));
       }
     };
     fetchListGift();
@@ -83,8 +76,7 @@ function GiftSreen() {
       ) : (
         <>
           <div
-            className={`bg-white py-4  pb-8 flex max-sm:flex-wrap  w-full  items-center justify-between
-  `}
+            className={`bg-white py-4  pb-8 flex max-sm:flex-wrap  w-full  items-center justify-between`}
           >
             <div className="w-fit mx-4 ">
               <SearchBar

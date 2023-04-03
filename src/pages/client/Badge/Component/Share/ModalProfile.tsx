@@ -11,7 +11,6 @@ import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import './index.css';
 import { actions } from '../../../../../Redux';
 import { API_URL } from '../../../../../api/api';
-
 export default function ModalProfile({
   open,
   item,
@@ -168,6 +167,12 @@ export default function ModalProfile({
                 required: true,
                 message: 'Vui Lòng Nhập Vào Họ Và Tên',
               },
+              {
+                pattern: new RegExp(
+                  /^[a-zA-Z_ÀÁÂÃÈÉÊẾÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêếìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\ ]+$/,
+                ),
+                message: 'Vui Lòng Nhập Đúng Định Dạng Họ Và Tên',
+              },
             ]}
           />
           <FormInput
@@ -189,6 +194,10 @@ export default function ModalProfile({
               {
                 required: true,
                 message: 'Vui Lòng Nhập Vào Số Điện Thoại',
+              },
+              {
+                pattern: new RegExp(/(84|0[3|5|7|8|9])+([0-9]{8})\b/),
+                message: 'Vui Lòng Nhập Đúng Số Điện Thoại',
               },
             ]}
           />

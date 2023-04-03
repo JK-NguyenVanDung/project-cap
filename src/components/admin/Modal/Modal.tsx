@@ -37,9 +37,15 @@ export default function CustomModal({
   notAdd,
   textCancel,
   handleShow,
+  redeemText,
   disabled,
+  handelCancel,
+  cancel,
 }: {
   handleOk?: any;
+  handelCancel?: any;
+  cancel?: boolean;
+  redeemText?: string;
   handleShow?: any;
   name?: any;
   label?: string;
@@ -98,7 +104,7 @@ export default function CustomModal({
       }
       style={{ top: 20 }}
       open={show}
-      onCancel={handleShow}
+      onCancel={cancel === true ? handelCancel : handleShow}
       onOk={handleShow}
       centered={centered}
       width={width}
@@ -112,9 +118,21 @@ export default function CustomModal({
               noIcon={true}
               type="cancel"
               color="blue-gray"
-              onClick={handleShow}
+              onClick={cancel === true ? handelCancel : handleShow}
               text={textCancel ?? 'Hủy'}
             />
+            {redeemText ? (
+              <CustomButton
+                size="md"
+                onClick={() => handleOk()}
+                fullWidth={true}
+                className="mx-2"
+                noIcon={true}
+                color="blue-gray"
+                text={redeemText}
+              />
+            ) : null}
+
             {showButton ? null : (
               <CustomButton
                 size="md"
