@@ -7,8 +7,6 @@ import { removeVietnameseTones } from '../../../utils/uinqueId';
 import { Space } from '../Programs/ResultProgram';
 import ItemGift from './Component/ItemGift';
 import ModalGift from './Component/ModalGift';
-import { removeVietnameseTones } from '../../../utils/uinqueId';
-import SearchBar from '../../../components/admin/ToolBar/ToolBar';
 
 function GiftSreen() {
   const [openExchange, setOpenExchange] = useState(false);
@@ -19,7 +17,6 @@ function GiftSreen() {
 
   const [coinSelf, setCoinSelf] = useState(0);
   const reload = useAppSelector((state: any) => state.reload.reload);
-  const [filterData, setFilterData] = useState(null);
 
   const handelGiftExchange = (item: any) => {
     setOpenExchange(true);
@@ -33,12 +30,6 @@ function GiftSreen() {
     const filteredData = temp
       .map((record: any) => {
         const nameMatch = removeVietnameseTones(record.name).match(reg);
-
-        // const descMatch = removeVietnameseTones(record.descriptions).match(reg);
-        // const cateMatch = removeVietnameseTones(
-        //   record.category.categoryName,
-        // ).match(reg);
-        // && !descMatch && !cateMatch
         if (!nameMatch) {
           return null;
         }
@@ -78,34 +69,6 @@ function GiftSreen() {
       clearTimeout(timer);
     };
   }, [reload]);
-  const onChangeSearch = async (value: string) => {
-    setLoading(true);
-    const reg = new RegExp(removeVietnameseTones(value), 'gi');
-    let temp = filterData.slice();
-
-    const filteredData = temp
-      .map((record: any) => {
-        const nameMatch = removeVietnameseTones(record.name).match(reg);
-
-        // const descMatch = removeVietnameseTones(record.descriptions).match(reg);
-        // const cateMatch = removeVietnameseTones(
-        //   record.category.categoryName,
-        // ).match(reg);
-        // && !descMatch && !cateMatch
-        if (!nameMatch) {
-          return null;
-        }
-        return record;
-      })
-      .filter((record: any) => !!record);
-    setListGiftExchange(filteredData ? filteredData : filterData);
-    let timer = setTimeout(() => {
-      setLoading(false);
-    }, 300);
-    return () => {
-      clearTimeout(timer);
-    };
-  };
   return (
     <>
       {loading ? (

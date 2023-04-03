@@ -81,8 +81,13 @@ export default function ModalGift({
 
     form.resetFields();
   };
+  const handleCancel = () => {
+    setChange(1);
+    setDisable(false);
+    setShow(false);
+    form.resetFields();
+  };
   const FormItem = () => {
-    // const [change, setChange] = useState(1);
     const coinMemo = useMemo(() => {
       return data.coin * change;
     }, [change, data.coin]);
@@ -117,7 +122,7 @@ export default function ModalGift({
 
           <div className="w-3/5">
             <FormInput
-              maxNumber={data.quantity + 10}
+              maxNumber={data.quantity}
               label="Số lượng muốn đổi: "
               type="inputNumber"
               defaultValue={change}
@@ -156,7 +161,9 @@ export default function ModalGift({
       show={show}
       setShow={setShow}
       FormItem={<FormItem />}
+      handelCancel={handleCancel}
       handleOk={handleOk}
+      cancel={true}
       form={form}
       label="Quy Đổi Quà"
       notAdd
