@@ -37,8 +37,10 @@ export default function CustomModal({
   notAdd,
   textCancel,
   handleShow,
+  redeemText,
 }: {
   handleOk?: any;
+  redeemText?: string;
   handleShow?: any;
   name?: any;
   label?: string;
@@ -113,6 +115,18 @@ export default function CustomModal({
               onClick={handleShow}
               text={textCancel ?? 'Hủy'}
             />
+            {redeemText ? (
+              <CustomButton
+                size="md"
+                onClick={() => handleOk()}
+                fullWidth={true}
+                className="mx-2"
+                noIcon={true}
+                color="blue-gray"
+                text={redeemText}
+              />
+            ) : null}
+
             {showButton ? null : (
               <CustomButton
                 size="md"

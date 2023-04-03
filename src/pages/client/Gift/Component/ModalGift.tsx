@@ -3,7 +3,7 @@ import CustomModal from '../../../../components/admin/Modal/Modal';
 import defaultAVT from '../../../../assets/img/avatarSq.png';
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import { Space } from '../../Programs/ResultProgram';
-import { Form, notification } from 'antd';
+import { Form, notification, Modal } from 'antd';
 import apiService from '../../../../api/apiService';
 import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
@@ -20,16 +20,36 @@ export default function ModalGift({
   setShow: any;
   data: any;
 }) {
-  const [coin, setCoin] = useState(data.coin ? data.coin : 0);
-  const [left, setLeft] = useState(
-    data.coinSelf && data.coin ? data.coinSelf - data.coin : 0,
-  );
   const [disable, setDisable] = useState(false);
   const [change, setChange] = useState(1);
 
   const dispatch = useAppDispatch();
 
   const [form] = Form.useForm();
+  function countDown() {
+    let secondsToGo = 5;
+    const modal = Modal.success({
+      title: 'CHÚC MỪNG ! BẠN ĐÃ NHẬN QUÀ THÀNH CÔNG',
+      content: (
+        <div>
+          <h1 className="font-bold ">Để Nhận Quà Vui Lòng Đến:</h1>
+          <p>
+            <h1 className="font-bold ">Địa Chỉ:</h1> 69/68 Đ. Đặng Thuỳ Trâm,
+            Phường 13, Bình Thạnh, Thành phố Hồ Chí Minh
+          </p>
+        </div>
+      ),
+      width: 500,
+    });
+    setTimeout(() => {
+      modal.destroy();
+    }, secondsToGo * 1000);
+  }
+  const redeemSuccess = () => {
+    setLoading(false);
+    setShow(false);
+    countDown();
+  };
   const handleOk = () => {
     form
       .validateFields()
@@ -41,28 +61,25 @@ export default function ModalGift({
         setLoading(true);
         try {
           dispatch(actions.reloadActions.setReload());
-          const response = apiService.ExchangeGift(params);
-          console.log(response.then());
+          const response = await apiService.ExchangeGift(params);
           if (response) {
-            setShow(false);
             setLoading(false);
             setChange(0);
-            notification.success({ message: 'Đổi quà thành công' });
-            form.resetFields();
+            setShow(false);
           }
+          redeemSuccess();
+          form.resetFields();
         } catch (error) {
+          console.log(error);
           notification.error({ message: 'Đổi quà không thành công' });
         }
       })
-
       .catch((info) => {
         console.log(info);
       });
-  };
-  const handelReset = () => {
-    setChange(1);
-    setDisable(false);
-    setLeft(0);
+    setShow(false);
+
+    form.resetFields();
   };
   const FormItem = () => {
     const [change, setChange] = useState(1);
@@ -74,6 +91,8 @@ export default function ModalGift({
     }, [coinMemo]);
     if (leftMemo <= 0) {
       setDisable(true);
+    } else {
+      setDisable(false);
     }
     return (
       <>
@@ -81,6 +100,10 @@ export default function ModalGift({
           <div>
             <div>
               <img src={defaultAVT} />
+              <Space size={5} />
+              <h1 className="text-start font-bold text-lg">
+                {data.name ?? ''}
+              </h1>
               <Space size={5} />
               <div className="flex justify-between">
                 <p>Số Lượng: </p>
@@ -93,11 +116,19 @@ export default function ModalGift({
           <Space sizeWidth={20} />
 
           <div className="w-3/5">
-            <div className="flex justify-between ">
-              <h1>Tên Sản Phẩm:</h1>
-              <p className="text-start"> {data.name ?? ''}</p>
-            </div>
-            <Space size={5} />
+            <FormInput
+              maxNumber={data.quantity + 10}
+              label="Số lượng muốn đổi: "
+              type="inputNumber"
+              defaultValue={change}
+              onChangeNumber={(value: number) => setChange(value)}
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Số lượng',
+                },
+              ]}
+            />
             <div className="flex justify-between ">
               <h1>Coin của bạn: </h1>
               <p className="text-start">{data.coinSelf ?? 0} coin</p>
@@ -115,29 +146,6 @@ export default function ModalGift({
               <p className="text-start">{leftMemo ?? 0} coin</p>
             </div>
             <Space size={5} />
-            <FormInput
-              maxNumber={data.quantity + 10}
-              label="Số lượng muốn đổi: "
-              type="inputNumber"
-              defaultValue={change}
-              disabled={disable}
-              onChangeNumber={(value: number) => setChange(value)}
-              rules={[
-                {
-                  required: true,
-                  message: 'Vui Lòng Nhập Vào Số lượng',
-                },
-              ]}
-            />
-            {disable == true ? (
-              <div
-                className="flex justify-between cursor-pointer"
-                onClick={() => handelReset()}
-              >
-                <p className="text-error">Bạn không có đủ coin</p>
-                <p className="text-primary ">làm mới</p>
-              </div>
-            ) : null}
           </div>
         </div>
       </>
@@ -150,11 +158,11 @@ export default function ModalGift({
       FormItem={<FormItem />}
       handleOk={handleOk}
       form={form}
-      header="Quy Đổi Quà"
-      label={'Quy Đổi Quà'}
+      label="Quy Đổi Quà"
       notAdd
+      showButton
+      redeemText={disable == true ? null : 'Nhận'}
       width={700}
-      buttonText="Nhận"
     />
   );
 }
