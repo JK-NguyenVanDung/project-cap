@@ -17,6 +17,7 @@ import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { actions } from '../../Redux';
+import NotificationDropDown from '../sharedComponents/NotificationDropDown';
 export default function () {
   const { instance, accounts } = useMsal();
   const navigate = useNavigate();
@@ -34,14 +35,7 @@ export default function () {
   return (
     <div className="flex items-center justify-center max-w-full mr-2 ">
       <Menu>
-        <IconButton
-          variant="text"
-          className="text-dark-blue"
-          color="gray"
-          size="md"
-        >
-          <IoNotificationsOutline className="text-xl" />
-        </IconButton>
+        <NotificationDropDown />
         <span className="mr-1">
           Xin Chào {info.role == 1 ? null : info?.role?.roleName}{' '}
         </span>

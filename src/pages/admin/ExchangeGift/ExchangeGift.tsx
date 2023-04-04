@@ -148,14 +148,14 @@ export default function () {
 
       render: (data: any) => (
         <Space>
-          <CustomButton
+          {/* <CustomButton
             tip="Từ chối đăng ký"
             size="sm"
             color="red"
             disabled={data?.status === 'Approved'}
             Icon={MdRemoveCircle}
             onClick={() => handelRefusal(data)}
-          />
+          /> */}
           <CustomButton
             tip="Duyệt đơn đăng ký"
             size="sm"

@@ -14,7 +14,7 @@ const ManagerGiftScreen = () => {
   const [showModal, setShowModal] = useState(false);
   const [detail, setDetail] = useState<IGift>();
 
-  const [reload, setReload] = useState(false);
+  const [reload, setReload] = useState(true);
   const [showDetail, setShowDetail] = useState(false);
 
   const [data, setData] = useState<Array<IGift>>([]);
@@ -33,7 +33,7 @@ const ManagerGiftScreen = () => {
         throw err.message;
       }
     };
-    fetchAllGift();
+    fetchAllGift().finally(() => setReload(false));
   }, [reload]);
   // useEffect(() => {
   //   setReload(true);
@@ -104,15 +104,16 @@ const ManagerGiftScreen = () => {
   };
   const handleDelete = async (item: IGift) => {
     setReload(true);
-    try {
-      await apiService.deleteGift(item.giftId);
-      setReload(false);
-    } catch (err: any) {
-      notification.error({
-        message: 'xóa không thành công',
-      });
-      setReload(false);
+    async function deleteItem() {
+      try {
+        await apiService.deleteGift(item.giftId);
+      } catch (err: any) {
+        notification.error({
+          message: 'xóa không thành công',
+        });
+      }
     }
+    deleteItem().finally(() => setReload(false));
   };
   const handleShowDetail = (data: IGift) => {
     setDetail(data);
