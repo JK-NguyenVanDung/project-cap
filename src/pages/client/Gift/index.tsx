@@ -51,7 +51,6 @@ function GiftSreen() {
     };
   };
   useEffect(() => {
-    setLoading(true);
     const fetchListGift = async () => {
       const data: any = await apiService.getAllGift();
       if (data) {
@@ -60,7 +59,7 @@ function GiftSreen() {
         setFilterData(data);
       }
     };
-    fetchListGift();
+
     const fetchAccount = async () => {
       const response: any = await apiService.getProfile();
       if (response) {
@@ -68,13 +67,15 @@ function GiftSreen() {
         setCoinSelf(coin);
       }
     };
-    fetchAccount();
-    let timer = setTimeout(() => {
-      setLoading(false);
-    }, 700);
-    return () => {
-      clearTimeout(timer);
-    };
+    Promise.all([fetchListGift(), fetchAccount()]).finally(() =>
+      setLoading(false),
+    );
+    // let timer = setTimeout(() => {
+
+    // }, 300);
+    // return () => {
+    //   clearTimeout(timer);
+    // };
   }, [reload]);
   return (
     <>

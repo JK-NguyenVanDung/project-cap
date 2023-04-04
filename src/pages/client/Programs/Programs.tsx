@@ -25,7 +25,8 @@ export default function Programs() {
     navigate(`/Programs/${item.programId}`);
   }, []);
   const [loading, setLoading] = useState(true);
-  let isLike = location.pathname.includes('Like');
+  let path = location.pathname.split('/');
+  let isLike = path[path.length - 1] === 'Like';
   const [options, setOptions] = useState([
     {
       value: 'Tất cả',

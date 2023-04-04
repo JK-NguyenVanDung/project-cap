@@ -35,12 +35,12 @@ const ManagerGiftScreen = () => {
     };
     fetchAllGift();
   }, [reload]);
-  useEffect(() => {
-    setReload(true);
-    setTimeout(() => {
-      setReload(false);
-    }, 3000);
-  }, [showModal, detail]);
+  // useEffect(() => {
+  //   setReload(true);
+  //   setTimeout(() => {
+  //     setReload(false);
+  //   }, 3000);
+  // }, [showModal, detail]);
   const columns = [
     {
       title: 'STT',
