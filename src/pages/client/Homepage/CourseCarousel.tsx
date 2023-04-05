@@ -34,6 +34,7 @@ export default function ({
 
   async function navToProgram(item: IProgramItem) {
     dispatch(actions.formActions.setProgramForm(item));
+    dispatch(actions.navActions.setNav('/home'));
     navigate(`/Programs/${item.programId}`);
   }
   return (

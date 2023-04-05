@@ -6,6 +6,7 @@ import { GIRD12 } from '../../../helper/constant';
 import { IAccountItem } from '../../../Type';
 import CustomModal from '../Modal/Modal';
 import 'moment/locale/vi';
+import { timeOut } from '../../../utils/uinqueId';
 const ReviewHistory = ({
   show,
   setShow,
@@ -20,9 +21,10 @@ const ReviewHistory = ({
   const [history, setHistory] = useState(null);
   const [accounts, setAccounts] = useState(null);
   const [form] = Form.useForm();
+
   useEffect(() => {
     setLoading(true);
-    getData().finally(() => setLoading(false));
+    getData().finally(() => timeOut(setLoading(false)));
   }, [programId]);
   async function getData() {
     try {

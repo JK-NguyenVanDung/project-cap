@@ -8,15 +8,20 @@ import AveragePointChart from '../../../components/Chart/AveragePointChart';
 import AttendanceRateChart from '../../../components/Chart/AttendanceRateChart';
 import { useEffect, useState } from 'react';
 import apiService from '../../../api/apiService';
+import CustomButton from '../../../components/admin/Button';
+import uniqueId from '../../../utils/uinqueId';
+import { useNavigate } from 'react-router-dom';
 
 export default function () {
   let program: IProgramItem = useAppSelector((state) => state.form.setProgram);
   const [result, setResult] = useState<IProgramResults>(null);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   async function getData() {
     let res: any = await apiService.getProgramResult(program.programId);
     setResult(res);
   }
+  const navigate = useNavigate();
+
   useEffect(() => {
     getData();
   }, []);
@@ -29,6 +34,18 @@ export default function () {
             name={'Chương Trình'}
             name2={program?.programName}
           />
+          {/* <CustomButton
+            noIcon
+            size="sm"
+            variant="outlined"
+            className="w-32 "
+            text="Quay lại"
+            key={`${uniqueId()}`}
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
+          , */}
         </div>
         <div className="flex my-12 mx-2">
           <div className="flex flex-col justify-between h-[45vh]">

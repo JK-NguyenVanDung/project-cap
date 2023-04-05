@@ -3,7 +3,7 @@ import apiService from '../../../api/apiService';
 import SearchBar from '../../../components/admin/ToolBar/ToolBar';
 import Loading from '../../../components/sharedComponents/Loading';
 import { useAppSelector } from '../../../hook/useRedux';
-import { removeVietnameseTones } from '../../../utils/uinqueId';
+import { removeVietnameseTones, timeOut } from '../../../utils/uinqueId';
 import { Space } from '../Programs/ResultProgram';
 import ItemGift from './Component/ItemGift';
 import ModalGift from './Component/ModalGift';
@@ -61,7 +61,7 @@ function GiftSreen() {
       }
     };
     Promise.all([fetchListGift(), fetchAccount()]).finally(() =>
-      setLoading(false),
+      timeOut(setLoading(false)),
     );
     // let timer = setTimeout(() => {
 

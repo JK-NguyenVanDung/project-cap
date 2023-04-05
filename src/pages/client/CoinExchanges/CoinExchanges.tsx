@@ -12,7 +12,7 @@ import SearchBar from '../../../components/admin/ToolBar/ToolBar';
 import { MenuProps, Spin } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import Loading from '../../../components/sharedComponents/Loading';
-import { removeVietnameseTones } from '../../../utils/uinqueId';
+import { removeVietnameseTones, timeOut } from '../../../utils/uinqueId';
 import CoinExchangeCard from '../../../components/client/Card/CoinExchangeCard';
 
 export default function () {
@@ -32,7 +32,7 @@ export default function () {
         console.log(error);
       }
     };
-    fetch().finally(() => setLoading(false));
+    fetch().finally(() => timeOut(setLoading(false)));
   }, []);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();

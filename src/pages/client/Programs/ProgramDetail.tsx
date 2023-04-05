@@ -31,6 +31,7 @@ export default function (props: any) {
     (state) => state.form.setProgram,
   );
   const info = useAppSelector((state) => state.auth.info);
+  const navLink = useAppSelector((state) => state.nav.nav);
 
   useEffect(() => {
     const getData = async () => {
@@ -84,7 +85,11 @@ export default function (props: any) {
         <RightSection
           isApproved={isApproved}
           enable={true}
-          goBack={() => navigate(`/${location.pathname.split('/')[1]}/`)}
+          goBack={() =>
+            navLink
+              ? navigate(navLink)
+              : navigate(`/${location.pathname.split('/')[1]}/`)
+          }
         />
       </div>
     </>

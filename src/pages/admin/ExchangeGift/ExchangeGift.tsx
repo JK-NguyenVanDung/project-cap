@@ -130,9 +130,9 @@ export default function () {
           <>
             <p>
               {item == 'Approved' ? (
-                <p className="text-green-600">Đã Được Duyệt</p>
+                <p className="text-green-600">Đã Nhận Quà</p>
               ) : item == 'Pending' ? (
-                <p className="text-yellow-800">Chưa Được Duyệt</p>
+                <p className="text-yellow-800">Chưa Nhận Quà</p>
               ) : (
                 <p className="text-error">Bị Từ Chối</p>
               )}

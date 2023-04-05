@@ -24,6 +24,7 @@ import { HiDocumentMagnifyingGlass } from 'react-icons/hi2';
 import { BsFillCheckCircleFill } from 'react-icons/bs';
 import Loading from '../../../components/sharedComponents/Loading';
 import { API_URL } from '../../../api/api';
+import { timeOut } from '../../../utils/uinqueId';
 export default function () {
   const [form] = Form.useForm();
   const { accounts } = useMsal();
@@ -155,7 +156,7 @@ export default function () {
               ?.status,
       });
     };
-    getData().finally(() => setLoading(false));
+    getData().finally(() => timeOut(setLoading(false)));
   }, []);
 
   return (

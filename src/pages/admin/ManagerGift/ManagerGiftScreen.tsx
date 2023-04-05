@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import CustomButton from '../../../components/admin/Button';
 import PopOverAction from '../../../components/admin/PopOver';
 import TableConfig from '../../../components/admin/Table/Table';
-import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
+import uniqueId, {
+  removeVietnameseTones,
+  timeOut,
+} from '../../../utils/uinqueId';
 import { notification } from 'antd';
 import AddManagerGift from './Component/AddManagerGift';
 import DetailManagerGift from './Component/DetailManagerGift';
@@ -33,7 +36,7 @@ const ManagerGiftScreen = () => {
         throw err.message;
       }
     };
-    fetchAllGift().finally(() => setReload(false));
+    fetchAllGift().finally(() => timeOut(setReload(false)));
   }, [reload]);
   // useEffect(() => {
   //   setReload(true);
@@ -113,7 +116,7 @@ const ManagerGiftScreen = () => {
         });
       }
     }
-    deleteItem().finally(() => setReload(false));
+    deleteItem().finally(() => timeOut(setReload(false)));
   };
   const handleShowDetail = (data: IGift) => {
     setDetail(data);

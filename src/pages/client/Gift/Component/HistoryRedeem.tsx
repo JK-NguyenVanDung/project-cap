@@ -59,9 +59,9 @@ export default function HistoryRedeem() {
             {' '}
             <p>
               {data === 'Approved' ? (
-                <p className="text-green-600">Đã Được Duyệt</p>
+                <p className="text-green-600">Đã Nhận Quà</p>
               ) : data === 'Pending' ? (
-                <p className="text-yellow-800">Chưa Được Duyệt</p>
+                <p className="text-yellow-800">Chưa Nhận Quà</p>
               ) : (
                 <p className="text-error">Bị Từ Chối</p>
               )}

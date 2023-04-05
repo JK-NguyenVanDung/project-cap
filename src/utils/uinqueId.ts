@@ -68,3 +68,12 @@ export function getColor() {
     '%)'
   );
 }
+
+export const timeOut = (func: any) => {
+  let out = setTimeout(() => {
+    func();
+  }, 600);
+  return () => {
+    clearTimeout(out);
+  };
+};

@@ -7,7 +7,7 @@ import Loading from '../../../components/sharedComponents/Loading';
 import { useAppDispatch } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
 import { IProgramItem } from '../../../Type';
-import { removeVietnameseTones } from '../../../utils/uinqueId';
+import { removeVietnameseTones, timeOut } from '../../../utils/uinqueId';
 import RegisterCard from '../../../components/client/Card/RegisterCard';
 import ConfirmModal from '../../../components/admin/Modal/ConfirmModal';
 import { Dropdown } from 'antd';
@@ -168,7 +168,7 @@ export default function RegisteredPrograms() {
         setLoading(true);
       }
     };
-    fetchRegister().finally(() => setLoading(false));
+    fetchRegister().finally(() => timeOut(setLoading(false)));
   };
 
   async function navToDetail(programId: number, status: string) {

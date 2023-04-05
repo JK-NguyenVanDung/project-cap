@@ -195,7 +195,7 @@ export const SmallCourseCard = ({
     setTotalLike((lastTotal) => (!like ? lastTotal + 1 : lastTotal - 1));
     setLike((like) => !like);
     const fetchLike = async () => {
-      await apiService.likeProgram(itemProgram?.programId, like);
+      await apiService.likeProgram(itemProgram?.programId, !like);
     };
 
     if (itemProgram?.programId) {
