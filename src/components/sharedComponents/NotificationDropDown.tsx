@@ -51,7 +51,7 @@ export default function PopOverAction({
     }
     let interval = setInterval(() => {
       getNotification();
-    }, 30000);
+    }, 10000);
     let time = setTimeout(() => {
       setLoading(false);
     }, 1000);
@@ -120,10 +120,10 @@ export default function PopOverAction({
   );
 }
 const Types: any = {
-  1: ' Learner đã đc duyệt',
+  1: ' Người học đã được duyệt',
   2: ' Có khóa học mới vừa tạo',
   3: ' Khóa học đã được duyệt',
-  4: 'Khóa học mới được public',
+  4: 'Khóa học mới được công khai',
 };
 
 export const NotificationCard = ({
