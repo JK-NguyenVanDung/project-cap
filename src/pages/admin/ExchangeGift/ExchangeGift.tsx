@@ -157,7 +157,7 @@ export default function () {
             onClick={() => handelRefusal(data)}
           /> */}
           <CustomButton
-            tip="Duyệt đơn đăng ký"
+            tip="Duyệt đã nhận quà"
             size="sm"
             color="green"
             disabled={data?.status === 'Approved'}

@@ -25,7 +25,7 @@ export default function () {
   );
   const info = useAppSelector((state) => state.auth.info);
   const [fullName, setFullName] = useState({ value: nameMenu });
-  const [detailBadge, setDetailBadge]: any = useState();
+  const [detailBadge, setDetailBadge]: any = useState({});
   useEffect(() => {
     dispatch(
       actions.formActions.setNameMenu(`${accounts[0]?.name.split('-')[1]}`),
@@ -91,7 +91,8 @@ export default function () {
                   2023000{info?.accountId}
                 </span>
                 <p className=" max-sm:text-[0.4rem]  max-md:text-[0.4rem] text-sm font-bold ml-3">
-                  Thời Gian Hoàn Thành: {moment().format('DD/MM/YYYY')}
+                  Thời Gian Hoàn Thành:{' '}
+                  {moment(detailBadge?.timeFinish).format('DD/MM/YYYY')}
                 </p>
               </div>
             </div>

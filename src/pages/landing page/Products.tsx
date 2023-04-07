@@ -77,10 +77,9 @@ const ProductCard = (props: any) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   function handleNavProduct() {
-    dispatch(actions.navActions.setNav(`/Courses/${props?.title}`));
+    dispatch(actions.navActions.setNav(`/Programs/${props?.title}`));
     dispatch(actions.formActions.setProgramForm(props.program));
     dispatch(actions.authActions.setInfo(null));
-
     navigate('/login');
   }
   return (

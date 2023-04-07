@@ -156,7 +156,9 @@ export default function SideBar({
               </div>
             </header>
           )}
-          <main className={!noHeader && 'mx-4'}>{content}</main>
+          <main className={!noHeader && 'mx-4 overflow-x-scroll'}>
+            {content}
+          </main>
         </div>
       </div>
     </>

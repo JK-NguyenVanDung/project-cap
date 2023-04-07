@@ -120,7 +120,7 @@ export default function RegisteredPrograms() {
       setLoading(false),
         setNoView('Bạn đang không đăng ký chương trình nào cả.');
     });
-  }, []);
+  }, [loading]);
 
   function handelDataProgram(item: IProgramItem) {
     setUnRegisterProgram(item);
@@ -158,15 +158,14 @@ export default function RegisteredPrograms() {
   };
   function closeModal() {}
   const handelRegister = (item: IProgramItem) => {
+    setLoading(true);
+
     const fetchRegister = async () => {
       const value = {
         programId: item.programId,
         isRegister: item.isRegister,
       };
       const data: any = await apiService.registerOrUn(value);
-      if (data) {
-        setLoading(true);
-      }
     };
     fetchRegister().finally(() => timeOut(setLoading(false)));
   };

@@ -22,14 +22,7 @@ const LeftSection = () => {
   const navigate = useNavigate();
 
   const [detail, setDetail] = useState({});
-  const [history, setHistory] = useState([
-    {
-      index: 1,
-      reviewer: 'Dung',
-      comment: 'Không tốt',
-      reviewTime: '11:02 12/2/2023',
-    },
-  ]);
+
   const program: IProgramItem = useAppSelector(
     (state) => state.form.setProgram,
   );
@@ -95,7 +88,6 @@ const LeftSection = () => {
             accountId: info.accountId,
             approved: approved,
             comment: values?.comment ? values?.comment : null,
-            approvalDate: moment().local(),
           });
           setShowDeclinedModal(false);
           // !approved &&

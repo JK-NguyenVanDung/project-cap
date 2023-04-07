@@ -5,15 +5,19 @@ import {
   PopoverContent,
   PopoverHandler,
 } from '@material-tailwind/react';
-import react, { useState } from 'react';
+import react, { useEffect, useState } from 'react';
 import {
   IoNotificationsOutline,
   IoQrCode,
   IoTrashOutline,
 } from 'react-icons/io5';
-import CustomButton from './Button';
 import { size } from '@material-tailwind/react/types/components/button';
 import { AiOutlineFileProtect } from 'react-icons/ai';
+import apiService from '../../api/apiService';
+import { INotification } from '../../Type';
+import moment from 'moment';
+import Loading from './Loading';
+import CustomButton from '../admin/Button';
 export default function PopOverAction({
   size,
   handleDelete,
@@ -21,18 +25,13 @@ export default function PopOverAction({
   size?: size;
   handleDelete?: Function;
 }) {
+  const [loading, setLoading] = useState(true);
+
   const [openAction, setOpenAction] = useState(false);
-  const [data, setData] = useState([
-    {
-      a: 1,
-    },
-    {
-      a: 1,
-    },
-    {
-      a: 1,
-    },
-  ]);
+  const [totalData, setTotalData] = useState<Array<INotification>>([]);
+  const [limit, setLimit] = useState(3);
+
+  const [data, setData] = useState<Array<INotification>>([]);
   function handleAction() {
     setOpenAction(!openAction);
   }
@@ -40,6 +39,34 @@ export default function PopOverAction({
     setOpenAction(false);
   }
 
+  function updateAmount() {
+    setLimit((prev) => prev + 3);
+    setData(totalData.slice(0, limit));
+  }
+  useEffect(() => {
+    async function getNotification() {
+      let res: any = await apiService.getNotifications();
+      setData(res.slice(0, limit));
+      setTotalData(res);
+    }
+    let interval = setInterval(() => {
+      getNotification();
+    }, 30000);
+    let time = setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(time);
+    };
+  }, []);
+  function onRemove(id: number) {
+    async function removeNoti() {
+      await apiService.seenNotification(id);
+    }
+    setLoading(true);
+    removeNoti().finally(() => setLoading(false));
+  }
   return (
     <>
       <div className="min-h-[20rem]  flex w-max items-center gap-4 z-[100] ">
@@ -62,20 +89,50 @@ export default function PopOverAction({
               <IoNotificationsOutline className="text-xl" />
             </IconButton>
           </PopoverHandler>
-          <PopoverContent className="z-20">
-            <div className="flex min-w-[20rem] w-0 items-center flex-col gap-4">
-              {data.map((item) => {
-                return <NotificationCard item={item} />;
-              })}
-            </div>
+          <PopoverContent className="z-20 flex flex-col items-center justify-center w-fit">
+            <Loading loading={loading} />
+            {data.length > 0 ? (
+              <div className="flex min-w-[20rem] w-0 items-center flex-col gap-4">
+                {data.map((item) => {
+                  return <NotificationCard item={item} onRemove={onRemove} />;
+                })}
+              </div>
+            ) : (
+              <p className="p-20">
+                {!loading && 'Bạn hiện tại không có thông báo'}
+              </p>
+            )}
+            <CustomButton
+              disabled={
+                totalData.length === 0 || totalData.length <= limit
+                  ? true
+                  : false
+              }
+              onClick={() => updateAmount()}
+              className="btn btn-primary "
+              text={'Xem thêm'}
+              noIcon
+            />
           </PopoverContent>
         </Popover>
       </div>
     </>
   );
 }
+const Types: any = {
+  1: ' Learner đã đc duyệt',
+  2: ' Có khóa học mới vừa tạo',
+  3: ' Khóa học đã được duyệt',
+  4: 'Khóa học mới được public',
+};
 
-export const NotificationCard = (item: any) => {
+export const NotificationCard = ({
+  item,
+  onRemove,
+}: {
+  item: INotification;
+  onRemove: Function;
+}) => {
   return (
     <>
       <div
@@ -84,12 +141,13 @@ export const NotificationCard = (item: any) => {
         role="alert"
       >
         <div className="flex justify-between w-full">
-          <p className="font-bold text-lg">Tiêu Đề</p>
+          <p className="font-bold text-lg">{Types[item?.type]}</p>
           <button
             type="button"
             className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-black font-bold dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"
             data-dismiss-target="#toast-default"
             aria-label="Close"
+            onClick={() => onRemove(item.id)}
           >
             <span className="sr-only">Close</span>
             <svg
@@ -108,8 +166,11 @@ export const NotificationCard = (item: any) => {
           </button>
         </div>
         <div className="">
-          <div className="text-base font-normal">Nội Dung.</div>
-          <p className="text-xs italic">Thông báo lúc 12:00 6/4/2023</p>
+          <div className="text-base font-normal">{item.value}</div>
+          <p className="text-xs italic">
+            Thông báo lúc{' '}
+            {moment(item.createdAt).local().format('HH:MM - DD/MM/YYYY')}
+          </p>
         </div>
       </div>
     </>

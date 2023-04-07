@@ -95,27 +95,6 @@ export default function () {
       width: '13%',
       render: (data: any) => <p>{data ? data : 0}</p>,
     },
-
-    {
-      title: 'Trạng thái',
-      key: 'status',
-      render: (data: any) => {
-        return data.status == 'approved' ? (
-          <h5 className="text-bold text-primary">Đã Duyệt</h5>
-        ) : data.status == 'denied' ? (
-          <h5 className="text-bold text-red-500">Từ Chối</h5>
-        ) : data.status == 'save' ? (
-          <h5 className="text-bold text-yellow-800">Lưu nháp</h5>
-        ) : data.status == 'public' ? (
-          <h5 className="text-bold text-green-500">Công Khai</h5>
-        ) : data.status == 'hide' ? (
-          <h5 className="text-bold text-purple-500">Riêng tư</h5>
-        ) : (
-          <h5 className="text-bold text-orange-500">Chờ Duyệt</h5>
-        );
-      },
-    },
-
     {
       width: '10%',
 
@@ -153,7 +132,7 @@ export default function () {
   async function getData() {
     try {
       setLoading(true);
-      let res: any = await apiService.getPrograms();
+      let res: any = await apiService.getCommentedPrograms();
       res = res.reverse();
       let temp;
       if (paths[paths.length - 1] === 'MyProgram') {

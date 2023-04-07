@@ -31,15 +31,16 @@ import { IProgramItem } from '../../../Type';
 
 export default function ProgramDetail() {
   const [form] = Form.useForm();
-  const [image, setImage] = useState();
+  const [image, setImage] = useState('');
   const [listContent, setListContent]: any = useState([]);
   const [viewMore, setViewMore] = useState(false);
-  const item = useAppSelector((state) => state.form.setProgram);
+  const item: IProgramItem = useAppSelector((state) => state.form.setProgram);
   const reload = useAppSelector((state) => state.form.reload);
-  console.log(item);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   useEffect(() => {
+    item && setImage(item?.image);
+
     item
       ? form.setFieldsValue({
           acedemicYearName: item.academicYear.year ?? '',
@@ -135,7 +136,7 @@ export default function ProgramDetail() {
         <Breadcrumb
           router1={'/admin/Program'}
           name={'Chương Trình'}
-          name2={`Chuyên Đề`}
+          name2={item?.programName}
         />
       </div>
       <Form form={form} className="formCategory w-full px-5 mb-10">

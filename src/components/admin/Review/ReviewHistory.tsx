@@ -83,7 +83,7 @@ const ReviewHistory = ({
       title: 'Thời gian duyệt',
       dataIndex: 'approvalDate',
       render: (data: Date) => (
-        <p>{data && moment(data).local().format('DD/MM/YYYY, h:mm:ss a')}</p>
+        <p>{data && moment(data).local().format('HH:mm -  DD/MM/YYYY ')}</p>
       ),
 
       width: GIRD12.COL3,

@@ -110,7 +110,7 @@ function BannerItem({
           </div>
           <p className="text-base italic font-bold">
             Hạn làm khảo sát:{' '}
-            {moment(data?.endDate).format('HH:MM - DD/MM/YYYY ')}
+            {moment(data?.endDate).local().format('HH:MM - DD/MM/YYYY ')}
           </p>
           <p className="text-sm italic">
             *Các khảo sát sẽ được ghi nhớ thời gian làm. Khi hoàn thành khảo

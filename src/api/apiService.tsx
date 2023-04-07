@@ -340,6 +340,10 @@ export default {
   deleteComment: (idComment: number) => {
     return axiosConfig.delete(API_CONFIG.COMMENT.DELETE_COMMENT(idComment));
   },
+  getCommentedPrograms: () => {
+    return axiosConfig.get(API_CONFIG.COMMENT.GET_COMMENTED_PROGRAM);
+  },
+
   // Attendance
   getAttendance: (id: number) => {
     return axiosConfig.get(API_CONFIG.ATTENDANCES.GET_ATTENDANCES(id));
@@ -543,5 +547,14 @@ export default {
   },
   giveCoin: (params: any) => {
     return axiosConfig.post(API_CONFIG.GIFT.GIVE_COIN, params);
+  },
+
+  //NOTIFICATION
+  getNotifications: () => {
+    return axiosConfig.get(API_CONFIG.ACCOUNT.GET_NOTIFICATIONS);
+  },
+
+  seenNotification: (id: number) => {
+    return axiosConfig.get(API_CONFIG.ACCOUNT.SEEN_NOTIFICATION(id));
   },
 };

@@ -19,6 +19,7 @@ import { notification } from 'antd';
 import { actions } from '../../Redux';
 import NotificationDropDown from '../sharedComponents/NotificationDropDown';
 import { exitPath } from '../../onBuild';
+import { API_URL } from '../../api/api';
 export default function () {
   const { instance, accounts } = useMsal();
   const navigate = useNavigate();
@@ -43,7 +44,12 @@ export default function () {
         <span> {accounts[0].name}</span>
         <MenuHandler>
           <button className="rounded-[12rem] mx-2 bg-white shadow-none hover:shadow-none p-0 ">
-            <Avatar size="sm" src={avatar} alt="avatar" variant="circular" />
+            <Avatar
+              size="sm"
+              src={info.avatar ? `${API_URL}/images/${info.avatar}` : avatar}
+              alt="avatar"
+              variant="circular"
+            />
           </button>
         </MenuHandler>
         <MenuList>

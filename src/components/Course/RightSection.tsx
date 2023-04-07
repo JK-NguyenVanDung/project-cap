@@ -221,13 +221,19 @@ const RightSection = (props: any) => {
                   : handelRegister(program)
               }
               disabled={
-                program?.status === 'end' ? true : props.enable ? false : true
+                program?.status === 'end' || !program?.canRegister
+                  ? true
+                  : props.enable || program?.canRegister
+                  ? false
+                  : true
               }
               noIcon
               color={register ? 'red' : 'blue'}
               text={
                 program?.status === 'end'
-                  ? 'Đã kết thúc'
+                  ? 'Đã Kết Thúc'
+                  : !program?.canRegister
+                  ? 'Đã Hết Hạn Đăng Ký'
                   : register
                   ? ' Hủy Đăng Ký'
                   : 'Đăng Ký'
