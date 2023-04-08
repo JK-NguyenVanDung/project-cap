@@ -60,9 +60,9 @@ export default function ImportFile({
       dispatch(actions.reloadActions.setReload());
       const emailSuccess = listEmail?.filter((item: any) => {
         if (
-          emailVlu.test(item) ||
-          emailValid.test(item) ||
-          emailNotW.test(item) ||
+          emailVlu.test(item) &&
+          emailValid.test(item) &&
+          emailNotW.test(item) &&
           emailSpace.test(item)
         ) {
           return item;
@@ -76,7 +76,10 @@ export default function ImportFile({
         body: values,
         accountId: info.accountId,
       });
-      data.then((res: any) => setSuccessList(res));
+
+      data.then((res: any) => {
+        setSuccessList(res);
+      });
       setSaveEmail(true);
       setLoading(true);
       if (data) {
@@ -118,18 +121,15 @@ export default function ImportFile({
         setListEmail(
           data.map((item: any, index: number) => {
             const email: string = item.Email || item.email || item.EMAIL;
-            return email;
+            if (emailVlu.test(email)) {
+              return email;
+            }
           }),
         );
         setEmailError(
           data.filter((item: any, index: number) => {
             const email: string = item.Email || item.email || item.EMAIL;
-            if (
-              !emailVlu.test(item) ||
-              !emailValid.test(item) ||
-              !emailNotW.test(item) ||
-              !emailSpace.test(item)
-            ) {
+            if (!emailVlu.test(email)) {
               return email;
             }
           }),

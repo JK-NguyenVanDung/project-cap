@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { loginRequest } from '../pages/authentication/loginconfig';
 import { Spin, notification, Form, message } from 'antd';
 import { Navigate, useNavigate } from 'react-router-dom';
-import MakeAdminRouter from './AdminRouter';
 import { LoadingOutlined } from '@ant-design/icons';
 import apiService from '../api/apiService';
 import { useAppDispatch, useAppSelector } from '../hook/useRedux';

@@ -41,4 +41,4 @@ module.exports = {
     strict: 'error',
     'no-cond-assign': ['error', 'always'],
   },
-}
+};
