@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import apiService from '../../../api/apiService';
 import CourseCard from '../../../components/client/Card/CourseCard';
 import Input from '../../../components/sharedComponents/Input';
-import { useAppDispatch } from '../../../hook/useRedux';
+import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
 import { IProgramItem } from '../../../Type';
 import { BsFilter } from 'react-icons/bs';
@@ -12,7 +12,7 @@ import SearchBar from '../../../components/admin/ToolBar/ToolBar';
 import { MenuProps, Select, Spin } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import Loading from '../../../components/sharedComponents/Loading';
-import { removeVietnameseTones } from '../../../utils/uinqueId';
+import { removeVietnameseTones, timeOut } from '../../../utils/uinqueId';
 
 export default function Programs() {
   const [data, setData] = useState<Array<IProgramItem>>([]);
@@ -25,7 +25,8 @@ export default function Programs() {
     navigate(`/Programs/${item.programId}`);
   }, []);
   const [loading, setLoading] = useState(true);
-  let isLike = location.pathname.includes('Like');
+  let path = location.pathname.split('/');
+  let isLike = path[path.length - 1] === 'Like';
   const [options, setOptions] = useState([
     {
       value: 'Tất cả',
@@ -81,7 +82,7 @@ export default function Programs() {
         console.log(error);
       }
     };
-    fetch().finally(() => setLoading(false));
+    fetch().finally(() => timeOut(setLoading(false)));
     dispatch(
       actions.formActions.setNameMenu(
         `${!isLike ? 'Khóa học' : `Khoá Học Yêu Thích`}`,

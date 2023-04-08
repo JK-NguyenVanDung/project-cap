@@ -3,7 +3,7 @@ import apiService from '../../../api/apiService';
 import SearchBar from '../../../components/admin/ToolBar/ToolBar';
 import Loading from '../../../components/sharedComponents/Loading';
 import { useAppSelector } from '../../../hook/useRedux';
-import { removeVietnameseTones } from '../../../utils/uinqueId';
+import { removeVietnameseTones, timeOut } from '../../../utils/uinqueId';
 import { Space } from '../Programs/ResultProgram';
 import ItemGift from './Component/ItemGift';
 import ModalGift from './Component/ModalGift';
@@ -45,7 +45,6 @@ function GiftSreen() {
     };
   };
   useEffect(() => {
-    setLoading(true);
     const fetchListGift = async () => {
       const data: any = await apiService.getAllGift();
       if (data) {
@@ -53,7 +52,7 @@ function GiftSreen() {
         setListGiftExchange(data.map((item: any) => item));
       }
     };
-    fetchListGift();
+
     const fetchAccount = async () => {
       const response: any = await apiService.getProfile();
       if (response) {
@@ -61,13 +60,15 @@ function GiftSreen() {
         setCoinSelf(coin);
       }
     };
-    fetchAccount();
-    let timer = setTimeout(() => {
-      setLoading(false);
-    }, 700);
-    return () => {
-      clearTimeout(timer);
-    };
+    Promise.all([fetchListGift(), fetchAccount()]).finally(() =>
+      timeOut(setLoading(false)),
+    );
+    // let timer = setTimeout(() => {
+
+    // }, 300);
+    // return () => {
+    //   clearTimeout(timer);
+    // };
   }, [reload]);
   return (
     <>

@@ -7,6 +7,10 @@ import { LoadingOutlined } from '@ant-design/icons';
 import apiService from '../api/apiService';
 import { useAppDispatch, useAppSelector } from '../hook/useRedux';
 import { actions } from '../Redux';
+import videoBackground from '../assets/video/background.mp4';
+import FormInput from '../components/admin/Modal/FormInput';
+import CustomButton from '../components/admin/Button';
+import { exitPath } from '../onBuild';
 
 export default function Logined() {
   const [loading, setLoading] = useState(false);
@@ -71,8 +75,8 @@ export default function Logined() {
           }
         } catch (error) {
           instance.logoutPopup({
-            postLogoutRedirectUri: '/',
-            mainWindowRedirectUri: '/',
+            postLogoutRedirectUri: exitPath,
+            mainWindowRedirectUri: exitPath,
           });
           navigate('/');
           localStorage.clear();

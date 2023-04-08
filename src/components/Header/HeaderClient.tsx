@@ -18,14 +18,15 @@ import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { actions } from '../../Redux';
 import { AiOutlineHeart } from 'react-icons/ai';
+import { exitPath } from '../../onBuild';
 export default function () {
   const { instance, accounts } = useMsal();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const logoutAdmin = () => {
     instance.logoutPopup({
-      postLogoutRedirectUri: '/',
-      mainWindowRedirectUri: '/',
+      postLogoutRedirectUri: exitPath,
+      mainWindowRedirectUri: exitPath,
     });
     notification.success({ message: 'Đăng Xuất Thành Công' });
     dispatch(actions.authActions.logout());

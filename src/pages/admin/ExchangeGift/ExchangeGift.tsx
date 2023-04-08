@@ -130,9 +130,9 @@ export default function () {
           <>
             <p>
               {item == 'Approved' ? (
-                <p className="text-green-600">Đã Được Duyệt</p>
+                <p className="text-green-600">Đã Nhận Quà</p>
               ) : item == 'Pending' ? (
-                <p className="text-yellow-800">Chưa Được Duyệt</p>
+                <p className="text-yellow-800">Chưa Nhận Quà</p>
               ) : (
                 <p className="text-error">Bị Từ Chối</p>
               )}
@@ -148,16 +148,16 @@ export default function () {
 
       render: (data: any) => (
         <Space>
-          <CustomButton
+          {/* <CustomButton
             tip="Từ chối đăng ký"
             size="sm"
             color="red"
             disabled={data?.status === 'Approved'}
             Icon={MdRemoveCircle}
             onClick={() => handelRefusal(data)}
-          />
+          /> */}
           <CustomButton
-            tip="Duyệt đơn đăng ký"
+            tip="Duyệt đã nhận quà"
             size="sm"
             color="green"
             disabled={data?.status === 'Approved'}

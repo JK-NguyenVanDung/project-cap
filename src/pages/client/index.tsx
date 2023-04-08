@@ -58,7 +58,7 @@ export default function ClientSideBar({ content }: { content: any }) {
 
   const info = useAppSelector((state) => state.auth.info);
   useEffect(() => {
-    if (windowDimensions.width >= 768) {
+    if (windowDimensions.width >= 767) {
       setOpen(true);
     }
   }, [windowDimensions.width]);
@@ -125,7 +125,7 @@ export default function ClientSideBar({ content }: { content: any }) {
                       <ItemMenu
                         params={value}
                         closeMenu={() =>
-                          windowDimensions.width < 768 ? setOpen(false) : {}
+                          windowDimensions.width <= 767 ? setOpen(false) : {}
                         }
                       />
                       {/* )} */}
@@ -189,7 +189,7 @@ export default function ClientSideBar({ content }: { content: any }) {
           <main
             className="min-h-screen bg-gray-50 "
             onClick={() =>
-              windowDimensions.width <= 768 ? setOpen(false) : {}
+              windowDimensions.width <= 767 ? setOpen(false) : {}
             }
           >
             {content}

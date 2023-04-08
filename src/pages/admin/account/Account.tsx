@@ -28,6 +28,7 @@ export default function Account() {
   const [showModal, setShowModal] = useState(false);
   const [detail, setDetail] = useState<IAccountItem>();
   const [role, setRole] = useState<Array<IRoleItem>>();
+  const [faculties, setFaculties] = useState<Array<any>>();
   const [positions, setPositions] = useState<Array<any>>();
 
   const [reload, setReload] = useState(false);
@@ -46,15 +47,22 @@ export default function Account() {
       return role.find((e) => e.roleId === roleId)?.roleName;
     }
   }
-  function getPositionName(posId: any) {
-    if (positions) {
-      return positions.find((e) => e.positionId === posId)?.roleName;
+  function getFacultyName(facultyId: any) {
+    if (faculties) {
+      return faculties.find((e) => e.facultyId === facultyId)?.facultyName;
     }
   }
   const handleShowDetail = (item: any) => {
     // dispatch(actions.categoryActions.setDetail(data.ID))
     // dispatch(actions.formActions.showForm())
-    setDetail(item);
+    setDetail({
+      ...item,
+      faculty: faculties.find((e) => e.facultyId === item.facultyId)
+        ?.facultyName,
+      position: positions.find((e) => e.positionId === item.positionId)
+        ?.positionName,
+    });
+
     setShowDetail(true);
   };
   function getDate(date: string) {
@@ -97,9 +105,9 @@ export default function Account() {
     },
     {
       title: 'Ngành',
-      dataIndex: 'positionId',
+      dataIndex: 'facultyId',
       render: (id: any) => (
-        <p>{id ? getPositionName(id) : 'Không có thông tin'}</p>
+        <p>{id ? getFacultyName(id) : 'Không có thông tin'}</p>
       ),
       width: GIRD12.COL2,
     },
@@ -187,6 +195,11 @@ export default function Account() {
     let res: any = await apiService.getRoles();
     setRole(res);
   }
+  async function getFaculties() {
+    let res: any = await apiService.getFaculties();
+    setFaculties(res);
+    console.log(res);
+  }
   async function getPosition() {
     let res: any = await apiService.getPositions();
     setPositions(res);
@@ -197,6 +210,8 @@ export default function Account() {
   }, [reload]);
   useEffect(() => {
     getRoles();
+    getFaculties();
+    getPosition();
     setReload(false);
   }, []);
   async function checkAccountExist(email: string) {

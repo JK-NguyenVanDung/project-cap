@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import CustomButton from '../../../components/admin/Button';
 import PopOverAction from '../../../components/admin/PopOver';
 import TableConfig from '../../../components/admin/Table/Table';
-import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
+import uniqueId, {
+  removeVietnameseTones,
+  timeOut,
+} from '../../../utils/uinqueId';
 import { notification } from 'antd';
 import AddManagerGift from './Component/AddManagerGift';
 import DetailManagerGift from './Component/DetailManagerGift';
@@ -14,7 +17,7 @@ const ManagerGiftScreen = () => {
   const [showModal, setShowModal] = useState(false);
   const [detail, setDetail] = useState<IGift>();
 
-  const [reload, setReload] = useState(false);
+  const [reload, setReload] = useState(true);
   const [showDetail, setShowDetail] = useState(false);
 
   const [data, setData] = useState<Array<IGift>>([]);
@@ -33,14 +36,14 @@ const ManagerGiftScreen = () => {
         throw err.message;
       }
     };
-    fetchAllGift();
+    fetchAllGift().finally(() => timeOut(setReload(false)));
   }, [reload]);
-  useEffect(() => {
-    setReload(true);
-    setTimeout(() => {
-      setReload(false);
-    }, 3000);
-  }, [showModal, detail]);
+  // useEffect(() => {
+  //   setReload(true);
+  //   setTimeout(() => {
+  //     setReload(false);
+  //   }, 3000);
+  // }, [showModal, detail]);
   const columns = [
     {
       title: 'STT',
@@ -104,15 +107,16 @@ const ManagerGiftScreen = () => {
   };
   const handleDelete = async (item: IGift) => {
     setReload(true);
-    try {
-      await apiService.deleteGift(item.giftId);
-      setReload(false);
-    } catch (err: any) {
-      notification.error({
-        message: 'xóa không thành công',
-      });
-      setReload(false);
+    async function deleteItem() {
+      try {
+        await apiService.deleteGift(item.giftId);
+      } catch (err: any) {
+        notification.error({
+          message: 'xóa không thành công',
+        });
+      }
     }
+    deleteItem().finally(() => timeOut(setReload(false)));
   };
   const handleShowDetail = (data: IGift) => {
     setDetail(data);

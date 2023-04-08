@@ -7,7 +7,7 @@ import Loading from '../../../components/sharedComponents/Loading';
 import { useAppDispatch } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
 import { IProgramItem } from '../../../Type';
-import { removeVietnameseTones } from '../../../utils/uinqueId';
+import { removeVietnameseTones, timeOut } from '../../../utils/uinqueId';
 import RegisterCard from '../../../components/client/Card/RegisterCard';
 import ConfirmModal from '../../../components/admin/Modal/ConfirmModal';
 import { Dropdown } from 'antd';
@@ -120,7 +120,7 @@ export default function RegisteredPrograms() {
       setLoading(false),
         setNoView('Bạn đang không đăng ký chương trình nào cả.');
     });
-  }, []);
+  }, [loading]);
 
   function handelDataProgram(item: IProgramItem) {
     setUnRegisterProgram(item);
@@ -158,17 +158,16 @@ export default function RegisteredPrograms() {
   };
   function closeModal() {}
   const handelRegister = (item: IProgramItem) => {
+    setLoading(true);
+
     const fetchRegister = async () => {
       const value = {
         programId: item.programId,
         isRegister: item.isRegister,
       };
       const data: any = await apiService.registerOrUn(value);
-      if (data) {
-        setLoading(true);
-      }
     };
-    fetchRegister().finally(() => setLoading(false));
+    fetchRegister().finally(() => timeOut(setLoading(false)));
   };
 
   async function navToDetail(programId: number, status: string) {

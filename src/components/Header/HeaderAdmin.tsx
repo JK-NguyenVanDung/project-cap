@@ -17,6 +17,9 @@ import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { actions } from '../../Redux';
+import NotificationDropDown from '../sharedComponents/NotificationDropDown';
+import { exitPath } from '../../onBuild';
+import { API_URL } from '../../api/api';
 export default function () {
   const { instance, accounts } = useMsal();
   const navigate = useNavigate();
@@ -24,8 +27,8 @@ export default function () {
   const dispatch = useAppDispatch();
   const logoutAdmin = () => {
     instance.logoutPopup({
-      postLogoutRedirectUri: '/',
-      mainWindowRedirectUri: '/',
+      postLogoutRedirectUri: exitPath,
+      mainWindowRedirectUri: exitPath,
     });
     notification.success({ message: 'Đăng Xuất Thành Công' });
     dispatch(actions.authActions.logout());
@@ -34,21 +37,19 @@ export default function () {
   return (
     <div className="flex items-center justify-center max-w-full mr-2 ">
       <Menu>
-        <IconButton
-          variant="text"
-          className="text-dark-blue"
-          color="gray"
-          size="md"
-        >
-          <IoNotificationsOutline className="text-xl" />
-        </IconButton>
+        <NotificationDropDown />
         <span className="mr-1">
           Xin Chào {info.role == 1 ? null : info?.role?.roleName}{' '}
         </span>
         <span> {accounts[0].name}</span>
         <MenuHandler>
           <button className="rounded-[12rem] mx-2 bg-white shadow-none hover:shadow-none p-0 ">
-            <Avatar size="sm" src={avatar} alt="avatar" variant="circular" />
+            <Avatar
+              size="sm"
+              src={info.avatar ? `${API_URL}/images/${info.avatar}` : avatar}
+              alt="avatar"
+              variant="circular"
+            />
           </button>
         </MenuHandler>
         <MenuList>

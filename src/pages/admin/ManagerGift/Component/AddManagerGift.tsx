@@ -38,7 +38,11 @@ export default function AddManagerGift({
       setLoading(false);
     }, 1000);
   };
-
+  useEffect(() => {
+    return () => {
+      setURLImage(null);
+    };
+  }, []);
   const handleOk = async () => {
     form
       .validateFields()

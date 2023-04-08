@@ -11,7 +11,10 @@ import apiService from '../../../api/apiService';
 import { message } from 'antd';
 import { API_URL } from '../../../api/api';
 
-function getStatus(status: string) {
+function getStatus(status: string, canRegister: boolean) {
+  if (!canRegister) {
+    return 'Đã Hết Hạn Đăng Ký';
+  }
   switch (status) {
     case 'public':
       return 'Có thể đăng ký  ';
@@ -43,7 +46,6 @@ export default memo(function ({
   const [totalLike, setTotalLike] = useState(memoItem?.totalLike);
 
   // const [colorHeart, setColorHeart]: any = useState(Color.gray4);
-  console.count(memoItem?.programName + ' re-render');
   const handelLove = (itemProgram?: IProgramItem) => {
     setTotalLike((lastTotal) => (!like ? lastTotal + 1 : lastTotal - 1));
     setLike((like) => !like);
@@ -75,20 +77,23 @@ export default memo(function ({
           overflow-hidden flex-col  w-full rounded-[20px] justify-end hover:border-[3px]  " //border-[2px] border-color-[#c3c6ce]
         >
           <div className="max-h-[40vh] h-[25vh]  w-full">
-            {!isRegistered ? (
+            {!isRegistered ||
+            (isRegistered && memoItem?.status !== 'public') ? (
               <div
                 className={`absolute  tag ${
-                  memoItem?.status === 'public' ? 'bg-green-600' : 'bg-red-600'
+                  memoItem?.status === 'public' && memoItem?.canRegister
+                    ? 'bg-green-600'
+                    : 'bg-red-600'
                 } px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-[-4px]`}
               >
                 <div
                   className={`relative ${
-                    memoItem?.status === 'public'
+                    memoItem?.status === 'public' && memoItem?.canRegister
                       ? 'bg-green-600'
                       : 'bg-red-600'
                   } `}
                 >
-                  <p>{getStatus(memoItem?.status)}</p>
+                  <p>{getStatus(memoItem?.status, memoItem?.canRegister)}</p>
                 </div>
               </div>
             ) : (
@@ -195,15 +200,13 @@ export const SmallCourseCard = ({
     setTotalLike((lastTotal) => (!like ? lastTotal + 1 : lastTotal - 1));
     setLike((like) => !like);
     const fetchLike = async () => {
-      await apiService.likeProgram(itemProgram?.programId, like);
+      await apiService.likeProgram(itemProgram?.programId, !like);
     };
 
-    if (itemProgram?.programId) {
-      try {
-        fetchLike();
-      } catch (err: any) {
-        throw err.message;
-      }
+    try {
+      fetchLike();
+    } catch (err: any) {
+      throw err.message;
     }
   };
 
@@ -239,9 +242,7 @@ export const SmallCourseCard = ({
                 {data.programName}
               </p>
               <div className="flex items-center">
-                <span className="text-body text-bold">
-                  {data ? totalLike : data?.totalLike}
-                </span>
+                <span className="text-body text-bold">{totalLike}</span>
                 <AiFillHeart
                   onClick={() => handelLove(data)}
                   color={!like ? Color.gray4 : Color.error}
@@ -249,24 +250,24 @@ export const SmallCourseCard = ({
                 />
               </div>
             </div>
-            <p className="text-body">
+            <p className="text-body eclipse-text">
               {' '}
               {`HK${data?.semester} - ${data?.academicYear?.year}`}{' '}
             </p>
             <div className="flex w-[88%] justify-between items-center my-4">
               <div className="flex   items-center">
-                <IoPerson className="text-lg mr-2 text-gray-400" />
+                <IoPerson className="text-lg mr-2 text-gray-400 eclipse-text" />
                 {data.lecturers}
               </div>
               <div className="flex   items-center">
-                <RiTimerFill className="text-lg mr-2 text-gray-400" />
+                <RiTimerFill className="text-lg mr-2 text-gray-400 eclipse-text" />
                 {data.trainingHours}h
               </div>
             </div>
           </div>
           <button
             className=" outline-none card-button bg-primary"
-            onClick={onClick}
+            onClick={() => onClick(data)}
           >
             Xem chi tiết
           </button>

@@ -97,7 +97,7 @@ const AddReviewer = ({
           programId: program?.programId,
         });
         setShow(false);
-        notification.success({ message: 'Thêm thành công' });
+        notification.success({ message: 'Thêm Người Duyệt thành công' });
         form.resetFields();
       })
 

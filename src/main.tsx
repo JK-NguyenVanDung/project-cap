@@ -21,7 +21,7 @@ let base =
   (document.querySelector('base')?.getAttribute('href') as string) ?? '/';
 const baseUrl = window.location.href.toString().includes('5173')
   ? '/'
-  : '/SEP25Team17/';
+  : '/CP25Team02/';
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
     {baseUrl === '/' ? (

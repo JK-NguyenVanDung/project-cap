@@ -13,7 +13,7 @@ export default function ItemGift({
   return (
     <div
       key={index}
-      className="cardCont  rounded-[20px] bg-white  flex flex-col w-full  my-8"
+      className="cardCont  rounded-[20px] bg-white  flex flex-col w-full  my-8 "
     >
       <div
         className={`card shadow-lg  border-[2px] border-white hover:border-primary ${
@@ -35,7 +35,9 @@ export default function ItemGift({
           <p className="text-lg my-2 eclipse-text  max-w-fit w-fit font-semibold cursor-pointer hover:text-primary">
             {data?.name}
           </p>
-          <p className="text-body eclipse min-h-[3rem]">{data?.description}</p>
+          <p className="text-body eclipse min-h-[3rem] eclipse-text">
+            {data?.description}
+          </p>
           <div className="flex justify-between pb-4">
             <p>
               <span className="font-bold">Số Lượng:</span> {data?.quantity ?? 0}

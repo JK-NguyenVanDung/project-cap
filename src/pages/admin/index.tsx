@@ -22,6 +22,7 @@ import ItemMenu from './ItemMenu';
 import MenuDropdown from './MenuDropdown';
 import { IoLogOut } from 'react-icons/io5';
 import { notification } from 'antd';
+import { exitPath } from '../../onBuild';
 
 export default function SideBar({
   content,
@@ -40,8 +41,8 @@ export default function SideBar({
 
   const logoutAdmin = () => {
     instance.logoutPopup({
-      postLogoutRedirectUri: '/',
-      mainWindowRedirectUri: '/',
+      postLogoutRedirectUri: exitPath,
+      mainWindowRedirectUri: exitPath,
     });
     notification.success({ message: 'Đăng Xuất Thành Công' });
     dispatch(actions.authActions.logout());
@@ -155,7 +156,9 @@ export default function SideBar({
               </div>
             </header>
           )}
-          <main className={!noHeader && 'mx-4'}>{content}</main>
+          <main className={!noHeader && 'mx-4 overflow-x-scroll'}>
+            {content}
+          </main>
         </div>
       </div>
     </>

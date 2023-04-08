@@ -21,6 +21,8 @@ export const API_CONFIG = {
     DEL: (id: number) => `/api/Accounts/${id}`,
     PUT: (ID: number) => `/api/Accounts/${ID}`,
     PUT_FORM: '/api/Accounts/me',
+    GET_NOTIFICATIONS: '/api/Accounts/notify',
+    SEEN_NOTIFICATION: (id: number) => `/api/Accounts/seenNotify?id=${id}`,
   },
   ROLES: {
     GET: '/api/Roles/getall',
@@ -151,6 +153,7 @@ export const API_CONFIG = {
     GET_COMMENT: (idProgram: number) => `/api/Comments/${idProgram}`,
     SENT_COMMENT: `/api/Comments`,
     DELETE_COMMENT: (idComment: number) => `/api/Comments/${idComment}`,
+    GET_COMMENTED_PROGRAM: `/api/Comments/GetProgram`,
   },
   ATTENDANCES: {
     GET_ATTENDANCES: (idProgram: number) =>

@@ -203,7 +203,7 @@ export default function ChapterInfo() {
         <Breadcrumb
           name="Chương Trình"
           router1="/admin/Program"
-          name2="Chuyên Đề"
+          name2={itemChapter && itemChapter}
         />
       </div>
       <ConfirmModal

@@ -13,7 +13,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import Loading from '../../../components/sharedComponents/Loading';
 import moment from 'moment';
 import CourseCard, {
@@ -32,10 +32,12 @@ export default function ({
   const dispatch = useAppDispatch();
   const range: any = useAppSelector((state) => state.survey.range);
 
-  async function navToProgram(item: IProgramItem) {
+  const callBack = useCallback(function handelDataProgram(item: IProgramItem) {
     dispatch(actions.formActions.setProgramForm(item));
+    dispatch(actions.navActions.setNav('/home'));
+
     navigate(`/Programs/${item.programId}`);
-  }
+  }, []);
   return (
     <>
       {loading ? (
@@ -61,10 +63,7 @@ export default function ({
               return (
                 <SwiperSlide className="pb-6 w-fit mr-6">
                   <div className="w-fit  ">
-                    <SmallCourseCard
-                      data={item}
-                      onClick={() => navToProgram(item)}
-                    />
+                    <SmallCourseCard data={item} onClick={callBack} />
                   </div>
                 </SwiperSlide>
               );

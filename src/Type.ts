@@ -73,6 +73,7 @@ const ProgramItem = z.object({
   isRegister: z.boolean(),
   isLike: z.boolean(),
   programId: z.number(),
+  canRegister: z.boolean(),
   facultyId: z.number(),
   accountIdCreator: z.number(),
   categoryId: z.number(),
@@ -285,6 +286,14 @@ const GiftExchange = z.object({
   gift: Gift,
   createdAt: z.date(),
 });
+const Notification = z.object({
+  id: z.number(),
+  type: z.number(),
+  value: z.string(),
+  isSeen: z.boolean(),
+  createdAt: z.date(),
+});
+export type INotification = z.infer<typeof Notification>;
 
 export type IRoleItem = z.infer<typeof RoleItem>;
 export type IAnswer = z.infer<typeof Answer>;

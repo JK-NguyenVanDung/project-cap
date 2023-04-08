@@ -12,7 +12,7 @@ import SearchBar from '../../../components/admin/ToolBar/ToolBar';
 import { MenuProps, Select, Spin } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import Loading from '../../../components/sharedComponents/Loading';
-import { removeVietnameseTones } from '../../../utils/uinqueId';
+import { removeVietnameseTones, timeOut } from '../../../utils/uinqueId';
 
 export default function MyProgram() {
   const [data, setData] = useState<Array<IProgramItem>>(null);
@@ -74,7 +74,7 @@ export default function MyProgram() {
         console.log(error);
       }
     };
-    fetch().finally(() => setLoading(false));
+    fetch().finally(() => timeOut(setLoading(false)));
 
     dispatch(actions.formActions.setNameMenu(`${'Khóa Học Của Tôi'}`));
   }, []);

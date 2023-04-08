@@ -1,4 +1,6 @@
 import moment from 'moment';
+import { FaChartLine } from 'react-icons/fa';
+import { FcAreaChart } from 'react-icons/fc';
 
 export default function ({
   title,
@@ -36,7 +38,8 @@ export default function ({
         )}
         <div className="flex justify-between">
           {/* {icon2 ? icon2 : <IncreaseIcon />} */}
-          <p className="font-semibold ">2022 - {moment().year()}</p>
+          <FaChartLine className={`text-xl text-[${color}}]`} />
+          {/* <p className="font-semibold ">2022 - {moment().year()}</p> */}
         </div>
       </div>
     </>
