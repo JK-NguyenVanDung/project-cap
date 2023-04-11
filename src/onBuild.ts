@@ -1,4 +1,4 @@
-let isHosting = true;
+let isHosting = false;
 
 export const path = isHosting
   ? 'https://cntttest.vanlanguni.edu.vn/CP25Team02'
