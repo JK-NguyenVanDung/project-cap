@@ -20,7 +20,7 @@ export default function Homepage() {
   const [programs, setPrograms] = useState([]);
   const [popularPrograms, setPopularPrograms] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const info = useAppSelector((state) => state.auth.info);
 
@@ -31,7 +31,6 @@ export default function Homepage() {
       ),
     );
     const fetchData = async () => {
-      setLoading(true);
       try {
         const data: any = await apiService.getMySurveys(info?.accountId);
         setBannerData(data);
@@ -44,13 +43,7 @@ export default function Homepage() {
         console.log(error);
       }
     };
-    fetchData();
-    let timer = setTimeout(() => {
-      setLoading(false);
-    }, 300);
-    return () => {
-      clearTimeout(timer);
-    };
+    fetchData().finally(() => setLoading(false));
   }, []);
 
   return (
@@ -60,7 +53,7 @@ export default function Homepage() {
           <div className="absolute w-full h-fit">
             <Loading loading={loading} />
           </div>
-          {bannerData && bannerData.length > 0 && (
+          {!loading && bannerData && bannerData.length > 0 && (
             <div className={`flex w-full items-center`}>
               <div className="w-[84vw] max-sm:w-[96vw] mt-4">
                 <Banner data={[...bannerData]} />
@@ -70,7 +63,7 @@ export default function Homepage() {
 
           <FormFirstTime />
         </div>
-        {programs && programs?.length > 0 && (
+        {!loading && programs && programs?.length > 0 && (
           <div className="my-12 w-[90vw] max-sm:w-[100vw]">
             <CourseCarousel
               data={programs?.reverse()}
@@ -78,7 +71,7 @@ export default function Homepage() {
             />
           </div>
         )}
-        {popularPrograms && popularPrograms?.length > 0 && (
+        {!loading && popularPrograms && popularPrograms?.length > 0 && (
           <div className="my-12 w-[90vw] max-sm:w-[100vw]">
             <CourseCarousel
               data={popularPrograms?.reverse()}

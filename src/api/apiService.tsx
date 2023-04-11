@@ -462,6 +462,9 @@ export default {
     return axiosConfig.get(API_CONFIG.STATISTIC.GET_DASHBOARD_BY_YEAR(yearId));
   },
 
+  getRanking: () => {
+    return axiosConfig.get(API_CONFIG.STATISTIC.GET_RANKING);
+  },
   getMyStatics: (accountId: number) => {
     return axiosConfig.get(API_CONFIG.STATISTIC.GET_MY_STATISTIC(accountId));
   },
@@ -556,5 +559,8 @@ export default {
 
   seenNotification: (id: number) => {
     return axiosConfig.get(API_CONFIG.ACCOUNT.SEEN_NOTIFICATION(id));
+  },
+  deleteNotification: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.ACCOUNT.DELETE_NOTIFICATION(id));
   },
 };

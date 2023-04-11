@@ -123,7 +123,9 @@ export default function () {
             className=" hover:text-primary text-black relative my-2  px-2 w-full flex flex-row items-center justify-center"
           >
             <img className="w-[14%] h-fit " src={logo} />
-            <p className="text-lg font-bold text-center mx-2">VLG TRAINING</p>
+            <p className="text-lg font-bold text-center mx-2">
+              L&D VLG TRAINING
+            </p>
           </a>
         </div>
 

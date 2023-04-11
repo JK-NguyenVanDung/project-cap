@@ -77,9 +77,6 @@ export default function AddManagerGift({
             setShowModal(false);
             form.resetFields();
           }
-          setTimeout(() => {
-            setLoading(false);
-          }, 1000);
         } catch (error) {
           notification.error({ message: 'Thực hiện không thành công' });
         }
@@ -88,6 +85,9 @@ export default function AddManagerGift({
       .catch((info) => {
         // dispatch(actions.formActions.showError())
       });
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   };
   const FormItem = () => {
     return (

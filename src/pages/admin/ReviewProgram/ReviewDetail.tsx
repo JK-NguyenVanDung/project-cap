@@ -29,7 +29,7 @@ const ReviewDetail = () => {
             className=" hover:text-primary relative my-2 pl-4  pl-2 flex  w-fit flex-row items-center justify-start"
           >
             <img className="w-[3%] h-full" src={logo} />
-            <p className="text-lg text-center mx-2"> VLG TRAINING</p>
+            <p className="text-lg text-center mx-2"> L&D VLG TRAINING</p>
           </a>
           <div className="w-[40%]">
             <HeaderAdmin />

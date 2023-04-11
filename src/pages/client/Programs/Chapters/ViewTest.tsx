@@ -140,7 +140,7 @@ export default function (props: any) {
       {!loading && (
         <>
           <p className="py-4 text-2xl font-semibold text-primary">
-            Bài kiểm tra:{' '}
+            Bài Kiểm Tra{' '}
             {selectedTest?.testTitle ? selectedTest?.testTitle : 'N/A'}
           </p>
           {!selectedChapter.isDone && (

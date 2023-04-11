@@ -207,6 +207,9 @@ export default function Question() {
         //   actions.questionActions.setCurrentQuestionIndex(res.indexOf(cur[0])),
         // );
       } catch (err: any) {
+        message.error(
+          'Hiện tại không thể xóa đáp án này, vui lòng thử lại sau',
+        );
         throw err.message;
       }
     } else {
@@ -247,6 +250,10 @@ export default function Question() {
         // }
         // return message.success(MESSAGE.SUCCESS.DELETE);
       } catch (err: any) {
+        message.error(
+          'Hiện tại không thể xóa câu hỏi này, vui lòng thử lại sau',
+        );
+
         throw err.message;
       }
     } else {

@@ -2,18 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import apiService from '../../../api/apiService';
-import CourseCard from '../../../components/client/Card/CourseCard';
-import Input from '../../../components/sharedComponents/Input';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
-import { actions } from '../../../Redux';
 import { IExchangeCoin, IProgramItem } from '../../../Type';
-import { BsFilter } from 'react-icons/bs';
 import SearchBar from '../../../components/admin/ToolBar/ToolBar';
-import { MenuProps, Spin } from 'antd';
-import { Button, Dropdown, Space } from 'antd';
 import Loading from '../../../components/sharedComponents/Loading';
 import { removeVietnameseTones, timeOut } from '../../../utils/uinqueId';
 import CoinExchangeCard from '../../../components/client/Card/CoinExchangeCard';
+import { actions } from '../../../Redux';
 
 export default function () {
   const [data, setData] = useState<Array<IProgramItem>>(null);
@@ -24,14 +19,17 @@ export default function () {
     const fetch = async () => {
       try {
         const data: any = await apiService.getLearnerExchanges(info.accountId);
-
-        setData(data);
-        setFilterData(data);
+        let res = data.reverse();
+        console.log(res);
+        setData(res);
+        setFilterData(res);
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
       } catch (error) {
         console.log(error);
       }
     };
+    dispatch(actions.formActions.setNameMenu('Đổi Coin'));
+
     fetch().finally(() => timeOut(setLoading(false)));
   }, []);
   const navigate = useNavigate();
@@ -102,8 +100,9 @@ export default function () {
                     status={
                       item.ended
                         ? 'ended'
-                        : item.certificatePhotos[
-                            item.certificatePhotos.length - 1
+                        : item.creatorAccount.creatorCertificatePhoto[
+                            item.creatorAccount.creatorCertificatePhoto.length -
+                              1
                           ]?.status
                     }
                     isRegistered={false}

@@ -11,8 +11,15 @@ import apiService from '../../../api/apiService';
 import { message } from 'antd';
 import { API_URL } from '../../../api/api';
 
-function getStatus(status: string, canRegister: boolean) {
+function getStatus(
+  status: string,
+  canRegister: boolean,
+  registrationStartDate: Date,
+) {
   if (!canRegister) {
+    if (new Date(registrationStartDate).getTime() <= new Date().getTime()) {
+      return 'Chưa Tới Thời Hạn Đăng Ký';
+    }
     return 'Đã Hết Hạn Đăng Ký';
   }
   switch (status) {
@@ -93,7 +100,13 @@ export default memo(function ({
                       : 'bg-red-600'
                   } `}
                 >
-                  <p>{getStatus(memoItem?.status, memoItem?.canRegister)}</p>
+                  <p>
+                    {getStatus(
+                      memoItem?.status,
+                      memoItem?.canRegister,
+                      memoItem?.registrationStartDate,
+                    )}
+                  </p>
                 </div>
               </div>
             ) : (
@@ -166,11 +179,11 @@ export default memo(function ({
             <div className="flex w-full justify-between items-center my-4">
               <div className="flex items-center">
                 <IoPerson className="text-lg mr-2 text-gray-400" />
-                {memoItem?.lecturers}
+                <div className="eclipse-text"> {memoItem?.lecturers}</div>
               </div>
               <div className="flex   items-center">
                 <RiTimerFill className="text-lg mr-2 text-gray-400" />
-                {memoItem?.trainingHours}h
+                <div className="eclipse-text"> {memoItem?.trainingHours}h</div>
               </div>
             </div>
           </div>
@@ -255,13 +268,13 @@ export const SmallCourseCard = ({
               {`HK${data?.semester} - ${data?.academicYear?.year}`}{' '}
             </p>
             <div className="flex w-[88%] justify-between items-center my-4">
-              <div className="flex   items-center">
-                <IoPerson className="text-lg mr-2 text-gray-400 eclipse-text" />
-                {data.lecturers}
+              <div className="flex  eclipse items-center">
+                <IoPerson className="text-lg mr-2 text-gray-400  " />
+                <div className="eclipse-text"> {data.lecturers}</div>
               </div>
               <div className="flex   items-center">
-                <RiTimerFill className="text-lg mr-2 text-gray-400 eclipse-text" />
-                {data.trainingHours}h
+                <RiTimerFill className="text-lg mr-2 text-gray-400 " />
+                <div className="eclipse-text"> {data.trainingHours}h</div>
               </div>
             </div>
           </div>

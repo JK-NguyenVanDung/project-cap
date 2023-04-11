@@ -24,20 +24,26 @@ export default function Logined() {
   const [tokenRequest, setTokenRequest] = useState();
   const alert = useAppSelector((state) => state.auth.notification);
   const fetchInfo = async () => {
-    const response: any = await apiService.getProfile();
-    dispatch(actions.authActions.setInfo(response));
+    try {
+      const response: any = await apiService.getProfile();
+      dispatch(actions.authActions.setInfo(response));
 
-    if (response.roleId == 2 || response.roleId == 3 || response.roleId == 4) {
-      navigate('/admin');
-    } else {
-      navigate('/home');
-    }
+      if (
+        response.roleId == 2 ||
+        response.roleId == 3 ||
+        response.roleId == 4
+      ) {
+        navigate('/admin');
+      } else {
+        navigate('/home');
+      }
+    } catch (err) {}
   };
   useEffect(() => {
     RequestAccessToken();
-    if (tokenRequest) {
-      fetchInfo();
-    }
+    // if (tokenRequest) {
+    //   fetchInfo();
+    // }
   }, []);
   useEffect(() => {
     if (alert === true) {
@@ -61,7 +67,6 @@ export default function Logined() {
           });
           setTokenRequest(reponseToken.token);
           if (reponseToken) {
-            setLoading(false);
             dispatch(actions.authActions.Login(reponseToken.token));
             localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
 
@@ -87,7 +92,8 @@ export default function Logined() {
       })
       .catch((e) => {
         console.log(e);
-      });
+      })
+      .finally(() => setLoading(false));
   }
   const antIcon = <LoadingOutlined style={{ fontSize: 50 }} spin />;
   return (

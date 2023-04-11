@@ -7,11 +7,9 @@ import { errorText, MESSAGE } from '../../../../helper/constant';
 import { IChapterItem, ITest } from '../../../../Type';
 import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
-import { Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { IoTimeOutline } from 'react-icons/io5';
 import RadioGroup from '../../../../components/sharedComponents/RadioGroup';
-import { useLocation } from 'react-router-dom';
 import ConfirmModal from '../../../../components/admin/Modal/ConfirmModal';
 import { Breadcrumb } from '../../../../components/sharedComponents';
 
@@ -59,6 +57,8 @@ export default function Test() {
       message.success(MESSAGE.SUCCESS.DELETE);
       navigate(`/admin/Program/Chapter/${chapter}`);
     } catch (err: any) {
+      message.error('Bài kiểm tra này hiện đã người làm, không thể xóa');
+
       throw err.message;
     }
   }

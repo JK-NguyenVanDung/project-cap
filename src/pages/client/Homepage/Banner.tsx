@@ -44,6 +44,7 @@ export default function ({ data }: { data: any }) {
     }
     setLoading(false);
   }
+
   return (
     <>
       {loading ? (
@@ -79,6 +80,12 @@ function BannerItem({
   data: ISurveyItem;
   navToSurvey: Function;
 }) {
+  function checkDate(data: any) {
+    if (new Date(data?.endDate).getTime() <= new Date().getTime()) {
+      return true;
+    }
+    return false;
+  }
   return (
     <>
       <div className="flex  min-h-[23rem]  max-sm:flex-col m-8 max-sm:m-0 max-sm:ml-4  bg-white shadow-md rounded-xl">
@@ -122,6 +129,7 @@ function BannerItem({
               className="w-[16rem]"
               noIcon
               text="Tham gia"
+              disabled={checkDate(data)}
               onClick={() => navToSurvey(data)}
             />
           </div>

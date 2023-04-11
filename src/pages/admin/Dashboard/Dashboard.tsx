@@ -20,6 +20,8 @@ import FormInput from '../../../components/admin/Modal/FormInput';
 export default function () {
   const [data, setData] = useState<any>({});
   const [years, setYears] = useState<any>([]);
+  const [ranking, setRanking] = useState<any>([]);
+
   const [selectedYears, setSelectedYears] = useState<any>([]);
 
   const [formDate] = Form.useForm();
@@ -32,6 +34,8 @@ export default function () {
         years[years?.length - 1].id,
       );
       setData(res);
+      let learners: any = await apiService.getRanking();
+      setRanking(learners);
     } catch (err: any) {}
   }
   const dispatch = useAppDispatch();
@@ -159,9 +163,7 @@ export default function () {
             data={data.monthlyPrograms ? data.monthlyPrograms : []}
             selectedYears={selectedYears}
           />
-          <TopLearners
-            data={data.accountRankings ? data.accountRankings : []}
-          />
+          <TopLearners data={ranking ? ranking : []} />
         </div>
       </div>
       <div className="h-[30vh] mt-12"></div>

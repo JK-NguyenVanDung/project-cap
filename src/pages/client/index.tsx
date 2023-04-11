@@ -95,7 +95,7 @@ export default function ClientSideBar({ content }: { content: any }) {
               className=" hover:text-black relative my-2  max-sm:mt-4  px-2 w-full flex flex-row items-center justify-center"
             >
               <img
-                className={`w-1/6 h-fit mb-2  max-sm:w-[10%]  ${
+                className={`w-[15%] h-fit mb-2  max-sm:w-[10%]  ${
                   open ? 'max-sm:visible ' : 'max-sm:hidden'
                 }`}
                 src={logo}
@@ -105,7 +105,7 @@ export default function ClientSideBar({ content }: { content: any }) {
                   open === true ? '' : 'hidden'
                 }] text-lg font-bold text-center mb-2 mx-2`}
               >
-                VLG TRAINING
+                L&D VLG TRAINING
               </p>
             </a>
 

@@ -101,7 +101,7 @@ export default function UserTest(props: any) {
               >
                 <img className="w-[14%] h-fit " src={logo} />
                 <p className="text-lg font-bold text-center mx-2">
-                  VLG TRAINING
+                  L&D VLG TRAINING
                 </p>
               </a>
             </div>
@@ -123,7 +123,7 @@ export default function UserTest(props: any) {
                         : 'Chương Trình'
                     }
                     name2={program ? program?.programName : 'N/A'}
-                    name3={'Bài kiểm tra: ' + selectedTest?.testTitle}
+                    name3={'Bài kiểm tra ' + selectedTest?.testTitle}
                   />
                 </div>
               </div>

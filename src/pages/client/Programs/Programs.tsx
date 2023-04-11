@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import apiService from '../../../api/apiService';
 import CourseCard from '../../../components/client/Card/CourseCard';
@@ -25,8 +25,8 @@ export default function Programs() {
     navigate(`/Programs/${item.programId}`);
   }, []);
   const [loading, setLoading] = useState(true);
-  let path = location.pathname.split('/');
-  let isLike = path[path.length - 1] === 'Like';
+  const isLike: boolean = useAppSelector((state) => state.nav.isLike);
+  const location = useLocation();
   const [options, setOptions] = useState([
     {
       value: 'Tất cả',
@@ -88,7 +88,10 @@ export default function Programs() {
         `${!isLike ? 'Khóa học' : `Khoá Học Yêu Thích`}`,
       ),
     );
-  }, [isLike]);
+    return () => {
+      dispatch(actions.navActions.setIsLike(false));
+    };
+  }, [location]);
   // useEffect(() => {
   console.count('re-0');
 

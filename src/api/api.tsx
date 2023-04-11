@@ -22,6 +22,8 @@ export const API_CONFIG = {
     PUT: (ID: number) => `/api/Accounts/${ID}`,
     PUT_FORM: '/api/Accounts/me',
     GET_NOTIFICATIONS: '/api/Accounts/notify',
+    DELETE_NOTIFICATION: (id: number) => `/api/Accounts/notify?id=${id}`,
+
     SEEN_NOTIFICATION: (id: number) => `/api/Accounts/seenNotify?id=${id}`,
   },
   ROLES: {
@@ -211,6 +213,8 @@ export const API_CONFIG = {
     GET_CATEGORY_STATISTIC: (academicYearId: number) =>
       `/api/Statistics/StatisticsOfCategory/${academicYearId}`,
     GET_DASHBOARD: `/api/Dashboard`,
+    GET_RANKING: `/api/Dashboard/GetLearnerRanking`,
+
     GET_DASHBOARD_BY_YEAR: (yearId: number) => `/api/Dashboard/${yearId}`,
 
     GET_MY_STATISTIC: (accountId: number) =>

@@ -99,6 +99,43 @@ const RightSection = (props: any) => {
     };
     fetchRegister();
   };
+  function getStatus(
+    status: string,
+    canRegister: boolean,
+    registrationStartDate: Date,
+  ) {
+    if (!canRegister) {
+      if (new Date(registrationStartDate).getTime() <= new Date().getTime()) {
+        return 'Chưa Tới Thời Hạn Đăng Ký';
+      }
+      return 'Đã Hết Hạn Đăng Ký';
+    }
+    switch (status) {
+      case 'public':
+        return 'Có thể đăng ký  ';
+      case 'end':
+        return 'Đã kết thúc';
+    }
+  }
+  function getButtonText(program: IProgramItem, register: boolean) {
+    if (!program?.canRegister) {
+      if (
+        new Date(program?.registrationStartDate).getTime() <=
+        new Date().getTime()
+      ) {
+        return 'Chưa Tới Thời Hạn Đăng Ký';
+      }
+      return 'Đã Hết Hạn Đăng Ký';
+    }
+    let text =
+      program?.status === 'end'
+        ? 'Đã Kết Thúc'
+        : register
+        ? ' Hủy Đăng Ký'
+        : 'Đăng Ký';
+
+    return text;
+  }
   const goResultProgram = (item: IProgramItem) => {
     dispatch(actions.formActions.setProgramForm(item));
     navigate(`/ResultProgram/${item.programId}`);
@@ -229,15 +266,7 @@ const RightSection = (props: any) => {
               }
               noIcon
               color={register ? 'red' : 'blue'}
-              text={
-                program?.status === 'end'
-                  ? 'Đã Kết Thúc'
-                  : !program?.canRegister
-                  ? 'Đã Hết Hạn Đăng Ký'
-                  : register
-                  ? ' Hủy Đăng Ký'
-                  : 'Đăng Ký'
-              }
+              text={getButtonText(program, register)}
               className=" w-[90%] my-2  h-10"
             />
           )}

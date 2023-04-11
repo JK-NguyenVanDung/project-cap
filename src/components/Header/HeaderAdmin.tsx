@@ -9,10 +9,7 @@ import {
   Button,
 } from '@material-tailwind/react';
 import avatar from '../../assets/img/default.png';
-import Color from '../constant/Color';
-import { IoNotifications, IoNotificationsOutline } from 'react-icons/io5';
 import { useMsal } from '@azure/msal-react';
-import { IconButton } from '@material-tailwind/react';
 import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
@@ -48,6 +45,11 @@ export default function () {
               size="sm"
               src={info.avatar ? `${API_URL}/images/${info.avatar}` : avatar}
               alt="avatar"
+              onError={({ currentTarget }) => {
+                currentTarget.onerror = null; // prevents looping
+                currentTarget.src = avatar;
+                // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
+              }}
               variant="circular"
             />
           </button>

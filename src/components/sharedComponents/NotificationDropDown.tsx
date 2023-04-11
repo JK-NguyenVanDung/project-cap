@@ -30,6 +30,7 @@ export default function PopOverAction({
   const [openAction, setOpenAction] = useState(false);
   const [totalData, setTotalData] = useState<Array<INotification>>([]);
   const [limit, setLimit] = useState(3);
+  const [amount, setAmount] = useState(0);
 
   const [data, setData] = useState<Array<INotification>>([]);
   function handleAction() {
@@ -43,12 +44,15 @@ export default function PopOverAction({
     setLimit((prev) => prev + 3);
     setData(totalData.slice(0, limit));
   }
+  async function getNotification() {
+    let res: any = await apiService.getNotifications();
+    let seen = res.filter((e: INotification) => e.isSeen === false);
+    setData(res.slice(0, limit));
+    setTotalData(res);
+    setAmount(seen.length);
+  }
   useEffect(() => {
-    async function getNotification() {
-      let res: any = await apiService.getNotifications();
-      setData(res.slice(0, limit));
-      setTotalData(res);
-    }
+    getNotification();
     let interval = setInterval(() => {
       getNotification();
     }, 10000);
@@ -60,16 +64,31 @@ export default function PopOverAction({
       clearTimeout(time);
     };
   }, []);
+  useEffect(() => {
+    seenSlice(data);
+  }, [data.length]);
+  async function seenSlice(data: INotification[]) {
+    setLoading(true);
+
+    Promise.all([
+      ...data.map((item) => {
+        return !item.isSeen && apiService.seenNotification(item.id);
+      }),
+    ]).finally(() => setLoading(false));
+  }
   function onRemove(id: number) {
     async function removeNoti() {
-      await apiService.seenNotification(id);
+      await apiService.deleteNotification(id);
     }
     setLoading(true);
-    removeNoti().finally(() => setLoading(false));
+    removeNoti().finally(() => {
+      getNotification(), setLoading(false);
+    });
   }
+
   return (
     <>
-      <div className="min-h-[20rem]  flex w-max items-center gap-4 z-[100] ">
+      <div className="min-h-[20rem] h-fit  flex w-max items-center gap-4 z-[100] ">
         <Popover
           handler={handleAction}
           open={openAction}
@@ -82,11 +101,14 @@ export default function PopOverAction({
           <PopoverHandler>
             <IconButton
               variant="text"
-              className="text-dark-blue"
+              className="text-dark-blue mr-4"
               color="gray"
               size="md"
             >
-              <IoNotificationsOutline className="text-xl" />
+              <p className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-primary flex justify-center items-center ">
+                <p className="text-xs text-white font-bold">{amount}</p>
+              </p>
+              <IoNotificationsOutline className="text-[1.5rem]" />
             </IconButton>
           </PopoverHandler>
           <PopoverContent className="z-20 flex flex-col items-center justify-center w-fit">
@@ -109,7 +131,7 @@ export default function PopOverAction({
                   : false
               }
               onClick={() => updateAmount()}
-              className="btn btn-primary "
+              className="btn btn-primary mt-4"
               text={'Xem thêm'}
               noIcon
             />

@@ -83,8 +83,8 @@ export default function () {
               </div>
             </div>
             <div className="absolute bottom-[23%] left-[12%] max-sm:left-[10%] max-sm:bottom-[20%] text-center">
-              <div className="relative max-sm:text-[0.5rem] max-md:text-[0.5rem]">
-                <span className="max-sm:text-[0.5rem] max-md:text-[0.5rem] uppercase text-lg font-bold leading-loose">
+              <div className="relative max-sm:text-[0.5rem] max-md:text-[0.5rem] ">
+                <span className="max-sm:text-[0.5rem] max-md:text-[0.5rem]  uppercase text-lg font-bold leading-loose">
                   ISBN:
                 </span>
                 <span className="max-sm:text-[0.5rem] max-md:text-[0.5rem]  uppercase  text-lg font-bold ml-3">

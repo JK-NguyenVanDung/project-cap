@@ -19,7 +19,7 @@ const Footer = React.forwardRef((props, ref: any) => {
               <div className="w-[10%] flex flex-col items-center justify-center">
                 <img src={Logo} className=" " alt="Training Logo" />
                 <span className="max-sm:w-full mt-2 self-center text-xl font-semibold whitespace-nowrap text-white-500">
-                  VLG TRAINING
+                  L&D VLG TRAINING
                 </span>
               </div>
               <div className="flex flex-col">

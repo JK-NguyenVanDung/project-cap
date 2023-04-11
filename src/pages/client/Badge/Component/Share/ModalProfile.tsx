@@ -139,6 +139,11 @@ export default function ModalProfile({
                 src={`${API_URL}/images/${item.avatar}`}
                 alt="avatar"
                 className="object-cover w-[300px] h-[300px] rounded-lg"
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+                  // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
+                }}
               />
 
               <div style={{ marginTop: 20 }} className="flex items-center ">

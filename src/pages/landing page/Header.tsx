@@ -53,7 +53,7 @@ const Header = (props: any) => {
         <a href="/" className="logo px-2 md:order-1 flex flex-row items-center">
           <img src={Logo} className="mr-3 h-6 sm:h-9 " alt="Training Logo" />
           <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
-            VLG TRAINING
+            L&D VLG TRAINING
           </span>
         </a>
         <div className="flex md:order-2 sm:order-2 ">

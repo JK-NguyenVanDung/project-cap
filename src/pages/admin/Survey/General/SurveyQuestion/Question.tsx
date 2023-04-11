@@ -181,6 +181,14 @@ export default function Question() {
           currentQuestion.questionSurveyId,
         );
 
+        // }
+        // return message.success(MESSAGE.SUCCESS.DELETE);
+      } catch (err: any) {
+        message.error('Không thể xoá câu hỏi đã được khảo sát');
+        setLoading(false);
+        throw err.message;
+      }
+      try {
         let res: any = await apiService.getSurveyQuestions(
           selectedSurvey.surveyId,
         );
@@ -206,10 +214,8 @@ export default function Question() {
           }
         }
         setData(res);
-        // }
-        // return message.success(MESSAGE.SUCCESS.DELETE);
       } catch (err: any) {
-        message.error('Không thể xoá câu hỏi đã được khảo sát');
+        message.error('asd');
         setLoading(false);
         throw err.message;
       }

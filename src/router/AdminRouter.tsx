@@ -525,16 +525,19 @@ export default function MakePagesRouter() {
         throw err.message;
       }
     };
-    try {
-      fetchInfo();
-    } catch (err: any) {
-      throw err.message;
-    }
+
+    let time = setTimeout(() => {
+      !info && fetchInfo();
+    }, 1000);
+
     // dispatch(
     //   actions.authActions.setInfo({
     //     accountId: 64,
     //   }),
     // );
+    return () => {
+      clearTimeout(time);
+    };
   }, [token]);
   const RouterLearner = () => {
     if (LoginParmas.id == 1) {

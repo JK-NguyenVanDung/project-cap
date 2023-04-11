@@ -17,16 +17,16 @@ const QuestionItem = ({
 }) => {
   return (
     <>
-      <div className="w-fit min-w-[60rem] max-w-[60rem] max-sm:min-w-fit max-sm:max-w-fit h-fit bg-white m-4 py-6 px-8 rounded-xl">
-        <div className="flex w-full max-sm:flex-col max-sm:hidden  justify-end text-primary font-bold text-lg ">
+      <div className="w-fit min-w-[60rem] max-w-[60rem] max-sm:min-w-fit max-sm:max-w-fit max-md:min-w-fit max-md:max-w-fit h-fit bg-white m-4 py-6 px-8 rounded-xl">
+        <div className="flex w-full max-sm:flex-col max-sm:hidden  max-md:flex-col max-md:hidden  justify-end text-primary font-bold text-lg ">
           {question?.score} điểm
         </div>
-        <div className="flex w-full justify-start max-sm:flex-col max-sm:items-start  items-center mx-2">
-          <div className="flex flex-col max-sm:flex-row max-sm:justify-between max-sm:w-full max-sm:items-center   justify-start items-start w-fit my-4  mr-12">
+        <div className="flex w-full justify-start max-sm:flex-col max-sm:items-start max-md:flex-col  max-md:items-start  items-center mx-2">
+          <div className="flex flex-col max-sm:flex-row max-sm:justify-between max-sm:w-full max-sm:items-center  max-md:flex-row max-md:justify-between max-md:w-full max-md:items-center    justify-start items-start w-fit my-4  mr-12">
             <div className="CIRCLE max-sm:min-w-[3.2rem] max-sm:py-2 py-4 px-2 min-w-[4.2rem] bg-gray-400 rounded-[20rem] text-black text-center text-3xl font-bold">
               {index}
             </div>
-            <div className="flex w-full hidden max-sm:visible max-sm:items-start  justify-end text-primary font-bold text-lg ">
+            <div className="flex w-full max-sm:visible max-sm:items-start max-md:visible max-md:items-start  justify-end text-primary font-bold text-lg ">
               {question?.score} điểm
             </div>
           </div>

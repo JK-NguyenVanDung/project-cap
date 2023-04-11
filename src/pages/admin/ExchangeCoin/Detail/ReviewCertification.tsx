@@ -261,15 +261,14 @@ export default function () {
             message: 'Từ Chối Đơn Đổi Coin Không Thành Công',
           });
         }
-        let timeout = setTimeout(() => {
-          setLoading(false);
-          dispatch(actions.reloadActions.setReload());
-        }, 500);
-        clearTimeout(timeout);
       })
 
       .catch((info) => {
         // dispatch(actions.formActions.showError())
+      })
+      .finally(() => {
+        setLoading(false);
+        dispatch(actions.reloadActions.setReload());
       });
   };
   const navigate = useNavigate();
