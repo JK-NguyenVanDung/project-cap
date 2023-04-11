@@ -3,13 +3,15 @@ import { useMsal } from '@azure/msal-react';
 
 import Logo from '../../assets/logo.svg';
 import LogoTrungTam from '../../assets/img/logoTrungTam.png';
-import trongdong from '../../assets/img/trongdong.png';
 import './index.css';
-import { loginRequest } from './loginconfig';
-import { useNavigate } from 'react-router-dom';
 import videoBackground from '../../assets/video/background.mp4';
-import { useAppDispatch } from '../../hook/useRedux';
 import { actions } from '../../Redux';
+import { useAppDispatch } from '../../hook/useRedux';
+import { msalConfig } from './loginconfig';
+import { PublicClientApplication } from '@azure/msal-browser';
+
+const msalApp = new PublicClientApplication(msalConfig);
+
 const DataLogin = [
   {
     id: '1',
@@ -29,7 +31,7 @@ export default function Login() {
   const { instance } = useMsal();
 
   function LoginPopUp(item: any) {
-    instance.loginPopup(loginRequest).catch((e) => {});
+    msalApp.loginRedirect();
     dispatch(actions.authActions.setRoleLogin(item));
     dispatch(actions.authActions.setInfo(''));
   }

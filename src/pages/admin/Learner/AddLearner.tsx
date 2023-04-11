@@ -54,14 +54,18 @@ export default function AddLearner({
           setLoading(true);
 
           if (detail) {
-            const data = apiService.updateLearner(detail.learnerId, values);
+            const data = await apiService.updateLearner(
+              detail.learnerId,
+              values,
+            );
             if (data) {
               notification.success({ message: 'Thay đổi thành công' });
             }
             setShowModal(false);
             form.resetFields();
           } else {
-            const data = apiService.addLearner(valueLearner);
+            const data = await apiService.addLearner(valueLearner);
+            console.log(data);
             if (data) {
               notification.success({ message: 'Thêm thành công' });
             }
