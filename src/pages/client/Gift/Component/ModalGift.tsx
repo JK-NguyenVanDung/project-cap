@@ -41,8 +41,10 @@ export default function ModalGift({
       ),
       width: 500,
     });
+    setLoading(true)
     setTimeout(() => {
       modal.destroy();
+      setLoading(false)
     }, secondsToGo * 1000);
   }
   const redeemSuccess = () => {
