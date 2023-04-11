@@ -1,16 +1,13 @@
 import { useMsal } from '@azure/msal-react';
 import React, { useEffect, useState } from 'react';
-import { loginRequest } from '../pages/authentication/loginconfig';
+import { loginRequest, msalConfig } from '../pages/authentication/loginconfig';
 import { Spin, notification, Form, message } from 'antd';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { LoadingOutlined } from '@ant-design/icons';
-import apiService from '../api/apiService';
 import { useAppDispatch, useAppSelector } from '../hook/useRedux';
 import { actions } from '../Redux';
-import videoBackground from '../assets/video/background.mp4';
-import FormInput from '../components/admin/Modal/FormInput';
-import CustomButton from '../components/admin/Button';
 import { exitPath } from '../onBuild';
+import apiService from '../api/apiService';
 
 export default function Logined() {
   const [loading, setLoading] = useState(false);
@@ -22,22 +19,22 @@ export default function Logined() {
 
   const [tokenRequest, setTokenRequest] = useState();
   const alert = useAppSelector((state) => state.auth.notification);
-  const fetchInfo = async () => {
-    try {
-      const response: any = await apiService.getProfile();
-      dispatch(actions.authActions.setInfo(response));
+  // const fetchInfo = async () => {
+  //   try {
+  //     const response: any = await apiService.getProfile();
+  //     dispatch(actions.authActions.setInfo(response));
 
-      if (
-        response.roleId == 2 ||
-        response.roleId == 3 ||
-        response.roleId == 4
-      ) {
-        navigate('/admin');
-      } else {
-        navigate('/home');
-      }
-    } catch (err) {}
-  };
+  //     if (
+  //       response.roleId == 2 ||
+  //       response.roleId == 3 ||
+  //       response.roleId == 4
+  //     ) {
+  //       navigate('/admin');
+  //     } else {
+  //       navigate('/home');
+  //     }
+  //   } catch (err) {}
+  // };
   useEffect(() => {
     RequestAccessToken();
     // if (tokenRequest) {
@@ -46,7 +43,6 @@ export default function Logined() {
   }, []);
   useEffect(() => {
     if (alert === true) {
-      notification.success({ message: 'Đăng Nhập Thành Công' });
       dispatch(actions.authActions.showNotification(false));
     }
   }, []);
@@ -68,7 +64,6 @@ export default function Logined() {
           if (reponseToken) {
             dispatch(actions.authActions.Login(reponseToken.token));
             localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
-
             dispatch(actions.authActions.showNotification(true));
             if (navLink && LoginParmas.id == 1) {
               navigate(navLink);
