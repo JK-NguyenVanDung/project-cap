@@ -10,11 +10,13 @@ export default function ShowDetail({
   setVisible,
   item,
   setItem,
+  setReload,
 }: {
   visible: boolean;
   setVisible: (visible: boolean) => void;
   item: any;
   setItem: any;
+  setReload?: any;
 }) {
   const [form] = Form.useForm();
 

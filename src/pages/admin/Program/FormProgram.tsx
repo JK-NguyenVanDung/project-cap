@@ -170,26 +170,26 @@ export default function FormProgram() {
         frmData.append(
           'StartDate',
           values.StartDate
-            ? moment(values.StartDate).format('YYYY-MM-DD')
-            : moment(item.startDate).format('YYYY-MM-DD'),
+            ? moment(values.StartDate).format('YYYY-MM-DD hh:mm:ss')
+            : moment(item.startDate).format('YYYY-MM-DD hh:mm:ss'),
         );
         frmData.append(
           'RegistrationStartDate',
           values.RegistrationStartDate
-            ? moment(values.RegistrationStartDate).format('YYYY-MM-DD')
-            : moment(item.registrationStartDate).format('YYYY-MM-DD'),
+            ? moment(values.RegistrationStartDate).format('YYYY-MM-DD hh:mm:ss')
+            : moment(item.registrationStartDate).format('YYYY-MM-DD hh:mm:ss'),
         );
         frmData.append(
           'RegistrationEndDate',
           values.RegistrationEndDate
-            ? moment(values.RegistrationEndDate).format('YYYY-MM-DD')
-            : moment(item.registrationEndDate).format('YYYY-MM-DD'),
+            ? moment(values.RegistrationEndDate).format('YYYY-MM-DD hh:mm:ss')
+            : moment(item.registrationEndDate).format('YYYY-MM-DD hh:mm:ss'),
         );
         frmData.append(
           'EndDate',
           values.EndDate
-            ? moment(values.EndDate).format('YYYY-MM-DD')
-            : moment(item.endDate).format('YYYY-MM-DD'),
+            ? moment(values.EndDate).format('YYYY-MM-DD hh:mm:ss')
+            : moment(item.endDate).format('YYYY-MM-DD hh:mm:ss'),
         );
         frmData.append('Coin', values.Coin ? values.Coin : item.coin);
         frmData.append(
@@ -513,13 +513,19 @@ export default function FormProgram() {
             </label>
 
             {image && (
-              <Image
+              <img
                 style={{
                   marginRight: 10,
-                  width: '50%',
-                  height: '50%',
+                  width: '75%',
+                  height: '30vh',
                 }}
                 src={`${API_URL}/images/${image}`}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+                  // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
+                }}
+                alt="Cover Image"
               />
             )}
             <Form.Item
@@ -539,7 +545,7 @@ export default function FormProgram() {
                 beforeUpload={() => false}
                 maxCount={1}
                 iconRender={GrAdd}
-                className="containerUpLoad"
+                className="h-[30vh]"
               >
                 <GrAdd />
                 <p>banner</p>
@@ -558,7 +564,12 @@ export default function FormProgram() {
                 },
               ]}
             >
-              <DatePicker placeholder="Chọn Ngày" picker="date" />
+              <DatePicker
+                placeholder="Chọn ngày bắt đầu"
+                showTime={{ format: 'HH:mm' }}
+                format="YYYY-MM-DD HH:mm"
+                className={`  font-customFont  font-bold  w-fit bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+              />
             </Form.Item>
             <label className=" text-black font-bold font-customFont ">
               Ngày Kết Thúc
@@ -573,7 +584,12 @@ export default function FormProgram() {
                 },
               ]}
             >
-              <DatePicker placeholder="Chọn Ngày" picker="date" />
+              <DatePicker
+                placeholder="Chọn ngày kết thúc"
+                showTime={{ format: 'HH:mm' }}
+                format="YYYY-MM-DD HH:mm"
+                className={`  font-customFont  font-bold  w-fit bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+              />
             </Form.Item>
             <label className=" text-black font-bold font-customFont">
               Ngày Bắt Đầu ĐK
@@ -588,7 +604,12 @@ export default function FormProgram() {
                 },
               ]}
             >
-              <DatePicker placeholder="Chọn Ngày" picker="date" />
+              <DatePicker
+                placeholder="Chọn ngày bắt đầu đăng ký"
+                showTime={{ format: 'HH:mm' }}
+                format="YYYY-MM-DD HH:mm"
+                className={`  font-customFont  font-bold  w-fit bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+              />
             </Form.Item>
             <label className=" text-black font-bold font-customFont ">
               Ngày Kết Thúc ĐK
@@ -603,7 +624,12 @@ export default function FormProgram() {
                 },
               ]}
             >
-              <DatePicker placeholder="Chọn Ngày" picker="date" />
+              <DatePicker
+                placeholder="Chọn ngày kết thúc đăng ký"
+                showTime={{ format: 'HH:mm' }}
+                format="YYYY-MM-DD HH:mm"
+                className={`  font-customFont  font-bold  w-fit bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 `}
+              />
             </Form.Item>
           </div>
         </div>

@@ -5,6 +5,7 @@ import TableConfig from '../../../components/admin/Table/Table';
 import CustomButton from '../../../components/admin/Button';
 import { removeVietnameseTones } from '../../../utils/uinqueId';
 import { ExportCSV } from '../../../components/Statistic/ExportButton';
+import moment from 'moment';
 
 export default function DetailAttendances({
   visible,
@@ -68,6 +69,7 @@ export default function DetailAttendances({
           ...item,
         };
       });
+      console.log(item);
       setFilterData(final);
       setData(final);
     } catch (err) {}
@@ -109,7 +111,7 @@ export default function DetailAttendances({
   };
   return (
     <Modal
-      title="Điểm Danh"
+      title={'Điểm Danh ' + item?.attendance?.title}
       open={visible}
       onCancel={() => handelCancel()}
       style={{ top: 20 }}
@@ -137,12 +139,20 @@ export default function DetailAttendances({
           <ExportCSV
             csvData={data.map((item) => {
               return {
-                STT: item.index,
-                Email: item.Email,
-                ThamGia: item.isAttending ? 'Đã điểm danh' : 'Chưa điểm danh',
+                STT: item?.index,
+                Email: item?.account?.email,
+                ThamGia: item?.isAttending ? 'Đã điểm danh' : 'Chưa điểm danh',
               };
             })}
-            fileName={`Kết quả điểm danh ngày `}
+            fileName={`Kết quả điểm danh ${item?.attendance?.title} từ ${moment(
+              item?.attendance?.startTime,
+            )
+              .local()
+              .format('HH-MM DD-MM-YYYY')} đến ${moment(
+              item?.attendance?.endTime,
+            )
+              .local()
+              .format('HH-MM DD-MM-YYYY')} `}
           />
         }
       />

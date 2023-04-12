@@ -120,7 +120,7 @@ const RightSection = (props: any) => {
   function getButtonText(program: IProgramItem, register: boolean) {
     if (!program?.canRegister) {
       if (
-        new Date(program?.registrationStartDate).getTime() <=
+        new Date(program?.registrationStartDate).getTime() >=
         new Date().getTime()
       ) {
         return 'Chưa Tới Thời Hạn Đăng Ký';

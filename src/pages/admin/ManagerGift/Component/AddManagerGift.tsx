@@ -8,6 +8,8 @@ import type { RcFile, UploadFile, UploadProps } from 'antd/es/upload/interface';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { IGift } from '../../../../api/apiInterface';
 import apiService from '../../../../api/apiService';
+import { useDispatch } from 'react-redux';
+import { actions } from '../../../../Redux';
 
 export default function AddManagerGift({
   showModal,
@@ -17,7 +19,7 @@ export default function AddManagerGift({
   setLoading,
 }: {
   showModal: boolean;
-  setShowModal: any;
+  setShowModal: (visible: boolean) => void;
   detail: IGift;
   loading: any;
   setLoading: any;
@@ -27,27 +29,32 @@ export default function AddManagerGift({
   const [infoImage, setInfoImage] = useState(null);
   const inputRef = useRef(null);
   const [URLImage, setURLImage] = useState(null);
+  const [imageLoading, setImageLoading] = useState(null);
+
+  const dispatch = useDispatch();
   const handleChange = (info: any) => {
     const file = info.target.files[0];
-    setLoading(true);
+    setImageLoading(true);
     if (file) {
       setURLImage(URL.createObjectURL(file));
       setInfoImage(file);
     }
     setTimeout(() => {
-      setLoading(false);
+      setImageLoading(false);
     }, 1000);
   };
-  useEffect(() => {
-    return () => {
-      setURLImage(null);
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     setURLImage(null);
+  //   };
+  // }, [showModal]);
+
   const handleOk = async () => {
+    setLoading(true);
+    dispatch(actions.reloadActions.setReload());
     form
       .validateFields()
       .then(async (values) => {
-        console.log(values);
         formData.append('Name', values.name ? values.name : detail?.name);
         formData.append('Image', infoImage ? infoImage : detail?.image);
         formData.append(
@@ -59,34 +66,36 @@ export default function AddManagerGift({
           'Quantity',
           values.quantity ? values.quantity : detail?.quantity,
         );
-        console.log(formData.getAll('Image'));
         try {
-          setLoading(true);
           if (detail) {
             const data = apiService.updateGift(detail.giftId, formData);
             if (data) {
               notification.success({ message: 'Thay đổi thành công' });
             }
             setShowModal(false);
-            form.resetFields();
           } else {
             const data = apiService.addGift(formData);
             if (data) {
               notification.success({ message: 'Thêm thành công' });
             }
             setShowModal(false);
-            form.resetFields();
           }
+          // form.resetFields();
         } catch (error) {
           notification.error({ message: 'Thực hiện không thành công' });
         }
       })
 
-      .catch((info) => {
+      .catch((info: any) => {
+        notification.error({ message: info?.message });
         // dispatch(actions.formActions.showError())
+      })
+      .finally(() => {
+        setURLImage(null);
       });
     setTimeout(() => {
       setLoading(false);
+      dispatch(actions.reloadActions.setReload());
     }, 1000);
   };
   const FormItem = () => {
@@ -126,7 +135,7 @@ export default function AddManagerGift({
                 />
 
                 <div style={{ marginTop: 20 }} className="flex items-center ">
-                  {loading ? <LoadingOutlined /> : <PlusOutlined />}{' '}
+                  {imageLoading ? <LoadingOutlined /> : <PlusOutlined />}{' '}
                   <span className="ml-2">Tải Ảnh Lên </span>
                 </div>
               </div>
@@ -204,6 +213,7 @@ export default function AddManagerGift({
       name={detail}
       handleOk={handleOk}
       FormItem={<FormItem />}
+      label={'Quà'}
       form={form}
       header={'Chỉnh Sửa Quà Tặng'}
       width={900}

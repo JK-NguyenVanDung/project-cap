@@ -236,12 +236,12 @@ export default function () {
   const dispatch = useAppDispatch();
 
   const handleOk = () => {
+    setLoading(true);
+
     form
       .validateFields()
       .then(async (values) => {
         try {
-          setLoading(true);
-
           dispatch(actions.reloadActions.setReload());
 
           const data = apiService.denyExchange({
@@ -262,7 +262,6 @@ export default function () {
           });
         }
       })
-
       .catch((info) => {
         // dispatch(actions.formActions.showError())
       })
@@ -381,6 +380,7 @@ export default function () {
         setItem={setDetail}
         visible={showDetail}
         setVisible={setShowDetail}
+        setReload={setLoading}
       />
     </>
   );

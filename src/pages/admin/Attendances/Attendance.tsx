@@ -52,8 +52,7 @@ export default function Attendance() {
       message.success(MESSAGE.SUCCESS.DELETE);
     } catch (err: any) {
       notification.error({
-        message:
-          'Nhóm chương trình này đang được lưu trong 1 chương trình, xin vui lòng xoá hoặc chọn nhóm chương trình khác trong chương trình đó để xoá nhóm chương trình này',
+        message: 'Buổi điểm danh này đang được sử dụng, không thể xóa',
       });
     }
   }
@@ -72,11 +71,13 @@ export default function Attendance() {
       render: (data: any) => {
         return (
           <span>
-            {moment(data.attendance.startTime).format('DD-MM-YYYY hh:mm')}
+            {moment(data.attendance.startTime)
+              .local()
+              .format('DD-MM-YYYY HH:MM')}
             <span>
               <AiOutlineSwapRight className="inline mx-4" />
             </span>
-            {moment(data.attendance.endTime).format('DD-MM-YYYY hh:mm')}
+            {moment(data.attendance.endTime).local().format('DD-MM-YYYY HH:MM')}
           </span>
         );
       },

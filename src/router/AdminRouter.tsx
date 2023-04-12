@@ -58,7 +58,7 @@ import Dashboard from '../pages/admin/Dashboard/Dashboard';
 import Badge from '../pages/client/Badge';
 import DetailBade from '../pages/client/Badge/DetailBade';
 import ManagerGiftScreen from '../pages/admin/ManagerGift/ManagerGiftScreen';
-import GiftSreen from '../pages/client/Gift';
+import GiftScreen from '../pages/client/Gift';
 
 import ExchangeGift from '../pages/admin/ExchangeGift/ExchangeGift';
 import ExchangeCoin from '../pages/admin/ExchangeCoin/ExchangeCoin';
@@ -507,7 +507,7 @@ const Learner = [
   },
   {
     path: '/Gift',
-    element: <GiftSreen />,
+    element: <GiftScreen />,
   },
 ];
 export default function MakePagesRouter() {

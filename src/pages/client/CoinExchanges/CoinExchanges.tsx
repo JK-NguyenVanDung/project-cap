@@ -98,12 +98,7 @@ export default function () {
                     onClick={() => handelDataProgram(item)}
                     item={item}
                     status={
-                      item.ended
-                        ? 'ended'
-                        : item.creatorAccount.creatorCertificatePhoto[
-                            item.creatorAccount.creatorCertificatePhoto.length -
-                              1
-                          ]?.status
+                      item.ended ? 'ended' : item.certificatePhotos[0]?.status
                     }
                     isRegistered={false}
                   />

@@ -78,7 +78,7 @@ export default function FormInput({
         cp = (
           <InputNumber
             className="mt-4 h-11 rounded-lg font-bold text-black font-customFont"
-            min={minNumber ?? 1}
+            min={minNumber ?? 0}
             max={maxNumber}
             defaultValue={defaultValue}
             placeholder={`${placeholder ? placeholder : 'Nhập ' + label}`}

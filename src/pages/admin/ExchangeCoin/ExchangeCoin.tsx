@@ -25,7 +25,7 @@ export default function () {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState(null);
   const item = useAppSelector((state) => state.form.setProgram);
   const [form] = Form.useForm();
@@ -44,11 +44,7 @@ export default function () {
         };
       });
       setData(res);
-      setLoading(true);
       setFilterData(res);
-      if (response) {
-        setLoading(false);
-      }
     } catch (error) {
       console.log(error);
     }
@@ -58,7 +54,7 @@ export default function () {
   }, []);
 
   useEffect(() => {
-    getExchanges();
+    getExchanges().finally(() => setLoading(false));
   }, [showModal, loading]);
 
   const Columns = [

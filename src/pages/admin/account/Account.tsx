@@ -251,10 +251,8 @@ export default function Account() {
 
       .catch((info) => {
         // dispatch(actions.formActions.showError())
-
-        setReload(false);
-      });
-    setReload(false);
+      })
+      .finally(() => setReload(false));
   };
 
   function getOptions() {

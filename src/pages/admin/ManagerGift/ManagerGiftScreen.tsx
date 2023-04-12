@@ -12,6 +12,7 @@ import DetailManagerGift from './Component/DetailManagerGift';
 import apiService from '../../../api/apiService';
 import { IGift } from '../../../api/apiInterface';
 import { API_URL } from '../../../api/api';
+import { useAppSelector } from '../../../hook/useRedux';
 
 const ManagerGiftScreen = () => {
   const [showModal, setShowModal] = useState(false);
@@ -19,25 +20,25 @@ const ManagerGiftScreen = () => {
 
   const [reload, setReload] = useState(true);
   const [showDetail, setShowDetail] = useState(false);
-
+  const reloadData = useAppSelector((item) => item.reload.reload);
   const [data, setData] = useState<Array<IGift>>([]);
   const [filterData, setFilterData] = useState([]);
+  const fetchAllGift = async () => {
+    try {
+      const response: any = await apiService.getAllGift();
+      const temp = response.map((v: IGift, index: number) => ({
+        ...v,
+        index: index + 1,
+      }));
+      setData(temp);
+      setFilterData(temp);
+    } catch (err: any) {
+      throw err.message;
+    }
+  };
   useEffect(() => {
-    const fetchAllGift = async () => {
-      try {
-        const response: any = await apiService.getAllGift();
-        const temp = response.map((v: IGift, index: number) => ({
-          ...v,
-          index: index + 1,
-        }));
-        setData(temp);
-        setFilterData(temp);
-      } catch (err: any) {
-        throw err.message;
-      }
-    };
-    fetchAllGift().finally(() => timeOut(setReload(false)));
-  }, [reload]);
+    fetchAllGift().finally(() => setReload(false));
+  }, [reload, reloadData]);
   // useEffect(() => {
   //   setReload(true);
   //   setTimeout(() => {
@@ -66,16 +67,20 @@ const ManagerGiftScreen = () => {
           />
         );
       },
+      width: '20%',
     },
     {
       title: 'Tên Quà Tặng',
       dataIndex: 'name',
       key: 'name',
+      width: '15%',
     },
     {
       title: 'Mô Tả',
       dataIndex: 'description',
       key: 'description',
+      width: '20%',
+      render: (data: any) => <p className="eclipse max-h-[50vh]">{data}</p>,
     },
     {
       title: 'Giá Đổi',
@@ -106,17 +111,17 @@ const ManagerGiftScreen = () => {
     setDetail(data);
   };
   const handleDelete = async (item: IGift) => {
-    setReload(true);
+    setReload(!reload);
     async function deleteItem() {
       try {
         await apiService.deleteGift(item.giftId);
       } catch (err: any) {
         notification.error({
-          message: 'xóa không thành công',
+          message: 'Xóa không thành công',
         });
       }
     }
-    deleteItem().finally(() => timeOut(setReload(false)));
+    deleteItem().finally(() => timeOut(setReload(!reload)));
   };
   const handleShowDetail = (data: IGift) => {
     setDetail(data);
@@ -147,7 +152,7 @@ const ManagerGiftScreen = () => {
         onSearch={onChangeSearch}
         search={true}
         data={data}
-        loading={reload}
+        loading={reload || reloadData}
         columns={columns}
         extra={[
           <CustomButton

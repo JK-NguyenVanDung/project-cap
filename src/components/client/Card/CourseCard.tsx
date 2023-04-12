@@ -17,7 +17,9 @@ function getStatus(
   registrationStartDate: Date,
 ) {
   if (!canRegister) {
-    if (new Date(registrationStartDate).getTime() <= new Date().getTime()) {
+    console.log(new Date(registrationStartDate).getTime());
+    console.log(new Date().getTime());
+    if (new Date(registrationStartDate).getTime() >= new Date().getTime()) {
       return 'Chưa Tới Thời Hạn Đăng Ký';
     }
     return 'Đã Hết Hạn Đăng Ký';

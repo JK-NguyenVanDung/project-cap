@@ -59,7 +59,7 @@ function Learner({
           />
           <div className="flex flex-col justify-start items-start">
             <p className="font-bold ">{name.split('@')[0]}</p>
-            <p className="">{point} điểm</p>
+            <p className="">{point} giờ</p>
           </div>
         </div>
         <div className="flex flex-col justify-start items-start">

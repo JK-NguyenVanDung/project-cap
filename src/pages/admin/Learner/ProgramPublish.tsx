@@ -37,7 +37,6 @@ export default function ProgramPublish() {
         setFilterData(res);
         setTimeout(() => {
           setLoading(false);
-          setFilterData(res);
           setConfirmLoading(false);
         }, 1000);
       } catch (error) {

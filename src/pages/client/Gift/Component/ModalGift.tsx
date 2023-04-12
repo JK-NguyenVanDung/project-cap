@@ -7,6 +7,7 @@ import { Form, notification, Modal } from 'antd';
 import apiService from '../../../../api/apiService';
 import { useAppDispatch, useAppSelector } from '../../../../hook/useRedux';
 import { actions } from '../../../../Redux';
+import { API_URL } from '../../../../api/api';
 export default function ModalGift({
   show,
   setShow,
@@ -41,10 +42,10 @@ export default function ModalGift({
       ),
       width: 500,
     });
-    setLoading(true)
+    setLoading(true);
     setTimeout(() => {
       modal.destroy();
-      setLoading(false)
+      setLoading(false);
     }, secondsToGo * 1000);
   }
   const redeemSuccess = () => {
@@ -104,20 +105,28 @@ export default function ModalGift({
     return (
       <>
         <div className="flex justify-around ">
-          <div>
+          <div className="w-1/2 ">
             <div>
-              <img src={defaultAVT} />
+              <img
+                className="rounded-lg object-cover object-center  w-full h-[26vh]"
+                src={`${API_URL}/images/${data.image}`}
+                onError={({ currentTarget }) => {
+                  currentTarget.onerror = null; // prevents looping
+                  currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+                  // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
+                }}
+                alt=""
+              />
               <Space size={5} />
               <h1 className="text-start font-bold text-lg">
                 {data.name ?? ''}
               </h1>
               <Space size={5} />
-              <div className="flex justify-between">
-                <p>Số Lượng: </p>
+              <div className="flex ">
+                <p className="mr-2">Số Lượng: </p>
                 <p>{data.quantity ?? 0}</p>
               </div>
               <Space size={5} />
-              <p className="w-[220px]">{data.description ?? ''}</p>
             </div>
           </div>
           <Space sizeWidth={20} />
@@ -140,21 +149,22 @@ export default function ModalGift({
               <h1>Coin của bạn: </h1>
               <p className="text-start">{data.coinSelf ?? 0} coin</p>
             </div>
-            <Space size={5} />
+            <Space size={10} />
             <div className="flex justify-between ">
               <h1>Giá Sản Phẩm: </h1>
               <p className="text-start">{coinMemo ?? 0} coin</p>
             </div>
-            <Space size={5} />
+            <Space size={10} />
             <div className="w-full h-[1px] bg-gray-700" />
-            <Space size={5} />
+            <Space size={10} />
             <div className="flex justify-between ">
               <h1>Coin còn lại: </h1>
               <p className="text-start">{leftMemo ?? 0} coin</p>
             </div>
-            <Space size={5} />
+            <Space size={10} />
           </div>
         </div>
+        <p className="w-full">{data.description ?? ''}</p>
       </>
     );
   };

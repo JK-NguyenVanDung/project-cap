@@ -85,7 +85,7 @@ export default function ({
           >
             <img
               className="rounded-t-lg object-cover object-center		h-full w-full"
-              src={Image}
+              src={`${API_URL}/images/${item?.image}`}
               onError={({ currentTarget }) => {
                 currentTarget.onerror = null; // prevents looping
                 currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
@@ -104,7 +104,7 @@ export default function ({
             <p className="text-body">
               Hạn đổi điểm:
               <span className="font-bold">
-                {` ${moment(item?.endDate).format('HH:mm -  MM-DD-YYYY')}`}
+                {` ${moment(item?.endDate).format('HH:mm -  DD-MM-YYYY')}`}
               </span>
             </p>
 

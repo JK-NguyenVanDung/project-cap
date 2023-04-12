@@ -510,11 +510,11 @@ export default {
       API_CONFIG.EXCHANGE.GET_DETAIL(idExchange, idAccount),
     );
   },
-  postExchange: (params: IExchangeCoin) => {
-    return axiosConfig.post(API_CONFIG.EXCHANGE.POST, params);
+  postExchange: (params: any) => {
+    return configFormData.post(API_CONFIG.EXCHANGE.POST, params);
   },
-  putExchange: (idExchange: number, params: IExchangeCoin) => {
-    return axiosConfig.put(API_CONFIG.EXCHANGE.PUT(idExchange), params);
+  putExchange: (idExchange: number, params: any) => {
+    return configFormData.put(API_CONFIG.EXCHANGE.PUT(idExchange), params);
   },
   deleteExchange: (idExchange: number) => {
     return axiosConfig.delete(API_CONFIG.EXCHANGE.DELETE(idExchange));

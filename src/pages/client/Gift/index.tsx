@@ -8,7 +8,7 @@ import { Space } from '../Programs/ResultProgram';
 import ItemGift from './Component/ItemGift';
 import ModalGift from './Component/ModalGift';
 
-function GiftSreen() {
+function GiftScreen() {
   const [openExchange, setOpenExchange] = useState(false);
   const [loading, setLoading] = useState(true);
   const [itemExchange, setItemExchange] = useState({});
@@ -121,4 +121,4 @@ function GiftSreen() {
   );
 }
 
-export default GiftSreen;
+export default GiftScreen;

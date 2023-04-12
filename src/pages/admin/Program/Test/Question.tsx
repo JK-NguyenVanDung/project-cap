@@ -672,8 +672,8 @@ export default function Question() {
     return false;
   }
   async function handleFinish(values: any) {
-    await handleSubmit(values);
-    message.success('Lưu lại thành công các câu hỏi');
+    // await handleSubmit(values);
+    // message.success('Lưu lại thành công các câu hỏi');
 
     goBack();
   }
@@ -961,7 +961,14 @@ export default function Question() {
                   Lưu và thêm tiếp câu hỏi
                 </p>
               </button>
-
+              <button
+                type="submit"
+                onClick={() => setFinish(true)}
+                className=" hover:color-white submitBtn h-10 middle none font-sans font-bold center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg  bg-green-500 hover:bg-green-500 text-white shadow-md shadow-green-500/20 hover:shadow-lg hover:shadow-green-500/40 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none flex flex-row justify-center items-center w-fit false"
+                formNoValidate
+              >
+                <p className="font-customFont  font-semibold">Quay lại</p>
+              </button>
               {hasQuestion ? (
                 <button
                   type="submit"
