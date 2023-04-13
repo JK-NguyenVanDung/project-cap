@@ -73,13 +73,13 @@ export default function ImportFile({
       const values = {
         programId: program.programId,
         emails: emailSuccess,
-        code: listMSNV.map((item) => item),
-        fullName: listName.map((item) => item),
+        code: listMSNV.map((item: any) => item),
+        fullName: listName.map((item: any) => item),
       };
       console.log(values);
       const data = apiService.importFileLearner({
         body: values,
-        accountId: info.accountId,
+        accountId: info.accountId,: string
       });
 
       data.then((res: any) => {
