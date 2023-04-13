@@ -16,7 +16,7 @@ const Product = React.forwardRef((props, ref: any) => {
 
   async function getData() {
     try {
-      let res: any = await apiService.getPublicPrograms();
+      let res: any = await apiService.getPopularPrograms();
       setPrograms(res.reverse());
     } catch (err: any) {
       throw err.message;
@@ -45,26 +45,26 @@ const Product = React.forwardRef((props, ref: any) => {
             Xem thêm
           </Button>
         </div>
-        <div className="products max-sm:flex-wrap  flex flex-row justify-evenly items-center w-full ">
+        <div className="products max-sm:flex-wrap h-[50vh] flex flex-row justify-evenly items-center w-full ">
           <ProductCard
             program={programs && programs[0]}
             title={programs && programs[0]?.programName}
             view={programs && programs[0]?.maxLearner + ' Học viên'}
-            hour={programs && programs[0]?.trainingHours + ' buổi'}
+            hour={programs && programs[0]?.trainingHours + ' giờ'}
             image={programs && programs[0]?.image}
           />
           <ProductCard
             program={programs && programs[1]}
             title={programs && programs[1]?.programName}
             view={programs && programs[1]?.maxLearner + ' Học viên'}
-            hour={programs && programs[1]?.trainingHours + ' buổi'}
+            hour={programs && programs[1]?.trainingHours + ' giờ'}
             image={programs && programs[1]?.image}
           />
           <ProductCard
             program={programs && programs[2]}
             title={programs && programs[2]?.programName}
             view={programs && programs[2]?.maxLearner + ' Học viên'}
-            hour={programs && programs[2]?.trainingHours + ' buổi'}
+            hour={programs && programs[2]?.trainingHours + ' giờ'}
             image={programs && programs[2]?.image}
           />
         </div>
@@ -99,13 +99,13 @@ const ProductCard = (props: any) => {
       </a>
       <div className="py-3 px-5">
         <a>
-          <h5 className=" text-center text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="eclipse-text text-center text-xl font-bold tracking-tight text-gray-900 dark:text-white">
             {props.title}
           </h5>
         </a>
         <div className="flex w-full ">
           <div className="inline-flex  justify-between  px-2 flex-row w-full h-16 min-w-0">
-            <div className="inline-flex flex-row justify-between items-center ">
+            <div className="inline-flex eclipse-text flex-row justify-between items-center ">
               <img loading="lazy" src={People} className="pr-2" />
               <span className="w-fit ">{props.view}</span>
             </div>

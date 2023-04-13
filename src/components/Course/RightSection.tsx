@@ -31,11 +31,11 @@ const RightSection = (props: any) => {
     (state) => state.product.updateLike,
   );
   const [showConfirm, setShowConfirm] = useState(false);
-  useAppDispatch;
+
   const dispatch = useAppDispatch();
   useEffect(() => {
     getData();
-  }, []);
+  }, [props.loading]);
 
   useEffect(() => {
     setLike(program?.isLike);

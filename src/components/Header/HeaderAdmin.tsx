@@ -32,13 +32,13 @@ export default function () {
   };
 
   return (
-    <div className="flex items-center justify-center max-w-full mr-2 ">
+    <div className="flex items-center justify-center max-w-full mr-2 no-scroll max-sm:max-w-fit">
       <Menu>
         <NotificationDropDown />
-        <span className="mr-1">
+        <span className="mr-1 eclipse">
           Xin Chào {info.role == 1 ? null : info?.role?.roleName}{' '}
         </span>
-        <span> {accounts[0].name}</span>
+        <span className="eclipse"> {accounts[0].name}</span>
         <MenuHandler>
           <button className="rounded-[12rem] mx-2 bg-white shadow-none hover:shadow-none p-0 ">
             <Avatar

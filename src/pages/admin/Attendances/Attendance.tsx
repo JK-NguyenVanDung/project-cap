@@ -15,6 +15,7 @@ import moment from 'moment';
 import TickAttendance from './TickAttendance';
 import DetailAttendances from './DetailAttendances';
 import { actions } from '../../../Redux';
+import Breadcrumb from '../../../components/sharedComponents/Breadcrumb';
 
 const { RangePicker } = DatePicker;
 export default function Attendance() {
@@ -160,7 +161,7 @@ export default function Attendance() {
   useEffect(() => {
     dispatch(
       actions.formActions.setNameMenu(
-        `Điểm danh: Khóa Học ${item.programName && item.programName}`,
+        `Điểm danh: ${item.programName && item.programName}`,
       ),
     );
     getData();
@@ -253,21 +254,31 @@ export default function Attendance() {
 
   return (
     <>
-      <TableConfig
-        onSearch={onChangeSearch}
-        search={true}
-        data={data}
-        columns={columns}
-        loading={loading}
-        extra={[
-          <CustomButton
-            type="add"
-            size="md"
-            key={`${uniqueId()}`}
-            onClick={() => openAdd()}
-          />,
-        ]}
-      />
+      <div className="ml-4 mt-6">
+        <Breadcrumb
+          router1={'/admin/Published'}
+          name={'Học viên'}
+          name2={`${item && item.programName}`}
+        />
+      </div>
+      <div className="max-sm:w-fit max-md:w-fit max-sm:mr-12 max-md:mr-12">
+        <TableConfig
+          onSearch={onChangeSearch}
+          search={true}
+          data={data}
+          columns={columns}
+          loading={loading}
+          extra={[
+            <CustomButton
+              className="max-sm:mr-4 max-md:mr-4 "
+              type="add"
+              size="md"
+              key={`${uniqueId()}`}
+              onClick={() => openAdd()}
+            />,
+          ]}
+        />
+      </div>
       <CustomModal
         show={showModal}
         setShow={setShowModal}

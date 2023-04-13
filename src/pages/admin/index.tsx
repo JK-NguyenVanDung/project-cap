@@ -69,77 +69,81 @@ export default function SideBar({
       <div className="flex relative max-w-full h-screen ">
         <div className="fixed h-full  w-[74%] z-[1] " style={{}}>
           <div
-            className="z-0 overflow-hidden bg-img-bar h-full relative sidebar flex flex-col content-center items-center w-[25%]"
+            className="z-0 overflow-hidden no-scroll bg-img-bar h-full relative sidebar flex flex-col content-center items-center w-[25%]"
             style={{
               backgroundImage: `url(${MenuBackground})`,
               overflowY: 'scroll',
             }}
           >
-            <div className=" absolute w-full h-[120vh] opacity-70 bg-dark-red	" />
-            <a
-              onClick={() => {
-                navigation('/admin');
-                dispatch(actions.formActions.setNameMenu(`${'Trang Chủ'}`));
-              }}
-              className=" hover:text-white relative my-2  px-2 w-full flex flex-row items-center justify-center"
-            >
-              <img className="w-1/5 h-fit mb-2" src={logo} />
-              <p className="text-lg text-center mb-2 mx-2"> L&D VLG TRAINING</p>
-            </a>
-            <ul className="relative list-none w-full text-center ">
-              {info?.roleId == 2
-                ? SideBarData.map((value, index) => {
-                    return (
-                      <div key={index}>
-                        {value.children ? (
-                          <MenuDropdown params={value} />
-                        ) : (
-                          <ItemMenu params={value} />
-                        )}
-                      </div>
-                    );
-                  })
-                : null}
-              {info?.roleId == 3
-                ? SideBarDataCT.map((value, index) => {
-                    return (
-                      <div key={index}>
-                        {value.children ? (
-                          <MenuDropdown params={value} />
-                        ) : (
-                          <ItemMenu params={value} />
-                        )}
-                      </div>
-                    );
-                  })
-                : null}
-              {info?.roleId == 4
-                ? SideBarDataFacul.map((value, index) => {
-                    return (
-                      <div key={index}>
-                        {value.children ? (
-                          <MenuDropdown params={value} />
-                        ) : (
-                          <ItemMenu params={value} />
-                        )}
-                      </div>
-                    );
-                  })
-                : null}
-              <>
-                <li
-                  className={`ml-2 py-4 my-0 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
-                  onClick={() => logoutAdmin()}
-                >
-                  <div id="icon">
-                    <IoLogOut />
-                  </div>{' '}
-                  <div id="title" className="flex  ">
-                    <p className={`font-semibold `}>Đăng xuất</p>
-                  </div>
-                </li>
-              </>
-            </ul>
+            <div className=" absolute w-full min-h-[120vh]  opacity-70 bg-dark-red	">
+              <a
+                onClick={() => {
+                  navigation('/admin');
+                  dispatch(actions.formActions.setNameMenu(`${'Trang Chủ'}`));
+                }}
+                className=" hover:text-white relative my-2  px-2 w-full flex flex-row items-center justify-center"
+              >
+                <img className="w-1/5 h-fit mb-2" src={logo} />
+                <p className="text-lg text-center mb-2 mx-2">
+                  {' '}
+                  L&D VLG TRAINING
+                </p>
+              </a>
+              <ul className="relative list-none w-full text-center ">
+                {info?.roleId == 2
+                  ? SideBarData.map((value, index) => {
+                      return (
+                        <div key={index}>
+                          {value.children ? (
+                            <MenuDropdown params={value} />
+                          ) : (
+                            <ItemMenu params={value} />
+                          )}
+                        </div>
+                      );
+                    })
+                  : null}
+                {info?.roleId == 3
+                  ? SideBarDataCT.map((value, index) => {
+                      return (
+                        <div key={index}>
+                          {value.children ? (
+                            <MenuDropdown params={value} />
+                          ) : (
+                            <ItemMenu params={value} />
+                          )}
+                        </div>
+                      );
+                    })
+                  : null}
+                {info?.roleId == 4
+                  ? SideBarDataFacul.map((value, index) => {
+                      return (
+                        <div key={index}>
+                          {value.children ? (
+                            <MenuDropdown params={value} />
+                          ) : (
+                            <ItemMenu params={value} />
+                          )}
+                        </div>
+                      );
+                    })
+                  : null}
+                <>
+                  <li
+                    className={`ml-2 py-4 my-0 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
+                    onClick={() => logoutAdmin()}
+                  >
+                    <div id="icon">
+                      <IoLogOut />
+                    </div>{' '}
+                    <div id="title" className="flex  ">
+                      <p className={`font-semibold `}>Đăng xuất</p>
+                    </div>
+                  </li>
+                </>
+              </ul>
+            </div>
           </div>
         </div>
         <div
@@ -150,13 +154,20 @@ export default function SideBar({
           {!noHeader && (
             <header className="header bg-gray-50 px-4 shadow-md-2">
               <div className="w-full flex items-center justify-between ">
-                <h1 className="font-semibold text-xl">{nameMenu}</h1>
+                <h1 className="font-semibold text-xl eclipse max-sm:text-sm max-sm:text-sm">
+                  {nameMenu}
+                </h1>
 
                 <HeaderAdmin />
               </div>
             </header>
           )}
-          <main className={!noHeader && 'mx-4 overflow-x-scroll'}>
+          <main
+            className={
+              !noHeader &&
+              'mx-4 max-sm:overflow-x-scroll max-md:overflow-x-scroll no-scroll'
+            }
+          >
             {content}
           </main>
         </div>

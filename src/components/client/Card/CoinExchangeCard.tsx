@@ -34,7 +34,7 @@ function getStatusColor(status: string) {
 function getStatus(status: string) {
   switch (status) {
     case 'ended':
-      return 'Hết hạn';
+      return 'Kết thúc';
     case 'pending':
       return 'Đang duyệt';
 

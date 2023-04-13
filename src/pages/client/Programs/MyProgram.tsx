@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import apiService from '../../../api/apiService';
 import CourseCard from '../../../components/client/Card/CourseCard';
@@ -30,8 +30,8 @@ export default function MyProgram() {
       label: 'Chưa đăng ký',
     },
     {
-      value: 'Hết hạn',
-      label: 'Hết hạn',
+      value: 'Kết thúc',
+      label: 'Kết thúc',
     },
   ]);
 
@@ -55,8 +55,8 @@ export default function MyProgram() {
               label: 'Đã hoàn thành',
             },
             {
-              value: 'Hết hạn',
-              label: 'Hết hạn',
+              value: 'Kết thúc',
+              label: 'Kết thúc',
             },
             ...cate.map((item: any) => {
               return {
@@ -65,7 +65,7 @@ export default function MyProgram() {
               };
             }),
           ]);
-        let temp = data.reverse();
+        let temp = data;
 
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
         setData(temp);
@@ -81,10 +81,10 @@ export default function MyProgram() {
 
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  function handelDataProgram(item: IProgramItem) {
-    dispatch(actions.formActions.setProgramForm(item));
-    navigate(`/MyCourses/${item.programId}`);
-  }
+  // function handelDataProgram(item: IProgramItem) {
+  //   dispatch(actions.formActions.setProgramForm(item));
+  //   navigate(`/MyCourses/${item.programId}`);
+  // }
   const callBack = useCallback(function handelDataProgram(item: IProgramItem) {
     dispatch(actions.formActions.setProgramForm(item));
     navigate(`/MyCourses/${item.programId}`);
@@ -105,7 +105,7 @@ export default function MyProgram() {
           (item: IProgramItem) => item.status === 'public' && item.isComplete,
         ),
       );
-    } else if (filter === 'Hết hạn') {
+    } else if (filter === 'Kết thúc') {
       setData(
         filterData?.filter((item: IProgramItem) => item.status === 'end'),
       );
