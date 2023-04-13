@@ -34,6 +34,8 @@ export default function ImportFile({
 }) {
   const [form] = Form.useForm();
   const [listEmail, setListEmail]: any = useState([]);
+  const [listName, setListName]: any = useState([]);
+  const [listMSNV, setListMSNV]: any = useState([]);
   const [file, setJustAddedFile] = useState('');
 
   const [emailError, setEmailError] = useState([]);
@@ -71,10 +73,13 @@ export default function ImportFile({
       const values = {
         programId: program.programId,
         emails: emailSuccess,
+        code: listMSNV.map((item: any) => item),
+        fullName: listName.map((item: any) => item),
       };
+      console.log(values);
       const data = apiService.importFileLearner({
         body: values,
-        accountId: info.accountId,
+        accountId: info.accountId,: string
       });
 
       data.then((res: any) => {
@@ -119,15 +124,33 @@ export default function ImportFile({
     readFileExcel
       .then((data: any) => {
         setListEmail(
-          data.map((item: any, index: number) => {
+          data.map((item: any) => {
             const email: string = item.Email || item.email || item.EMAIL;
             if (emailVlu.test(email)) {
               return email;
             }
           }),
         );
+        setListMSNV(
+          data.map((item: any) => {
+            const MSNV = item.MSNV || item.Msnv;
+            return MSNV;
+          }),
+        );
+        setListName(
+          data.map((item: any) => {
+            const fullName =
+              item['Họ & Tên'] ||
+              item['Họ Và Tên'] ||
+              item.fullName ||
+              item['Full Name'] ||
+              item.FullName;
+            console.log(fullName);
+            return fullName;
+          }),
+        );
         setEmailError(
-          data.filter((item: any, index: number) => {
+          data.filter((item: any) => {
             const email: string = item.Email || item.email || item.EMAIL;
             if (!emailVlu.test(email)) {
               return email;
@@ -136,6 +159,7 @@ export default function ImportFile({
         );
       })
       .catch((error) => {
+        console.log(error);
         setJustAddedFile('');
         notification.error({ message: 'Lấy File Không Thành Công' });
       });
