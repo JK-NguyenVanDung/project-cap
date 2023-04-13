@@ -56,7 +56,7 @@ export default function ProgramPublish() {
     {
       title: 'Tên chương trình',
       dataIndex: 'programName',
-      width: GIRD12.COL2,
+      width: GIRD12.COL4,
     },
     {
       title: 'Giảng Viên',
@@ -139,7 +139,7 @@ export default function ProgramPublish() {
     setData(value.trim() !== '' && filteredData ? filteredData : filterData);
   };
   return (
-    <>
+    <div className="max-sm:w-fit max-sm:mr-12 max-md:mr-12">
       <TableConfig
         onSearch={onChangeSearch}
         search={true}
@@ -147,6 +147,6 @@ export default function ProgramPublish() {
         columns={columns}
         loading={loading || confirmLoading}
       />
-    </>
+    </div>
   );
 }

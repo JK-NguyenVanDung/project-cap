@@ -42,3 +42,11 @@
   background-color: #3649f9 !important;
   opacity: 0.8;
 }
+
+.no-scroll {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.no-scroll::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}

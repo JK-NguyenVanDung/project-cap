@@ -246,15 +246,11 @@ export default function Application() {
     setData(value.trim() !== '' ? filteredData : filterData);
   };
 
-  function handelAdd() {
-    setDetail(null);
-  }
-  function handelImport() {}
   return (
     <>
       <Breadcrumb
         router1={'/admin/Published'}
-        name={'Đơn Đăng Ký'}
+        name={'Học viên'}
         name2={`${item?.programName}`}
       />
       <TableConfig

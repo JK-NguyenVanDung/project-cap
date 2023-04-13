@@ -30,14 +30,14 @@ export default function TableConfig({
 
     <div key={key ? key : null}>
       {search && (
-        <div className="flex content-center items-center justify-between px-5 my-10">
+        <div className="flex content-center items-center justify-between px-5 my-10  max-sm:px-0 max-sm:pl-5  max-md:px-0 max-md:pl-5">
           <SearchBar onSearch={onSearch} />
           {extra}
         </div>
       )}
       <Table
         loading={loading}
-        className="tableContainer shadow-lg rounded-lg border-1"
+        className="tableContainer2 shadow-lg rounded-lg border-1"
         style={{
           margin: 20,
         }}

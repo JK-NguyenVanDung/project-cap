@@ -111,7 +111,7 @@ export default function RegisteredPrograms() {
       const data: any = await apiService.getMyApplications();
       setToDoList(data);
       let temp = data;
-      temp = temp.reverse();
+
       setFilterData(temp);
     };
     dispatch(actions.formActions.setNameMenu(`${'Khóa Học Đã Đăng Ký '}`));

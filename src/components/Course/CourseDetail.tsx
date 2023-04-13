@@ -92,7 +92,7 @@ export default function (props: any) {
       <div
         className={`${
           props.isReviewing ? 'w-[70%]' : 'min-w-[67%]'
-        } max-sm:min-w-fit md:ml-8  h-fit my-4  mb-12 mx-2 flex flex-col justify-start items-center`}
+        } max-sm:min-w-fit max-md:min-w-fit  md:ml-8  h-fit my-4  mb-12 mx-2 flex flex-col justify-start items-center`}
       >
         <div className="shadow-lg p-6 rounded-xl w-full h-fit text-black bg-white  border flex flex-col justify-start items-center">
           <div className="w-full h-fit font-customFont ">
