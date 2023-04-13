@@ -16,6 +16,9 @@ function getStatus(
   canRegister: boolean,
   registrationStartDate: Date,
 ) {
+  if (status === 'end') {
+    return 'Đã kết thúc';
+  }
   if (!canRegister) {
     console.log(new Date(registrationStartDate).getTime());
     console.log(new Date().getTime());
@@ -24,12 +27,7 @@ function getStatus(
     }
     return 'Đã Hết Hạn Đăng Ký';
   }
-  switch (status) {
-    case 'public':
-      return 'Có thể đăng ký  ';
-    case 'end':
-      return 'Đã kết thúc';
-  }
+  return 'Có thể đăng ký ';
 }
 function getAttendanceStatus(status: string) {
   switch (status) {
@@ -86,8 +84,7 @@ export default memo(function ({
           overflow-hidden flex-col  w-full rounded-[20px] justify-end hover:border-[3px]  " //border-[2px] border-color-[#c3c6ce]
         >
           <div className="max-h-[40vh] h-[25vh]  w-full">
-            {!isRegistered ||
-            (isRegistered && memoItem?.status !== 'public') ? (
+            {!isRegistered || (isRegistered && memoItem?.status === 'end') ? (
               <div
                 className={`absolute  tag ${
                   memoItem?.status === 'public' && memoItem?.canRegister
