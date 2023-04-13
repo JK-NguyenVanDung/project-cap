@@ -61,7 +61,7 @@ export default function Login() {
         className="max-sm:hidden"
       />
       <main className="fixed max-sm:relative w-full h-full top-0 place-content-center items-center flex flex-col">
-        <h1 className="text-[#fff] uppercase font-bold text-center max-sm:text-3xl text-5xl mb-10 mt-10">
+        <h1 className="text-[#fff] leading-10 uppercase font-bold text-center max-sm:text-3xl text-5xl mb-10 mt-10">
           <p className="my-4"> Đăng Nhập </p>
           <p className="mt-8 ">L&D VLG TRAINING</p>
         </h1>
@@ -84,7 +84,7 @@ export default function Login() {
                 <h2 className="text-black group-hover:text-white text-2xl uppercase my-2 font-bold">
                   {item.title}
                 </h2>
-                <p className="text-black group-hover:text-white text-lg">
+                <p className="text-black group-hover:text-white text-lg text-center">
                   {item.description}
                 </p>
               </div>

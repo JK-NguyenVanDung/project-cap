@@ -15,6 +15,7 @@ export default function (props: any) {
   const [loading, setLoading] = useState(true);
   const [isApproved, setIsApproved] = useState(false);
   const location = useLocation();
+  let current = location.pathname.split('/')[2].toString();
 
   let ref = useRef(null);
   // const executeScroll = (i: number) => {
@@ -34,10 +35,25 @@ export default function (props: any) {
   const navLink = useAppSelector((state) => state.nav.nav);
 
   useEffect(() => {
+    const getProgram = async () => {
+      try {
+        setLoading(true);
+
+        let res: any = await apiService.getProgram(current && Number(current));
+        if (res) {
+          dispatch(actions.formActions.setProgramForm(res));
+          dispatch(
+            actions.formActions.setNameMenu(
+              `${res ? res?.programName : 'N/A'}`,
+            ),
+          );
+        }
+      } catch (err) {}
+    };
     const getData = async () => {
       try {
         let res: any = await apiService.getIfProgramIsRegistered({
-          programId: program?.programId,
+          programId: !program ? Number(current) : program?.programId,
           accountId: info.accountId,
         });
         if (res) {
@@ -45,6 +61,7 @@ export default function (props: any) {
         }
       } catch (err) {}
     };
+    !program && getProgram().finally(() => setLoading(false));
     getData();
     dispatch(
       actions.formActions.setNameMenu(
@@ -83,6 +100,7 @@ export default function (props: any) {
           }
         />
         <RightSection
+          loading={loading}
           isApproved={isApproved}
           enable={true}
           goBack={() =>

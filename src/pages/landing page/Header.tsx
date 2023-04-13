@@ -52,14 +52,14 @@ const Header = (props: any) => {
       <div className=" max-sm:container w-full flex flex-wrap justify-between items-center mx-auto px-16 max-sm:px-0">
         <a href="/" className="logo px-2 md:order-1 flex flex-row items-center">
           <img src={Logo} className="mr-3 h-6 sm:h-9 " alt="Training Logo" />
-          <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
+          <span className="max-sm:w-fit max-md:w-fit max-sm:text-xs max-md:text-xs self-center text-xl font-semibold whitespace-nowrap text-white">
             L&D VLG TRAINING
           </span>
         </a>
         <div className="flex md:order-2 sm:order-2 ">
           <button
             type="button"
-            className={`btn btn-primary max-sm:min-w-[120px] max-sm:p-0 max-sm:h-fit`}
+            className={`btn btn-primary max-sm:flex max-sm:flex-col max-sm:justify-center max-sm:h-fit max-md:flex max-md:flex-col max-md:justify-center max-md:h-fit`}
             onClick={() => Login()}
           >
             Đăng nhập

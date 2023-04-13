@@ -59,12 +59,12 @@ export default function MenuDropdown({ params }: { params: any }) {
         }}
       >
         <div id="icon">
-          <params.icon className="ml-2 text-md " />
+          <params.icon className="ml-2 text-md max-sm:ml-[3px]  max-md:ml-[3px] max-sm:text-sm  max-md:text-sm " />
         </div>
         <div id="title" className="flex uppercase w-full  justify-between pr-4">
           <p className="font-semibold text-sm">{params.title}</p>
           <MdOutlineKeyboardArrowDown
-            className="text-xl ml-6"
+            className="text-xl ml-6  max-sm:ml-[3px]  max-md:ml-[3px]"
             onClick={() => {
               setDropDown(!dropDown);
             }}
@@ -72,7 +72,7 @@ export default function MenuDropdown({ params }: { params: any }) {
         </div>
       </li>
       {dropDown && (
-        <div className="  ml-6 dropdown-content  ">
+        <div className="  ml-6 dropdown-content max-sm:ml-[3px]  max-md:ml-[3px]  max-sm:mb-2  max-md:mb-2">
           {params.children.map((item: any) => {
             return (
               <ItemMenu

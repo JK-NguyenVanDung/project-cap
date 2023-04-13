@@ -101,7 +101,7 @@ export default function TickAttendance({
     return (
       <>
         <QrReader
-          scanDelay={1500}
+          scanDelay={1000}
           onResult={(result: any, error: any) => {
             if (!!result) {
               // notification.success({ message: result?.text });
@@ -142,7 +142,7 @@ export default function TickAttendance({
   useEffect(() => {
     let time = setTimeout(async () => {
       handleQr();
-    }, 2000);
+    }, 1000);
     return () => {
       clearTimeout(time);
     };
@@ -159,7 +159,7 @@ export default function TickAttendance({
 
         await apiService.AttdendanceCode(params);
         notification.success({
-          message: 'Điểm danh thành công: ' + dataQrCode,
+          message: `Điểm danh thành công: ${dataQrCode.toString()} `,
         });
       }
       // setVisible(false);
@@ -170,7 +170,9 @@ export default function TickAttendance({
       // setVisible(false);
       setConfirmLoading(false);
       setDataQrCode('');
-      notification.error({ message: 'Điểm danh không thành công' });
+      notification.error({
+        message: `Điểm danh thành công: ${dataQrCode.toString()} `,
+      });
     }
   };
   const handleOk = () => {

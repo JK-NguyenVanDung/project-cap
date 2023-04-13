@@ -37,8 +37,8 @@ export default function Programs() {
       label: 'Chưa đăng ký',
     },
     {
-      value: 'Hết hạn',
-      label: 'Hết hạn',
+      value: 'Kết thúc',
+      label: 'Kết thúc',
     },
   ]);
 
@@ -47,7 +47,7 @@ export default function Programs() {
       try {
         const res: any = await apiService.getPublicPrograms();
 
-        let temp = res.reverse();
+        let temp = res;
         temp = isLike
           ? res.filter((item: IProgramItem) => item.isLike === true)
           : res.reverse();
@@ -67,8 +67,8 @@ export default function Programs() {
               label: 'Chưa đăng ký',
             },
             {
-              value: 'Hết hạn',
-              label: 'Hết hạn',
+              value: 'Kết thúc',
+              label: 'Kết thúc',
             },
             ...cate.map((item: any) => {
               return {
@@ -114,7 +114,7 @@ export default function Programs() {
       setData(
         filterData?.filter((item: IProgramItem) => item.status === 'public'),
       );
-    } else if (e === 'Hết hạn') {
+    } else if (e === 'Kết thúc') {
       setData(
         filterData?.filter((item: IProgramItem) => item.status === 'end'),
       );

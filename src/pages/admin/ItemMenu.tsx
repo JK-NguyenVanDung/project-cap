@@ -17,7 +17,7 @@ export default function ItemMenu({ params }: { params: any }) {
             : ''
         }${
           location.pathname === params.path ? ' text-primary' : 'text-primary'
-        }hover:bg-white hover:text-white py-4 my-0 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
+        }hover:bg-white hover:text-white py-4 my-0 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center   max-sm:mb-2 max-md:mb-2`}
         onClick={() => {
           navigation(params.path);
           dispatch(
@@ -35,11 +35,11 @@ export default function ItemMenu({ params }: { params: any }) {
         }}
       >
         <div id="icon">
-          <params.icon className="ml-2 text-md " />
+          <params.icon className="ml-2 text-md max-sm:ml-[3px]  max-md:ml-[3px] max-sm:text-sm  max-md:text-sm " />
         </div>{' '}
         <div id="title" className="flex  ">
           <p
-            className={`font-semibold ${
+            className={`font-semibold max-sm:text-xs max-md:text-xs ${
               params.textClassName ? params.textClassName : 'text-sm uppercase'
             }`}
           >

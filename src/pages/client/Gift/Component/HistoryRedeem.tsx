@@ -14,10 +14,10 @@ export default function HistoryRedeem() {
     const fetchHistoryRedeem = async () => {
       const data: any = await apiService.getGiftMyExchange();
       // setData(data.map((item: any) => item.gift));
-      let res = data.reverse();
-      setData(res);
+      // let res = data.reverse();
+      setData(data);
 
-      setFilterData(res);
+      setFilterData(data);
     };
     fetchHistoryRedeem();
   }, []);
@@ -120,13 +120,18 @@ export default function HistoryRedeem() {
   };
   return (
     <>
-      <Space size={1} />
-      <TableConfig
-        onSearch={onChangeSearch}
-        search={true}
-        data={data}
-        columns={columns}
-      />
+      <div
+        className="    overflow-x-scroll
+"
+      >
+        <Space size={1} />
+        <TableConfig
+          onSearch={onChangeSearch}
+          search={true}
+          data={data}
+          columns={columns}
+        />
+      </div>
     </>
   );
 }
