@@ -343,13 +343,15 @@ export function Welcome() {
           onCanPlay={() => setPlayBack()}
           id="myVideo"
           ref={videoRef}
-          className="max-sm:hidden bg-red-100"
+          className="max-sm:hidden max-sm:h-full "
         />
       </div>
-      <main className="fixed max-sm:relative w-full h-full top-0 place-content-center items-center flex flex-col">
-        <h1 className="text-[#fff] uppercase font-bold text-center max-sm:text-3xl text-5xl mb-10 mt-10">
-          <img src={logo} />
-          <p className="mt-8 ">VLG Training</p>
+      <main className="fixed w-full h-full top-0 place-content-center items-center flex flex-col">
+        <h1 className="text-[#fff] uppercase font-bold text-center max-sm:max-md:text-xl text-5xl mb-10 mt-10">
+          <div className="max-sm:max-md:flex max-sm:max-md:justify-center ">
+            <img src={logo} className="max-sm:max-md:w-[50%] " />
+          </div>
+          <p className="mt-8 ">L&D VLG Training</p>
         </h1>
         <p className="mt-4 text-2xl max-w-[50%] text-center">
           {kindWords[getRandomArbitrary(0, kindWords.length - 1)]}
@@ -358,7 +360,7 @@ export function Welcome() {
         <div className=" container mx-auto px-6">
           <div className="mt-16 z- flex flex-col items-center">
             <div className="sm:w-2/3 max-sm:w-fit text-center py-6">
-              <p className=" text-sm text-white font-bold mb-2">
+              <p className=" text-sm text-white font-bold mb-2 max-sm:max-md:px-12">
                 © 2022 - Bản Quyền Thuộc Trường Đại học Văn Lang
               </p>
             </div>

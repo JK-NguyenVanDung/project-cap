@@ -216,6 +216,8 @@ export default function Account() {
   }, []);
   async function checkAccountExist(email: string) {
     let res: any = await apiService.getAccounts();
+    res = res.reverse();
+
     let obj = res.find((e: IAccountItem) => e.email === email);
     return obj !== undefined ? true : false;
   }
@@ -288,7 +290,7 @@ export default function Account() {
             },
             {
               pattern: new RegExp(
-                /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
+                /.(?!.*([(),.#/-])\1)*\@ktkt.edu.vn$|(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/,
               ),
               message: 'Vui Lòng Nhập Đúng Định Dạng Email Giảng Viên VLU',
             },

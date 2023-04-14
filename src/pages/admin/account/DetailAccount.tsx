@@ -32,7 +32,11 @@ export default function DetailAccount({
   useEffect(() => {
     getRoleName();
     form.setFieldsValue(item);
-    setLastLogin(moment(item.lastLogin).format('HH:mm:ss MM-DD-YYYY'));
+    setLastLogin(
+      item.lastLogin
+        ? moment(item.lastLogin).format('HH:mm:ss MM-DD-YYYY')
+        : 'Chưa đăng nhập vào hệ thống',
+    );
   }, []);
 
   const FormItem = () => {
@@ -52,6 +56,13 @@ export default function DetailAccount({
             placeholder="Không có Email"
           />
           <FormInput
+            label="SĐT"
+            disabled
+            name="phoneNumber"
+            placeholder="Không có SĐT"
+          />
+
+          <FormInput
             label="Chức Vụ"
             disabled
             name="position"
@@ -65,6 +76,12 @@ export default function DetailAccount({
           />
         </div>
         <div className="w-full p-5">
+          <FormInput
+            label="MSNV"
+            disabled
+            value={item?.code}
+            placeholder="Không có vai trò"
+          />
           <FormInput
             label="Địa Chỉ"
             disabled
