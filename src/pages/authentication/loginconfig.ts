@@ -4,7 +4,7 @@
  */
 
 import { LogLevel } from '@azure/msal-browser';
-import { path } from '../../onBuild';
+import { path } from '../../../onBuild';
 
 /**
  * Configuration object to be passed to MSAL instance on creation.

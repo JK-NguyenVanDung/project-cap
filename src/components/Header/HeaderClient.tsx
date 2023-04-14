@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { actions } from '../../Redux';
 import { AiOutlineHeart } from 'react-icons/ai';
-import { exitPath } from '../../onBuild';
+import { exitPath } from '../../../onBuild';
 import { API_URL } from '../../api/api';
 import NotificationDropDown from '../sharedComponents/NotificationDropDown';
 export default function () {

@@ -1,5 +1,5 @@
 import { IGift, ISignUp } from './apiInterface';
-import { apiPath } from '../onBuild';
+import { apiPath } from '../../onBuild';
 export const API_URL = apiPath;
 //https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17
 //https://localhost:7206'

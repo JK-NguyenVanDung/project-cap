@@ -1,5 +1,4 @@
-let isHosting = false;
-
+import { isHosting } from './vite.config';
 export const path = isHosting
   ? 'https://cntttest.vanlanguni.edu.vn/CP25Team02'
   : 'http://localhost:5173';

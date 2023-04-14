@@ -15,7 +15,7 @@ import { useNavigate } from 'react-router-dom';
 import { notification } from 'antd';
 import { actions } from '../../Redux';
 import NotificationDropDown from '../sharedComponents/NotificationDropDown';
-import { exitPath } from '../../onBuild';
+import { exitPath } from '../../../onBuild';
 import { API_URL } from '../../api/api';
 export default function () {
   const { instance, accounts } = useMsal();

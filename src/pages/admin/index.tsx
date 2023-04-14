@@ -22,7 +22,7 @@ import ItemMenu from './ItemMenu';
 import MenuDropdown from './MenuDropdown';
 import { IoLogOut } from 'react-icons/io5';
 import { notification } from 'antd';
-import { exitPath } from '../../onBuild';
+import { exitPath } from '../../../onBuild';
 
 export default function SideBar({
   content,

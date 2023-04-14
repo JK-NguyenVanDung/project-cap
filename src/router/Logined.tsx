@@ -6,7 +6,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { LoadingOutlined } from '@ant-design/icons';
 import { useAppDispatch, useAppSelector } from '../hook/useRedux';
 import { actions } from '../Redux';
-import { exitPath } from '../onBuild';
+import { exitPath } from '../../onBuild';
 import apiService from '../api/apiService';
 
 export default function Logined() {
