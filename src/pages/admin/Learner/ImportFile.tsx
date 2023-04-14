@@ -36,6 +36,7 @@ export default function ImportFile({
   const [listEmail, setListEmail]: any = useState([]);
   const [listName, setListName]: any = useState([]);
   const [listMSNV, setListMSNV]: any = useState([]);
+  const [listData, setListData]: any = useState([]);
   const [file, setJustAddedFile] = useState('');
 
   const [emailError, setEmailError] = useState([]);
@@ -58,28 +59,41 @@ export default function ImportFile({
   const info = useAppSelector((state) => state.auth.info);
 
   const handleOk = async () => {
+    console.log(1);
     form.validateFields().then(async () => {
       dispatch(actions.reloadActions.setReload());
-      const emailSuccess = listEmail?.filter((item: any) => {
+
+      let outPut = listData.map((item: any) => {
+        return {
+          email: item.Email,
+          fullName: item['Họ & Tên'],
+          code: item?.MSNV.toString(),
+        };
+      });
+      console.log(outPut);
+
+      const success = outPut?.filter((item: any) => {
         if (
-          emailVlu.test(item) &&
-          emailValid.test(item) &&
-          emailNotW.test(item) &&
-          emailSpace.test(item)
+          emailVlu.test(item?.email) &&
+          emailValid.test(item?.email) &&
+          emailNotW.test(item?.email) &&
+          emailSpace.test(item?.email)
         ) {
           return item;
         }
       });
       const values = {
         programId: program.programId,
-        emails: emailSuccess,
-        code: listMSNV.map((item: any) => item),
-        fullName: listName.map((item: any) => item),
+        learners: success,
+        // emails: emailSuccess,
+        // code: listMSNV.map((item: any) => item),
+        // fullName: listName.map((item: any) => item),
       };
+
       console.log(values);
       const data = apiService.importFileLearner({
         body: values,
-        accountId: info.accountId,: string
+        accountId: info.accountId,
       });
 
       data.then((res: any) => {
@@ -123,6 +137,8 @@ export default function ImportFile({
     });
     readFileExcel
       .then((data: any) => {
+        data.map((item: any) => {});
+        setListData(data);
         setListEmail(
           data.map((item: any) => {
             const email: string = item.Email || item.email || item.EMAIL;

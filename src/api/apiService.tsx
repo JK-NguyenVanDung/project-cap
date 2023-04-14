@@ -288,7 +288,7 @@ export default {
   importFileLearner: (param: {
     body: {
       programId: number;
-      emails: [];
+      learners: [];
     };
     accountId: number;
   }) => {
