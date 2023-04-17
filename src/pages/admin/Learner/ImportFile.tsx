@@ -12,6 +12,9 @@ import { actions } from '../../../Redux';
 import { AiOutlineUp } from 'react-icons/ai';
 import { SideBarDataCT } from '../SidebarData';
 import Button from '../../../components/sharedComponents/Button';
+
+import { CSVLink } from 'react-csv';
+
 const emailVlu =
   /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/;
 const emailValid =
@@ -57,6 +60,27 @@ export default function ImportFile({
   // const [localLoading, setLocalLoading] = useState(false);
 
   const info = useAppSelector((state) => state.auth.info);
+
+  const data = [
+    {
+      STT: 1,
+      'Họ & Tên': 'Nguyễn Hoàng Vũ',
+      MSNV: 9999999,
+      EMAIL: 'vu.999999@vanlanguni.vn',
+    },
+    {
+      STT: 2,
+      'Họ & Tên': 'Nguyễn Văn Dũng',
+      MSNV: 9999999,
+      EMAIL: 'dung.999999@vanlanguni.vn',
+    },
+    {
+      STT: 3,
+      'Họ & Tên': 'Trần Thành Đạt',
+      MSNV: 9999999,
+      EMAIL: 'dat.999999@vanlanguni.vn',
+    },
+  ];
 
   const handleOk = async () => {
     console.log(1);
@@ -198,6 +222,15 @@ export default function ImportFile({
   const FormItem = () => {
     return (
       <>
+        <CSVLink
+          data={data}
+          filename={'mau_file_excel.csv'}
+          headers={['STT', 'Họ & Tên', 'MSNV', 'EMAIL']}
+          className="w-44 h-10 bg-blue-gray-500 flex my-5 justify-center items-center text-white rounded-lg"
+        >
+          Tải Xuống File Mẫu
+        </CSVLink>
+
         <Input
           accept=".xlsx,.xls"
           type="file"

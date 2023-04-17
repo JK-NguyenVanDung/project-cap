@@ -43,11 +43,9 @@ export default function AddManagerGift({
       setImageLoading(false);
     }, 1000);
   };
-  // useEffect(() => {
-  //   return () => {
-  //     setURLImage(null);
-  //   };
-  // }, [showModal]);
+  useEffect(() => {
+    detail?.image ? detail?.image : setURLImage(null);
+  }, []);
 
   const handleOk = async () => {
     setLoading(true);
@@ -73,14 +71,15 @@ export default function AddManagerGift({
               notification.success({ message: 'Thay đổi thành công' });
             }
             setShowModal(false);
+            form.resetFields();
           } else {
             const data = apiService.addGift(formData);
             if (data) {
               notification.success({ message: 'Thêm thành công' });
             }
             setShowModal(false);
+            form.resetFields();
           }
-          // form.resetFields();
         } catch (error) {
           notification.error({ message: 'Thực hiện không thành công' });
         }
