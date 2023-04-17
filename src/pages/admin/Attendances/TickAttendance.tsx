@@ -30,11 +30,11 @@ export default function TickAttendance({
       label: `Email`,
       children: <RenderEmail />,
     },
-    {
-      key: 'Barcode',
-      label: `Barcode`,
-      children: <RenderBar />,
-    },
+    // {
+    //   key: 'Barcode',
+    //   label: `Barcode`,
+    //   children: <RenderBar />,
+    // },
     {
       key: 'Code',
       label: `QR Code`,

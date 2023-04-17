@@ -8,7 +8,13 @@ import { MdOutlineKeyboardArrowDown } from 'react-icons/md';
 import ItemMenu from './ItemMenu';
 import autoAnimate from '@formkit/auto-animate';
 
-export default function MenuDropdown({ params }: { params: any }) {
+export default function MenuDropdown({
+  params,
+  closeMenu,
+}: {
+  params: any;
+  closeMenu?: Function;
+}) {
   const [dropDown, setDropDown] = React.useState(false);
   const [close, setClose] = React.useState(false);
 
@@ -56,6 +62,7 @@ export default function MenuDropdown({ params }: { params: any }) {
               }`,
             ),
           );
+          closeMenu ? closeMenu() : null;
         }}
       >
         <div id="icon">
