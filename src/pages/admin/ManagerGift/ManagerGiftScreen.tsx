@@ -115,6 +115,9 @@ const ManagerGiftScreen = () => {
     async function deleteItem() {
       try {
         await apiService.deleteGift(item.giftId);
+        notification.success({
+          message: 'Xóa thành công',
+        });
       } catch (err: any) {
         notification.error({
           message: 'Xóa không thành công',
