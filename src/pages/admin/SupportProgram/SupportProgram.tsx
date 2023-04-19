@@ -16,8 +16,7 @@ import {
 } from 'react-icons/bs';
 import { AiFillIdcard, AiOutlineFileProtect } from 'react-icons/ai';
 import { IoPersonAdd } from 'react-icons/io5';
-import AddLearner from './AddLearner';
-export default function ProgramPublish() {
+export default function () {
   const [data, setData] = useState([]);
   const [detail, setDetail] = useState({});
   const [addLearner, setAddLearner] = useState(false);
@@ -27,16 +26,17 @@ export default function ProgramPublish() {
   const [confirmLoading, setConfirmLoading] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const info = useAppSelector((state) => state.auth.info);
+  info;
   useEffect(() => {
     async function getProgramPublish() {
       try {
-        let response: any = await apiService.getProgramPublish();
+        let response: any = await apiService.getSupportPrograms(info.accountId);
 
         response = response.reverse();
         let res = response.map((item: any, index: number) => {
           return {
-            ...item,
+            ...item.program,
             index: index + 1,
           };
         });
@@ -50,7 +50,7 @@ export default function ProgramPublish() {
         console.log(error);
       }
     }
-    dispatch(actions.formActions.setNameMenu(`Quản Lý Học Viên`));
+    dispatch(actions.formActions.setNameMenu(`Quản lý chương trình hỗ trợ`));
     getProgramPublish();
   }, [loading, confirmLoading]);
   const columns = [
@@ -70,16 +70,16 @@ export default function ProgramPublish() {
       dataIndex: 'lecturers',
       width: GIRD12.COL1,
     },
-    {
-      title: 'Số Lượng Học Viên',
-      dataIndex: 'countLearner',
-      width: '12%',
-    },
-    {
-      title: 'Đơn Đăng Ký Chờ Duyệt',
-      dataIndex: 'countApplication',
-      width: '12%',
-    },
+    // {
+    //   title: 'Số Lượng Học Viên',
+    //   dataIndex: 'countLearner',
+    //   width: '12%',
+    // },
+    // {
+    //   title: 'Đơn Đăng Ký Chờ Duyệt',
+    //   dataIndex: 'countApplication',
+    //   width: '12%',
+    // },
     {
       width: GIRD12.COL1,
 
@@ -87,27 +87,6 @@ export default function ProgramPublish() {
       render: (item: IProgramItem) => {
         return (
           <Space>
-            <CustomButton
-              tip="Xem Học Viên"
-              size="sm"
-              color="red"
-              Icon={BsPeopleFill}
-              onClick={() => goLearner(item)}
-            />
-            <CustomButton
-              tip="Xem Đơn Đăng Ký"
-              size="sm"
-              color="brown"
-              Icon={IoPersonAdd}
-              onClick={() => goApplication(item)}
-            />
-            <CustomButton
-              tip="Người Hỗ Trợ"
-              size="sm"
-              color="yellow"
-              Icon={BsPersonFillUp}
-              onClick={() => openAddSupporter(item)}
-            />
             <CustomButton
               tip="Xem Danh Sách Điểm Danh"
               size="sm"
@@ -121,9 +100,8 @@ export default function ProgramPublish() {
     },
   ];
   function openAddSupporter(program: IProgramItem) {
-    dispatch(actions.formActions.setProgramForm(program));
-
-    navigate(`/admin/Published/${program?.programId}/Supporters`);
+    setDetail(program);
+    setAddLearner(true);
   }
   function goAttendances(item: any) {
     dispatch(actions.formActions.setProgramForm(item));
@@ -156,7 +134,38 @@ export default function ProgramPublish() {
 
     setData(value.trim() !== '' && filteredData ? filteredData : filterData);
   };
+  const handleSubmit = async (values: any, form: any, valueLearner: any) => {
+    //reload
+    dispatch(actions.reloadActions.setReload());
+    setLoading(true);
 
+    // if (detail) {
+    //   const data = await apiService.updateLearner(
+    //     detail.learnerId,
+    //     values,
+    //   );
+    //   if (data) {
+    //     notification.success({ message: 'Thay đổi thành công' });
+    //   }
+    //   setShowModal(false);
+    //   form.resetFields();
+    // } else {
+    const data: null = null;
+    //await apiService.addLearner(valueLearner);
+
+    if (data) {
+      notification.success({ message: 'Thêm thành công' });
+    }
+    setAddLearner(false);
+    form.resetFields();
+    // }
+
+    setTimeout(() => {
+      setLoading(false);
+
+      dispatch(actions.reloadActions.setReload());
+    }, 1000);
+  };
   return (
     <div className="max-sm:w-fit max-sm:mr-12 max-md:mr-12">
       <TableConfig

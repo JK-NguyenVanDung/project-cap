@@ -68,6 +68,8 @@ import CoinExchanges from '../pages/client/CoinExchanges/CoinExchanges';
 import HistoryRedeem from '../pages/client/Gift/Component/HistoryRedeem';
 import CoinExchangesDetail from '../pages/client/CoinExchanges/CoinExchangesDetail';
 import NotFoundPage from '../NotFoundPage';
+import SupportProgram from '../pages/admin/SupportProgram/SupportProgram';
+import Supporters from '../pages/admin/SupportProgram/Supporters';
 
 export const RouterPages = [
   {
@@ -98,6 +100,10 @@ export const RouterPages = [
   {
     path: '/admin/MyProgram',
     element: <Program />,
+  },
+  {
+    path: '/admin/SupportProgram',
+    element: <SupportProgram />,
   },
   {
     path: `/admin/Program/showDetail`,
@@ -216,9 +222,17 @@ export const RouterPages = [
     path: '/admin/ExchangeCoin/:id/ReviewCertification',
     element: <ReviewCertification />,
   },
+  {
+    path: '/admin/Published/:id/Supporters',
+    element: <Supporters />,
+  },
 ];
 
 export const RouterCenter = [
+  {
+    path: '/admin/SupportProgram',
+    element: <SupportProgram />,
+  },
   {
     path: '/admin/Attendance',
     element: <Attendance />,
@@ -333,6 +347,10 @@ export const RouterCenter = [
   },
 ];
 export const RouterFaculty = [
+  {
+    path: '/admin/SupportProgram',
+    element: <SupportProgram />,
+  },
   {
     path: '/admin/Application',
     element: <Application />,

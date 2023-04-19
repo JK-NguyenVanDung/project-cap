@@ -16,6 +16,8 @@ import TickAttendance from './TickAttendance';
 import DetailAttendances from './DetailAttendances';
 import { actions } from '../../../Redux';
 import Breadcrumb from '../../../components/sharedComponents/Breadcrumb';
+import { BsFileEarmarkPersonFill } from 'react-icons/bs';
+import { RiMailSendLine } from 'react-icons/ri';
 
 const { RangePicker } = DatePicker;
 export default function Attendance() {
@@ -35,7 +37,6 @@ export default function Attendance() {
 
   const [valueAtten, setValueAtten] = useState();
   const handleEdit = (item: any) => {
-    console.log('edit>>>', item);
     setDetail({
       ...item,
       surveyTime: [
@@ -45,6 +46,62 @@ export default function Attendance() {
     });
     setShowModal(true);
   };
+  async function sendEmail(item: any) {
+    try {
+      const fetchData = async () => {
+        try {
+          setLoading(true);
+          const response: any = await apiService.getNotAttendance(
+            item?.attendance.id,
+          );
+
+          const res: any = await apiService.getAttendanceId(
+            item?.attendance?.id,
+          );
+
+          let resArr = res.accountAttendances.map((item: any) => {
+            return {
+              account: item.account,
+              isAttending: true,
+            };
+          });
+          let newArr = response.map((item: any) => {
+            return {
+              account: item,
+              isAttending: false,
+            };
+          });
+          let final = [...newArr, ...resArr];
+          final = final.map((item: any, index: number) => {
+            return {
+              index: index + 1,
+
+              ...item,
+            };
+          });
+          return final;
+        } catch (err) {}
+        setLoading(false);
+      };
+      let data = await fetchData();
+      console.log(data);
+      let apiCalls = data.map((acc) => {
+        return apiService.sendEmail({
+          email: acc.account.email,
+          attendanceId: item?.attendance.id,
+        });
+      });
+      Promise.all(apiCalls);
+      setReload(!reload);
+      notification.success({
+        message: 'Đã gửi email tới các học viên thành công',
+      });
+    } catch (err: any) {
+      notification.error({
+        message: 'Gửi email tới các học viên không thành công',
+      });
+    }
+  }
   async function handleDelete(item: any) {
     try {
       await apiService.delAttendance(item.attendance.id);
@@ -102,6 +159,16 @@ export default function Attendance() {
               size="sm"
               handleEdit={() => handleEdit(item)}
               handleDelete={() => handleDelete(item)}
+              ExtraButton={
+                <CustomButton
+                  text=""
+                  size="sm"
+                  color="orange"
+                  tip="Gửi email vé điểm danh"
+                  Icon={RiMailSendLine}
+                  onClick={() => sendEmail(item)}
+                />
+              }
               handleShowDetail={() => handelDetail(item)}
               handleAtt={() => handelTick(item)}
             />
@@ -161,7 +228,7 @@ export default function Attendance() {
   useEffect(() => {
     dispatch(
       actions.formActions.setNameMenu(
-        `Điểm danh: ${item.programName && item.programName}`,
+        `Điểm danh: ${item?.programName && item?.programName}`,
       ),
     );
     getData();
@@ -171,7 +238,7 @@ export default function Attendance() {
     form.validateFields().then(async (values) => {
       setLoading(true);
       const params = {
-        programId: item.programId,
+        programId: item?.programId,
         title: values.title,
         startTime: moment(values.surveyTime[0]).toISOString(true),
         endTime: moment(values.surveyTime[1]).toISOString(true),
@@ -279,22 +346,26 @@ export default function Attendance() {
           ]}
         />
       </div>
-      <CustomModal
-        show={showModal}
-        setShow={setShowModal}
-        dataItem={detail}
-        label={'Buổi Điểm Danh'}
-        name={detail}
-        handleOk={handleOk}
-        FormItem={<FormItem />}
-        form={form}
-      />
-      <TickAttendance
-        item={valueAtten}
-        setItem={setValueAtten}
-        visible={openAtt}
-        setVisible={setOpenAtt}
-      />
+      {showModal && (
+        <CustomModal
+          show={showModal}
+          setShow={setShowModal}
+          dataItem={detail}
+          label={'Buổi Điểm Danh'}
+          name={detail}
+          handleOk={handleOk}
+          FormItem={<FormItem />}
+          form={form}
+        />
+      )}
+      {valueAtten && (
+        <TickAttendance
+          item={valueAtten}
+          setItem={setValueAtten}
+          visible={openAtt}
+          setVisible={setOpenAtt}
+        />
+      )}
       {showDetail && (
         <DetailAttendances
           item={detail}

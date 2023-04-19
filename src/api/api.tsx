@@ -167,6 +167,7 @@ export const API_CONFIG = {
     ATTENDANCES_EMAIL: '/api/Attendances/Attendances/Email',
     ATTENDANCES_CODE: '/api/Attendances/Attendances/Code',
     NOT_ATTENDANCE: (id: number) => `/api/Attendances/NotAttendance/${id}`,
+    SEND_EMAIL: `/api/Attendances/Attendances/Email`,
   },
   SURVEY: {
     GETALL: '/api/Surveys/GetListSurvey',
@@ -253,5 +254,16 @@ export const API_CONFIG = {
   HOME: {
     GET_POPULAR: `/api/Programs/GetProgramsFamous`,
     GET_NEW: `/api/Programs/GetProgramsNew`,
+  },
+  SUPPORTERS: {
+    GET_SUPPORTERS: (ProgramId: number) =>
+      `/api/Supporters/GetSupporters/${ProgramId}`,
+    GET_SUPPORTER_PROGRAMS: (accountId: number) =>
+      `/api/Supporters/GetSupportProgram/${accountId}`,
+
+    POST: (ProgramId: number, AccountId: number) =>
+      `/api/Supporters?ProgramId=${ProgramId}&AccountId=${AccountId}`,
+    DELETE: (supporterId: number) =>
+      `/api/Supporters?SupporterId=${supporterId}`,
   },
 };

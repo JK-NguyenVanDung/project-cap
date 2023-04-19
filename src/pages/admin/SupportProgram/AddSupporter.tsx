@@ -11,17 +11,17 @@ import { actions } from '../../../Redux';
 
 const { Option } = Select;
 
-export default function AddLearner({
+export default function ({
+  programId,
   showModal,
   setShowModal,
   detail,
-  program,
   loading,
   setLoading,
 }: {
+  programId: number;
   loading: boolean;
   setLoading: (loading: boolean) => void;
-  program: IProgramItem;
   detail: any;
   showModal: boolean;
   setShowModal: (showModal: boolean) => void;
@@ -43,37 +43,21 @@ export default function AddLearner({
     form
       .validateFields()
       .then(async (values) => {
-        const valueLearner = {
-          accountIdLearner: values.accountIdLearner,
-          programId: program.programId,
-          accountIdApprover: account.accountId,
-        };
-
         try {
           //reload
 
           dispatch(actions.reloadActions.setReload());
           setLoading(true);
 
-          if (detail) {
-            const data = await apiService.updateLearner(
-              detail.learnerId,
-              values,
-            );
-            if (data) {
-              notification.success({ message: 'Thay đổi thành công' });
-            }
-            setShowModal(false);
-            form.resetFields();
-          } else {
-            const data = await apiService.addLearner(valueLearner);
-            console.log(data);
-            if (data) {
-              notification.success({ message: 'Thêm thành công' });
-            }
-            setShowModal(false);
-            form.resetFields();
+          let data = await apiService.addSupporter({
+            programId: programId,
+            accountId: values.accountId,
+          });
+          if (data) {
+            notification.success({ message: 'Thêm thành công' });
           }
+          setShowModal(false);
+          form.resetFields();
 
           setTimeout(() => {
             setLoading(false);
@@ -93,11 +77,11 @@ export default function AddLearner({
     return (
       <>
         <label className="text-start w-full mb-4 text-black font-bold font-customFont ">
-          Người Học
+          Người Hỗ Trợ
         </label>
         <Form.Item
           className="w-full "
-          name="accountIdLearner"
+          name="accountId"
           rules={[
             {
               required: true,
@@ -107,7 +91,7 @@ export default function AddLearner({
         >
           <Select
             showSearch
-            placeholder="Chọn Người Học"
+            placeholder="Chọn Người hỗ trợ"
             optionFilterProp="children"
             filterOption={(input: any, option: any) =>
               (option?.label ?? '').toLowerCase().includes(input.toLowerCase())
@@ -121,39 +105,7 @@ export default function AddLearner({
       </>
     );
   };
-  const FormUpdate = () => {
-    return (
-      <>
-        <label className="text-start w-full mb-4 text-black font-bold font-customFont ">
-          Người Học
-        </label>
-        <Form.Item
-          name="status"
-          className="w-full mt-4"
-          rules={[
-            {
-              required: true,
-              message: 'Vui Lòng Nhập Vào Trạng Thái',
-            },
-          ]}
-        >
-          <Select placeholder="Chọn Trạng Thái">
-            <Option value="Attending">Đang Tham Gia</Option>
-            <Option value="Stop Attending">Ngưng Tham Gia</Option>
-            <Option value="Not Complete">Chưa Hoàn Thành</Option>
-            <Option value="Complete">Hoàn Thành</Option>
-          </Select>
-        </Form.Item>
-        <FormInput
-          type="textArea"
-          label="Nhận Xét"
-          name="comment"
-          placeholder="Nhận Xét"
-          rules={[{ required: true, message: 'Vui lòng nhập vào Nhận Xét' }]}
-        />
-      </>
-    );
-  };
+
   return (
     <CustomModal
       show={showModal}
@@ -162,7 +114,7 @@ export default function AddLearner({
       dataItem={detail}
       label={'Người Học'}
       name={detail}
-      FormItem={detail ? <FormUpdate /> : <FormItem />}
+      FormItem={<FormItem />}
       form={form}
       showDetail={showDetail}
       setShowDetail={setShowDetail}

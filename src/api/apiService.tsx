@@ -354,6 +354,9 @@ export default {
   postAttendance: (params: any) => {
     return axiosConfig.post(API_CONFIG.ATTENDANCES.POST_ATTENDANCES, params);
   },
+  sendEmail: (params: { email: string; attendanceId: number }) => {
+    return axiosConfig.post(API_CONFIG.ATTENDANCES.SEND_EMAIL, params);
+  },
   putAttendance: (params: any, id: number) => {
     return axiosConfig.put(API_CONFIG.ATTENDANCES.PUT_ATTENDANCES(id), params);
   },
@@ -562,5 +565,28 @@ export default {
   },
   deleteNotification: (id: number) => {
     return axiosConfig.delete(API_CONFIG.ACCOUNT.DELETE_NOTIFICATION(id));
+  },
+
+  //SUPPORTERS
+  getSupporters: (programId: number) => {
+    return axiosConfig.get(API_CONFIG.SUPPORTERS.GET_SUPPORTERS(programId));
+  },
+  getSupportPrograms: (accountId: number) => {
+    return axiosConfig.get(
+      API_CONFIG.SUPPORTERS.GET_SUPPORTER_PROGRAMS(accountId),
+    );
+  },
+
+  addSupporter: ({
+    programId,
+    accountId,
+  }: {
+    programId: number;
+    accountId: number;
+  }) => {
+    return axiosConfig.post(API_CONFIG.SUPPORTERS.POST(programId, accountId));
+  },
+  deleteSupporter: (id: number) => {
+    return axiosConfig.delete(API_CONFIG.SUPPORTERS.DELETE(id));
   },
 };

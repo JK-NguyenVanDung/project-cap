@@ -7,7 +7,7 @@ import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
 import { IAccountItem, IProgramItem, IRoleItem } from '../../../Type';
 import { actions } from '../../../Redux';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Space, notification } from 'antd';
 import {
   BsFillPersonBadgeFill,
@@ -16,22 +16,25 @@ import {
 } from 'react-icons/bs';
 import { AiFillIdcard, AiOutlineFileProtect } from 'react-icons/ai';
 import { IoPersonAdd } from 'react-icons/io5';
-import AddLearner from './AddLearner';
+import AddSupporter from './AddSupporter';
+import PopOverAction from '../../../components/admin/PopOver';
 export default function ProgramPublish() {
   const [data, setData] = useState([]);
   const [detail, setDetail] = useState({});
-  const [addLearner, setAddLearner] = useState(false);
 
+  const [addLearner, setAddLearner] = useState(false);
+  const location = useLocation();
+  const programId = location.pathname.split('/')[3];
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
   const [confirmLoading, setConfirmLoading] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
+  const program = useAppSelector((state) => state.form.programId);
   useEffect(() => {
-    async function getProgramPublish() {
+    async function getSupporters() {
       try {
-        let response: any = await apiService.getProgramPublish();
+        let response: any = await apiService.getSupporters(Number(programId));
 
         response = response.reverse();
         let res = response.map((item: any, index: number) => {
@@ -51,7 +54,7 @@ export default function ProgramPublish() {
       }
     }
     dispatch(actions.formActions.setNameMenu(`Quản Lý Học Viên`));
-    getProgramPublish();
+    getSupporters();
   }, [loading, confirmLoading]);
   const columns = [
     {
@@ -61,91 +64,71 @@ export default function ProgramPublish() {
     },
 
     {
-      title: 'Tên chương trình',
-      dataIndex: 'programName',
-      width: GIRD12.COL4,
+      title: 'Tên người hỗ trợ',
+      dataIndex: 'account',
+      width: GIRD12.COL2,
+      render: (item: IAccountItem) => {
+        return <p>{item?.fullName}</p>;
+      },
     },
     {
-      title: 'Giảng Viên',
-      dataIndex: 'lecturers',
+      title: 'Email',
+      dataIndex: 'account',
       width: GIRD12.COL1,
+      render: (item: IAccountItem) => {
+        return <p>{item?.email}</p>;
+      },
     },
     {
-      title: 'Số Lượng Học Viên',
-      dataIndex: 'countLearner',
-      width: '12%',
-    },
-    {
-      title: 'Đơn Đăng Ký Chờ Duyệt',
-      dataIndex: 'countApplication',
-      width: '12%',
+      title: 'SĐT',
+      dataIndex: 'account',
+      width: GIRD12.COL1,
+      render: (item: IAccountItem) => {
+        return <p>{item?.phoneNumber ? item?.phoneNumber : 'N/A'}</p>;
+      },
     },
     {
       width: GIRD12.COL1,
 
       title: 'Thao tác',
-      render: (item: IProgramItem) => {
+      render: (item: any) => {
         return (
-          <Space>
-            <CustomButton
-              tip="Xem Học Viên"
-              size="sm"
-              color="red"
-              Icon={BsPeopleFill}
-              onClick={() => goLearner(item)}
-            />
-            <CustomButton
-              tip="Xem Đơn Đăng Ký"
-              size="sm"
-              color="brown"
-              Icon={IoPersonAdd}
-              onClick={() => goApplication(item)}
-            />
-            <CustomButton
-              tip="Người Hỗ Trợ"
-              size="sm"
-              color="yellow"
-              Icon={BsPersonFillUp}
-              onClick={() => openAddSupporter(item)}
-            />
-            <CustomButton
-              tip="Xem Danh Sách Điểm Danh"
-              size="sm"
-              color="cyan"
-              Icon={BsFillPersonBadgeFill}
-              onClick={() => goAttendances(item)}
-            />
-          </Space>
+          <PopOverAction
+            size="sm"
+            handleDelete={() => handleDelete(item)}
+            deleteItem={item.programName}
+          />
         );
       },
     },
   ];
-  function openAddSupporter(program: IProgramItem) {
-    dispatch(actions.formActions.setProgramForm(program));
 
-    navigate(`/admin/Published/${program?.programId}/Supporters`);
+  async function handleDelete(supporter: any) {
+    try {
+      await apiService.deleteSupporter(supporter.id);
+      setLoading(!loading);
+      notification.success({
+        message: MESSAGE.SUCCESS.DELETE,
+      });
+    } catch (err: any) {
+      notification.error({
+        message: 'Không thể xoá người hỗ trợ này',
+      });
+    }
   }
-  function goAttendances(item: any) {
-    dispatch(actions.formActions.setProgramForm(item));
 
-    navigate('/admin/Attendance');
-  }
-
-  function goLearner(item: any) {
-    dispatch(actions.formActions.setProgramForm(item));
-
-    navigate('/admin/ListLearner');
-  }
-  const goApplication = (item: any) => {
-    dispatch(actions.formActions.setProgramForm(item));
-    navigate('/admin/Application');
+  const openAddLearner = () => {
+    setDetail(program);
+    setAddLearner(true);
   };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
     const filteredData = temp
       .map((record: any) => {
-        const emailMatch = removeVietnameseTones(record.programName).match(reg);
+        const emailMatch = removeVietnameseTones(record.account.fullName).match(
+          reg,
+        );
 
         if (!emailMatch) {
           return null;
@@ -165,7 +148,27 @@ export default function ProgramPublish() {
         data={data}
         columns={columns}
         loading={loading || confirmLoading}
+        extra={
+          <CustomButton
+            tip="Thêm Người Hỗ Trợ"
+            size="md"
+            color="green"
+            Icon={BsPersonFillUp}
+            text="Thêm Người Hỗ Trợ"
+            onClick={() => openAddLearner()}
+          />
+        }
       />
+      {addLearner ? (
+        <AddSupporter
+          detail={null}
+          setShowModal={setAddLearner}
+          showModal={addLearner}
+          loading={confirmLoading}
+          setLoading={setConfirmLoading}
+          programId={Number(programId)}
+        />
+      ) : null}
     </div>
   );
 }

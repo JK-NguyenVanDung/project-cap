@@ -24,6 +24,7 @@ import { RiDashboardFill } from 'react-icons/ri';
 
 import { ImAddressBook, ImBooks } from 'react-icons/im';
 import { IoApps, IoBook, IoAlbums, IoPeopleCircle } from 'react-icons/io5';
+import { MdSupportAgent } from 'react-icons/md';
 
 export interface ISidebar {
   title: string;
@@ -97,6 +98,11 @@ export const SideBarData = [
         title: 'Chờ Duyệt',
         icon: GoVerified,
         path: '/admin/reviewProgram',
+      },
+      {
+        title: 'Hỗ Trợ',
+        icon: MdSupportAgent,
+        path: '/admin/SupportProgram',
       },
     ],
   },
