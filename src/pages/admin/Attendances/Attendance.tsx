@@ -26,6 +26,8 @@ export default function Attendance() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
   const item = useAppSelector((state) => state.form.setProgram);
+  const role = useAppSelector((state) => state.form.role);
+
   const [form] = Form.useForm();
   const [dateTime, setDateTime] = useState([]);
   const [data, setData] = useState([]);
@@ -161,6 +163,7 @@ export default function Attendance() {
               handleDelete={() => handleDelete(item)}
               ExtraButton={
                 <CustomButton
+                  disabled={role === 'supporter' ? true : false}
                   text=""
                   size="sm"
                   color="orange"

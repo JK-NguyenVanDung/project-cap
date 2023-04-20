@@ -105,6 +105,7 @@ export default function () {
   }
   function goAttendances(item: any) {
     dispatch(actions.formActions.setProgramForm(item));
+    dispatch(actions.formActions.setRole('support'));
 
     navigate('/admin/Attendance');
   }

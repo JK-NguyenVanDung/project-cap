@@ -12,6 +12,7 @@ const slice = createSlice({
     reload: false,
     programId: null,
     error: false,
+    role: null,
   },
   reducers: {
     showError(state, actions) {
@@ -46,6 +47,9 @@ const slice = createSlice({
     },
     setChapter(state, actions) {
       state.setChapter = actions.payload;
+    },
+    setRole(state, actions) {
+      state.role = actions.payload;
     },
   },
 });
