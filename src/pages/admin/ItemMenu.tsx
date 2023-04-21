@@ -3,7 +3,13 @@ import { useAppDispatch } from '../../hook/useRedux';
 import { actions } from '../../Redux';
 import { matchRoutes, useLocation } from 'react-router-dom';
 
-export default function ItemMenu({ params }: { params: any }) {
+export default function ItemMenu({
+  params,
+  closeMenu,
+}: {
+  params: any;
+  closeMenu?: Function;
+}) {
   const navigation = useNavigate();
   const dispatch = useAppDispatch();
   let location = useLocation();
@@ -32,6 +38,7 @@ export default function ItemMenu({ params }: { params: any }) {
               }`,
             ),
           );
+          closeMenu ? closeMenu() : null;
         }}
       >
         <div id="icon">

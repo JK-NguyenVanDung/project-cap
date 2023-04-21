@@ -22,7 +22,8 @@ import ItemMenu from './ItemMenu';
 import MenuDropdown from './MenuDropdown';
 import { IoLogOut } from 'react-icons/io5';
 import { notification } from 'antd';
-import { exitPath } from '../../onBuild';
+import { exitPath } from '../../../onBuild';
+import { useWindowSize } from '../../utils/uinqueId';
 
 export default function SideBar({
   content,
@@ -63,13 +64,25 @@ export default function SideBar({
         ),
       );
   }, []);
+  const windowDimensions = useWindowSize();
+  const [open, setOpen] = useState(true);
 
+  useEffect(() => {
+    if (windowDimensions.width >= 767) {
+      setOpen(true);
+    }
+  }, [windowDimensions.width]);
   return (
     <>
       <div className="flex relative max-w-full h-screen ">
-        <div className="fixed h-full  w-[74%] z-[1] " style={{}}>
+        <div
+          className={`fixed h-full  w-[74%] z-[1] ${
+            open || noHeader ? 'max-sm:z-[100]' : 'max-sm:z-0'
+          }        ${open || noHeader ? '' : 'hidden'} `}
+        >
           <div
-            className="z-0 overflow-hidden no-scroll bg-img-bar h-full relative sidebar flex flex-col content-center items-center w-[25%]"
+            // className="z-0 overflow-hidden no-scroll bg-img-bar h-full relative sidebar flex flex-col content-center items-center w-[25%]"
+            className="z-0 max-sm:z-100   overflow-hidden no-scroll  bg-img-bar bg-white relative sidebar flex flex-col content-center items-center w-[25%] max-sm:w-full"
             style={{
               backgroundImage: `url(${MenuBackground})`,
               overflowY: 'scroll',
@@ -83,77 +96,157 @@ export default function SideBar({
                 }}
                 className=" hover:text-white relative my-2  px-2 w-full flex flex-row items-center justify-center"
               >
-                <img className="w-1/5 h-fit mb-2" src={logo} />
-                <p className="text-lg text-center mb-2 mx-2">
-                  {' '}
+                <img
+                  className={`w-[15%] h-fit mb-2  max-sm:w-[10%]  ${
+                    open || noHeader ? 'max-sm:visible ' : 'max-sm:hidden'
+                  }`}
+                  src={logo}
+                />{' '}
+                <p
+                  className={`${
+                    open || noHeader ? '' : 'hidden'
+                  }] text-lg font-bold text-center mb-2 mx-2`}
+                >
                   L&D VLG TRAINING
                 </p>
               </a>
-              <ul className="relative list-none w-full text-center ">
-                {info?.roleId == 2
-                  ? SideBarData.map((value, index) => {
-                      return (
-                        <div key={index}>
-                          {value.children ? (
-                            <MenuDropdown params={value} />
-                          ) : (
-                            <ItemMenu params={value} />
-                          )}
-                        </div>
-                      );
-                    })
-                  : null}
-                {info?.roleId == 3
-                  ? SideBarDataCT.map((value, index) => {
-                      return (
-                        <div key={index}>
-                          {value.children ? (
-                            <MenuDropdown params={value} />
-                          ) : (
-                            <ItemMenu params={value} />
-                          )}
-                        </div>
-                      );
-                    })
-                  : null}
-                {info?.roleId == 4
-                  ? SideBarDataFacul.map((value, index) => {
-                      return (
-                        <div key={index}>
-                          {value.children ? (
-                            <MenuDropdown params={value} />
-                          ) : (
-                            <ItemMenu params={value} />
-                          )}
-                        </div>
-                      );
-                    })
-                  : null}
-                <>
-                  <li
-                    className={`ml-2 py-4 my-0 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
-                    onClick={() => logoutAdmin()}
-                  >
-                    <div id="icon">
-                      <IoLogOut />
-                    </div>{' '}
-                    <div id="title" className="flex  ">
-                      <p className={`font-semibold `}>Đăng xuất</p>
-                    </div>
-                  </li>
-                </>
-              </ul>
+              <div
+                className={`menu  md:order-1 w-full  ${
+                  open || noHeader ? '' : 'hidden'
+                }`}
+                id="navbar-default"
+              >
+                <ul className="relative list-none w-full text-center ">
+                  {info?.roleId == 2
+                    ? SideBarData.map((value, index) => {
+                        return (
+                          <div key={index}>
+                            {value.children ? (
+                              <MenuDropdown
+                                params={value}
+                                closeMenu={() =>
+                                  windowDimensions.width <= 767
+                                    ? setOpen(false)
+                                    : {}
+                                }
+                              />
+                            ) : (
+                              <ItemMenu
+                                params={value}
+                                closeMenu={() =>
+                                  windowDimensions.width <= 767
+                                    ? setOpen(false)
+                                    : {}
+                                }
+                              />
+                            )}
+                          </div>
+                        );
+                      })
+                    : null}
+                  {info?.roleId == 3
+                    ? SideBarDataCT.map((value, index) => {
+                        return (
+                          <div key={index}>
+                            {value.children ? (
+                              <MenuDropdown
+                                params={value}
+                                closeMenu={() =>
+                                  windowDimensions.width <= 767
+                                    ? setOpen(false)
+                                    : {}
+                                }
+                              />
+                            ) : (
+                              <ItemMenu
+                                params={value}
+                                closeMenu={() =>
+                                  windowDimensions.width <= 767
+                                    ? setOpen(false)
+                                    : {}
+                                }
+                              />
+                            )}
+                          </div>
+                        );
+                      })
+                    : null}
+                  {info?.roleId == 4
+                    ? SideBarDataFacul.map((value, index) => {
+                        return (
+                          <div key={index}>
+                            {value.children ? (
+                              <MenuDropdown
+                                params={value}
+                                closeMenu={() =>
+                                  windowDimensions.width <= 767
+                                    ? setOpen(false)
+                                    : {}
+                                }
+                              />
+                            ) : (
+                              <ItemMenu
+                                params={value}
+                                closeMenu={() =>
+                                  windowDimensions.width <= 767
+                                    ? setOpen(false)
+                                    : {}
+                                }
+                              />
+                            )}
+                          </div>
+                        );
+                      })
+                    : null}
+                  <>
+                    <li
+                      className={`ml-2 py-4 my-0 cursor-pointer flex max-w-full justify-center  h-12 text-center items-center  `}
+                      onClick={() => logoutAdmin()}
+                    >
+                      <div id="icon">
+                        <IoLogOut />
+                      </div>{' '}
+                      <div id="title" className="flex  ">
+                        <p className={`font-semibold `}>Đăng xuất</p>
+                      </div>
+                    </li>
+                  </>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
         <div
-          className={`${!noHeader ? 'z-[2]' : 'z-[0]'} Layout${
-            !noHeader ? ' ml-[18.6%]' : 'ml-[10%] '
-          } w-full  `}
+          className={`${!noHeader ? 'z-[2]' : 'z-[0]'} Layout ${
+            !noHeader && open ? ' ml-[18.6%]' : !open ? 'ml-0 ' : 'ml-[10%] '
+          }  w-full  `}
         >
           {!noHeader && (
             <header className="header bg-gray-50 px-4 shadow-md-2">
               <div className="w-full flex items-center justify-between ">
+                <button
+                  data-collapse-toggle="navbar-cta"
+                  type="button"
+                  className="mr-1 max-md:inline-flex max-sm:inline-flex z-[120] items-center  text-sm text-gray-500 rounded-lg hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                  aria-controls="navbar-cta"
+                  aria-expanded="false"
+                  onClick={() => setOpen(!open)}
+                >
+                  <span className="sr-only">Open main menu</span>
+                  <svg
+                    className="w-6 h-6"
+                    aria-hidden="true"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                      clip-rule="evenodd"
+                    ></path>
+                  </svg>
+                </button>
                 <h1 className="font-semibold text-xl eclipse max-sm:text-sm max-sm:text-sm">
                   {nameMenu}
                 </h1>
@@ -163,9 +256,9 @@ export default function SideBar({
             </header>
           )}
           <main
-            className={
-              !noHeader &&
-              'mx-4 max-sm:overflow-x-scroll max-md:overflow-x-scroll no-scroll'
+            className="min-h-screen bg-gray-50 "
+            onClick={() =>
+              windowDimensions.width <= 767 ? setOpen(false) : {}
             }
           >
             {content}

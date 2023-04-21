@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Modal, notification } from 'antd';
+import { Form, Modal, Select, notification } from 'antd';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import { QrReader } from 'react-qr-reader';
 import { Tabs } from 'antd';
@@ -7,6 +7,8 @@ import apiService from '../../../api/apiService';
 import './index.css';
 import CustomButton from '../../../components/admin/Button';
 import { errorText } from '../../../helper/constant';
+import { useAppDispatch } from '../../../hook/useRedux';
+import BarcodeScannerComponent from 'react-qr-barcode-scanner';
 
 export default function TickAttendance({
   item,
@@ -28,12 +30,26 @@ export default function TickAttendance({
       label: `Email`,
       children: <RenderEmail />,
     },
+    // {
+    //   key: 'Barcode',
+    //   label: `Barcode`,
+    //   children: <RenderBar />,
+    // },
     {
       key: 'Code',
       label: `QR Code`,
       children: <RenderCode />,
     },
   ];
+  const [listLearner, setListLearner] = useState([]);
+
+  useEffect(() => {
+    async function fetchLearner() {
+      let res: any = await apiService.getAccounts();
+      setListLearner(res);
+    }
+    fetchLearner();
+  }, []);
   const onChange = (key: string) => {
     console.log(key);
   };
@@ -97,6 +113,107 @@ export default function TickAttendance({
       </>
     );
   }
+  function RenderMSNV() {
+    return (
+      <>
+        {' '}
+        <Form form={form}>
+          <Form.Item
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: 'Vui Lòng Nhập Vào Email',
+              },
+
+              {
+                pattern: new RegExp(/^(?!\s*$|\s).*$/),
+                message: errorText.space,
+              },
+            ]}
+          >
+            <Select
+              showSearch
+              placeholder="Chọn Người Học"
+              optionFilterProp="children"
+              filterOption={(input: any, option: any) =>
+                (option?.label ?? '')
+                  .toLowerCase()
+                  .includes(input.toLowerCase())
+              }
+              options={listLearner?.map((item: any) => ({
+                value: item.accountId,
+                label: item.email,
+              }))}
+            />
+          </Form.Item>
+        </Form>
+        <div className=" mt-20 mb-4 flex flex-row justify-evenly w-full">
+          <CustomButton
+            size="md"
+            fullWidth={true}
+            noIcon={true}
+            type="cancel"
+            color="blue-gray"
+            onClick={() => handelCancel()}
+            text="Đóng"
+          />
+          <CustomButton
+            size="md"
+            onClick={() => handleOk()}
+            fullWidth={true}
+            className="mx-2"
+            noIcon={true}
+            color="blue-gray"
+            text="Lưu"
+          />
+        </div>
+      </>
+    );
+  }
+  function RenderBar() {
+    return (
+      <>
+        <BarcodeScannerComponent
+          delay={1000}
+          onUpdate={(error: any, result: any) => {
+            if (result) {
+              // notification.success({ message: result?.text });
+              if (result) {
+                // && dataQrCode == ''
+
+                setDataQrCode(result?.text);
+              }
+              //   setInterval(async () => {
+
+              // }, 3000);
+            }
+          }}
+        />
+        {/* {dataQrCode ? <p>Kết Quả Mã QR: {dataQrCode}</p> : null} */}
+        <div className=" mt-4 mb-4 flex flex-row justify-evenly w-full">
+          <CustomButton
+            size="md"
+            fullWidth={true}
+            noIcon={true}
+            type="cancel"
+            color="blue-gray"
+            onClick={() => handelCancel()}
+            text="Đóng"
+          />
+          {/* <CustomButton
+            size="md"
+            onClick={() => handleQr()}
+            fullWidth={true}
+            className="mx-2"
+            noIcon={true}
+            color="blue-gray"
+            text="Gửi mã code"
+          /> */}
+        </div>
+      </>
+    );
+  }
   function RenderCode() {
     return (
       <>
@@ -113,7 +230,9 @@ export default function TickAttendance({
               // }, 3000);
             }
           }}
-          constraints={undefined}
+          constraints={{
+            facingMode: 'environment',
+          }}
         />
         {/* {dataQrCode ? <p>Kết Quả Mã QR: {dataQrCode}</p> : null} */}
         <div className=" mt-4 mb-4 flex flex-row justify-evenly w-full">
@@ -142,7 +261,7 @@ export default function TickAttendance({
   useEffect(() => {
     let time = setTimeout(async () => {
       handleQr();
-    }, 1000);
+    }, 500);
     return () => {
       clearTimeout(time);
     };
