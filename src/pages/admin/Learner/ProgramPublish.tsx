@@ -24,7 +24,6 @@ export default function ProgramPublish() {
 
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -42,17 +41,13 @@ export default function ProgramPublish() {
         });
         setData(res);
         setFilterData(res);
-        setTimeout(() => {
-          setLoading(false);
-          setConfirmLoading(false);
-        }, 1000);
       } catch (error) {
         console.log(error);
       }
     }
     dispatch(actions.formActions.setNameMenu(`Quản Lý Học Viên`));
-    getProgramPublish();
-  }, [loading, confirmLoading]);
+    getProgramPublish().finally(() => setLoading(false));
+  }, [loading]);
   const columns = [
     {
       title: 'STT',
@@ -164,7 +159,7 @@ export default function ProgramPublish() {
         search={true}
         data={data}
         columns={columns}
-        loading={loading || confirmLoading}
+        loading={loading}
       />
     </div>
   );

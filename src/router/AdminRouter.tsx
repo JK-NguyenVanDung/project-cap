@@ -70,6 +70,7 @@ import CoinExchangesDetail from '../pages/client/CoinExchanges/CoinExchangesDeta
 import NotFoundPage from '../NotFoundPage';
 import SupportProgram from '../pages/admin/SupportProgram/SupportProgram';
 import Supporters from '../pages/admin/SupportProgram/Supporters';
+import { Guide } from '../pages/admin/Guide/Guide';
 
 export const RouterPages = [
   {
@@ -226,6 +227,10 @@ export const RouterPages = [
     path: '/admin/Published/:id/Supporters',
     element: <Supporters />,
   },
+  {
+    path: '/admin/Guide',
+    element: <Guide />,
+  },
 ];
 
 export const RouterCenter = [
@@ -345,8 +350,16 @@ export const RouterCenter = [
     path: '/Badge',
     element: <Badge />,
   },
+  {
+    path: '/admin/Guide',
+    element: <Guide />,
+  },
 ];
 export const RouterFaculty = [
+  {
+    path: '/admin/Guide',
+    element: <Guide />,
+  },
   {
     path: '/admin/SupportProgram',
     element: <SupportProgram />,
@@ -653,7 +666,7 @@ export default function MakePagesRouter() {
               path="/ProgramSurvey/:surveyName"
               element={<ProgramSurvey />}
             />
-            <Route path="*" element={<NotFoundPage reRoute={'/admin'} />} />{' '}
+            <Route path="*" element={<NotFoundPage reRoute={'/admin'} />} />
           </Routes>
         );
       }

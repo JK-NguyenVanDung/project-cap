@@ -86,14 +86,8 @@ export default function Attendance() {
         setLoading(false);
       };
       let data = await fetchData();
-      console.log(data);
-      let apiCalls = data.map((acc) => {
-        return apiService.sendEmail({
-          email: acc.account.email,
-          attendanceId: item?.attendance.id,
-        });
-      });
-      Promise.all(apiCalls);
+
+      apiService.sendEmail(item?.attendance.id);
       setReload(!reload);
       notification.success({
         message: 'Đã gửi email tới các học viên thành công',
@@ -159,11 +153,11 @@ export default function Attendance() {
           <>
             <PopOverAction
               size="sm"
+              disabled={role && role === 'support' ? true : false}
               handleEdit={() => handleEdit(item)}
               handleDelete={() => handleDelete(item)}
               ExtraButton={
                 <CustomButton
-                  disabled={role === 'supporter' ? true : false}
                   text=""
                   size="sm"
                   color="orange"
@@ -229,6 +223,7 @@ export default function Attendance() {
     setDetail(null);
   }
   useEffect(() => {
+    console.log(role);
     dispatch(
       actions.formActions.setNameMenu(
         `Điểm danh: ${item?.programName && item?.programName}`,
@@ -345,6 +340,7 @@ export default function Attendance() {
               size="md"
               key={`${uniqueId()}`}
               onClick={() => openAdd()}
+              disabled={role && role === 'support' ? true : false}
             />,
           ]}
         />

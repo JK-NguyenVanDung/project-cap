@@ -354,8 +354,8 @@ export default {
   postAttendance: (params: any) => {
     return axiosConfig.post(API_CONFIG.ATTENDANCES.POST_ATTENDANCES, params);
   },
-  sendEmail: (params: { email: string; attendanceId: number }) => {
-    return axiosConfig.post(API_CONFIG.ATTENDANCES.SEND_EMAIL, params);
+  sendEmail: (id: number) => {
+    return axiosConfig.get(API_CONFIG.ATTENDANCES.SEND_EMAIL(id));
   },
   putAttendance: (params: any, id: number) => {
     return axiosConfig.put(API_CONFIG.ATTENDANCES.PUT_ATTENDANCES(id), params);
