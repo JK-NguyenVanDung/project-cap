@@ -270,12 +270,14 @@ export default function TickAttendance({
     return (
       <>
         <QrReader
-          scanDelay={1000}
+          scanDelay={500}
           onResult={(result: any, error: any) => {
             if (!!result) {
               // notification.success({ message: result?.text });
               if (result && dataQrCode == '') {
-                setDataQrCode(result?.text);
+                setTimeout(async () => {
+                  handleQr(result);
+                }, 1000);
               }
               //   setInterval(async () => {
 
@@ -286,7 +288,7 @@ export default function TickAttendance({
             facingMode: 'environment',
           }}
         />
-        {/* {dataQrCode ? <p>Kết Quả Mã QR: {dataQrCode}</p> : null} */}
+        {dataQrCode ? <p>Kết Quả Mã QR: {dataQrCode}</p> : null}
         <div className=" mt-4 mb-4 flex flex-row justify-evenly w-full">
           <CustomButton
             size="md"
@@ -310,39 +312,35 @@ export default function TickAttendance({
       </>
     );
   }
-  useEffect(() => {
-    let time = setTimeout(async () => {
-      handleQr();
-    }, 500);
-    return () => {
-      clearTimeout(time);
-    };
-  }, [dataQrCode !== '']);
-  const handleQr = async () => {
+  // useEffect(() => {
+  //   let time = setTimeout(async () => {
+  //     handleQr();
+  //   }, 1000);
+  //   return () => {
+  //     clearTimeout(time);
+  //   };
+  // }, [dataQrCode !== '']);
+  const handleQr = async (code: string) => {
     try {
-      setConfirmLoading(true);
-
-      if (dataQrCode) {
+      if (code) {
         const params = {
           code: dataQrCode,
           // attendanceId: item.attendance.id,
         };
 
-        await apiService.AttdendanceCode(params);
-        notification.success({
-          message: `Điểm danh thành công: ${dataQrCode.toString()} `,
-        });
+        let res = await apiService.AttdendanceCode(params);
+        res &&
+          notification.success({
+            message: `Điểm danh thành công: ${dataQrCode.toString()} `,
+          });
       }
       // setVisible(false);
       // console.count('1');
-      setConfirmLoading(false);
-      setDataQrCode('');
     } catch (error) {
       // setVisible(false);
-      setConfirmLoading(false);
-      setDataQrCode('');
+
       notification.error({
-        message: `Điểm danh thành công: ${dataQrCode.toString()} `,
+        message: `Điểm danh không thành công: ${dataQrCode.toString()} `,
       });
     }
   };

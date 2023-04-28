@@ -199,6 +199,7 @@ export const RouterPages = [
     path: '/admin/Statistic/Faculty',
     element: <StatisticFaculty />,
   },
+
   {
     path: '/admin/Statistic/Category',
     element: <StatisticCategory />,
@@ -234,6 +235,26 @@ export const RouterPages = [
 ];
 
 export const RouterCenter = [
+  {
+    path: '/admin/ExchangeCoin',
+    element: <ExchangeCoin />,
+  },
+  {
+    path: '/admin/Dashboard',
+    element: <Dashboard />,
+  },
+  {
+    path: '/admin/ExchangeGift',
+    element: <ExchangeGift />,
+  },
+  {
+    path: '/admin/Statistic/Faculty',
+    element: <StatisticFaculty />,
+  },
+  {
+    path: '/admin/Statistic/Category',
+    element: <StatisticCategory />,
+  },
   {
     path: '/admin/SupportProgram',
     element: <SupportProgram />,
@@ -356,6 +377,18 @@ export const RouterCenter = [
   },
 ];
 export const RouterFaculty = [
+  {
+    path: '/admin/Dashboard',
+    element: <Dashboard />,
+  },
+  {
+    path: '/admin/Statistic/Faculty',
+    element: <StatisticFaculty />,
+  },
+  {
+    path: '/admin/Statistic/Category',
+    element: <StatisticCategory />,
+  },
   {
     path: '/admin/Guide',
     element: <Guide />,
