@@ -1,24 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import TableConfig from '../../../components/admin/Table/Table';
 import { Form, message, notification, Space } from 'antd';
-import { BiEditAlt } from 'react-icons/bi';
-import { RiDeleteBinLine } from 'react-icons/ri';
 // import Button from '../../../components/sharedComponents/Button'
 import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import apiService from '../../../api/apiService';
-import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
-import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
-import { actions } from '../../../Redux';
-import {
-  Button,
-  Popover,
-  PopoverContent,
-  PopoverHandler,
-} from '@material-tailwind/react';
-import { IoTrashOutline } from 'react-icons/io5';
+import { errorText, GIRD12 } from '../../../helper/constant';
+
 import { IAccountItem, IRoleItem } from '../../../Type';
 import PopOverAction from '../../../components/admin/PopOver';
 import DetailAccount from './DetailAccount';
@@ -180,12 +170,9 @@ export default function Account() {
       // dispatch(actions.categoryActions.changeLoad(!loadData))
       setData(temp);
       setFilterData(temp);
-
-      setReload(false);
     } catch (err: any) {
       throw err.message;
     }
-    setReload(false);
   }
   function openAdd() {
     setShowModal(true);
@@ -206,7 +193,7 @@ export default function Account() {
   }
 
   useEffect(() => {
-    getData();
+    getData().finally(() => setReload(false));
   }, [reload]);
   useEffect(() => {
     getRoles();

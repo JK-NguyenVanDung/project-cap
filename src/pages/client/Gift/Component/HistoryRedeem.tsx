@@ -14,10 +14,10 @@ export default function HistoryRedeem() {
     const fetchHistoryRedeem = async () => {
       const data: any = await apiService.getGiftMyExchange();
       // setData(data.map((item: any) => item.gift));
-      // let res = data.reverse();
-      setData(data);
+      let res = data.reverse();
+      setData(res);
 
-      setFilterData(data);
+      setFilterData(res);
     };
     fetchHistoryRedeem();
   }, []);

@@ -167,7 +167,7 @@ export const API_CONFIG = {
     ATTENDANCES_EMAIL: '/api/Attendances/Attendances/Email',
     ATTENDANCES_CODE: '/api/Attendances/Attendances/Code',
     NOT_ATTENDANCE: (id: number) => `/api/Attendances/NotAttendance/${id}`,
-    SEND_EMAIL: `/api/Attendances/Attendances/Email`,
+    SEND_EMAIL: (id: number) => `/api/Attendances/${id}/SendMail`,
   },
   SURVEY: {
     GETALL: '/api/Surveys/GetListSurvey',

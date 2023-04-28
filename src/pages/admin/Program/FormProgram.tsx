@@ -145,6 +145,73 @@ export default function FormProgram() {
     form
       .validateFields()
       .then(async (values) => {
+        frmData.append(
+          'TrainingHours',
+          values.TrainingHours ? values.TrainingHours : item.trainingHours,
+        );
+        frmData.append(
+          'Lecturers',
+          values.Lecturers ? values.Lecturers : item.lecturers,
+        );
+
+        frmData.append(
+          'ProgramName',
+          values.ProgramName ? values.ProgramName : item.programName,
+        );
+        frmData.append(
+          'FacultyId',
+          values.FacultyId ? values.FacultyId : item.facultyId,
+        );
+        frmData.append('Image', values.Image ? values.Image.file : item.image);
+        frmData.append(
+          'CategoryId',
+          values.CategoryId ? values.CategoryId : item.categoryId,
+        );
+        frmData.append(
+          'StartDate',
+          values.StartDate
+            ? moment(values.StartDate).format('YYYY-MM-DD hh:mm:ss')
+            : moment(item.startDate).format('YYYY-MM-DD hh:mm:ss'),
+        );
+        frmData.append(
+          'RegistrationStartDate',
+          values.RegistrationStartDate
+            ? moment(values.RegistrationStartDate).format('YYYY-MM-DD hh:mm:ss')
+            : moment(item.registrationStartDate).format('YYYY-MM-DD hh:mm:ss'),
+        );
+        frmData.append(
+          'RegistrationEndDate',
+          values.RegistrationEndDate
+            ? moment(values.RegistrationEndDate).format('YYYY-MM-DD hh:mm:ss')
+            : moment(item.registrationEndDate).format('YYYY-MM-DD hh:mm:ss'),
+        );
+        frmData.append(
+          'EndDate',
+          values.EndDate
+            ? moment(values.EndDate).format('YYYY-MM-DD hh:mm:ss')
+            : moment(item.endDate).format('YYYY-MM-DD hh:mm:ss'),
+        );
+        frmData.append('Coin', values.Coin ? values.Coin : item.coin);
+        frmData.append(
+          'Descriptions',
+          values.Descriptions ? values.Descriptions : item.descriptions,
+        );
+        type === 'save' && frmData.append('Status', 'save');
+        type === 'saveDraft' && frmData.append('Status', 'pending');
+
+        frmData.append('PositionIds', valuePositions),
+          frmData.append(
+            'Semester',
+            values.Semester ? values.Semester : item.semester,
+          );
+        frmData.append(
+          'AcademicYearId',
+          values.AcademicYearId ? values.AcademicYearId : item.academicYearId,
+        );
+        frmData.append(
+          'MaxLearner',
+          values.MaxLearner ? values.MaxLearner : item.maxLearner,
+        );
         if (item) {
           const data = await apiService.putProgram(item.programId, frmData);
           if (data) {

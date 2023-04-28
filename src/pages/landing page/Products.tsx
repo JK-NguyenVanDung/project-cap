@@ -35,7 +35,7 @@ const Product = React.forwardRef((props, ref: any) => {
       <div className=" z-10 h-[20vh] separationBg w-full"></div>
       <div className="  z-20 relative min-h-[60vh]  px-20 bg-white text-black border-opacity-0">
         <div className="flex max-sm:flex-wrap  max-sm:mb-16 flex-row w-full h-20 items-center  md:px-[9rem] sd:px-0 justify-between mb-[0.75rem] ">
-          <p className="max-sm:text-xl max-sm:w-full max-sm:mb-4  font-semibold md:text-3xl w-2/3">
+          <p className="max-sm:text-xl max-sm:w-full max-sm:mb-4  font-semibold md:text-3xl w-2/3 leading-10">
             Một số khoá học nổi tiếng của chúng tôi
           </p>
           <Button

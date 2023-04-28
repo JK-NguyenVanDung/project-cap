@@ -70,12 +70,12 @@ export default function () {
     <>
       <Form
         form={formDate}
-        className="formCategory w-fit ml-40  absolute top-[-41px]"
+        className="formCategory w-fit ml-[200px]  absolute top-[-41px]"
       >
         <div className="flex justify-between items-center  w-1/4 ">
           <FormInput
             labelLeft={true}
-            className="min-w-[10rem]"
+            className="min-w-[5rem]"
             label="Năm học"
             type="select"
             name="yearId"
