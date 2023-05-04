@@ -219,6 +219,17 @@ export default function ImportFile({
     setCheckEmailNew(false);
     setCheckEmailRegisted(false);
   };
+  const handelCancel = () => {
+    setEmailError([]);
+    setCheckError(false);
+    setShowDetailError(false);
+    setSuccessList();
+    setSaveEmail(false);
+    setCheckEmail(false);
+    setCheckEmailNew(false);
+    setCheckEmailRegisted(false);
+    setLoading(false);
+  };
   const FormItem = () => {
     return (
       <>
@@ -330,6 +341,7 @@ export default function ImportFile({
         show={showModal}
         handleOk={handleOk}
         handleShow={handelShow}
+        handelCancel={handelCancel}
         setShow={setShowModal}
         label={'Bằng Tập Tin'}
         FormItem={<FormItem />}

@@ -56,8 +56,10 @@ export default function ProgramDetail() {
           facultyName: item.faculty.facultyName ?? '',
           image: item.image ?? '',
           lecturers: item.lecturers ?? '',
-          registrationEndDate: item.registrationEndDate ?? '',
-          registrationStartDate: item.registrationStartDate ?? '',
+          registrationEndDate:
+            moment(item.registrationEndDate).format('DD-MM-YYYY mm:hh') ?? '',
+          registrationStartDate:
+            moment(item.registrationStartDate).format('DD-MM-YYYY mm:hh') ?? '',
         })
       : null;
     fetchProgramContent();
@@ -132,7 +134,7 @@ export default function ProgramDetail() {
   }
   return (
     <div className="w-full h-full relative">
-      <div className="ml-[10px]">
+      <div className="ml-[10px] mb-6">
         <Breadcrumb
           router1={'/admin/Program'}
           name={'Chương Trình'}
@@ -152,6 +154,7 @@ export default function ProgramDetail() {
               type="textArea"
               name="descriptions"
               disabled={true}
+              areaHeight={11.5}
             />
 
             {viewMore && (
@@ -212,7 +215,7 @@ export default function ProgramDetail() {
               }}
               src={`${API_URL}/images/${image}`}
             />
-            <div className="mt-10">
+            <div className="mt-10 mb-11">
               <FormInput label="Học Kì" name="semester" disabled={true} />
               <FormInput
                 label="Năm Học"
@@ -220,6 +223,16 @@ export default function ProgramDetail() {
                 disabled={true}
               />
             </div>
+            <FormInput
+              label="Ngày Bắt Đầu Đăng Ký"
+              name="registrationStartDate"
+              disabled={true}
+            />
+            <FormInput
+              label="Ngày Kết Thúc Đăng Ký"
+              name="registrationEndDate"
+              disabled={true}
+            />
           </div>
         </div>
         <div className="w-full flex justify-center">

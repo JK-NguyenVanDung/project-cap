@@ -153,7 +153,7 @@ export default function ProgramPublish() {
             tip="Thêm Người Hỗ Trợ"
             size="md"
             color="green"
-            Icon={BsPersonFillUp}
+            // Icon={BsPersonFillUp}
             text="Thêm Người Hỗ Trợ"
             onClick={() => openAddLearner()}
           />

@@ -37,20 +37,21 @@ export default function LearnerPage() {
             emailAccount: item.accountIdLearnerNavigation?.email,
           };
         });
-        setLoading(!loading);
-        setConfirmLoading(!confirmLoading);
-        if (response) {
+        setLoading(true);
+        setConfirmLoading(true);
+        setTimeout(() => {
           setLoading(false);
           setConfirmLoading(false);
-        }
+        }, 3000);
         setData(res);
         setFilterData(res);
       } catch (error) {
         console.log(error);
+        setLoading(false);
       }
     }
     getLearner();
-  }, [loading, confirmLoading, reload]);
+  }, [reload]);
   const handelEdit = (item: any) => {
     setDetail(item);
     setAddLearner(true);
@@ -71,18 +72,19 @@ export default function LearnerPage() {
       title: 'STT',
       dataIndex: 'index',
       key: 'index',
-      width: '3%',
+      width: '4%',
     },
     {
       title: 'Email',
       dataIndex: 'emailAccount',
       key: 'emailAccount',
-      width: '5%',
+      width: '20%',
     },
     {
       title: 'Trạng Thái',
       dataIndex: 'status',
       key: 'status',
+      width: '15%',
       render: (item: any) => {
         return (
           <p>
@@ -105,6 +107,7 @@ export default function LearnerPage() {
       title: 'Nhận Xét',
       dataIndex: 'comment',
       key: 'comment',
+      width: '15%',
       render: (item: any) => {
         return <p>{item ? item : 'Chưa có nhận xét'}</p>;
       },
@@ -165,7 +168,7 @@ export default function LearnerPage() {
         search={true}
         data={data}
         columns={Columns}
-        loading={loading || confirmLoading || reload}
+        loading={loading || confirmLoading}
         extra={[
           <div className="flex">
             <CustomButton
