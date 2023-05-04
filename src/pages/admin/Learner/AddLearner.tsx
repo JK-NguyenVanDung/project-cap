@@ -48,8 +48,10 @@ export default function AddLearner({
           programId: program.programId,
           accountIdApprover: account.accountId,
         };
+
         try {
           //reload
+
           dispatch(actions.reloadActions.setReload());
           setLoading(true);
 

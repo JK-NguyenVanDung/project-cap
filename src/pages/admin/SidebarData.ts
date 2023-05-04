@@ -24,6 +24,8 @@ import { RiDashboardFill } from 'react-icons/ri';
 
 import { ImAddressBook, ImBooks } from 'react-icons/im';
 import { IoApps, IoBook, IoAlbums, IoPeopleCircle } from 'react-icons/io5';
+import { MdSupportAgent } from 'react-icons/md';
+import { GiBookmarklet } from 'react-icons/gi';
 
 export interface ISidebar {
   title: string;
@@ -98,6 +100,11 @@ export const SideBarData = [
         icon: GoVerified,
         path: '/admin/reviewProgram',
       },
+      {
+        title: 'Hỗ Trợ',
+        icon: MdSupportAgent,
+        path: '/admin/SupportProgram',
+      },
     ],
   },
   {
@@ -166,6 +173,11 @@ export const SideBarData = [
       },
     ],
   },
+  {
+    path: '/admin/Guide',
+    title: 'Hướng dẫn',
+    icon: GiBookmarklet,
+  },
 ];
 
 export const SideBarDataCT = [
@@ -174,6 +186,11 @@ export const SideBarDataCT = [
     icon: IoApps,
     path: '/admin',
   },
+  {
+    title: 'Dashboard',
+    icon: RiDashboardFill,
+    path: '/admin/Dashboard',
+  },
 
   {
     title: 'Danh Mục',
@@ -226,20 +243,88 @@ export const SideBarDataCT = [
       },
     ],
   },
+
   {
     title: 'Học Viên',
     icon: BsFillPersonBadgeFill,
     path: '/admin/Published',
   },
   {
+    title: 'Khảo sát',
+    icon: FaClipboard,
+    path: '/admin/Survey',
+    children: [
+      {
+        title: 'Khảo sát chung',
+        icon: FaClipboardList,
+        path: '/admin/Survey',
+      },
+      {
+        title: 'Khảo sát chương trình',
+        icon: HiClipboardDocumentList,
+        path: '/admin/CourseSurvey',
+      },
+    ],
+  },
+  {
+    title: 'Đổi Coin',
+    icon: RiExchangeDollarFill,
+    path: '/admin/ExchangeCoin',
+  },
+  {
     title: 'Quà Tặng',
-    icon: IoPeopleCircle,
+    icon: BsGiftFill,
     path: '/admin/Gift',
+    children: [
+      {
+        title: 'Quà Tặng',
+        icon: BsGiftFill,
+        path: '/admin/Gift',
+      },
+      {
+        title: 'Đổi Quà',
+        icon: FaGifts,
+        path: '/admin/ExchangeGift',
+      },
+    ],
+  },
+  {
+    title: 'Thống kê',
+    icon: BsFillBarChartFill,
+    path: '/admin/Statistic/Faculty',
+    children: [
+      {
+        title: 'Thống kê khoa/ban',
+        icon: FaChartBar,
+        path: '/admin/Statistic/Faculty',
+      },
+      {
+        title: 'Thống kê theo nhóm  ',
+        icon: FaChartArea,
+        path: '/admin/Statistic/Category',
+      },
+    ],
+  },
+  {
+    path: '/admin/Guide',
+    title: 'Hướng dẫn',
+    icon: GiBookmarklet,
   },
 ];
 
 export const SideBarDataFacul = [
   {
+    title: 'Trang Chủ',
+    icon: IoApps,
+    path: '/admin',
+  },
+  {
+    title: 'Dashboard',
+    icon: RiDashboardFill,
+    path: '/admin/Dashboard',
+  },
+
+  {
     title: 'Danh Mục',
     icon: IoAlbums,
     path: '/admin/Category',
@@ -291,13 +376,71 @@ export const SideBarDataFacul = [
     ],
   },
   {
+    title: 'Chương Trình',
+    icon: IoBook,
+    path: '/admin/Program',
+    children: [
+      {
+        title: 'Tất Cả',
+        icon: ImBooks,
+        path: '/admin/Program',
+      },
+      {
+        title: 'Của Tôi',
+        icon: ImAddressBook,
+        path: '/admin/MyProgram',
+      },
+      {
+        title: 'Chờ Duyệt',
+        icon: GoVerified,
+        path: '/admin/reviewProgram',
+      },
+    ],
+  },
+
+  {
     title: 'Học Viên',
     icon: BsFillPersonBadgeFill,
     path: '/admin/Published',
   },
   {
-    title: 'Quà Tặng',
-    icon: IoPeopleCircle,
-    path: '/admin/Gift',
+    title: 'Khảo sát',
+    icon: FaClipboard,
+    path: '/admin/Survey',
+    children: [
+      {
+        title: 'Khảo sát chung',
+        icon: FaClipboardList,
+        path: '/admin/Survey',
+      },
+      {
+        title: 'Khảo sát chương trình',
+        icon: HiClipboardDocumentList,
+        path: '/admin/CourseSurvey',
+      },
+    ],
+  },
+
+  {
+    title: 'Thống kê',
+    icon: BsFillBarChartFill,
+    path: '/admin/Statistic/Faculty',
+    children: [
+      {
+        title: 'Thống kê khoa/ban',
+        icon: FaChartBar,
+        path: '/admin/Statistic/Faculty',
+      },
+      {
+        title: 'Thống kê theo nhóm  ',
+        icon: FaChartArea,
+        path: '/admin/Statistic/Category',
+      },
+    ],
+  },
+  {
+    path: '/admin/Guide',
+    title: 'Hướng dẫn',
+    icon: GiBookmarklet,
   },
 ];

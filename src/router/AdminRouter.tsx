@@ -68,6 +68,9 @@ import CoinExchanges from '../pages/client/CoinExchanges/CoinExchanges';
 import HistoryRedeem from '../pages/client/Gift/Component/HistoryRedeem';
 import CoinExchangesDetail from '../pages/client/CoinExchanges/CoinExchangesDetail';
 import NotFoundPage from '../NotFoundPage';
+import SupportProgram from '../pages/admin/SupportProgram/SupportProgram';
+import Supporters from '../pages/admin/SupportProgram/Supporters';
+import { Guide } from '../pages/admin/Guide/Guide';
 
 export const RouterPages = [
   {
@@ -98,6 +101,10 @@ export const RouterPages = [
   {
     path: '/admin/MyProgram',
     element: <Program />,
+  },
+  {
+    path: '/admin/SupportProgram',
+    element: <SupportProgram />,
   },
   {
     path: `/admin/Program/showDetail`,
@@ -192,6 +199,7 @@ export const RouterPages = [
     path: '/admin/Statistic/Faculty',
     element: <StatisticFaculty />,
   },
+
   {
     path: '/admin/Statistic/Category',
     element: <StatisticCategory />,
@@ -216,9 +224,41 @@ export const RouterPages = [
     path: '/admin/ExchangeCoin/:id/ReviewCertification',
     element: <ReviewCertification />,
   },
+  {
+    path: '/admin/Published/:id/Supporters',
+    element: <Supporters />,
+  },
+  {
+    path: '/admin/Guide',
+    element: <Guide />,
+  },
 ];
 
 export const RouterCenter = [
+  {
+    path: '/admin/ExchangeCoin',
+    element: <ExchangeCoin />,
+  },
+  {
+    path: '/admin/Dashboard',
+    element: <Dashboard />,
+  },
+  {
+    path: '/admin/ExchangeGift',
+    element: <ExchangeGift />,
+  },
+  {
+    path: '/admin/Statistic/Faculty',
+    element: <StatisticFaculty />,
+  },
+  {
+    path: '/admin/Statistic/Category',
+    element: <StatisticCategory />,
+  },
+  {
+    path: '/admin/SupportProgram',
+    element: <SupportProgram />,
+  },
   {
     path: '/admin/Attendance',
     element: <Attendance />,
@@ -331,8 +371,32 @@ export const RouterCenter = [
     path: '/Badge',
     element: <Badge />,
   },
+  {
+    path: '/admin/Guide',
+    element: <Guide />,
+  },
 ];
 export const RouterFaculty = [
+  {
+    path: '/admin/Dashboard',
+    element: <Dashboard />,
+  },
+  {
+    path: '/admin/Statistic/Faculty',
+    element: <StatisticFaculty />,
+  },
+  {
+    path: '/admin/Statistic/Category',
+    element: <StatisticCategory />,
+  },
+  {
+    path: '/admin/Guide',
+    element: <Guide />,
+  },
+  {
+    path: '/admin/SupportProgram',
+    element: <SupportProgram />,
+  },
   {
     path: '/admin/Application',
     element: <Application />,
@@ -635,7 +699,7 @@ export default function MakePagesRouter() {
               path="/ProgramSurvey/:surveyName"
               element={<ProgramSurvey />}
             />
-            <Route path="*" element={<NotFoundPage reRoute={'/admin'} />} />{' '}
+            <Route path="*" element={<NotFoundPage reRoute={'/admin'} />} />
           </Routes>
         );
       }

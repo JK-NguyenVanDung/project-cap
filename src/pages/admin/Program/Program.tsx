@@ -18,7 +18,6 @@ import { IoStatsChart } from 'react-icons/io5';
 export default function Program() {
   const [loading, setLoading] = useState(false);
   const [reload, setReload] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
   const location = useLocation();
 
   const dispatch = useAppDispatch();
@@ -31,14 +30,7 @@ export default function Program() {
 
   useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`Quản Lý chương trình`));
-    getData();
-    let out = setTimeout(() => {
-      setLoading(false);
-      setConfirmLoading(false);
-    }, 1000);
-    return () => {
-      clearTimeout(out);
-    };
+    getData().finally(() => setLoading(false));
   }, [reload, location]);
   async function handleDelete(item: any) {
     try {
@@ -86,14 +78,14 @@ export default function Program() {
     },
     {
       title: 'Ngày BĐĐK',
-      dataIndex: 'startDate',
+      dataIndex: 'registrationStartDate',
       render: (item: any) => {
         return <p>{moment(item).format('DD-MM-YYYY')}</p>;
       },
     },
     {
       title: 'Ngày KTĐK',
-      dataIndex: 'endDate',
+      dataIndex: 'registrationEndDate',
       render: (item: any) => {
         return <p>{moment(item).format('DD-MM-YYYY')}</p>;
       },
@@ -229,7 +221,7 @@ export default function Program() {
         search={true}
         data={data}
         columns={columns}
-        loading={loading || confirmLoading}
+        loading={loading}
         extra={[
           <CustomButton
             disabled={

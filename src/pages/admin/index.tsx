@@ -219,7 +219,7 @@ export default function SideBar({
         <div
           className={`${!noHeader ? 'z-[2]' : 'z-[0]'} Layout ${
             !noHeader && open ? ' ml-[18.6%]' : !open ? 'ml-0 ' : 'ml-[10%] '
-          }  w-full  `}
+          }  w-full  bg-gray-50`}
         >
           {!noHeader && (
             <header className="header bg-gray-50 px-4 shadow-md-2">

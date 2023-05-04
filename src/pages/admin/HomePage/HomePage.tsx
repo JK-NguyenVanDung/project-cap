@@ -353,7 +353,7 @@ export function Welcome() {
           </div>
           <p className="mt-8 ">L&D VLG Training</p>
         </h1>
-        <p className="mt-4 text-2xl max-w-[50%] text-center">
+        <p className="mt-4 text-2xl max-w-[50%] text-center text-white">
           {kindWords[getRandomArbitrary(0, kindWords.length - 1)]}
         </p>
         <div className="flex justify-center max-sm:flex-col w-full max-sm:items-center"></div>

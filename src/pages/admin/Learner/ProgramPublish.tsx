@@ -4,20 +4,26 @@ import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
 import CustomButton from '../../../components/admin/Button';
 import apiService from '../../../api/apiService';
 import { errorText, GIRD12, MESSAGE } from '../../../helper/constant';
-import { IProgramItem, IRoleItem } from '../../../Type';
+import { IAccountItem, IProgramItem, IRoleItem } from '../../../Type';
 import { actions } from '../../../Redux';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { useNavigate } from 'react-router-dom';
-import { Space } from 'antd';
-import { BsFillPersonBadgeFill, BsPeopleFill } from 'react-icons/bs';
+import { Space, notification } from 'antd';
+import {
+  BsFillPersonBadgeFill,
+  BsPeopleFill,
+  BsPersonFillUp,
+} from 'react-icons/bs';
 import { AiFillIdcard, AiOutlineFileProtect } from 'react-icons/ai';
 import { IoPersonAdd } from 'react-icons/io5';
+import AddLearner from './AddLearner';
 export default function ProgramPublish() {
   const [data, setData] = useState([]);
+  const [detail, setDetail] = useState({});
+  const [addLearner, setAddLearner] = useState(false);
 
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -35,17 +41,13 @@ export default function ProgramPublish() {
         });
         setData(res);
         setFilterData(res);
-        setTimeout(() => {
-          setLoading(false);
-          setConfirmLoading(false);
-        }, 1000);
       } catch (error) {
         console.log(error);
       }
     }
     dispatch(actions.formActions.setNameMenu(`Quản Lý Học Viên`));
-    getProgramPublish();
-  }, [loading, confirmLoading]);
+    getProgramPublish().finally(() => setLoading(false));
+  }, [loading]);
   const columns = [
     {
       title: 'STT',
@@ -95,6 +97,13 @@ export default function ProgramPublish() {
               onClick={() => goApplication(item)}
             />
             <CustomButton
+              tip="Người Hỗ Trợ"
+              size="sm"
+              color="yellow"
+              Icon={BsPersonFillUp}
+              onClick={() => openAddSupporter(item)}
+            />
+            <CustomButton
               tip="Xem Danh Sách Điểm Danh"
               size="sm"
               color="cyan"
@@ -106,7 +115,11 @@ export default function ProgramPublish() {
       },
     },
   ];
+  function openAddSupporter(program: IProgramItem) {
+    dispatch(actions.formActions.setProgramForm(program));
 
+    navigate(`/admin/Published/${program?.programId}/Supporters`);
+  }
   function goAttendances(item: any) {
     dispatch(actions.formActions.setProgramForm(item));
 
@@ -138,6 +151,7 @@ export default function ProgramPublish() {
 
     setData(value.trim() !== '' && filteredData ? filteredData : filterData);
   };
+
   return (
     <div className="max-sm:w-fit max-sm:mr-12 max-md:mr-12">
       <TableConfig
@@ -145,7 +159,7 @@ export default function ProgramPublish() {
         search={true}
         data={data}
         columns={columns}
-        loading={loading || confirmLoading}
+        loading={loading}
       />
     </div>
   );

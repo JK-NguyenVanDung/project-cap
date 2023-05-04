@@ -23,8 +23,6 @@ export default function ListReviewPrograms() {
   const dispatch = useAppDispatch();
   const [confirmLoading, setConfirmLoading] = useState(false);
   const info: any = useAppSelector((state) => state.auth.info);
-  const [approve, setApprove] = useState(false);
-  const [itemData, setItemData] = useState([]);
   useEffect(() => {
     async function getListReviewProgram() {
       try {
@@ -128,7 +126,7 @@ export default function ListReviewPrograms() {
 
       render: (data: any) => (
         <>
-          {info.roleId === 2 || info.roleId === 4 ? (
+          {info.roleId === 2 || info.roleId === 3 ? ( //|| info.roleId === 4
             <PopOverAction
               size="sm"
               authType="addReviewer"
@@ -151,10 +149,7 @@ export default function ListReviewPrograms() {
     dispatch(actions.formActions.setProgramForm(data));
     navigate('/admin/reviewDetail');
   }
-  function handelApprove(items: any) {
-    setApprove(true);
-    setItemData(items);
-  }
+
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();

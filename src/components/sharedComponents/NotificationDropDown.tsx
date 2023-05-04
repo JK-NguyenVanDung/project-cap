@@ -144,7 +144,7 @@ export default function PopOverAction({
 const Types: any = {
   1: ' Người học đã được duyệt',
   2: ' Có khóa học mới vừa tạo',
-  3: ' Khóa học đã được duyệt',
+  3: ' Khóa học đã được duyệt',
   4: 'Khóa học mới được công khai',
 };
 
@@ -163,7 +163,7 @@ export const NotificationCard = ({
         role="alert"
       >
         <div className="flex justify-between w-full">
-          <p className="font-bold text-lg">{Types[item?.type]}</p>
+          <p className="font-medium text-lg">{Types[item?.type]}</p>
           <button
             type="button"
             className="ml-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-black font-bold dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700"

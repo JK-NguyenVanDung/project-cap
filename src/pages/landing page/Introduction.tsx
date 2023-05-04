@@ -70,7 +70,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
                 <div className="bg-dark-pink w-14 h-14 rounded-md flex justify-center items-center mb-4">
                   <e.logo className="text-white w-1/2 h-1/2"></e.logo>
                 </div>
-                <h2 className="text-2xl font-bold mb-4 text-white">
+                <h2 className="text-2xl font-bold mb-4 text-white leading-10">
                   {e.title}
                 </h2>
                 <h4 className="text-md w-4/5 max-sm:w-full text-white ">
