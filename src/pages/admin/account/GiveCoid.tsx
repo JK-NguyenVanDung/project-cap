@@ -22,17 +22,15 @@ export default function GiveCoid({ showModal, setShowModal }: any) {
     form
       .validateFields()
       .then(async (values) => {
-        console.log(values);
         const response = await apiService.giveCoin(values);
-        if (response) {
-          setShowModal(false);
-          message.success('Tặng Coin thành công');
-        }
+        notification.success({ message: 'Tặng Coid Thành Công !' });
         setShowModal(false);
         form.resetFields();
       })
 
       .catch((info) => {
+        notification.error({ message: 'Tặng Coid Không Thành Công !' });
+
         // dispatch(actions.formActions.showError())
       });
   };

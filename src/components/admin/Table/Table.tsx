@@ -28,7 +28,7 @@ export default function TableConfig({
   return (
     // key={data} => gây ra lỗi search
 
-    <div key={key ? key : null}>
+    <div key={key ? key : null} className="w-[80vw]">
       {search && (
         <div className="flex content-center items-center justify-between px-5 my-10  max-sm:px-0 max-sm:pl-5  max-md:px-0 max-md:pl-5">
           <SearchBar onSearch={onSearch} />
@@ -37,13 +37,14 @@ export default function TableConfig({
       )}
       <Table
         loading={loading}
-        className="tableContainer2 shadow-lg rounded-lg border-1"
+        className="shadow-lg rounded-lg border-1 "
         style={{
-          margin: 20,
+          margin: 10,
         }}
         dataSource={data}
         columns={columns}
         pagination={pagination}
+        scroll={{ y: 900, x: 1500 }}
       />
     </div>
   );

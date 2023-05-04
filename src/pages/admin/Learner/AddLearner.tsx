@@ -101,7 +101,7 @@ export default function AddLearner({
           rules={[
             {
               required: true,
-              message: 'Vui Lòng Nhập Vào Chức Vụ',
+              message: 'Vui Lòng Chọn Người Học',
             },
           ]}
         >

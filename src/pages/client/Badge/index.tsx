@@ -111,7 +111,7 @@ export default function () {
     <>
       <Loading loading={loading} />
       <Space size={5} />
-      <div className="m-5">
+      <div className="w-[78vw] mx-4">
         <div className="bg-white rounded-lg shadow-lg p-5">
           <ProfileClient />
         </div>
@@ -125,7 +125,7 @@ export default function () {
             </div>
           </div>
           <Space size={30} />
-          <div className="flex justify-between">
+          <div className="flex justify-around">
             <ItemChart
               params={listStatics?.programComplete}
               type={typeStatic.programComplete}

@@ -35,10 +35,12 @@ export default function () {
     <div className="flex items-center justify-center max-w-full mr-2 no-scroll max-sm:max-w-fit">
       <Menu>
         <NotificationDropDown />
-        <span className="mr-1 eclipse">
-          Xin Chào {info.role == 1 ? null : info?.role?.roleName}{' '}
-        </span>
-        <span className="eclipse"> {accounts[0].name}</span>
+        <div className="hidden md:block">
+          <span className="mr-1 eclipse">
+            Xin Chào {info.role == 1 ? null : info?.role?.roleName}{' '}
+          </span>
+          <span className="eclipse"> {accounts[0].name}</span>
+        </div>
         <MenuHandler>
           <button className="rounded-[12rem] mx-2 bg-white shadow-none hover:shadow-none p-0 ">
             <Avatar
@@ -55,13 +57,18 @@ export default function () {
           </button>
         </MenuHandler>
         <MenuList>
-          {/* <MenuItem
+          <MenuItem className="block md:hidden">
+            <span className="mr-1 eclipse">
+              Xin Chào {info.role == 1 ? null : info?.role?.roleName}{' '}
+            </span>
+            <span className="eclipse"> {accounts[0].name}</span>
+          </MenuItem>
+          <MenuItem
             onClick={() => navigate('/Badge')}
             className="font-customFont"
           >
             Trang Cá Nhân
-          </MenuItem> */}
-
+          </MenuItem>
           <MenuItem className="font-customFont" onClick={() => logoutAdmin()}>
             Đăng Xuất
           </MenuItem>
