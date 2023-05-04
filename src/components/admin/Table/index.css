@@ -1,25 +1,11 @@
-.tableContainer
-  .ant-spin-nested-loading
-  .ant-spin-container
-  .ant-table
-  .ant-table-container
-  .ant-table-content
-  .ant-table-thead
-  .ant-table-cell {
-  width: fit-content !important;
+.tableContainer .ant-spin-nested-loading .ant-spin-container .ant-table .ant-table-container .ant-table-content .ant-table-thead .ant-table-cell {
+  /* width: 100%; */
   background-color: #eff0f4;
   font-weight: 600;
 }
 
-.tableContainer2
-  .ant-spin-nested-loading
-  .ant-spin-container
-  .ant-table
-  .ant-table-container
-  .ant-table-content
-  .ant-table-thead
-  .ant-table-cell {
-  width: fit-content !important;
+.tableContainer2 .ant-spin-nested-loading .ant-spin-container .ant-table .ant-table-container .ant-table-content .ant-table-thead .ant-table-cell {
+  /* width: 100%; */
   background-color: #fff !important;
   font-weight: 600;
 }

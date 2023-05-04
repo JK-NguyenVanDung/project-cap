@@ -15,8 +15,8 @@ export default function ItemStatic({
   type: typeStatic;
 }) {
   return (
-    <div className="ml-5 mr-5">
-      <div className="border-solid w-[320px] border-[1px] border-gray-400 rounded-xl p-3">
+    <div className="w-full m-3  ">
+      <div className="border-solid w-full border-[1px] border-gray-400 rounded-xl p-3">
         <div className="flex justify-between">
           <div>
             <h1 className="font-bold text-sm text-gray-600">

@@ -12,7 +12,7 @@ import { Space, notification } from 'antd';
 import {
   BsFillPersonBadgeFill,
   BsPeopleFill,
-  BsPersonFillUp,
+  // BsPersonFillUp,
 } from 'react-icons/bs';
 import { AiFillIdcard, AiOutlineFileProtect } from 'react-icons/ai';
 import { IoPersonAdd } from 'react-icons/io5';
@@ -100,7 +100,7 @@ export default function ProgramPublish() {
               tip="Người Hỗ Trợ"
               size="sm"
               color="yellow"
-              Icon={BsPersonFillUp}
+              // Icon={BsPersonFillUp}
               onClick={() => openAddSupporter(item)}
             />
             <CustomButton
