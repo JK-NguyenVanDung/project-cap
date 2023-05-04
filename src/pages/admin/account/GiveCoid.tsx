@@ -67,7 +67,7 @@ export default function GiveCoid({ showModal, setShowModal }: any) {
         </Form.Item>
         <FormInput
           type="inputNumber"
-          label="Sô Coin"
+          label="Số Coin"
           name="coin"
           rules={[
             {

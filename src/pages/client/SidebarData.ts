@@ -16,6 +16,7 @@ import {
 } from 'react-icons/io5';
 import { SlBadge } from 'react-icons/sl';
 import { MdCollectionsBookmark } from 'react-icons/md';
+import { GiBookmarklet } from 'react-icons/gi';
 
 export interface ISidebar {
   title: string;
@@ -61,14 +62,15 @@ export const SideBarData = [
     path: '/Gift',
   },
 
-  // {
-  //   title: 'Học Viên',
-  //   icon: BsFillPersonBadgeFill,
-  //   path: '/admin/Learner',
-  // },
   {
     title: 'Đổi Coin',
     icon: BsFillPersonBadgeFill,
     path: '/CoinExchanges',
+  },
+
+  {
+    title: 'Hướng dẫn',
+    icon: GiBookmarklet,
+    path: '/Guide',
   },
 ];

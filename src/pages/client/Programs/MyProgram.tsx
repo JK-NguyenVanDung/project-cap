@@ -100,14 +100,12 @@ export default function MyProgram() {
         ),
       );
     } else if (filter === 'Đã hoàn thành') {
-      setData(
-        filterData?.filter(
-          (item: IProgramItem) => item.status === 'public' && item.isComplete,
-        ),
-      );
+      setData(filterData?.filter((item: IProgramItem) => item.isComplete));
     } else if (filter === 'Kết thúc') {
       setData(
-        filterData?.filter((item: IProgramItem) => item.status === 'end'),
+        filterData?.filter(
+          (item: IProgramItem) => !item.isComplete && item.status === 'end',
+        ),
       );
     } else {
       setData(

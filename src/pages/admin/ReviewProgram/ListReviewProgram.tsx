@@ -81,16 +81,16 @@ export default function ListReviewPrograms() {
     },
     {
       title: 'Ngày BĐĐK',
-      dataIndex: 'startDate',
+      dataIndex: 'registrationStartDate',
       render: (item: any) => {
-        return <p>{moment(item).format('DD-MM-YYYY')}</p>;
+        return <p>{moment(item).local().format('DD-MM-YYYY')}</p>;
       },
     },
     {
       title: 'Ngày KTĐK',
-      dataIndex: 'endDate',
+      dataIndex: 'registrationEndDate',
       render: (item: any) => {
-        return <p>{moment(item).format('DD-MM-YYYY')}</p>;
+        return <p>{moment(item).local().format('DD-MM-YYYY')}</p>;
       },
     },
     {

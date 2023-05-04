@@ -9,11 +9,7 @@ import { actions } from '../../../Redux';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { useNavigate } from 'react-router-dom';
 import { Space, notification } from 'antd';
-import {
-  BsFillPersonBadgeFill,
-  BsPeopleFill,
-  BsPersonFillUp,
-} from 'react-icons/bs';
+import { BsFillPersonBadgeFill } from 'react-icons/bs';
 import { AiFillIdcard, AiOutlineFileProtect } from 'react-icons/ai';
 import { IoPersonAdd } from 'react-icons/io5';
 export default function () {
