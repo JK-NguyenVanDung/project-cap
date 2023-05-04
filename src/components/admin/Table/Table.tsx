@@ -28,23 +28,28 @@ export default function TableConfig({
   return (
     // key={data} => gây ra lỗi search
 
-    <div key={key ? key : null} className="w-[80vw]">
+    <div
+      key={key ? key : null}
+      className="max-sm:w-fit max-sm:mr-4 max-md:mr-4"
+    >
       {search && (
-        <div className="flex content-center items-center justify-between px-5 my-10  max-sm:px-0 max-sm:pl-5  max-md:px-0 max-md:pl-5">
+        <div
+          className="flex content-center items-center justify-between px-5 my-10  max-sm:px-0 max-sm:pl-5  max-md:px-0 max-md:pl-5
+        max-sm:max-md:mr-4"
+        >
           <SearchBar onSearch={onSearch} />
           {extra}
         </div>
       )}
       <Table
         loading={loading}
-        className="shadow-lg rounded-lg border-1 "
+        className="tableContainer2 shadow-lg rounded-lg border-1 "
         style={{
-          margin: 10,
+          margin: 20,
         }}
         dataSource={data}
         columns={columns}
         pagination={pagination}
-        scroll={{ y: 900, x: 1500 }}
       />
     </div>
   );

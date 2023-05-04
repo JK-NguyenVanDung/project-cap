@@ -153,7 +153,7 @@ export default function ProgramPublish() {
   };
 
   return (
-    <div className="max-sm:w-fit max-sm:mr-12 max-md:mr-12">
+    <>
       <TableConfig
         onSearch={onChangeSearch}
         search={true}
@@ -161,6 +161,6 @@ export default function ProgramPublish() {
         columns={columns}
         loading={loading}
       />
-    </div>
+    </>
   );
 }

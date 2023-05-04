@@ -6,7 +6,7 @@
   .ant-table-content
   .ant-table-thead
   .ant-table-cell {
-  /* width: 100%; */
+  width: fit-content !important;
   background-color: #eff0f4;
   font-weight: 600;
 }
@@ -19,7 +19,7 @@
   .ant-table-content
   .ant-table-thead
   .ant-table-cell {
-  /* width: 100%; */
+  width: fit-content !important;
   background-color: #fff !important;
   font-weight: 600;
 }
