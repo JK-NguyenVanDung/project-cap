@@ -1,4 +1,8 @@
-on: push
+on:
+  push:
+    branches: [hosting]
+  workflow_dispatch:
+
 name: 🚀 Deploy website on push
 jobs:
   web-deploy:
@@ -15,6 +19,7 @@ jobs:
 
       - name: 🔨 Build Project
         run: |
+          npm install yarn
           yarn install
           yarn run build
 
