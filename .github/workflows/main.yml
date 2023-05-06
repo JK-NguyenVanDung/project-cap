@@ -11,10 +11,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@main
+      - name: Install yarn
+        run: npm install yarn
       - name: Install dependencies
-        run: npm install
+        run: yarn install
       - name: Build dependencies
-        run: npm run build
+        run: yarn run build
       - name: Archive production artifact
         uses: actions/upload-artifact@main
         with:
