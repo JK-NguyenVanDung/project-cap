@@ -590,34 +590,34 @@ const Learner = [
 export default function MakePagesRouter() {
   const LoginParmas = useAppSelector((state) => state.auth.LoginId);
   const info = useAppSelector((state) => state.auth.info);
-  const dispatch = useAppDispatch();
-  const token = localStorage.getItem('Bearer');
+  // const dispatch = useAppDispatch();
+  // const token = localStorage.getItem('Bearer');
 
-  useEffect(() => {
-    const fetchInfo = async () => {
-      try {
-        const response: any = await apiService.getProfile();
-        dispatch(actions.authActions.setInfo(response));
-      } catch (err: any) {
-        throw err.message;
-      }
-    };
+  // useEffect(() => {
+  //   const fetchInfo = async () => {
+  //     try {
+  //       const response: any = await apiService.getProfile();
+  //       dispatch(actions.authActions.setInfo(response));
+  //     } catch (err: any) {
+  //       throw err.message;
+  //     }
+  //   };
 
-    let time = setTimeout(() => {
-      !info && fetchInfo();
-    }, 1000);
+  //   let time = setTimeout(() => {
+  //     !info && fetchInfo();
+  //   }, 1000);
 
-    // dispatch(
-    //   actions.authActions.setInfo({
-    //     accountId: 64,
-    //   }),
-    // );
-    return () => {
-      clearTimeout(time);
-    };
-  }, [token]);
+  //   // dispatch(
+  //   //   actions.authActions.setInfo({
+  //   //     accountId: 64,
+  //   //   }),
+  //   // );
+  //   return () => {
+  //     clearTimeout(time);
+  //   };
+  // }, [token]);
   const RouterLearner = () => {
-    if (LoginParmas.id == 1) {
+    if (LoginParmas.id == 1 || info?.roleId === 1) {
       return (
         <Routes>
           {Learner.map((router, index) => {
@@ -646,7 +646,7 @@ export default function MakePagesRouter() {
             path="/ProgramSurvey/:surveyName"
             element={<ResultProgram />}
           />
-          <Route path="*" element={<NotFoundPage />} />
+          <Route path="*" element={<NotFoundPage reRoute={'/'} />} />
         </Routes>
       );
     }

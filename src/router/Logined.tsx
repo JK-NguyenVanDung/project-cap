@@ -41,6 +41,15 @@ export default function Logined() {
     //   fetchInfo();
     // }
   }, []);
+  const fetchInfo = async () => {
+    try {
+      const response: any = await apiService.getProfile();
+      dispatch(actions.authActions.setInfo(response));
+    } catch (err: any) {
+      throw err.message;
+    }
+  };
+
   useEffect(() => {
     if (alert === true) {
       dispatch(actions.authActions.showNotification(false));
@@ -62,9 +71,11 @@ export default function Logined() {
           });
           setTokenRequest(reponseToken.token);
           if (reponseToken) {
+            dispatch(actions.authActions.showNotification(true));
+
             dispatch(actions.authActions.Login(reponseToken.token));
             localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
-            dispatch(actions.authActions.showNotification(true));
+            await fetchInfo();
             if (navLink && LoginParmas.id == 1) {
               navigate(navLink);
             } else if (LoginParmas.id == 1) {

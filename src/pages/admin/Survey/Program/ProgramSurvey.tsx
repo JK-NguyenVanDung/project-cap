@@ -32,14 +32,10 @@ export default function Survey() {
   let paths = location.pathname.split('/');
 
   useEffect(() => {
-    getData();
-    let out = setTimeout(() => {
+    getData().finally(() => {
       setLoading(false);
       setConfirmLoading(false);
-    }, 1000);
-    return () => {
-      clearTimeout(out);
-    };
+    });
   }, [reload, location]);
   async function handleDelete(item: any) {
     try {

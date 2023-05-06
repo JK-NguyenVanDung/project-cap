@@ -240,6 +240,7 @@ export default function Attendance() {
         title: values.title,
         startTime: moment(values.surveyTime[0]).toISOString(true),
         endTime: moment(values.surveyTime[1]).toISOString(true),
+        location: values.location,
       };
       if (detail) {
         try {
@@ -286,7 +287,17 @@ export default function Attendance() {
           rules={[
             {
               required: true,
-              message: `Không được để trống tên danh mục`,
+              message: `Không được để trống tiêu đề`,
+            },
+          ]}
+        />
+        <FormInput
+          name="location"
+          label="Địa Chỉ"
+          rules={[
+            {
+              required: true,
+              message: `Không được để trống địa chỉ`,
             },
           ]}
         />

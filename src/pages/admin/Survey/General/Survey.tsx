@@ -35,14 +35,9 @@ export default function Survey() {
 
   useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`Quản lý Khảo sát chung`));
-    getData();
-    let out = setTimeout(() => {
-      setLoading(false);
-      setConfirmLoading(false);
-    }, 1000);
-    return () => {
-      clearTimeout(out);
-    };
+    getData().finally(() => {
+      setLoading(false), setConfirmLoading(false);
+    });
   }, [confirmLoading, location]);
   async function handleDelete(item: any) {
     try {

@@ -142,9 +142,9 @@ export default function PopOverAction({
   );
 }
 const Types: any = {
-  1: ' Người học đã được duyệt',
-  2: ' Có khóa học mới vừa tạo',
-  3: ' Khóa học đã được duyệt',
+  1: 'Người học đã được duyệt',
+  2: 'Có khóa học mới vừa tạo',
+  3: 'Khóa học đã được duyệt',
   4: 'Khóa học mới được công khai',
 };
 

@@ -48,7 +48,7 @@ function Learner({
       <div className="flex justify-between border-b p-2 my-4 pb-4 text-base">
         <div className="w-fit h-fit flex">
           <img
-            className="object-contain	w-[10%]  mr-1"
+            className="object-contain	w-[10%] aspect-square mr-1"
             src={avatar ? `${API_URL}/images/${avatar}` : Default}
             alt="avatar"
             onError={({ currentTarget }) => {
