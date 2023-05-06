@@ -11,7 +11,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@main
-      - name: Install yarn
+      - name: Install npm
         run: npm install
       - name: Build dependencies
         run: npm run build

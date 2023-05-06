@@ -8,7 +8,6 @@ import './index.css';
 import CustomButton from '../../../components/admin/Button';
 import { errorText } from '../../../helper/constant';
 import { useAppDispatch } from '../../../hook/useRedux';
-import BarcodeScannerComponent from 'react-qr-barcode-scanner';
 
 export default function TickAttendance({
   item,
