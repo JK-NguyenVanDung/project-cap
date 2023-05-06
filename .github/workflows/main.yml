@@ -12,7 +12,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@main
       - name: Install dependencies
-        run: npm ci
+        run: npm install
       - name: Build dependencies
         run: npm run build
       - name: Archive production artifact
@@ -24,17 +24,17 @@ jobs:
     name: Deploy 🚀
     needs: build
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - name: Checkout repository
         uses: actions/checkout@main
       - name: Download artifact
         uses: actions/download-artifact@main
-        with: 
+        with:
           name: dist
           path: dist
       - name: Sync files to hosting
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
-        with: 
+        with:
           server: ftp.enterflash.com
           username: ftp://cntttest.vanlanguni.edu.vn/CP25Team02
           password: ${{ secrets.ftp_password }}
