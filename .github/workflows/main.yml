@@ -35,7 +35,7 @@ jobs:
       - name: Sync files to hosting
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
-          server: https://cntttest.vanlanguni.edu.vn
+          server: cntttest.vanlanguni.edu.vn
           port: 18085
           username: CP25Team02
           password: ${{ secrets.ftp_password }}
