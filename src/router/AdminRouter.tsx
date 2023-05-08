@@ -377,6 +377,10 @@ export const RouterCenter = [
     element: <Badge />,
   },
   {
+    path: '/detailBadge',
+    element: <DetailBade />,
+  },
+  {
     path: '/admin/Guide',
     element: <Guide />,
   },
@@ -497,6 +501,10 @@ export const RouterFaculty = [
   {
     path: '/Badge',
     element: <Badge />,
+  },
+  {
+    path: '/detailBadge',
+    element: <DetailBade />,
   },
 ];
 const Learner = [
