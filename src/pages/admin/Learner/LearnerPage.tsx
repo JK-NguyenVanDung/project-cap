@@ -39,10 +39,7 @@ export default function LearnerPage() {
         });
         setLoading(true);
         setConfirmLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          setConfirmLoading(false);
-        }, 3000);
+
         setData(res);
         setFilterData(res);
       } catch (error) {
@@ -51,6 +48,10 @@ export default function LearnerPage() {
       }
     }
     getLearner();
+    setTimeout(() => {
+      setLoading(false);
+      setConfirmLoading(false);
+    }, 3000);
   }, [reload]);
   const handelEdit = (item: any) => {
     setDetail(item);
@@ -59,13 +60,15 @@ export default function LearnerPage() {
   async function handleDelete(item: any) {
     try {
       await apiService.delLearner(item.learnerId);
-      setLoading(false);
       notification.success({
         message: MESSAGE.SUCCESS.DELETE,
       });
     } catch (err: any) {
       console.log(err);
     }
+    setLoading(false);
+    setConfirmLoading(false);
+    dispatch(actions.reloadActions.setReload());
   }
   const Columns = [
     {
