@@ -59,7 +59,7 @@ export default function LearnerPage() {
   async function handleDelete(item: any) {
     try {
       await apiService.delLearner(item.learnerId);
-      setLoading(!loading);
+      setLoading(false);
       notification.success({
         message: MESSAGE.SUCCESS.DELETE,
       });
