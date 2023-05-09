@@ -31,9 +31,12 @@ const Product = React.forwardRef((props, ref: any) => {
     getData();
   }, []);
   return (
-    <section ref={ref} className={`z-0  h-screen w-screen bg-gradient`}>
+    <section
+      ref={ref}
+      className={`z-0 max-sm:max-md:h-fit  h-screen w-screen bg-gradient`}
+    >
       <div className=" z-10 h-[20vh] separationBg w-full"></div>
-      <div className="  z-20 relative min-h-[60vh]  px-20 bg-white text-black border-opacity-0">
+      <div className="  z-20 relative min-h-[60vh] max-sm:max-md:min-h-fit  px-20 bg-white text-black border-opacity-0">
         <div className="flex max-sm:flex-wrap  max-sm:mb-16 flex-row w-full h-20 items-center  md:px-[9rem] sd:px-0 justify-between mb-[0.75rem] ">
           <p className="max-sm:text-xl max-sm:w-full max-sm:mb-4  font-semibold md:text-3xl w-2/3 leading-10">
             Một số khoá học nổi tiếng của chúng tôi
@@ -45,7 +48,7 @@ const Product = React.forwardRef((props, ref: any) => {
             Xem thêm
           </Button>
         </div>
-        <div className="products max-sm:flex-wrap h-[50vh] flex flex-row justify-evenly items-center w-full ">
+        <div className="products max-sm:flex-wrap h-[50vh] max-sm:max-md:h-fit flex flex-row justify-evenly items-center w-full ">
           <ProductCard
             program={programs && programs[0]}
             title={programs && programs[0]?.programName}

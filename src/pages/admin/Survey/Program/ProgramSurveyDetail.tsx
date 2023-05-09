@@ -204,7 +204,7 @@ export default function ProgramDetail() {
     },
   ];
   return (
-    <div className="w-full h-full relative">
+    <div className="w-full h-full relative mx-4">
       <div className="ml-[-10px]">
         <Breadcrumb
           router1={'/admin/CourseSurvey'}

@@ -72,6 +72,7 @@ import SupportProgram from '../pages/admin/SupportProgram/SupportProgram';
 import Supporters from '../pages/admin/SupportProgram/Supporters';
 import { Guide } from '../pages/admin/Guide/Guide';
 import UserGuide from '../pages/client/Guide/Guide';
+import { reRoute } from '../../onBuild';
 
 export const RouterPages = [
   {
@@ -237,6 +238,10 @@ export const RouterPages = [
 
 export const RouterCenter = [
   {
+    path: '/admin/Program/Result',
+    element: <ProgramResult />,
+  },
+  {
     path: '/admin/Guide',
     element: <Guide />,
   },
@@ -386,6 +391,10 @@ export const RouterCenter = [
   },
 ];
 export const RouterFaculty = [
+  {
+    path: '/admin/Program/Result',
+    element: <ProgramResult />,
+  },
   {
     path: '/admin/Guide',
     element: <Guide />,
@@ -654,7 +663,7 @@ export default function MakePagesRouter() {
             path="/ProgramSurvey/:surveyName"
             element={<ResultProgram />}
           />
-          <Route path="*" element={<NotFoundPage reRoute={'/'} />} />
+          <Route path="*" element={<NotFoundPage reRoute={reRoute} />} />
         </Routes>
       );
     }
@@ -687,7 +696,10 @@ export default function MakePagesRouter() {
 
             <Route path="/login" element={<Logined />} />
             <Route path="/" element={<LandingPage />} />
-            <Route path="*" element={<NotFoundPage reRoute={'/admin'} />} />
+            <Route
+              path="*"
+              element={<NotFoundPage reRoute={reRoute + '/admin'} />}
+            />
             <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
           </Routes>
         );
@@ -708,6 +720,8 @@ export default function MakePagesRouter() {
                 />
               );
             })}
+            <Route path="/admin/Survey/Question" element={<SurveyQuestion />} />
+
             <Route
               path="/admin/Program/Chapter/:number/Test/Question"
               element={<Question />}
@@ -720,7 +734,10 @@ export default function MakePagesRouter() {
               path="/ProgramSurvey/:surveyName"
               element={<ProgramSurvey />}
             />
-            <Route path="*" element={<NotFoundPage reRoute={'/admin'} />} />
+            <Route
+              path="*"
+              element={<NotFoundPage reRoute={reRoute + '/admin'} />}
+            />
           </Routes>
         );
       }

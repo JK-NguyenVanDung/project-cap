@@ -1,4 +1,5 @@
-export const isHosting = true;
+export const isHosting = false;
+export const reRoute = isHosting ? '/CP25Team02/#' : '/';
 export const path = isHosting
   ? 'https://cntttest.vanlanguni.edu.vn/CP25Team02'
   : 'http://localhost:5173';
