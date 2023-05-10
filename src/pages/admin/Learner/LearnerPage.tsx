@@ -51,7 +51,7 @@ export default function LearnerPage() {
     setTimeout(() => {
       setLoading(false);
       setConfirmLoading(false);
-    }, 3000);
+    }, 1000);
   }, [reload]);
   const handelEdit = (item: any) => {
     setDetail(item);

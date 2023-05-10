@@ -216,9 +216,9 @@ export default function TickAttendance({
           // attendanceId: item.attendance.id,
         };
 
-        let res = await apiService.AttdendanceCode(params);
+        await apiService.AttdendanceCode(params);
 
-        res && alert(`Điểm danh Thành Công: ${dataQrCode.toString()} `);
+        alert(`Điểm danh Thành Công: ${dataQrCode.toString()} `);
       }
       // console.count('1');
     } catch (error) {
