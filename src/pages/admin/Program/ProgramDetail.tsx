@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, message, Image, Tooltip } from 'antd';
+import { Form, message, Image, Tooltip, Select } from 'antd';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { Breadcrumb } from '../../../components/sharedComponents';
@@ -28,6 +28,8 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { IProgramItem } from '../../../Type';
+import { AxiosResponse } from 'axios';
+const { Option } = Select;
 
 export default function ProgramDetail() {
   const [form] = Form.useForm();
@@ -38,7 +40,27 @@ export default function ProgramDetail() {
   const reload = useAppSelector((state) => state.form.reload);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [positions, setPositions]: any = useState([]);
+  const [checkOption, setCheckOption] = useState(false);
+
+  const getPositions = async () => {
+    const reponse: AxiosResponse<any, any> = await apiService.getPositions();
+    if (reponse) {
+      setPositions(reponse);
+      setCheckOption(true);
+    }
+  };
+  const optionPosition = checkOption
+    ? positions.map((item: any) => {
+        return (
+          <Option value={item.positionId} key={item.positionId}>
+            {item.positionName}
+          </Option>
+        );
+      })
+    : '';
   useEffect(() => {
+    getPositions();
     item && setImage(item?.image);
 
     item
@@ -187,15 +209,32 @@ export default function ProgramDetail() {
             />
             {viewMore && (
               <>
+                <label className="text-black font-bold font-customFont">
+                  Chức vụ
+                </label>
+                <Form.Item
+                  style={{ marginTop: 17 }}
+                  name="PositionIds"
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Vui Lòng Nhập Vào Chức Vụ',
+                    },
+                  ]}
+                >
+                  <Select
+                    disabled
+                    placeholder="Chọn Chức Vụ"
+                    optionFilterProp="children"
+                    mode="multiple"
+                  >
+                    {optionPosition}
+                  </Select>
+                </Form.Item>
                 <FormInput label="Điểm Đạt Được" name="coin" disabled={true} />
                 <FormInput
                   label="Ngày Bắt Đầu"
                   name="startDate"
-                  disabled={true}
-                />
-                <FormInput
-                  label="Ngày Kết thúc"
-                  name="endDate"
                   disabled={true}
                 />
               </>
@@ -233,6 +272,7 @@ export default function ProgramDetail() {
               name="registrationEndDate"
               disabled={true}
             />
+            <FormInput label="Ngày Kết thúc" name="endDate" disabled={true} />
           </div>
         </div>
         <div className="w-full flex justify-center">
