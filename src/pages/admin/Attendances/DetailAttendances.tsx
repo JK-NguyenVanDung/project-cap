@@ -47,31 +47,25 @@ export default function DetailAttendances({
         item?.attendance.id,
       );
 
-      const res: any = await apiService.getAttendanceId(item?.attendance?.id);
-
-      let resArr = res.accountAttendances.map((item: any) => {
+      const res: any = await apiService.getAttendances(item?.attendance?.id);
+      console.log(res);
+      let resArr = res.map((item: any, index: number) => {
         return {
           account: item.account,
-          isAttending: true,
+          isAttending: item.status === 'Attendance' ? true : false,
+          index: index + 1,
         };
       });
-      let newArr = response.map((item: any) => {
+      let newArr = response.map((item: any, index: number) => {
         return {
           account: item,
           isAttending: false,
-        };
-      });
-      let final = [...newArr, ...resArr];
-      final = final.map((item: any, index: number) => {
-        return {
           index: index + 1,
-
-          ...item,
         };
       });
-      console.log(item);
-      setFilterData(final);
-      setData(final);
+
+      setFilterData(res.length > 0 ? resArr : newArr);
+      setData(res.length > 0 ? resArr : newArr);
     } catch (err) {}
     setLoading(false);
   };

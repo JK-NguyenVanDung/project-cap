@@ -105,10 +105,7 @@ const RightSection = (props: any) => {
     registrationStartDate: Date,
   ) {
     if (!canRegister) {
-      if (new Date(registrationStartDate).getTime() <= new Date().getTime()) {
-        return 'Chưa Tới Thời Hạn Đăng Ký';
-      }
-      return 'Đã Hết Hạn Đăng Ký';
+      return 'Không Trong Thời Gian Đăng Ký';
     }
     switch (status) {
       case 'public':
@@ -119,13 +116,13 @@ const RightSection = (props: any) => {
   }
   function getButtonText(program: IProgramItem, register: boolean) {
     if (!program?.canRegister) {
-      if (
-        new Date(program?.registrationStartDate).getTime() >=
-        new Date().getTime()
-      ) {
-        return 'Chưa Tới Thời Hạn Đăng Ký';
-      }
-      return 'Đã Hết Hạn Đăng Ký';
+      // if (
+      //   new Date(program?.registrationStartDate).getTime() >=
+      //   new Date().getTime()
+      // ) {
+      //   return 'Chưa Tới Thời Hạn Đăng Ký';
+      // }
+      return 'Không trong thời hạn đăng ký';
     }
     let text =
       program?.status === 'end'
