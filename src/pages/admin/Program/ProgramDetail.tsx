@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, message, Image, Tooltip } from 'antd';
+import { Form, message, Image, Tooltip, Select } from 'antd';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { Breadcrumb } from '../../../components/sharedComponents';
@@ -28,6 +28,8 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { IProgramItem } from '../../../Type';
+import { AxiosResponse } from 'axios';
+const { Option } = Select;
 
 export default function ProgramDetail() {
   const [form] = Form.useForm();
@@ -38,9 +40,15 @@ export default function ProgramDetail() {
   const reload = useAppSelector((state) => state.form.reload);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  useEffect(() => {
-    item && setImage(item?.image);
+  const [positions, setPositions]: any = useState([]);
+  console.log(item.programPositions);
 
+  useEffect(() => {
+    setPositions(
+      item.programPositions.map((item) => item.position.positionName),
+    );
+
+    item && setImage(item?.image);
     item
       ? form.setFieldsValue({
           acedemicYearName: item.academicYear.year ?? '',
@@ -193,15 +201,26 @@ export default function ProgramDetail() {
             />
             {viewMore && (
               <>
+                <label className="text-black font-bold font-customFont">
+                  Chức vụ
+                </label>
+                <div className="my-2">
+                  {positions.map((item: any) => {
+                    return (
+                      <ul
+                        role="list"
+                        className="marker:text-sky-400 list-disc pl-5 space-y-3 text-slate-400 my-1"
+                      >
+                        <li>{item}</li>
+                      </ul>
+                    );
+                  })}
+                </div>
+
                 <FormInput label="Điểm Đạt Được" name="coin" disabled={true} />
                 <FormInput
                   label="Ngày Bắt Đầu"
                   name="startDate"
-                  disabled={true}
-                />
-                <FormInput
-                  label="Ngày Kết thúc"
-                  name="endDate"
                   disabled={true}
                 />
               </>
@@ -239,6 +258,7 @@ export default function ProgramDetail() {
               name="registrationEndDate"
               disabled={true}
             />
+            <FormInput label="Ngày Kết thúc" name="endDate" disabled={true} />
           </div>
         </div>
         <div className="w-full flex justify-center">

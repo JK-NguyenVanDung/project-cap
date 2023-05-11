@@ -16,22 +16,14 @@ import { Page, Text, View, Document, StyleSheet } from '@react-pdf/renderer';
 
 export default function () {
   const [form] = Form.useForm();
-  const { accounts } = useMsal();
   const navigate = useNavigate();
-  const nameMenu = useAppSelector((state: any) => state.form.nameMenu);
-  const dispatch = useAppDispatch();
   const program: IProgramItem = useAppSelector(
     (state: any) => state.form.programId,
   );
   const info = useAppSelector((state) => state.auth.info);
-  const [fullName, setFullName] = useState({ value: nameMenu });
+  const [fullName, setFullName] = useState(info.fullName);
   const [detailBadge, setDetailBadge]: any = useState({});
-  useEffect(() => {
-    dispatch(
-      actions.formActions.setNameMenu(`${accounts[0]?.name.split('-')[1]}`),
-    );
-    setFullName({ value: accounts[0]?.name?.split('-')[1] });
-  }, []);
+
   useEffect(() => {
     const fetchDetailBadge = async () => {
       const response: any = await apiService.getCertificate(
@@ -43,7 +35,7 @@ export default function () {
     fetchDetailBadge();
   }, []);
   const handelChangeText = (event: any) => {
-    setFullName((prev) => ({ ...prev, value: event.target.value }));
+    setFullName(event.target.value);
   };
   return (
     <div className="m-5">
@@ -68,7 +60,7 @@ export default function () {
                 </h1>
 
                 <p className="max-sm:py-2  max-md:py-2 lg:mt-4 max-sm:text-base  max-md:text-base  text-6xl text-[#D5202A] font-fontSecons">
-                  {fullName.value}
+                  {fullName}
                 </p>
 
                 <p className="lg:mt-4 max-sm:text-xs max-md:text-xs text-lg font-semibold w-full text-center text-black font-serif italic ">
@@ -141,10 +133,9 @@ export default function () {
                 ]}
               >
                 <Input
-                  disabled
                   className={`font-customFont  font-bold bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                   onChange={handelChangeText}
-                  defaultValue={info?.fullName}
+                  defaultValue={fullName}
                   placeholder="Nhập Vào Tên Của Bạn"
                 />
               </Form.Item>

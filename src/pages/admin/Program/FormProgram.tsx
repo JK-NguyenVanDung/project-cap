@@ -34,8 +34,8 @@ export default function FormProgram() {
   const [fileList, setFileList] = useState<UploadFile[]>([]);
   const [dataFct, setDataFct]: any = useState([]);
   const [academic, setAcademic]: any = useState([]);
-  const [positions, setPositions]: any = useState([]);
   const [dataCategory, setDataCategory]: any = useState([]);
+  const [positions, setPositions]: any = useState([]);
   const [checkOption, setCheckOption] = useState(false);
   const [form] = Form.useForm();
   const [loading, setLoading] = useState(false);

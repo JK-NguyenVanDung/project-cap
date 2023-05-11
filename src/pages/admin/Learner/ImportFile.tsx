@@ -88,6 +88,7 @@ export default function ImportFile({
       dispatch(actions.reloadActions.setReload());
 
       let outPut = listData.map((item: any) => {
+        console.log(item.MSNV)
         return {
           email: item.Email || item.email || item.EMAIL,
           fullName:
