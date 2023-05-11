@@ -41,28 +41,14 @@ export default function ProgramDetail() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [positions, setPositions]: any = useState([]);
-  const [checkOption, setCheckOption] = useState(false);
+  console.log(item.programPositions);
 
-  const getPositions = async () => {
-    const reponse: AxiosResponse<any, any> = await apiService.getPositions();
-    if (reponse) {
-      setPositions(reponse);
-      setCheckOption(true);
-    }
-  };
-  const optionPosition = checkOption
-    ? positions.map((item: any) => {
-        return (
-          <Option value={item.positionId} key={item.positionId}>
-            {item.positionName}
-          </Option>
-        );
-      })
-    : '';
   useEffect(() => {
-    getPositions();
-    item && setImage(item?.image);
+    setPositions(
+      item.programPositions.map((item) => item.position.positionName),
+    );
 
+    item && setImage(item?.image);
     item
       ? form.setFieldsValue({
           acedemicYearName: item.academicYear.year ?? '',
@@ -212,25 +198,19 @@ export default function ProgramDetail() {
                 <label className="text-black font-bold font-customFont">
                   Chức vụ
                 </label>
-                <Form.Item
-                  style={{ marginTop: 17 }}
-                  name="PositionIds"
-                  rules={[
-                    {
-                      required: true,
-                      message: 'Vui Lòng Nhập Vào Chức Vụ',
-                    },
-                  ]}
-                >
-                  <Select
-                    disabled
-                    placeholder="Chọn Chức Vụ"
-                    optionFilterProp="children"
-                    mode="multiple"
-                  >
-                    {optionPosition}
-                  </Select>
-                </Form.Item>
+                <div className="my-2">
+                  {positions.map((item: any) => {
+                    return (
+                      <ul
+                        role="list"
+                        className="marker:text-sky-400 list-disc pl-5 space-y-3 text-slate-400 my-1"
+                      >
+                        <li>{item}</li>
+                      </ul>
+                    );
+                  })}
+                </div>
+
                 <FormInput label="Điểm Đạt Được" name="coin" disabled={true} />
                 <FormInput
                   label="Ngày Bắt Đầu"
