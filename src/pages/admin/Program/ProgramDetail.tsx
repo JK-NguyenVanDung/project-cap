@@ -59,15 +59,21 @@ export default function ProgramDetail() {
           semester: item.semester ?? '',
           MaxLearner: item.maxLearner ?? '',
           coin: item.coin ?? '',
-          startDate: moment(item.startDate).format('DD-MM-YYYY mm:hh') ?? '',
-          endDate: moment(item.endDate).format('DD-MM-YYYY mm:hh') ?? '',
+          startDate:
+            moment(item.startDate).local().format('DD-MM-YYYY mm:hh') ?? '',
+          endDate:
+            moment(item.endDate).local().format('DD-MM-YYYY mm:hh') ?? '',
           facultyName: item.faculty.facultyName ?? '',
           image: item.image ?? '',
           lecturers: item.lecturers ?? '',
           registrationEndDate:
-            moment(item.registrationEndDate).format('DD-MM-YYYY mm:hh') ?? '',
+            moment(item.registrationEndDate)
+              .local()
+              .format('DD-MM-YYYY mm:hh') ?? '',
           registrationStartDate:
-            moment(item.registrationStartDate).format('DD-MM-YYYY mm:hh') ?? '',
+            moment(item.registrationStartDate)
+              .local()
+              .format('DD-MM-YYYY mm:hh') ?? '',
         })
       : null;
     fetchProgramContent();

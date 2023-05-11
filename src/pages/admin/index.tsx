@@ -256,7 +256,7 @@ export default function SideBar({
             </header>
           )}
           <main
-            className="min-h-screen bg-gray-50 "
+            className="min-h-screen bg-gray-50 max-sm:max-md:overflow-x-scroll "
             onClick={() =>
               windowDimensions.width <= 767 ? setOpen(false) : {}
             }

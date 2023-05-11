@@ -11,32 +11,6 @@ import apiService from '../../../api/apiService';
 import { message } from 'antd';
 import { API_URL } from '../../../api/api';
 
-function getStatus(
-  status: string,
-  canRegister: boolean,
-  registrationStartDate: Date,
-) {
-  if (status === 'end') {
-    return 'Đã kết thúc';
-  }
-  if (!canRegister) {
-    console.log(new Date(registrationStartDate).getTime());
-    console.log(new Date().getTime());
-    if (new Date(registrationStartDate).getTime() >= new Date().getTime()) {
-      return 'Chưa Tới Thời Hạn Đăng Ký';
-    }
-    return 'Đã Hết Hạn Đăng Ký';
-  }
-  return 'Có thể đăng ký ';
-}
-function getAttendanceStatus(status: string) {
-  switch (status) {
-    case 'Attending':
-      return 'Đang tham gia';
-    case 'Complete':
-      return 'Đã hoàn thành';
-  }
-}
 export default memo(function ({
   onClick,
   item,
@@ -83,61 +57,7 @@ export default memo(function ({
           className="card shadow-lg  border-[2px] border-white hover:border-primary hover:transition-colors	 hover:ease-in-out flex
           overflow-hidden flex-col  w-full rounded-[20px] justify-end hover:border-[3px]  " //border-[2px] border-color-[#c3c6ce]
         >
-          <div className="max-h-[40vh] h-[25vh]  w-full">
-            {!isRegistered || (isRegistered && memoItem?.status === 'end') ? (
-              <div
-                className={`absolute  tag ${
-                  memoItem?.status === 'public' && memoItem?.canRegister
-                    ? 'bg-green-600'
-                    : 'bg-red-600'
-                } px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-[-4px]`}
-              >
-                <div
-                  className={`relative ${
-                    memoItem?.status === 'public' && memoItem?.canRegister
-                      ? 'bg-green-600'
-                      : 'bg-red-600'
-                  } `}
-                >
-                  <p>
-                    {getStatus(
-                      memoItem?.status,
-                      memoItem?.canRegister,
-                      memoItem?.registrationStartDate,
-                    )}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div
-                className={`absolute  tag ${
-                  memoItem?.learners[0]?.status === 'Attending'
-                    ? 'bg-blue-600'
-                    : 'bg-cyan-600'
-                } px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-[-4px]`}
-              >
-                <div
-                  className={`relative ${
-                    memoItem?.learners[0]?.status === 'Attending'
-                      ? 'bg-blue-600'
-                      : 'bg-cyan-600'
-                  } `}
-                >
-                  <p>{getAttendanceStatus(memoItem?.learners[0]?.status)}</p>
-                </div>
-              </div>
-            )}
-            <img
-              className="rounded-t-lg object-cover	h-full w-full"
-              src={`${API_URL}/images/${item.image}`}
-              onError={({ currentTarget }) => {
-                currentTarget.onerror = null; // prevents looping
-                currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
-                // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
-              }}
-              alt=""
-            />
-          </div>
+          <Status isRegistered={isRegistered} memoItem={memoItem} item={item} />
           <div className="flex flex-col bg-white h-[60%] rounded-b-2xl py-2 px-4">
             <div className="flex w-full justify-between items-center">
               <div
@@ -197,6 +117,86 @@ export default memo(function ({
     </>
   );
 });
+
+function Status({ isRegistered, memoItem, item }: any) {
+  function getStatus(
+    status: string,
+    canRegister: boolean,
+    registrationStartDate: Date,
+    learnerStatus: string,
+  ) {
+    if (!isRegistered) {
+      if (status === 'end') {
+        return 'Đã kết thúc';
+      }
+      if (!canRegister) {
+        if (new Date(registrationStartDate).getTime() >= new Date().getTime()) {
+          return 'Chưa Tới Thời Hạn Đăng Ký';
+        }
+        return 'Đã Hết Hạn Đăng Ký';
+      }
+      return 'Có thể đăng ký ';
+    } else {
+      let out =
+        memoItem?.learners[0]?.status === 'Complete'
+          ? 'Đã hoàn thành'
+          : memoItem?.status === 'end'
+          ? 'Đã kết thúc'
+          : 'Đang tham gia';
+      return out;
+    }
+  }
+  function getColor(memoItem: any, isRegistered: boolean) {
+    let color = '';
+    if (isRegistered) {
+      color =
+        memoItem?.learners[0]?.status === 'Complete'
+          ? 'bg-cyan-600'
+          : memoItem?.status === 'end'
+          ? 'bg-black'
+          : 'bg-blue-600';
+    } else {
+      color =
+        memoItem?.status === 'public' && memoItem?.canRegister
+          ? 'bg-green-600'
+          : memoItem?.status === 'end'
+          ? 'bg-black'
+          : 'bg-red-600';
+    }
+    return color;
+  }
+
+  let status = getStatus(
+    memoItem?.status,
+    memoItem?.canRegister,
+    memoItem?.registrationStartDate,
+    memoItem?.learners[0]?.status,
+  );
+  let color = getColor(memoItem, isRegistered);
+
+  return (
+    <div className="max-h-[40vh] h-[25vh]  w-full">
+      <div
+        className={`absolute  tag ${color} px-2 shadow top-[1rem] text-white w-fit min-w-[3.5rem] flex justify-center items-start left-[-4px]`}
+      >
+        <div className={`relative ${color} `}>
+          <p>{status}</p>
+        </div>
+      </div>
+
+      <img
+        className="rounded-t-lg object-cover	h-full w-full"
+        src={`${API_URL}/images/${item.image}`}
+        onError={({ currentTarget }) => {
+          currentTarget.onerror = null; // prevents looping
+          currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
+          // https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/images/${item.image}
+        }}
+        alt=""
+      />
+    </div>
+  );
+}
 
 export const SmallCourseCard = ({
   data,

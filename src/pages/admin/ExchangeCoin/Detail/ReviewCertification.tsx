@@ -264,11 +264,14 @@ export default function () {
       })
       .catch((info) => {
         // dispatch(actions.formActions.showError())
-      })
-      .finally(() => {
-        setLoading(false);
-        dispatch(actions.reloadActions.setReload());
       });
+    let timeout = setTimeout(() => {
+      setLoading(false);
+      dispatch(actions.reloadActions.setReload());
+    }, 1000);
+    return () => {
+      clearTimeout(timeout);
+    };
   };
   const navigate = useNavigate();
 
@@ -299,7 +302,10 @@ export default function () {
     let timeout = setTimeout(() => {
       setLoading(false);
       dispatch(actions.reloadActions.setReload());
-    }, 500);
+    }, 1000);
+    return () => {
+      clearTimeout(timeout);
+    };
   };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');

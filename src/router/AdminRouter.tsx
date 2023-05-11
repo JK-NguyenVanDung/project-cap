@@ -71,6 +71,7 @@ import NotFoundPage from '../NotFoundPage';
 import SupportProgram from '../pages/admin/SupportProgram/SupportProgram';
 import Supporters from '../pages/admin/SupportProgram/Supporters';
 import { Guide } from '../pages/admin/Guide/Guide';
+import UserGuide from '../pages/client/Guide/Guide';
 
 export const RouterPages = [
   {
@@ -236,6 +237,10 @@ export const RouterPages = [
 
 export const RouterCenter = [
   {
+    path: '/admin/Guide',
+    element: <Guide />,
+  },
+  {
     path: '/admin/ExchangeCoin',
     element: <ExchangeCoin />,
   },
@@ -378,6 +383,10 @@ export const RouterCenter = [
 ];
 export const RouterFaculty = [
   {
+    path: '/admin/Guide',
+    element: <Guide />,
+  },
+  {
     path: '/admin/Dashboard',
     element: <Dashboard />,
   },
@@ -491,6 +500,10 @@ export const RouterFaculty = [
   },
 ];
 const Learner = [
+  {
+    path: '/Guide',
+    element: <UserGuide />,
+  },
   {
     path: '/home',
     element: <Homepage />,

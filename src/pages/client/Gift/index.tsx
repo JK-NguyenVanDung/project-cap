@@ -69,7 +69,7 @@ function GiftScreen() {
     // return () => {
     //   clearTimeout(timer);
     // };
-  }, [reload]);
+  }, [reload, loading]);
   return (
     <>
       {loading ? (

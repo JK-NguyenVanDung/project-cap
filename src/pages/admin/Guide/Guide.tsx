@@ -15,9 +15,7 @@ export const Guide = () => {
         className="h-screen   pr-[0.1rem]"
         data={AdminGuide}
         type="application/pdf"
-      >
-        {' '}
-      </object>
+      ></object>
     </div>
   );
 };

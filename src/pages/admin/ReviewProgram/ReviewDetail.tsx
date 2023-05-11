@@ -17,8 +17,6 @@ const ReviewDetail = () => {
   const [loading, setLoading] = useState(false);
   return (
     <>
-      <Loading loading={loading} />
-
       <div className="bg-gray-100 w-full h-full font-customFont">
         <div className="w-full h-14 flex items-center justify-between shadow-lg py-4  bg-white text-black">
           <a
@@ -35,7 +33,13 @@ const ReviewDetail = () => {
             <HeaderAdmin />
           </div>
         </div>
-        <div className="flex flex-row w-full h-full">
+        <Loading loading={loading} />
+
+        <div
+          className={`flex flex-row w-full h-full ${
+            loading ? 'invisible' : 'visible'
+          } `}
+        >
           <div className=" w-[15%] m-4  p-4 mr-8 h-full" />
           <LeftSection />
           <MidSection setLoading={setLoading} isReviewing={true} />

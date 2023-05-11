@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, Modal, Select, notification } from 'antd';
+import { Form, Modal, Select, notification, AutoComplete } from 'antd';
 import FormInput from '../../../components/admin/Modal/FormInput';
 import { QrReader } from 'react-qr-reader';
 import { Tabs } from 'antd';
@@ -8,7 +8,6 @@ import './index.css';
 import CustomButton from '../../../components/admin/Button';
 import { errorText } from '../../../helper/constant';
 import { useAppDispatch } from '../../../hook/useRedux';
-import BarcodeScannerComponent from 'react-qr-barcode-scanner';
 
 export default function TickAttendance({
   item,
@@ -24,17 +23,14 @@ export default function TickAttendance({
   const [form] = Form.useForm();
   const [dataQrCode, setDataQrCode]: any = useState('');
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [email, setEmail] = useState('asd');
   const items: any['items'] = [
     {
       key: 'Email',
       label: `Email`,
       children: <RenderEmail />,
     },
-    // {
-    //   key: 'Điểm danh tất cả',
-    //   label: `Tất cả`,
-    //   children: <button onClick={() => approveAll()}>all</button>,
-    // },
+
     {
       key: 'Code',
       label: `QR Code`,
@@ -42,16 +38,7 @@ export default function TickAttendance({
     },
   ];
   const [listLearner, setListLearner] = useState([]);
-  // function approveAll() {
-  //   let promises = listLearner.map((learner) => {
-  //     const params = {
-  //       email: learner.email,
-  //       attendanceId: item.attendance.id,
-  //     };
-  //     return apiService.AttdendanceEmail(params);
-  //   });
-  //   Promise.all(promises);
-  // }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -90,6 +77,9 @@ export default function TickAttendance({
   const onChange = (key: string) => {
     console.log(key);
   };
+  const getPanelValue = (searchText: string) =>
+    !searchText ? [] : listLearner.find((e) => e.email.includes(searchText));
+
   function RenderEmail() {
     return (
       <>
@@ -126,19 +116,18 @@ export default function TickAttendance({
               },
             ]}
           >
-            <Select
-              showSearch
-              placeholder="Chọn Người Học"
-              optionFilterProp="children"
-              filterOption={(input: any, option: any) =>
-                (option?.label ?? '')
-                  .toLowerCase()
-                  .includes(input.toLowerCase())
-              }
+            <AutoComplete
               options={listLearner?.map((item: any) => ({
-                value: item.accountId,
+                value: item.email,
                 label: item.email,
               }))}
+              style={{ marginTop: 10 }}
+              filterOption={(inputValue, option) =>
+                option!.value
+                  .toUpperCase()
+                  .indexOf(inputValue.toUpperCase()) !== -1
+              }
+              placeholder="Nhập Email Người Học"
             />
           </Form.Item>
         </Form>
@@ -165,107 +154,7 @@ export default function TickAttendance({
       </>
     );
   }
-  // function RenderMSNV() {
-  //   return (
-  //     <>
-  //       {' '}
-  //       <Form form={form}>
-  //         <Form.Item
-  //           name="email"
-  //           rules={[
-  //             {
-  //               required: true,
-  //               message: 'Vui Lòng Nhập Vào Email',
-  //             },
 
-  //             {
-  //               pattern: new RegExp(/^(?!\s*$|\s).*$/),
-  //               message: errorText.space,
-  //             },
-  //           ]}
-  //         >
-  //           <Select
-  //             showSearch
-  //             placeholder="Chọn Người Học"
-  //             optionFilterProp="children"
-  //             filterOption={(input: any, option: any) =>
-  //               (option?.label ?? '')
-  //                 .toLowerCase()
-  //                 .includes(input.toLowerCase())
-  //             }
-  //             options={listLearner?.map((item: any) => ({
-  //               value: item.accountId,
-  //               label: item.email,
-  //             }))}
-  //           />
-  //         </Form.Item>
-  //       </Form>
-  //       <div className=" mt-20 mb-4 flex flex-row justify-evenly w-full">
-  //         <CustomButton
-  //           size="md"
-  //           fullWidth={true}
-  //           noIcon={true}
-  //           type="cancel"
-  //           color="blue-gray"
-  //           onClick={() => handelCancel()}
-  //           text="Đóng"
-  //         />
-  //         <CustomButton
-  //           size="md"
-  //           onClick={() => handleOk()}
-  //           fullWidth={true}
-  //           className="mx-2"
-  //           noIcon={true}
-  //           color="blue-gray"
-  //           text="Lưu"
-  //         />
-  //       </div>
-  //     </>
-  //   );
-  // }
-  // function RenderBar() {
-  //   return (
-  //     <>
-  //       <BarcodeScannerComponent
-  //         delay={1000}
-  //         onUpdate={(error: any, result: any) => {
-  //           if (result) {
-  //             // notification.success({ message: result?.text });
-  //             if (result) {
-  //               // && dataQrCode == ''
-
-  //               setDataQrCode(result?.text);
-  //             }
-  //             //   setInterval(async () => {
-
-  //             // }, 3000);
-  //           }
-  //         }}
-  //       />
-  //       {/* {dataQrCode ? <p>Kết Quả Mã QR: {dataQrCode}</p> : null} */}
-  //       <div className=" mt-4 mb-4 flex flex-row justify-evenly w-full">
-  //         <CustomButton
-  //           size="md"
-  //           fullWidth={true}
-  //           noIcon={true}
-  //           type="cancel"
-  //           color="blue-gray"
-  //           onClick={() => handelCancel()}
-  //           text="Đóng"
-  //         />
-  //         {/* <CustomButton
-  //           size="md"
-  //           onClick={() => handleQr()}
-  //           fullWidth={true}
-  //           className="mx-2"
-  //           noIcon={true}
-  //           color="blue-gray"
-  //           text="Gửi mã code"
-  //         /> */}
-  //       </div>
-  //     </>
-  //   );
-  // }
   function RenderCode() {
     return (
       <>
@@ -338,10 +227,11 @@ export default function TickAttendance({
       // console.count('1');
     } catch (error) {
       // setVisible(false);
-
-      notification.error({
-        message: `Điểm danh không thành công: ${dataQrCode.toString()} `,
-      });
+      if (error === 'Request failed with status code 400') {
+        notification.error({ message: 'Người Này Đã Điểm Danh Rồi' });
+      } else {
+        notification.error({ message: 'Điểm Danh Không Thành Công' });
+      }
     }
   };
   const handleOk = () => {
@@ -353,18 +243,23 @@ export default function TickAttendance({
             email: values.email,
             attendanceId: item.attendance.id,
           };
-          await apiService.AttdendanceEmail(params);
+          let res = await apiService.AttdendanceEmail(params);
+          console.log(res);
           notification.success({ message: 'Điểm Danh thành công' });
         }
 
         // setVisible(false);
         setConfirmLoading(false);
         setDataQrCode('');
-      } catch (error) {
+      } catch (error: any) {
         // setVisible(false);
         setConfirmLoading(false);
         setDataQrCode('');
-        notification.error({ message: 'Điểm Danh không thành công' });
+        if (error === 'Request failed with status code 400') {
+          notification.error({ message: 'Người Này Đã Điểm Danh Rồi' });
+        } else {
+          notification.error({ message: 'Điểm Danh Không Thành Công' });
+        }
       }
       form.resetFields();
     });

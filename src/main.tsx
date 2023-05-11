@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react';
-import ReactDOM from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter, HashRouter, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import App from './App';
@@ -22,7 +22,7 @@ let base =
 const baseUrl = window.location.href.toString().includes('5173')
   ? '/'
   : '/CP25Team02/';
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
     {baseUrl === '/' ? (
       <MsalProvider instance={msalInstance}>
