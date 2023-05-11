@@ -218,7 +218,7 @@ export default function TickAttendance({
 
         await apiService.AttdendanceCode(params);
 
-        alert(`Điểm danh Thành Công: ${dataQrCode.toString()} `);
+        alert(`Điểm danh Thành Công: ${code.toString()} `);
       }
       // console.count('1');
     } catch (error) {

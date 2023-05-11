@@ -554,7 +554,7 @@ export default function FormProgram() {
               Ngày Bắt Đầu
             </label>
             <Form.Item
-              style={{ marginTop: 10 }}
+              style={{ marginTop: 10, marginBottom: 20 }}
               name="StartDate"
               rules={[
                 {

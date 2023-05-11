@@ -89,8 +89,13 @@ export default function ImportFile({
 
       let outPut = listData.map((item: any) => {
         return {
-          email: item.Email,
-          fullName: item['Họ & Tên'],
+          email: item.Email || item.email || item.EMAIL,
+          fullName:
+            item['Họ & Tên'] ||
+            item['Họ Và Tên'] ||
+            item.fullName ||
+            item['Full Name'] ||
+            item.FullName,
           code: item?.MSNV.toString(),
         };
       });
@@ -114,7 +119,6 @@ export default function ImportFile({
         // fullName: listName.map((item: any) => item),
       };
 
-      console.log(values);
       const data = apiService.importFileLearner({
         body: values,
         accountId: info.accountId,
@@ -185,7 +189,6 @@ export default function ImportFile({
               item.fullName ||
               item['Full Name'] ||
               item.FullName;
-            console.log(fullName);
             return fullName;
           }),
         );
@@ -235,7 +238,7 @@ export default function ImportFile({
       <>
         <CSVLink
           data={data}
-          filename={'mau_file_excel.csv'}
+          filename={'mau_file_excel.xls'}
           headers={['STT', 'Họ & Tên', 'MSNV', 'EMAIL']}
           className="w-44 h-10 bg-blue-gray-500 flex my-5 justify-center items-center text-white rounded-lg"
         >

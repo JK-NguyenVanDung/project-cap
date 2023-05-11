@@ -23,13 +23,13 @@ export default function GiveCoid({ showModal, setShowModal }: any) {
       .validateFields()
       .then(async (values) => {
         const response = await apiService.giveCoin(values);
-        notification.success({ message: 'Tặng Coid Thành Công !' });
+        notification.success({ message: 'Tặng Coin Thành Công !' });
         setShowModal(false);
         form.resetFields();
       })
 
       .catch((info) => {
-        notification.error({ message: 'Tặng Coid Không Thành Công !' });
+        notification.error({ message: 'Tặng Coin Không Thành Công !' });
 
         // dispatch(actions.formActions.showError())
       });

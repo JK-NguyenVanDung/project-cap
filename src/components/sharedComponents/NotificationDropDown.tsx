@@ -42,7 +42,7 @@ export default function PopOverAction({
 
   function updateAmount() {
     setLimit((prev) => prev + 3);
-    setData(totalData.slice(0, limit));
+    setData(totalData.slice(0, limit + 3));
   }
   async function getNotification() {
     let res: any = await apiService.getNotifications();

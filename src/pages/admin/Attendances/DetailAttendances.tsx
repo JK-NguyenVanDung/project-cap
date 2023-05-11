@@ -48,7 +48,7 @@ export default function DetailAttendances({
       );
 
       const res: any = await apiService.getAttendances(item?.attendance?.id);
-      console.log(res);
+      // console.log(res);
       let resArr = res.map((item: any, index: number) => {
         return {
           account: item.account,
