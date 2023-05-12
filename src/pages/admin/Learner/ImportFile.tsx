@@ -12,6 +12,7 @@ import { actions } from '../../../Redux';
 import { AiOutlineUp } from 'react-icons/ai';
 import { SideBarDataCT } from '../SidebarData';
 import Button from '../../../components/sharedComponents/Button';
+import { ExportCSV } from '../../../components/Statistic/ExportButton';
 
 import { CSVLink } from 'react-csv';
 
@@ -236,14 +237,16 @@ export default function ImportFile({
   const FormItem = () => {
     return (
       <>
-        <CSVLink
-          data={data}
-          filename={'mau_file_excel.xls'}
-          headers={['STT', 'Họ & Tên', 'MSNV', 'EMAIL']}
+        <ExportCSV
+          // data={data}
+          // filename={'mau_file_excel.xls'}
+          // headers={['STT', 'Họ & Tên', 'MSNV', 'EMAIL']}
+          csvData={data}
+          fileName={`mau_file_excel`}
           className="w-44 h-10 bg-blue-gray-500 flex my-5 justify-center items-center text-white rounded-lg"
         >
           Tải Xuống File Mẫu
-        </CSVLink>
+        </ExportCSV>
 
         <Input
           accept=".xlsx,.xls"

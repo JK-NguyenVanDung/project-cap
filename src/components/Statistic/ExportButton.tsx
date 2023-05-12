@@ -5,9 +5,13 @@ import CustomButton from '../admin/Button';
 export const ExportCSV = ({
   csvData,
   fileName,
+  children,
+  className,
 }: {
   csvData: any;
   fileName: string;
+  children?: any;
+  className?: string;
 }) => {
   const fileType =
     'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
@@ -45,10 +49,10 @@ export const ExportCSV = ({
   return (
     <CustomButton
       color="green"
-      className="min-w-[6rem] py-3 mt-2"
+      className={'min-w-[6rem] py-3 mt-2 ' + className}
       noIcon
       onClick={(e) => exportToCSV(csvData, fileName)}
-      text="Xuất file "
+      text={children ? children : 'Xuất file '}
     />
   );
 };

@@ -135,7 +135,9 @@ export default function DetailAttendances({
               return {
                 STT: item?.index,
                 Email: item?.account?.email,
-                ThamGia: item?.isAttending ? 'Đã điểm danh' : 'Chưa điểm danh',
+                'Tham Gia': item?.isAttending
+                  ? 'Đã điểm danh'
+                  : 'Chưa điểm danh',
               };
             })}
             fileName={`Kết quả điểm danh ${item?.attendance?.title} từ ${moment(
