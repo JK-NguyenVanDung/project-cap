@@ -37,21 +37,18 @@ export default function LearnerPage() {
             emailAccount: item.accountIdLearnerNavigation?.email,
           };
         });
-        setLoading(true);
-        setConfirmLoading(true);
 
         setData(res);
         setFilterData(res);
       } catch (error) {
         console.log(error);
-        setLoading(false);
       }
     }
     getLearner();
     setTimeout(() => {
       setLoading(false);
       setConfirmLoading(false);
-    }, 1000);
+    }, 500);
   }, [reload]);
   const handelEdit = (item: any) => {
     setDetail(item);
@@ -192,21 +189,25 @@ export default function LearnerPage() {
           </div>,
         ]}
       />
-      <AddLearner
-        detail={detail}
-        setShowModal={setAddLearner}
-        showModal={addLearner}
-        program={program}
-        loading={confirmLoading}
-        setLoading={setConfirmLoading}
-      />
-      <ImportFile
-        program={program}
-        loading={confirmLoading}
-        setLoading={setConfirmLoading}
-        showModal={importFile}
-        setShowModal={setImportFile}
-      />
+      {addLearner && (
+        <AddLearner
+          detail={detail}
+          setShowModal={setAddLearner}
+          showModal={addLearner}
+          program={program}
+          loading={confirmLoading}
+          setLoading={setConfirmLoading}
+        />
+      )}
+      {importFile && (
+        <ImportFile
+          program={program}
+          loading={confirmLoading}
+          setLoading={setConfirmLoading}
+          showModal={importFile}
+          setShowModal={setImportFile}
+        />
+      )}
     </>
   );
 }

@@ -65,19 +65,19 @@ export default function ImportFile({
     {
       STT: 1,
       'Họ & Tên': 'Nguyễn Hoàng Vũ',
-      MSNV: 9999999,
+      MSNV: '9999999',
       EMAIL: 'vu.999999@vanlanguni.vn',
     },
     {
       STT: 2,
       'Họ & Tên': 'Nguyễn Văn Dũng',
-      MSNV: 9999999,
+      MSNV: '9999999',
       EMAIL: 'dung.999999@vanlanguni.vn',
     },
     {
       STT: 3,
       'Họ & Tên': 'Trần Thành Đạt',
-      MSNV: 9999999,
+      MSNV: '9999999',
       EMAIL: 'dat.999999@vanlanguni.vn',
     },
   ];
@@ -88,7 +88,6 @@ export default function ImportFile({
       dispatch(actions.reloadActions.setReload());
 
       let outPut = listData.map((item: any) => {
-        console.log(item.MSNV)
         return {
           email: item.Email || item.email || item.EMAIL,
           fullName:
@@ -97,7 +96,7 @@ export default function ImportFile({
             item.fullName ||
             item['Full Name'] ||
             item.FullName,
-          code: item?.MSNV.toString(),
+          code: item?.MSNV?.toString(),
         };
       });
       console.log(outPut);

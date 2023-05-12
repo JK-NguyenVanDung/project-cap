@@ -23,7 +23,7 @@ function GiftScreen() {
     setItemExchange({ ...item, coinSelf });
   };
   const onChangeSearch = async (value: string) => {
-    setLoading(true);
+    // setLoading(true);
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
     let temp = filterData.slice();
 
@@ -37,12 +37,12 @@ function GiftScreen() {
       })
       .filter((record: any) => !!record);
     setListGiftExchange(filteredData ? filteredData : filterData);
-    let timer = setTimeout(() => {
-      setLoading(false);
-    }, 300);
-    return () => {
-      clearTimeout(timer);
-    };
+    // let timer = setTimeout(() => {
+    //   setLoading(false);
+    // }, 300);
+    // return () => {
+    //   clearTimeout(timer);
+    // };
   };
   useEffect(() => {
     const fetchListGift = async () => {

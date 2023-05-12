@@ -47,6 +47,7 @@ export default function PopOverAction({
   async function getNotification() {
     let res: any = await apiService.getNotifications();
     let seen = res.filter((e: INotification) => e.isSeen === false);
+
     setData(res.slice(0, limit));
     setTotalData(res);
     setAmount(seen.length);
@@ -146,6 +147,9 @@ const Types: any = {
   2: 'Có khóa học mới vừa tạo',
   3: 'Khóa học đã được duyệt',
   4: 'Khóa học mới được công khai',
+  5: 'Có chứng chỉ mới được gửi',
+  6: 'Chứng chỉ của bạn đã được duyệt',
+  7: 'Có người học đổi quà',
 };
 
 export const NotificationCard = ({

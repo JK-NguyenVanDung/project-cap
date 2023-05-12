@@ -289,7 +289,7 @@ export default function FormProgram() {
       <Form
         form={form}
         initialValues={{
-          midifier: 'public',
+          modifier: 'public',
           IsPublish: true,
         }}
       >
@@ -544,7 +544,7 @@ export default function FormProgram() {
                 beforeUpload={() => false}
                 maxCount={1}
                 iconRender={GrAdd}
-                className="h-[30vh]"
+                className="h-[5h0vh]"
               >
                 <GrAdd />
                 <p>banner</p>
