@@ -89,6 +89,7 @@ export default function ImportFile({
 
       let outPut = listData.map((item: any) => {
         console.log(item.MSNV)
+        
         return {
           email: item.Email,
           fullName: item['Họ & Tên'],
