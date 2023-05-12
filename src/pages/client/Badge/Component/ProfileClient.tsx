@@ -47,7 +47,7 @@ export default function ProfileClient() {
   return (
     <>
       <Loading loading={loading} />
-      <div className="flex items-center">
+      <div className="flex items-center max-sm:max-md:flex-wrap">
         <div className="w-[300px] ">
           <img
             className=" object-cover rounded-lg w-[300px] h-[300px]"
@@ -108,14 +108,16 @@ export default function ProfileClient() {
               {info?.faculty?.facultyName ?? ''}
             </p>
           </div>
-          <ModalProfile
-            loadingConfirm={loading}
-            setLoadingConfirm={setLoading}
-            open={openEdit}
-            setOpen={setOpenEdit}
-            item={editInfo}
-            setItem={setEditInfo}
-          />
+          {openEdit && (
+            <ModalProfile
+              loadingConfirm={loading}
+              setLoadingConfirm={setLoading}
+              open={openEdit}
+              setOpen={setOpenEdit}
+              item={editInfo}
+              setItem={setEditInfo}
+            />
+          )}
         </div>
       </div>
     </>

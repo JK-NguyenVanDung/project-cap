@@ -20,8 +20,8 @@ export default function BadgeItem({ params }: { params: any }) {
   };
   return (
     <>
-      <div className="flex">
-        <div className="flex  self-center items-center ">
+      <div className="flex w-full ">
+        <div className="flex  self-center items-center justify-center  max-sm:max-md:flex-col w-full h-fit  ">
           {params?.map((item: any, index: number) => {
             return (
               <>
