@@ -75,7 +75,7 @@ export default function Logined() {
 
             dispatch(actions.authActions.Login(reponseToken.token));
             localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
-            await fetchInfo();
+            // await fetchInfo();
             if (navLink && LoginParmas.id == 1) {
               navigate(navLink);
             } else if (LoginParmas.id == 1) {
