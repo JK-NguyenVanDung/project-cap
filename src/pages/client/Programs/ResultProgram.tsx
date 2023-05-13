@@ -61,8 +61,8 @@ export default function ResultProgram() {
             }),
           );
         }
-      } catch (error) {
-        console.log(error);
+      } catch (error: any) {
+        throw error.message;
       }
     };
     fetchResultProgram();

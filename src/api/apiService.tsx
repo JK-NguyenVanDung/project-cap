@@ -372,6 +372,12 @@ export default {
   getNotAttendance: (id: number) => {
     return axiosConfig.get(API_CONFIG.ATTENDANCES.NOT_ATTENDANCE(id));
   },
+  getAttendances: (idAttendance: number) => {
+    return axiosConfig.get(
+      API_CONFIG.ATTENDANCES.GET_ACCOUNT_ATTENDANCES(idAttendance),
+    );
+  },
+
   // SURVEY
 
   getSurveys: () => {

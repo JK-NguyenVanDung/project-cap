@@ -161,12 +161,11 @@ export default function TickAttendance({
         <QrReader
           scanDelay={500}
           onResult={(result: any, error: any) => {
+            console.log(result);
             if (!!result) {
               // notification.success({ message: result?.text });
-              if (result && dataQrCode == '') {
-                setTimeout(async () => {
-                  handleQr(result);
-                }, 1000);
+              if (result && dataQrCode !== result.text) {
+                handleQr(result.text);
               }
               //   setInterval(async () => {
 
@@ -213,26 +212,24 @@ export default function TickAttendance({
     try {
       if (code) {
         const params = {
-          code: dataQrCode,
+          code: code,
           // attendanceId: item.attendance.id,
         };
 
-        let res = await apiService.AttdendanceCode(params);
-        res &&
-          notification.success({
-            message: `Điểm danh thành công: ${dataQrCode.toString()} `,
-          });
+        await apiService.AttdendanceCode(params);
+
+        alert(`Điểm danh Thành Công: ${code.toString()} `);
       }
-      // setVisible(false);
       // console.count('1');
     } catch (error) {
       // setVisible(false);
       if (error === 'Request failed with status code 400') {
-        notification.error({ message: 'Người Này Đã Điểm Danh Rồi' });
+        alert(`Người Này Đã Điểm Danh Rồi`);
       } else {
-        notification.error({ message: 'Điểm Danh Không Thành Công' });
+        alert(`Điểm Danh Không Thành Công`);
       }
     }
+    setDataQrCode(code);
   };
   const handleOk = () => {
     form.validateFields().then(async (values) => {
@@ -244,8 +241,7 @@ export default function TickAttendance({
             attendanceId: item.attendance.id,
           };
           let res = await apiService.AttdendanceEmail(params);
-          console.log(res);
-          notification.success({ message: 'Điểm Danh thành công' });
+          res && notification.success({ message: 'Điểm Danh Thành Công' });
         }
 
         // setVisible(false);

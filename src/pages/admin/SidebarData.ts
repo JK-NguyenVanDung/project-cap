@@ -375,34 +375,7 @@ export const SideBarDataFacul = [
       },
     ],
   },
-  {
-    title: 'Chương Trình',
-    icon: IoBook,
-    path: '/admin/Program',
-    children: [
-      {
-        title: 'Tất Cả',
-        icon: ImBooks,
-        path: '/admin/Program',
-      },
-      {
-        title: 'Của Tôi',
-        icon: ImAddressBook,
-        path: '/admin/MyProgram',
-      },
-      {
-        title: 'Chờ Duyệt',
-        icon: GoVerified,
-        path: '/admin/reviewProgram',
-      },
-    ],
-  },
 
-  {
-    title: 'Học Viên',
-    icon: BsFillPersonBadgeFill,
-    path: '/admin/Published',
-  },
   {
     title: 'Khảo sát',
     icon: FaClipboard,

@@ -103,3 +103,9 @@ export function useWindowSize() {
   }, []); // Empty array ensures that effect is only run on mount
   return windowSize;
 }
+
+export function getCurrentSemester() {
+  let curYear = new Date();
+  let lastYear = curYear.getFullYear() - 1;
+  return lastYear + '-' + curYear.getFullYear();
+}

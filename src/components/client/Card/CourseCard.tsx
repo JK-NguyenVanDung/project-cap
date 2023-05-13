@@ -130,10 +130,7 @@ function Status({ isRegistered, memoItem, item }: any) {
         return 'Đã kết thúc';
       }
       if (!canRegister) {
-        if (new Date(registrationStartDate).getTime() >= new Date().getTime()) {
-          return 'Chưa Tới Thời Hạn Đăng Ký';
-        }
-        return 'Đã Hết Hạn Đăng Ký';
+        return 'Không Trong Thời Gian Đăng Ký';
       }
       return 'Có thể đăng ký ';
     } else {

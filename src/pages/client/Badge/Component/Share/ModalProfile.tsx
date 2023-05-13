@@ -113,10 +113,10 @@ export default function ModalProfile({
   };
   const FormItem = () => {
     return (
-      <div className="flex justify-between content-center">
+      <div className="flex justify-between content-center items-center max-sm:max-md:flex-wrap">
         <div
           onClick={() => inputRef.current.click()}
-          className=" cursor-pointer "
+          className=" cursor-pointer max-sm:max-md:ml-14 max-sm:max-md:mb-4 "
         >
           {URLImage ? (
             <>

@@ -144,8 +144,8 @@ export default function () {
                     csvData={data.map((item) => {
                       return {
                         STT: item.index,
-                        TenKhoaBan: item.name,
-                        SoChuongTrinh: item.countProgram,
+                        'Tên Khoa Ban': item.name,
+                        'Số Chương Trình': item.countProgram,
                       };
                     })}
                     fileName={`Thống kê theo khoa - ${selectedYear}`}

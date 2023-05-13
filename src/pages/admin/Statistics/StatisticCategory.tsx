@@ -145,8 +145,8 @@ export default function () {
                     csvData={data.map((item) => {
                       return {
                         STT: item.index,
-                        TenNhomChuongTrinh: item.name,
-                        SoChuongTrinh: item.countProgram,
+                        'Tên Nhóm Chương Trình': item.name,
+                        'Số Chương Trình': item.countProgram,
                       };
                     })}
                     fileName={`Thống kê theo nhóm chương trình - ${selectedYear}`}

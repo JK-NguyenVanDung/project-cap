@@ -10,6 +10,8 @@ import {
 
 import Login from './pages/authentication/Login';
 import MakePagesRouter from './router/AdminRouter';
+import NotFoundPage from './NotFoundPage';
+import { reRoute } from '../onBuild';
 
 function App() {
   return (
@@ -21,6 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
+          <Route path="*" element={<NotFoundPage reRoute={reRoute} />} />
         </Routes>
       </UnauthenticatedTemplate>
     </>

@@ -37,20 +37,18 @@ export default function LearnerPage() {
             emailAccount: item.accountIdLearnerNavigation?.email,
           };
         });
-        setLoading(true);
-        setConfirmLoading(true);
-        setTimeout(() => {
-          setLoading(false);
-          setConfirmLoading(false);
-        }, 3000);
+
         setData(res);
         setFilterData(res);
       } catch (error) {
         console.log(error);
-        setLoading(false);
       }
     }
     getLearner();
+    setTimeout(() => {
+      setLoading(false);
+      setConfirmLoading(false);
+    }, 500);
   }, [reload]);
   const handelEdit = (item: any) => {
     setDetail(item);
@@ -59,13 +57,15 @@ export default function LearnerPage() {
   async function handleDelete(item: any) {
     try {
       await apiService.delLearner(item.learnerId);
-      setLoading(!loading);
       notification.success({
         message: MESSAGE.SUCCESS.DELETE,
       });
     } catch (err: any) {
       console.log(err);
     }
+    setLoading(false);
+    setConfirmLoading(false);
+    dispatch(actions.reloadActions.setReload());
   }
   const Columns = [
     {
@@ -189,21 +189,25 @@ export default function LearnerPage() {
           </div>,
         ]}
       />
-      <AddLearner
-        detail={detail}
-        setShowModal={setAddLearner}
-        showModal={addLearner}
-        program={program}
-        loading={confirmLoading}
-        setLoading={setConfirmLoading}
-      />
-      <ImportFile
-        program={program}
-        loading={confirmLoading}
-        setLoading={setConfirmLoading}
-        showModal={importFile}
-        setShowModal={setImportFile}
-      />
+      {addLearner && (
+        <AddLearner
+          detail={detail}
+          setShowModal={setAddLearner}
+          showModal={addLearner}
+          program={program}
+          loading={confirmLoading}
+          setLoading={setConfirmLoading}
+        />
+      )}
+      {importFile && (
+        <ImportFile
+          program={program}
+          loading={confirmLoading}
+          setLoading={setConfirmLoading}
+          showModal={importFile}
+          setShowModal={setImportFile}
+        />
+      )}
     </>
   );
 }

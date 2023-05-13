@@ -21,9 +21,9 @@ export default function () {
     (state: any) => state.form.programId,
   );
   const info = useAppSelector((state) => state.auth.info);
-  const [fullName, setFullName] = useState( info.fullName);
+  const [fullName, setFullName] = useState(info.fullName);
   const [detailBadge, setDetailBadge]: any = useState({});
- 
+
   useEffect(() => {
     const fetchDetailBadge = async () => {
       const response: any = await apiService.getCertificate(
@@ -35,7 +35,7 @@ export default function () {
     fetchDetailBadge();
   }, []);
   const handelChangeText = (event: any) => {
-    setFullName(event.target.value)
+    setFullName(event.target.value);
   };
   return (
     <div className="m-5">

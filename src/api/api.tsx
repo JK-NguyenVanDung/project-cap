@@ -160,6 +160,8 @@ export const API_CONFIG = {
   ATTENDANCES: {
     GET_ATTENDANCES: (idProgram: number) =>
       `/api/Attendances/Programs/${idProgram}`,
+    GET_ACCOUNT_ATTENDANCES: (idAttendance: number) =>
+      `/api/Attendances/${idAttendance}/AccountAttendances`,
     GET_ID_ATTENDANCES: (id: number) => `/api/Attendances/${id}`,
     POST_ATTENDANCES: `/api/Attendances`,
     PUT_ATTENDANCES: (id: number) => `/api/Attendances/${id}`,

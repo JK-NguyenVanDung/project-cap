@@ -23,7 +23,7 @@ export default function ProgramPublish() {
   const [addLearner, setAddLearner] = useState(false);
 
   const [filterData, setFilterData]: any = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ export default function ProgramPublish() {
     }
     dispatch(actions.formActions.setNameMenu(`Quản Lý Học Viên`));
     getProgramPublish().finally(() => setLoading(false));
-  }, [loading]);
+  }, []);
   const columns = [
     {
       title: 'STT',

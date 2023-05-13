@@ -16,6 +16,7 @@ import { useAppDispatch } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
 import { Form, message } from 'antd';
 import FormInput from '../../../components/admin/Modal/FormInput';
+import { getCurrentSemester } from '../../../utils/uinqueId';
 
 export default function () {
   const [data, setData] = useState<any>({});
@@ -28,11 +29,11 @@ export default function () {
   async function getData() {
     try {
       let years: any = await apiService.getAcademicYear();
-      setSelectedYears(years[years?.length - 1]);
+      let cur = getCurrentSemester();
+      let curSemester = years.find((year: any) => year.year === cur);
+      setSelectedYears(curSemester);
       setYears(years);
-      let res: any = await apiService.getDashboardByYear(
-        years[years?.length - 1].id,
-      );
+      let res: any = await apiService.getDashboardByYear(curSemester.id);
       setData(res);
       let learners: any = await apiService.getRanking();
       setRanking(learners);
@@ -83,7 +84,7 @@ export default function () {
               value: item.id,
               label: item.year,
             }))}
-            defaultValue={years[years.length - 1]?.id}
+            defaultValue={getCurrentSemester()}
             getSelectedValue={selectRegistered}
           />
         </div>

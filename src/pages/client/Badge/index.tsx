@@ -111,55 +111,58 @@ export default function () {
     <>
       <Loading loading={loading} />
       <Space size={5} />
-      <div className="w-[78vw] mx-4">
-        <div className="bg-white rounded-lg shadow-lg p-5">
-          <ProfileClient />
-        </div>
-        <Space size={30} />
-        <div className="bg-white rounded-lg shadow-lg p-5">
-          <div className="flex  justify-between items-center ">
-            <div className="flex items-center">
-              <AiOutlineLineChart size={24} fontWeight={700} />
-              <Space sizeWidth={10} />
-              <h1 className="font-bold text-lg text-gray-600">Thống Kê</h1>
-            </div>
-          </div>
-          <Space size={30} />
-          <div className="flex justify-around">
-            <ItemChart
-              params={listStatics?.programComplete}
-              type={typeStatic.programComplete}
-            />
-            <ItemChart
-              params={listStatics?.trainingHours}
-              type={typeStatic.trainingHours}
-            />
-            <ItemChart params={listStatics?.coin} type={typeStatic.coid} />
-          </div>
-          <Space size={30} />
-        </div>
-        <Space size={30} />
-        <div className="bg-white rounded-lg shadow-lg p-5">
-          <div className="flex  justify-between items-center ">
-            <div className="flex items-center">
-              <SlBadge size={24} />
-              <Space sizeWidth={10} />
-              <h1 className="font-bold text-lg text-gray-600">CHỨNG CHỈ</h1>
-            </div>
-            <SearchBar
-              onSearch={onChangeSearch}
-              className="
-            max-sm:min-w-[21rem]
-            box-border	shadow-none min-w-[22rem] h-[2.8rem] border-2 rounded-[14px] border-[#F5F5F7]"
-              prefix
-            />
-          </div>
-          <Space size={50} />
-          <BadgeItem params={todoList ?? []} />
-          <Space size={30} />
-        </div>
 
-        <Space size={30} />
+      <div className="flex justify-center w-full ">
+        <div className="w-[78vw] mx-4">
+          <div className="bg-white rounded-lg shadow-lg p-5">
+            <ProfileClient />
+          </div>
+          <Space size={30} />
+          <div className="bg-white rounded-lg shadow-lg p-5">
+            <div className="flex  justify-between items-center ">
+              <div className="flex items-center">
+                <AiOutlineLineChart size={24} fontWeight={700} />
+                <Space sizeWidth={10} />
+                <h1 className="font-bold text-lg text-gray-600">Thống Kê</h1>
+              </div>
+            </div>
+            <Space size={30} />
+            <div className="flex justify-around max-sm:max-md:flex-wrap">
+              <ItemChart
+                params={listStatics?.programComplete}
+                type={typeStatic.programComplete}
+              />
+              <ItemChart
+                params={listStatics?.trainingHours}
+                type={typeStatic.trainingHours}
+              />
+              <ItemChart params={listStatics?.coin} type={typeStatic.coid} />
+            </div>
+            <Space size={30} />
+          </div>
+          <Space size={30} />
+          <div className="bg-white rounded-lg shadow-lg p-5 h-full">
+            <div className="flex  justify-between items-center max-md:flex-col max-sm:max-md:w-full ">
+              <div className="flex items-center max-md:mb-12">
+                <SlBadge size={24} />
+                <Space sizeWidth={10} />
+                <h1 className="font-bold text-lg text-gray-600">CHỨNG CHỈ</h1>
+              </div>
+              <SearchBar
+                onSearch={onChangeSearch}
+                className="
+            max-sm:min-w-[14rem]
+            box-border	shadow-none min-w-[22rem] h-[2.8rem] border-2 rounded-[14px] border-[#F5F5F7]"
+                prefix
+              />
+            </div>
+            <Space size={50} />
+            <BadgeItem params={todoList ?? []} />
+            <Space size={30} />
+          </div>
+
+          <Space size={30} />
+        </div>
       </div>
     </>
   );

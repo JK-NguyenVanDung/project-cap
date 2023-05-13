@@ -12,6 +12,7 @@ import { actions } from '../../../Redux';
 import { AiOutlineUp } from 'react-icons/ai';
 import { SideBarDataCT } from '../SidebarData';
 import Button from '../../../components/sharedComponents/Button';
+import { ExportCSV } from '../../../components/Statistic/ExportButton';
 
 import { CSVLink } from 'react-csv';
 
@@ -65,19 +66,19 @@ export default function ImportFile({
     {
       STT: 1,
       'Họ & Tên': 'Nguyễn Hoàng Vũ',
-      MSNV: 9999999,
+      MSNV: '9999999',
       EMAIL: 'vu.999999@vanlanguni.vn',
     },
     {
       STT: 2,
       'Họ & Tên': 'Nguyễn Văn Dũng',
-      MSNV: 9999999,
+      MSNV: '9999999',
       EMAIL: 'dung.999999@vanlanguni.vn',
     },
     {
       STT: 3,
       'Họ & Tên': 'Trần Thành Đạt',
-      MSNV: 9999999,
+      MSNV: '9999999',
       EMAIL: 'dat.999999@vanlanguni.vn',
     },
   ];
@@ -88,12 +89,15 @@ export default function ImportFile({
       dispatch(actions.reloadActions.setReload());
 
       let outPut = listData.map((item: any) => {
-        console.log(item.MSNV)
-        
         return {
-          email: item.Email,
-          fullName: item['Họ & Tên'],
-          code: item?.MSNV.toString(),
+          email: item.Email || item.email || item.EMAIL,
+          fullName:
+            item['Họ & Tên'] ||
+            item['Họ Và Tên'] ||
+            item.fullName ||
+            item['Full Name'] ||
+            item.FullName,
+          code: item?.MSNV?.toString(),
         };
       });
       console.log(outPut);
@@ -116,7 +120,6 @@ export default function ImportFile({
         // fullName: listName.map((item: any) => item),
       };
 
-      console.log(values);
       const data = apiService.importFileLearner({
         body: values,
         accountId: info.accountId,
@@ -187,7 +190,6 @@ export default function ImportFile({
               item.fullName ||
               item['Full Name'] ||
               item.FullName;
-            console.log(fullName);
             return fullName;
           }),
         );
@@ -235,14 +237,16 @@ export default function ImportFile({
   const FormItem = () => {
     return (
       <>
-        <CSVLink
-          data={data}
-          filename={'mau_file_excel.csv'}
-          headers={['STT', 'Họ & Tên', 'MSNV', 'EMAIL']}
+        <ExportCSV
+          // data={data}
+          // filename={'mau_file_excel.xls'}
+          // headers={['STT', 'Họ & Tên', 'MSNV', 'EMAIL']}
+          csvData={data}
+          fileName={`mau_file_excel`}
           className="w-44 h-10 bg-blue-gray-500 flex my-5 justify-center items-center text-white rounded-lg"
         >
           Tải Xuống File Mẫu
-        </CSVLink>
+        </ExportCSV>
 
         <Input
           accept=".xlsx,.xls"
