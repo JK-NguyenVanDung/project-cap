@@ -91,6 +91,17 @@ export default function () {
             </h1>
             <FormInput
               className="w-full"
+              name="fullName"
+              label="Họ Và Tên"
+              rules={[
+                {
+                  required: true,
+                  message: 'Vui Lòng Nhập Vào Họ Và Tên',
+                },
+              ]}
+            />
+            <FormInput
+              className="w-full"
               name="address"
               label="Địa Chỉ"
               rules={[
