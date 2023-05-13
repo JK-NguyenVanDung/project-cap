@@ -16,6 +16,7 @@ import { useAppDispatch } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
 import { Form, message } from 'antd';
 import FormInput from '../../../components/admin/Modal/FormInput';
+import { getCurrentSemester } from '../../../utils/uinqueId';
 
 export default function () {
   const [data, setData] = useState<any>({});
@@ -83,7 +84,9 @@ export default function () {
               value: item.id,
               label: item.year,
             }))}
-            defaultValue={years[years.length - 1]?.id}
+            defaultValue={years.find(
+              (year: { year: string }) => year.year === getCurrentSemester(),
+            )}
             getSelectedValue={selectRegistered}
           />
         </div>
