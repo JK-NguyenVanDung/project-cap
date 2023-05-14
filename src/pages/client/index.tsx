@@ -133,7 +133,7 @@ export default function ClientSideBar({ content }: { content: any }) {
         </div>
         <div className="z-[2]  ml-[16%] max-sm:ml-0 max-md:ml-0 w-full  ">
           <header className="header bg-white px-4 ">
-            <div className="w-full flex items-center justify-between  max-w-[80vw] max-sm:max-w-[100vw] max-md:max-w-[100vw]">
+            <div className="w-full  flex items-center justify-between  max-w-[80vw] max-sm:max-w-[100vw] max-md:max-w-[100vw]">
               <button
                 data-collapse-toggle="navbar-cta"
                 type="button"
@@ -157,7 +157,7 @@ export default function ClientSideBar({ content }: { content: any }) {
                   ></path>
                 </svg>
               </button>
-              <h1 className="sm:max-w-[40%] font-semibold text-xl max-sm:text-sm max-sm:pl-4 max-sm:max-w-[30%] eclipse-text">
+              <h1 className="w-fit mr-4 font-semibold text-xl max-sm:text-sm max-sm:pl-4 max-sm:max-w-[30%] eclipse-text">
                 {nameMenu}
               </h1>
               <HeaderClient />
