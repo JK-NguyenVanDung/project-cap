@@ -44,7 +44,7 @@ export default function Homepage() {
       }
     };
     fetchData().finally(() => setLoading(false));
-  }, []);
+  }, [info]);
 
   return (
     <>

@@ -28,7 +28,7 @@ export default function () {
   return (
     <>
       <div className="w-full h-full relative">
-        <div className="ml-[-10px]">
+        <div className="ml-[10px] mt-4">
           <Breadcrumb
             router1={'/admin/Program'}
             name={'Chương Trình'}

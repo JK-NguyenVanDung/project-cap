@@ -240,8 +240,8 @@ export default function TickAttendance({
             email: values.email,
             attendanceId: item.attendance.id,
           };
-          let res = await apiService.AttdendanceEmail(params);
-          res && notification.success({ message: 'Điểm Danh Thành Công' });
+          await apiService.AttdendanceEmail(params);
+          notification.success({ message: 'Điểm Danh Thành Công' });
         }
 
         // setVisible(false);
