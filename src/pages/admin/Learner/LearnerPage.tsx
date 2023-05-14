@@ -15,7 +15,7 @@ import { actions } from '../../../Redux';
 export default function LearnerPage() {
   const [data, setData] = useState([]);
   const [filterData, setFilterData]: any = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [addLearner, setAddLearner] = useState(false);
   const [detail, setDetail] = useState();
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -44,28 +44,31 @@ export default function LearnerPage() {
         console.log(error);
       }
     }
-    getLearner();
-    setTimeout(() => {
+    getLearner().finally(() => {
       setLoading(false);
       setConfirmLoading(false);
-    }, 500);
+    });
   }, [reload]);
   const handelEdit = (item: any) => {
     setDetail(item);
     setAddLearner(true);
   };
   async function handleDelete(item: any) {
-    try {
-      await apiService.delLearner(item.learnerId);
-      notification.success({
-        message: MESSAGE.SUCCESS.DELETE,
-      });
-    } catch (err: any) {
-      console.log(err);
+    async function deleting() {
+      try {
+        await apiService.delLearner(item.learnerId);
+        notification.success({
+          message: MESSAGE.SUCCESS.DELETE,
+        });
+      } catch (err: any) {
+        console.log(err);
+      }
     }
-    setLoading(false);
-    setConfirmLoading(false);
-    dispatch(actions.reloadActions.setReload());
+    deleting().finally(() => {
+      setLoading(false);
+      setConfirmLoading(false);
+      dispatch(actions.reloadActions.setReload());
+    });
   }
   const Columns = [
     {
