@@ -159,7 +159,7 @@ const RightSection = (props: any) => {
           contents={[
             {
               title: 'Tên',
-              subject: user?.fullName ? user.fullName?.split('-')[1] : 'N/A',
+              subject: user?.fullName ? user.fullName : 'N/A',
             },
             {
               title: 'Email',
