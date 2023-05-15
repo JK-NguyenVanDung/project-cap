@@ -18,7 +18,6 @@ export default function LearnerPage() {
   const [loading, setLoading] = useState(true);
   const [addLearner, setAddLearner] = useState(false);
   const [detail, setDetail] = useState();
-  const [confirmLoading, setConfirmLoading] = useState(false);
   const item = useAppSelector((state) => state.form.setProgram);
   const [program, setProgram] = useState(item);
   const [importFile, setImportFile] = useState(false);
@@ -46,7 +45,6 @@ export default function LearnerPage() {
     }
     getLearner().finally(() => {
       setLoading(false);
-      setConfirmLoading(false);
     });
   }, [reload]);
   const handelEdit = (item: any) => {
@@ -66,8 +64,8 @@ export default function LearnerPage() {
     }
     deleting().finally(() => {
       setLoading(false);
-      setConfirmLoading(false);
-      dispatch(actions.reloadActions.setReload());
+
+      // dispatch(actions.reloadActions.setReload());
     });
   }
   const Columns = [
@@ -171,7 +169,7 @@ export default function LearnerPage() {
         search={true}
         data={data}
         columns={Columns}
-        loading={loading || confirmLoading}
+        loading={loading || loading}
         extra={[
           <div className="flex">
             <CustomButton
@@ -198,15 +196,15 @@ export default function LearnerPage() {
           setShowModal={setAddLearner}
           showModal={addLearner}
           program={program}
-          loading={confirmLoading}
-          setLoading={setConfirmLoading}
+          loading={loading}
+          setLoading={setLoading}
         />
       )}
       {importFile && (
         <ImportFile
           program={program}
-          loading={confirmLoading}
-          setLoading={setConfirmLoading}
+          loading={loading}
+          setLoading={setLoading}
           showModal={importFile}
           setShowModal={setImportFile}
         />

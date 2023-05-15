@@ -610,12 +610,15 @@ export default function MakePagesRouter() {
   const [info, setInfo] = useState(null);
   // const dispatch = useAppDispatch();
   // const token = localStorage.getItem('Bearer');
-  console.count();
+  // console.count();
+
   useEffect(() => {
     const fetchInfo = async () => {
       try {
         const response: any = await apiService.getProfile();
+        // if (info && info?.roleId && info?.roleId !== response?.roleId) {
         setInfo(response);
+        // }
       } catch (err: any) {
         throw err.message;
       }
