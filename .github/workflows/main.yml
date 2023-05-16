@@ -46,3 +46,4 @@ jobs:
           username: CP25Team02
           password: ${{ secrets.FTP_PASSWORD }}
           local-dir: dist/
+          # dangerous-clean-slate: true
