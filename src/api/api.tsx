@@ -49,6 +49,9 @@ export const API_CONFIG = {
 
     MY_APPLICATIONS: '/api/Learners/MyApplications',
     GETPROGRAMPUBLISH: '/api/Learners/GetListProgram',
+    GETMYPROGRAMPUBLISH: (accountId: number) =>
+      `/api/Learners/GetListProgram/${accountId}`,
+
     LIST_MY_FINISH_PROGRAM: (idAccount: number) =>
       `/api/MyPrograms/GetListMyFinishProgram?idAccount=${idAccount}`,
     PROGRAM_RESULT: (idAccount: number, idProgram: number) =>

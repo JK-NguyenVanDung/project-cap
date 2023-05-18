@@ -4,7 +4,7 @@ const slice = createSlice({
   initialState: {
     tokenMicrosoft: null,
     token: null,
-    info: null, //roleID: 2 admin
+    info: null, //roleID: 2 admin | 3:center | 4:faculty
     LoginId: null,
     notification: false,
   },

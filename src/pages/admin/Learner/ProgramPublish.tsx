@@ -30,10 +30,14 @@ export default function ProgramPublish() {
   useEffect(() => {
     async function getProgramPublish() {
       try {
-        let response: any = await apiService.getProgramPublish();
+        const info = useAppSelector((state) => state.auth.info);
 
-        response = response.reverse();
-        let res = response.map((item: any, index: number) => {
+        let response: any =
+          info.roleId === 2
+            ? await apiService.getProgramPublish()
+            : await apiService.getMyPublishProgram(info.accountId);
+
+        let res = response.reverse().map((item: any, index: number) => {
           return {
             ...item,
             index: index + 1,

@@ -319,6 +319,10 @@ export default {
   getProgramPublish: () => {
     return axiosConfig.get(API_CONFIG.PROGRAM.GETPROGRAMPUBLISH);
   },
+
+  getMyPublishProgram: (id: number) => {
+    return axiosConfig.get(API_CONFIG.PROGRAM.GETMYPROGRAMPUBLISH(id));
+  },
   getApplication_program: (id: number) => {
     return axiosConfig.get(API_CONFIG.LEARNER.APPLICATION_PROGRAM(id));
   },

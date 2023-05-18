@@ -696,10 +696,47 @@ export default function MakePagesRouter() {
             <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
           </Routes>
         );
-      } else {
+      } else if (info?.roleId === 3) {
         return (
           <Routes>
             {RouterCenter.map((router, index) => {
+              return (
+                <Route
+                  key={index}
+                  path={router.path}
+                  element={
+                    <SideBar
+                      content={router.element}
+                      noHeader={router.noHeader ? router.noHeader : false}
+                    />
+                  }
+                />
+              );
+            })}
+            <Route path="/admin/Survey/Question" element={<SurveyQuestion />} />
+
+            <Route
+              path="/admin/Program/Chapter/:number/Test/Question"
+              element={<Question />}
+            />
+            <Route path="/admin/reviewDetail" element={<ReviewDetail />} />
+            <Route path="/login" element={<Logined />} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
+            <Route
+              path="/ProgramSurvey/:surveyName"
+              element={<ProgramSurvey />}
+            />
+            <Route
+              path="*"
+              element={<NotFoundPage reRoute={reRoute + '/admin'} />}
+            />
+          </Routes>
+        );
+      } else {
+        return (
+          <Routes>
+            {RouterFaculty.map((router, index) => {
               return (
                 <Route
                   key={index}
