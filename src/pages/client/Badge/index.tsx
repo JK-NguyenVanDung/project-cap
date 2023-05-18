@@ -25,7 +25,7 @@ export default function () {
   const navigate = useNavigate();
   const [todoList, setTodoList]: any = useState([]);
   const [listStatics, setListStatics]: any = useState();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [filterData, setFilterData]: any = useState(null);
   const [info, setInfo]: any = useState();
   const onChangeSearch = async (value: string) => {
@@ -72,18 +72,17 @@ export default function () {
   }, []);
   const fetchBadge = async (params: any) => {
     try {
-      setLoading(true);
       const data: any = await apiService.getProgramComplete(params.accountId);
       if (data) {
         setFilterData(data);
         setTodoList(data);
       }
-      setTimeout(() => {
-        setLoading(false);
-      }, 3000);
     } catch (error) {
       console.log(error);
     }
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
   };
   const fetchStatics = async (params: any) => {
     try {
@@ -112,7 +111,11 @@ export default function () {
       <Loading loading={loading} />
       <Space size={5} />
 
-      <div className="flex justify-center w-full ">
+      <div
+        className={`flex justify-center w-full  transition-opacity	 ${
+          !loading ? 'visible' : 'invisible'
+        }`}
+      >
         <div className="w-[78vw] mx-4">
           <div className="bg-white rounded-lg shadow-lg p-5">
             <ProfileClient />
@@ -141,7 +144,7 @@ export default function () {
             <Space size={30} />
           </div>
           <Space size={30} />
-          <div className="bg-white rounded-lg shadow-lg p-5 h-full">
+          <div className="bg-white rounded-lg shadow-lg p-5 ">
             <div className="flex  justify-between items-center max-md:flex-col max-sm:max-md:w-full ">
               <div className="flex items-center max-md:mb-12">
                 <SlBadge size={24} />
