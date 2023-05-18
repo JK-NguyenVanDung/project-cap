@@ -248,11 +248,11 @@ export default function Dashboard() {
             <FormInput
               className="w-full"
               name="code"
-              label="Mã Số Sinh Viên"
+              label="Mã Số Nhân Viên"
               rules={[
                 {
                   required: true,
-                  message: 'Vui Lòng Nhập Vào Mã Số Sinh Viên',
+                  message: 'Vui Lòng Nhập Vào Mã Số Nhân Viên',
                 },
               ]}
             />

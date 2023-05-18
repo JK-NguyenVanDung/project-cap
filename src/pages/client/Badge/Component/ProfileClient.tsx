@@ -87,7 +87,7 @@ export default function ProfileClient() {
             <Space size={15} />
             <p className="font-normar italic">
               <span className="text-gray-700 font-bold text-sm">
-                Mã Số Sinh Viên:
+                Mã Số Nhân Viên:
               </span>{' '}
               {info?.code ?? ''}
             </p>
