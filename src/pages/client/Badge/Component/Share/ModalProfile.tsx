@@ -20,8 +20,8 @@ export default function ModalProfile({
   setLoadingConfirm,
 }: {
   open: boolean;
-  item: any;
-  setItem: any;
+  item?: any;
+  setItem?: any;
 
   setOpen: any;
   loadingConfirm: boolean;
