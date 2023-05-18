@@ -279,9 +279,7 @@ export default function ModalProfile({
       </div>
     );
   };
-  const handelOnChange = () => {
-    console.log('hello');
-  };
+
   return (
     <CustomModal
       show={open}
