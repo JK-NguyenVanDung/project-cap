@@ -133,40 +133,39 @@ export default function ClientSideBar({ content }: { content: any }) {
           </div>
         </div>
 
-        <React.Suspense fallback={<Loading loading={true} />}>
-          <div className="z-[2]  ml-[16%] max-sm:ml-0 max-md:ml-0 w-full  ">
-            <header className="header bg-white px-4 ">
-              <div className="w-full  flex items-center justify-between  max-w-[80vw] max-sm:max-w-[100vw] max-md:max-w-[100vw]">
-                <button
-                  data-collapse-toggle="navbar-cta"
-                  type="button"
-                  className="max-md:inline-flex max-sm:inline-flex z-[120] items-center  text-sm text-gray-500 rounded-lg hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                  aria-controls="navbar-cta"
-                  aria-expanded="false"
-                  onClick={() => setOpen(!open)}
+        <div className="z-[2]  ml-[16%] max-sm:ml-0 max-md:ml-0 w-full  ">
+          <header className="header bg-white px-4 ">
+            <div className="w-full  flex items-center justify-between  max-w-[80vw] max-sm:max-w-[100vw] max-md:max-w-[100vw]">
+              <button
+                data-collapse-toggle="navbar-cta"
+                type="button"
+                className="max-md:inline-flex max-sm:inline-flex z-[120] items-center  text-sm text-gray-500 rounded-lg hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                aria-controls="navbar-cta"
+                aria-expanded="false"
+                onClick={() => setOpen(!open)}
+              >
+                <span className="sr-only">Open main menu</span>
+                <svg
+                  className="w-6 h-6"
+                  aria-hidden="true"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
-                  <span className="sr-only">Open main menu</span>
-                  <svg
-                    className="w-6 h-6"
-                    aria-hidden="true"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </button>
-                <h1 className="w-fit mr-4 font-semibold text-xl max-sm:text-sm max-sm:pl-4 max-sm:max-w-[30%] eclipse-text">
-                  {nameMenu}
-                </h1>
-                <HeaderClient />
-              </div>
-            </header>
-
+                  <path
+                    fill-rule="evenodd"
+                    d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                    clip-rule="evenodd"
+                  ></path>
+                </svg>
+              </button>
+              <h1 className="w-fit mr-4 font-semibold text-xl max-sm:text-sm max-sm:pl-4 max-sm:max-w-[30%] eclipse-text">
+                {nameMenu}
+              </h1>
+              <HeaderClient />
+            </div>
+          </header>
+          <React.Suspense fallback={<Loading loading={true} />}>
             <main
               className="min-h-screen bg-gray-50 "
               onClick={() =>
@@ -175,8 +174,8 @@ export default function ClientSideBar({ content }: { content: any }) {
             >
               {content}
             </main>
-          </div>
-        </React.Suspense>
+          </React.Suspense>
+        </div>
       </div>
     </>
   );
