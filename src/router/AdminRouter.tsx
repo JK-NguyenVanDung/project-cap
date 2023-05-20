@@ -1,9 +1,8 @@
 // eslint-disable-next-line import/newline-after-import
-import React, { useState, useEffect } from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import SideBar from '../pages/admin';
 import HomePage from '../pages/admin/HomePage/HomePage';
-import Login from '../pages/authentication/Login';
 import LandingPage from '../pages/landing page/LandingPage';
 import Category from '../pages/admin/Category/Category';
 import Account from '../pages/admin/account/Account';
@@ -23,8 +22,7 @@ import apiService from '../api/apiService';
 import ClientSideBar from '../pages/client/';
 import Homepage from '../pages/client/Homepage/Homepage';
 
-import { useAppDispatch, useAppSelector } from '../hook/useRedux';
-import { actions } from '../Redux';
+import { useAppSelector } from '../hook/useRedux';
 import AcademicYear from '../pages/admin/AcademicYear/AcademicYear';
 import Position from '../pages/admin/Position/Position';
 import ListReviewPrograms from '../pages/admin/ReviewProgram/ListReviewProgram';
