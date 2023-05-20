@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { actions } from '../../../Redux';
 import AdminGuide from '../../../assets/pdf/AdminGuide.pdf';
-export const Guide = () => {
+const Guide = () => {
   // let file =  File(AdminGuide)
   let dispatch = useDispatch();
   useEffect(() => {
@@ -19,3 +19,4 @@ export const Guide = () => {
     </div>
   );
 };
+export default Guide;

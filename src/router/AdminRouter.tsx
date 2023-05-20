@@ -1,77 +1,163 @@
 // eslint-disable-next-line import/newline-after-import
 import React, { useState, useEffect } from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import SideBar from '../pages/admin';
 import HomePage from '../pages/admin/HomePage/HomePage';
-import Login from '../pages/authentication/Login';
 import LandingPage from '../pages/landing page/LandingPage';
-import Category from '../pages/admin/Category/Category';
-import Account from '../pages/admin/account/Account';
-import Program from '../pages/admin/Program/Program';
-import ProgramDetail from '../pages/admin/Program/ProgramDetail';
-import Faculties from '../pages/admin/Faculties/Faculties';
-import FormProgram from '../pages/admin/Program/FormProgram';
-import Logined from './Logined';
-import ChapterInfo from '../pages/admin/Program/Chapter/ChapterInfo';
-import Question from '../pages/admin/Program/Test/Question';
-import Test from '../pages/admin/Program/Test/Test';
-import ReviewDetail from '../pages/admin/ReviewProgram/ReviewDetail';
-import UserTest from '../pages/client/Programs/Test/Test';
-import UserReviewTest from '../pages/client/Programs/Test/ReviewTest';
+import { useAppSelector } from '../hook/useRedux';
 import apiService from '../api/apiService';
 
-import ClientSideBar from '../pages/client/';
-import Homepage from '../pages/client/Homepage/Homepage';
+//shared
 
-import { useAppDispatch, useAppSelector } from '../hook/useRedux';
-import { actions } from '../Redux';
-import AcademicYear from '../pages/admin/AcademicYear/AcademicYear';
-import Position from '../pages/admin/Position/Position';
-import ListReviewPrograms from '../pages/admin/ReviewProgram/ListReviewProgram';
-import LearnerPage from '../pages/admin/Learner/LearnerPage';
-import Published from '../pages/admin/Learner/ProgramPublish';
-import UserProgram from '../pages/client/Programs/Programs';
-import UserProgramDetail from '../pages/client/Programs/ProgramDetail';
-import UserChapters from '../pages/client/Programs/Chapters/Chapters';
-import RegisteredPrograms from '../pages/client/Programs/RegisteredPrograms';
-import Application from '../pages/admin/Learner/Application/Application';
-import MyCourses from '../pages/client/Programs/MyProgram';
-import Attendance from '../pages/admin/Attendances/Attendance';
-import Survey from '../pages/admin/Survey/General/Survey';
-import SurveyDetail from '../pages/admin/Survey/General/SurveyDetail';
+const Logined = React.lazy(() => import('./Logined'));
 
-import SurveyQuestion from '../pages/admin/Survey/General/SurveyQuestion/Question';
-import CourseSurvey from '../pages/admin/Survey/Program/ProgramSurvey';
-import ProgramSurveyDetail from '../pages/admin/Survey/Program/ProgramSurveyDetail';
+//admin
+const Category = React.lazy(() => import('../pages/admin/Category/Category'));
+const Account = React.lazy(() => import('../pages/admin/account/Account'));
+const Program = React.lazy(() => import('../pages/admin/Program/Program'));
+const ProgramDetail = React.lazy(
+  () => import('../pages/admin/Program/ProgramDetail'),
+);
+const Faculties = React.lazy(
+  () => import('../pages/admin/Faculties/Faculties'),
+);
+const FormProgram = React.lazy(
+  () => import('../pages/admin/Program/FormProgram'),
+);
+const ChapterInfo = React.lazy(
+  () => import('../pages/admin/Program/Chapter/ChapterInfo'),
+);
+const Question = React.lazy(
+  () => import('../pages/admin/Program/Test/Question'),
+);
+const Test = React.lazy(() => import('../pages/admin/Program/Test/Test'));
+const ReviewDetail = React.lazy(
+  () => import('../pages/admin/ReviewProgram/ReviewDetail'),
+);
+const UserTest = React.lazy(() => import('../pages/client/Programs/Test/Test'));
+const UserReviewTest = React.lazy(
+  () => import('../pages/client/Programs/Test/ReviewTest'),
+);
+const ClientSideBar = React.lazy(() => import('../pages/client/'));
 
-import ClientSurvey from '../pages/client/Survey/Survey';
-import ProgramSurvey from '../pages/client/Survey/ProgramSurvey';
+const AcademicYear = React.lazy(
+  () => import('../pages/admin/AcademicYear/AcademicYear'),
+);
+const Position = React.lazy(() => import('../pages/admin/Position/Position'));
+const ListReviewPrograms = React.lazy(
+  () => import('../pages/admin//ReviewProgram/ListReviewProgram'),
+);
+const Attendance = React.lazy(
+  () => import('../pages/admin/Attendances/Attendance'),
+);
+const Survey = React.lazy(() => import('../pages/admin/Survey/General/Survey'));
+const SurveyDetail = React.lazy(
+  () => import('../pages/admin/Survey/General/SurveyDetail'),
+);
+const Application = React.lazy(
+  () => import('../pages/admin/Learner/Application/Application'),
+);
 
-import CommentManagement from '../pages/admin/Comment/Comment';
-import CommentDetailManagement from '../pages/admin/Comment/CommentDetail';
-import ResultProgram from '../pages/client/Programs/ResultProgram';
-import ProgramResult from '../pages/admin/ProgramResult/ProgramResult';
-import StatisticFaculty from '../pages/admin/Statistics/StatisticFaculty';
-import StatisticCategory from '../pages/admin/Statistics/StatisticCategory';
+const SurveyQuestion = React.lazy(
+  () => import('../pages/admin/Survey/General/SurveyQuestion/Question'),
+);
+const CourseSurvey = React.lazy(
+  () => import('../pages/admin/Survey/Program/ProgramSurvey'),
+);
+const ProgramSurveyDetail = React.lazy(
+  () => import('../pages/admin/Survey/Program/ProgramSurveyDetail'),
+);
+const ProgramResult = React.lazy(
+  () => import('../pages/admin/ProgramResult/ProgramResult'),
+);
+const StatisticFaculty = React.lazy(
+  () => import('../pages/admin/Statistics/StatisticFaculty'),
+);
+const StatisticCategory = React.lazy(
+  () => import('../pages/admin/Statistics/StatisticCategory'),
+);
+const ManagerGiftScreen = React.lazy(
+  () => import('../pages/admin/ManagerGift/ManagerGiftScreen'),
+);
+const SupportProgram = React.lazy(
+  () => import('../pages/admin/SupportProgram/SupportProgram'),
+);
+const Supporters = React.lazy(
+  () => import('../pages/admin/SupportProgram/Supporters'),
+);
+const Guide = React.lazy(() => import('../pages/admin/Guide/Guide'));
+const ExchangeGift = React.lazy(
+  () => import('../pages/admin/ExchangeGift/ExchangeGift'),
+);
+const ExchangeCoin = React.lazy(
+  () => import('../pages/admin/ExchangeCoin/ExchangeCoin'),
+);
+const ReviewCertification = React.lazy(
+  () => import('../pages/admin/ExchangeCoin/Detail/ReviewCertification'),
+);
 
-import Dashboard from '../pages/admin/Dashboard/Dashboard';
-import Badge from '../pages/client/Badge';
-import DetailBade from '../pages/client/Badge/DetailBade';
-import ManagerGiftScreen from '../pages/admin/ManagerGift/ManagerGiftScreen';
-import GiftScreen from '../pages/client/Gift';
+const Dashboard = React.lazy(
+  () => import('../pages/admin/Dashboard/Dashboard'),
+);
 
-import ExchangeGift from '../pages/admin/ExchangeGift/ExchangeGift';
-import ExchangeCoin from '../pages/admin/ExchangeCoin/ExchangeCoin';
-import ReviewCertification from '../pages/admin/ExchangeCoin/Detail/ReviewCertification';
+const CommentManagement = React.lazy(
+  () => import('../pages/admin/Comment/Comment'),
+);
+const CommentDetailManagement = React.lazy(
+  () => import('../pages/admin/Comment/CommentDetail'),
+);
 
-import CoinExchanges from '../pages/client/CoinExchanges/CoinExchanges';
-import HistoryRedeem from '../pages/client/Gift/Component/HistoryRedeem';
-import CoinExchangesDetail from '../pages/client/CoinExchanges/CoinExchangesDetail';
-import NotFoundPage from '../NotFoundPage';
-import SupportProgram from '../pages/admin/SupportProgram/SupportProgram';
-import Supporters from '../pages/admin/SupportProgram/Supporters';
-import { Guide } from '../pages/admin/Guide/Guide';
-import UserGuide from '../pages/client/Guide/Guide';
+//client
+
+const LearnerPage = React.lazy(
+  () => import('../pages/admin/Learner/LearnerPage'),
+);
+const Published = React.lazy(
+  () => import('../pages/admin/Learner/ProgramPublish'),
+);
+const UserProgram = React.lazy(
+  () => import('../pages/client/Programs/Programs'),
+);
+const UserProgramDetail = React.lazy(
+  () => import('../pages/client/Programs/ProgramDetail'),
+);
+const UserChapters = React.lazy(
+  () => import('../pages/client/Programs/Chapters/Chapters'),
+);
+const RegisteredPrograms = React.lazy(
+  () => import('../pages/client/Programs/RegisteredPrograms'),
+);
+
+const MyCourses = React.lazy(
+  () => import('../pages/client/Programs/MyProgram'),
+);
+const Homepage = React.lazy(() => import('../pages/client/Homepage/Homepage'));
+
+const ClientSurvey = React.lazy(() => import('../pages/client/Survey/Survey'));
+const ProgramSurvey = React.lazy(
+  () => import('../pages/client/Survey/ProgramSurvey'),
+);
+
+const ResultProgram = React.lazy(
+  () => import('../pages/client/Programs/ResultProgram'),
+);
+
+const Badge = React.lazy(() => import('../pages/client/Badge'));
+const DetailBade = React.lazy(() => import('../pages/client/Badge/DetailBade'));
+const GiftScreen = React.lazy(() => import('../pages/client/Gift'));
+
+const CoinExchanges = React.lazy(
+  () => import('../pages/client/CoinExchanges/CoinExchanges'),
+);
+const HistoryRedeem = React.lazy(
+  () => import('../pages/client/Gift/Component/HistoryRedeem'),
+);
+const CoinExchangesDetail = React.lazy(
+  () => import('../pages/client/CoinExchanges/CoinExchangesDetail'),
+);
+const NotFoundPage = React.lazy(() => import('../NotFoundPage'));
+
+const UserGuide = React.lazy(() => import('../pages/client/Guide/Guide'));
 import { reRoute } from '../../onBuild';
 
 export const RouterPages = [
