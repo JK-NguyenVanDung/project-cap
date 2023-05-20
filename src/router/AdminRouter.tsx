@@ -860,11 +860,5 @@ export default function MakePagesRouter() {
       }
     }
   };
-  return (
-    <>
-      <React.Suspense fallback={<Loading loading={true} />}>
-        <RouterLearner />
-      </React.Suspense>
-    </>
-  );
+  return <RouterLearner />;
 }
