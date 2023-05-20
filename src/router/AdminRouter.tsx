@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/newline-after-import
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import SideBar from '../pages/admin';
 import HomePage from '../pages/admin/HomePage/HomePage';
@@ -9,7 +9,21 @@ import apiService from '../api/apiService';
 
 //shared
 
-const Logined = React.lazy(() => import('./Logined'));
+import { useAppSelector } from '../hook/useRedux';
+import AcademicYear from '../pages/admin/AcademicYear/AcademicYear';
+import Position from '../pages/admin/Position/Position';
+import ListReviewPrograms from '../pages/admin/ReviewProgram/ListReviewProgram';
+import LearnerPage from '../pages/admin/Learner/LearnerPage';
+import Published from '../pages/admin/Learner/ProgramPublish';
+import UserProgram from '../pages/client/Programs/Programs';
+import UserProgramDetail from '../pages/client/Programs/ProgramDetail';
+import UserChapters from '../pages/client/Programs/Chapters/Chapters';
+import RegisteredPrograms from '../pages/client/Programs/RegisteredPrograms';
+import Application from '../pages/admin/Learner/Application/Application';
+import MyCourses from '../pages/client/Programs/MyProgram';
+import Attendance from '../pages/admin/Attendances/Attendance';
+import Survey from '../pages/admin/Survey/General/Survey';
+import SurveyDetail from '../pages/admin/Survey/General/SurveyDetail';
 
 //admin
 const Category = React.lazy(() => import('../pages/admin/Category/Category'));
