@@ -159,6 +159,7 @@ const NotFoundPage = React.lazy(() => import('../NotFoundPage'));
 
 const UserGuide = React.lazy(() => import('../pages/client/Guide/Guide'));
 import { reRoute } from '../../onBuild';
+import Loading from '../components/sharedComponents/Loading';
 
 export const RouterPages = [
   {
@@ -859,5 +860,11 @@ export default function MakePagesRouter() {
       }
     }
   };
-  return <RouterLearner />;
+  return (
+    <>
+      <React.Suspense fallback={<Loading loading={true} />}>
+        <RouterLearner />
+      </React.Suspense>
+    </>
+  );
 }
