@@ -165,16 +165,16 @@ export default function ClientSideBar({ content }: { content: any }) {
               <HeaderClient />
             </div>
           </header>
-          <React.Suspense fallback={<Loading loading={true} />}>
-            <main
-              className="min-h-screen bg-gray-50 "
-              onClick={() =>
-                windowDimensions.width <= 767 ? setOpen(false) : {}
-              }
-            >
-              {content}
-            </main>
-          </React.Suspense>
+          {/* <React.Suspense fallback={<Loading loading={true} />}> */}
+          <main
+            className="min-h-screen bg-gray-50 "
+            onClick={() =>
+              windowDimensions.width <= 767 ? setOpen(false) : {}
+            }
+          >
+            {content}
+          </main>
+          {/* </React.Suspense> */}
         </div>
       </div>
     </>
