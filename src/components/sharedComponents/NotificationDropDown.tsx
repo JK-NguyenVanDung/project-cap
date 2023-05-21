@@ -6,11 +6,7 @@ import {
   PopoverHandler,
 } from '@material-tailwind/react';
 import react, { useEffect, useState } from 'react';
-import {
-  IoNotificationsOutline,
-  IoQrCode,
-  IoTrashOutline,
-} from 'react-icons/io5';
+import { IoNotificationsOutline } from 'react-icons/io5';
 import { size } from '@material-tailwind/react/types/components/button';
 import { AiOutlineFileProtect } from 'react-icons/ai';
 import apiService from '../../api/apiService';
@@ -18,6 +14,7 @@ import { INotification } from '../../Type';
 import moment from 'moment';
 import Loading from './Loading';
 import CustomButton from '../admin/Button';
+import { message } from 'antd';
 export default function PopOverAction({
   size,
   handleDelete,
@@ -25,7 +22,7 @@ export default function PopOverAction({
   size?: size;
   handleDelete?: Function;
 }) {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [openAction, setOpenAction] = useState(false);
   const [totalData, setTotalData] = useState<Array<INotification>>([]);
@@ -34,10 +31,10 @@ export default function PopOverAction({
 
   const [data, setData] = useState<Array<INotification>>([]);
   function handleAction() {
-    setOpenAction(!openAction);
-  }
-  function close() {
-    setOpenAction(false);
+    setOpenAction((prev) => !prev);
+    if (openAction === false) {
+      seenSlice(totalData);
+    }
   }
 
   function updateAmount() {
@@ -47,10 +44,16 @@ export default function PopOverAction({
   async function getNotification() {
     let res: any = await apiService.getNotifications();
     let seen = res.filter((e: INotification) => e.isSeen === false);
-    console.log(res.length !== data.length);
-    if (res.length !== data.length) {
+    // message.success(res.length);
+    // message.success('total' + totalData.length);
+    // message.success(
+    //   res.length > 0 && res.length !== totalData.length ? 'true' : 'false',
+    // );
+    if (res.length > 0 && res.length !== totalData.length) {
       res = res.reverse();
-      setData(res.slice(0, limit));
+      if (data.length < 1) {
+        setData(res.slice(0, limit));
+      }
       setTotalData(res);
       setAmount(seen.length);
     }
@@ -59,26 +62,22 @@ export default function PopOverAction({
     getNotification();
     let interval = setInterval(() => {
       getNotification();
-    }, 10000);
-    let time = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
+    }, 8000);
+
     return () => {
       clearInterval(interval);
-      clearTimeout(time);
     };
   }, []);
   // useEffect(() => {
   //   seenSlice(data);
   // }, [data.length]);
   async function seenSlice(data: INotification[]) {
-    setLoading(true);
-
+    setAmount(0);
     Promise.all([
       ...data.map((item) => {
         return !item.isSeen && apiService.seenNotification(item.id);
       }),
-    ]).finally(() => setLoading(false));
+    ]);
   }
   function onRemove(id: number) {
     async function removeNoti() {
@@ -86,7 +85,10 @@ export default function PopOverAction({
     }
     setLoading(true);
     removeNoti().finally(() => {
-      getNotification(), setLoading(false);
+      setTimeout(() => {
+        setLoading(false);
+      }, 3000),
+        getNotification();
     });
   }
 
@@ -115,9 +117,20 @@ export default function PopOverAction({
               <IoNotificationsOutline className="text-[1.5rem]" />
             </IconButton>
           </PopoverHandler>
-          <PopoverContent className="z-20 flex flex-col items-center justify-center w-fit">
-            <div className=" min-h-[40vh] max-h-[50vh] overflow-scroll no-scroll p-2">
-              <Loading loading={loading} />
+          <PopoverContent className="z-20 flex flex-col items-center justify-center w-fit overflow-hidden">
+            <div
+              className={`min-h-[10vh] max-h-[10vh] w-fit flex flex-col items-end justify-center   ${
+                loading ? '' : 'hidden'
+              }`}
+            >
+              <Loading loading={loading} className="mt-[50vh]" />
+            </div>
+
+            <div
+              className={` min-h-[40vh] max-h-[50vh] overflow-scroll no-scroll p-2 ${
+                loading ? 'invisible' : 'visible'
+              }`}
+            >
               {data.length > 0 ? (
                 <div className="flex min-w-[20rem] w-0 items-center flex-col gap-4">
                   {data.map((item) => {
@@ -156,9 +169,10 @@ export default function PopOverAction({
   );
 }
 const Types: any = {
+  0: 'Có khóa học mới được duyệt',
   1: 'Người học đã được duyệt',
   2: 'Có khóa học mới vừa tạo',
-  3: 'Khóa học đã được duyệt',
+  3: 'Có khóa học đã được duyệt và công khai',
   4: 'Khóa học mới được công khai',
   5: 'Có chứng chỉ mới được gửi',
   6: 'Chứng chỉ của bạn đã được duyệt',
@@ -208,7 +222,7 @@ export const NotificationCard = ({
           <div className="text-base font-normal">{item.value}</div>
           <p className="text-xs italic">
             Thông báo lúc{' '}
-            {moment(item.createdAt).local().format('HH:MM - DD/MM/YYYY')}
+            {moment(item.createdAt).local().format('HH:mm - DD/MM/YYYY')}
           </p>
         </div>
       </div>
