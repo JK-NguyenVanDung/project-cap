@@ -26,14 +26,13 @@ export default function ProgramPublish() {
   const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const info = useAppSelector((state) => state.auth.info);
 
   useEffect(() => {
     async function getProgramPublish() {
       try {
-        const info = useAppSelector((state) => state.auth.info);
-
         let response: any =
-          info.roleId === 2
+          info?.roleId == 2
             ? await apiService.getProgramPublish()
             : await apiService.getMyPublishProgram(info.accountId);
 

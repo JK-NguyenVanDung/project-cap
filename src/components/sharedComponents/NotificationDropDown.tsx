@@ -47,10 +47,13 @@ export default function PopOverAction({
   async function getNotification() {
     let res: any = await apiService.getNotifications();
     let seen = res.filter((e: INotification) => e.isSeen === false);
-
-    setData(res.slice(0, limit));
-    setTotalData(res);
-    setAmount(seen.length);
+    console.log(res.length !== data.length);
+    if (res.length !== data.length) {
+      res = res.reverse();
+      setData(res.slice(0, limit));
+      setTotalData(res);
+      setAmount(seen.length);
+    }
   }
   useEffect(() => {
     getNotification();
@@ -65,9 +68,9 @@ export default function PopOverAction({
       clearTimeout(time);
     };
   }, []);
-  useEffect(() => {
-    seenSlice(data);
-  }, [data.length]);
+  // useEffect(() => {
+  //   seenSlice(data);
+  // }, [data.length]);
   async function seenSlice(data: INotification[]) {
     setLoading(true);
 
@@ -113,18 +116,28 @@ export default function PopOverAction({
             </IconButton>
           </PopoverHandler>
           <PopoverContent className="z-20 flex flex-col items-center justify-center w-fit">
-            <Loading loading={loading} />
-            {data.length > 0 ? (
-              <div className="flex min-w-[20rem] w-0 items-center flex-col gap-4">
-                {data.map((item) => {
-                  return <NotificationCard item={item} onRemove={onRemove} />;
-                })}
-              </div>
-            ) : (
-              <p className="p-20">
-                {!loading && 'Bạn hiện tại không có thông báo'}
-              </p>
-            )}
+            <div className=" min-h-[40vh] max-h-[50vh] overflow-scroll no-scroll p-2">
+              <Loading loading={loading} />
+              {data.length > 0 ? (
+                <div className="flex min-w-[20rem] w-0 items-center flex-col gap-4">
+                  {data.map((item) => {
+                    return (
+                      <>
+                        <NotificationCard
+                          item={item}
+                          onRemove={onRemove}
+                          key={item.id}
+                        />
+                      </>
+                    );
+                  })}
+                </div>
+              ) : (
+                <p className="p-20">
+                  {!loading && 'Bạn hiện tại không có thông báo'}
+                </p>
+              )}
+            </div>
             <CustomButton
               disabled={
                 totalData.length === 0 || totalData.length <= limit
