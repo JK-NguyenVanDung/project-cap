@@ -606,9 +606,9 @@ const Learner = [
 ];
 export default function MakePagesRouter() {
   const LoginParmas = useAppSelector((state) => state.auth.LoginId);
-  // const info = useAppSelector((state) => state.auth.info);
+  const userInfo = useAppSelector((state) => state.auth.info);
   const [info, setInfo] = useState(null);
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   // const token = localStorage.getItem('Bearer');
   // console.count();
 
@@ -616,9 +616,10 @@ export default function MakePagesRouter() {
     const fetchInfo = async () => {
       try {
         const response: any = await apiService.getProfile();
-        // if (info && info?.roleId && info?.roleId !== response?.roleId) {
         setInfo(response);
-        // }
+        if (userInfo && userInfo?.roleId !== response?.roleId) {
+          dispatch(actions.authActions.setInfo(response));
+        }
       } catch (err: any) {
         throw err.message;
       }
@@ -662,116 +663,167 @@ export default function MakePagesRouter() {
     }
 
     if (LoginParmas.id == 2) {
-      if (info?.roleId === 2) {
-        return (
-          <Routes>
-            {RouterPages.map((router, index) => {
-              return (
-                <Route
-                  key={index}
-                  path={router.path}
-                  element={
-                    <SideBar
-                      content={router.element}
-                      noHeader={router.noHeader ? router.noHeader : false}
-                    />
-                  }
-                />
-              );
-            })}
-            <Route
-              path="/admin/Program/Chapter/:number/Test/Question"
-              element={<Question />}
-            />
-            <Route path="/admin/Survey/Question" element={<SurveyQuestion />} />
+      // if (info?.roleId === 2) {
+      return (
+        <Routes>
+          {RouterPages.map((router, index) => {
+            return (
+              <Route
+                key={index}
+                path={router.path}
+                element={
+                  <SideBar
+                    content={
+                      <CheckRole path={router.path} roleId={info?.roleId}>
+                        {router.element}
+                      </CheckRole>
+                    }
+                    noHeader={router.noHeader ? router.noHeader : false}
+                  />
+                }
+              />
+            );
+          })}
+          <Route
+            path="/admin/Program/Chapter/:number/Test/Question"
+            element={<Question />}
+          />
+          <Route path="/admin/Survey/Question" element={<SurveyQuestion />} />
 
-            <Route path="/admin/reviewDetail" element={<ReviewDetail />} />
+          <Route path="/admin/reviewDetail" element={<ReviewDetail />} />
 
-            <Route path="/login" element={<Logined />} />
-            <Route path="/" element={<LandingPage />} />
-            <Route
-              path="*"
-              element={<NotFoundPage reRoute={reRoute + '/admin'} />}
-            />
-            <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
-          </Routes>
-        );
-      } else if (info?.roleId === 3) {
-        return (
-          <Routes>
-            {RouterCenter.map((router, index) => {
-              return (
-                <Route
-                  key={index}
-                  path={router.path}
-                  element={
-                    <SideBar
-                      content={router.element}
-                      noHeader={router.noHeader ? router.noHeader : false}
-                    />
-                  }
-                />
-              );
-            })}
-            <Route path="/admin/Survey/Question" element={<SurveyQuestion />} />
+          <Route path="/login" element={<Logined />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route
+            path="*"
+            element={<NotFoundPage reRoute={reRoute + '/admin'} />}
+          />
+          <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
+        </Routes>
+      );
 
-            <Route
-              path="/admin/Program/Chapter/:number/Test/Question"
-              element={<Question />}
-            />
-            <Route path="/admin/reviewDetail" element={<ReviewDetail />} />
-            <Route path="/login" element={<Logined />} />
-            <Route path="/" element={<LandingPage />} />
-            <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
-            <Route
-              path="/ProgramSurvey/:surveyName"
-              element={<ProgramSurvey />}
-            />
-            <Route
-              path="*"
-              element={<NotFoundPage reRoute={reRoute + '/admin'} />}
-            />
-          </Routes>
-        );
-      } else {
-        return (
-          <Routes>
-            {RouterFaculty.map((router, index) => {
-              return (
-                <Route
-                  key={index}
-                  path={router.path}
-                  element={
-                    <SideBar
-                      content={router.element}
-                      noHeader={router.noHeader ? router.noHeader : false}
-                    />
-                  }
-                />
-              );
-            })}
-            <Route path="/admin/Survey/Question" element={<SurveyQuestion />} />
+      //} else if (info?.roleId === 3) {
+      //   return (
+      //     <Routes>
+      //       {RouterCenter.map((router, index) => {
+      //         return (
+      //           <Route
+      //             key={index}
+      //             path={router.path}
+      //             element={
+      //               <SideBar
+      //                 content={router.element}
+      //                 noHeader={router.noHeader ? router.noHeader : false}
+      //               />
+      //             }
+      //           />
+      //         );
+      //       })}
+      //       <Route path="/admin/Survey/Question" element={<SurveyQuestion />} />
 
-            <Route
-              path="/admin/Program/Chapter/:number/Test/Question"
-              element={<Question />}
-            />
-            <Route path="/admin/reviewDetail" element={<ReviewDetail />} />
-            <Route path="/login" element={<Logined />} />
-            <Route path="/" element={<LandingPage />} />
-            <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
-            <Route
-              path="/ProgramSurvey/:surveyName"
-              element={<ProgramSurvey />}
-            />
-            <Route
-              path="*"
-              element={<NotFoundPage reRoute={reRoute + '/admin'} />}
-            />
-          </Routes>
-        );
-      }
+      //       <Route
+      //         path="/admin/Program/Chapter/:number/Test/Question"
+      //         element={<Question />}
+      //       />
+      //       <Route path="/admin/reviewDetail" element={<ReviewDetail />} />
+      //       <Route path="/login" element={<Logined />} />
+      //       <Route path="/" element={<LandingPage />} />
+      //       <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
+      //       <Route
+      //         path="/ProgramSurvey/:surveyName"
+      //         element={<ProgramSurvey />}
+      //       />
+      //       <Route
+      //         path="*"
+      //         element={<NotFoundPage reRoute={reRoute + '/admin'} />}
+      //       />
+      //     </Routes>
+      //   );
+      // } else {
+      //   return (
+      //     <Routes>
+      //       {RouterFaculty.map((router, index) => {
+      //         return (
+      //           <Route
+      //             key={index}
+      //             path={router.path}
+      //             element={
+      //               <SideBar
+      //                 content={router.element}
+      //                 noHeader={router.noHeader ? router.noHeader : false}
+      //               />
+      //             }
+      //           />
+      //         );
+      //       })}
+      //       <Route path="/admin/Survey/Question" element={<SurveyQuestion />} />
+
+      //       <Route
+      //         path="/admin/Program/Chapter/:number/Test/Question"
+      //         element={<Question />}
+      //       />
+      //       <Route path="/admin/reviewDetail" element={<ReviewDetail />} />
+      //       <Route path="/login" element={<Logined />} />
+      //       <Route path="/" element={<LandingPage />} />
+      //       <Route path="admin/Survey/:surveyId" element={<ClientSurvey />} />
+      //       <Route
+      //         path="/ProgramSurvey/:surveyName"
+      //         element={<ProgramSurvey />}
+      //       />
+      //       <Route
+      //         path="*"
+      //         element={<NotFoundPage reRoute={reRoute + '/admin'} />}
+      //       />
+      //     </Routes>
+      //   );
+      // }
     }
   };
   return <RouterLearner />;
 }
+
+const CheckRole = ({
+  children,
+  roleId,
+  path,
+}: {
+  children: any;
+  roleId: number;
+  path: string;
+}) => {
+  const navigate = useNavigate();
+  if (roleId === 3) {
+    if (!RouterCenter.find((route) => route.path === path)) {
+      navigate('/admin');
+      return <NoAccessPage />;
+    }
+  } else if (roleId === 4) {
+    if (!RouterFaculty.find((route) => route.path === path)) {
+      navigate('/admin');
+      return (
+        <>
+          <NoAccessPage />
+        </>
+      );
+    }
+  }
+
+  return <>{children}</>;
+};
+
+const NoAccessPage = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="w-full h-screen flex flex-col justify-center items-center">
+      Bạn không có quyền truy cập tới trang này, vui lòng liên hệ tới admin để
+      trao quyền truy cập
+      <button
+        className="btn btn-primary m-4"
+        onClick={() => navigate('/admin')}
+      >
+        Quay lại
+      </button>
+    </div>
+  );
+};

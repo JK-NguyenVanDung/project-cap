@@ -99,16 +99,18 @@ export default function Attendance() {
     }
   }
   async function handleDelete(item: any) {
-    try {
-      await apiService.delAttendance(item.attendance.id);
+    async function deleting() {
+      try {
+        await apiService.delAttendance(item.attendance.id);
 
-      setReload(!reload);
-      message.success(MESSAGE.SUCCESS.DELETE);
-    } catch (err: any) {
-      notification.error({
-        message: 'Buổi điểm danh này đang được sử dụng, không thể xóa',
-      });
+        message.success(MESSAGE.SUCCESS.DELETE);
+      } catch (err: any) {
+        notification.error({
+          message: 'Buổi điểm danh này đang được sử dụng, không thể xóa',
+        });
+      }
     }
+    deleting().finally(() => setReload(!reload));
   }
   const columns = [
     {

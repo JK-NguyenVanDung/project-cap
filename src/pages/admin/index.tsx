@@ -73,6 +73,7 @@ export default function SideBar({
       setOpen(true);
     }
   }, [windowDimensions.width]);
+  console.log(info?.roleId);
   return (
     <>
       <div className="flex relative max-w-full h-screen ">
@@ -118,7 +119,7 @@ export default function SideBar({
                 id="navbar-default"
               >
                 <ul className="relative list-none w-full text-center ">
-                  {info?.roleId == 2
+                  {info?.roleId === 2
                     ? SideBarData.map((value, index) => {
                         return (
                           <div key={index}>
@@ -145,7 +146,7 @@ export default function SideBar({
                         );
                       })
                     : null}
-                  {info?.roleId == 3
+                  {info?.roleId === 3
                     ? SideBarDataCT.map((value, index) => {
                         return (
                           <div key={index}>
@@ -172,7 +173,7 @@ export default function SideBar({
                         );
                       })
                     : null}
-                  {info?.roleId == 4
+                  {info?.roleId === 4
                     ? SideBarDataFacul.map((value, index) => {
                         return (
                           <div key={index}>

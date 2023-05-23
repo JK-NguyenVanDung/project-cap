@@ -1,4 +1,6 @@
-export const isHosting = true;
+export const isHosting = window.location.href.toString().includes('5173')
+  ? false
+  : true;
 export const reRoute = isHosting ? '/CP25Team02' : '/';
 export const path = isHosting
   ? 'https://cntttest.vanlanguni.edu.vn/CP25Team02'

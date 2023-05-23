@@ -21,7 +21,7 @@ export default function Account() {
   const [faculties, setFaculties] = useState<Array<any>>();
   const [positions, setPositions] = useState<Array<any>>();
 
-  const [reload, setReload] = useState(false);
+  const [reload, setReload] = useState(true);
   const [showDetail, setShowDetail] = useState(false);
   const [showGiveCoin, setShowGiveCoin] = useState(false);
   const [form] = Form.useForm();
@@ -63,15 +63,17 @@ export default function Account() {
     );
   }
   async function handleDelete(item: any) {
-    try {
-      setReload(true);
-      await apiService.deleteAccount(item.accountId);
-    } catch (err: any) {
-      notification.error({
-        message: 'Không thể xoá tài khoản đã tham gia vào hệ thống!',
-      });
+    async function deleteItem() {
+      try {
+        setReload(true);
+        await apiService.deleteAccount(item.accountId);
+      } catch (err: any) {
+        notification.error({
+          message: 'Không thể xoá tài khoản đã tham gia vào hệ thống!',
+        });
+      }
     }
-    setReload(false);
+    deleteItem().finally(() => setReload(false));
   }
   const columns = [
     {
@@ -157,7 +159,6 @@ export default function Account() {
 
   async function getData() {
     try {
-      setReload(true);
       let res: any = await apiService.getAccounts();
       res = res.reverse();
 
@@ -199,7 +200,6 @@ export default function Account() {
     getRoles();
     getFaculties();
     getPosition();
-    setReload(false);
   }, []);
   async function checkAccountExist(email: string) {
     let res: any = await apiService.getAccounts();
@@ -212,7 +212,6 @@ export default function Account() {
     form
       .validateFields()
       .then(async (values) => {
-        setReload(true);
         if (detail) {
           await apiService.editAccount({
             accountId: detail.accountId,
@@ -236,12 +235,11 @@ export default function Account() {
             message.error('Email trên đã tồn tại trên hệ thống');
           }
         }
+        setReload(true);
       })
-
       .catch((info) => {
         // dispatch(actions.formActions.showError())
-      })
-      .finally(() => setReload(false));
+      });
   };
 
   function getOptions() {
@@ -304,6 +302,7 @@ export default function Account() {
           options={getOptions()}
           type="select"
           label="Vai trò"
+          defaultValue={getOptions()[0]?.value}
           rules={[
             {
               required: true,

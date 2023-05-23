@@ -24,15 +24,15 @@ const baseUrl = window.location.href.toString().includes('5173')
   : '/CP25Team02/';
 createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
-    {baseUrl === '/' ? (
-      <MsalProvider instance={msalInstance}>
-        <BrowserRouter basename={baseUrl}>
-          <Wrapper>
-            <App />
-          </Wrapper>
-        </BrowserRouter>
-      </MsalProvider>
-    ) : (
+    {/* {baseUrl === '/' ? ( */}
+    <MsalProvider instance={msalInstance}>
+      <BrowserRouter basename={baseUrl}>
+        <Wrapper>
+          <App />
+        </Wrapper>
+      </BrowserRouter>
+    </MsalProvider>
+    {/* ) : (
       <MsalProvider instance={msalInstance}>
         <HashRouter>
           <Wrapper>
@@ -40,6 +40,6 @@ createRoot(document.getElementById('root') as HTMLElement).render(
           </Wrapper>
         </HashRouter>
       </MsalProvider>
-    )}
+    )} */}
   </Provider>,
 );
