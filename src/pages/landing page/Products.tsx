@@ -102,7 +102,7 @@ const ProductCard = (props: any) => {
       </a>
       <div className="py-3 px-5">
         <a>
-          <h5 className="eclipse-text text-center text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <h5 className="eclipse eclipse-text text-center text-xl font-bold tracking-tight text-gray-900 dark:text-white">
             {props.title}
           </h5>
         </a>

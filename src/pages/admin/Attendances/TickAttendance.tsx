@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
-import { Form, Modal, Select, notification, AutoComplete } from 'antd';
-import FormInput from '../../../components/admin/Modal/FormInput';
+import { useEffect, useState } from 'react';
+import { Form, Modal, notification, AutoComplete } from 'antd';
 import { QrReader } from 'react-qr-reader';
 import { Tabs } from 'antd';
 import apiService from '../../../api/apiService';
 import './index.css';
 import CustomButton from '../../../components/admin/Button';
 import { errorText } from '../../../helper/constant';
-import { useAppDispatch } from '../../../hook/useRedux';
-
+import axios from 'axios';
+import { API_CONFIG, API_URL } from '../../../api/api';
+import queryString from 'query-string';
 export default function TickAttendance({
   item,
-  setItem,
   visible,
   setVisible,
 }: {
@@ -73,17 +72,17 @@ export default function TickAttendance({
       } catch (err) {}
     };
     fetchData();
+    return () => {
+      setDataQrCode('');
+    };
   }, []);
   const onChange = (key: string) => {
     console.log(key);
   };
-  const getPanelValue = (searchText: string) =>
-    !searchText ? [] : listLearner.find((e) => e.email.includes(searchText));
 
   function RenderEmail() {
     return (
       <>
-        {' '}
         <Form form={form}>
           <label>Nhập Email</label>
           <Form.Item
@@ -161,10 +160,10 @@ export default function TickAttendance({
         <QrReader
           scanDelay={500}
           onResult={(result: any, error: any) => {
-            console.log(result);
             if (!!result) {
               // notification.success({ message: result?.text });
-              if (result && dataQrCode !== result.text) {
+              let newQR = dataQrCode !== result.text;
+              if (newQR) {
                 handleQr(result.text);
               }
               //   setInterval(async () => {
@@ -209,27 +208,44 @@ export default function TickAttendance({
   //   };
   // }, [dataQrCode !== '']);
   const handleQr = async (code: string) => {
-    try {
-      if (code) {
-        const params = {
-          code: code,
-          // attendanceId: item.attendance.id,
-        };
+    if (code) {
+      setDataQrCode((prevCode: string) =>
+        prevCode !== code ? code : prevCode,
+      );
 
-        await apiService.AttdendanceCode(params);
+      const params = {
+        code: code,
+        // attendanceId: item.attendance.id,
+      };
 
-        alert(`Điểm danh Thành Công: ${code.toString()} `);
-      }
-      // console.count('1');
-    } catch (error) {
-      // setVisible(false);
-      if (error === 'Request failed with status code 400') {
-        alert(`Người Này Đã Điểm Danh Rồi`);
-      } else {
-        alert(`Điểm Danh Không Thành Công`);
-      }
+      await axios
+        .create({
+          baseURL: API_URL,
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache',
+            'Access-Control-Allow-Origin': '*',
+          },
+          paramsSerializer: {
+            encode: (params) => {
+              queryString.stringify(params);
+            },
+          },
+        })
+        .post(API_CONFIG.ATTENDANCES.ATTENDANCES_CODE, params)
+        .then(() => {
+          alert(`Điểm danh Thành Công: ${code.toString()} `);
+        })
+        .catch((err) => {
+          if (err?.response?.data?.message !== 'QRCode InValid') {
+            alert(`Người Này Đã Điểm Danh Rồi`);
+          } else {
+            alert(`Mã QR Không Hợp Lệ`);
+          }
+        });
     }
-    setDataQrCode(code);
+    // console.count('1');
   };
   const handleOk = () => {
     form.validateFields().then(async (values) => {
@@ -250,15 +266,17 @@ export default function TickAttendance({
       } catch (error: any) {
         // setVisible(false);
         setConfirmLoading(false);
-        setDataQrCode('');
         if (error === 'Request failed with status code 400') {
           notification.error({ message: 'Người Này Đã Điểm Danh Rồi' });
         } else {
           notification.error({ message: 'Điểm Danh Không Thành Công' });
         }
       }
+
       form.resetFields();
     });
+
+    setDataQrCode('');
   };
 
   const handelCancel = () => {

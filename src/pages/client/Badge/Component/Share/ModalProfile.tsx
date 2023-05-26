@@ -18,6 +18,7 @@ export default function ModalProfile({
   setOpen,
   loadingConfirm,
   setLoadingConfirm,
+  hasAvatar = true,
 }: {
   open: boolean;
   item?: any;
@@ -26,6 +27,7 @@ export default function ModalProfile({
   setOpen: any;
   loadingConfirm: boolean;
   setLoadingConfirm: any;
+  hasAvatar?: boolean;
 }) {
   const [form] = Form.useForm();
   const [dataFct, setDataFct]: any = useState([]);
@@ -47,6 +49,8 @@ export default function ModalProfile({
       setLoading(false);
     }, 1000);
   };
+  const firstTimeLogin = useAppSelector((state) => state.auth.firstTimeLogin);
+
   const handelOk = () => {
     form.validateFields().then(async (values) => {
       setLoadingConfirm(true);
@@ -118,7 +122,7 @@ export default function ModalProfile({
           onClick={() => inputRef.current.click()}
           className=" cursor-pointer max-sm:max-md:ml-14 max-sm:max-md:mb-4 "
         >
-          {URLImage ? (
+          {hasAvatar && URLImage ? (
             <>
               <div className="w-[300px] flex flex-col items-center">
                 <img
@@ -133,10 +137,10 @@ export default function ModalProfile({
                 </div>
               </div>
             </>
-          ) : (
+          ) : hasAvatar ? (
             <div className="w-[300px] flex flex-col items-center">
               <img
-                src={`${API_URL}/images/${item.avatar}`}
+                src={`${API_URL}/images/${item?.avatar}`}
                 alt="avatar"
                 className="object-cover w-[300px] h-[300px] rounded-lg"
                 onError={({ currentTarget }) => {
@@ -151,7 +155,7 @@ export default function ModalProfile({
                 <span className="ml-2">Tải Ảnh Lên </span>
               </div>
             </div>
-          )}
+          ) : null}
         </div>
         <input
           ref={inputRef}
@@ -183,11 +187,11 @@ export default function ModalProfile({
           <FormInput
             className="w-full"
             name="code"
-            label="Mã"
+            label="Mã nhân viên"
             rules={[
               {
                 required: true,
-                message: 'Vui Lòng Nhập Vào Mã',
+                message: 'Vui Lòng Nhập Vào Mã Nhân Viên',
               },
             ]}
           />
@@ -283,8 +287,10 @@ export default function ModalProfile({
   return (
     <CustomModal
       show={open}
-      setShow={setOpen}
+      setShow={firstTimeLogin === false && setOpen}
       header={'Chỉnh Sửa Thông Tin Người Dùng'}
+      notAdd={true}
+      label={'Chỉnh Sửa Thông Tin Người Dùng'}
       dataItem={item}
       FormItem={<FormItem />}
       form={form}

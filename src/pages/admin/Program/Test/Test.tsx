@@ -137,7 +137,7 @@ export default function Test() {
       });
   };
   return (
-    <>
+    <div className="min-h-screen">
       <div className="pl-2 pt-2">
         <Breadcrumb
           router1={'/admin/Program/'}
@@ -286,6 +286,6 @@ export default function Test() {
           </Form.Item>
         </Form>
       </div>
-    </>
+    </div>
   );
 }

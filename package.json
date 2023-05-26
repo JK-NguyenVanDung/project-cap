@@ -1,7 +1,7 @@
 {
   "name": "project-cap",
-  "proxy": "https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/",
-  "homepage": "https://cntttest.vanlanguni.edu.vn:18081/SEP25Team17/",
+  "proxy": "https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/",
+  "homepage": "https://cntttest.vanlanguni.edu.vn:18081/CP25Team02/",
   "private": true,
   "version": "0.1.0",
   "type": "module",

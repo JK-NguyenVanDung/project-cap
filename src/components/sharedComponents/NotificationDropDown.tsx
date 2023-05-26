@@ -91,6 +91,12 @@ export default function PopOverAction({
         getNotification();
     });
   }
+  function calculateAmount(amount: number) {
+    if (amount >= 10) {
+      return '9+';
+    }
+    return amount;
+  }
 
   return (
     <>
@@ -111,8 +117,10 @@ export default function PopOverAction({
               color="gray"
               size="md"
             >
-              <p className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-primary flex justify-center items-center ">
-                <p className="text-xs text-white font-bold">{amount}</p>
+              <p className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-primary bg-opacity-[70] flex justify-center items-center ">
+                <p className="text-xs text-white font-[700]">
+                  {calculateAmount(amount)}
+                </p>
               </p>
               <IoNotificationsOutline className="text-[1.5rem]" />
             </IconButton>

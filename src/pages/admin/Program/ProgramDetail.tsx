@@ -300,7 +300,7 @@ export default function ProgramDetail() {
         </div>
       </Form>
 
-      <div className="flex w-4/6 absolute right-0 bottom-[-70px] ">
+      <div className="flex w-2/6 absolute right-0 bottom-[-70px] bg-gray-50 ">
         <CustomButton
           type="cancel"
           text="Quay Lại"
@@ -323,7 +323,7 @@ export default function ProgramDetail() {
           noIcon={true}
           color="green"
           variant="outlined"
-          className="w-3/5 my-3 mx-2 h-10"
+          className="w-2/5 my-3 mx-2 h-10"
           onClick={() => addChapter()}
         />
       </div>

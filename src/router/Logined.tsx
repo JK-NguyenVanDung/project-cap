@@ -10,7 +10,7 @@ import { exitPath } from '../../onBuild';
 import apiService from '../api/apiService';
 
 export default function Logined() {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { instance, accounts } = useMsal();
@@ -41,14 +41,21 @@ export default function Logined() {
     //   fetchInfo();
     // }
   }, []);
+  const userInfo = useAppSelector((state) => state.auth.info);
+
   const fetchInfo = async () => {
     try {
       const response: any = await apiService.getProfile();
-      dispatch(actions.authActions.setInfo(response));
+      if (!userInfo || userInfo?.roleId !== response?.roleId) {
+        dispatch(actions.authActions.setInfo(response));
+      }
     } catch (err: any) {
       throw err.message;
     }
   };
+  // useEffect(() => {
+  //   fetchInfo();
+  // }, []);
 
   useEffect(() => {
     if (alert === true) {
@@ -64,7 +71,6 @@ export default function Logined() {
     instance
       .acquireTokenSilent(request)
       .then(async (response) => {
-        setLoading(true);
         try {
           const reponseToken: any = await apiService.postAdminUser({
             token: response.accessToken,
@@ -73,7 +79,7 @@ export default function Logined() {
           if (reponseToken) {
             dispatch(actions.authActions.showNotification(true));
 
-            dispatch(actions.authActions.Login(reponseToken.token));
+            dispatch(actions.authActions.Login(reponseToken));
             localStorage.setItem('Bearer', `Bearer ${reponseToken.token}`);
             await fetchInfo();
             if (navLink && LoginParmas.id == 1) {

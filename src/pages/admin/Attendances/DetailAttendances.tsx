@@ -123,6 +123,7 @@ export default function DetailAttendances({
           />
         </div>
       }
+      className="max-sm:max-md:min-w-fit"
     >
       <TableConfig
         onSearch={onChangeSearch}
@@ -135,6 +136,7 @@ export default function DetailAttendances({
               return {
                 STT: item?.index,
                 Email: item?.account?.email,
+                'Họ và tên': item?.account?.fullName,
                 'Tham Gia': item?.isAttending
                   ? 'Đã điểm danh'
                   : 'Chưa điểm danh',

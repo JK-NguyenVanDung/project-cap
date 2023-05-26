@@ -38,6 +38,7 @@ export default function () {
       setLoadingConfirm={setLoading}
       open={visible}
       setOpen={setVisible}
+      hasAvatar={false}
     />
   );
 }

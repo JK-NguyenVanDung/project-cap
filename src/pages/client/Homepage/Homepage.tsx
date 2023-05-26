@@ -24,6 +24,8 @@ export default function Homepage() {
 
   const info = useAppSelector((state) => state.auth.info);
 
+  const firstTimeLogin = useAppSelector((state) => state.auth.firstTimeLogin);
+
   useEffect(() => {
     dispatch(
       actions.formActions.setNameMenu(
@@ -61,7 +63,7 @@ export default function Homepage() {
             </div>
           )}
 
-          <FormFirstTime />
+          {firstTimeLogin && <FormFirstTime />}
         </div>
         {!loading && programs && programs?.length > 0 && (
           <div className="my-12 w-[90vw] max-sm:w-[100vw]">

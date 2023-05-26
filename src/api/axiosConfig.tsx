@@ -34,7 +34,7 @@ export const configFormData = axios.create({
 configFormData.interceptors.request.use(async (config) => {
   try {
     const acceptToken: any = {};
-    const token = await localStorage.getItem('Bearer');
+    const token = localStorage.getItem('Bearer');
     if (token) acceptToken.Authorization = token;
 
     return {
@@ -73,10 +73,10 @@ axiosConfig.interceptors.response.use(
       throw error.message;
     }
     if (error.response?.status === 401) {
-      localStorage.clear();
+      // localStorage.clear();
     }
     if (error.response?.status === 404) {
-      localStorage.clear();
+      // localStorage.clear();
     }
     throw error;
   },

@@ -144,7 +144,7 @@ export default function Attendance() {
       key: 'countLearner',
     },
     {
-      title: 'Người Chưa Điểm Danh',
+      title: 'Người Đã Điểm Danh',
       dataIndex: 'countAttendance',
       key: 'countAttendance',
     },
@@ -225,7 +225,6 @@ export default function Attendance() {
     setDetail(null);
   }
   useEffect(() => {
-    console.log(role);
     dispatch(
       actions.formActions.setNameMenu(
         `Điểm danh: ${item?.programName && item?.programName}`,

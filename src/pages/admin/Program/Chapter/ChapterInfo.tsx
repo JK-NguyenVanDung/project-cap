@@ -198,7 +198,7 @@ export default function ChapterInfo() {
       });
   };
   return (
-    <div className="w-full h-screen px-5">
+    <div className="w-full min-h-screen px-5">
       <div className="ml-[-0.7rem]">
         <Breadcrumb
           name="Chương Trình"

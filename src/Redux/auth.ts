@@ -7,6 +7,7 @@ const slice = createSlice({
     info: null, //roleID: 2 admin | 3:center | 4:faculty
     LoginId: null,
     notification: false,
+    firstTimeLogin: false,
   },
 
   reducers: {
@@ -14,7 +15,8 @@ const slice = createSlice({
       state.notification = actions.payload;
     },
     Login(state, actions) {
-      state.token = actions.payload;
+      state.token = actions.payload?.token;
+      state.firstTimeLogin = actions.payload?.isFirst;
     },
     setTokenMicrosoft(state, actions) {
       state.tokenMicrosoft = actions.payload;

@@ -2,12 +2,10 @@ import React, { useEffect, useRef } from 'react';
 
 import Header from './Header';
 import Home from './Home';
-import Loading from '../../components/sharedComponents/Loading';
+import Product from './Products';
 
-const Footer = React.lazy(() => import('./Footer'));
+import Footer from './Footer';
 const Introduction = React.lazy(() => import('./Introduction'));
-
-const Product = React.lazy(() => import('./Products'));
 
 const LandingPage = () => {
   const homeRef = useRef();
@@ -33,11 +31,12 @@ const LandingPage = () => {
       <div className=" font-customFont flex bg-dark-blue h-screen flex-col overflow-x-hidden	">
         <Header references={[homeRef, productRef, introRef, contactRef]} />
         <Home ref={homeRef} />
+        <Product ref={productRef} />
+
         <React.Suspense fallback={<></>}>
-          <Product ref={productRef} />
           <Introduction ref={introRef} />
-          <Footer ref={contactRef} />
         </React.Suspense>
+        <Footer ref={contactRef} />
       </div>
     </>
   );

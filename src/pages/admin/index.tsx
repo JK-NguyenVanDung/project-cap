@@ -73,12 +73,11 @@ export default function SideBar({
       setOpen(true);
     }
   }, [windowDimensions.width]);
-  console.log(info?.roleId);
   return (
     <>
-      <div className="flex relative max-w-full h-screen ">
+      <div className="flex relative max-w-full min-h-screen bg-gray-50  ">
         <div
-          className={`fixed h-full  w-[74%] z-[1] ${
+          className={`fixed h-full  w-[52%] z-[1] ${
             open || noHeader ? 'max-sm:z-[100]' : 'max-sm:z-0'
           }        ${open || noHeader ? '' : 'hidden'} `}
         >
@@ -96,18 +95,18 @@ export default function SideBar({
                   navigation('/admin');
                   dispatch(actions.formActions.setNameMenu(`${'Trang Chủ'}`));
                 }}
-                className=" hover:text-white relative my-2  px-2 w-full flex flex-row items-center justify-center"
+                className=" hover:text-white relative my-2  ml-4   px-2 w-fit flex flex-wrap items-center justify-center"
               >
                 <img
-                  className={`w-[15%] h-fit mb-2  max-sm:w-[10%]  ${
+                  className={`w-[2rem] h-fit max-sm:w-[10%]  ${
                     open || noHeader ? 'max-sm:visible ' : 'max-sm:hidden'
                   }`}
                   src={logo}
-                />{' '}
+                />
                 <p
                   className={`${
                     open || noHeader ? '' : 'hidden'
-                  }] text-lg font-bold text-center mb-2 mx-2`}
+                  } text-lg font-bold text-center mx-2 `}
                 >
                   L&D VLG TRAINING
                 </p>
@@ -220,8 +219,8 @@ export default function SideBar({
         </div>
         <div
           className={`${!noHeader ? 'z-[2]' : 'z-[0]'} Layout ${
-            !noHeader && open ? ' ml-[18.6%]' : !open ? 'ml-0 ' : 'ml-[10%] '
-          }  w-full  bg-gray-50`}
+            !noHeader && open ? ' ml-[15.8rem]' : !open ? 'ml-0 ' : 'ml-[10%] '
+          }  w-full   `}
         >
           {!noHeader && (
             <header className="header bg-gray-50 px-4 shadow-md-2">
@@ -249,7 +248,7 @@ export default function SideBar({
                     ></path>
                   </svg>
                 </button>
-                <h1 className="font-semibold text-xl eclipse max-sm:text-sm max-sm:text-sm">
+                <h1 className="font-semibold text-xl eclipse max-sm:text-sm">
                   {nameMenu}
                 </h1>
 
@@ -259,7 +258,7 @@ export default function SideBar({
           )}
           {/* <React.Suspense fallback={<Loading loading={true} />}> */}
           <main
-            className="min-h-screen bg-gray-50 max-sm:max-md:overflow-x-scroll "
+            className="  max-sm:max-md:overflow-x-scroll "
             onClick={() =>
               windowDimensions.width <= 767 ? setOpen(false) : {}
             }

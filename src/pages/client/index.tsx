@@ -31,7 +31,7 @@ export default function ClientSideBar({ content }: { content: any }) {
   const nameMenu = useAppSelector((state: any) =>
     state.form.nameMenu ? state.form.nameMenu : 'Trang Chủ',
   );
-  const { instance, accounts } = useMsal();
+
   const [open, setOpen] = useState(true);
   const windowDimensions = useWindowSize();
 
