@@ -29,7 +29,7 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
     setTextComment('');
     setTimeout(() => {
       setCheckData(false);
-    }, 3000);
+    }, 1000);
     fetchComment();
   }, [checkComment]);
   const handelComment = (event: any) => {
@@ -65,7 +65,7 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
     setTextComment('');
   };
   return (
-    <>
+    <div className="max-sm:max-md:w-fit">
       <div className="flex justify-between items-center my-3">
         <div className="w-full">
           <textarea
@@ -89,16 +89,16 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
             return (
               <>
                 <div key={index} className="m-3 w-full">
-                  <div className="flex w-full">
+                  <div className="flex w-full max-sm:max-md:flex-wrap">
                     <Image
                       preview={false}
-                      className="rounded-full"
+                      className="rounded-full  "
                       width={50}
                       height={50}
                       src={avatar}
                     />
-                    <div className="w-full pr-16">
-                      <div className="p-2 pr-20 rounded-lg w-full bg-gray-200 h-2/3">
+                    <div className="w-full  pr-16 max-sm:max-md:pr-2 max-sm:max-md:mt-4">
+                      <div className="p-2 pr-20  max-sm:max-md:pr-2 rounded-lg w-full bg-gray-200 h-2/3">
                         <p className="font-extrabold text-black text-base pl-3">
                           {item.account.email}
                         </p>
@@ -108,7 +108,7 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
                       </div>
                       <p className="p-0 m-0 text-xs text-gray-600 text-end">
                         <span>Thời Gian: </span>
-                        {moment(item.createdAt).format('HH:SS - DD-MM-YYYY')}
+                        {moment(item.createdAt).format('HH:mm - DD-MM-YYYY')}
                       </p>
                     </div>
                   </div>
@@ -116,7 +116,7 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
               </>
             );
           })}
-    </>
+    </div>
   );
 };
 
