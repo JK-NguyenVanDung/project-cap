@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, MouseEventHandler } from 'react';
 import TableConfig from '../../../../components/admin/Table/Table';
-import { Form, message, Switch, Input } from 'antd';
+import { Form, message, Switch, Input, notification } from 'antd';
 import uniqueId from '../../../../utils/uinqueId';
 import CustomButton from '../../../../components/admin/Button';
 import CustomModal from '../../../../components/admin/Modal/Modal';
@@ -69,7 +69,7 @@ export default function ChapterInfo() {
       await apiService.delChapter(contentId);
       navigate(`/admin/Program/showDetail`);
 
-      message.success(MESSAGE.SUCCESS.DELETE);
+      notification.success({ message: MESSAGE.SUCCESS.DELETE });
     } catch (err: any) {
       throw err.message;
     }
@@ -155,7 +155,7 @@ export default function ChapterInfo() {
         if (data) {
           let res: any = await apiService.putContent(contentId, output);
           const response: any = await apiService.getContentProgram(programId);
-          message.success('Thay đổi thành công');
+          notification.success({ message: 'Thay đổi thành công' });
           let temp = response.filter(
             (item: any) => res.contentId === item.contentId,
           )[0];
@@ -175,7 +175,7 @@ export default function ChapterInfo() {
         } else {
           let res: any = await apiService.postContent(outputAdd);
           const response: any = await apiService.getContentProgram(programId);
-          message.success('Thêm thành công');
+          notification.success({ message: 'Thêm thành công' });
 
           let temp = response.filter(
             (item: any) => res.contentId === item.contentId,

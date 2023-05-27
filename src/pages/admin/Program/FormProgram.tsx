@@ -145,6 +145,23 @@ export default function FormProgram() {
     form
       .validateFields()
       .then(async (values) => {
+        if (values.StartDate > values.EndDate) {
+          notification.error({
+            message: 'Không thể chọn ngày kết thúc trước ngày bắt đầu',
+          });
+          return;
+        }
+        if (values.RegistrationStartDate > values.RegistrationEndDate) {
+          notification.error({
+            message:
+              'Không thể chọn ngày kết thúc đăng ký trước ngày bắt đầu đăng ký',
+          });
+          return;
+        }
+
+        return values;
+      })
+      .then(async (values) => {
         frmData.append(
           'TrainingHours',
           values.TrainingHours ? values.TrainingHours : item.trainingHours,

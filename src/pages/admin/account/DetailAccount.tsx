@@ -34,7 +34,7 @@ export default function DetailAccount({
     form.setFieldsValue(item);
     setLastLogin(
       item.lastLogin
-        ? moment(item.lastLogin).format('HH:mm:ss MM-DD-YYYY')
+        ? moment(item.lastLogin).format('HH:mm:ss DD-MM-YYYY')
         : 'Chưa đăng nhập vào hệ thống',
     );
   }, []);

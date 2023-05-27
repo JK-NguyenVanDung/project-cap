@@ -51,11 +51,11 @@ export default function ProgramDetail() {
     item && setImage(item?.image);
     item
       ? form.setFieldsValue({
-          acedemicYearName: item.academicYear.year ?? '',
+          academicYear: item.academicYear.year ?? '',
           programName: item.programName ?? '',
           descriptions: item.descriptions ?? '',
           categoryName: item.category?.categoryName ?? '',
-          TrainingHours: item.trainingHours ?? '',
+          trainingHours: item.trainingHours ?? '',
           semester: item.semester ?? '',
           MaxLearner: item.maxLearner ?? '',
           coin: item.coin ?? '',
@@ -190,7 +190,7 @@ export default function ProgramDetail() {
           <div className="w-2/5 pr-12 pl-12">
             <FormInput
               label="Số Giờ Đào Tạo"
-              name="TrainingHours"
+              name="trainingHours"
               disabled={true}
             />
             <FormInput label="Coin" name="coin" disabled={true} />
@@ -199,24 +199,23 @@ export default function ProgramDetail() {
               name="MaxLearner"
               disabled={true}
             />
+            <label className="text-black font-bold font-customFont">
+              Chức vụ
+            </label>
+            <div className="my-2">
+              {positions.map((item: any) => {
+                return (
+                  <ul
+                    role="list"
+                    className="marker:text-sky-400 list-disc pl-5 space-y-3 text-slate-400 my-1"
+                  >
+                    <li>{item}</li>
+                  </ul>
+                );
+              })}
+            </div>
             {viewMore && (
               <>
-                <label className="text-black font-bold font-customFont">
-                  Chức vụ
-                </label>
-                <div className="my-2">
-                  {positions.map((item: any) => {
-                    return (
-                      <ul
-                        role="list"
-                        className="marker:text-sky-400 list-disc pl-5 space-y-3 text-slate-400 my-1"
-                      >
-                        <li>{item}</li>
-                      </ul>
-                    );
-                  })}
-                </div>
-
                 <FormInput label="Điểm Đạt Được" name="coin" disabled={true} />
                 <FormInput
                   label="Ngày Bắt Đầu"
@@ -242,23 +241,27 @@ export default function ProgramDetail() {
             />
             <div className="mt-10 mb-11">
               <FormInput label="Học Kì" name="semester" disabled={true} />
-              <FormInput
-                label="Năm Học"
-                name="acedemicYearName"
-                disabled={true}
-              />
+              <FormInput label="Năm Học" name="academicYear" disabled={true} />
             </div>
             <FormInput
               label="Ngày Bắt Đầu Đăng Ký"
               name="registrationStartDate"
               disabled={true}
             />
-            <FormInput
-              label="Ngày Kết Thúc Đăng Ký"
-              name="registrationEndDate"
-              disabled={true}
-            />
-            <FormInput label="Ngày Kết thúc" name="endDate" disabled={true} />
+            {viewMore && (
+              <>
+                <FormInput
+                  label="Ngày Kết Thúc Đăng Ký"
+                  name="registrationEndDate"
+                  disabled={true}
+                />
+                <FormInput
+                  label="Ngày Kết thúc"
+                  name="endDate"
+                  disabled={true}
+                />
+              </>
+            )}
           </div>
         </div>
         <div className="w-full flex justify-center">
@@ -295,6 +298,7 @@ export default function ProgramDetail() {
                 listContent.map((item: any, index: number) => (
                   <ChapterItem item={item} index={index} />
                 ))}
+              {listContent.length <= 0 && 'Chương trình chưa có chương nào.'}
             </SortableContext>
           </DndContext>
         </div>

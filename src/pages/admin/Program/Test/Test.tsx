@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Form, message, Input } from 'antd';
+import { Form, message, Input, notification } from 'antd';
 import CustomButton from '../../../../components/admin/Button';
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import apiService from '../../../../api/apiService';
@@ -54,10 +54,12 @@ export default function Test() {
   async function handleDelete() {
     try {
       await apiService.removeTest(data.testId);
-      message.success(MESSAGE.SUCCESS.DELETE);
+      notification.success({ message: MESSAGE.SUCCESS.DELETE });
       navigate(`/admin/Program/Chapter/${chapter}`);
     } catch (err: any) {
-      message.error('Bài kiểm tra này hiện đã người làm, không thể xóa');
+      notification.error({
+        message: 'Bài kiểm tra này hiện đã người làm, không thể xóa',
+      });
 
       throw err.message;
     }
@@ -115,7 +117,7 @@ export default function Test() {
           setData(res);
           dispatch(actions.formActions.setContentId(res.contentId));
 
-          message.success('Thay đổi thành công');
+          notification.success({ message: 'Thay đổi thành công' });
           setReload(!reload);
 
           setLoading(false);
@@ -126,7 +128,7 @@ export default function Test() {
           dispatch(actions.formActions.setContentId(res.contentId));
 
           setReload(!reload);
-          message.success('Thêm thành công');
+          notification.success({ message: 'Thêm thành công' });
           setLoading(false);
           form.resetFields();
         }

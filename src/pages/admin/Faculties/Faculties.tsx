@@ -12,7 +12,6 @@ import AddFaculties from './AddFaculties';
 export default function Faculties() {
   const [data, setData] = useState<Array<IFaculties>>([]);
   const [filterData, setFilterData]: any = useState([]);
-  const [loading, setLoading] = useState(false);
   const [addFaculties, setAddFaculties] = useState(false);
   const [detail, setDetail] = useState<IFaculties>();
   const [confirmLoading, setConfirmLoading] = useState(false);
@@ -28,27 +27,29 @@ export default function Faculties() {
           };
         });
         setData(res);
-
-        setTimeout(() => {
-          setLoading(false);
-          setFilterData(res);
-          setConfirmLoading(false);
-        }, 1000);
+        setFilterData(res);
       } catch (error) {}
     }
-    getFaculties();
-  }, [loading, confirmLoading]);
+    getFaculties().finally(() => {
+      setConfirmLoading(false);
+    });
+  }, [confirmLoading]);
   const handelEdit = (item: any) => {
     setDetail(item);
     setAddFaculties(true);
   };
   async function handleDelete(item: IFaculties) {
     try {
-      await apiService.delFaculties(item.facultyId);
-      setLoading(!loading);
-      notification.success({
-        message: MESSAGE.SUCCESS.DELETE,
-      });
+      await apiService
+        .delFaculties(item.facultyId)
+        .then(() => {
+          notification.success({
+            message: MESSAGE.SUCCESS.DELETE,
+          });
+        })
+        .finally(() => {
+          setConfirmLoading(true);
+        });
     } catch (err: any) {
       notification.error({
         message:
@@ -109,7 +110,7 @@ export default function Faculties() {
         search={true}
         data={data}
         columns={Columns}
-        loading={loading || confirmLoading}
+        loading={confirmLoading}
         extra={[
           <CustomButton
             type="add"

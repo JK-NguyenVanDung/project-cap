@@ -83,7 +83,7 @@ export default function SideBar({
         >
           <div
             // className="z-0 overflow-hidden no-scroll bg-img-bar h-full relative sidebar flex flex-col content-center items-center w-[25%]"
-            className="z-0 max-sm:z-100   overflow-hidden no-scroll  bg-img-bar bg-white relative sidebar flex flex-col content-center items-center w-[25%] max-sm:w-full"
+            className="z-0 max-sm:z-100   overflow-hidden no-scroll  bg-img-bar bg-white relative sidebar flex flex-col content-center items-center  max-sm:w-full"
             style={{
               backgroundImage: `url(${MenuBackground})`,
               overflowY: 'scroll',
@@ -218,7 +218,9 @@ export default function SideBar({
           </div>
         </div>
         <div
-          className={`${!noHeader ? 'z-[2]' : 'z-[0]'} Layout ${
+          className={`${
+            !noHeader ? 'z-[2]' : 'z-[0]'
+          } Layout  overflow-scroll ${
             !noHeader && open ? ' ml-[15.8rem]' : !open ? 'ml-0 ' : 'ml-[10%] '
           }  w-full   `}
         >

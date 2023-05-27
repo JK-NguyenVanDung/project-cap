@@ -57,7 +57,7 @@ const Introduction = React.forwardRef((props, ref: any) => {
   return (
     <div
       ref={ref}
-      className="relative mb-4 max-sm:mt-[130vh] max-sm:mb-[80vh]  max-sm:flex-wrap  max-sm:h-screen flex h-screen flex-row justify-between md:mx-20 max-sm:mx-2 items-center "
+      className="relative mb-4 max-sm:mt-[10vh] max-sm:mb-[80vh]  max-sm:flex-wrap  max-sm:h-screen flex h-screen flex-row justify-between md:mx-20 max-sm:mx-2 items-center "
     >
       <div className="  max-sm:w-full w-1/2 h-screen flex flex-col items-center justify-center">
         <p className=" font-bold text-4xl mb-6 text-white leading-10">

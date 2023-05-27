@@ -31,7 +31,9 @@ export default function Category() {
       await apiService.removeCategory(item.categoryId);
 
       setReload(!reload);
-      message.success(MESSAGE.SUCCESS.DELETE);
+      notification.success({
+        message: MESSAGE.SUCCESS.DELETE,
+      });
     } catch (err: any) {
       notification.error({
         message:
@@ -120,15 +122,15 @@ export default function Category() {
       .validateFields()
       .then(async (values) => {
         setLoading(true);
-        const temp = [];
         if (detail) {
           await apiService.editCategory({
             name: values.categoryName,
             ID: detail.categoryId,
           });
           setShowModal(false);
-
-          message.success('Thay đổi thành công');
+          notification.success({
+            message: 'Thay đổi thành công',
+          });
           setReload(!reload);
 
           setLoading(false);
@@ -139,8 +141,9 @@ export default function Category() {
           });
           setShowModal(false);
           setReload(!reload);
-
-          message.success('Thêm thành công');
+          notification.success({
+            message: 'Thêm thành công',
+          });
 
           setLoading(false);
           form.resetFields();

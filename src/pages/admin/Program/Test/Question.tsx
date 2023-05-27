@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Form, message, Modal } from 'antd';
+import { Form, message, Modal, notification } from 'antd';
 import CustomButton from '../../../../components/admin/Button';
 import FormInput from '../../../../components/admin/Modal/FormInput';
 import apiService from '../../../../api/apiService';
@@ -110,7 +110,7 @@ export default function Question() {
             ),
           );
         } else {
-          message.error(`Phải có ít nhất 1 đáp án đúng`);
+          notification.error({ message: `Phải có ít nhất 1 đáp án đúng` });
         }
       } else {
         if (selectedOptions.length < radioOptions.length - 1) {
@@ -121,7 +121,9 @@ export default function Question() {
             ]),
           );
         } else {
-          message.error(`Chỉ được chọn ${radioOptions.length - 1} đáp án đúng`);
+          notification.error({
+            message: `Chỉ được chọn ${radioOptions.length - 1} đáp án đúng`,
+          });
         }
       }
     } else {
@@ -158,7 +160,7 @@ export default function Question() {
       );
       setHeight((item) => String(Number.parseInt(item) + 12));
     } else {
-      message.error('Đã đạt đến giới hạn số câu trả lời');
+      notification.error({ message: 'Đã đạt đến giới hạn số câu trả lời' });
     }
   }
 
@@ -207,9 +209,9 @@ export default function Question() {
         //   actions.questionActions.setCurrentQuestionIndex(res.indexOf(cur[0])),
         // );
       } catch (err: any) {
-        message.error(
-          'Hiện tại không thể xóa đáp án này, vui lòng thử lại sau',
-        );
+        notification.error({
+          message: 'Hiện tại không thể xóa đáp án này, vui lòng thử lại sau',
+        });
         throw err.message;
       }
     } else {
@@ -248,11 +250,11 @@ export default function Question() {
         }
         setData(res);
         // }
-        // return message.success(MESSAGE.SUCCESS.DELETE);
+        // return notification.success({message:MESSAGE.SUCCESS.DELETE});
       } catch (err: any) {
-        message.error(
-          'Hiện tại không thể xóa câu hỏi này, vui lòng thử lại sau',
-        );
+        notification.error({
+          message: 'Hiện tại không thể xóa câu hỏi này, vui lòng thử lại sau',
+        });
 
         throw err.message;
       }
@@ -635,7 +637,7 @@ export default function Question() {
       selectedOptions.length !== radioOptions.length
     ) {
       if (!finish) {
-        message.success('Lưu thành công');
+        notification.success({ message: 'Lưu thành công' });
       }
       await apiService.editQuestion({
         output: outEdit,
@@ -643,11 +645,11 @@ export default function Question() {
       });
     } else if (selectedOptions.length !== radioOptions.length) {
       if (!finish) {
-        message.success('Tạo thành công');
+        notification.success({ message: 'Tạo thành công' });
       }
       await apiService.addQuestion(out);
     } else {
-      message.error('Phải có ít nhất 1 đáp án sai!');
+      notification.error({ message: 'Phải có ít nhất 1 đáp án sai!' });
     }
   }
   function handleMoveQuestion(index: number) {
@@ -673,7 +675,7 @@ export default function Question() {
   }
   async function handleFinish(values: any) {
     // await handleSubmit(values);
-    // message.success('Lưu lại thành công các câu hỏi');
+    // notification.success({message:'Lưu lại thành công các câu hỏi'});
 
     goBack();
   }

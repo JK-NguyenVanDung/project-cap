@@ -63,17 +63,19 @@ export default function Account() {
     );
   }
   async function handleDelete(item: any) {
-    async function deleteItem() {
-      try {
-        setReload(true);
-        await apiService.deleteAccount(item.accountId);
-      } catch (err: any) {
+    await apiService
+      .deleteAccount(item?.accountId)
+      .then(() => {
+        notification.success({
+          message: 'Xóa tài khoản thành công',
+        });
+      })
+      .catch(() => {
         notification.error({
           message: 'Không thể xoá tài khoản đã tham gia vào hệ thống!',
         });
-      }
-    }
-    deleteItem().finally(() => setReload(false));
+      })
+      .finally(() => setReload(true));
   }
   const columns = [
     {

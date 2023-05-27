@@ -16,8 +16,7 @@ import { useLocation } from 'react-router-dom';
 import { useNavigateParams } from '../../../hook/useNavigationParams';
 import { IoStatsChart } from 'react-icons/io5';
 export default function Program() {
-  const [loading, setLoading] = useState(false);
-  const [reload, setReload] = useState(false);
+  const [loading, setLoading] = useState(true);
   const location = useLocation();
 
   const dispatch = useAppDispatch();
@@ -31,12 +30,13 @@ export default function Program() {
   useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`Quản Lý chương trình`));
     getData().finally(() => setLoading(false));
-  }, [reload, location]);
+  }, [loading, location]);
   async function handleDelete(item: any) {
     try {
-      await apiService.delProgram(item.programId);
-      setReload(!reload);
-      notification.success({ message: MESSAGE.SUCCESS.DELETE });
+      await apiService.delProgram(item.programId).then(() => {
+        notification.success({ message: MESSAGE.SUCCESS.DELETE });
+        setLoading(true);
+      });
     } catch (err: any) {
       notification.error({
         message:
@@ -172,7 +172,6 @@ export default function Program() {
 
   async function getData() {
     try {
-      setLoading(true);
       let res: any = await apiService.getPrograms();
       res = res.reverse();
       let temp;
