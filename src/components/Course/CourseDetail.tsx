@@ -179,9 +179,7 @@ export default function (props: any) {
                 reRoute={props.reRoute}
               />
             )}
-            <div className="">
-              {currentTab === 3 && <ReviewTab program={program} />}
-            </div>
+            {currentTab === 3 && <ReviewTab program={program} />}
           </div>
         </div>
       </div>

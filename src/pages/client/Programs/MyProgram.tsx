@@ -30,8 +30,8 @@ export default function MyProgram() {
       label: 'Chưa đăng ký',
     },
     {
-      value: 'Kết thúc',
-      label: 'Kết thúc',
+      value: 'Đã kết thúc',
+      label: 'Đã kết thúc',
     },
   ]);
 
@@ -55,8 +55,8 @@ export default function MyProgram() {
               label: 'Đã hoàn thành',
             },
             {
-              value: 'Kết thúc',
-              label: 'Kết thúc',
+              value: 'Đã kết thúc',
+              label: 'Đã kết thúc',
             },
             ...cate.map((item: any) => {
               return {
@@ -101,7 +101,7 @@ export default function MyProgram() {
       );
     } else if (filter === 'Đã hoàn thành') {
       setData(filterData?.filter((item: IProgramItem) => item.isComplete));
-    } else if (filter === 'Kết thúc') {
+    } else if (filter === 'Đã kết thúc') {
       setData(
         filterData?.filter(
           (item: IProgramItem) => !item.isComplete && item.status === 'end',

@@ -361,19 +361,21 @@ export default function Account() {
           </div>,
         ]}
       />
-      <CustomModal
-        centered={true}
-        show={showModal}
-        setShow={setShowModal}
-        dataItem={detail}
-        label={'Tài Khoản'}
-        name={detail}
-        handleOk={handleOk}
-        FormItem={<FormItem />}
-        dataFields={getDataFields()}
-        form={form}
-        header={'Phân Quyền'}
-      />
+      {showModal && (
+        <CustomModal
+          centered={true}
+          show={showModal}
+          setShow={setShowModal}
+          dataItem={detail}
+          label={'Tài Khoản'}
+          name={detail}
+          handleOk={handleOk}
+          FormItem={<FormItem />}
+          dataFields={getDataFields()}
+          form={form}
+          header={'Phân Quyền'}
+        />
+      )}
       {showDetail ? (
         <DetailAccount
           role={role}

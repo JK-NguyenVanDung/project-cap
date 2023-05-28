@@ -33,12 +33,12 @@ export default function Programs() {
       label: 'Tất cả',
     },
     {
-      value: 'Chưa đăng ký',
-      label: 'Chưa đăng ký',
+      value: 'Không trong thời hạn đăng ký',
+      label: 'Không trong thời hạn đăng ký',
     },
     {
-      value: 'Kết thúc',
-      label: 'Kết thúc',
+      value: 'Đã kết thúc',
+      label: 'Đã kết thúc',
     },
   ]);
 
@@ -63,12 +63,12 @@ export default function Programs() {
               label: 'Tất cả',
             },
             {
-              value: 'Chưa đăng ký',
-              label: 'Chưa đăng ký',
+              value: 'Không trong thời hạn đăng ký',
+              label: 'Không trong thời hạn đăng ký',
             },
             {
-              value: 'Kết thúc',
-              label: 'Kết thúc',
+              value: 'Đã kết thúc',
+              label: 'Đã kết thúc',
             },
             ...cate.map((item: any) => {
               return {
@@ -110,11 +110,11 @@ export default function Programs() {
     // setData(filterData);
     if (e === 'Tất cả') {
       setData(filterData);
-    } else if (e === 'Chưa đăng ký') {
+    } else if (e === 'Không trong thời hạn đăng ký') {
       setData(
         filterData?.filter((item: IProgramItem) => item.status === 'public'),
       );
-    } else if (e === 'Kết thúc') {
+    } else if (e === 'Đã kết thúc') {
       setData(
         filterData?.filter((item: IProgramItem) => item.status === 'end'),
       );

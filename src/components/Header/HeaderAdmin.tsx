@@ -63,12 +63,12 @@ export default function () {
             </span>
             <span className="eclipse"> {accounts[0].name}</span>
           </MenuItem>
-          <MenuItem
+          {/* <MenuItem
             onClick={() => navigate('/Badge')}
             className="font-customFont"
           >
             Trang Cá Nhân
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem className="font-customFont" onClick={() => logoutAdmin()}>
             Đăng Xuất
           </MenuItem>

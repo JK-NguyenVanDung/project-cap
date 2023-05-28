@@ -9,7 +9,7 @@ const instruction = [
 ];
 const DescriptionTab = ({ program }: { program: IProgramItem }) => {
   return (
-    <>
+    <div>
       <p className="pb-4 text-md  text-[#141522]">
         {program?.descriptions ? program.descriptions : 'Chưa có mô tả'}
       </p>
@@ -38,7 +38,7 @@ const DescriptionTab = ({ program }: { program: IProgramItem }) => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
 export default DescriptionTab;

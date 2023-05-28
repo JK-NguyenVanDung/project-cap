@@ -32,10 +32,10 @@ export default function ItemGift({
           />
         </div>
         <div className="py-2 px-4 ">
-          <p className="text-lg my-2 eclipse-text  max-w-fit w-fit font-semibold cursor-pointer hover:text-primary">
+          <p className="text-lg my-2    font-semibold cursor-pointer hover:text-primary eclipse-text ">
             {data?.name}
           </p>
-          <p className="text-body eclipse min-h-[3rem] eclipse-text">
+          <p className="text-body  min-h-[3rem] eclipse-text">
             {data?.description}
           </p>
           <div className="flex justify-between pb-4">
