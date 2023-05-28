@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import apiService from '../../../api/apiService';
-import CustomButton from '../../../components/admin/Button';
 import TableConfig from '../../../components/admin/Table/Table';
-import uniqueId, { removeVietnameseTones } from '../../../utils/uinqueId';
-import { Button, message, Modal, notification, Popconfirm } from 'antd';
-import { GIRD12, MESSAGE } from '../../../helper/constant';
+import { removeVietnameseTones } from '../../../utils/uinqueId';
+import { GIRD12 } from '../../../helper/constant';
 import PopOverAction from '../../../components/admin/PopOver';
-import { AiFillUnlock, AiFillLock, AiFillWarning } from 'react-icons/ai';
 import moment from 'moment';
-import Color from '../../../components/constant/Color';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
@@ -23,6 +19,7 @@ export default function ListReviewPrograms() {
   const dispatch = useAppDispatch();
   const [confirmLoading, setConfirmLoading] = useState(false);
   const info: any = useAppSelector((state) => state.auth.info);
+  const nameMenu = useAppSelector((state: any) => state.form.nameMenu);
   useEffect(() => {
     async function getListReviewProgram() {
       try {
@@ -69,6 +66,10 @@ export default function ListReviewPrograms() {
 
     info.roleId === 2 ? getListReviewProgram() : getListReviewProgramId();
   }, [loading, confirmLoading]);
+  useEffect(() => {
+    dispatch(actions.formActions.setNameMenu('Quản Lý Duyệt Chương Trình'));
+  }, [nameMenu !== 'Quản Lý Duyệt Chương Trình']);
+
   const handelEdit = (item: any) => {
     setDetail(item);
     setAddListReviewProgram(true);

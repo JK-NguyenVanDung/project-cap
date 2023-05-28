@@ -16,7 +16,7 @@ export default function () {
   const [data, setData] = useState([]);
   const [detail, setDetail] = useState({});
   const [addLearner, setAddLearner] = useState(false);
-
+  const nameMenu = useAppSelector((state: any) => state.form.nameMenu);
   const [filterData, setFilterData]: any = useState([]);
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
@@ -41,10 +41,12 @@ export default function () {
         console.log(error);
       }
     }
-    dispatch(actions.formActions.setNameMenu(`Quản lý chương trình hỗ trợ`));
 
     getProgramPublish().finally(() => setLoading(false));
   }, [loading]);
+  useEffect(() => {
+    dispatch(actions.formActions.setNameMenu('Quản Lý Chương Trình Hỗ Trợ'));
+  }, [nameMenu !== 'Quản Lý Chương Trình Hỗ Trợ']);
   const columns = [
     {
       title: 'STT',

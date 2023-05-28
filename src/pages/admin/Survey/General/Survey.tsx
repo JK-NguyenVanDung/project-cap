@@ -18,11 +18,10 @@ import AddSurvey from './AddSurvey';
 import PrivateSwitch from '../../../../components/Survey/PrivateSwitch';
 import { FaQuestion } from 'react-icons/fa';
 export default function Survey() {
-  const [loading, setLoading] = useState(false);
   const [detail, setDetail] = useState(null);
 
   const [showModal, setShowModal] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(true);
   const location = useLocation();
 
   const dispatch = useAppDispatch();
@@ -36,7 +35,7 @@ export default function Survey() {
   useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`Quản lý Khảo sát chung`));
     getData().finally(() => {
-      setLoading(false), setConfirmLoading(false);
+      setConfirmLoading(false);
     });
   }, [confirmLoading, location]);
   async function handleDelete(item: any) {
@@ -118,7 +117,11 @@ export default function Survey() {
       title: 'Trạng thái',
       render: (item: ISurveyItem) => {
         return (
-          <PrivateSwitch state={item.isPublish} surveyId={item.surveyId} />
+          <PrivateSwitch
+            item={item}
+            surveyId={item.surveyId}
+            setConfirmLoading={setConfirmLoading}
+          />
         );
       },
     },
@@ -171,7 +174,6 @@ export default function Survey() {
 
   async function getData() {
     try {
-      setLoading(true);
       let res: any = await apiService.getSurveys();
       res = res.reverse();
       let temp;
@@ -197,7 +199,7 @@ export default function Survey() {
         search={true}
         data={data}
         columns={columns}
-        loading={loading || confirmLoading}
+        loading={confirmLoading}
         extra={[
           <CustomButton
             type="add"
@@ -207,14 +209,16 @@ export default function Survey() {
           />,
         ]}
       />
-      <AddSurvey
-        confirmLoading={confirmLoading}
-        setConfirmLoading={setConfirmLoading}
-        item={detail}
-        setItem={setDetail}
-        visible={showModal}
-        setVisible={setShowModal}
-      />
+      {showModal && (
+        <AddSurvey
+          confirmLoading={confirmLoading}
+          setConfirmLoading={setConfirmLoading}
+          item={detail}
+          setItem={setDetail}
+          visible={showModal}
+          setVisible={setShowModal}
+        />
+      )}
     </>
   );
 }

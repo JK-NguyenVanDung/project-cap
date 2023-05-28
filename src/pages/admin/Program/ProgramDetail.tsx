@@ -131,10 +131,7 @@ export default function ProgramDetail() {
     form.resetFields();
     dispatch(actions.formActions.setNameMenu('Quản Lý Chương Trình'));
   };
-  const handelOk = () => {
-    navigate(-1);
-    form.resetFields();
-  };
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {

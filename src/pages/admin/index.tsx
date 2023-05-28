@@ -58,7 +58,10 @@ export default function SideBar({
       dispatch(
         actions.formActions.setNameMenu(
           `${
-            temp == 'Trang Chủ' || temp == 'Dashboard'
+            temp == 'Trang Chủ' ||
+            temp == 'Dashboard' ||
+            temp == 'reviewProgram' ||
+            temp == 'SupportProgram'
               ? temp
               : 'Quản Lý ' + temp
           }`,
@@ -221,7 +224,11 @@ export default function SideBar({
           className={`${
             !noHeader ? 'z-[2]' : 'z-[0]'
           } Layout  overflow-scroll ${
-            !noHeader && open ? ' ml-[15.8rem]' : !open ? 'ml-0 ' : 'ml-[10%] '
+            !noHeader && open
+              ? ' ml-[15.8rem] max-sm:max-md:ml-0'
+              : !open
+              ? 'ml-0 '
+              : 'ml-[10%] '
           }  w-full   `}
         >
           {!noHeader && (

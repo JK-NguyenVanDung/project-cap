@@ -10,7 +10,6 @@ import moment from 'moment';
 import apiService from '../../../../api/apiService';
 import { AlignType } from 'rc-table/lib/interface';
 
-import { IoIosArrowForward } from 'react-icons/io';
 import {
   SectionInfo,
   SectionFive,
@@ -18,7 +17,6 @@ import {
   SectionSeven,
   SectionOther,
 } from '../../../client/Survey/ProgramSurvey';
-import { HiChevronUpDown } from 'react-icons/hi2';
 
 import { actions } from '../../../../Redux';
 import { IContentSurveyProgram } from '../../../../Type';
@@ -28,7 +26,6 @@ export default function ProgramDetail() {
 
   const [listContent, setListContent]: any = useState([]);
   const program = useAppSelector((state) => state.form.setProgram);
-  const reload = useAppSelector((state) => state.form.reload);
   const info = useAppSelector((state) => state.auth.info);
 
   const [sectionSixData, setSectionSixData] = useState([]);
@@ -94,10 +91,6 @@ export default function ProgramDetail() {
     navigate('/admin/CourseSurvey');
     form.resetFields();
     dispatch(actions.formActions.setNameMenu('Khảo sát chương trình'));
-  };
-  const handelOk = () => {
-    navigate(-1);
-    form.resetFields();
   };
 
   let columns = [];
@@ -213,71 +206,12 @@ export default function ProgramDetail() {
         />
       </div>
       <div className="text-xl my-4">NỘI DUNG KHẢO SÁT</div>
-      <div className="my-2 h-full">
+      <div className="my-2 h-full mr-12">
         <Tabs tabBarExtraContent={operations} items={items} />
       </div>
     </div>
   );
 }
-
-// const ChapterItem = ({ item, index }: { item: any; index: number }) => {
-//   const dispatch = useAppDispatch();
-//   const navigate = useNavigate();
-
-//   const { attributes, listeners, setNodeRef, transform, transition } =
-//     useSortable({ id: item?.contentId });
-
-//   const style = {
-//     transform: CSS.Transform.toString(transform),
-//     transition,
-//   };
-//   return (
-//     <div className=" relative w-full h-fit">
-//       <div className="absolute w-full top-[-10px] left-[95%]">
-//         <button className="mx-4">
-//           <TiDelete className="text-xl" />
-//         </button>
-//       </div>
-//       <div
-//         ref={setNodeRef}
-//         style={style}
-//         {...attributes}
-//         {...listeners}
-//         key={item?.contentId}
-//         onClick={() => {
-//           navigate(`/admin/Program/Chapter/${index + 1}`);
-//           dispatch(actions.formActions.setChapter(index + 1));
-//           dispatch(actions.formActions.setContentId(item?.contentId));
-//           dispatch(actions.formActions.setProgramId(item?.programId));
-//         }}
-//         className="  chapterItem text-black  hover:text-white text-semibold my-5 p-4 rounded-2xl flex items-center justify-between bg-gray-200  hover:bg-primary "
-//       >
-//         <div className="flex w-full items-center">
-//           <Tooltip
-//             title="Để sắp xếp lại thứ tự, kéo và thả vào vị trí mong muốn"
-//             className="mr-4 h-full select-none cursor"
-//           >
-//             <HiChevronUpDown
-//               size={26}
-//               onClick={() => {}}
-//               className="text-primary icon font-bold"
-//             />
-//           </Tooltip>
-
-//           <p className="child font-bold font-customFont hover:text-white z-50">
-//             {/* Chương {index + 1}: */}
-//             {item.title}
-//           </p>
-//           <button className="mx-4">
-//             <FaPencilAlt />
-//           </button>
-//         </div>
-
-//         <IoIosArrowForward size={20} />
-//       </div>
-//     </div>
-//   );
-// };
 
 function getTable(data: any) {
   console.log(data);

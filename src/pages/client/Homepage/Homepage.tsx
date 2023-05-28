@@ -35,7 +35,7 @@ export default function Homepage() {
     const fetchData = async () => {
       try {
         const data: any = await apiService.getMySurveys(info?.accountId);
-        setBannerData(data);
+        setBannerData(data.reverse());
         const pop: any = await apiService.getPopularPrograms();
         setPopularPrograms(pop);
 

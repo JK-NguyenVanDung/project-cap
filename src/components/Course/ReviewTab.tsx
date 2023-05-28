@@ -97,7 +97,7 @@ const ReviewTab = ({ program }: { program: IProgramItem }) => {
                       height={50}
                       src={avatar}
                     />
-                    <div className="w-full  pr-16 max-sm:max-md:pr-2 max-sm:max-md:mt-4">
+                    <div className="w-full pl-4 pr-16 max-sm:max-md:pr-2 max-sm:max-md:mt-4">
                       <div className="p-2 pr-20  max-sm:max-md:pr-2 rounded-lg w-full bg-gray-200 h-2/3">
                         <p className="font-extrabold text-black text-base pl-3">
                           {item.account.email}

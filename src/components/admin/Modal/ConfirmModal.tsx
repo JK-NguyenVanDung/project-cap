@@ -11,15 +11,16 @@ const ConfirmModal = ({
 }: {
   show: boolean;
   setShow: Function;
-  handler: () => void;
+  handler: any;
 
   children: any;
   title: string;
   type?: string;
 }) => {
   const handleOk = () => {
-    setShow(false);
-    handler();
+    handler().finally(() => {
+      setShow(false);
+    });
   };
   const handleCancel = () => {
     setShow(false);

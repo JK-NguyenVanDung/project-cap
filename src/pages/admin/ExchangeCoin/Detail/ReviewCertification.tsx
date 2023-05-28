@@ -27,9 +27,8 @@ export default function () {
   const [filterData, setFilterData]: any = useState([]);
   const [accounts, setAccounts] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState<ICertification>(null);
-  const item = useAppSelector((state) => state.form.setProgram);
   const [form] = Form.useForm();
   const [showModal, setShowModal] = useState(false);
   const [dataDetail, setDataDetail] = useState<ICertification>();
@@ -68,18 +67,16 @@ export default function () {
         };
       });
       setData(res);
-      setLoading(true);
       setFilterData(res);
-      if (response) {
-        setLoading(false);
-      }
     } catch (error) {
       console.log(error);
     }
   }
 
   useEffect(() => {
-    getApplication();
+    getApplication().finally(() => {
+      setLoading(false);
+    });
   }, [showModal, loading]);
 
   const Columns = [
@@ -184,7 +181,7 @@ export default function () {
             tip="Duyệt đơn đăng ký"
             size="sm"
             color="green"
-            disabled={data.status === 'approved' || data.status === 'denied'}
+            // disabled={data.status === 'approved' || data.status === 'denied'}
             Icon={AiFillCheckCircle}
             onClick={() => handelApprove(data)}
           />
@@ -236,26 +233,26 @@ export default function () {
   const dispatch = useAppDispatch();
 
   const handleOk = () => {
-    setLoading(true);
-
     form
       .validateFields()
       .then(async (values) => {
         try {
-          dispatch(actions.reloadActions.setReload());
-
-          const data = apiService.denyExchange({
-            id: dataDetail.id,
-            reviewerId: info.accountId,
-            comment: values.comment,
-          });
+          const data = apiService
+            .denyExchange({
+              id: dataDetail.id,
+              reviewerId: info.accountId,
+              comment: values.comment,
+            })
+            .finally(() => {
+              setLoading(true);
+              setShowModal(false);
+              form.resetFields();
+            });
           if (data) {
             notification.success({
               message: 'Từ Chối Đơn Đổi Coin Thành Công',
             });
           }
-          setShowModal(false);
-          form.resetFields();
         } catch (error) {
           notification.error({
             message: 'Từ Chối Đơn Đổi Coin Không Thành Công',
@@ -265,13 +262,6 @@ export default function () {
       .catch((info) => {
         // dispatch(actions.formActions.showError())
       });
-    let timeout = setTimeout(() => {
-      setLoading(false);
-      dispatch(actions.reloadActions.setReload());
-    }, 1000);
-    return () => {
-      clearTimeout(timeout);
-    };
   };
   const navigate = useNavigate();
 
@@ -286,26 +276,22 @@ export default function () {
   const info = useAppSelector((state) => state.auth.info);
 
   const approveApplication = async () => {
-    dispatch(actions.reloadActions.setReload());
-    setLoading(true);
     try {
-      const data = await apiService.approveExchange({
-        id: dataDetail.id,
-        reviewerId: info.accountId,
-      });
+      const data = await apiService
+        .approveExchange({
+          id: dataDetail.id,
+          reviewerId: info.accountId,
+        })
+        .finally(() => {
+          setLoading(true);
+          setShowConfirmModal(false);
+        });
       if (data) {
         notification.success({ message: 'Chấp Thuận Thành Công' });
       }
     } catch (error) {
       notification.error({ message: 'Chấp Thuận Không Thành Công' });
     }
-    let timeout = setTimeout(() => {
-      setLoading(false);
-      dispatch(actions.reloadActions.setReload());
-    }, 1000);
-    return () => {
-      clearTimeout(timeout);
-    };
   };
   const onChangeSearch = async (value: string) => {
     const reg = new RegExp(removeVietnameseTones(value), 'gi');

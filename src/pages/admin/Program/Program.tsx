@@ -28,7 +28,7 @@ export default function Program() {
   let paths = location.pathname.split('/');
 
   useEffect(() => {
-    dispatch(actions.formActions.setNameMenu(`Quản Lý chương trình`));
+    dispatch(actions.formActions.setNameMenu(`Quản Lý Chương Trình`));
     getData().finally(() => setLoading(false));
   }, [loading, location]);
   async function handleDelete(item: any) {

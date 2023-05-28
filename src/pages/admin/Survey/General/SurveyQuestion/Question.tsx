@@ -130,7 +130,6 @@ export default function Question() {
       };
     });
     dispatch(actions.surveyActions.setRadioOptions(temp));
-    console.log(currentQuestion.contentQuestions);
     if (
       currentQuestion?.contentQuestions &&
       currentQuestion?.contentQuestions[numb - 1] != null
@@ -215,7 +214,6 @@ export default function Question() {
         }
         setData(res);
       } catch (err: any) {
-        message.error('asd');
         setLoading(false);
         throw err.message;
       }
@@ -447,7 +445,6 @@ export default function Question() {
     for (let i = 0; i < 2; i++) {
       result.pop();
     }
-    console.log(result);
 
     let outEdit = {
       surveyId: selectedSurvey.surveyId,
@@ -588,7 +585,6 @@ export default function Question() {
       .validateFields()
       .then(async (values) => {
         setLoading(true);
-        console.log(data);
         if (data) {
           // await apiService.editProgram({
           // });
@@ -740,7 +736,7 @@ export default function Question() {
                 />
 
                 {selectedType && (
-                  <div className="w-full mb-2 ">
+                  <div className="w-full mb-12 ">
                     <div className="w-full flex items-center">
                       <label className="text-black font-bold font-customFont mr-3 ">
                         Nhập các câu trả lời

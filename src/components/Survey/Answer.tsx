@@ -147,10 +147,10 @@ const OptionalAnswer = ({
         })
       ) : (
         <>
-          <div className="w-full mb-6 z-1 ">
+          <div className="w-full  mb-6 z-1 ">
             <TextArea
               rows={12}
-              className={`z-[0] text-black h-14 font-customFont  font-bold min-w-[20rem] mt-4 bg-white border  text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500
+              className={`z-[0] text-black h-14 font-customFont  font-bold min-w-[20rem] max-sm:max-md:min-w-fit mt-4 bg-white border  text-sm rounded-lg focus:ring-gray-500 focus:border-gray-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500
                 border-border-gray `}
               placeholder={`Nhập Câu Trả Lời`}
               disabled={accountSurveys.length > 0 ? true : false}

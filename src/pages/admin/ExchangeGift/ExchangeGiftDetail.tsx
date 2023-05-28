@@ -54,6 +54,14 @@ export default function ShowDetail({
             label="Quà muốn đổi"
             name="gift"
           />
+        </div>
+        <div className="w-full p-6">
+          <FormInput
+            placeholder="Số Điện Thoại"
+            disabled
+            label="Số Điện Thoại"
+            name="phone"
+          />
           <div className="flex w-full justify-between items-center ">
             <div className="flex justify-start  items-center">
               <FormInput
@@ -72,22 +80,6 @@ export default function ShowDetail({
               />
             </div>
           </div>
-        </div>
-        <div className="w-full p-6">
-          <FormInput
-            placeholder="Số Điện Thoại"
-            disabled
-            label="Số Điện Thoại"
-            name="phone"
-          />
-
-          <FormInput
-            placeholder="Nhận xét"
-            disabled
-            label="Nhận Xét"
-            name="reason"
-            type="textArea"
-          />
         </div>
       </div>
     );

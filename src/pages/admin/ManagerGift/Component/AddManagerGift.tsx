@@ -48,7 +48,6 @@ export default function AddManagerGift({
   }, []);
 
   const handleOk = async () => {
-    setLoading(true);
     dispatch(actions.reloadActions.setReload());
     form
       .validateFields()
@@ -70,32 +69,28 @@ export default function AddManagerGift({
             if (data) {
               notification.success({ message: 'Thay đổi thành công' });
             }
-            setShowModal(false);
-            form.resetFields();
           } else {
             const data = apiService.addGift(formData);
             if (data) {
               notification.success({ message: 'Thêm thành công' });
             }
-            setShowModal(false);
-            form.resetFields();
           }
         } catch (error) {
           notification.error({ message: 'Thực hiện không thành công' });
         }
+        form.resetFields();
       })
 
       .catch((info: any) => {
-        notification.error({ message: info?.message });
+        notification.error({ message: 'Thêm quà thất bại' });
         // dispatch(actions.formActions.showError())
       })
       .finally(() => {
+        setLoading(true);
+
+        setShowModal(false);
         setURLImage(null);
       });
-    setTimeout(() => {
-      setLoading(false);
-      dispatch(actions.reloadActions.setReload());
-    }, 1000);
   };
   const FormItem = () => {
     return (

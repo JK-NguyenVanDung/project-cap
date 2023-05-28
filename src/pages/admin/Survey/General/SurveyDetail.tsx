@@ -17,13 +17,11 @@ import AddSurvey from './AddSurvey';
 import { HiClipboardDocument } from 'react-icons/hi2';
 import { IoStar } from 'react-icons/io5';
 export default function Survey() {
-  const [loading, setLoading] = useState(false);
-  const [reload, setReload] = useState(false);
+  const [reload, setReload] = useState(true);
   const [detail, setDetail] = useState(null);
   const range: any = useAppSelector((state) => state.survey.range);
 
   const [showModal, setShowModal] = useState(false);
-  const [confirmLoading, setConfirmLoading] = useState(false);
   const location = useLocation();
   const [switchType, setSwitchType] = useState(true);
   const selectedSurvey: ISurveyItem = useAppSelector(
@@ -43,27 +41,10 @@ export default function Survey() {
         `Khảo sát: ${selectedSurvey.title && selectedSurvey.title}`,
       ),
     );
-    getData();
-    let out = setTimeout(() => {
-      setLoading(false);
-      setConfirmLoading(false);
-    }, 1000);
-    return () => {
-      clearTimeout(out);
-    };
+    getData().finally(() => {
+      setReload(false);
+    });
   }, [reload, location]);
-  async function handleDelete(item: any) {
-    try {
-      await apiService.delProgram(item.surveyId);
-      setReload(!reload);
-      notification.success({ message: MESSAGE.SUCCESS.DELETE });
-    } catch (err: any) {
-      notification.error({
-        message:
-          'Chương trình hiện tại đang có nội dung hoặc đã được duyệt, xin vui lòng xoá hết nội dung của chương trình này để xoá chương trình hoặc ẩn chương trình đi',
-      });
-    }
-  }
 
   async function handleAddQuestions(item: any) {
     dispatch(actions.surveyActions.reset());
@@ -127,7 +108,7 @@ export default function Survey() {
 
     {
       title: 'Số điện thoại',
-      dataIndex: 'phone',
+      dataIndex: 'phoneNumber',
       width: '12%',
       render: (data: any) => <p>{data ? data : 'N/A'}</p>,
     },
@@ -192,13 +173,10 @@ export default function Survey() {
 
   async function getData() {
     try {
-      setLoading(true);
       let res: any = await apiService.getAccountSurveys(
         selectedSurvey.surveyId,
       );
-      res = res.reverse();
-      let temp;
-      temp = res.map((v: any, index: number) => {
+      let temp = res?.reverse().map((v: any, index: number) => {
         return {
           ...v,
           index: index + 1,
@@ -220,7 +198,7 @@ export default function Survey() {
         search={true}
         data={data}
         columns={columns}
-        loading={loading || confirmLoading}
+        loading={reload}
         extra={
           <CustomButton
             text="Quay lại"

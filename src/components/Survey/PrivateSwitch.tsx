@@ -3,25 +3,27 @@ import { useState } from 'react';
 import apiService from '../../api/apiService';
 
 export default function ({
-  state,
+  item,
   surveyId,
+  setConfirmLoading,
 }: {
-  state: boolean;
+  item: any;
   surveyId: number;
+  setConfirmLoading: any;
 }) {
-  const [switchType, setSwitchType] = useState(state);
   async function publicSurvey() {
-    setSwitchType(!switchType);
     try {
-      let data = await apiService.publishSurvey(surveyId);
+      await apiService
+        .publishSurvey(surveyId)
+        .finally(() => setConfirmLoading((prev: any) => !prev));
     } catch (err) {}
   }
   return (
     <>
       <Switch
-        checked={switchType}
+        checked={item?.isPublish}
         onChange={publicSurvey}
-        className={`w-fit  ${switchType ? 'bg-primary' : 'bg-gray-600'}`}
+        className={`w-fit  ${item?.isPublish ? 'bg-primary' : 'bg-gray-600'}`}
         checkedChildren="Công khai"
         unCheckedChildren=" Riêng tư"
       />

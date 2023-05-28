@@ -92,7 +92,6 @@ export default function ({
     form.setFieldsValue({
       item,
     });
-    console.log(item);
     setLoading(true);
     if (item) {
       setLoading(false);
@@ -178,7 +177,7 @@ export default function ({
                   },
                   {
                     pattern: new RegExp(/^\d+$/),
-                    message: 'Điểm phải thuộc kiểu số nguyên dương',
+                    message: 'Số Coin phải thuộc kiểu số nguyên dương',
                   },
                 ]}
               />

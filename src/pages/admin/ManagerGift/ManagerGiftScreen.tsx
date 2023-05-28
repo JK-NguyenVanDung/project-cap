@@ -20,7 +20,6 @@ const ManagerGiftScreen = () => {
 
   const [reload, setReload] = useState(true);
   const [showDetail, setShowDetail] = useState(false);
-  const reloadData = useAppSelector((item) => item.reload.reload);
   const [data, setData] = useState<Array<IGift>>([]);
   const [filterData, setFilterData] = useState([]);
   const fetchAllGift = async () => {
@@ -37,8 +36,12 @@ const ManagerGiftScreen = () => {
     }
   };
   useEffect(() => {
-    fetchAllGift().finally(() => setReload(false));
-  }, [reload, reloadData]);
+    fetchAllGift().finally(() =>
+      setTimeout(() => {
+        setReload(false);
+      }, 800),
+    );
+  }, [reload]);
   // useEffect(() => {
   //   setReload(true);
   //   setTimeout(() => {
@@ -111,7 +114,6 @@ const ManagerGiftScreen = () => {
     setDetail(data);
   };
   const handleDelete = async (item: IGift) => {
-    setReload(!reload);
     async function deleteItem() {
       try {
         await apiService.deleteGift(item.giftId);
@@ -124,7 +126,7 @@ const ManagerGiftScreen = () => {
         });
       }
     }
-    deleteItem().finally(() => timeOut(setReload(!reload)));
+    deleteItem().finally(() => setReload(!reload));
   };
   const handleShowDetail = (data: IGift) => {
     setDetail(data);
@@ -155,7 +157,7 @@ const ManagerGiftScreen = () => {
         onSearch={onChangeSearch}
         search={true}
         data={data}
-        loading={reload || reloadData}
+        loading={reload}
         columns={columns}
         extra={[
           <CustomButton
@@ -166,18 +168,22 @@ const ManagerGiftScreen = () => {
           />,
         ]}
       />
-      <AddManagerGift
-        showModal={showModal}
-        setShowModal={setShowModal}
-        detail={detail}
-        loading={reload}
-        setLoading={setReload}
-      />
-      <DetailManagerGift
-        showModal={showDetail}
-        setShowModal={setShowDetail}
-        detail={detail}
-      />
+      {showModal && (
+        <AddManagerGift
+          showModal={showModal}
+          setShowModal={setShowModal}
+          detail={detail}
+          loading={reload}
+          setLoading={setReload}
+        />
+      )}
+      {showDetail && (
+        <DetailManagerGift
+          showModal={showDetail}
+          setShowModal={setShowDetail}
+          detail={detail}
+        />
+      )}
     </>
   );
 };

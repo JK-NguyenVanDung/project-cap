@@ -28,7 +28,7 @@ export default function () {
   const [filterData, setFilterData]: any = useState([]);
   const [accounts, setAccounts] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState<IGiftExchange>(null);
   const item = useAppSelector((state) => state.form.setProgram);
   const [form] = Form.useForm();
@@ -67,19 +67,17 @@ export default function () {
         };
       });
       setData(res);
-      setLoading(true);
       setFilterData(res);
-      if (response) {
-        setLoading(false);
-      }
     } catch (error) {
       console.log(error);
     }
   }
 
   useEffect(() => {
-    getApplication();
-  }, [showModal, loading]);
+    getApplication().finally(() => {
+      setLoading(false);
+    });
+  }, [loading]);
 
   const Columns = [
     {
@@ -208,24 +206,26 @@ export default function () {
       .validateFields()
       .then(async (values) => {
         try {
-          dispatch(actions.reloadActions.setReload());
-
-          const data = apiService.changeGiftStatus({
-            accountGiftId: dataDetail.id,
-            status: 'Denied',
-            reason: values.comment,
-          });
-          setLoading(true);
+          const data = apiService
+            .changeGiftStatus({
+              accountGiftId: dataDetail.id,
+              status: 'Denied',
+              reason: values.comment,
+            })
+            .finally(() => {
+              setLoading(false);
+              dispatch(actions.reloadActions.setReload());
+            });
           if (data) {
             notification.success({
-              message: 'Từ Chối Đơn Đổi Coin Thành Công',
+              message: 'Từ Chối Đơn Đổi Quà Thành Công',
             });
           }
           setShowModal(false);
           form.resetFields();
         } catch (error) {
           notification.error({
-            message: 'Từ Chối Đơn Đổi Coin Không Thành Công',
+            message: 'Từ Chối Đơn Đổi Quà Không Thành Công',
           });
         }
       })
@@ -233,11 +233,6 @@ export default function () {
       .catch((info) => {
         // dispatch(actions.formActions.showError())
       });
-    let timeout = setTimeout(() => {
-      setLoading(false);
-      dispatch(actions.reloadActions.setReload());
-    }, 500);
-    clearTimeout(timeout);
   };
   const navigate = useNavigate();
 
@@ -249,35 +244,31 @@ export default function () {
     setShowConfirmModal(true);
     setDataDetail(item);
   };
-  const info = useAppSelector((state) => state.auth.info);
 
   const approveApplication = async () => {
     try {
-      setLoading(true);
-      dispatch(actions.reloadActions.setReload());
-
-      const data = apiService.changeGiftStatus({
-        accountGiftId: dataDetail.id,
-        status: 'Approved',
-      });
+      const data = await apiService
+        .changeGiftStatus({
+          accountGiftId: dataDetail.id,
+          status: 'Approved',
+        })
+        .finally(() => {
+          setLoading(true);
+          dispatch(actions.reloadActions.setReload());
+          setShowModal(false);
+        });
 
       if (data) {
         notification.success({
-          message: 'Chấp Thuận Đơn Đổi Coin Thành Công',
+          message: 'Chấp Thuận Đơn Đổi Quà Thành Công',
         });
       }
-      setShowModal(false);
       form.resetFields();
     } catch (error) {
       notification.error({
-        message: 'Chấp Thuận Đơn Đổi Coin Không Thành Công',
+        message: 'Chấp Thuận Đơn Đổi Quà Không Thành Công',
       });
     }
-    let timeout = setTimeout(() => {
-      setLoading(false);
-      dispatch(actions.reloadActions.setReload());
-    }, 500);
-    clearTimeout(timeout);
   };
 
   const onChangeSearch = async (value: string) => {
@@ -287,10 +278,9 @@ export default function () {
       .map((record: any) => {
         const emailMatch = removeVietnameseTones(
           accounts.find(
-            (acc: IAccountItem) => acc.accountId === record.account.accountId,
+            (acc: IAccountItem) => acc.accountId === record?.account.accountId,
           )?.email,
         )?.match(reg);
-
         if (!emailMatch) {
           return null;
         }
@@ -300,7 +290,6 @@ export default function () {
     setData(value.trim() !== '' ? filteredData : filterData);
   };
 
-  function handelImport() {}
   return (
     <>
       <TableConfig
@@ -310,7 +299,7 @@ export default function () {
         columns={Columns}
         loading={loading}
       />
-      <CustomModal
+      {/* <CustomModal
         show={showModal}
         handleOk={handleOk}
         setShow={setShowModal}
@@ -320,7 +309,7 @@ export default function () {
         form={form}
         notAdd={true}
         confirmLoading={loading}
-      />
+      /> */}
       <ConfirmModal
         show={showConfirmModal}
         setShow={setShowConfirmModal}
@@ -333,7 +322,7 @@ export default function () {
             <p>
               Cấp món quà {dataDetail?.gift?.name} cho{' '}
               {
-                accounts.find(
+                accounts?.find(
                   (acc: IAccountItem) => acc.accountId === dataDetail.accountId,
                 )?.email
               }{' '}

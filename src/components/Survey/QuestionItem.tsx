@@ -18,7 +18,7 @@ const QuestionItem = ({
 }) => {
   return (
     <>
-      <div className="w-fit min-w-[60rem] max-w-[60rem] max-sm:min-w-fit max-sm:max-w-fit h-fit bg-white m-4 py-6 px-8 rounded-xl">
+      <div className="w-full min-w-[60rem] max-sm:min-w-fit max-sm:max-w-fit h-fit bg-white m-4 py-6 px-8 rounded-xl">
         <div className="flex w-full justify-start max-sm:flex-col max-sm:items-start  items-center mx-2">
           <div className="flex flex-col max-sm:flex-row max-sm:justify-between max-sm:w-full max-sm:items-center   justify-start items-start w-fit my-4  mr-12">
             <div className="CIRCLE max-sm:min-w-[3.2rem] max-sm:py-2 py-4 px-2 min-w-[4.2rem] bg-gray-400 rounded-[20rem] text-black text-center text-3xl font-bold">

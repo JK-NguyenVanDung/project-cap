@@ -108,14 +108,13 @@ export default function (props: any) {
           </div>
         </div>
 
-        {/* <Loading loading={loading} /> */}
         <div
           ref={ref}
-          className={`flex w-full justify-between min-h-screen h-full max-sm:flex-col max-sm:items-start  bg-gray-50 ${
+          className={`flex  justify-between min-h-screen h-full max-sm:flex-col max-sm:items-start  bg-gray-50 ${
             loading ? 'visible' : 'visible'
           }`}
         >
-          <div className="flex flex-col w-full">
+          <div className="flex flex-col w-full max-sm:mx-md:w-fit">
             {questions?.map((item: ISurveyQuestion) => {
               return (
                 <QuestionItem
@@ -127,14 +126,12 @@ export default function (props: any) {
             })}
           </div>
 
-          <div className="  flex w-full justify-center items-start">
-            {
-              <SurveyBar
-                enable={true}
-                goBack={() => navigate(`/${location.pathname.split('/')[1]}/`)}
-                goForward={goForward}
-              />
-            }
+          <div className="  flex w-[40%] max-sm:max-md:w-full justify-center items-start">
+            <SurveyBar
+              enable={true}
+              goBack={() => navigate(`/${location.pathname.split('/')[1]}/`)}
+              goForward={goForward}
+            />
           </div>
         </div>
       </>
