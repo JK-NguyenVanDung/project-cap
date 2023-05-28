@@ -24,12 +24,10 @@ export default function Attendance() {
   const [showModal, setShowModal] = useState(false);
   const [detail, setDetail] = useState<any>();
   const [loading, setLoading] = useState(false);
-  const [reload, setReload] = useState(false);
   const item = useAppSelector((state) => state.form.setProgram);
   const role = useAppSelector((state) => state.form.role);
 
   const [form] = Form.useForm();
-  const [dateTime, setDateTime] = useState([]);
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
 
@@ -50,45 +48,9 @@ export default function Attendance() {
   };
   async function sendEmail(item: any) {
     try {
-      const fetchData = async () => {
-        try {
-          setLoading(true);
-          const response: any = await apiService.getNotAttendance(
-            item?.attendance.id,
-          );
-
-          const res: any = await apiService.getAttendanceId(
-            item?.attendance?.id,
-          );
-
-          let resArr = res.accountAttendances.map((item: any) => {
-            return {
-              account: item.account,
-              isAttending: true,
-            };
-          });
-          let newArr = response.map((item: any) => {
-            return {
-              account: item,
-              isAttending: false,
-            };
-          });
-          let final = [...newArr, ...resArr];
-          final = final.map((item: any, index: number) => {
-            return {
-              index: index + 1,
-
-              ...item,
-            };
-          });
-          return final;
-        } catch (err) {}
-        setLoading(false);
-      };
-      let data = await fetchData();
-
-      apiService.sendEmail(item?.attendance.id);
-      setReload(!reload);
+      apiService.sendEmail(item?.attendance?.id).finally(() => {
+        setLoading(true);
+      });
       notification.success({
         message: 'Đã gửi email tới các học viên thành công',
       });
@@ -110,7 +72,7 @@ export default function Attendance() {
         });
       }
     }
-    deleting().finally(() => setReload(!reload));
+    deleting().finally(() => setLoading(true));
   }
   const columns = [
     {
@@ -144,7 +106,7 @@ export default function Attendance() {
       key: 'countLearner',
     },
     {
-      title: 'Người Đã Điểm Danh',
+      title: 'Người Chưa Nhận Email Vé Điểm Danh',
       dataIndex: 'countAttendance',
       key: 'countAttendance',
     },
@@ -204,7 +166,6 @@ export default function Attendance() {
 
   async function getData() {
     try {
-      setLoading(true);
       let res: any = await apiService.getAttendance(item.programId);
       res = res.reverse();
       const temp = res.map((v: any, index: number) => ({
@@ -214,8 +175,6 @@ export default function Attendance() {
 
       setData(temp);
       setFilterData(temp);
-
-      setLoading(false);
     } catch (err: any) {
       throw err.message();
     }
@@ -230,12 +189,12 @@ export default function Attendance() {
         `Điểm danh: ${item?.programName && item?.programName}`,
       ),
     );
-    getData();
     form.setFieldsValue(detail?.attendance);
-  }, [reload, detail]);
+
+    getData().finally(() => setLoading(false));
+  }, [loading, detail]);
   const handleOk = () => {
     form.validateFields().then(async (values) => {
-      setLoading(true);
       const params = {
         programId: item?.programId,
         title: values.title,
@@ -245,13 +204,12 @@ export default function Attendance() {
       };
       if (detail) {
         try {
-          const data = await apiService.putAttendance(
-            params,
-            detail.attendance?.id,
-          );
-          setLoading(true);
+          const data = await apiService
+            .putAttendance(params, detail.attendance?.id)
+            .finally(() => {
+              setLoading(true);
+            });
           if (data) {
-            setLoading(false);
             message.success('Thay đổi thành công');
             form.resetFields();
           }
@@ -260,10 +218,10 @@ export default function Attendance() {
         }
       } else {
         try {
-          const data = await apiService.postAttendance(params);
-          setLoading(true);
+          const data = await apiService.postAttendance(params).finally(() => {
+            setLoading(true);
+          });
           if (data) {
-            setLoading(false);
             message.success('Thay đổi thành công');
             form.resetFields();
           }
@@ -271,14 +229,10 @@ export default function Attendance() {
           console.log(error);
         }
       }
-      setReload(!reload);
       setShowModal(!showModal);
     });
-    setLoading(false);
   };
-  const onChange = (value: any['value'] | any['value']) => {
-    setDateTime(value);
-  };
+
   const FormItem = () => {
     return (
       <>
