@@ -21,7 +21,8 @@ export default function () {
     (state: any) => state.form.programId,
   );
   const info = useAppSelector((state) => state.auth.info);
-  const [fullName, setFullName] = useState(info.fullName);
+  console.log(info);
+  const [fullName, setFullName] = useState(info?.fullName);
   const [detailBadge, setDetailBadge]: any = useState({});
 
   useEffect(() => {

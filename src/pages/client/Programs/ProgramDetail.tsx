@@ -37,9 +37,13 @@ export default function (props: any) {
   useEffect(() => {
     const getProgram = async () => {
       try {
-        setLoading(true);
-
         let res: any = await apiService.getProgram(current && Number(current));
+        if (
+          res?.status === 'hide' &&
+          !location.pathname.includes('MyCourses')
+        ) {
+          navigate('/home');
+        }
         if (res) {
           dispatch(actions.formActions.setProgramForm(res));
           dispatch(
@@ -59,7 +63,9 @@ export default function (props: any) {
         if (res) {
           setIsApproved(res);
         }
-      } catch (err) {}
+      } catch (err: any) {
+        throw err?.message;
+      }
     };
     !program && getProgram().finally(() => setLoading(false));
     getData();

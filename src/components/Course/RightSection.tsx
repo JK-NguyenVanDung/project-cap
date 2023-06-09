@@ -10,6 +10,7 @@ import Color from '../constant/Color';
 import { message, notification, Spin } from 'antd';
 import { actions } from '../../Redux';
 import ConfirmModal from '../admin/Modal/ConfirmModal';
+import { checkDate } from '../../utils/uinqueId';
 
 interface Content {
   title: string;
@@ -64,6 +65,19 @@ const RightSection = (props: any) => {
       throw err.message;
     }
   }
+  function checkDisable() {
+    if (
+      program?.status === 'end' ||
+      program?.canRegister === false ||
+      !checkDate({
+        registerStartDate: program?.registrationStartDate,
+        registerEndDate: program?.registrationEndDate,
+      })
+    ) {
+      return true;
+    }
+    return false;
+  }
   const handelLove = async (itemProgram?: IProgramItem) => {
     const fetchLike = async () => {
       await apiService.likeProgram(itemProgram?.programId, !itemProgram.isLike);
@@ -104,7 +118,7 @@ const RightSection = (props: any) => {
     canRegister: boolean,
     registrationStartDate: Date,
   ) {
-    if (!canRegister) {
+    if (canRegister === false) {
       return 'Không Trong Thời Gian Đăng Ký';
     }
     switch (status) {
@@ -114,8 +128,16 @@ const RightSection = (props: any) => {
         return 'Đã kết thúc';
     }
   }
+
   function getButtonText(program: IProgramItem, register: boolean) {
-    if (!program?.canRegister) {
+    console.log(program?.canRegister);
+    if (
+      program?.canRegister === false &&
+      !checkDate({
+        registerStartDate: program?.registrationStartDate,
+        registerEndDate: program?.registrationEndDate,
+      })
+    ) {
       // if (
       //   new Date(program?.registrationStartDate).getTime() >=
       //   new Date().getTime()
@@ -150,7 +172,7 @@ const RightSection = (props: any) => {
           Huỷ đăng ký chương trình {program?.programName}
         </p>
       </ConfirmModal>
-      <div className=" max-sm:min-w-[96vw] lg:min-w-[21rem] rounded-xl w-fit text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
+      <div className=" max-sm:min-w-[92vw] max-sm:max-md:mb-20 lg:min-w-[21rem] rounded-xl w-fit text-black bg-white h-fit m-4 p-2 border flex flex-col justify-start items-start">
         <p className="mt-6 text-xl font-light text-gray-900 text-center  flex w-full justify-center items-center">
           THÔNG TIN KHOÁ HỌC
         </p>
@@ -178,13 +200,19 @@ const RightSection = (props: any) => {
             {
               title: 'Ngày bắt đầu',
               subject: program?.startDate
-                ? moment(program.startDate).format('DD/MM/YYYY').toString()
+                ? moment(program.startDate)
+                    .local()
+                    .format('HH:mm - DD/MM/YYYY')
+                    .toString()
                 : 'N/A',
             },
             {
               title: 'Ngày kết thúc',
               subject: program?.endDate
-                ? moment(program.endDate).format('DD/MM/YYYY').toString()
+                ? moment(program.endDate)
+                    .local()
+                    .format('HH:mm - DD/MM/YYYY')
+                    .toString()
                 : 'N/A',
             },
             {
@@ -200,7 +228,8 @@ const RightSection = (props: any) => {
               title: 'Ngày bắt đầu',
               subject: program?.registrationStartDate
                 ? moment(program.registrationStartDate)
-                    .format('DD/MM/YYYY')
+                    .local()
+                    .format('HH:mm - DD/MM/YYYY')
                     .toString()
                 : 'N/A',
             },
@@ -208,7 +237,8 @@ const RightSection = (props: any) => {
               title: 'Ngày kết thúc',
               subject: program?.registrationEndDate
                 ? moment(program.registrationEndDate)
-                    .format('DD/MM/YYYY')
+                    .local()
+                    .format('HH:mm - DD/MM/YYYY')
                     .toString()
                 : 'N/A',
             },
@@ -254,13 +284,7 @@ const RightSection = (props: any) => {
                   ? setShowConfirm(!showConfirm)
                   : handelRegister(program)
               }
-              disabled={
-                program?.status === 'end' || !program?.canRegister
-                  ? true
-                  : props.enable || program?.canRegister
-                  ? false
-                  : true
-              }
+              disabled={checkDisable()}
               noIcon
               color={register ? 'red' : 'blue'}
               text={getButtonText(program, register)}

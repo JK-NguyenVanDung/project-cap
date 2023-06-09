@@ -170,7 +170,8 @@ export default function (props: any) {
                 </div>
                 <div className="flex items-center w-[50%]  font-light">
                   <span className="text-start font-bold">
-                    {score + (isPassed === false && ' (chưa đủ điểm)')}
+                    {score?.toFixed(2) +
+                      (isPassed === false ? ' (chưa đủ điểm)' : '')}
                   </span>
                 </div>
               </div>

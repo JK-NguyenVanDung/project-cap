@@ -1,4 +1,7 @@
 import Hero from '../../assets/landingPage/hero-cover-1.png';
+import SmallHero from '../../assets/landingPage/hero-cover-2.png';
+import ExtraSmallHero from '../../assets/landingPage/hero-cover-3.png';
+
 import Chart from '../../assets/landingPage/chart_line.svg';
 import Button from '../../components/sharedComponents/Button';
 import React, { useEffect, useState } from 'react';
@@ -9,11 +12,11 @@ import { notification } from 'antd';
 import apiService from '../../api/apiService';
 const Home = React.forwardRef((props, ref: any) => {
   const navigate = useNavigate();
-  const [data, setData] = useState<any>({});
+  const [learnerComplete, setLearnerComplete] = useState<any>({});
   async function getData() {
     try {
-      let res: any = await apiService.getDashboard();
-      setData(res);
+      let res: any = await apiService.getLearnerComplete();
+      setLearnerComplete(res);
     } catch (err: any) {}
   }
 
@@ -31,7 +34,9 @@ const Home = React.forwardRef((props, ref: any) => {
       ref={ref}
       className=" mb-20 flex z-10  pl-20 max-sm:p-2  max-sm:flex-wrap  flex-row w-full h-screen justify-between items-center bg-dark-blue "
     >
-      <div className="flex hide hide-left  flex-col  w-[60%] max-sm:w-full  ">
+      <div
+        className={`flex md:lg:hide md:lg:hide-left   flex-col  w-[60%] max-sm:w-full  `}
+      >
         <div className="flex flex-col  w-full  justify-center items-start  max-sm:items-center ">
           <h4 className="mb-6 text-xl  font-bold tracking-tight text-white">
             Đào tạo nội bộ cùng ĐH Văn Lang
@@ -47,18 +52,20 @@ const Home = React.forwardRef((props, ref: any) => {
           </div>
         </div>
       </div>
-      <div className="flex hide hide-right relative max-w-full w-full max-sm:bottom-2">
+      <div className="flex md:lg:hide md:lg:hide-right relative max-w-full w-full max-sm:bottom-2">
         <div className="absolute w-full min-w-full ">
           <WhiteBlob />
           <PinkBlob />
         </div>
         <div className="relative w-full  min-w-full  bottom-14 max-sm:bottom-0 ">
           <div className="flex justify-center items-center">
-            <img
-              loading="eager"
-              src={Hero}
-              className=" max-w-full h-auto mb-10"
-            />
+            <picture className=" max-w-full h-auto mb-10">
+              <img loading="eager" src={Hero} className="w-auto" />
+              <source media="(min-width:750px)" srcSet={Hero} />
+
+              <source media="(min-width:450px)" srcSet={SmallHero} />
+              <source media="(min-width:250px)" srcSet={ExtraSmallHero} />
+            </picture>
           </div>
         </div>
         <div className=" absolute w-full min-w-full  bottom-14 max-sm:bottom-0 ">
@@ -66,8 +73,8 @@ const Home = React.forwardRef((props, ref: any) => {
             <div className=" relative flex w-1/2 max-sm:w-4/5  items-center bg-white rounded-lg border shadow-md   ">
               <div className="relative z-10 flex  flex-col justify-between p-4 w-fit leading-normal">
                 <h5 className="mb-2 text-[3rem]  max-md:text-[1rem] max-sm:text-[2rem]   font-bold tracking-tight text-gray-900 dark:text-white">
-                  {data?.countLearnersComplete
-                    ? Math.round(data?.countLearnersComplete)
+                  {learnerComplete && Math.round(learnerComplete)
+                    ? Math.round(learnerComplete)
                     : '100'}
                   +
                 </h5>

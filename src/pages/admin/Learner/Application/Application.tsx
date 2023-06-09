@@ -22,29 +22,31 @@ export default function Application() {
   const [filterData, setFilterData]: any = useState([]);
   const [accounts, setAccounts] = useState([]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState();
   const item = useAppSelector((state) => state.form.setProgram);
   const [form] = Form.useForm();
   const [showModal, setShowModal] = useState(false);
-  const [dataDetail, setDataDetal]: any = useState();
+  const [approving, setApproving] = useState(false);
+
+  const [dataDetail, setDataDetail]: any = useState();
   const [showDetail, setShowDetail] = useState(false);
 
-  function getComment(item: any) {
-    let text = '';
-    if (!item) {
-      return 'Chưa có nhận xét';
-    }
-    if (item.reasonRefusal) {
-      text += 'Lý do từ chối: ';
-      text += item.reasonRefusal;
-      text += `\n`;
-    }
-    if (item.comment) {
-      text += item.comment;
-    }
-    return text;
-  }
+  // function getComment(item: any) {
+  //   let text = '';
+  //   if (!item) {
+  //     return 'Chưa có nhận xét';
+  //   }
+  //   if (item.reasonRefusal) {
+  //     text += 'Lý do từ chối: ';
+  //     text += item.reasonRefusal;
+  //     text += `\n`;
+  //   }
+  //   if (item.comment) {
+  //     text += item.comment;
+  //   }
+  //   return text;
+  // }
   useEffect(() => {
     async function getApplication() {
       try {
@@ -61,17 +63,17 @@ export default function Application() {
           };
         });
         setData(res);
-        setLoading(true);
         setFilterData(res);
-        if (response) {
-          setLoading(false);
-        }
       } catch (error) {
         console.log(error);
       }
     }
-    getApplication();
-  }, [showModal, loading]);
+    getApplication().finally(() => {
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    });
+  }, [loading]);
 
   const Columns = [
     {
@@ -179,26 +181,19 @@ export default function Application() {
       .validateFields()
       .then(async (values) => {
         try {
-          dispatch(actions.reloadActions.setReload());
-
-          const data = apiService.refulseApplication(
-            dataDetail.learnerId,
-            values,
-          );
-          setLoading(true);
+          const data = apiService
+            .refulseApplication(dataDetail.learnerId, values)
+            .finally(() => {
+              setLoading(true);
+            });
           if (data) {
-            notification.success({ message: 'Hủy Đơn Thành Công' });
+            notification.success({ message: 'Từ Chối Đơn Thành Công' });
           }
           setShowModal(false);
           form.resetFields();
         } catch (error) {
-          notification.error({ message: 'Hủy Đơn Không Thành Công' });
+          notification.error({ message: 'Từ Chối Đơn Không Thành Công' });
         }
-        let timeout = setTimeout(() => {
-          setLoading(false);
-          dispatch(actions.reloadActions.setReload());
-        }, 500);
-        clearTimeout(timeout);
       })
 
       .catch((info) => {
@@ -207,25 +202,26 @@ export default function Application() {
   };
   const handelRefulse = (item: any) => {
     setShowModal(true);
-    setDataDetal(item);
+    setDataDetail(item);
   };
   const handelApprove = (item: any) => {
     const approveApplication = async () => {
       try {
-        setLoading(true);
-        const data = await apiService.approveApplication(item.learnerId);
-        setLoading(true);
+        const data = await apiService
+          .approveApplication(item.learnerId)
+          .finally(() => {
+            setLoading(true);
+          });
+
         if (data) {
-          setLoading(false);
+          setApproving(false);
           notification.success({ message: 'Đăng Ký Thành Công' });
         }
       } catch (error) {
         notification.error({ message: 'Đăng Ký Không Thành Công' });
       }
-      let timeOut = setTimeout(() => {
-        setLoading(false);
-      }, 1000);
     };
+    setApproving(true);
     approveApplication();
   };
   const onChangeSearch = async (value: string) => {
@@ -258,7 +254,7 @@ export default function Application() {
         search={true}
         data={data}
         columns={Columns}
-        loading={loading}
+        loading={loading || approving}
       />
       <CustomModal
         show={showModal}

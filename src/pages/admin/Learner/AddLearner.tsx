@@ -30,7 +30,6 @@ export default function AddLearner({
   const [form] = Form.useForm();
   const account = useAppSelector((state) => state.auth.info);
   const [listLearner, setListLearner] = useState([]);
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     async function fetchLearner() {
@@ -50,38 +49,31 @@ export default function AddLearner({
         };
 
         try {
-          //reload
-
-          dispatch(actions.reloadActions.setReload());
-          setLoading(true);
-
           if (detail) {
-            const data = await apiService.updateLearner(
-              detail.learnerId,
-              values,
-            );
+            const data = await apiService
+              .updateLearner(detail.learnerId, values)
+              .finally(() => {
+                setLoading(true);
+              });
             if (data) {
               notification.success({ message: 'Thay đổi thành công' });
             }
             setShowModal(false);
             form.resetFields();
           } else {
-            const data = await apiService.addLearner(valueLearner);
-            console.log(data);
+            const data = await apiService
+              .addLearner(valueLearner)
+              .finally(() => {
+                setLoading(true);
+              });
             if (data) {
               notification.success({ message: 'Thêm thành công' });
             }
             setShowModal(false);
             form.resetFields();
           }
-
-          setTimeout(() => {
-            setLoading(false);
-
-            dispatch(actions.reloadActions.setReload());
-          }, 1000);
         } catch (error) {
-          notification.error({ message: 'Thực hiện không thành công' });
+          notification.error({ message: 'Người này đã có trong khoá học' });
         }
       })
 

@@ -109,3 +109,20 @@ export function getCurrentSemester() {
   let lastYear = curYear.getFullYear() - 1;
   return lastYear + '-' + curYear.getFullYear();
 }
+
+export function checkDate({
+  registerStartDate,
+  registerEndDate,
+}: {
+  registerStartDate: Date;
+  registerEndDate: Date;
+}) {
+  let now = new Date();
+  let registrationStartDate = new Date(registerStartDate);
+  let registrationEndDate = new Date(registerEndDate);
+
+  if (registrationStartDate <= now && now <= registrationEndDate) {
+    return true;
+  }
+  return false;
+}

@@ -29,9 +29,9 @@ export default function () {
   const [filterData, setFilterData]: any = useState(null);
   const [info, setInfo]: any = useState();
   const onChangeSearch = async (value: string) => {
-    setLoading(true);
+    // setLoading(true);
     const reg = new RegExp(removeVietnameseTones(value), 'gi');
-    let temp = todoList.slice();
+    let temp = filterData.slice();
 
     const filteredData = temp
       .map((record: any) => {
@@ -46,29 +46,29 @@ export default function () {
       })
       .filter((record: any) => !!record);
     setTodoList(filteredData ? filteredData : filterData);
-    let timer = setTimeout(() => {
-      setLoading(false);
-    }, 300);
-    return () => {
-      clearTimeout(timer);
-    };
+    // let timer = setTimeout(() => {
+    //   setLoading(false);
+    // }, 300);
+    // return () => {
+    //   clearTimeout(timer);
+    // };
   };
-  useEffect(() => {
-    const filtering = () => {
-      setLoading(true);
-      setTodoList(filterData);
-    };
-    filtering();
-    let timer = setTimeout(() => {
-      setLoading(false);
-    }, 500);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [filterData]);
+  // useEffect(() => {
+  //   const filtering = () => {
+  //     setLoading(true);
+  //     setTodoList(filterData);
+  //   };
+  //   filtering();
+  //   let timer = setTimeout(() => {
+  //     setLoading(false);
+  //   }, 500);
+  //   return () => {
+  //     clearTimeout(timer);
+  //   };
+  // }, [loading]);
 
   useEffect(() => {
-    getMyAccount();
+    getMyAccount().finally(() => setLoading(false));
   }, []);
   const fetchBadge = async (params: any) => {
     try {
@@ -80,9 +80,6 @@ export default function () {
     } catch (error) {
       console.log(error);
     }
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
   };
   const fetchStatics = async (params: any) => {
     try {
@@ -156,7 +153,6 @@ export default function () {
                 className="
             max-sm:min-w-[14rem]
             box-border	shadow-none min-w-[22rem] h-[2.8rem] border-2 rounded-[14px] border-[#F5F5F7]"
-                prefix
               />
             </div>
             <Space size={50} />

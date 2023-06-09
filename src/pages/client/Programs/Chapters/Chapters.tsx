@@ -35,9 +35,10 @@ export default function (props: any) {
   const breadCrumb: string = useAppSelector(
     (state) => state.product.contentBreadcrumb,
   );
+  let current = location.pathname.split('/')[2].toString();
+
   async function getData() {
     try {
-      let current = location.pathname.split('/')[2].toString();
       let res: any = await apiService.getProgram(Number(current));
       dispatch(actions.formActions.setProgramForm(res));
       dispatch(
@@ -62,7 +63,7 @@ export default function (props: any) {
         <Breadcrumb
           router1={`/${location.pathname.split('/')[1]}/`}
           router2={`/${location.pathname.split('/')[1]}/${
-            program ? program?.programName : 'N/A'
+            program ? program?.programId : 'N/A'
           }`}
           name={
             location.pathname.split('/')[1] === 'MyCourses'

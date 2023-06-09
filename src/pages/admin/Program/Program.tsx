@@ -23,14 +23,25 @@ export default function Program() {
   const [data, setData] = useState<Array<IProgramItem>>([]);
   const [filterData, setFilterData] = useState([]);
   const navigate = useNavigate();
-  const navigateParams = useNavigateParams();
   const info = useAppSelector((state) => state.auth.info);
   let paths = location.pathname.split('/');
 
   useEffect(() => {
+    setLoading(true);
+  }, [location]);
+  useEffect(() => {
     dispatch(actions.formActions.setNameMenu(`Quản Lý Chương Trình`));
-    getData().finally(() => setLoading(false));
-  }, [loading, location]);
+    let timeOut: any;
+    getData().finally(
+      () =>
+        (timeOut = setTimeout(() => {
+          setLoading(false);
+        }, 1200)),
+    );
+    return () => {
+      clearTimeout(timeOut);
+    };
+  }, [loading]);
   async function handleDelete(item: any) {
     try {
       await apiService.delProgram(item.programId).then(() => {

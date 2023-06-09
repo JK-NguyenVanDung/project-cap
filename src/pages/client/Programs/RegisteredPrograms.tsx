@@ -158,8 +158,6 @@ export default function RegisteredPrograms() {
   };
   function closeModal() {}
   const handelRegister = (item: IProgramItem) => {
-    setLoading(true);
-
     const fetchRegister = async () => {
       const value = {
         programId: item.programId,
@@ -167,7 +165,7 @@ export default function RegisteredPrograms() {
       };
       const data: any = await apiService.registerOrUn(value);
     };
-    fetchRegister().finally(() => timeOut(setLoading(false)));
+    fetchRegister().finally(() => timeOut(setLoading(true)));
   };
 
   async function navToDetail(programId: number, status: string) {

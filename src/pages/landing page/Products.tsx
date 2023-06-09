@@ -16,7 +16,7 @@ const Product = React.forwardRef((props, ref: any) => {
 
   async function getData() {
     try {
-      let res: any = await apiService.getPopularPrograms();
+      let res: any = await apiService.getTop3();
       setPrograms(res.reverse());
     } catch (err: any) {
       throw err.message;

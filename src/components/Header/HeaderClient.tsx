@@ -39,11 +39,11 @@ export default function () {
     navigate('/Programs/Like');
   }
   return (
-    <div className="flex items-center justify-center max-w-full mr-2 max-sm:mr-0 max-sm:justify-center  max-sm:w-fit max-md:mr-0 max-md:justify-center  max-md:w-fit ">
+    <div className=" flex items-center max-sm:max-md:flex-row justify-center max-w-full mr-2 max-sm:mr-0 max-sm:justify-center  max-sm:w-fit max-md:mr-0 max-md:justify-center  max-md:w-fit ">
       <Menu>
         <IconButton
           variant="text"
-          className="text-dark-blue"
+          className="text-dark-blue "
           color="gray"
           size="md"
           onClick={() => navIsLike()}
@@ -54,7 +54,7 @@ export default function () {
         <div className="mx-4">
           <NotificationDropDown />
         </div>
-        <span className="mr-1 max-sm:text-xs max-sm:w-[30%] w-fit text-black ">
+        <span className="mr-1 max-sm:text-xs max-sm:max-md:hidden w-fit text-black eclipse-text">
           Xin Chào{' '}
           {accounts[0].name?.split(' - ') && accounts[0].name?.split(' - ')[1]}
         </span>
@@ -75,6 +75,11 @@ export default function () {
           </button>
         </MenuHandler>
         <MenuList>
+          <span className="mr-1 max-sm:text-xs hidden max-sm:max-md:block w-fit text-black eclipse-text">
+            Xin Chào{' '}
+            {accounts[0].name?.split(' - ') &&
+              accounts[0].name?.split(' - ')[1]}
+          </span>
           <MenuItem
             onClick={() => navigate('/Badge')}
             className="font-customFont"

@@ -24,6 +24,7 @@ import CustomButton from '../../../../components/admin/Button';
 import Timer from '../../../../components/Test/Timer';
 import useTimer from '../../../../components/Test/Timer';
 import ConfirmModal from '../../../../components/admin/Modal/ConfirmModal';
+import { notification } from 'antd';
 
 export default function ReviewTest(props: any) {
   const [showModal, setShowModal] = useState(false);
@@ -87,10 +88,17 @@ export default function ReviewTest(props: any) {
         questionContentId: item.questionContentId,
       };
     });
-    await apiService.doTest({
-      accountId: info.accountId,
-      body: output,
-    });
+
+    try {
+      await apiService.doTest({
+        accountId: info.accountId,
+        body: output,
+      });
+    } catch (err) {
+      notification.success({
+        message: 'Bài làm không được chấp nhận do chưa có đáp án',
+      });
+    }
     dispatch(
       actions.productActions.setSelectedChapter({
         ...selectedChapter,

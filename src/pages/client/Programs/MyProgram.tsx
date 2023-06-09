@@ -65,7 +65,7 @@ export default function MyProgram() {
               };
             }),
           ]);
-        let temp = data;
+        let temp = data.reverse();
 
         // temp = data.filter((item: IProgramItem) => item.status == 'Công khai');
         setData(temp);

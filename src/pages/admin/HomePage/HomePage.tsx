@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppSelector } from '../../../hook/useRedux';
 import FormFirstTime from '../../client/Homepage/FormFirstTime';
 
-export default function Dashboard() {
+export default function () {
   const navigate = useNavigate();
 
   const firstTimeLogin = useAppSelector((state) => state.auth.firstTimeLogin);

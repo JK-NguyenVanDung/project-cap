@@ -28,8 +28,6 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { IProgramItem } from '../../../Type';
-import { AxiosResponse } from 'axios';
-const { Option } = Select;
 
 export default function ProgramDetail() {
   const [form] = Form.useForm();
@@ -219,6 +217,11 @@ export default function ProgramDetail() {
                   name="startDate"
                   disabled={true}
                 />
+                <FormInput
+                  label="Ngày Kết thúc"
+                  name="endDate"
+                  disabled={true}
+                />
               </>
             )}
           </div>
@@ -250,11 +253,6 @@ export default function ProgramDetail() {
                 <FormInput
                   label="Ngày Kết Thúc Đăng Ký"
                   name="registrationEndDate"
-                  disabled={true}
-                />
-                <FormInput
-                  label="Ngày Kết thúc"
-                  name="endDate"
                   disabled={true}
                 />
               </>

@@ -223,7 +223,7 @@ export default function SideBar({
         <div
           className={`${
             !noHeader ? 'z-[2]' : 'z-[0]'
-          } Layout  overflow-scroll ${
+          } Layout  max-sm:overflow-scroll ${
             !noHeader && open
               ? ' ml-[15.8rem] max-sm:max-md:ml-0'
               : !open

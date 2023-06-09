@@ -219,6 +219,7 @@ export const API_CONFIG = {
     GET_CATEGORY_STATISTIC: (academicYearId: number) =>
       `/api/Statistics/StatisticsOfCategory/${academicYearId}`,
     GET_DASHBOARD: `/api/Dashboard`,
+    GET_LEARNER_COMPLETE: `/api/Dashboard/CountLearnersComplete`,
     GET_RANKING: `/api/Dashboard/GetLearnerRanking`,
 
     GET_DASHBOARD_BY_YEAR: (yearId: number) => `/api/Dashboard/${yearId}`,
@@ -257,6 +258,8 @@ export const API_CONFIG = {
     APPROVE: `/api/Exchanges/ApproveCertificatePhoto`,
   },
   HOME: {
+    GET_TOP_3: `/api/Programs/GetOnly3ProgramsFamous`,
+
     GET_POPULAR: `/api/Programs/GetProgramsFamous`,
     GET_NEW: `/api/Programs/GetProgramsNew`,
   },

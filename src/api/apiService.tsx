@@ -470,6 +470,9 @@ export default {
   getDashboard: () => {
     return axiosConfig.get(API_CONFIG.STATISTIC.GET_DASHBOARD);
   },
+  getLearnerComplete: () => {
+    return axiosConfig.get(API_CONFIG.STATISTIC.GET_LEARNER_COMPLETE);
+  },
 
   getDashboardByYear: (yearId: number) => {
     return axiosConfig.get(API_CONFIG.STATISTIC.GET_DASHBOARD_BY_YEAR(yearId));
@@ -555,6 +558,10 @@ export default {
   },
 
   //HOME
+
+  getTop3: () => {
+    return axiosConfig.get(API_CONFIG.HOME.GET_TOP_3);
+  },
   getPopularPrograms: () => {
     return axiosConfig.get(API_CONFIG.HOME.GET_POPULAR);
   },

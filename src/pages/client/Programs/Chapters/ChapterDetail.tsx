@@ -23,51 +23,47 @@ export default function (props: any) {
   );
   const dispatch = useAppDispatch();
 
-  const [user, setUser] = useState<IAccountItem>(null);
   useEffect(() => {
-    props.setLoading && props.setLoading(true);
-    getData();
-    let time = setTimeout(() => {
-      props.setLoading && props.setLoading(false);
-    }, 500);
-    return () => {
-      clearTimeout(time);
-    };
-  }, [program]);
-
-  useEffect(() => {
-    getDetail();
+    getDetail().finally(() => {
+      setTimeout(
+        () => {
+          props.setLoading && props.setLoading(false);
+        },
+        program ? 0 : 1000,
+      );
+    });
   }, [updateLike]);
   async function getDetail() {
     try {
       let res: any = await apiService.getProgram(program.programId);
       dispatch(actions.formActions.setProgramForm(res));
-    } catch (err) {}
-  }
-  async function getData() {
-    try {
-      let res: any = await apiService.getAccounts();
-      let response: any = await apiService.getFaculties();
-      let fac: IFaculties = response.find(
-        (item: IFaculties) => item.facultyId == program.facultyId,
-      );
-
-      res = res.reverse();
-
-      const temp = res.map((v: any, index: number) => ({
-        ...v,
-        index: index + 1,
-      }));
-      if (temp) {
-        let acc = temp.find(
-          (item: any) => program.accountIdCreator == item.accountId,
-        );
-        setUser(acc);
-      }
     } catch (err: any) {
       throw err.message;
     }
   }
+  // async function getData() {
+  //   try {
+  //     let res: any = await apiService.getAccounts();
+  //     let response: any = await apiService.getFaculties();
+  //     let fac: IFaculties = response.find(
+  //       (item: IFaculties) => item.facultyId == program.facultyId,
+  //     );
+
+  //     res = res.reverse();
+
+  //     const temp = res.map((v: any, index: number) => ({
+  //       ...v,
+  //       index: index + 1,
+  //     }));
+  //     if (temp) {
+  //       let acc = temp.find(
+  //         (item: any) => program.accountIdCreator == item.accountId,
+  //       );
+  //     }
+  //   } catch (err: any) {
+  //     throw err.message;
+  //   }
+  // }
 
   return (
     <>
