@@ -98,15 +98,17 @@ const RightSection = (props: any) => {
           programId: item.programId,
           isRegister: !item.isRegister,
         };
-        const data: any = await apiService.registerOrUn(value);
+        await apiService.registerOrUn(value);
 
         const response: any = await apiService.getProgram(programId.programId);
-        setLoading(true);
         setProgram(response);
-        setRegister(response.isRegister);
-        !response.isRegister
+        setRegister(response?.isRegister);
+        !response?.isRegister
           ? notification.error({ message: 'Huỷ đăng ký thành công' })
           : notification.success({ message: 'Đăng ký thành công' });
+
+        setLoading(true);
+        setShowConfirm(false);
       } catch (err) {
         console.log(err);
       }

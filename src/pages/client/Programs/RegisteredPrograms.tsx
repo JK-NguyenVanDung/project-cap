@@ -156,16 +156,20 @@ export default function RegisteredPrograms() {
       clearTimeout(timer);
     };
   };
-  function closeModal() {}
+  function closeModal() {
+    setShowConfirm(false);
+  }
   const handelRegister = (item: IProgramItem) => {
     const fetchRegister = async () => {
       const value = {
         programId: item.programId,
         isRegister: item.isRegister,
       };
-      const data: any = await apiService.registerOrUn(value);
+      await apiService.registerOrUn(value);
     };
-    fetchRegister().finally(() => timeOut(setLoading(true)));
+    fetchRegister().finally(() => {
+      setShowConfirm(false), timeOut(setLoading(true));
+    });
   };
 
   async function navToDetail(programId: number, status: string) {

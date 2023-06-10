@@ -264,11 +264,11 @@ export default function ImportFile({
         />
         <p className="py-2">File vừa thêm vào: {file}</p>
         {saveEmail && successList ? (
-          <div className="text-white">
+          <>
             <div className="w-full h-[1px] bg-gray-500" />
             <p className="text-lg font-bold py-4">Kết Quả</p>
             <Button
-              className="bg-green-400 p-3 flex justify-between items-center cursor-pointer"
+              className="bg-green-400 text-white  p-3 flex justify-between items-center cursor-pointer"
               onClick={() => setCheckEmailNew(!checkEmailNew)}
               children={
                 <>
@@ -286,7 +286,7 @@ export default function ImportFile({
                 );
               })}
             <Button
-              className="bg-red-400 p-3 flex justify-between items-center cursor-pointer"
+              className="bg-red-400 p-3 text-white flex justify-between items-center cursor-pointer"
               onClick={() => handelShowEmailError()}
               children={
                 <>
@@ -309,7 +309,7 @@ export default function ImportFile({
             )}
 
             <Button
-              className="bg-blue-500 p-3 flex justify-between items-center cursor-pointer"
+              className="bg-blue-500 p-3 text-white flex justify-between items-center cursor-pointer"
               onClick={() => setCheckEmail(!checkEmail)}
               children={
                 <>
@@ -327,7 +327,7 @@ export default function ImportFile({
                 );
               })}
             <Button
-              className="bg-blue-400 p-3 flex justify-between items-center cursor-pointer"
+              className="bg-blue-400 p-3 text-white flex justify-between items-center cursor-pointer"
               onClick={() => setCheckEmailRegisted(!checkEmailRegisted)}
               children={
                 <>
@@ -344,7 +344,7 @@ export default function ImportFile({
                   </p>
                 );
               })}
-          </div>
+          </>
         ) : null}
       </>
     );
