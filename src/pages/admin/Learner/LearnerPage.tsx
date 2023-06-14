@@ -21,7 +21,6 @@ export default function LearnerPage() {
   const item = useAppSelector((state) => state.form.setProgram);
   const [program, setProgram] = useState(item);
   const [importFile, setImportFile] = useState(false);
-  const reload = useAppSelector((state: any) => state.reload.reload);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -46,7 +45,7 @@ export default function LearnerPage() {
     getLearner().finally(() => {
       setLoading(false);
     });
-  }, [reload]);
+  }, [loading]);
   const handelEdit = (item: any) => {
     setDetail(item);
     setAddLearner(true);
@@ -63,9 +62,7 @@ export default function LearnerPage() {
       }
     }
     deleting().finally(() => {
-      setLoading(false);
-
-      // dispatch(actions.reloadActions.setReload());
+      setLoading(true);
     });
   }
   const Columns = [
@@ -150,7 +147,6 @@ export default function LearnerPage() {
     setAddLearner(true);
     setDetail(null);
     setProgram(item);
-    setLoading(!loading);
   }
   function handelImport() {
     setImportFile(true);
@@ -169,7 +165,7 @@ export default function LearnerPage() {
         search={true}
         data={data}
         columns={Columns}
-        loading={loading || loading}
+        loading={loading}
         extra={[
           <div className="flex">
             <CustomButton
@@ -190,25 +186,22 @@ export default function LearnerPage() {
           </div>,
         ]}
       />
-      {addLearner && (
-        <AddLearner
-          detail={detail}
-          setShowModal={setAddLearner}
-          showModal={addLearner}
-          program={program}
-          loading={loading}
-          setLoading={setLoading}
-        />
-      )}
-      {importFile && (
-        <ImportFile
-          program={program}
-          loading={loading}
-          setLoading={setLoading}
-          showModal={importFile}
-          setShowModal={setImportFile}
-        />
-      )}
+      <AddLearner
+        detail={detail}
+        setShowModal={setAddLearner}
+        showModal={addLearner}
+        program={program}
+        loading={loading}
+        setLoading={setLoading}
+      />
+
+      <ImportFile
+        program={program}
+        loading={loading}
+        setLoading={setLoading}
+        showModal={importFile}
+        setShowModal={setImportFile}
+      />
     </>
   );
 }

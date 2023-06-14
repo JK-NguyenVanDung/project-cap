@@ -19,11 +19,12 @@ export default function ModalProfile({
   loadingConfirm,
   setLoadingConfirm,
   hasAvatar = true,
+  getMyAccount,
 }: {
   open: boolean;
   item?: any;
   setItem?: any;
-
+  getMyAccount?: any;
   setOpen: any;
   loadingConfirm: boolean;
   setLoadingConfirm: any;
@@ -31,7 +32,7 @@ export default function ModalProfile({
 }) {
   const [form] = Form.useForm();
   const [dataFct, setDataFct]: any = useState([]);
-  const [positons, setPositons]: any = useState([]);
+  const [positions, setPosition]: any = useState([]);
   const [loading, setLoading] = useState(false);
   const formData = new FormData();
   const dispatch = useAppDispatch();
@@ -84,6 +85,7 @@ export default function ModalProfile({
       try {
         const data: any = await apiService.infoAccount(formData);
         if (data) {
+          getMyAccount && (await getMyAccount());
           setOpen(false);
           setLoadingConfirm(false);
           notification.success({ message: 'Cập Nhật Thông Tin Thành Công' });
@@ -98,21 +100,21 @@ export default function ModalProfile({
 
   useEffect(() => {
     getPositions();
-    getFacuties();
+    getFaculties();
     setURLImage(null);
     setInfoImage(null);
   }, []);
 
   const getPositions = async () => {
-    const reponse: any = await apiService.getPositions();
-    if (reponse) {
-      setPositons(reponse);
+    const res: any = await apiService.getPositions();
+    if (res) {
+      setPosition(res);
     }
   };
-  const getFacuties = async () => {
-    const reponse: any = await apiService.getFaculties();
-    if (reponse) {
-      setDataFct(reponse);
+  const getFaculties = async () => {
+    const res: any = await apiService.getFaculties();
+    if (res) {
+      setDataFct(res);
     }
   };
   const FormItem = () => {
@@ -120,15 +122,15 @@ export default function ModalProfile({
       <div className="flex justify-between content-center max-sm:max-md:items-center max-sm:max-md:flex-wrap">
         <div
           onClick={() => inputRef.current.click()}
-          className=" cursor-pointer max-sm:max-md:ml-14 max-sm:max-md:mb-4 "
+          className=" cursor-pointer  max-sm:max-md:mb-4 "
         >
           {hasAvatar && URLImage ? (
             <>
-              <div className="w-[300px] flex flex-col items-center">
+              <div className="w-[300px] max-sm:max-md:w-fit flex flex-col items-center">
                 <img
                   src={URLImage}
                   alt="avatar"
-                  className="object-cover w-[300px] h-[300px] rounded-lg"
+                  className="object-cover w-[300px] max-sm:max-md:w-fit aspect-square	 rounded-lg"
                 />
 
                 <div style={{ marginTop: 20 }} className="flex items-center ">
@@ -138,11 +140,11 @@ export default function ModalProfile({
               </div>
             </>
           ) : hasAvatar ? (
-            <div className="w-[300px] flex flex-col items-center">
+            <div className="w-[300px] max-sm:max-md:w-fit flex flex-col items-center">
               <img
                 src={`${API_URL}/images/${item?.avatar}`}
                 alt="avatar"
-                className="object-cover w-[300px] h-[300px] rounded-lg"
+                className="object-cover w-[300px] aspect-square max-sm:max-md:w-fit rounded-lg"
                 onError={({ currentTarget }) => {
                   currentTarget.onerror = null; // prevents looping
                   currentTarget.src = `https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.svg.png`;
@@ -244,7 +246,7 @@ export default function ModalProfile({
                   .toLowerCase()
                   .includes(input.toLowerCase())
               }
-              options={positons.map((item: any) => ({
+              options={positions.map((item: any) => ({
                 value: item.positionId,
                 label: item.positionName,
               }))}

@@ -21,7 +21,8 @@ export default function () {
     (state: any) => state.form.programId,
   );
   const info = useAppSelector((state) => state.auth.info);
-  const [fullName, setFullName] = useState(info.fullName);
+  console.log(info);
+  const [fullName, setFullName] = useState(info?.fullName);
   const [detailBadge, setDetailBadge]: any = useState({});
 
   useEffect(() => {
@@ -133,6 +134,7 @@ export default function () {
                 ]}
               >
                 <Input
+                  disabled
                   className={`font-customFont  font-bold bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500  w-full pl-2.5 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`}
                   onChange={handelChangeText}
                   defaultValue={fullName}

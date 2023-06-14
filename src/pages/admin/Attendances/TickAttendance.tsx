@@ -22,7 +22,6 @@ export default function TickAttendance({
   const [form] = Form.useForm();
   const [dataQrCode, setDataQrCode]: any = useState('');
   const [confirmLoading, setConfirmLoading] = useState(false);
-  const [email, setEmail] = useState('asd');
   const items: any['items'] = [
     {
       key: 'Email',

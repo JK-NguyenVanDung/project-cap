@@ -169,6 +169,7 @@ export default function Test() {
             disabled={false}
             name="testTitle"
             label="Tên bài kiểm tra"
+            placeholder="Nhập tên bài kiểm tra"
             rules={[
               {
                 required: true,

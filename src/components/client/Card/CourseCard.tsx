@@ -10,6 +10,7 @@ import Color from '../../constant/Color';
 import apiService from '../../../api/apiService';
 import { message } from 'antd';
 import { API_URL } from '../../../api/api';
+import { checkDate } from '../../../utils/uinqueId';
 
 export default memo(function ({
   onClick,
@@ -95,14 +96,16 @@ export default memo(function ({
               </p>
             </div>
 
-            <div className="flex w-full justify-between items-center my-4">
-              <div className="flex items-center">
-                <IoPerson className="text-lg mr-2 text-gray-400" />
-                <div className="eclipse-text"> {memoItem?.lecturers}</div>
+            <div className="flex w-full justify-between items-center my-4 ">
+              <div className="flex items-center w-fit max-w-[80%]">
+                <IoPerson className="text-lg mr-2 text-gray-400 " />
+                <p className="eclipse-text w-fit ">{memoItem?.lecturers}</p>
               </div>
-              <div className="flex   items-center">
+              <div className="flex   items-center w-fit">
                 <RiTimerFill className="text-lg mr-2 text-gray-400" />
-                <div className="eclipse-text"> {memoItem?.trainingHours}h</div>
+                <p className="eclipse-text  w-fit max-w-fit">
+                  {memoItem?.trainingHours}h
+                </p>
               </div>
             </div>
           </div>
@@ -129,7 +132,13 @@ function Status({ isRegistered, memoItem, item }: any) {
       if (status === 'end') {
         return 'Đã kết thúc';
       }
-      if (!canRegister) {
+      if (
+        // !canRegister &&
+        checkDate({
+          registerStartDate: item?.registrationStartDate,
+          registerEndDate: item?.registrationEndDate,
+        }) === false
+      ) {
         return 'Không Trong Thời Gian Đăng Ký';
       }
       return 'Có thể đăng ký ';
@@ -154,7 +163,12 @@ function Status({ isRegistered, memoItem, item }: any) {
           : 'bg-blue-600';
     } else {
       color =
-        memoItem?.status === 'public' && memoItem?.canRegister
+        memoItem?.status === 'public' &&
+        // memoItem?.canRegister ||
+        checkDate({
+          registerStartDate: memoItem?.registrationStartDate,
+          registerEndDate: memoItem?.registrationEndDate,
+        })
           ? 'bg-green-600'
           : memoItem?.status === 'end'
           ? 'bg-black'
@@ -263,14 +277,16 @@ export const SmallCourseCard = ({
               {' '}
               {`HK${data?.semester} - ${data?.academicYear?.year}`}{' '}
             </p>
-            <div className="flex w-[88%] justify-between items-center my-4">
-              <div className="flex  eclipse items-center">
+            <div className="flex w-[88%] justify-between items-center my-4 ">
+              <div className="flex  eclipse items-center w-fit max-w-fit">
                 <IoPerson className="text-lg mr-2 text-gray-400  " />
-                <div className="eclipse-text"> {data.lecturers}</div>
+                <p className=" eclipse-text  max-w-fit w-fit">
+                  {data?.lecturers}
+                </p>
               </div>
               <div className="flex   items-center">
                 <RiTimerFill className="text-lg mr-2 text-gray-400 " />
-                <div className="eclipse-text"> {data.trainingHours}h</div>
+                <p className="eclipse-text"> {data?.trainingHours}h</p>
               </div>
             </div>
           </div>

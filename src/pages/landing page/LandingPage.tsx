@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 
 import Header from './Header';
+// import Home from './Home';
 import Home from './Home';
 import Product from './Products';
 

@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 import LandingPage from './pages/landing page/LandingPage';
 import 'antd/dist/antd.css';

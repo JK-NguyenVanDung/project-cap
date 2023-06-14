@@ -33,7 +33,7 @@ const ChapterItem = ({
   const [showContent, setShowContent] = useState(false);
   const [showTest, setShowTest] = useState(false);
   const [viewedContent, setViewedContent] = useState(false);
-  const [score, setScore] = useState(-1);
+  const [error, setError] = useState(false);
 
   // const [disabled, setDisabled] = useState(false);
   // const [isDone, setisDone] = useState(false);
@@ -132,7 +132,8 @@ const ChapterItem = ({
         }
       }
     } catch (err: any) {
-      notification.error({ message: 'Không tìm thấy kết quả bài kiểm tra ' });
+      // notification.error({ message: 'Không tìm thấy kết quả bài kiểm tra ' });
+      // setError(true);
     }
   }
 

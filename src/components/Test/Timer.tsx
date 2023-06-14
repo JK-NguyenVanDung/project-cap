@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../hook/useRedux';
 import { IAnswer, IProgramItem } from '../../Type';
 import apiService from '../../api/apiService';
 import { useNavigate } from 'react-router-dom';
+import { notification } from 'antd';
 
 const useTimer = (props?: {
   initialMinute?: number;
@@ -28,10 +29,16 @@ const useTimer = (props?: {
         questionContentId: item.questionContentId,
       };
     });
-    await apiService.doTest({
-      accountId: info.accountId,
-      body: output,
-    });
+    try {
+      await apiService.doTest({
+        accountId: info.accountId,
+        body: output,
+      });
+    } catch (err) {
+      notification.success({
+        message: 'Bài làm không được chấp nhận do chưa có đáp án',
+      });
+    }
     navigate(`/Programs/${program.programId}/Chapters`);
   }
   useEffect(() => {

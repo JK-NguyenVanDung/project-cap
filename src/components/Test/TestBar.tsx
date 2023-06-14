@@ -143,7 +143,7 @@ const QuestionBar = (props: any) => {
   useEffect(() => {}, []);
 
   return (
-    <div className="fixed  max-sm:relative  right-0 overflow-y-scroll rounded-xl  text-black bg-white h-fit min-h-[80vh]   max-sm:w-fit w-[27rem] m-4 p-2 px-8 border flex flex-col justify-start items-start">
+    <div className="sticky top-5  max-sm:max-md:relative  right-0 overflow-y-scroll rounded-xl  text-black bg-white h-fit min-h-[80vh]   max-sm:max-md:w-fit w-[27rem] m-4 p-2 px-8 border flex flex-col justify-start items-start">
       <p className="my-6 text-xl font-bold  text-gray-900 text-center  flex w-full justify-start items-start">
         Danh sách câu hỏi
       </p>
@@ -168,7 +168,7 @@ const QuestionBar = (props: any) => {
           );
         })}
       </div>
-      <div className=" min-w-[20rem] max-sm:min-w-fit w-full my-2">
+      <div className=" min-w-[20rem] max-sm:max-md:min-w-fit w-full my-2">
         <div className="flex w-full items-center justify-between my-6">
           <p className="text-lg font-semibold  text-gray-900 text-center   items-start">
             Tổng thời gian làm bài:

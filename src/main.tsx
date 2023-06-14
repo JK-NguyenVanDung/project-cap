@@ -1,6 +1,6 @@
 import React, { useLayoutEffect } from 'react';
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, HashRouter, useLocation } from 'react-router-dom';
+import { BrowserRouter, useLocation } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
@@ -17,8 +17,7 @@ const Wrapper = ({ children }: any) => {
   return children;
 };
 const msalInstance = new PublicClientApplication(msalConfig);
-let base =
-  (document.querySelector('base')?.getAttribute('href') as string) ?? '/';
+
 const baseUrl = window.location.href.toString().includes('5173')
   ? '/'
   : '/CP25Team02/';

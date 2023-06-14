@@ -27,11 +27,13 @@ export default function (props: any) {
 
   const [user, setUser] = useState<IAccountItem>(null);
   useEffect(() => {
-    props.setLoading && props.setLoading(true);
-    getData();
-    let time = setTimeout(() => {
-      props.setLoading && props.setLoading(false);
-    }, 500);
+    let time: any;
+    getData().finally(() => {
+      time = setTimeout(() => {
+        props.setLoading && props.setLoading(false);
+      }, 500);
+    });
+
     return () => {
       clearTimeout(time);
     };
@@ -42,7 +44,7 @@ export default function (props: any) {
   }, [updateLike]);
   async function getDetail() {
     try {
-      let res: any = await apiService.getProgram(program.programId);
+      let res: any = await apiService.getProgram(program?.programId);
       let like = res?.totalLike;
       dispatch(
         actions.formActions.setProgramForm({ ...program, totalLike: like }),

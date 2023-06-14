@@ -1,20 +1,15 @@
-import { Form, notification } from 'antd';
+import { Form, Spin, notification } from 'antd';
 import React, { useState, useEffect } from 'react';
 import apiService from '../../../api/apiService';
 import CustomModal from '../../../components/admin/Modal/Modal';
 import Input from '../../../components/sharedComponents/Input';
-import { Image } from 'antd';
 import * as XLSX from 'xlsx';
-import TableConfig from '../../../components/admin/Table/Table';
 import { IProgramItem } from '../../../Type';
 import { useAppDispatch, useAppSelector } from '../../../hook/useRedux';
 import { actions } from '../../../Redux';
-import { AiOutlineUp } from 'react-icons/ai';
-import { SideBarDataCT } from '../SidebarData';
 import Button from '../../../components/sharedComponents/Button';
 import { ExportCSV } from '../../../components/Statistic/ExportButton';
-
-import { CSVLink } from 'react-csv';
+import Loading from '../../../components/sharedComponents/Loading';
 
 const emailVlu =
   /.(?!.*([(),.#/-])\1)*\@vlu.edu.vn$|(?!.*([(),.#/-])\1)*\@vanlanguni.vn$/;
@@ -37,9 +32,9 @@ export default function ImportFile({
   program: IProgramItem;
 }) {
   const [form] = Form.useForm();
-  const [listEmail, setListEmail]: any = useState([]);
-  const [listName, setListName]: any = useState([]);
-  const [listMSNV, setListMSNV]: any = useState([]);
+  // const [listEmail, setListEmail]: any = useState([]);
+  // const [listName, setListName]: any = useState([]);
+  // const [listMSNV, setListMSNV]: any = useState([]);
   const [listData, setListData]: any = useState([]);
   const [file, setJustAddedFile] = useState('');
 
@@ -84,10 +79,7 @@ export default function ImportFile({
   ];
 
   const handleOk = async () => {
-    console.log(1);
     form.validateFields().then(async () => {
-      dispatch(actions.reloadActions.setReload());
-
       let outPut = listData.map((item: any) => {
         return {
           email: item.Email || item.email || item.EMAIL,
@@ -100,7 +92,6 @@ export default function ImportFile({
           code: item?.MSNV?.toString(),
         };
       });
-      console.log(outPut);
 
       const success = outPut?.filter((item: any) => {
         if (
@@ -120,36 +111,64 @@ export default function ImportFile({
         // fullName: listName.map((item: any) => item),
       };
 
-      const data = apiService.importFileLearner({
-        body: values,
-        accountId: info.accountId,
-      });
+      const data = apiService
+        .importFileLearner({
+          body: values,
+          accountId: info.accountId,
+        })
+        .finally(() => {
+          setSaveEmail(true);
+          setLoading(true);
+        });
 
       data.then((res: any) => {
         setSuccessList(res);
       });
-      setSaveEmail(true);
-      setLoading(true);
-      if (data) {
-        setLoading(false);
+
+      if (await data) {
         notification.success({ message: 'Thêm tập tin thành công' });
       }
       form.resetFields();
-      setTimeout(() => {
-        dispatch(actions.reloadActions.setReload());
-      }, 1000);
     });
+  };
+  const checkDataColumn = (data: any) => {
+    console.log(data);
+    const checkMail: string = data[0].Email || data[0].email || data[0].EMAIL;
+    const checkName: string =
+      data[0]['Họ & Tên'] ||
+      data[0]['Họ Và Tên'] ||
+      data[0].fullName ||
+      data[0]['Full Name'] ||
+      data[0].FullName;
+    const checkCode: string = data[0].MSNV || data[0].Msnv;
+
+    if (checkMail && checkName && checkCode) {
+      return true;
+    }
+    return false;
   };
   const handelReadFile = (value: any) => {
     const file = value.target.files[0];
+    console.log(file);
+
     if (file) {
       setJustAddedFile(file?.name);
-      notification.success({
-        message: `Đã Thêm File ${file.name} Thành Công`,
-      });
     }
     const readFileExcel = new Promise((resolve, reject) => {
+      let fileSizeInBytes = file.size;
+      let fileSizeInKB = fileSizeInBytes / 1024;
+      let fileSizeInMB = fileSizeInKB / 1024;
+
+      if (fileSizeInMB >= 5) {
+        notification.error({
+          message: `Giới hạn upload file là 5mb, vui lòng chọn file có dung lượng dưới 5mb`,
+          duration: 2500,
+        });
+        setCheckError(false);
+        reject();
+      }
       const fileReader = new FileReader();
+
       fileReader.readAsArrayBuffer(file);
       fileReader.onload = (e) => {
         const bufferArray = e.target.result;
@@ -157,42 +176,31 @@ export default function ImportFile({
         const wsName = workbook.SheetNames[0];
         const ws = workbook.Sheets[wsName];
         const data = XLSX.utils.sheet_to_json(ws);
+        if (!checkDataColumn(data)) {
+          notification.error({
+            message:
+              'Format các cột dữ liệu chưa chính xác, vui lòng xem lại file mẫu',
+          });
+          setCheckError(false);
+          reject();
+        }
+        setCheckError(false);
+
         resolve(data);
       };
       fileReader.onerror = (error) => {
+        setCheckError(false);
         reject(error);
       };
       // setLocalLoading(false);
     });
     readFileExcel
       .then((data: any) => {
-        data.map((item: any) => {});
+        notification.success({
+          message: `Đã thêm File ${file.name} thành công`,
+        });
         setListData(data);
-        setListEmail(
-          data.map((item: any) => {
-            const email: string = item.Email || item.email || item.EMAIL;
-            if (emailVlu.test(email)) {
-              return email;
-            }
-          }),
-        );
-        setListMSNV(
-          data.map((item: any) => {
-            const MSNV = item.MSNV || item.Msnv;
-            return MSNV;
-          }),
-        );
-        setListName(
-          data.map((item: any) => {
-            const fullName =
-              item['Họ & Tên'] ||
-              item['Họ Và Tên'] ||
-              item.fullName ||
-              item['Full Name'] ||
-              item.FullName;
-            return fullName;
-          }),
-        );
+
         setEmailError(
           data.filter((item: any) => {
             const email: string = item.Email || item.email || item.EMAIL;
@@ -205,7 +213,10 @@ export default function ImportFile({
       .catch((error) => {
         console.log(error);
         setJustAddedFile('');
-        notification.error({ message: 'Lấy File Không Thành Công' });
+        notification.error({
+          message: 'Lấy File không thành công',
+          duration: 2500,
+        });
       });
   };
 
@@ -215,7 +226,6 @@ export default function ImportFile({
   };
   const handelShow = () => {
     setEmailError([]);
-    setCheckError(false);
     setShowDetailError(false);
     setSuccessList();
     setSaveEmail(false);
@@ -225,7 +235,6 @@ export default function ImportFile({
   };
   const handelCancel = () => {
     setEmailError([]);
-    setCheckError(false);
     setShowDetailError(false);
     setSuccessList();
     setSaveEmail(false);
@@ -259,7 +268,7 @@ export default function ImportFile({
             <div className="w-full h-[1px] bg-gray-500" />
             <p className="text-lg font-bold py-4">Kết Quả</p>
             <Button
-              className="bg-green-400 p-3 flex justify-between items-center cursor-pointer"
+              className="bg-green-400 text-white  p-3 flex justify-between items-center cursor-pointer"
               onClick={() => setCheckEmailNew(!checkEmailNew)}
               children={
                 <>
@@ -277,7 +286,7 @@ export default function ImportFile({
                 );
               })}
             <Button
-              className="bg-red-400 p-3 flex justify-between items-center cursor-pointer"
+              className="bg-red-400 p-3 text-white flex justify-between items-center cursor-pointer"
               onClick={() => handelShowEmailError()}
               children={
                 <>
@@ -300,7 +309,7 @@ export default function ImportFile({
             )}
 
             <Button
-              className="bg-blue-500 p-3 flex justify-between items-center cursor-pointer"
+              className="bg-blue-500 p-3 text-white flex justify-between items-center cursor-pointer"
               onClick={() => setCheckEmail(!checkEmail)}
               children={
                 <>
@@ -318,7 +327,7 @@ export default function ImportFile({
                 );
               })}
             <Button
-              className="bg-blue-400 p-3 flex justify-between items-center cursor-pointer"
+              className="bg-blue-400 p-3 text-white flex justify-between items-center cursor-pointer"
               onClick={() => setCheckEmailRegisted(!checkEmailRegisted)}
               children={
                 <>

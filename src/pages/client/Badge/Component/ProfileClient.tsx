@@ -19,21 +19,18 @@ export default function ProfileClient() {
   const [loading, setLoading] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
   const [editInfo, setEditInfo] = useState();
+
   useEffect(() => {
     dispatch(
       actions.formActions.setNameMenu(`${accounts[0]?.name.split('-')[1]}`),
     );
-  }, []);
-  useEffect(() => {
     getMyAccount();
-  }, [openEdit]);
+  }, []);
   const getMyAccount = async () => {
     try {
       const data: any = await apiService.getProfile();
-      setLoading(true);
       if (data) {
         setEditInfo(data);
-        setLoading(false);
         setInfo(data);
       }
     } catch (error) {
@@ -110,6 +107,7 @@ export default function ProfileClient() {
           </div>
           {openEdit && (
             <ModalProfile
+              getMyAccount={getMyAccount}
               loadingConfirm={loading}
               setLoadingConfirm={setLoading}
               open={openEdit}

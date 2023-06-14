@@ -12,7 +12,11 @@ import SearchBar from '../../../components/admin/ToolBar/ToolBar';
 import { MenuProps, Select, Spin } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
 import Loading from '../../../components/sharedComponents/Loading';
-import { removeVietnameseTones, timeOut } from '../../../utils/uinqueId';
+import {
+  checkDate,
+  removeVietnameseTones,
+  timeOut,
+} from '../../../utils/uinqueId';
 
 export default function Programs() {
   const [data, setData] = useState<Array<IProgramItem>>([]);
@@ -106,13 +110,18 @@ export default function Programs() {
   }
   const filtering = (e: any) => {
     setLoading(true);
-    console.log(e);
     // setData(filterData);
     if (e === 'Tất cả') {
       setData(filterData);
     } else if (e === 'Không trong thời hạn đăng ký') {
       setData(
-        filterData?.filter((item: IProgramItem) => item.status === 'public'),
+        filterData?.filter(
+          (item: IProgramItem) =>
+            checkDate({
+              registerStartDate: item?.registrationStartDate,
+              registerEndDate: item?.registrationEndDate,
+            }) === false,
+        ),
       );
     } else if (e === 'Đã kết thúc') {
       setData(
